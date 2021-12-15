@@ -6,7 +6,7 @@ import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
-
+import { ConvertFixedTable } from "../config/function/findadditionals";
 import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
@@ -131,6 +131,9 @@ export default function Loss() {
         defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
         sorter: (a, b) => null,
         className: initialSort === "Amount" ? "activesort" : "",
+        render: (value, row, index) => {
+          return ConvertFixedTable(value);
+        },
       },
 
       {
@@ -514,13 +517,15 @@ export default function Loss() {
               .map((c) => (
                 <Table.Summary.Cell>
                   <Text type="">
-                    {c.dataIndex === "Amount" ? allsum + " ₼" : null}
+                    {c.dataIndex === "Amount"
+                      ? ConvertFixedTable(allsum) + " ₼"
+                      : null}
                   </Text>
                 </Table.Summary.Cell>
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+        locale={{ emptyText: isFetching ?  <Spin /> : 'Cədvəl boşdur' }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,

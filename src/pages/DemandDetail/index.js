@@ -481,7 +481,7 @@ function DemandDetail() {
       <div className="doc_name_wrapper">
         <h2>Satış</h2>
       </div>
-      <DocButtons editid={doc_id} controller={"demands"} closed={"p=demand"} />
+      <DocButtons editid={doc_id} controller={"demands"} closed={"p=demand"} from={'demands'} />
       <div className="formWrapper">
         <Form
           id="myForm"

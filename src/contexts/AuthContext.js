@@ -23,6 +23,13 @@ const AuthProvider = ({ children }) => {
     setFirstLogin(true);
   };
 
+  const logout = (data) => {
+    localStorage.clear()
+    setUser(null);
+    setLoggedIn(false);
+    setToken(null);
+    setFirstLogin(true);
+  };
   const values = {
     loggedIn,
     user,
@@ -30,6 +37,7 @@ const AuthProvider = ({ children }) => {
     token,
     setToken,
     firstLogin,
+    logout,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

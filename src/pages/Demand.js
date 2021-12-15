@@ -358,7 +358,6 @@ export default function Demand() {
 
     getCustomers();
   }, []);
-  
   useEffect(() => {
     if (!isFetching) {
       setDocumentList(data.Body.List);
@@ -400,9 +399,9 @@ export default function Demand() {
   const handleVisibleChange = (flag) => {
     setVisibleMenuSettings(flag);
   };
-    const handleVisibleChangeFilter = (flag) => {
-      setVisibleMenuSettingsFilter(flag);
-    };
+  const handleVisibleChangeFilter = (flag) => {
+    setVisibleMenuSettingsFilter(flag);
+  };
 
   const onChangeMenu = (e) => {
     var initialCols = initial;
@@ -421,100 +420,101 @@ export default function Demand() {
     });
     setFiltered(true);
   };
- const onChangeMenuFilter = (e) => {
-   var initialCols = initialfilter;
-   var findelement;
-   var findelementindex;
-   var replacedElement;
-   findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-   findelementindex = initialCols.findIndex((c) => c.dataIndex === e.target.id);
-   findelement.show = e.target.checked;
-   replacedElement = findelement;
-   initialCols.splice(findelementindex, 1, {
-     ...findelement,
-     ...replacedElement,
-   });
-   console.log(initialCols);
-   setFilterChanged(true);
- };
-   const menu = (
-     <Menu>
-       <Menu.ItemGroup title="Sutunlar">
-         {initial
-           ? Object.values(initial).map((d) => (
-               <Menu.Item key={d.dataIndex}>
-                 <Checkbox
-                   id={d.dataIndex}
-                   onChange={(e) => onChangeMenu(e)}
-                   defaultChecked={
-                     Object.values(columns).find(
-                       (e) => e.dataIndex === d.dataIndex
-                     ).show
-                   }
-                 >
-                   {d.title}
-                 </Checkbox>
-               </Menu.Item>
-             ))
-           : null}
-       </Menu.ItemGroup>
-     </Menu>
-   );
-   const filtermenus = (
-     <Menu>
-       <Menu.ItemGroup title="Sutunlar">
-         {initialfilter
-           ? Object.values(initialfilter).map((d) => (
-               <Menu.Item key={d.dataIndex}>
-                 <Checkbox
-                   id={d.dataIndex}
-                   onChange={(e) => onChangeMenuFilter(e)}
-                   defaultChecked={
-                     Object.values(filters).find(
-                       (e) => e.dataIndex === d.dataIndex
-                     ).show
-                   }
-                 >
-                   {d.label}
-                 </Checkbox>
-               </Menu.Item>
-             ))
-           : null}
-       </Menu.ItemGroup>
-     </Menu>
-   );
+  const onChangeMenuFilter = (e) => {
+    var initialCols = initialfilter;
+    var findelement;
+    var findelementindex;
+    var replacedElement;
+    findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+    findelementindex = initialCols.findIndex(
+      (c) => c.dataIndex === e.target.id
+    );
+    findelement.show = e.target.checked;
+    replacedElement = findelement;
+    initialCols.splice(findelementindex, 1, {
+      ...findelement,
+      ...replacedElement,
+    });
+    console.log(initialCols);
+    setFilterChanged(true);
+  };
+  const menu = (
+    <Menu>
+      <Menu.ItemGroup title="Sutunlar">
+        {initial
+          ? Object.values(initial).map((d) => (
+              <Menu.Item key={d.dataIndex}>
+                <Checkbox
+                  id={d.dataIndex}
+                  onChange={(e) => onChangeMenu(e)}
+                  defaultChecked={
+                    Object.values(columns).find(
+                      (e) => e.dataIndex === d.dataIndex
+                    ).show
+                  }
+                >
+                  {d.title}
+                </Checkbox>
+              </Menu.Item>
+            ))
+          : null}
+      </Menu.ItemGroup>
+    </Menu>
+  );
+  const filtermenus = (
+    <Menu>
+      <Menu.ItemGroup title="Sutunlar">
+        {initialfilter
+          ? Object.values(initialfilter).map((d) => (
+              <Menu.Item key={d.dataIndex}>
+                <Checkbox
+                  id={d.dataIndex}
+                  onChange={(e) => onChangeMenuFilter(e)}
+                  defaultChecked={
+                    Object.values(filters).find(
+                      (e) => e.dataIndex === d.dataIndex
+                    ).show
+                  }
+                >
+                  {d.label}
+                </Checkbox>
+              </Menu.Item>
+            ))
+          : null}
+      </Menu.ItemGroup>
+    </Menu>
+  );
 
-   const tableSettings = (
-     <Dropdown
-       trigger={["click"]}
-       overlay={menu}
-       onVisibleChange={handleVisibleChange}
-       visible={visibleMenuSettings}
-     >
-       <Button className="flex_directon_col_center">
-         {" "}
-         <SettingOutlined />
-       </Button>
-     </Dropdown>
-   );
+  const tableSettings = (
+    <Dropdown
+      trigger={["click"]}
+      overlay={menu}
+      onVisibleChange={handleVisibleChange}
+      visible={visibleMenuSettings}
+    >
+      <Button className="flex_directon_col_center">
+        {" "}
+        <SettingOutlined />
+      </Button>
+    </Dropdown>
+  );
 
-   const filterSetting = (
-     <Dropdown
-       trigger={["click"]}
-       overlay={filtermenus}
-       onVisibleChange={handleVisibleChangeFilter}
-       visible={visibleMenuSettingsFilter}
-     >
-       <Button className="flex_directon_col_center">
-         {" "}
-         <SettingOutlined />
-       </Button>
-     </Dropdown>
-   );
+  const filterSetting = (
+    <Dropdown
+      trigger={["click"]}
+      overlay={filtermenus}
+      onVisibleChange={handleVisibleChangeFilter}
+      visible={visibleMenuSettingsFilter}
+    >
+      <Button className="flex_directon_col_center">
+        {" "}
+        <SettingOutlined />
+      </Button>
+    </Dropdown>
+  );
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
-
   if (redirect) return <Redirect push to={`/editDemand/${editId}`} />;
   return (
     <div className="custom_display">

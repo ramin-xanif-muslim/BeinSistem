@@ -81,6 +81,8 @@ function ProductDetail() {
     setGroupVisible,
     setNewGroup,
     newGroup,
+    disable,
+    setDisable,
   } = useTableCustom();
   const [attrs, setAttrs] = useState(
     attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
@@ -122,7 +124,6 @@ function ProductDetail() {
     if (count === listLength) {
       setAttrLoading(false);
     }
-    console.log(linkedList);
     setLinkedList([
       ...linkedList,
       {
@@ -148,9 +149,9 @@ function ProductDetail() {
     setGroupVisible(false);
   };
   const getlists = async () => {
+    setAttrLoading(true);
     setLinkedList([]);
     setOneRef([]);
-    setAttrLoading(true);
     count = 0;
     const elements = attrs.filter((a) => a.ReferenceTypeId != "");
     setListLength(Object.keys(elements).length);
@@ -210,24 +211,23 @@ function ProductDetail() {
     setPriceModal(false);
     setEditPrice(null);
   };
-  const fillOption = (id) => {
-    oneRefArray = [];
-    setOneRef([]);
-    console.log(linkedList);
-    Object.values(linkedList).map((links) => {
-      Object.entries(links).forEach(([key, value]) => {
-        if (key === id) {
-          value.list.map((r) => {
-            oneRefArray.push({
-              label: r.Name,
-              value: r.Id,
-            });
-          });
-        }
-      });
-      setOneRef(oneRefArray);
-    });
-  };
+ const fillOption = (id) => {
+   oneRefArray = [];
+   setOneRef([]);
+   Object.values(linkedList).map((links) => {
+     Object.entries(links).forEach(([key, value]) => {
+       if (key === id) {
+         value.list.map((r) => {
+           oneRefArray.push({
+             label: r.Name,
+             value: r.Id,
+           });
+         });
+       }
+     });
+     setOneRef(oneRefArray);
+   });
+ };
   const modInputs = attrs
     .filter((a) => a.ReferenceTypeId === "")
     .map((a) => (
@@ -442,8 +442,13 @@ function ProductDetail() {
     Object.assign(lastObject, {
       [changedValues[0].name[0]]: changedValues[0].value,
     });
+    if (disable) {
+      setDisable(false);
+    }
   };
   const handleFinish = async (values) => {
+    setDisable(true);
+
     var valueMods = {};
     Object.entries(values).forEach(([k, v]) => {
       if (k.includes("col_")) {
@@ -571,11 +576,22 @@ function ProductDetail() {
       <div className="doc_name_wrapper">
         <h2>Məhsul</h2>
       </div>
+      {console.log(data)}
       <DocButtons
         editid={product_id}
         controller={"products"}
         closed={"p=product"}
         additional={"none"}
+        from={"products"}
+        proinfo={{
+          id: data.Body.List[0].Id,
+          bc: data.Body.List[0].BarCode,
+          price:
+            data.Body.List[0].IsPack === 1
+              ? data.Body.List[0].PackPrice
+              : data.Body.List[0].Price,
+          nm: data.Body.List[0].Name,
+        }}
       />
       <div className="formWrapper">
         <Form

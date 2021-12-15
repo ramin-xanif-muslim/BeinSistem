@@ -4,14 +4,18 @@ import { useQuery } from "react-query";
 import { fetchDepartments, fetchNavbar, fetchOwners } from "../api";
 import { useTableCustom } from "../contexts/TableContext";
 import { Dropdown } from "semantic-ui-react";
-import img_brand from "../images/brand.png";
+import img_brand from "../images/brand.svg";
 import { Input, Menu } from "semantic-ui-react";
 import { List } from "semantic-ui-react";
 import { Segment } from "semantic-ui-react";
 import { useParams } from "react-router";
-
-
-import { fetchStocks, fetchMarks,fetchCompany } from "../api";
+import { useAuth } from "../contexts/AuthContext";
+import {
+  fetchStocks,
+  fetchMarks,
+  fetchCompany,
+  fetchNotification,
+} from "../api";
 import "../Navbar.css";
 function Navbar() {
   const {
@@ -33,19 +37,29 @@ function Navbar() {
     setSearchGr,
     setAdvancedPage,
     nav,
-    setNav
+    setNav,
+    balance,
+    setBalance,
   } = useTableCustom();
+  const { loggedIn, token, firstLogin, logout } = useAuth();
 
-  const [menu, setMenu] = useState("1");
+  const [menu, setMenu] = useState("2");
   const [companyname, setCompany] = useState(null);
-  const [activeItem, setActiveItem] = useState("");
-  const [activeSubItem, setActiveSubItem] = useState("");
+  const [activeItem, setActiveItem] = useState(firstLogin ? 'Məhsullar' : '');
+  const [activeSubItem, setActiveSubItem] = useState(
+    firstLogin ? "Daxilolma" : ""
+  );
   const { isLoading, error, data } = useQuery("navbars", () => fetchNavbar());
   const getOwners = async () => {
     const ownerResponse = await fetchOwners();
     setOwners(ownerResponse.Body.List);
     setOwnersLocalStorage(ownerResponse.Body.List);
   };
+
+  const getBalance = async () => {
+    const balanceres = await fetchNotification()
+    setBalance(balanceres.Body.AccountBalance);
+  }
   const getCompany = async () => {
     const compResponse = await fetchCompany();
     setCompany(compResponse.Body.CompanyName);
@@ -71,13 +85,17 @@ function Navbar() {
   };
 
   useEffect(() => {
-    getCompany()
+    getBalance()
+    getCompany();
     getMarks();
     getStocks();
     getOwners();
     getDepartments();
   }, []);
 
+  const logOut = () => {
+    logout();
+  };
   const handleClick = (id, name) => {
     console.log(name);
     setMenu(id);
@@ -104,12 +122,12 @@ function Navbar() {
           </Menu.Item>
         </Menu.Menu>
         {Array.isArray(data.Body)
-          ? data.Body.filter((d) => d.ParentId === "0").map((m) => (
+          ? data.Body.filter((d) => d.ParentId === '0').map((m) => (
               <Menu.Item
                 className="main_header_items custom_flex_direction"
                 key={m.Id}
                 name={m.Name}
-                active={localStorage.getItem("activemenu") === m.Name}
+                active={activeItem === m.Name}
                 parent_id={m.Id}
                 onClick={() => handleClick(m.Id, m.Name)}
               >
@@ -167,9 +185,7 @@ function Navbar() {
                       marginBottom: "0",
                     }}
                   >
-                    <span>
-                      {companyname ? companyname : ''}
-                    </span>
+                    <span>{companyname ? companyname : ""}</span>
                     <span>
                       {JSON.parse(localStorage.getItem("user"))
                         ? JSON.parse(localStorage.getItem("user")).Login
@@ -195,16 +211,11 @@ function Navbar() {
                 <Dropdown.Item>
                   <span>Xəbərlər</span>
                 </Dropdown.Item>
-                {/* <Dropdown.Item onClick={openBalance}>
-                  <span>
-                    <Trans word="balance" /> {localStorage.getItem("balance")} ₼
-                  </span>
+                <Dropdown.Item>
+                  <span>Balans: {balance} ₼</span>
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <Dropdown.Item
-                  onClick={logOut}
-                  text={<Trans word={"logout"} />}
-                /> */}
+                <Dropdown.Item onClick={logOut} text={"Çıxış"} />
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>
@@ -213,15 +224,13 @@ function Navbar() {
       <Segment className="custom_li_segment">
         <List className="custom_li_wrapper">
           {Array.isArray(data.Body)
-            ? data.Body.filter(
-                (item) => item.ParentId === localStorage.getItem("activemenuid")
-              ).map((d) => (
+            ? data.Body.filter((item) => item.ParentId === menu).map((d) => (
                 <List.Item
                   key={d.Id}
                   as={Link}
                   from={d.Url}
                   to={`/${d.Url}`}
-                  active={localStorage.getItem("activesubmenu") === d.Name}
+                  active={activeSubItem === d.Name}
                   name={d.Name}
                   onClick={() => handleClickSubMenu(d.Id, d.Name)}
                   className="sub_header_items"

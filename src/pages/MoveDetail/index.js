@@ -9,10 +9,18 @@ import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
 import StockSelect from "../../components/StockSelect";
+import StockDrawer from "../../components/StockDrawer";
+import { Redirect } from "react-router";
+import PaymentOutModal from "../../components/PaymentOutModal";
+import CustomerDrawer from "../../components/CustomerDrawer";
+import { ConvertFixedPosition } from "../../config/function/findadditionals";
+import { Tab } from "semantic-ui-react";
+import ProductModal from "../../components/ProductModal";
 import {
   DeleteOutlined,
   PlusOutlined,
   EditOutlined,
+  SettingOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
@@ -34,31 +42,82 @@ import {
   Typography,
   Statistic,
   Popconfirm,
+  Row,
+  Col,
+  Collapse,
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
+import { fetchCustomers } from "../../api";
+import { fetchStocks } from "../../api";
 import { message } from "antd";
 import { updateDoc } from "../../api";
+import { useRef } from "react";
 import { useCustomForm } from "../../contexts/FormContext";
+import {
+  FindAdditionals,
+  FindCofficient,
+  ConvertFixedTable,
+} from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
+const { TextArea } = Input;
 let customPositions = [];
-
-function LossDetail() {
+const { Panel } = Collapse;
+function MoveDetail() {
+  const [form] = Form.useForm();
   const queryClient = useQueryClient();
-  const { docPage, docCount, docSum, outerDataSource } = useTableCustom();
-  const { docstock, setDocStock, docmark, setDocMark, setLoadingForm } =
-    useCustomForm();
+  const myRefDescription = useRef(null);
+  const myRefConsumption = useRef(null);
+  const {
+    docPage,
+    docCount,
+    docSum,
+    outerDataSource,
+    setOuterDataSource,
+    departments,
+    owners,
+    stocks,
+    setStock,
+    setStockLocalStorage,
+    customers,
+    setCustomers,
+    setDisable,
+    disable,
+  } = useTableCustom();
+  const {
+    docstock,
+    setDocStock,
+    docmark,
+    setDocMark,
+    setLoadingForm,
+    setStockDrawer,
+    stockDrawer,
+    createdStock,
+    setCreatedStock,
+    setProductModal,
+  } = useCustomForm();
   const [positions, setPositions] = useState([]);
+  const [redirect, setRedirect] = useState(false);
   const { doc_id } = useParams();
-  const { isLoading, error, data, isFetching } = useQuery(
-    ["loss", doc_id],
-    () => fetchDocId(doc_id, "losses")
-  );
+  const [hasConsumption, setHasConsumption] = useState(false);
+  const [status, setStatus] = useState(false);
+  const [consumption, setConsumption] = useState(0);
+  const [initial, setInitial] = useState(null);
+  const [columnChange, setColumnChange] = useState(false);
+  const [direct, setDirect] = useState("");
+  const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["move", doc_id],
+    () => fetchDocId(doc_id, "moves")
+  );
+  const handleDelete = (key) => {
+    const dataSource = [...outerDataSource];
+    setOuterDataSource(dataSource.filter((item) => item.key !== key));
+    setPositions(dataSource.filter((item) => item.key !== key));
+  };
   useEffect(() => {
     if (!isFetching) {
-      setDocStock(data.Body.List[0].StockId);
-      setDocMark(data.Body.List[0].Mark);
       customPositions = [];
       Object.values(data.Body.List[0].Positions).map((d) =>
         customPositions.push(d)
@@ -78,18 +137,44 @@ function LossDetail() {
           (c.CostPriceTotal = parseFloat(c.CostPrice) * parseFloat(c.Quantity))
       );
       setPositions(customPositions);
+      if (data.Body.List[0].Consumption) {
+        setHasConsumption(true);
+      }
+      setConsumption(data.Body.List[0].Consumption);
       setLoadingForm(false);
+      setStatus(data.Body.List[0].Status);
+      form.setFieldsValue({
+        mark: data.Body.List[0].Mark,
+      });
     } else {
       customPositions = [];
       setPositions([]);
       setLoadingForm(true);
-      setDocStock(null);
-      setDocMark(null);
     }
   }, [isFetching]);
 
+  useEffect(() => {
+    setDisable(true);
+
+    return () => {
+      setDisable(true);
+    };
+  }, []);
+
+  const openDrawer = (bool, direct) => {
+    setStockDrawer(bool);
+    setDirect(direct);
+  };
+
   const onClose = () => {
     message.destroy();
+  };
+  const handleVisibleChange = (flag) => {
+    setVisibleMenuSettings(flag);
+  };
+  const onChangeConsumption = (e) => {
+    setHasConsumption(true);
+    setConsumption(e.target.value);
   };
   const columns = useMemo(() => {
     return [
@@ -98,7 +183,10 @@ function LossDetail() {
         dataIndex: "Order",
         className: "orderField",
         editable: false,
-        isVisible: true,
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "Order")
+              .isVisible
+          : true,
         render: (text, record, index) => index + 1 + 100 * docPage,
       },
       {
@@ -106,13 +194,19 @@ function LossDetail() {
         dataIndex: "Name",
         className: "max_width_field_length",
         editable: false,
-        isVisible: true,
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "Name").isVisible
+          : true,
+
         sorter: (a, b) => a.Name.localeCompare(b.Name),
       },
       {
         title: "Barkodu",
         dataIndex: "BarCode",
-        isVisible: true,
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "BarCode")
+              .isVisible
+          : true,
         className: "max_width_field_length",
         editable: false,
         sortDirections: ["descend", "ascend"],
@@ -121,56 +215,56 @@ function LossDetail() {
       {
         title: "Miqdar",
         dataIndex: "Quantity",
-        isVisible: true,
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "Quantity")
+              .isVisible
+          : true,
         className: "max_width_field",
         editable: true,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
-          return value;
+          return ConvertFixedTable(value);
         },
       },
+
       {
-        title: "Qiyməti",
-        dataIndex: "Price",
-        isVisible: true,
+        title: "Maya",
+        dataIndex: "CostPrice",
         className: "max_width_field",
-        editable: true,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return value;
-        },
-      },
-      {
-        title: "Məbləğ",
-        dataIndex: "TotalPrice",
-        isVisible: true,
-        className: "max_width_field",
-        editable: true,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return value;
-        },
-      },
-      {
-        title: "Qalıq",
-        dataIndex: "StockQuantity",
-        className: "max_width_field",
-        isVisible: true,
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "CostPrice")
+              .isVisible
+          : true,
         editable: false,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return value;
+          return ConvertFixedPosition(row.Quantity * value);
+        },
+      },
+      {
+        title: "Cəm Maya",
+        dataIndex: "SumCostPrice",
+        className: "max_width_field",
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "SumCostPrice")
+              .isVisible
+          : true,
+        editable: false,
+        sortDirections: ["descend", "ascend"],
+        render: (value, row, index) => {
+          console.log(row);
+          return ConvertFixedPosition(value);
         },
       },
       {
         title: "Sil",
         className: "orderField printField",
         dataIndex: "operation",
-        isVisible: true,
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "operation")
+              .isVisible
+          : true,
         editable: false,
         render: (_, record) => (
           <Typography.Link>
@@ -178,7 +272,7 @@ function LossDetail() {
               title="Silməyə əminsinizmi?"
               okText="Bəli"
               cancelText="Xeyr"
-              onConfirm={() => this.handleDelete(record.key)}
+              onConfirm={() => handleDelete(record.key)}
             >
               <a className="deletePosition">Sil</a>
             </Popconfirm>
@@ -186,24 +280,124 @@ function LossDetail() {
         ),
       },
     ];
-  });
+  }, [consumption, outerDataSource, docSum, columnChange]);
+
+  useEffect(() => {
+    setInitial(columns);
+  }, []);
+
+  useEffect(() => {
+    setColumnChange(false);
+  }, [columnChange]);
 
   const updateMutation = useMutation(updateDoc, {
-    refetchQueris: ["loss", doc_id],
+    refetchQueris: ["move", doc_id],
   });
+
+  useEffect(() => {
+    if (createdStock) {
+      getStocksAgain();
+    }
+  }, [createdStock]);
+
+  useEffect(() => {
+    form.setFieldsValue({
+      mark: Number(docmark),
+    });
+  }, [docmark]);
+  const getStocksAgain = async () => {
+    const stockResponse = await fetchStocks();
+    setStock(stockResponse.Body.List);
+    setStockLocalStorage(stockResponse.Body.List);
+    if (direct === "to") {
+      form.setFieldsValue({
+        stocktoid: createdStock.id,
+      });
+    } else if (direct === "from") {
+      form.setFieldsValue({
+        stockfromid: createdStock.id,
+      });
+    }
+    setCreatedStock(null);
+  };
+
+  //#region OwDep
+  var objCustomers;
+  customers
+    ? (objCustomers = customers)
+    : (objCustomers = JSON.parse(localStorage.getItem("customers")));
+  const customerOptions = Object.values(objCustomers).map((c) => (
+    <Option key={c.Id} value={c.Id}>
+      {c.Name}
+    </Option>
+  ));
+
+  var objOwner;
+  owners
+    ? (objOwner = owners)
+    : (objOwner = JSON.parse(localStorage.getItem("owners")));
+  const ownersOptions = Object.values(objOwner).map((c) => (
+    <Option key={c.Id} value={c.Id}>
+      {c.Name}
+    </Option>
+  ));
+
+  var objDep;
+  departments
+    ? (objDep = departments)
+    : (objDep = JSON.parse(localStorage.getItem("departments")));
+
+  const depOptions = Object.values(objDep).map((c) => (
+    <Option key={c.Id}>{c.Name}</Option>
+  ));
+
+  var objStock;
+  stocks
+    ? (objStock = stocks)
+    : (objStock = JSON.parse(localStorage.getItem("stocks")));
+
+  const options = objStock.map((m) => (
+    <Option key={m.Id} value={m.Id}>
+      {m.Name}
+    </Option>
+  ));
+
+  //#endregion OwDep
+
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
 
+  if (redirect)
+    return (
+      <Redirect
+        to={{
+          pathname: "/editSupplyReturnLinked",
+          state: {
+            data: data.Body.List[0],
+            position: positions,
+            linked: doc_id,
+          },
+        }}
+      />
+    );
+
+  const handleChanged = () => {
+    if (disable) {
+      setDisable(false);
+    }
+  };
   const handleFinish = async (values) => {
-    values.stockid = docstock;
+    setDisable(true);
+
     values.positions = outerDataSource;
-    values.mark = docmark;
     values.moment = values.moment._i;
     values.modify = values.modify._i;
+    values.description = myRefDescription.current.resizableTextArea.props.value;
+    values.status = status;
     message.loading({ content: "Loading...", key: "doc_update" });
     updateMutation.mutate(
-      { id: doc_id, controller: "losses", filter: values },
+      { id: doc_id, controller: "moves", filter: values },
       {
         onSuccess: (res) => {
           if (res.Headers.ResponseStatus === "0") {
@@ -212,7 +406,7 @@ function LossDetail() {
               key: "doc_update",
               duration: 2,
             });
-            queryClient.invalidateQueries("loss", doc_id);
+            queryClient.invalidateQueries("move", doc_id);
           } else {
             message.error({
               content: (
@@ -226,91 +420,313 @@ function LossDetail() {
             });
           }
         },
+        onError: (e) => {
+          console.log(e);
+        },
       }
     );
   };
+  const onChangeMenu = (e) => {
+    var initialCols = initial;
+    var findelement;
+    var findelementindex;
+    var replacedElement;
+    findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+    console.log(findelement);
+    findelementindex = initialCols.findIndex(
+      (c) => c.dataIndex === e.target.id
+    );
+    findelement.isVisible = e.target.checked;
+    replacedElement = findelement;
+    initialCols.splice(findelementindex, 1, {
+      ...findelement,
+      ...replacedElement,
+    });
+    setColumnChange(true);
+  };
+  const menu = (
+    <Menu>
+      <Menu.ItemGroup title="Sutunlar">
+        {Object.values(columns).map((d) => (
+          <Menu.Item key={d.dataIndex}>
+            <Checkbox
+              id={d.dataIndex}
+              disabled={
+                columns.length === 3 && d.isVisible === true ? true : false
+              }
+              isVisible={d.isVisible}
+              onChange={(e) => onChangeMenu(e)}
+              defaultChecked={d.isVisible}
+            >
+              {d.title}
+            </Checkbox>
+          </Menu.Item>
+        ))}
+      </Menu.ItemGroup>
+    </Menu>
+  );
+
+  const panes = [
+    {
+      menuItem: "Əsas",
+      render: () => (
+        <Tab.Pane attached={false}>
+          <Row>
+            <Col xs={24} md={24} xl={9}>
+              <div className="addProductInputIcon">
+                <AddProductInput className="newProInputWrapper" />
+                <PlusOutlined
+                  onClick={() => setProductModal(true)}
+                  className="addNewProductIcon"
+                />
+              </div>
+            </Col>
+            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
+              <Dropdown
+                overlay={menu}
+                onVisibleChange={handleVisibleChange}
+                visible={visibleMenuSettings}
+              >
+                <Button className="flex_directon_col_center">
+                  {" "}
+                  <SettingOutlined />
+                </Button>
+              </Dropdown>
+              <DocTable
+                headers={columns.filter((c) => c.isVisible == true)}
+                datas={positions}
+              />
+            </Col>
+          </Row>
+        </Tab.Pane>
+      ),
+    },
+    {
+      menuItem: "Əlaqəli sənədlər",
+      render: () => <Tab.Pane attached={false}></Tab.Pane>,
+    },
+  ];
 
   return (
-    <div>
-      <DocButtons />
-      <Form
-        id="myForm"
-        className="doc_forms"
-        name="basic"
-        initialValues={{
-          name: data.Body.List[0].Name,
-          moment: moment(data.Body.List[0].Moment),
-          modify: moment(data.Body.List[0].Modify),
-          mark: data.Body.List[0].Mark,
-          stockid: data.Body.List[0].StockId,
-          status: data.Body.List[0].Status == 1 ? true : false,
-        }}
-        onFinish={handleFinish}
-        layout="horizontal"
-      >
-        <Form.Item
-          label="Loss Number"
-          name="name"
-          className="doc_number_form_item"
-        >
-          <Input allowClear />
-        </Form.Item>
-        <Form.Item label="Created Moment" name="moment">
-          <DatePicker
-            showTime={{ format: "HH:mm:ss" }}
-            format="YYYY-MM-DD HH:mm:ss"
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Modified moment"
-          name="modify"
-          className="modified_date_input"
-        >
-          <DatePicker
-            showTime={{ format: "HH:mm:ss" }}
-            format="YYYY-MM-DD HH:mm:ss"
-          />
-        </Form.Item>
-
-        <Form.Item label="Mark" name="mark">
-          <StatusSelect defaultValue={data.Body.List[0].Mark} />
-        </Form.Item>
-        <Form.Item label="Stock" name="stockid">
-          <StockSelect defaultValue={data.Body.List[0].StockId} />
-        </Form.Item>
-        <Form.Item
-          label="Status"
-          className="docComponentStatus"
-          name="status"
-          valuePropName="checked"
-        >
-          <Checkbox name="status"></Checkbox>
-        </Form.Item>
-      </Form>
-
-      <AddProductInput />
-      <DocTable headers={columns} datas={positions} />
-      <div>
-        <Statistic
-          groupSeparator=" "
-          className="doc_info_text total"
-          title=""
-          value={docSum}
-          prefix={"Yekun məbləğ: "}
-          suffix={"₼"}
-        />
-        <Statistic
-          groupSeparator=" "
-          className="doc_info_text doc_info_secondary quantity"
-          title=""
-          value={docCount}
-          prefix={"Miqdar: "}
-          suffix={"əd"}
-        />
+    <div className="doc_wrapper">
+      <div className="doc_name_wrapper">
+        <h2>Yerdəyişmə</h2>
       </div>
+      <DocButtons
+        additional={"none"}
+        editid={doc_id}
+        controller={"moves"}
+        closed={"p=move"}
+        from={"moves"}
+      />
+      <div className="formWrapper">
+        <Form
+          id="myForm"
+          form={form}
+          className="doc_forms"
+          name="basic"
+          labelCol={{
+            span: 5,
+          }}
+          wrapperCol={{
+            span: 14,
+          }}
+          initialValues={{
+            name: data.Body.List[0].Name,
+            moment: moment(data.Body.List[0].Moment),
+            modify: moment(data.Body.List[0].Modify),
+            mark: data.Body.List[0].Mark,
+            stocktoid: data.Body.List[0].StockToId,
+            stockfromid: data.Body.List[0].StockFromId,
+            status: data.Body.List[0].Status == 1 ? true : false,
+          }}
+          onFinish={handleFinish}
+          onFieldsChange={handleChanged}
+          layout="horizontal"
+        >
+          <Row style={{ marginTop: "1em", padding: "1em" }}>
+            <Col xs={24} md={24} xl={18}>
+              <Row>
+                <Col xs={24} md={24} xl={10}>
+                  <Row>
+                    <Col xs={24} md={24} xl={24}>
+                      <Form.Item
+                        label="Yerdəyişmə №"
+                        name="name"
+                        className="doc_number_form_item"
+                      >
+                        <Input allowClear />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={24} xl={24}>
+                      <Form.Item label="Tarixi" name="moment">
+                        <DatePicker
+                          showTime={{ format: "HH:mm:ss" }}
+                          format="YYYY-MM-DD HH:mm:ss"
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={24} md={24} xl={24}></Col>
+                  </Row>
+                </Col>
+                <Col xs={24} md={24} xl={10}>
+                  <Row>
+                    <Col xs={24} md={24} xl={24} className="plus_wrapper">
+                      <Form.Item label="Anbara" name="stocktoid">
+                        <Select
+                          showSearch
+                          showArrow={false}
+                          filterOption={false}
+                          className="customSelect"
+                          allowClear={true}
+                        >
+                          {options}
+                        </Select>
+                      </Form.Item>
+                      <PlusOutlined
+                        onClick={() => openDrawer(true, "to")}
+                        className="add_elements"
+                      />
+                    </Col>
+                    <Col xs={24} md={24} xl={24} className="plus_wrapper">
+                      <Form.Item label="Anbardan" name="stockfromid">
+                        <Select
+                          showSearch
+                          showArrow={false}
+                          filterOption={false}
+                          className="customSelect"
+                          allowClear={true}
+                        >
+                          {options}
+                        </Select>
+                      </Form.Item>
+                      <PlusOutlined
+                        onClick={() => openDrawer(true, "from")}
+                        className="add_elements"
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col xs={24} md={24} xl={4}>
+                  <Col xs={24} md={24} xl={24}>
+                    <Form.Item label="Dəyişmə Tarixi" name="modify">
+                      <DatePicker
+                        showTime={{ format: "HH:mm:ss" }}
+                        format="YYYY-MM-DD HH:mm:ss"
+                      />
+                    </Form.Item>
+                  </Col>
+                </Col>
+              </Row>
+            </Col>
+
+            <Col xs={24} md={24} xl={6}>
+              <Collapse ghost>
+                <Panel className="custom_panel_header" header="Təyinat" key="1">
+                  <Form.Item
+                    label="Cavabdeh"
+                    name="ownerid"
+                    style={{ margin: "0" }}
+                  >
+                    <Select
+                      showSearch
+                      placeholder=""
+                      filterOption={false}
+                      notFoundContent={<Spin size="small" />}
+                      filterOption={(input, option) =>
+                        option.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {ownersOptions}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Şöbə"
+                    name="departmentid"
+                    style={{ margin: "0" }}
+                  >
+                    <Select
+                      showSearch
+                      placeholder=""
+                      notFoundContent={<Spin size="small" />}
+                      filterOption={(input, option) =>
+                        option.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {depOptions}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Keçirilib"
+                    className="docComponentStatus"
+                    name="status"
+                    valuePropName="checked"
+                  >
+                    <Checkbox
+                      onChange={(e) => setStatus(e.target.checked)}
+                      name="status"
+                    ></Checkbox>
+                  </Form.Item>
+
+                  <StatusSelect defaultvalue={data.Body.List[0].Mark} />
+                </Panel>
+              </Collapse>
+            </Col>
+          </Row>
+        </Form>
+        <Row>
+          <Col xs={24} md={24} xl={24}>
+            <Tab className="custom_table_wrapper_tab" panes={panes} />
+          </Col>
+          <Col xs={24} md={24} xl={24}>
+            <Row className="bottom_tab">
+              <Col xs={24} md={24} xl={9}>
+                <div>
+                  <Form.Item name="description">
+                    <TextArea
+                      ref={myRefDescription}
+                      placeholder={"Şərh..."}
+                      defaultValue={data.Body.List[0].Description}
+                      rows={3}
+                    />
+                  </Form.Item>
+                </div>
+              </Col>
+              <Col xs={24} md={24} xl={12}>
+                <div className="static_wrapper">
+                  <Statistic
+                    groupSeparator=" "
+                    className="doc_info_text total"
+                    title=""
+                    value={docSum}
+                    prefix={"Yekun məbləğ: "}
+                    suffix={"₼"}
+                  />
+                  <Statistic
+                    groupSeparator=" "
+                    className="doc_info_text doc_info_secondary quantity"
+                    title=""
+                    value={docCount}
+                    prefix={"Miqdar: "}
+                    suffix={"əd"}
+                  />
+
+                  <Divider style={{ backgroundColor: "grey" }} />
+                
+                </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+      <StockDrawer />
+      <ProductModal />
     </div>
   );
 }
 
-export default LossDetail;
+export default MoveDetail;

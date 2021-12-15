@@ -12,13 +12,10 @@ import AddProductInput from "../../components/AddProductInput";
 import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import ProductModal from "../../components/ProductModal";
+import CustomerDrawer from "../../components/CustomerDrawer";
+import { fetchCustomers } from "../../api";
 import { Tab } from "semantic-ui-react";
-import {
-  FindAdditionals,
-  FindCofficient,
-  ConvertFixedTable,
-  ConvertFixedPosition,
-} from "../../config/function/findadditionals";
+
 import {
   DeleteOutlined,
   PlusOutlined,
@@ -56,16 +53,20 @@ import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
-
+import {
+  FindAdditionals,
+  FindCofficient,
+  ConvertFixedTable,
+} from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewMove() {
+function NewCustomerOrder() {
   const [form] = Form.useForm();
-  const queryClient = useQueryClient();
   const myRefDescription = useRef(null);
   const myRefConsumption = useRef(null);
+  const queryClient = useQueryClient();
   const {
     docPage,
     docCount,
@@ -79,8 +80,10 @@ function NewMove() {
     setStockLocalStorage,
     customers,
     setCustomers,
-    setDisable,
+    orderStatusArr,
+    setOrderStatusArr,
     disable,
+    setDisable,
   } = useTableCustom();
   const {
     docstock,
@@ -89,22 +92,25 @@ function NewMove() {
     setDocMark,
     setLoadingForm,
     setStockDrawer,
+    setCustomerDrawer,
+    customerDrawer,
     stockDrawer,
     createdStock,
+    createdCustomer,
     setCreatedStock,
+    setCreatedCustomer,
     setProductModal,
+    productModal,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [error, setError] = useState(null);
   const [docname, setDocName] = useState(null);
   const [newStocksLoad, setNewStocksLoad] = useState(null);
   const [hasConsumption, setHasConsumption] = useState(false);
   const [consumption, setConsumption] = useState(0);
   const [status, setStatus] = useState(true);
   const [initial, setInitial] = useState(null);
-  const [direct, setDirect] = useState("");
   const [tablecolumns, setTableColumns] = useState([]);
   const [columnChange, setColumnChange] = useState(false);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
@@ -113,13 +119,6 @@ function NewMove() {
     setOuterDataSource(dataSource.filter((item) => item.key !== key));
     setPositions(dataSource.filter((item) => item.key !== key));
   };
-
-  useEffect(() => {
-    setDisable(true);
-    return () => {
-      setDisable(true);
-    };
-  }, []);
   const onClose = () => {
     message.destroy();
   };
@@ -179,39 +178,56 @@ function NewMove() {
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
-          return ConvertFixedTable(value);
+          return value;
         },
       },
-    
       {
-        title: "Maya",
-        dataIndex: "CostPrice",
+        title: "Qiyməti",
+        dataIndex: "Price",
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "Price")
+              .isVisible
+          : true,
+
+        className: "max_width_field",
+        editable: true,
+        sortDirections: ["descend", "ascend"],
+        render: (value, row, index) => {
+          // do something like adding commas to the value or prefix
+          return value;
+        },
+      },
+      {
+        title: "Məbləğ",
+        dataIndex: "TotalPrice",
+        isVisible: initial
+          ? Object.values(initial).find((i) => i.dataIndex === "TotalPrice")
+              .isVisible
+          : true,
+        className: "max_width_field",
+        editable: true,
+        sortDirections: ["descend", "ascend"],
+        render: (value, row, index) => {
+          // do something like adding commas to the value or prefix
+          return value;
+        },
+      },
+      {
+        title: "Qalıq",
+        dataIndex: "StockQuantity",
         className: "max_width_field",
         isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "CostPrice")
+          ? Object.values(initial).find((i) => i.dataIndex === "StockQuantity")
               .isVisible
           : true,
         editable: false,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
-          return ConvertFixedPosition(row.Quantity * value);
+          // do something like adding commas to the value or prefix
+          return value;
         },
       },
-      {
-        title: "Cəm Maya",
-        dataIndex: "SumCostPrice",
-        className: "max_width_field",
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "SumCostPrice")
-              .isVisible
-          : true,
-        editable: false,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          console.log(row);
-          return ConvertFixedPosition(value);
-        },
-      },
+
       {
         title: "Sil",
         className: "orderField printField",
@@ -244,7 +260,6 @@ function NewMove() {
   useEffect(() => {
     setColumnChange(false);
   }, [columnChange]);
-
   const onChangeMenu = (e) => {
     var initialCols = initial;
     var findelement;
@@ -290,21 +305,27 @@ function NewMove() {
     }
   }, [createdStock]);
 
+  useEffect(() => {
+    if (createdCustomer) {
+      getCustomersAgain();
+    }
+  }, [createdCustomer]);
+
+  const getCustomersAgain = async () => {
+    const customerResponse = await fetchCustomers();
+    setCustomers(customerResponse.Body.List);
+    form.setFieldsValue({
+      customerid: createdCustomer.id,
+    });
+    setCreatedCustomer(null);
+  };
   const getStocksAgain = async () => {
     const stockResponse = await fetchStocks();
     setStock(stockResponse.Body.List);
     setStockLocalStorage(stockResponse.Body.List);
-
-    if (direct === "to") {
-      form.setFieldsValue({
-        stocktoid: createdStock.id,
-      });
-    } else if (direct === "from") {
-      form.setFieldsValue({
-        stockfromid: createdStock.id,
-      });
-    }
-
+    form.setFieldsValue({
+      stockid: createdStock.id,
+    });
     setCreatedStock(null);
   };
   useEffect(() => {
@@ -315,7 +336,7 @@ function NewMove() {
   }, []);
 
   const getDocName = async (docname) => {
-    const attrResponse = await fetchDocName(docname, "moves");
+    const attrResponse = await fetchDocName(docname, "customerorders");
     return attrResponse;
   };
 
@@ -326,32 +347,17 @@ function NewMove() {
   };
   const handleFinish = async (values) => {
     setDisable(true);
-
     values.positions = outerDataSource;
     values.mark = docmark;
     values.moment = values.moment._i;
     values.description = myRefDescription.current.resizableTextArea.props.value;
     values.status = status;
+
     message.loading({ content: "Loading...", key: "doc_update" });
+    const nameres = await getDocName(values.name);
+    values.name = nameres.Body.ResponseService;
 
-    try {
-      const nameres = await getDocName(values.name);
-      values.name = nameres.Body.ResponseService;
-    } catch (error) {
-      message.error({
-        content: (
-          <span className="error_mess_wrap">
-            Saxlanılmadı... {error.message}{" "}
-            {<CloseCircleOutlined onClick={onClose} />}
-          </span>
-        ),
-        key: "doc_update",
-        duration: 0,
-      });
-    }
-
-    const res = await saveDoc(values, "moves");
-    console.log(res);
+    const res = await saveDoc(values, "customerorders");
     if (res.Headers.ResponseStatus === "0") {
       message.success({
         content: "Saxlanildi",
@@ -374,12 +380,27 @@ function NewMove() {
     }
   };
 
-  const openDrawer = (bool, direct) => {
-    setStockDrawer(bool);
-    setDirect(direct);
-  };
-
   //#region OwDep
+  var objOrder;
+  orderStatusArr
+    ? (objOrder = orderStatusArr)
+    : (objOrder = JSON.parse(localStorage.getItem("orderarray")));
+  const orderOptions = Object.values(objOrder).map((c) => (
+    <Option key={c.Id} value={c.Id}>
+      {c.Name}
+    </Option>
+  ));
+
+  var objCustomers;
+  customers
+    ? (objCustomers = customers)
+    : (objCustomers = JSON.parse(localStorage.getItem("customers")));
+  const customerOptions = Object.values(objCustomers).map((c) => (
+    <Option key={c.Id} value={c.Id}>
+      {c.Name}
+    </Option>
+  ));
+
   var objOwner;
   owners
     ? (objOwner = owners)
@@ -415,6 +436,7 @@ function NewMove() {
   const onChange = (stock) => {
     setDocStock(stock);
   };
+
   const panes = [
     {
       menuItem: "Əsas",
@@ -456,14 +478,13 @@ function NewMove() {
     },
   ];
 
-  if (redirect) return <Redirect to={`/editMove/${editId}`} />;
+  if (redirect) return <Redirect to={`/editCustomerOrder/${editId}`} />;
   return (
     <div className="doc_wrapper">
       <div className="doc_name_wrapper">
-        <h2>Yerdəyişmə</h2>
+        <h2>Sifarış</h2>
       </div>
-
-      <DocButtons additional={"none"} editid={null} closed={"p=move"} />
+      <DocButtons editid={null} closed={"p=customerorders"} />
       <div className="formWrapper">
         <Form
           form={form}
@@ -471,7 +492,7 @@ function NewMove() {
           className="doc_forms"
           name="basic"
           initialValues={{
-            status: true,
+            status: status,
           }}
           labelCol={{
             span: 5,
@@ -490,7 +511,7 @@ function NewMove() {
                   <Row>
                     <Col xs={24} md={24} xl={24}>
                       <Form.Item
-                        label="Yerdəyişmə №"
+                        label="Alış №"
                         name="name"
                         className="doc_number_form_item"
                       >
@@ -511,29 +532,24 @@ function NewMove() {
                 <Col xs={24} md={24} xl={10}>
                   <Row>
                     <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Anbara" name="stocktoid">
+                      <Form.Item label="Qarşı-tərəf" name="customerid">
                         <Select
                           showSearch
                           showArrow={false}
                           filterOption={false}
-                          onChange={onChange}
                           className="customSelect"
                           allowClear={true}
                         >
-                          {options}
+                          {customerOptions}
                         </Select>
                       </Form.Item>
                       <PlusOutlined
-                        onClick={() => openDrawer(true, "to")}
+                        onClick={() => setCustomerDrawer(true)}
                         className="add_elements"
                       />
                     </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
                     <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Anbardan" name="stockfromid">
+                      <Form.Item label="Anbar" name="stockid">
                         <Select
                           showSearch
                           showArrow={false}
@@ -546,16 +562,17 @@ function NewMove() {
                         </Select>
                       </Form.Item>
                       <PlusOutlined
-                        onClick={() => openDrawer(true, "from")}
+                        onClick={() => setStockDrawer(true)}
                         className="add_elements"
                       />
                     </Col>
                   </Row>
                 </Col>
+                <Col xs={24} md={24} xl={4}></Col>
               </Row>
             </Col>
 
-            <Col xs={24} md={24} xl={24}>
+            <Col xs={24} md={24} xl={6}>
               <Collapse ghost>
                 <Panel className="custom_panel_header" header="Təyinat" key="1">
                   <Form.Item
@@ -575,6 +592,25 @@ function NewMove() {
                       }
                     >
                       {ownersOptions}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Sifaris"
+                    name="statusorder"
+                    style={{ margin: "0" }}
+                  >
+                    <Select
+                      showSearch
+                      placeholder=""
+                      filterOption={false}
+                      notFoundContent={<Spin size="small" />}
+                      filterOption={(input, option) =>
+                        option.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {orderOptions}
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -603,7 +639,7 @@ function NewMove() {
                   >
                     <Checkbox name="status"></Checkbox>
                   </Form.Item>
-                  <Form.Item label="Status" name="mark">
+                  <Form.Item name="mark">
                     <StatusSelect />
                   </Form.Item>
                 </Panel>
@@ -635,7 +671,7 @@ function NewMove() {
                     groupSeparator=" "
                     className="doc_info_text total"
                     title=""
-                    value={ConvertFixedTable(docSum)}
+                    value={docSum}
                     prefix={"Yekun məbləğ: "}
                     suffix={"₼"}
                   />
@@ -643,7 +679,7 @@ function NewMove() {
                     groupSeparator=" "
                     className="doc_info_text doc_info_secondary quantity"
                     title=""
-                    value={ConvertFixedTable(docCount)}
+                    value={docCount}
                     prefix={"Miqdar: "}
                     suffix={"əd"}
                   />
@@ -656,10 +692,11 @@ function NewMove() {
         </Row>
       </div>
 
-      <StockDrawer direction={direct} />
+      <StockDrawer />
       <ProductModal />
+      <CustomerDrawer />
     </div>
   );
 }
 
-export default NewMove;
+export default NewCustomerOrder;

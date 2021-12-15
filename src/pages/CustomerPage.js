@@ -271,7 +271,7 @@ const menu = (
 
   if (error) return "An error has occurred: " + error.message;
 
-  if (redirect) return <Redirect to={`/editProduct/${editId}`} />;
+  if (redirect) return <Redirect to={`/editCustomer/${editId}`} />;
 
   return (
     <div>

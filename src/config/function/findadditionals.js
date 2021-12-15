@@ -7,6 +7,10 @@ export function ConvertFixedTable(num) {
     : "";
 }
 
+export function isObject(val) {
+  return typeof val === "object";
+}
+
 export function ConvertFixedPositionInvoice(num) {
   var isNum = !isNaN(parseFloat(num));
   return isNum ? parseFloat(parseFloat(parseFloat(num).toFixed(4))) : null;

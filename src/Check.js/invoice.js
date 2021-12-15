@@ -13,13 +13,14 @@ import moment from "moment";
 import { useMemo } from "react";
 import { Table } from "antd";
 
-import { getBcTemplate, getBcTemplateMain } from "../api";
+import { getBcTemplate, getBcTemplateMain, fetchCustomersData } from "../api";
 export default function Invoice(props) {
   const { nav, setNav } = useTableCustom();
   const [print, setPrint] = useState(false);
   const [datas, setDatas] = useState(null);
   const [documentList, setDocumentList] = useState([]);
   const [info, setInfo] = useState(null);
+  const [cusInfo, setCusInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setNav("none");
@@ -34,8 +35,7 @@ export default function Invoice(props) {
       {
         title: "№",
         dataIndex: "Order",
-        render: (text, record, index) =>
-          index + 1 + info ? info.Limit : 100 * 0,
+        render: (text, record, index) => index + 1,
       },
       {
         dataIndex: "Name",
@@ -85,16 +85,30 @@ export default function Invoice(props) {
       props.location.hash.slice(1),
       props.location.search.substring(1)
     );
+
     if (res.Headers.ResponseStatus === "0") {
-      if (props.location.hash.slice(1) === "enters") {
-        setDatas(res.Body.List[0]);
-        setInfo(res.Body);
-        const result = Object.values(res.Body.List[0].Positions);
-        setDocumentList(result);
-        setLoading(false);
-        setTimeout(() => {
-          window.print();
-        }, 200);
+      if (props.location.hash.slice(1)) {
+        if (props.location.hash.slice(1) != "enters") {
+          const cus = await fetchCustomersData(res.Body.List[0].CustomerId);
+          setCusInfo(cus.Body);
+          setDatas(res.Body.List[0]);
+          setInfo(res.Body);
+          const result = Object.values(res.Body.List[0].Positions);
+          setDocumentList(result);
+          setLoading(false);
+          setTimeout(() => {
+            window.print();
+          }, 200);
+        } else {
+          setDatas(res.Body.List[0]);
+          setInfo(res.Body);
+          const result = Object.values(res.Body.List[0].Positions);
+          setDocumentList(result);
+          setLoading(false);
+          setTimeout(() => {
+            window.print();
+          }, 200);
+        }
       }
     }
   };
@@ -122,7 +136,11 @@ export default function Invoice(props) {
       <div className="invoice_supplier_part">
         <div className="invoice_main_info_part market cusnames">
           <p>Mal göndərən :</p>
-          <p>{localStorage.getItem("companyname")}</p>
+          <p>
+            {props.location.hash.slice(1) === "supplies"
+              ? datas.CustomerName
+              : localStorage.getItem("companyname")}
+          </p>
         </div>
         <div className="invoice_main_info_part market">
           <p>Ünvan :</p>
@@ -134,14 +152,24 @@ export default function Invoice(props) {
         </div>
         <div className="invoice_main_info_part market">
           <p>Bank rekvizitləri :</p>
-          <p>{JSON.parse(localStorage.getItem("company")).AccountNumber}</p>
+          <p>
+            {props.location.hash.slice(1) === "supplies"
+              ? datas.Phone
+              : JSON.parse(localStorage.getItem("company")).Mobile}
+          </p>
+
+          <p></p>
         </div>
       </div>
       <Divider style={{ backgroundColor: "black" }} dashed={false} />
       <div className="invoice_buyer_part">
         <div className="invoice_main_info_part market cusnames">
           <p>Mal alan :</p>
-          <p>{datas.CustomerName}</p>
+          <p>
+            {props.location.hash.slice(1) === "supplies"
+              ? localStorage.getItem("companyname")
+              : datas.CustomerName}
+          </p>
         </div>
         <div className="invoice_main_info_part market">
           <p>VÖEN :</p>
@@ -153,12 +181,17 @@ export default function Invoice(props) {
         </div>
         <div className="invoice_main_info_part market">
           <p>Telefon :</p>
-          <p>{datas.Phone}</p>
+          <p>
+            {props.location.hash.slice(1) === "supplies"
+              ? JSON.parse(localStorage.getItem("company")).Mobile
+              : datas.Phone}
+          </p>
         </div>
       </div>
 
       <Table
         rowKey="Id"
+        className="invoicetable"
         columns={columns}
         dataSource={documentList}
         pagination={false}
@@ -169,6 +202,24 @@ export default function Invoice(props) {
         {String(datas.Amount).split(".")[1]} qəp.
       </Divider>
       <div className="invoice_buyer_part">
+        {props.location.hash.slice(1) != "enters" ? (
+          <>
+            {console.log(cusInfo)}
+            <div className="invoice_main_info_part market customerinfo">
+              <p>Qalıq borc :</p>
+              <p>
+                {ConvertFixedPositionInvoice(cusInfo.Debt)} {" ₼"}
+              </p>
+            </div>
+            <div className="invoice_main_info_part market customerinfo">
+              <p>Son ödəmə :</p>
+              <p>
+                {ConvertFixedPositionInvoice(cusInfo.LastTransaction)} {" ₼"}
+              </p>
+            </div>
+          </>
+        ) : null}
+
         {/* <div className="invoice_main_info_part market customerinfo">
           <p>Qalıq borc :</p>
           <p>

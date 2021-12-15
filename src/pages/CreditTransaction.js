@@ -1,7 +1,11 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
-import { fetchPage, fecthFastPage, fetchFilterPage, 
-    fetchCustomers, } from "../api";
+import {
+  fetchPage,
+  fecthFastPage,
+  fetchFilterPage,
+  fetchCustomers,
+} from "../api";
 
 import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
@@ -190,7 +194,6 @@ export default function CreditTransaction() {
       },
     ];
   }, [defaultdr, initialSort, filtered, marks, advancedPage]);
-
 
   const filters = useMemo(() => {
     return [

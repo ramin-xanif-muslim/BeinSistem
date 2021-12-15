@@ -1,6 +1,11 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
-import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
+import {
+  fetchPage,
+  fecthFastPage,
+  fetchFilterPage,
+  fetchCustomers,
+} from "../api";
 
 import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
@@ -13,7 +18,6 @@ import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
-
 import { SettingOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 export default function Sale() {
@@ -30,9 +34,13 @@ export default function Sale() {
   const [page, setPage] = useState(0);
   const [filtered, setFiltered] = useState(false);
 
+  const [filterChanged, setFilterChanged] = useState(false);
   const [columnChange, setColumnChange] = useState(false);
   const [initial, setInitial] = useState(null);
+  const [initialfilter, setInitialFilter] = useState(null);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+  const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
+    useState(false);
   const {
     marks,
     setMarkLocalStorage,
@@ -45,6 +53,8 @@ export default function Sale() {
     advanced,
     setdisplay,
     display,
+    setCustomersLocalStorage,
+    setCustomers,
   } = useTableCustom();
 
   const [documentList, setDocumentList] = useState([]);
@@ -63,7 +73,8 @@ export default function Sale() {
   useEffect(() => {
     setColumnChange(false);
     if (filtered) setFiltered(false);
-  }, [columnChange, filtered]);
+    if (filterChanged) setFilterChanged(false);
+  }, [columnChange, filtered, filterChanged]);
 
   var markObject;
   marks
@@ -203,17 +214,25 @@ export default function Sale() {
     ];
   }, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-  useEffect(() => {
-    setInitial(columns);
-  }, []);
+  const getCustomers = async () => {
+    const customerResponse = await fetchCustomers();
+    setCustomers(customerResponse.Body.List);
+    setCustomersLocalStorage(customerResponse.Body.List);
+  };
+
   const filters = useMemo(() => {
     return [
       {
         key: "1",
-        label: "Alış №",
+        label: "Satış №",
         name: "docNumber",
         type: "text",
-        hidden: false,
+        dataIndex: "docNumber",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "docNumber"
+            ).show
+          : true,
       },
       {
         key: "2",
@@ -221,58 +240,153 @@ export default function Sale() {
         name: "productName",
         type: "select",
         controller: "products",
-        hidden: false,
+        dataIndex: "productName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "productName"
+            ).show
+          : true,
       },
 
       {
         key: "3",
+        label: "Qarşı-tərəf",
+        name: "customerName",
+        type: "select",
+        controller: "customers",
+        dataIndex: "customerName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "customerName"
+            ).show
+          : true,
+      },
+
+      {
+        key: "4",
+        label: "Dəyişmə tarixi",
+        name: "modifedDate",
+        type: "date",
+        dataIndex: "modifedDate",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "modifedDate"
+            ).show
+          : true,
+      },
+      {
+        key: "5",
+        label: "Mənfəət",
+        name: "profit",
+        start: "prfb",
+        end: "prfe",
+        type: "range",
+        dataIndex: "profit",
+        show: initialfilter
+          ? Object.values(initialfilter).find((i) => i.dataIndex === "profit")
+              .show
+          : true,
+      },
+      {
+        key: "6",
         label: "Anbar",
         name: "stockName",
         type: "select",
         controller: "stocks",
-        hidden: false,
+        dataIndex: "stockName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "stockName"
+            ).show
+          : true,
       },
       {
-        key: "4",
+        key: "7",
+        label: "Satış nöqtəsi",
+        name: "slpnt",
+        type: "select",
+        controller: "salepoints",
+        dataIndex: "slpnt",
+        show: initialfilter
+          ? Object.values(initialfilter).find((i) => i.dataIndex === "slpnt")
+              .show
+          : true,
+      },
+      {
+        key: "8",
         label: "Şöbə",
         name: "departmentName",
         controller: "departments",
         type: "select",
-        hidden: true,
+        dataIndex: "departmentName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "departmentName"
+            ).show
+          : true,
       },
       {
-        key: "5",
+        key: "9",
         label: "Cavabdeh",
         name: "ownerName",
         controller: "owners",
         type: "select",
-        hidden: true,
+        dataIndex: "ownerName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "ownerName"
+            ).show
+          : true,
       },
+
       {
-        key: "6",
-        label: "Dəyişmə tarixi",
-        name: "modifedDate",
-        type: "date",
-        hidden: true,
-      },
-      {
-        key: "7",
+        key: "10",
         label: "Məbləğ",
         name: "docPrice",
         start: "amb",
         end: "ame",
         type: "range",
-        hidden: true,
+        dataIndex: "docPrice",
+        show: initialfilter
+          ? Object.values(initialfilter).find((i) => i.dataIndex === "docPrice")
+              .show
+          : true,
       },
       {
-        key: "8",
+        key: "11",
+        label: "Ödəniş növü",
+        name: "paytype",
+        controller: "yesno",
+        default: "",
+        type: "selectDefaultPayType",
+        hidden: false,
+        dataIndex: "paytype",
+        show: initialfilter
+          ? Object.values(initialfilter).find((i) => i.dataIndex === "paytype")
+              .show
+          : true,
+      },
+      {
+        key: "12",
         label: "Tarixi",
         name: "createdDate",
         type: "date",
-        hidden: false,
+        dataIndex: "createdDate",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "createdDate"
+            ).show
+          : true,
       },
     ];
-  });
+  }, [filterChanged]);
+
+  useEffect(() => {
+    setInitial(columns);
+    setInitialFilter(filters);
+
+    getCustomers();
+  }, []);
   useEffect(() => {
     if (!isFetching) {
       setDocumentList(data.Body.List);
@@ -310,6 +424,9 @@ export default function Sale() {
   const handleVisibleChange = (flag) => {
     setVisibleMenuSettings(flag);
   };
+  const handleVisibleChangeFilter = (flag) => {
+    setVisibleMenuSettingsFilter(flag);
+  };
 
   const onChangeMenu = (e) => {
     var initialCols = initial;
@@ -329,6 +446,24 @@ export default function Sale() {
     setFiltered(true);
   };
 
+    const onChangeMenuFilter = (e) => {
+      var initialCols = initialfilter;
+      var findelement;
+      var findelementindex;
+      var replacedElement;
+      findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+      findelementindex = initialCols.findIndex(
+        (c) => c.dataIndex === e.target.id
+      );
+      findelement.show = e.target.checked;
+      replacedElement = findelement;
+      initialCols.splice(findelementindex, 1, {
+        ...findelement,
+        ...replacedElement,
+      });
+      console.log(initialCols);
+      setFilterChanged(true);
+    };
   const menu = (
     <Menu>
       <Menu.ItemGroup title="Sutunlar">
@@ -352,6 +487,58 @@ export default function Sale() {
       </Menu.ItemGroup>
     </Menu>
   );
+
+    const filtermenus = (
+      <Menu>
+        <Menu.ItemGroup title="Sutunlar">
+          {initialfilter
+            ? Object.values(initialfilter).map((d) => (
+                <Menu.Item key={d.dataIndex}>
+                  <Checkbox
+                    id={d.dataIndex}
+                    onChange={(e) => onChangeMenuFilter(e)}
+                    defaultChecked={
+                      Object.values(filters).find(
+                        (e) => e.dataIndex === d.dataIndex
+                      ).show
+                    }
+                  >
+                    {d.label}
+                  </Checkbox>
+                </Menu.Item>
+              ))
+            : null}
+        </Menu.ItemGroup>
+      </Menu>
+  );
+  
+  const tableSettings = (
+    <Dropdown
+      trigger={["click"]}
+      overlay={menu}
+      onVisibleChange={handleVisibleChange}
+      visible={visibleMenuSettings}
+    >
+      <Button className="flex_directon_col_center">
+        {" "}
+        <SettingOutlined />
+      </Button>
+    </Dropdown>
+  );
+
+  const filterSetting = (
+    <Dropdown
+      trigger={["click"]}
+      overlay={filtermenus}
+      onVisibleChange={handleVisibleChangeFilter}
+      visible={visibleMenuSettingsFilter}
+    >
+      <Button className="flex_directon_col_center">
+        {" "}
+        <SettingOutlined />
+      </Button>
+    </Dropdown>
+  );
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
@@ -368,6 +555,11 @@ export default function Sale() {
         <Col xs={24} md={24} xl={20}>
           <div className="page_heder_right">
             <div className="buttons_wrapper">
+              <Buttons
+                text={"Yeni satış"}
+                redirectto={"/newdemand"}
+                animate={"Yarat"}
+              />
               <Button
                 className="filter_button buttons_click"
                 onClick={() =>
@@ -377,27 +569,13 @@ export default function Sale() {
               />
               <FastSearch className="search_header" />
             </div>
+            <div>{tableSettings}</div>
           </div>
         </Col>
       </Row>
       <Row>
         <Col xs={24} md={24} xl={24}>
-          <FilterComponent cols={filters} />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={24} md={24} xl={24} className="setting_button_wrapper">
-          <Dropdown
-            trigger={["click"]}
-            overlay={menu}
-            onVisibleChange={handleVisibleChange}
-            visible={visibleMenuSettings}
-          >
-            <Button className="flex_directon_col_center">
-              {" "}
-              <SettingOutlined />
-            </Button>
-          </Dropdown>
+          <FilterComponent settings={filterSetting} cols={filters} />
         </Col>
       </Row>
 

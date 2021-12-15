@@ -1,9 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
-import { Redirect } from "react-router";
 import moment from "moment";
 import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
@@ -11,19 +10,15 @@ import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
 import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
-import ProductModal from "../../components/ProductModal";
+import { Redirect } from "react-router";
+import PaymentOutModal from "../../components/PaymentOutModal";
+import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
-import {
-  FindAdditionals,
-  FindCofficient,
-  ConvertFixedTable,
-  ConvertFixedPosition,
-} from "../../config/function/findadditionals";
+
 import {
   DeleteOutlined,
   PlusOutlined,
   EditOutlined,
-  SettingOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
@@ -51,27 +46,31 @@ import {
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
-import { message } from "antd";
-import { saveDoc } from "../../api";
-import { useCustomForm } from "../../contexts/FormContext";
+import { fetchCustomers } from "../../api";
 import { fetchStocks } from "../../api";
+import { message } from "antd";
+import { updateDoc } from "../../api";
 import { useRef } from "react";
-
+import { useCustomForm } from "../../contexts/FormContext";
+import {
+  FindAdditionals,
+  FindCofficient,
+  ConvertFixedTable,
+} from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
+const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-const { TextArea } = Input;
-function NewMove() {
+function CustomerOrderDetail() {
   const [form] = Form.useForm();
-  const queryClient = useQueryClient();
   const myRefDescription = useRef(null);
   const myRefConsumption = useRef(null);
+  const queryClient = useQueryClient();
   const {
     docPage,
     docCount,
     docSum,
     outerDataSource,
-    setOuterDataSource,
     departments,
     owners,
     stocks,
@@ -79,8 +78,11 @@ function NewMove() {
     setStockLocalStorage,
     customers,
     setCustomers,
-    setDisable,
+    setOuterDataSource,
+    orderStatusArr,
+    setOrderStatusArr,
     disable,
+    setDisable,
   } = useTableCustom();
   const {
     docstock,
@@ -88,48 +90,76 @@ function NewMove() {
     docmark,
     setDocMark,
     setLoadingForm,
+    loadingForm,
     setStockDrawer,
+    setCustomerDrawer,
+    customerDrawer,
     stockDrawer,
     createdStock,
+    createdCustomer,
     setCreatedStock,
-    setProductModal,
+    setCreatedCustomer,
+    isReturn,
+    setIsReturn,
+    isPayment,
+    setIsPayment,
+    setPaymentModal,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
-  const [editId, setEditId] = useState(null);
-  const [error, setError] = useState(null);
-  const [docname, setDocName] = useState(null);
-  const [newStocksLoad, setNewStocksLoad] = useState(null);
+  const { doc_id } = useParams();
   const [hasConsumption, setHasConsumption] = useState(false);
+  const [status, setStatus] = useState(false);
   const [consumption, setConsumption] = useState(0);
-  const [status, setStatus] = useState(true);
-  const [initial, setInitial] = useState(null);
-  const [direct, setDirect] = useState("");
-  const [tablecolumns, setTableColumns] = useState([]);
-  const [columnChange, setColumnChange] = useState(false);
-  const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+  const { isLoading, error, data, isFetching } = useQuery(
+    ["customerorder", doc_id],
+    () => fetchDocId(doc_id, "customerorders")
+  );
   const handleDelete = (key) => {
     const dataSource = [...outerDataSource];
     setOuterDataSource(dataSource.filter((item) => item.key !== key));
     setPositions(dataSource.filter((item) => item.key !== key));
   };
-
   useEffect(() => {
-    setDisable(true);
-    return () => {
-      setDisable(true);
-    };
-  }, []);
+    if (!isFetching) {
+      customPositions = [];
+      Object.values(data.Body.List[0].Positions).map((d) =>
+        customPositions.push(d)
+      );
+      customPositions.map((c, index) => (c.key = index));
+      customPositions.map((c) => (c.SellPrice = c.Price));
+      customPositions.map((c) =>
+        c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
+      );
+      customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
+
+      customPositions.map(
+        (c) => (c.TotalPrice = parseFloat(c.Price) * parseFloat(c.Quantity))
+      );
+      customPositions.map(
+        (c) =>
+          (c.CostPriceTotal = parseFloat(c.CostPrice) * parseFloat(c.Quantity))
+      );
+      setPositions(customPositions);
+      if (data.Body.List[0].Consumption) {
+        setHasConsumption(true);
+      }
+      setConsumption(data.Body.List[0].Consumption);
+      setLoadingForm(false);
+      setStatus(data.Body.List[0].Status);
+    } else {
+      customPositions = [];
+      setPositions([]);
+      setLoadingForm(true);
+    }
+  }, [isFetching]);
+
   const onClose = () => {
     message.destroy();
   };
   const onChangeConsumption = (e) => {
     setHasConsumption(true);
     setConsumption(e.target.value);
-  };
-
-  const handleVisibleChange = (flag) => {
-    setVisibleMenuSettings(flag);
   };
   const columns = useMemo(() => {
     return [
@@ -138,10 +168,7 @@ function NewMove() {
         dataIndex: "Order",
         className: "orderField",
         editable: false,
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "Order")
-              .isVisible
-          : true,
+        isVisible: true,
         render: (text, record, index) => index + 1 + 100 * docPage,
       },
       {
@@ -149,19 +176,13 @@ function NewMove() {
         dataIndex: "Name",
         className: "max_width_field_length",
         editable: false,
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "Name").isVisible
-          : true,
-
+        isVisible: true,
         sorter: (a, b) => a.Name.localeCompare(b.Name),
       },
       {
         title: "Barkodu",
         dataIndex: "BarCode",
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "BarCode")
-              .isVisible
-          : true,
+        isVisible: true,
         className: "max_width_field_length",
         editable: false,
         sortDirections: ["descend", "ascend"],
@@ -170,56 +191,116 @@ function NewMove() {
       {
         title: "Miqdar",
         dataIndex: "Quantity",
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "Quantity")
-              .isVisible
-          : true,
+        isVisible: true,
         className: "max_width_field",
         editable: true,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
-          return ConvertFixedTable(value);
+          return value;
         },
       },
-    
       {
-        title: "Maya",
-        dataIndex: "CostPrice",
+        title: "Qiyməti",
+        dataIndex: "Price",
+        isVisible: true,
         className: "max_width_field",
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "CostPrice")
-              .isVisible
-          : true,
+        editable: true,
+        sortDirections: ["descend", "ascend"],
+        render: (value, row, index) => {
+          // do something like adding commas to the value or prefix
+          return value;
+        },
+      },
+      {
+        title: "Məbləğ",
+        dataIndex: "TotalPrice",
+        isVisible: true,
+        className: "max_width_field",
+        editable: true,
+        sortDirections: ["descend", "ascend"],
+        render: (value, row, index) => {
+          // do something like adding commas to the value or prefix
+          return value;
+        },
+      },
+      {
+        title: "Qalıq",
+        dataIndex: "StockQuantity",
+        className: "max_width_field",
+        isVisible: true,
         editable: false,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
-          return ConvertFixedPosition(row.Quantity * value);
+          // do something like adding commas to the value or prefix
+          return value;
+        },
+      },
+      {
+        title: "Maya",
+        dataIndex: "CostPr",
+        className: "max_width_field",
+        isVisible: true,
+        editable: false,
+        sortDirections: ["descend", "ascend"],
+        render: (value, row, index) => {
+          let defaultCostArray = [];
+          let consumtionPriceArray = [];
+          outerDataSource.forEach((p) => {
+            defaultCostArray.push(Number(p.Price));
+          });
+          console.log("defaultCostArray", defaultCostArray);
+          if (hasConsumption) {
+            console.log(hasConsumption);
+            console.log(positions);
+            console.log(consumption);
+            console.log(docSum);
+            console.log(FindAdditionals(consumption, docSum, 12));
+            consumtionPriceArray = [];
+            outerDataSource.forEach((p) => {
+              consumtionPriceArray.push(
+                FindAdditionals(consumption, docSum, Number(p.Price))
+              );
+            });
+            console.log("consumtionPriceArray", consumtionPriceArray);
+            return ConvertFixedTable(consumtionPriceArray[index]);
+          } else {
+            return ConvertFixedTable(defaultCostArray[index]);
+          }
         },
       },
       {
         title: "Cəm Maya",
-        dataIndex: "SumCostPrice",
+        dataIndex: "CostTotalPr",
         className: "max_width_field",
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "SumCostPrice")
-              .isVisible
-          : true,
+        isVisible: true,
         editable: false,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
-          console.log(row);
-          return ConvertFixedPosition(value);
+          let defaultCostArray = [];
+          let consumtionPriceArray = [];
+          outerDataSource.forEach((p) => {
+            defaultCostArray.push(Number(p.TotalPrice));
+          });
+          if (hasConsumption) {
+            consumtionPriceArray = [];
+            outerDataSource.forEach((p) => {
+              consumtionPriceArray.push(
+                FindAdditionals(consumption, docSum, Number(p.TotalPrice))
+              );
+            });
+
+            return ConvertFixedTable(consumtionPriceArray[index]);
+          } else {
+            return ConvertFixedTable(defaultCostArray[index]);
+          }
         },
       },
       {
         title: "Sil",
         className: "orderField printField",
         dataIndex: "operation",
-        isVisible: initial
-          ? Object.values(initial).find((i) => i.dataIndex === "operation")
-              .isVisible
-          : true,
+        isVisible: true,
         editable: false,
         render: (_, record) => (
           <Typography.Link>
@@ -235,156 +316,68 @@ function NewMove() {
         ),
       },
     ];
-  }, [consumption, outerDataSource, docSum, columnChange]);
+  }, [consumption, outerDataSource, docSum]);
 
-  useEffect(() => {
-    setInitial(columns);
-  }, []);
+  const updateMutation = useMutation(updateDoc, {
+    refetchQueris: ["customerorder", doc_id],
+  });
 
-  useEffect(() => {
-    setColumnChange(false);
-  }, [columnChange]);
-
-  const onChangeMenu = (e) => {
-    var initialCols = initial;
-    var findelement;
-    var findelementindex;
-    var replacedElement;
-    findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-    console.log(findelement);
-    findelementindex = initialCols.findIndex(
-      (c) => c.dataIndex === e.target.id
-    );
-    findelement.isVisible = e.target.checked;
-    replacedElement = findelement;
-    initialCols.splice(findelementindex, 1, {
-      ...findelement,
-      ...replacedElement,
-    });
-    setColumnChange(true);
-  };
-  const menu = (
-    <Menu>
-      <Menu.ItemGroup title="Sutunlar">
-        {Object.values(columns).map((d) => (
-          <Menu.Item key={d.dataIndex}>
-            <Checkbox
-              id={d.dataIndex}
-              disabled={
-                columns.length === 3 && d.isVisible === true ? true : false
-              }
-              isVisible={d.isVisible}
-              onChange={(e) => onChangeMenu(e)}
-              defaultChecked={d.isVisible}
-            >
-              {d.title}
-            </Checkbox>
-          </Menu.Item>
-        ))}
-      </Menu.ItemGroup>
-    </Menu>
-  );
   useEffect(() => {
     if (createdStock) {
       getStocksAgain();
     }
   }, [createdStock]);
 
+  useEffect(() => {
+    if (createdCustomer) {
+      getCustomersAgain();
+    }
+  }, [createdCustomer]);
+
+  const getCustomersAgain = async () => {
+    const customerResponse = await fetchCustomers();
+    setCustomers(customerResponse.Body.List);
+    form.setFieldsValue({
+      customerid: createdCustomer.id,
+    });
+    setCreatedCustomer(null);
+  };
   const getStocksAgain = async () => {
     const stockResponse = await fetchStocks();
     setStock(stockResponse.Body.List);
     setStockLocalStorage(stockResponse.Body.List);
-
-    if (direct === "to") {
-      form.setFieldsValue({
-        stocktoid: createdStock.id,
-      });
-    } else if (direct === "from") {
-      form.setFieldsValue({
-        stockfromid: createdStock.id,
-      });
-    }
-
-    setCreatedStock(null);
-  };
-  useEffect(() => {
     form.setFieldsValue({
-      moment: moment(),
+      stockid: createdStock.id,
     });
-    setLoadingForm(false);
-  }, []);
-
-  const getDocName = async (docname) => {
-    const attrResponse = await fetchDocName(docname, "moves");
-    return attrResponse;
-  };
-
-  const handleChanged = () => {
-    if (disable) {
-      setDisable(false);
-    }
-  };
-  const handleFinish = async (values) => {
-    setDisable(true);
-
-    values.positions = outerDataSource;
-    values.mark = docmark;
-    values.moment = values.moment._i;
-    values.description = myRefDescription.current.resizableTextArea.props.value;
-    values.status = status;
-    message.loading({ content: "Loading...", key: "doc_update" });
-
-    try {
-      const nameres = await getDocName(values.name);
-      values.name = nameres.Body.ResponseService;
-    } catch (error) {
-      message.error({
-        content: (
-          <span className="error_mess_wrap">
-            Saxlanılmadı... {error.message}{" "}
-            {<CloseCircleOutlined onClick={onClose} />}
-          </span>
-        ),
-        key: "doc_update",
-        duration: 0,
-      });
-    }
-
-    const res = await saveDoc(values, "moves");
-    console.log(res);
-    if (res.Headers.ResponseStatus === "0") {
-      message.success({
-        content: "Saxlanildi",
-        key: "doc_update",
-        duration: 2,
-      });
-      setEditId(res.Body.ResponseService);
-      setRedirect(true);
-    } else {
-      message.error({
-        content: (
-          <span className="error_mess_wrap">
-            Saxlanılmadı... {res.Body}{" "}
-            {<CloseCircleOutlined onClick={onClose} />}
-          </span>
-        ),
-        key: "doc_update",
-        duration: 0,
-      });
-    }
-  };
-
-  const openDrawer = (bool, direct) => {
-    setStockDrawer(bool);
-    setDirect(direct);
+    setCreatedStock(null);
   };
 
   //#region OwDep
+  var objCustomers;
+  customers
+    ? (objCustomers = customers)
+    : (objCustomers = JSON.parse(localStorage.getItem("customers")));
+  const customerOptions = Object.values(objCustomers).map((c) => (
+    <Option key={c.Id} value={c.Id}>
+      {c.Name}
+    </Option>
+  ));
+
   var objOwner;
   owners
     ? (objOwner = owners)
     : (objOwner = JSON.parse(localStorage.getItem("owners")));
   const ownersOptions = Object.values(objOwner).map((c) => (
+    <Option key={c.Id} value={c.Id}>
+      {c.Name}
+    </Option>
+  ));
+
+  var objOrder;
+  orderStatusArr
+    ? (objOrder = orderStatusArr)
+    : (objOrder = JSON.parse(localStorage.getItem("orderarray")));
+  const orderOptions = Object.values(objOrder).map((c) => (
     <Option key={c.Id} value={c.Id}>
       {c.Name}
     </Option>
@@ -412,9 +405,73 @@ function NewMove() {
 
   //#endregion OwDep
 
-  const onChange = (stock) => {
-    setDocStock(stock);
+  if (isLoading) return "Loading...";
+
+  if (error) return "An error has occurred: " + error.message;
+
+  if (redirect)
+    return (
+      <Redirect
+        to={{
+          pathname: "/editDemandReturnLinked",
+          state: {
+            data: data.Body.List[0],
+            position: positions,
+            linked: doc_id,
+          },
+        }}
+      />
+    );
+  
+    const handleChanged = () => {
+      if (disable) {
+        setDisable(false);
+      }
+    };
+
+  const handleFinish = async (values) => {
+    setDisable(true)
+    values.positions = outerDataSource;
+    values.moment = values.moment._i;
+    values.modify = values.modify._i;
+    values.description = myRefDescription.current.resizableTextArea.props.value;
+    values.status = status;
+    console.log(values);
+    message.loading({ content: "Loading...", key: "doc_update" });
+    updateMutation.mutate(
+      { id: doc_id, controller: "customerorders", filter: values },
+      {
+        onSuccess: (res) => {
+          if (res.Headers.ResponseStatus === "0") {
+            message.success({
+              content: "Updated",
+              key: "doc_update",
+              duration: 2,
+            });
+            queryClient.invalidateQueries("customerorder", doc_id);
+            if (isReturn) {
+              setRedirect(true);
+            }
+            if (isPayment) {
+              setPaymentModal(true);
+            }
+          } else {
+            message.error({
+              content: (
+                <span className="error_mess_wrap">
+                  Saxlanılmadı... {res.Body}{" "}
+                  {<CloseCircleOutlined onClick={onClose} />}
+                </span>
+              ),
+              key: "doc_update",
+              duration: 0,
+            });
+          }
+        },
+      }
+    );
   };
+
   const panes = [
     {
       menuItem: "Əsas",
@@ -424,27 +481,11 @@ function NewMove() {
             <Col xs={24} md={24} xl={9}>
               <div className="addProductInputIcon">
                 <AddProductInput className="newProInputWrapper" />
-                <PlusOutlined
-                  onClick={() => setProductModal(true)}
-                  className="addNewProductIcon"
-                />
+                <PlusOutlined className="addNewProductIcon" />
               </div>
             </Col>
             <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
-              <Dropdown
-                overlay={menu}
-                onVisibleChange={handleVisibleChange}
-                visible={visibleMenuSettings}
-              >
-                <Button className="flex_directon_col_center">
-                  {" "}
-                  <SettingOutlined />
-                </Button>
-              </Dropdown>
-              <DocTable
-                headers={columns.filter((c) => c.isVisible == true)}
-                datas={positions}
-              />
+              <DocTable headers={columns} datas={positions} />
             </Col>
           </Row>
         </Tab.Pane>
@@ -456,32 +497,42 @@ function NewMove() {
     },
   ];
 
-  if (redirect) return <Redirect to={`/editMove/${editId}`} />;
   return (
     <div className="doc_wrapper">
       <div className="doc_name_wrapper">
-        <h2>Yerdəyişmə</h2>
+        <h2>Sifariş</h2>
       </div>
-
-      <DocButtons additional={"none"} editid={null} closed={"p=move"} />
+      <DocButtons
+        editid={doc_id}
+        controller={"customerorders"}
+        closed={"p=customerorders"}
+        from={"customerorders"}
+      />
       <div className="formWrapper">
         <Form
-          form={form}
           id="myForm"
+          form={form}
           className="doc_forms"
           name="basic"
-          initialValues={{
-            status: true,
-          }}
           labelCol={{
             span: 5,
           }}
           wrapperCol={{
             span: 14,
           }}
+          initialValues={{
+            name: data.Body.List[0].Name,
+            moment: moment(data.Body.List[0].Moment),
+            modify: moment(data.Body.List[0].Modify),
+            mark: data.Body.List[0].Mark,
+            stockid: data.Body.List[0].StockId,
+            statusorder: data.Body.List[0].StatusOrder,
+            customerid: data.Body.List[0].CustomerId,
+            status: data.Body.List[0].Status == 1 ? true : false,
+          }}
           onFinish={handleFinish}
-          onFieldsChange={handleChanged}
           layout="horizontal"
+          onFieldsChange={handleChanged}
         >
           <Row style={{ marginTop: "1em", padding: "1em" }}>
             <Col xs={24} md={24} xl={18}>
@@ -490,7 +541,7 @@ function NewMove() {
                   <Row>
                     <Col xs={24} md={24} xl={24}>
                       <Form.Item
-                        label="Yerdəyişmə №"
+                        label="Alış №"
                         name="name"
                         className="doc_number_form_item"
                       >
@@ -498,7 +549,7 @@ function NewMove() {
                       </Form.Item>
                     </Col>
                     <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Tarix" name="moment">
+                      <Form.Item label="Tarixi" name="moment">
                         <DatePicker
                           showTime={{ format: "HH:mm:ss" }}
                           format="YYYY-MM-DD HH:mm:ss"
@@ -510,13 +561,29 @@ function NewMove() {
                 </Col>
                 <Col xs={24} md={24} xl={10}>
                   <Row>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Anbara" name="stocktoid">
+                    <Col xs={24} md={24} xl={24} className="plus_wrapper">
+                      <Form.Item label="Qarşı-tərəf" name="customerid">
                         <Select
                           showSearch
                           showArrow={false}
                           filterOption={false}
-                          onChange={onChange}
+                          className="customSelect"
+                          allowClear={true}
+                        >
+                          {customerOptions}
+                        </Select>
+                      </Form.Item>
+                      <PlusOutlined
+                        onClick={() => setCustomerDrawer(true)}
+                        className="add_elements"
+                      />
+                    </Col>
+                    <Col xs={24} md={24} xl={24} className="plus_wrapper">
+                      <Form.Item label="Anbar" name="stockid">
+                        <Select
+                          showSearch
+                          showArrow={false}
+                          filterOption={false}
                           className="customSelect"
                           allowClear={true}
                         >
@@ -524,38 +591,26 @@ function NewMove() {
                         </Select>
                       </Form.Item>
                       <PlusOutlined
-                        onClick={() => openDrawer(true, "to")}
+                        onClick={() => setStockDrawer(true)}
                         className="add_elements"
                       />
                     </Col>
                   </Row>
                 </Col>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Anbardan" name="stockfromid">
-                        <Select
-                          showSearch
-                          showArrow={false}
-                          filterOption={false}
-                          onChange={onChange}
-                          className="customSelect"
-                          allowClear={true}
-                        >
-                          {options}
-                        </Select>
-                      </Form.Item>
-                      <PlusOutlined
-                        onClick={() => openDrawer(true, "from")}
-                        className="add_elements"
+                <Col xs={24} md={24} xl={4}>
+                  <Col xs={24} md={24} xl={24}>
+                    <Form.Item label="Dəyişmə Tarixi" name="modify">
+                      <DatePicker
+                        showTime={{ format: "HH:mm:ss" }}
+                        format="YYYY-MM-DD HH:mm:ss"
                       />
-                    </Col>
-                  </Row>
+                    </Form.Item>
+                  </Col>
                 </Col>
               </Row>
             </Col>
 
-            <Col xs={24} md={24} xl={24}>
+            <Col xs={24} md={24} xl={6}>
               <Collapse ghost>
                 <Panel className="custom_panel_header" header="Təyinat" key="1">
                   <Form.Item
@@ -575,6 +630,25 @@ function NewMove() {
                       }
                     >
                       {ownersOptions}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Sifaris"
+                    name="statusorder"
+                    style={{ margin: "0" }}
+                  >
+                    <Select
+                      showSearch
+                      placeholder=""
+                      filterOption={false}
+                      notFoundContent={<Spin size="small" />}
+                      filterOption={(input, option) =>
+                        option.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                    >
+                      {orderOptions}
                     </Select>
                   </Form.Item>
                   <Form.Item
@@ -601,17 +675,19 @@ function NewMove() {
                     name="status"
                     valuePropName="checked"
                   >
-                    <Checkbox name="status"></Checkbox>
+                    <Checkbox
+                      onChange={(e) => setStatus(e.target.checked)}
+                      name="status"
+                    ></Checkbox>
                   </Form.Item>
                   <Form.Item label="Status" name="mark">
-                    <StatusSelect />
+                    <StatusSelect defaultValue={null} />
                   </Form.Item>
                 </Panel>
               </Collapse>
             </Col>
           </Row>
         </Form>
-
         <Row>
           <Col xs={24} md={24} xl={24}>
             <Tab className="custom_table_wrapper_tab" panes={panes} />
@@ -624,6 +700,7 @@ function NewMove() {
                     <TextArea
                       ref={myRefDescription}
                       placeholder={"Şərh..."}
+                      defaultValue={data.Body.List[0].Description}
                       rows={3}
                     />
                   </Form.Item>
@@ -635,7 +712,7 @@ function NewMove() {
                     groupSeparator=" "
                     className="doc_info_text total"
                     title=""
-                    value={ConvertFixedTable(docSum)}
+                    value={docSum}
                     prefix={"Yekun məbləğ: "}
                     suffix={"₼"}
                   />
@@ -643,7 +720,7 @@ function NewMove() {
                     groupSeparator=" "
                     className="doc_info_text doc_info_secondary quantity"
                     title=""
-                    value={ConvertFixedTable(docCount)}
+                    value={docCount}
                     prefix={"Miqdar: "}
                     suffix={"əd"}
                   />
@@ -655,11 +732,11 @@ function NewMove() {
           </Col>
         </Row>
       </div>
-
-      <StockDrawer direction={direct} />
-      <ProductModal />
+      <StockDrawer />
+      <CustomerDrawer />
+      <PaymentOutModal datas={data.Body.List[0]} />
     </div>
   );
 }
 
-export default NewMove;
+export default CustomerOrderDetail;
