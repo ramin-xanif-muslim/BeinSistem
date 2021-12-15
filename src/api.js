@@ -16,6 +16,23 @@ export const fetchNavbar = async () => {
   }
 };
 
+export const fetchNotification = async () => {
+  var navFilter = {
+    token: localStorage.getItem("access-token"),
+  };
+  const { data } = await axios.post(
+    "https://dev.bein.az/controllers/notifications/get.php",
+    navFilter
+  );
+
+  if (data.Headers.ResponseStatus === "0") {
+    return data;
+  } else {
+    return data.Body;
+  }
+};
+
+
 export const fetchMarks = async () => {
   var markFilter = {
     token: localStorage.getItem("access-token"),
@@ -106,6 +123,19 @@ export const fetchBarcode = async (weight) => {
 
   return data;
 };
+
+export const fetchCard = async () => {
+  var br = {
+    token: localStorage.getItem("access-token"),
+    w: 2,
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/barcode/get.php`,
+    br
+  );
+
+  return data;
+};
 export const fetchRefTypes = async () => {
   var attributes = {
     token: localStorage.getItem("access-token"),
@@ -185,7 +215,22 @@ export const fetchCustomers = async () => {
     return data.Body;
   }
 };
+export const fetchCustomersData = async (id) => {
+  var customerFilter = {
+    token: localStorage.getItem("access-token"),
+    id:id
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/customers/getdata.php`,
+    customerFilter
+  );
 
+  if (data.Headers.ResponseStatus === "0") {
+    return data;
+  } else {
+    return data.Body;
+  }
+};
 export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
   console.log("adi isledi");
 
@@ -313,7 +358,7 @@ export const fetchFilterPage = async (
 export const fetchDocName = async (name, controller) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
-    n: name,
+    n: name ? name : '',
   };
   const { data } = await axios.post(
     `https://dev.bein.az/controllers/${controller}/newname.php`,
@@ -391,6 +436,34 @@ export const updateProduct = async (obj) => {
   return data;
 };
 
+export const updateSalePoint = async (obj) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: obj.id,
+  };
+  var sendFilter = Object.assign(editFilter, obj.filter);
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/${obj.controller}/put.php`,
+    sendFilter
+  );
+
+  return data;
+};
+
+export const updateCustomer = async (obj) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: obj.id,
+  };
+  var sendFilter = Object.assign(editFilter, obj.filter);
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/${obj.controller}/put.php`,
+    sendFilter
+  );
+
+  return data;
+};
+
 export const saveDoc = async (obj, controller) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
@@ -439,6 +512,33 @@ export const fetchProductId = async (id) => {
 
   return data;
 };
+export const fetchSalePointId = async (id) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: id,
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/salepoints/get.php`,
+    editFilter
+  );
+
+  return data;
+};
+
+
+export const fetchCustomerId = async (id) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: id,
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/customers/get.php`,
+    editFilter
+  );
+
+  return data;
+};
+;
 export const fetchProductGroupId = async (id) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
@@ -550,6 +650,34 @@ export const updateSpendItem = async (obj) => {
 
   return data;
 };
+export const updateDepartment = async (obj) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: obj.id,
+  };
+  var sendFilter = Object.assign(editFilter, obj.filter);
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/departments/put.php`,
+    sendFilter
+  );
+
+  return data;
+};
+
+export const updateOwner = async (obj) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: obj.id,
+  };
+  var sendFilter = Object.assign(editFilter, obj.filter);
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/owners/put.php`,
+    sendFilter
+  );
+
+  return data;
+};
+
 
 export const updateAttributes = async (obj) => {
   var editFilter = {
@@ -620,7 +748,40 @@ export const updateCompany = async (obj) => {
   );
 
   return data;
+}; 
+export const delDepartment = async (id) => {
+  var deldoc = {
+    token: localStorage.getItem("access-token"),
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/departments/del.php?id=${id}`,
+    deldoc
+  );
+
+  if (data.Headers.ResponseStatus === "0") {
+    return data;
+  } else {
+    return data.Body;
+  }
 };
+
+export const delOwner = async (id) => {
+  var deldoc = {
+    token: localStorage.getItem("access-token"),
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/owners/del.php?id=${id}`,
+    deldoc
+  );
+
+  if (data.Headers.ResponseStatus === "0") {
+    return data;
+  } else {
+    return data.Body;
+  }
+};
+
+
 export const delSpendItems = async (id) => {
   var deldoc = {
     token: localStorage.getItem("access-token"),

@@ -13,7 +13,7 @@ import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
-
+import { ConvertFixedTable } from "../config/function/findadditionals";
 import { SettingOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 export default function StockBalance() {
@@ -132,6 +132,9 @@ export default function StockBalance() {
           : true,
         className: initialSort === "Quantity" ? "activesort" : "",
         sorter: (a, b) => null,
+        render: (value, row, index) => {
+          return ConvertFixedTable(value);
+        },
       },
 
       {
@@ -143,6 +146,9 @@ export default function StockBalance() {
         defaultSortOrder: initialSort === "CostPrice" ? defaultdr : null,
         sorter: (a, b) => null,
         className: initialSort === "CostPrice" ? "activesort" : "",
+        render: (value, row, index) => {
+          return ConvertFixedTable(value);
+        },
       },
       {
         dataIndex: "Amount",
@@ -153,6 +159,9 @@ export default function StockBalance() {
         defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
         sorter: (a, b) => null,
         className: initialSort === "Amount" ? "activesort" : "",
+        render: (value, row, index) => {
+          return ConvertFixedTable(value);
+        },
       },
       {
         dataIndex: "Price",
@@ -163,6 +172,9 @@ export default function StockBalance() {
         defaultSortOrder: initialSort === "Price" ? defaultdr : null,
         sorter: (a, b) => null,
         className: initialSort === "Price" ? "activesort" : "",
+        render: (value, row, index) => {
+          return ConvertFixedTable(value);
+        },
       },
       {
         dataIndex: "SalePrice",
@@ -173,6 +185,9 @@ export default function StockBalance() {
         defaultSortOrder: initialSort === "SalePrice" ? defaultdr : null,
         sorter: (a, b) => null,
         className: initialSort === "SalePrice" ? "activesort" : "",
+        render: (value, row, index) => {
+          return ConvertFixedTable(value);
+        },
       },
       {
         dataIndex: "BuyPrice",
@@ -183,6 +198,9 @@ export default function StockBalance() {
         defaultSortOrder: initialSort === "BuyPrice" ? defaultdr : null,
         sorter: (a, b) => null,
         className: initialSort === "BuyPrice" ? "activesort" : "",
+        render: (value, row, index) => {
+          return ConvertFixedTable(value);
+        },
       },
 
       {
@@ -512,7 +530,11 @@ export default function StockBalance() {
       </Row>
       <Row>
         <Col xs={24} md={24} xl={24}>
-          <FilterComponent from='stockbalance' settings={filterSetting} cols={filters} />
+          <FilterComponent
+            from="stockbalance"
+            settings={filterSetting}
+            cols={filters}
+          />
         </Col>
       </Row>
 
@@ -529,18 +551,18 @@ export default function StockBalance() {
                 <Table.Summary.Cell>
                   <Text type="">
                     {c.dataIndex === "Amount"
-                      ? allcost + " ₼"
+                      ? ConvertFixedTable(allcost) + " ₼"
                       : c.dataIndex === "Quantity"
-                      ? allquantity + "əd"
+                      ? ConvertFixedTable(allquantity) + "əd"
                       : c.dataIndex === "SalePrice"
-                      ? allsum + " ₼"
+                      ? ConvertFixedTable(allsum) + " ₼"
                       : null}
                   </Text>
                 </Table.Summary.Cell>
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+        locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,

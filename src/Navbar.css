@@ -4,14 +4,21 @@
 }
 
 .main_header {
+    border: none !important;
     background: linear-gradient(45deg, #1164B1, #02A4F2) !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
 }
+
+.main_header .left.menu .item>img {
+    width: 80px !important;
+}
+
 .small_logo_pics {
-    width: 25px!important;
+    width: 23px!important;
     margin-bottom: 5px!important;
 }
 .sub_header_items.active, .sub_header_items:hover {
-    font-weight: 700;
     border-bottom: 2px solid #0288d1;
     border-radius: 2px;
 }
@@ -27,6 +34,7 @@
 .sub_header_items{
     padding: 0 !important;
     margin:0.2em 0.5em !important;
+    border-bottom: 2px solid #00000000;
 }
 .custom_li_segment{
     margin-top: 0 !important;
@@ -44,4 +52,8 @@
 }
 .left_nav{
     display: flex;
+}
+
+.ui.dropdown>.dropdown.icon {
+    font-family: Dropdown !important;
 }

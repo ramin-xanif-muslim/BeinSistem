@@ -104,7 +104,7 @@ export default function Cashe() {
       <Row className="header_row">
         <Col xs={24} md={24} xl={4}>
           <div className="page_heder_left">
-            <h2>Balans</h2>
+            <h2>Mənfəət və Zərər</h2>
           </div>
         </Col>
         <Col xs={24} md={24} xl={20}>

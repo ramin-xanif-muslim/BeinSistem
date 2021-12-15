@@ -1,3 +1,5 @@
+* { font-family: 'Blinker' !important }
+
 .App {
   text-align: center;
   background-color: #282c34;
@@ -34,7 +36,7 @@
   z-index: 99999 !important;
 }
 .ant-tree-node-content-wrapper {
-  color: #00b1ff !important;
+  color: #1164B1 !important;
 }
 .ant-tree-treenode-selected .ant-tree-node-content-wrapper {
   color: white !important;
@@ -46,13 +48,13 @@
 }
 
 .linkedColumns.activesort .ant-table-column-title {
-  color: #00b1ff !important;
+  color: #1164B1 !important;
 }
 .activesort .ant-table-column-title {
-  color: #00b1ff !important;
+  color: #1164B1 !important;
 }
 .linkedColumns {
-  color: #00b1ff;
+  color: #1164B1;
   cursor: pointer;
 }
 
@@ -72,6 +74,7 @@
 }
 .active.item.main_header_items span {
   color: white !important;
+  font-weight: 600;
 }
 .list_wrapper {
   position: absolute;
@@ -574,4 +577,12 @@ tfoot td.nonshadow {
     border-bottom: 0;
     transform: translateY(50%);
     content: '';
+}
+
+.cell-bold {
+  font-weight: 600;
+}
+
+.ui.list>a.item {
+  color: #1164B1;
 }

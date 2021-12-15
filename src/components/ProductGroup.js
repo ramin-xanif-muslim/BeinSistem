@@ -38,6 +38,7 @@ function convert(array) {
 }
 
 function ProductGroup() {
+  var convertedDatas = [];
   const {
     setProductGroups,
     setProductGroupsLocalStorage,
@@ -74,21 +75,27 @@ function ProductGroup() {
 
   if (redirect) return <Redirect to={`/editProductGroup/${editId}`} />;
 
-  Object.values(data.Body.List).map((d) => {
-    d.ParentId === "00000000-0000-0000-0000-000000000000"
-      ? (pid = "")
-      : (pid = d.ParentId);
-    datas.push({
-      id: d.Id,
-      name: d.Name,
-      parent: pid,
-      title: d.Name,
-      key: d.Id,
-      icon: (
-        <EditOutlined onClick={(e) => handleEdit(e, d.Id)} className="editGr" />
-      ),
+  if (Object.keys(data.Body.List).length > 0) {
+    Object.values(data.Body.List).map((d) => {
+      d.ParentId === "00000000-0000-0000-0000-000000000000"
+        ? (pid = "")
+        : (pid = d.ParentId);
+      datas.push({
+        id: d.Id,
+        name: d.Name,
+        parent: pid,
+        title: d.Name,
+        key: d.Id,
+        icon: (
+          <EditOutlined
+            onClick={(e) => handleEdit(e, d.Id)}
+            className="editGr"
+          />
+        ),
+      });
     });
-  });
+    convertedDatas = convert(datas);
+  }
 
   const onSelect = (keys, info) => {
     console.log("Trigger Select", keys, info);
@@ -96,7 +103,6 @@ function ProductGroup() {
     setAdvancedPage(0);
   };
 
-  var convertedDatas = convert(datas);
   convertedDatas.unshift({
     id: "",
     name: "Bütün məhsullar",

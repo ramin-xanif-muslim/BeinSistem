@@ -36,6 +36,9 @@ const TableProvider = ({ children }) => {
   const [customers, setCustomers] = useState(null);
   const [groupVisible, setGroupVisible] = useState(false);
   const [spenditems, setSpendItems] = useState(null);
+  const [orderStatusArr, setOrderStatusArr] = useState(null);
+
+  const [balance, setBalance] = useState(0);
   const [nav, setNav] = useState("block");
   const [customerGroups, setCustomerGroups] = useState(null);
   const [newGroup, setNewGroup] = useState(null);
@@ -157,6 +160,10 @@ const TableProvider = ({ children }) => {
     setConcat,
     nav,
     setNav,
+    balance,
+    setBalance,
+    orderStatusArr,
+    setOrderStatusArr,
   };
 
   return (

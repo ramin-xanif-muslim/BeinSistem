@@ -360,15 +360,7 @@ function EnterDetail() {
   };
 
   //#region OwDep
-  var objCustomers;
-  customers
-    ? (objCustomers = customers)
-    : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-  const customerOptions = Object.values(objCustomers).map((c) => (
-    <Option key={c.Id} value={c.Id}>
-      {c.Name}
-    </Option>
-  ));
+
 
   var objOwner;
   owners
@@ -557,6 +549,7 @@ function EnterDetail() {
         editid={doc_id}
         controller={"enters"}
         closed={"p=enter"}
+        from ={'enters'}
       />
       <div className="formWrapper">
         <Form
@@ -576,7 +569,6 @@ function EnterDetail() {
             modify: moment(data.Body.List[0].Modify),
             mark: data.Body.List[0].Mark,
             stockid: data.Body.List[0].StockId,
-            customerid: data.Body.List[0].CustomerId,
             status: data.Body.List[0].Status == 1 ? true : false,
           }}
           onFinish={handleFinish}

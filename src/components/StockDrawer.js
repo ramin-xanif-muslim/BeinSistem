@@ -29,7 +29,7 @@ import {
 import { CloseCircleOutlined } from "@ant-design/icons";
 const { Option } = Select;
 const { TextArea } = Input;
-function StockDrawer() {
+function StockDrawer({direction}) {
   const {
     docstock,
     setDocStock,
@@ -89,6 +89,7 @@ function StockDrawer() {
       width={600}
       onClose={onClose}
       visible={stockDrawer}
+      destroyOnClose={true}
     >
       <Form
         id="myForm"

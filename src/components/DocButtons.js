@@ -14,8 +14,16 @@ import {
   WarningOutlined,
 } from "@ant-design/icons";
 import { delDoc } from "../api";
-function DocButtons({ closed, editid, controller, linked, additional }) {
-  const { outerDataSource,disable,setDisable} = useTableCustom();
+function DocButtons({
+  closed,
+  editid,
+  controller,
+  linked,
+  additional,
+  from,
+  proinfo,
+}) {
+  const { outerDataSource, disable, setDisable } = useTableCustom();
   const [redirect, setRedirect] = useState(false);
   const [redirectDoc, setRedirectDoc] = useState(false);
   const { isReturn, setIsReturn, setIsPayment, paymentModal, setPaymentModal } =
@@ -31,9 +39,7 @@ function DocButtons({ closed, editid, controller, linked, additional }) {
     setRedirectDoc(true);
   };
 
-  const goCheckPage = () => {
-    
-  }
+  const goCheckPage = () => {};
 
   const deleteDoc = async () => {
     message.loading({ content: "Loading...", key: "doc_delete" });
@@ -73,22 +79,22 @@ function DocButtons({ closed, editid, controller, linked, additional }) {
       <Menu.Divider />
     </Menu>
   );
-    const check = (
-      <Menu>
-        <Menu.Item key="0">
-          <Link
-            to={{
-              pathname: "/invoice",
-              search: `${editid}`,
-              hash: "enters",
-            }}
-            target={"_blank"}
-          >
-            A4
-          </Link>
-        </Menu.Item>
-      </Menu>
-    );
+  const check = (
+    <Menu>
+      <Menu.Item key="0">
+        <Link
+          to={{
+            pathname: "/invoice",
+            search: `${editid}`,
+            hash: from,
+          }}
+          target={"_blank"}
+        >
+          A4
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
   const menu = (
     <Menu>
       <Menu.Item key="0">
@@ -114,6 +120,11 @@ function DocButtons({ closed, editid, controller, linked, additional }) {
       </Menu.Item>
     </Menu>
   );
+  const getProductPrint = (id, br, pr, nm) => (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    window.open(`/bc/?bc=${br}&pr=${pr}&nm=${nm}`);
+  };
 
   if (redirect) return <Redirect to={`/${closed}`} />;
   if (redirectDoc) return <Redirect to={`${closed}`} />;
@@ -159,13 +170,31 @@ function DocButtons({ closed, editid, controller, linked, additional }) {
         </Dropdown>
       </div>
       <div className="right_doc_button">
+        {proinfo ? (
+          <Button
+            style={{ display: from === "products" ? "block" : "none" }}
+            className="flex_directon_col_center d-flex-row"
+            onClick={getProductPrint(
+              proinfo.id,
+              proinfo.bc,
+              proinfo.price,
+              proinfo.nm
+            )}
+          >
+            Barkod
+            <PrinterOutlined />
+          </Button>
+        ) : null}
         <Dropdown
           className="mobilehidden checkbutton"
           disabled={editid ? false : true}
           overlay={check}
           trigger={["click"]}
         >
-          <Button className="flex_directon_col_center d-flex-row">
+          <Button
+            style={{ display: additional }}
+            className="flex_directon_col_center d-flex-row"
+          >
             Qaimə
             <PrinterOutlined />
           </Button>

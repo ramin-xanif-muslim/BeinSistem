@@ -82,6 +82,8 @@ function NewProduct() {
     setGroupVisible,
     setNewGroup,
     newGroup,
+    setDisable,
+    disable,
   } = useTableCustom();
   const [attrs, setAttrs] = useState(
     attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
@@ -197,9 +199,14 @@ function NewProduct() {
     Object.assign(lastObject, {
       [changedValues[0].name[0]]: changedValues[0].value,
     });
+    if (disable) {
+      setDisable(false);
+    }
   };
   const handleFinish = async (values) => {
-    console.log(values);
+    var reqerror = false;
+    setDisable(true);
+
     setLinkedList([]);
     setLinked([]);
     message.loading({ content: "Loading...", key: "pro_update" });
@@ -216,26 +223,55 @@ function NewProduct() {
       }
     });
     values.prices = prices;
-    const res = await saveDoc(values, "products");
-    if (res.Headers.ResponseStatus === "0") {
-      message.success({
-        content: "Saxlanildi",
-        key: "pro_update",
-        duration: 2,
-      });
-      setEditId(res.Body.ResponseService);
-      setRedirect(true);
-    } else {
+
+    console.log(attrs);
+
+    Object.values(attrs).map((atr) => {
+       Object.entries(values).findIndex(([k, v]) => console.log(k));
+      if (atr.IsRequired === 1) {
+        if (
+          Object.entries(values).findIndex(([k, v]) => k === 'col_'+atr.Name) === -1
+        ) {
+          console.log("values", values);
+          reqerror = true;
+        }
+      }
+    });
+
+    if (reqerror) {
       message.error({
         content: (
           <span className="error_mess_wrap">
-            Saxlanılmadı... {res.Body}{" "}
+            Saxlanılmadı... {"Vacib paratmetlrer var"}{" "}
             {<CloseCircleOutlined onClick={onClose} />}
           </span>
         ),
         key: "pro_update",
         duration: 0,
       });
+    }
+    if (!reqerror) {
+      const res = await saveDoc(values, "products");
+      if (res.Headers.ResponseStatus === "0") {
+        message.success({
+          content: "Saxlanildi",
+          key: "pro_update",
+          duration: 2,
+        });
+        setEditId(res.Body.ResponseService);
+        setRedirect(true);
+      } else {
+        message.error({
+          content: (
+            <span className="error_mess_wrap">
+              Saxlanılmadı... {res.Body}{" "}
+              {<CloseCircleOutlined onClick={onClose} />}
+            </span>
+          ),
+          key: "pro_update",
+          duration: 0,
+        });
+      }
     }
   };
   var obj;

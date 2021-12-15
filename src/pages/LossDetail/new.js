@@ -78,6 +78,8 @@ function NewLoss() {
     setStockLocalStorage,
     customers,
     setCustomers,
+    disable,
+    setDisable,
   } = useTableCustom();
   const {
     docstock,
@@ -216,7 +218,7 @@ function NewLoss() {
           return value;
         },
       },
-   
+
       {
         title: "Sil",
         className: "orderField printField",
@@ -315,7 +317,13 @@ function NewLoss() {
     const attrResponse = await fetchDocName(docname, "losses");
     return attrResponse;
   };
+  const handleChanged = () => {
+    if (disable) {
+      setDisable(false);
+    }
+  };
   const handleFinish = async (values) => {
+    setDisable(true);
     values.positions = outerDataSource;
     values.mark = docmark;
     values.moment = values.moment._i;
@@ -450,6 +458,7 @@ function NewLoss() {
             span: 14,
           }}
           onFinish={handleFinish}
+          onFieldsChange={handleChanged}
           layout="horizontal"
         >
           <Row style={{ marginTop: "1em", padding: "1em" }}>

@@ -51,7 +51,6 @@ export default function SaleReport() {
   } = useTableCustom();
 
   const [documentList, setDocumentList] = useState([]);
-  
   const { isLoading, error, data, isFetching } = useQuery(
     ["salereports", page, direction, fieldSort, doSearch, search, advanced],
     () => {

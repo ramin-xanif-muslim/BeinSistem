@@ -482,7 +482,12 @@ function SupplyDetail() {
       <div className="doc_name_wrapper">
         <h2>Alış</h2>
       </div>
-      <DocButtons editid={doc_id} controller={"supplies"} closed={"p=supply"} />
+      <DocButtons
+        editid={doc_id}
+        controller={"supplies"}
+        closed={"p=supply"}
+        from={"supplies"}
+      />
       <div className="formWrapper">
         <Form
           id="myForm"

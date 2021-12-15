@@ -27,9 +27,14 @@ export default function CashOut() {
   const [page, setPage] = useState(0);
   const [filtered, setFiltered] = useState(false);
 
+  const [filterChanged, setFilterChanged] = useState(false);
+
   const [columnChange, setColumnChange] = useState(false);
   const [initial, setInitial] = useState(null);
+  const [initialfilter, setInitialFilter] = useState(null);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+  const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
+    useState(false);
   const {
     marks,
     setMarkLocalStorage,
@@ -67,7 +72,6 @@ export default function CashOut() {
     setColumnChange(false);
     if (filtered) setFiltered(false);
   }, [columnChange, filtered]);
-
   var markObject;
   marks
     ? (markObject = marks)
@@ -124,34 +128,48 @@ export default function CashOut() {
     ];
   }, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-  useEffect(() => {
-    setInitial(columns);
-  }, []);
+
   const filters = useMemo(() => {
     return [
       {
         key: "1",
-        label: "Alış №",
-        name: "docNumber",
+        label: "Adı",
+        name: "nm",
         type: "text",
-        hidden: false,
+        dataIndex: "nm",
+        show: initialfilter
+          ? Object.values(initialfilter).find((i) => i.dataIndex === "nm").show
+          : true,
       },
+  
+
+
+ 
+   
       {
         key: "2",
-        label: "Məhsul adı",
-        name: "productName",
-        type: "select",
-        controller: "products",
-        hidden: false,
-      },
-
-      {
-        key: "3",
         label: "Anbar",
         name: "stockName",
         type: "select",
         controller: "stocks",
-        hidden: false,
+        dataIndex: "stockName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "stockName"
+            ).show
+          : true,
+      },
+      {
+        key: "3",
+        label: "Satış nöqtəsi",
+        name: "slpnt",
+        type: "select",
+        controller: "salepoints",
+        dataIndex: "slpnt",
+        show: initialfilter
+          ? Object.values(initialfilter).find((i) => i.dataIndex === "slpnt")
+              .show
+          : true,
       },
       {
         key: "4",
@@ -159,7 +177,12 @@ export default function CashOut() {
         name: "departmentName",
         controller: "departments",
         type: "select",
-        hidden: true,
+        dataIndex: "departmentName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "departmentName"
+            ).show
+          : true,
       },
       {
         key: "5",
@@ -167,33 +190,47 @@ export default function CashOut() {
         name: "ownerName",
         controller: "owners",
         type: "select",
-        hidden: true,
+        dataIndex: "ownerName",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "ownerName"
+            ).show
+          : true,
       },
+
       {
         key: "6",
-        label: "Dəyişmə tarixi",
-        name: "modifedDate",
-        type: "date",
-        hidden: true,
-      },
-      {
-        key: "7",
         label: "Məbləğ",
         name: "docPrice",
         start: "amb",
         end: "ame",
         type: "range",
-        hidden: true,
+        dataIndex: "docPrice",
+        show: initialfilter
+          ? Object.values(initialfilter).find((i) => i.dataIndex === "docPrice")
+              .show
+          : true,
       },
+    
       {
-        key: "8",
+        key: "7",
         label: "Tarixi",
         name: "createdDate",
         type: "date",
-        hidden: false,
+        dataIndex: "createdDate",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "createdDate"
+            ).show
+          : true,
       },
     ];
-  });
+  }, [filterChanged]);
+
+  useEffect(() => {
+    setInitial(columns);
+    setInitialFilter(filters);
+  }, []);
   useEffect(() => {
     if (!isFetching) {
       setDocumentList(data.Body.List);
@@ -229,6 +266,10 @@ export default function CashOut() {
     setVisibleMenuSettings(flag);
   };
 
+  const handleVisibleChangeFilter = (flag) => {
+    setVisibleMenuSettingsFilter(flag);
+  };
+
   const onChangeMenu = (e) => {
     var initialCols = initial;
     var findelement;
@@ -247,6 +288,24 @@ export default function CashOut() {
     setFiltered(true);
   };
 
+  const onChangeMenuFilter = (e) => {
+    var initialCols = initialfilter;
+    var findelement;
+    var findelementindex;
+    var replacedElement;
+    findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+    findelementindex = initialCols.findIndex(
+      (c) => c.dataIndex === e.target.id
+    );
+    findelement.show = e.target.checked;
+    replacedElement = findelement;
+    initialCols.splice(findelementindex, 1, {
+      ...findelement,
+      ...replacedElement,
+    });
+    console.log(initialCols);
+    setFilterChanged(true);
+  };
   const menu = (
     <Menu>
       <Menu.ItemGroup title="Sutunlar">
@@ -269,6 +328,57 @@ export default function CashOut() {
           : null}
       </Menu.ItemGroup>
     </Menu>
+  );
+  const filtermenus = (
+    <Menu>
+      <Menu.ItemGroup title="Sutunlar">
+        {initialfilter
+          ? Object.values(initialfilter).map((d) => (
+              <Menu.Item key={d.dataIndex}>
+                <Checkbox
+                  id={d.dataIndex}
+                  onChange={(e) => onChangeMenuFilter(e)}
+                  defaultChecked={
+                    Object.values(filters).find(
+                      (e) => e.dataIndex === d.dataIndex
+                    ).show
+                  }
+                >
+                  {d.label}
+                </Checkbox>
+              </Menu.Item>
+            ))
+          : null}
+      </Menu.ItemGroup>
+    </Menu>
+  );
+
+  const tableSettings = (
+    <Dropdown
+      trigger={["click"]}
+      overlay={menu}
+      onVisibleChange={handleVisibleChange}
+      visible={visibleMenuSettings}
+    >
+      <Button className="flex_directon_col_center">
+        {" "}
+        <SettingOutlined />
+      </Button>
+    </Dropdown>
+  );
+
+  const filterSetting = (
+    <Dropdown
+      trigger={["click"]}
+      overlay={filtermenus}
+      onVisibleChange={handleVisibleChangeFilter}
+      visible={visibleMenuSettingsFilter}
+    >
+      <Button className="flex_directon_col_center">
+        {" "}
+        <SettingOutlined />
+      </Button>
+    </Dropdown>
   );
   if (isLoading) return "Loading...";
 
@@ -295,27 +405,13 @@ export default function CashOut() {
               />
               <FastSearch className="search_header" />
             </div>
+            <div>{tableSettings}</div>
           </div>
         </Col>
       </Row>
       <Row>
         <Col xs={24} md={24} xl={24}>
-          <FilterComponent cols={filters} />
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={24} md={24} xl={24} className="setting_button_wrapper">
-          <Dropdown
-            trigger={["click"]}
-            overlay={menu}
-            onVisibleChange={handleVisibleChange}
-            visible={visibleMenuSettings}
-          >
-            <Button className="flex_directon_col_center">
-              {" "}
-              <SettingOutlined />
-            </Button>
-          </Dropdown>
+          <FilterComponent settings={filterSetting} cols={filters} />
         </Col>
       </Row>
 
@@ -337,7 +433,7 @@ export default function CashOut() {
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+        locale={{ emptyText: isFetching ? <Spin /> : "Tapilmadi" }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,

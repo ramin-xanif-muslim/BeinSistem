@@ -290,6 +290,7 @@ export default function SalePoint() {
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
+  if (redirect) return <Redirect push to={`/editSalePoint/${editId}`} />;
 
   return (
     <div className="custom_display">

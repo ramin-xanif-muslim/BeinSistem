@@ -365,15 +365,15 @@ export default function Transaction() {
       setDocumentList([]);
     }
   }, [isFetching]);
-  
+
   const editPage = (id, row) => {
     console.log(row);
     if (row.Type === "p" && row.Direct === "i") {
       setRedirectPaymentIn(true);
     }
-     if (row.Type === "p" && row.Direct === "o") {
-       setRedirectPaymentOut(true);
-     }
+    if (row.Type === "p" && row.Direct === "o") {
+      setRedirectPaymentOut(true);
+    }
     // setRedirect(true);
     setEditId(id);
   };
@@ -524,8 +524,8 @@ export default function Transaction() {
   if (error) return "An error has occurred: " + error.message;
   if (redirectPaymentIn)
     return <Redirect push to={`/editPaymentIn/${editId}`} />;
-    if (redirectPaymentOut)
-      return <Redirect push to={`/editPaymentOut/${editId}`} />;
+  if (redirectPaymentOut)
+    return <Redirect push to={`/editPaymentOut/${editId}`} />;
   return (
     <div className="custom_display">
       <Row className="header_row">
@@ -579,7 +579,7 @@ export default function Transaction() {
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+        locale={{ emptyText: isFetching ?  <Spin /> : 'Cədvəl boşdur' }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,

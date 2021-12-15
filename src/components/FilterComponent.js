@@ -44,19 +44,6 @@ function FilterComponent({ from, settings, cols }) {
   } = useTableCustom();
   const [form] = Form.useForm();
 
-  // useEffect(() => {
-  //   if (from === "stockbalance") {
-  //     var obj = {
-  //       wg: "",
-  //       ar: 0,
-  //       zeros: 3,
-  //     };
-  //     Object.assign(selectFilter, obj);
-  //     setSelectFilter(selectFilter);
-  //     console.log(selectFilter)
-  //   }
-  // }, []);
-
   const getData = (id, ref) => async (e, key) => {
     setDropdown([]);
 
@@ -454,7 +441,9 @@ function FilterComponent({ from, settings, cols }) {
       setinitial(initial);
       form.setFieldsValue(selectFilter);
     } else {
-      setSelectFilter([]);
+      setSelectFilter(selectFilter);
+      setinitial(initial);
+      form.setFieldsValue(selectFilter);
     }
   }, []);
 

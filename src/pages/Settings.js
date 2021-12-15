@@ -24,6 +24,8 @@ import Profile from "../components/Profile";
 import FixError from "../components/FixError";
 import Stock from "../components/Stock";
 import ModComponent from "../components/ModComponent";
+import Departments from "../components/Departments";
+import Owners from "../components/Owners";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -68,7 +70,7 @@ export default function Settings() {
               <Menu.Item icon={<FaWarehouse />} name="stocks" key="stocks">
                 Anbarlar
               </Menu.Item>
-              <Menu.Item disabled={true} icon={<FiUsers />} key="Users">
+              <Menu.Item icon={<FiUsers />} key="Users">
                 Istifadəçilər
               </Menu.Item>
               <Menu.Item icon={<MdBrandingWatermark />} key="departments">
@@ -127,6 +129,10 @@ export default function Settings() {
               <Stock />
             ) : path === "attributes" ? (
               <ModComponent />
+            ) : path === "departments" ? (
+              <Departments />
+            ) : path === "Users" ? (
+              <Owners />
             ) : null}
           </Content>
         </Layout>
