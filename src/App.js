@@ -80,22 +80,7 @@ const SaleDetail = React.lazy(() => import("./pages/SaleDetail"));
 const Settings = React.lazy(() => import("./pages/Settings"));
 const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 function App() {
-<<<<<<< HEAD
-	const { loggedIn, token, firstLogin } = useAuth();
-	const { nav } = useTableCustom();
-	return (
-		<>
-			<p>testing</p>
-			<React.Suspense
-				fallback={
-					<Spin className="fetchSpinner" tip="Yüklənir...">
-						<Alert />
-					</Spin>
-				}
-			>
-				<Router>
-					{loggedIn && nav != "none" ? <Navbar /> : ""}
-=======
+
   const { loggedIn, token, firstLogin } = useAuth();
   const { nav } = useTableCustom();
   return (
@@ -110,8 +95,6 @@ function App() {
       >
         <Router>
           {loggedIn && nav != "none" ? <Navbar /> : ""}
->>>>>>> 656404a3aab312b6400e7cee0319131cccc85f8f
-
 					<div>
 						<Switch>
 							<Route exact path="/">
