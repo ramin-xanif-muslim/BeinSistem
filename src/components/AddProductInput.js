@@ -20,11 +20,9 @@ function AddProductInput() {
       if (searchTerm) {
         if (!isNaN(searchTerm) && searchTerm.length === 13) {
           setBarcodeScan(true);
-          console.log(outerDataSource);
           var repeatedProduct = outerDataSource.find(
             (p) => p.BarCode === searchTerm
           );
-          console.log(repeatedProduct);
           if (repeatedProduct) {
             let result = Object.keys(repeatedProduct).reduce(
               (prev, current) => ({

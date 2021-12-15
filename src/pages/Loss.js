@@ -85,6 +85,7 @@ export default function Loss() {
         show: true,
         render: (text, record, index) => index + 1 + 25 * advancedPage,
       },
+   
       {
         dataIndex: "Name",
         title: "Silinmə №",

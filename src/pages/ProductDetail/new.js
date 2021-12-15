@@ -101,6 +101,8 @@ function NewProduct() {
   const [listLength, setListLength] = useState(0);
   const [linked, setLinked] = useState(null);
 
+  const [required, setRequired] = useState(false);
+
   const onClose = () => {
     message.destroy();
   };
@@ -113,6 +115,7 @@ function NewProduct() {
     return () => {
       setLinkedList([]);
       setLinked([]);
+      setOneRef([]);
     };
   }, []);
 
@@ -179,6 +182,8 @@ function NewProduct() {
   const fillOption = (id) => {
     oneRefArray = [];
     setOneRef([]);
+
+    console.log(linkedList);
     Object.values(linkedList).map((links) => {
       Object.entries(links).forEach(([key, value]) => {
         if (key === id) {
@@ -196,6 +201,7 @@ function NewProduct() {
 
   const onValuesChange = (changedValues, allValues) => {
     console.log(changedValues);
+
     Object.assign(lastObject, {
       [changedValues[0].name[0]]: changedValues[0].value,
     });
@@ -204,11 +210,8 @@ function NewProduct() {
     }
   };
   const handleFinish = async (values) => {
-    var reqerror = false;
     setDisable(true);
-
-    setLinkedList([]);
-    setLinked([]);
+    var error = false;
     message.loading({ content: "Loading...", key: "pro_update" });
     Object.assign(values, lastObject);
     var prices = [];
@@ -227,18 +230,20 @@ function NewProduct() {
     console.log(attrs);
 
     Object.values(attrs).map((atr) => {
-       Object.entries(values).findIndex(([k, v]) => console.log(k));
+      Object.entries(values).findIndex(([k, v]) => console.log(k));
       if (atr.IsRequired === 1) {
         if (
-          Object.entries(values).findIndex(([k, v]) => k === 'col_'+atr.Name) === -1
+          Object.entries(values).findIndex(
+            ([k, v]) => k === "col_" + atr.Name
+          ) === -1
         ) {
           console.log("values", values);
-          reqerror = true;
+          error = true;
         }
       }
     });
 
-    if (reqerror) {
+    if (error) {
       message.error({
         content: (
           <span className="error_mess_wrap">
@@ -250,7 +255,7 @@ function NewProduct() {
         duration: 0,
       });
     }
-    if (!reqerror) {
+    if (!error) {
       const res = await saveDoc(values, "products");
       if (res.Headers.ResponseStatus === "0") {
         message.success({
@@ -309,20 +314,6 @@ function NewProduct() {
         if (key.includes("col_")) {
           Object.assign(mods, { [key]: value });
         }
-      });
-
-      Object.values(linkedList).map((links) => {
-        Object.entries(links).forEach(([key, value]) => {
-          Object.values(value.list).forEach((c) => {
-            Object.entries(mods).forEach(([keyMods, valueMods]) => {
-              if (c.Id === valueMods) {
-                form.setFieldsValue({
-                  [keyMods]: c.Name,
-                });
-              }
-            });
-          });
-        });
       });
     }
   };

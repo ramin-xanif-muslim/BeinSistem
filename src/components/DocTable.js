@@ -86,7 +86,7 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-function DocTable({ headers, datas }) {
+function DocTable({ headers, datas,from }) {
   const {
     setdocPage,
     setDocSum,
@@ -108,7 +108,7 @@ function DocTable({ headers, datas }) {
 
   useEffect(() => {
     if (isAdd) {
-      console.log(newPro)
+     
       var duplicateData = false;
       var index;
       var newData = {
@@ -120,13 +120,33 @@ function DocTable({ headers, datas }) {
         Name: newPro.name,
         BarCode: newPro.barcode,
         Quantity: newPro.amount,
-        SellPrice: newPro.buyprice,
+        SellPrice: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
         PrintPrice: newPro.price,
-        Price: newPro.buyprice,
-        CostPr: newPro.buyprice,
+        Price: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
+        CostPr: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
         BuyPrice: newPro.buyprice,
-        TotalPrice: newPro.buyprice * 1,
-        CostTotalPr: newPro.buyprice * 1,
+        TotalPrice: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
+        CostTotalPr: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
         StockQuantity: newPro.stockquantity ? newPro.stockquantity : "0.00",
         CostPrice: newPro.costprice,
         CostPriceTotal: newPro.costpricetotal,
@@ -172,13 +192,33 @@ function DocTable({ headers, datas }) {
         Name: newPro.name,
         BarCode: newPro.barcode,
         Quantity: 1,
-        SellPrice: newPro.buyprice,
+        SellPrice: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
         PrintPrice: newPro.price,
-        Price: newPro.buyprice,
-        CostPr: newPro.buyprice,
+        Price: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
+        CostPr: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
         BuyPrice: newPro.buyprice,
-        TotalPrice: newPro.buyprice * 1,
-        CostTotalPr: newPro.buyprice * 1,
+        TotalPrice: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
+        CostTotalPr: from
+          ? from === "demands"
+            ? newPro.price
+            : newPro.buyprice
+          : newPro.buyprice,
         StockQuantity: newPro.stockquantity ? newPro.stockquantity : "0.00",
         CostPrice: newPro.costprice,
         CostPriceTotal: newPro.costpricetotal,

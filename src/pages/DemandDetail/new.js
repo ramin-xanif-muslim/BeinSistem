@@ -446,6 +446,7 @@ function NewDemand() {
               <DocTable
                 headers={columns.filter((c) => c.isVisible == true)}
                 datas={positions}
+                from={"demands"}
               />
             </Col>
           </Row>

@@ -87,21 +87,27 @@ function ProductModal() {
 
   const handleOk = () => {
     setProductModal(false);
+    form.resetFields();
   };
 
   const handleCancel = () => {
     setProductModal(false);
+    form.resetFields();
   };
   const onClose = () => {
     message.destroy();
   };
   useEffect(() => {
     if (productModal) {
+      form.resetFields();
+
       setLinkedList([]);
       getGroups();
       setOneRef([]);
       getlists();
       getBarcode(false);
+    } else {
+      form.resetFields();
     }
 
     return () => {
@@ -175,15 +181,14 @@ function ProductModal() {
   };
 
   const onValuesChange = (changedValues, allValues) => {
-    console.log(changedValues);
     Object.assign(lastObject, {
       [changedValues[0].name[0]]: changedValues[0].value,
     });
   };
   const handleFinish = async (values) => {
     console.log(values);
-    setLinkedList([]);
-    setLinked([]);
+    var error = false;
+
     message.loading({ content: "Loading...", key: "pro_update" });
     Object.assign(values, lastObject);
     var prices = [];
@@ -198,29 +203,59 @@ function ProductModal() {
       }
     });
     values.prices = prices;
-    const res = await saveDoc(values, "products");
-    if (res.Headers.ResponseStatus === "0") {
-      message.success({
-        content: "Saxlanildi",
-        key: "pro_update",
-        duration: 2,
-      });
-      var obj = values;
-      obj.id = res.Body.ResponseService;
-      setNewPro(obj);
-      setNew(true);
-      setProductModal(false);
-    } else {
+
+    Object.values(attrs).map((atr) => {
+      Object.entries(values).findIndex(([k, v]) => console.log(k));
+      if (atr.IsRequired === 1) {
+        if (
+          Object.entries(values).findIndex(
+            ([k, v]) => k === "col_" + atr.Name
+          ) === -1
+        ) {
+          console.log("values", values);
+          error = true;
+        }
+      }
+    });
+
+    if (error) {
       message.error({
         content: (
           <span className="error_mess_wrap">
-            Saxlanılmadı... {res.Body}{" "}
+            Saxlanılmadı... {"Vacib paratmetlrer var"}{" "}
             {<CloseCircleOutlined onClick={onClose} />}
           </span>
         ),
         key: "pro_update",
         duration: 0,
       });
+    }
+    if (!error) {
+      const res = await saveDoc(values, "products");
+      if (res.Headers.ResponseStatus === "0") {
+        message.success({
+          content: "Saxlanildi",
+          key: "pro_update",
+          duration: 2,
+        });
+        var obj = values;
+        obj.id = res.Body.ResponseService;
+        setNewPro(obj);
+        setNew(true);
+        setProductModal(false);
+        lastObject = {};
+      } else {
+        message.error({
+          content: (
+            <span className="error_mess_wrap">
+              Saxlanılmadı... {res.Body}{" "}
+              {<CloseCircleOutlined onClick={onClose} />}
+            </span>
+          ),
+          key: "pro_update",
+          duration: 0,
+        });
+      }
     }
   };
   var obj;
@@ -248,30 +283,7 @@ function ProductModal() {
     <Option key={c.Id}>{c.Name}</Option>
   ));
 
-  const handleTabChange = (event, data) => {
-    if (data.activeIndex === 1) {
-      mods = {};
-      Object.entries(lastObject).forEach(([key, value]) => {
-        if (key.includes("col_")) {
-          Object.assign(mods, { [key]: value });
-        }
-      });
-
-      Object.values(linkedList).map((links) => {
-        Object.entries(links).forEach(([key, value]) => {
-          Object.values(value.list).forEach((c) => {
-            Object.entries(mods).forEach(([keyMods, valueMods]) => {
-              if (c.Id === valueMods) {
-                form.setFieldsValue({
-                  [keyMods]: c.Name,
-                });
-              }
-            });
-          });
-        });
-      });
-    }
-  };
+  const handleTabChange = (event, data) => {};
   const modInputs = attrs
     ? attrs
         .filter((a) => a.ReferenceTypeId === "")
@@ -390,6 +402,7 @@ function ProductModal() {
     <Modal
       className="create_product_modal custom_modal"
       title="Məhsul"
+      destroyOnClose={true}
       visible={productModal}
       onOk={handleOk}
       footer={[
