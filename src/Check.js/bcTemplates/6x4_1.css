@@ -1,0 +1,62 @@
+body{
+    margin: 0;
+    box-sizing: border-box;
+
+}
+
+
+
+.mainwrapperhold{
+    width: 238px;
+    height:158px;
+    margin-left:0px;
+    margin-top: 0px;
+
+}
+.mainWrapper{
+    position: relative;
+ 
+}
+.main {
+    width: 213px;
+    overflow:hidden;
+    height: 106px;
+    margin-left: 0px;
+}
+.price {
+    position:absolute;
+    left: 0px;
+    top: 110px;
+    width: 235px;
+    height:30px;
+    font-size: 1.6em;
+    text-align: center;
+    line-height:18px;
+    padding-top:10px;
+    overflow:hidden;
+    font-weight:700;
+    z-index:5000;
+}
+.name {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position:absolute;
+    height: 55px;
+    padding-top:5px;
+    width: 235px;
+    font-size: 90%;
+    overflow:hidden;
+    text-align: center;
+    font-weight:700;
+    top: 57px;
+    left: 0px;
+}
+img {
+    width: 265px;
+    height:70px;
+    margin-left:-10px;
+    margin-top: -5px;
+    z-index:1;
+}

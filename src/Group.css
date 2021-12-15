@@ -1,0 +1,10 @@
+.group_wrapper {
+    max-height: 100vh;
+    overflow: auto;
+    position: sticky;
+    top: 64px;
+}
+.ant-tree-list-holder{
+        background: #f9f9f9 !important;
+}
+

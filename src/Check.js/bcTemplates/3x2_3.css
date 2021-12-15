@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+}
+.manat {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: small;
+}
+.main {
+    border: 1px solid black;
+    width: 160px;
+    overflow: hidden;
+    height: 106px;
+    margin-left: 0px;
+}
+.price {
+    position: fixed;
+    left: 100px;
+    top: 50px;
+    width: 60px;
+    height: 35px;
+    font-size: 1.3em;
+    text-align: center;
+    border: 1px solid #000;
+    transform: rotate(90deg);
+    line-height: 18px;
+    padding-top: 10px;
+    overflow: hidden;
+    font-weight: 700;
+}
+.name {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    height: 55px;
+    padding-top: 5px;
+    border: 1px solid #000;
+    width: 100px;
+    font-size: 90%;
+    overflow: hidden;
+    text-align: center;
+    font-weight: 700;
+    top: 48px;
+    left: 0px;
+}
+img {
+    width: 205px;
+    margin-left: -20px;
+    margin-top: -5px;
+}
