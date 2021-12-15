@@ -90,6 +90,14 @@ function CustomerGroup() {
     });
   });
 
+  datas.unshift({
+    id: "",
+    name: "Bütün müştərilər",
+    parent: "",
+    title: "Bütün müştərilər",
+    key: "",
+  });
+
   const onSelect = (keys, info) => {
     console.log("Trigger Select", keys, info);
     setSearchGr(keys[0]);

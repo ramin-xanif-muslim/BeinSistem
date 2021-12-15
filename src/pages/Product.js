@@ -15,7 +15,6 @@ import Buttons from "../components/Button";
 import { fetchAttributes, fetchPriceTypes } from "../api";
 import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
-import ProductPage from "./ProductPage";
 import { Button, Icon } from "semantic-ui-react";
 import { SettingOutlined } from "@ant-design/icons";
 export default function Product() {
