@@ -24,7 +24,7 @@ export default function Customer() {
     const [filterChanged, setFilterChanged] = useState(false);
     const [filterChange, setFilterChange] = useState(false);
     const [filterColumns, setFilterColumns] = useState([]);
-
+    
     const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
       useState(false);
   const {
