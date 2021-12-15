@@ -73,7 +73,7 @@ function DocButtons({
           onClick={handleDelete}
           disabled={editid ? false : true}
         >
-          {closed === "p=product" ? "Məhsulu silin" : "Sənədi silin"}
+          {closed === "p=product" ? "Silin" : "Sənədi silin"}
         </Button>
       </Menu.Item>
       <Menu.Divider />

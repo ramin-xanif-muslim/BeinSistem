@@ -63,6 +63,8 @@ function ProductGroupDetail() {
     setLinkedList,
     prices,
     setPrices,
+    setDisable,
+    disable,
   } = useTableCustom();
   const [attrs, setAttrs] = useState(
     attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
@@ -87,6 +89,7 @@ function ProductGroupDetail() {
     : (obj = JSON.parse(localStorage.getItem("progroups")));
 
   const handleFinish = async (values) => {
+    setDisable(true);
     if (values.parentid === "Ana Qrup") {
       values.parentid = "00000000-0000-0000-0000-000000000000";
     }
@@ -120,6 +123,11 @@ function ProductGroupDetail() {
     );
   };
 
+  const handleChanged = () => {
+    if (disable) {
+      setDisable(false);
+    }
+  };
   const updateMutation = useMutation(updateProduct, {
     refetchQueris: ["productgroup", progr_id],
   });
@@ -134,60 +142,77 @@ function ProductGroupDetail() {
   ));
 
   return (
-    <div>
-      <DocButtons />
+    <div className="doc_wrapper">
+      <div className="doc_name_wrapper">
+        <h2>Məhsul qrupu</h2>
+      </div>
 
-      <Form
-        id="myForm"
-        style={{ padding: "0px 20px" }}
-        name="basic"
-        form={form}
-        className=""
-        initialValues={{
-          name: data.Body.List[0].Name,
-          description: data.Body.List[0].Description,
-          parentid:
-            data.Body.List[0].ParentId ===
-            "00000000-0000-0000-0000-000000000000"
-              ? "Ana Qrup"
-              : data.Body.List[0].ParentId,
-        }}
-        onFinish={handleFinish}
-        layout="horizontal"
-      >
-        <Row className="main_form_side">
-          <Col xs={24} md={20} xl={8} className="left_form_wrapper">
-            <Form.Item
-              label="Group Name"
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
-                },
-              ]}
-            >
-              <Input allowClear />
-            </Form.Item>
-
-            <Form.Item label="Description" name="description">
-              <TextArea allowClear />
-            </Form.Item>
-
-            <Form.Item label="Product GroupName" name="parentid">
-              <Select
-                showSearch
-                className="doc_status_formitem_wrapper_col "
-                placeholder=""
-                filterOption={false}
-                notFoundContent={<Spin size="small" />}
+      <DocButtons
+        controller={"productfolders"}
+        additional={"none"}
+        editid={progr_id}
+        closed={"p=product"}
+      />
+      <div className="formWrapper">
+        <Form
+          form={form}
+          id="myForm"
+          style={{ padding: "0px 20px" }}
+          name="basic"
+          labelCol={{
+            span: 5,
+          }}
+          wrapperCol={{
+            span: 14,
+          }}
+          initialValues={{
+            name: data.Body.List[0].Name,
+            description: data.Body.List[0].Description,
+            parentid:
+              data.Body.List[0].ParentId ===
+              "00000000-0000-0000-0000-000000000000"
+                ? "Ana Qrup"
+                : data.Body.List[0].ParentId,
+          }}
+          className="doc_forms"
+          layout="horizontal"
+          onFinish={handleFinish}
+          onFieldsChange={handleChanged}
+        >
+          <Row style={{ marginTop: "1em", padding: "1em" }}>
+            <Col xs={24} md={20} xl={8} className="left_form_wrapper">
+              <Form.Item
+                label="Məhsulun qrupu"
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
+                  },
+                ]}
               >
-                {groupOption}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+                <Input allowClear />
+              </Form.Item>
+
+              <Form.Item label="Şərh" name="description">
+                <TextArea allowClear />
+              </Form.Item>
+
+              <Form.Item label="Yerləşdiyi Qrup" name="parentid">
+                <Select
+                  showSearch
+                  className="doc_status_formitem_wrapper_col "
+                  placeholder=""
+                  filterOption={false}
+                  notFoundContent={<Spin size="small" />}
+                >
+                  {groupOption}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
     </div>
   );
 }

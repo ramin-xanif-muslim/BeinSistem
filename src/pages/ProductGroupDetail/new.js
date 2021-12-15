@@ -59,6 +59,8 @@ function NewProductGroup() {
     setLinkedList,
     prices,
     setPrices,
+    setDisable,
+    disable,
   } = useTableCustom();
   const [attrs, setAttrs] = useState(
     attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
@@ -87,6 +89,7 @@ function NewProductGroup() {
   ));
 
   const handleFinish = async (values) => {
+    setDisable(true);
     if (!values.parentid) {
       values.parentid = "00000000-0000-0000-0000-000000000000";
     }
@@ -114,53 +117,70 @@ function NewProductGroup() {
     }
   };
 
+  const handleChanged = () => {
+    if (disable) {
+      setDisable(false);
+    }
+  };
   if (redirect) return <Redirect to={`/editProductGroup/${editId}`} />;
 
   return (
-    <div>
-      <DocButtons />
-      <Form
-        form={form}
-        id="myForm"
-        style={{ padding: "0px 20px" }}
-        name="basic"
-        className=""
-        layout="horizontal"
-        onFinish={handleFinish}
-      >
-        <Row className="main_form_side">
-          <Col xs={24} md={20} xl={8} className="left_form_wrapper">
-            <Form.Item
-              label="Group Name"
-              name="name"
-              rules={[
-                {
-                  required: true,
-                  message: "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
-                },
-              ]}
-            >
-              <Input allowClear />
-            </Form.Item>
-
-            <Form.Item label="Description" name="description">
-              <TextArea allowClear />
-            </Form.Item>
-
-            <Form.Item label="Product GroupName" name="parentid">
-              <Select
-                showSearch
-                className="doc_status_formitem_wrapper_col "
-                placeholder=""
-                filterOption={false}
-                notFoundContent={<Spin size="small" />}
+    <div className="doc_wrapper">
+      <div className="doc_name_wrapper">
+        <h2>Məhsul qrupu</h2>
+      </div>
+      <DocButtons additional={"none"} editid={null} closed={"p=product"} />
+      <div className="formWrapper">
+        <Form
+          form={form}
+          id="myForm"
+          style={{ padding: "0px 20px" }}
+          name="basic"
+          labelCol={{
+            span: 5,
+          }}
+          wrapperCol={{
+            span: 14,
+          }}
+          className="doc_forms"
+          layout="horizontal"
+          onFinish={handleFinish}
+          onFieldsChange={handleChanged}
+        >
+          <Row style={{ marginTop: "1em", padding: "1em" }}>
+            <Col xs={24} md={20} xl={8} className="left_form_wrapper">
+              <Form.Item
+                label="Məhsulun qrupu"
+                name="name"
+                rules={[
+                  {
+                    required: true,
+                    message: "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
+                  },
+                ]}
               >
-                {groupOption}
-              </Select>
-            </Form.Item>
-          </Col>
-        </Row>
-      </Form>
+                <Input allowClear />
+              </Form.Item>
+
+              <Form.Item label="Şərh" name="description">
+                <TextArea allowClear />
+              </Form.Item>
+
+              <Form.Item label="Yerləşdiyi Qrup" name="parentid">
+                <Select
+                  showSearch
+                  className="doc_status_formitem_wrapper_col "
+                  placeholder=""
+                  filterOption={false}
+                  notFoundContent={<Spin size="small" />}
+                >
+                  {groupOption}
+                </Select>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
     </div>
   );
 }
