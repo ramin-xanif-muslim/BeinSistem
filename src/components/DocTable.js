@@ -4,7 +4,10 @@ import { Table, Form, Input, InputNumber, Empty } from "antd";
 import { useCustomForm } from "../contexts/FormContext";
 import { createContext, useContext, useState, useEffect, useRef } from "react";
 import bc from "../audio/bc.mp3";
-import { ConvertFixedPosition,ConvertFixedTable } from "../config/function/findadditionals";
+import {
+  ConvertFixedPosition,
+  ConvertFixedTable,
+} from "../config/function/findadditionals";
 
 const EditableContext = createContext(null);
 const audio = new Audio(bc);
@@ -86,7 +89,7 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-function DocTable({ headers, datas,from }) {
+function DocTable({ headers, datas, from }) {
   const {
     setdocPage,
     setDocSum,
@@ -101,14 +104,19 @@ function DocTable({ headers, datas,from }) {
     setNew,
     outerDataSource,
     setOuterDataSource,
+    setChangedInnerTable,
+    changedInnerTable,
+    pricechanged,
+    setPriceChanged,
   } = useTableCustom();
   const { loadingForm } = useCustomForm();
   const [dataSource, setdataSource] = useState([]);
   const [isChanged, setIsChanged] = useState(false);
 
+  const [showpacket, setShowPacket] = useState(false);
+
   useEffect(() => {
     if (isAdd) {
-     
       var duplicateData = false;
       var index;
       var newData = {
@@ -120,6 +128,13 @@ function DocTable({ headers, datas,from }) {
         Name: newPro.name,
         BarCode: newPro.barcode,
         Quantity: newPro.amount,
+        ShowPacket: from ? (from === "demands" ? false : false) : false,
+        IsPack: from
+          ? from === "demands"
+            ? newPro.ispack
+            : newPro.ispack
+          : newPro.ispack,
+
         SellPrice: from
           ? from === "demands"
             ? newPro.price
@@ -147,11 +162,32 @@ function DocTable({ headers, datas,from }) {
             ? newPro.price
             : newPro.buyprice
           : newPro.buyprice,
+        PackPrice: from
+          ? from === "demands"
+            ? newPro.ispack === 1
+              ? newPro.packprice
+              : ""
+            : ""
+          : "",
+        ChangePackQuantity: from
+          ? from === "demands"
+            ? newPro.ispack === 1
+              ? newPro.packquantity
+              : ""
+            : ""
+          : "",
+        PackQuantity: from
+          ? from === "demands"
+            ? newPro.ispack === 1
+              ? newPro.packquantity
+              : ""
+            : ""
+          : "",
         StockQuantity: newPro.stockquantity ? newPro.stockquantity : "0.00",
         CostPrice: newPro.costprice,
         CostPriceTotal: newPro.costpricetotal,
       };
-      console.log(newData)
+      console.log(newData);
       dataSource.find(
         (pd) => String(pd.ProductId) === String(newData.ProductId)
       )
@@ -164,7 +200,7 @@ function DocTable({ headers, datas,from }) {
         console.log("geldi", dataSource);
         var datas = [...dataSource];
         datas.unshift(newData);
-        console.log(datas)
+        console.log(datas);
         setdataSource(datas);
         setOuterDataSource(datas);
         setIsChanged(true);
@@ -192,6 +228,12 @@ function DocTable({ headers, datas,from }) {
         Name: newPro.name,
         BarCode: newPro.barcode,
         Quantity: 1,
+        ShowPacket: from ? (from === "demands" ? false : false) : false,
+        IsPack: from
+          ? from === "demands"
+            ? newPro.ispack
+            : newPro.ispack
+          : newPro.ispack,
         SellPrice: from
           ? from === "demands"
             ? newPro.price
@@ -219,6 +261,27 @@ function DocTable({ headers, datas,from }) {
             ? newPro.price
             : newPro.buyprice
           : newPro.buyprice,
+        PackPrice: from
+          ? from === "demands"
+            ? newPro.ispack === true || newPro.ispack === 1
+              ? newPro.packprice
+              : ""
+            : ""
+          : "",
+        ChangePackQuantity: from
+          ? from === "demands"
+            ? newPro.ispack === true || newPro.ispack === 1
+              ? newPro.packquantity
+              : ""
+            : ""
+          : "",
+        PackQuantity: from
+          ? from === "demands"
+            ? newPro.ispack === true || newPro.ispack === 1
+              ? newPro.packquantity
+              : ""
+            : ""
+          : "",
         StockQuantity: newPro.stockquantity ? newPro.stockquantity : "0.00",
         CostPrice: newPro.costprice,
         CostPriceTotal: newPro.costpricetotal,
@@ -280,8 +343,14 @@ function DocTable({ headers, datas,from }) {
     setOuterDataSource(datas);
     setIsChanged(true);
   }, [datas]);
+
   useEffect(() => {
-    console.log("deyisdi");
+    setdataSource(outerDataSource);
+    setOuterDataSource(outerDataSource);
+    setIsChanged(true);
+    setPriceChanged(false);
+  }, [pricechanged]);
+  useEffect(() => {
     var sumtotalprices = 0;
     var sumcount = 0;
     if (Array.isArray(dataSource)) {
@@ -296,7 +365,8 @@ function DocTable({ headers, datas,from }) {
     setDocSum(sumtotalprices);
     setDocCount(sumcount);
     setIsChanged(false);
-  }, [isChanged]);
+    setChangedInnerTable(false);
+  }, [isChanged, changedInnerTable]);
 
   const handlePagination = (pg) => {
     setdocPage(pg - 1);
@@ -326,14 +396,23 @@ function DocTable({ headers, datas,from }) {
         })
       : item.Price != newData[index].Price
       ? newData.map(
-          (n) => (n.TotalPrice = parseFloat(n.Price) * parseFloat(n.Quantity))
+          (n) =>
+            (n.TotalPrice =
+              parseFloat(n.Price) *
+              parseFloat(n.ShowPacket ? n.ChangePackQuantity : n.Quantity))
         )
       : item.TotalPrice != newData[index].TotalPrice
       ? newData.map(
-          (n) => (n.Price = parseFloat(n.TotalPrice) / parseFloat(n.Quantity))
+          (n) =>
+            (n.Price =
+              parseFloat(n.TotalPrice) /
+              parseFloat(n.ShowPacket ? n.ChangePackQuantity : n.Quantity))
         )
       : newData.map(
-          (n) => (n.TotalPrice = parseFloat(n.Price) * parseFloat(n.Quantity))
+          (n) =>
+            (n.TotalPrice =
+              parseFloat(n.Price) *
+              parseFloat(n.ShowPacket ? n.ChangePackQuantity : n.Quantity))
         );
     setdataSource(newData);
     setOuterDataSource(newData);

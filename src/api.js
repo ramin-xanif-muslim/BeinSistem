@@ -32,7 +32,6 @@ export const fetchNotification = async () => {
   }
 };
 
-
 export const fetchMarks = async () => {
   var markFilter = {
     token: localStorage.getItem("access-token"),
@@ -170,6 +169,19 @@ export const fetchPriceTypes = async () => {
 
   return data;
 };
+export const fetchPriceTypesRate = async (object) => {
+  var prices = {
+    token: localStorage.getItem("access-token"),
+  };
+
+  var sendfilter = Object.assign(prices, object);
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/products/getproductsrate.php`,
+    sendfilter
+  );
+
+  return data;
+};
 
 export const getBcTemplate = async () => {
   const { data } = await axios.get(
@@ -218,7 +230,7 @@ export const fetchCustomers = async () => {
 export const fetchCustomersData = async (id) => {
   var customerFilter = {
     token: localStorage.getItem("access-token"),
-    id:id
+    id: id,
   };
   const { data } = await axios.post(
     `https://dev.bein.az/controllers/customers/getdata.php`,
@@ -358,7 +370,7 @@ export const fetchFilterPage = async (
 export const fetchDocName = async (name, controller) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
-    n: name ? name : '',
+    n: name ? name : "",
   };
   const { data } = await axios.post(
     `https://dev.bein.az/controllers/${controller}/newname.php`,
@@ -525,7 +537,6 @@ export const fetchSalePointId = async (id) => {
   return data;
 };
 
-
 export const fetchCustomerId = async (id) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
@@ -538,7 +549,6 @@ export const fetchCustomerId = async (id) => {
 
   return data;
 };
-;
 export const fetchProductGroupId = async (id) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
@@ -678,7 +688,6 @@ export const updateOwner = async (obj) => {
   return data;
 };
 
-
 export const updateAttributes = async (obj) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
@@ -748,7 +757,7 @@ export const updateCompany = async (obj) => {
   );
 
   return data;
-}; 
+};
 export const delDepartment = async (id) => {
   var deldoc = {
     token: localStorage.getItem("access-token"),
@@ -780,7 +789,6 @@ export const delOwner = async (id) => {
     return data.Body;
   }
 };
-
 
 export const delSpendItems = async (id) => {
   var deldoc = {

@@ -13,7 +13,6 @@ import { SettingOutlined } from "@ant-design/icons";
 
 import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
-import CustomerPage from "./CustomerPage";
 import { Button, Icon } from "semantic-ui-react";
 export default function Customer() {
   const [initialfilter, setInitialFilter] = useState(null);
