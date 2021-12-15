@@ -275,6 +275,8 @@ export default function Product() {
           : true,
         defaultSortOrder: initialSort === "Name" ? defaultdr : null,
         sorter: (a, b) => null,
+        className:
+          initialSort === "Name" ? "activesort" : "",
       },
       {
         dataIndex: "BarCode",
@@ -284,6 +286,8 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "BarCode").show
           : true,
         sorter: (a, b) => null,
+        className:
+          initialSort === "BarCode" ? "activesort" : "",
       },
       {
         dataIndex: "ArtCode",
@@ -294,6 +298,8 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "ArtCode").show
           : false,
         sorter: (a, b) => null,
+        className:
+          initialSort === "ArtCode" ? "activesort" : "",
       },
       {
         dataIndex: "GroupName",
@@ -303,6 +309,8 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "GroupName").show
           : true,
         sorter: (a, b) => null,
+        className:
+          initialSort === "GroupName" ? "activesort" : "",
       },
       {
         dataIndex: "BuyPrice",
@@ -313,6 +321,8 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "BuyPrice").show
           : true,
         sorter: (a, b) => null,
+        className:
+          initialSort === "BuyPrice" ? "activesort" : "",
       },
       {
         dataIndex: "Price",
@@ -323,6 +333,8 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "Price").show
           : true,
         sorter: (a, b) => null,
+        className:
+          initialSort === "Price" ? "activesort" : "",
       },
       {
         dataIndex: "MinPrice",
@@ -332,6 +344,8 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "MinPrice").show
           : false,
         sorter: (a, b) => null,
+        className:
+          initialSort === "MinPrice" ? "activesort" : "",
       },
 
       {
@@ -343,6 +357,8 @@ export default function Product() {
               .show
           : true,
         sorter: (a, b) => null,
+        className:
+          initialSort === "Description" ? "activesort" : "",
       },
       {
         dataIndex: "StockBalance",
@@ -353,6 +369,8 @@ export default function Product() {
               .show
           : true,
         sorter: (a, b) => null,
+        className:
+          initialSort === "StockBalance" ? "activesort" : "",
       },
 
       {
@@ -363,6 +381,8 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "PackPrice").show
           : false,
         sorter: (a, b) => null,
+        className:
+          initialSort === "PackPrice" ? "activesort" : "",
       },
       {
         dataIndex: "PackQuantity",
@@ -373,6 +393,8 @@ export default function Product() {
               .show
           : false,
         sorter: (a, b) => null,
+        className:
+          initialSort === "PackQuantity" ? "activesort" : "",
       },
       {
         dataIndex: "PrintBarcode",
@@ -381,9 +403,12 @@ export default function Product() {
           ? Object.values(initial).find((i) => i.dataIndex === "PrintBarcode")
               .show
           : true,
+        className:
+          initialSort === "PrintBarcode" ? "activesort" : "",
         render: (value, row, index) => {
           return (
             <span
+              style={{color: "#1164B1"}}
               onClick={getProductPrint(
                 row.ProductId,
                 row.BarCode,
@@ -633,7 +658,6 @@ export default function Product() {
                 onClick={() =>
                   display === "none" ? setdisplay("block") : setdisplay("none")
                 }
-                content="Filter"
                 content="Filter"
               />
               <FastSearch className="search_header" />

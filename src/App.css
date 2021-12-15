@@ -264,7 +264,13 @@ body {
   display: flex;
   align-items: center;
   text-align: center;
+  background-color: #e7e7e7 !important;
+  padding: 0 1.3rem !important;
 }
+.flex_directon_col_center span {
+  color: #1164B1;
+}
+
 
 .static_wrapper {
   float: right;
@@ -327,18 +333,6 @@ body {
   display: flex;
 }
 
-.page_heder_left {
-  margin-right: 12px;
-  margin-bottom: 0;
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: 600;
-  font-size: 30px;
-  line-height: 32px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
 .header_row {
   padding: 16px 24px;
 }
@@ -347,7 +341,7 @@ body {
 }
 
 .filter_button {
-  margin-left: 1em !important;
+  color: #000 !important;
 }
 .ui.animated.button.buttons_click {
   transition: all 0.2s ease-in;
@@ -358,6 +352,7 @@ body {
   padding: 0.5rem 2rem !important;
   background-color: #fff !important;
   border: 1px solid #0288d1 !important;
+  color: #000 !important;
 }
 .ui.button.buttons_click {
   transition: all 0.2s ease-in;
@@ -368,6 +363,7 @@ body {
   padding: 0.5rem 2rem !important;
   background-color: #fff !important;
   border: 1px solid #0288d1 !important;
+  color: #000 !important;
 }
 
 .status_label {
