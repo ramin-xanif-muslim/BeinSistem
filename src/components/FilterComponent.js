@@ -134,12 +134,10 @@ function FilterComponent({ from, settings, cols }) {
     form.setFieldsValue(initial);
   }
   function handleClear(id) {
-    Object.assign(selectFilter, {
-      [id]: null,
-      [`${id}_id`]: null,
-    });
+    delete selectFilter[`${id}`];
+    delete selectFilter[`${id}_id`];
+
     setSelectFilter(selectFilter);
-    console.log(selectFilter);
   }
   function handleChange(value, option) {
     console.log(form.getFieldValue());
@@ -211,7 +209,7 @@ function FilterComponent({ from, settings, cols }) {
                 id={cols[i].controller}
                 onFocus={getData(cols[i].controller, cols[i].key)}
                 onChange={handleChange}
-                onClear={() => handleClear(cols[i].dataIndex)}
+                onClear={() => handleClear("colt--" + cols[i].dataIndex)}
                 notFoundContent={<Spin size="small" />}
                 filterOption={(input, option) =>
                   option.children.toLowerCase().indexOf(input.toLowerCase()) >=
@@ -410,6 +408,9 @@ function FilterComponent({ from, settings, cols }) {
         delete totalvalues[`${key}`];
         totalvalues[`${index}`] = value;
       }
+      if (value === '') {
+        delete totalvalues[`${key}`];
+      }
     });
 
     setIsFilter(true);
@@ -428,21 +429,25 @@ function FilterComponent({ from, settings, cols }) {
       setSelectFilter(selectFilter);
       setinitial(selectFilter);
     } else if (from === "products") {
-      Object.assign(selectFilter, {
-        ar: 0,
-        wg: "",
-      });
-      Object.assign(initial, {
-        ar: 0,
-        wg: "",
-      });
+      if (Object.keys(selectFilter).length === 0) {
+        Object.assign(selectFilter, {
+          ar: 0,
+          wg:'',
+        });
+        Object.assign(initial, {
+          ar: 0,
+          wg: '',
+        });
+        setSelectFilter(selectFilter);
+        setinitial(initial);
+      }
 
-      setSelectFilter(selectFilter);
-      setinitial(initial);
       form.setFieldsValue(selectFilter);
     } else {
-      setSelectFilter(selectFilter);
-      setinitial(initial);
+      if (Object.keys(selectFilter).length === 0) {
+        setSelectFilter(selectFilter);
+        setinitial(initial);
+      }
       form.setFieldsValue(selectFilter);
     }
   }, []);
