@@ -84,6 +84,7 @@ function App() {
   const { nav } = useTableCustom();
   return (
     <>
+    <h1>hello</h1>
       <React.Suspense
         fallback={
           <Spin className="fetchSpinner" tip="Yüklənir...">
