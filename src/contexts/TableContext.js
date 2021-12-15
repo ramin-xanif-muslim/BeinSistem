@@ -37,6 +37,8 @@ const TableProvider = ({ children }) => {
   const [groupVisible, setGroupVisible] = useState(false);
   const [spenditems, setSpendItems] = useState(null);
   const [orderStatusArr, setOrderStatusArr] = useState(null);
+  const [changedInnerTable, setChangedInnerTable] = useState(false);
+  const [pricechanged, setPriceChanged] = useState(false);
 
   const [balance, setBalance] = useState(0);
   const [nav, setNav] = useState("block");
@@ -164,6 +166,10 @@ const TableProvider = ({ children }) => {
     setBalance,
     orderStatusArr,
     setOrderStatusArr,
+    setChangedInnerTable,
+    changedInnerTable,
+    pricechanged,
+    setPriceChanged,
   };
 
   return (

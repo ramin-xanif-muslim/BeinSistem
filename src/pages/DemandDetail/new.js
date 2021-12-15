@@ -13,9 +13,9 @@ import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import ProductModal from "../../components/ProductModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
-import { fetchCustomers } from "../../api";
+import { fetchCustomers, fetchPriceTypesRate } from "../../api";
 import { Tab } from "semantic-ui-react";
-
+import { ConvertFixedPosition } from "../../config/function/findadditionals";
 import {
   DeleteOutlined,
   PlusOutlined,
@@ -53,6 +53,7 @@ import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
+import { fetchPriceTypes } from "../../api";
 import {
   FindAdditionals,
   FindCofficient,
@@ -80,6 +81,16 @@ function NewDemand() {
     setStockLocalStorage,
     customers,
     setCustomers,
+
+    setChangedInnerTable,
+    changedInnerTable,
+    disable,
+    setDisable,
+    prices,
+    setPrices,
+    setPricesLocalStorage,
+    setPriceChanged,
+    pricechanged,
   } = useTableCustom();
   const {
     docstock,
@@ -123,9 +134,127 @@ function NewDemand() {
     setConsumption(e.target.value);
   };
 
+  useEffect(() => {
+    setDisable(true);
+    getPrices();
+    return () => {
+      setDisable(true);
+    };
+  }, []);
+
+  const getPrices = async () => {
+    const priceResponse = await fetchPriceTypes();
+    setPrices(priceResponse.Body.List);
+    setPricesLocalStorage(priceResponse.Body.List);
+  };
+  const onSelect = (e, record) => {
+    const dataSource = [...outerDataSource];
+    const index = dataSource.findIndex((item) => record.key === item.key);
+    const item = dataSource[index];
+    if (e.value === "pack") {
+      item.TotalPrice = item.PackPrice * item.Quantity;
+      item.Price = parseFloat(
+        item.TotalPrice / item.ChangePackQuantity
+      ).toFixed(4);
+      item.ShowPacket = true;
+      dataSource.splice(index, 1, { ...item, ...dataSource });
+      var datas = [...dataSource];
+      setOuterDataSource(datas);
+    } else if (e.value === "pc") {
+      item.Price = item.SellPrice;
+      item.TotalPrice = item.Price * item.Quantity;
+      item.ShowPacket = false;
+      dataSource.splice(index, 1, { ...item, ...dataSource });
+      var datas = [...dataSource];
+      setOuterDataSource(datas);
+    }
+    setChangedInnerTable(true);
+  };
+
+  function handleClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   const handleVisibleChange = (flag) => {
     setVisibleMenuSettings(flag);
   };
+
+  var priceTypes;
+  prices
+    ? (priceTypes = prices)
+    : (priceTypes = JSON.parse(localStorage.getItem("prices")));
+  const priceOptions = Object.values(priceTypes).map((c) => (
+    <Option key={c.Id} value={c.Id}>
+      {c.Name}
+    </Option>
+  ));
+
+  const handleClearPrices = () => {
+     setLoadingForm(true);
+
+    const prevdatasource = [...outerDataSource];
+    Object.values(prevdatasource).map((item) => {
+      item.Price = item.SellPrice;
+      item.TotalPrice = item.Price * item.Quantity;
+    });
+     setLoadingForm(false);
+
+  };
+
+  const handlePriceSelect = async (e) => {
+    setLoadingForm(true);
+
+    if (e != "0000") {
+      const datasource = [...outerDataSource];
+      Object.values(datasource).map((item) => {
+        item.Price = 0;
+        item.TotalPrice = item.Price * item.Quantity;
+      });
+      var datas = [...datasource];
+      setOuterDataSource(datas);
+      var getAllPricesFilter = {};
+      var productsId = [];
+      getAllPricesFilter.pricetype = e;
+      Object.values(datas).map((d) => productsId.push(d.ProductId));
+      getAllPricesFilter.products = productsId;
+
+      const res = await fetchPriceTypesRate(getAllPricesFilter);
+      res.Body.List.map((i) => {
+        Object.values(datas).map((item) => {
+          if (item.ProductId === i.ProductId) {
+            item.Price = i.Price;
+            item.TotalPrice = i.Price * item.Quantity;
+          }
+        });
+      });
+
+      var newdatas = datas;
+      setOuterDataSource(newdatas);
+      setPriceChanged(true);
+      setLoadingForm(false);
+    } else {
+      setPriceChanged(true);
+      handleClearPrices()
+    }
+  };
+
+  const pricetypeselect = (
+    <Select
+      showSearch
+      style={{ width: "100%" }}
+      showArrow={false}
+      defaultValue="0000"
+      filterOption={false}
+      className="customSelect"
+      onSelect={handlePriceSelect}
+      allowClear={true}
+    >
+      <Option key={"0000"} value={"0000"}>
+        Satış qiyməti
+      </Option>
+      {priceOptions}
+    </Select>
+  );
   const columns = useMemo(() => {
     return [
       {
@@ -174,11 +303,47 @@ function NewDemand() {
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
-          return value;
+          {
+            console.log(row);
+          }
+          return row.IsPack === 1 || row.IsPack === true ? (
+            <div className="packOrQuantityWrapper">
+              {row.ShowPacket
+                ? `${ConvertFixedPosition(
+                    row.Quantity
+                  )}  (${ConvertFixedPosition(row.ChangePackQuantity)})`
+                : ConvertFixedPosition(row.Quantity)}
+              <Select
+                labelInValue
+                style={{ width: 120 }}
+                value={{ value: row.ShowPacket ? "pack" : "pc" }}
+                defaultValue={{ value: "pc" }}
+                onSelect={(e) => onSelect(e, row)}
+                onClick={handleClick}
+              >
+                <Option value="pc">Əd</Option>
+                <Option value="pack">Paket</Option>
+              </Select>
+            </div>
+          ) : (
+            <div className="packOrQuantityWrapper">
+              {ConvertFixedPosition(row.Quantity)}{" "}
+              <Select
+                className="disabledPacket"
+                labelInValue
+                showArrow={false}
+                defaultValue={{ value: "pc" }}
+                disabled={true}
+                style={{ width: 120 }}
+              >
+                <Option value="pc">Əd</Option>
+              </Select>
+            </div>
+          );
         },
       },
       {
-        title: "Qiyməti",
+        title: pricetypeselect,
         dataIndex: "Price",
         isVisible: initial
           ? Object.values(initial).find((i) => i.dataIndex === "Price")
@@ -223,7 +388,7 @@ function NewDemand() {
           return value;
         },
       },
-      
+
       {
         title: "Sil",
         className: "orderField printField",
@@ -247,7 +412,7 @@ function NewDemand() {
         ),
       },
     ];
-  }, [consumption, outerDataSource, docSum, columnChange]);
+  }, [consumption, outerDataSource, docSum, columnChange, prices]);
 
   useEffect(() => {
     setInitial(columns);
@@ -335,7 +500,15 @@ function NewDemand() {
     const attrResponse = await fetchDocName(docname, "demands");
     return attrResponse;
   };
+
+  const handleChanged = () => {
+    if (disable) {
+      setDisable(false);
+    }
+  };
   const handleFinish = async (values) => {
+    setDisable(true);
+
     values.positions = outerDataSource;
     values.mark = docmark;
     values.moment = values.moment._i;
@@ -346,6 +519,11 @@ function NewDemand() {
     const nameres = await getDocName(values.name);
     values.name = nameres.Body.ResponseService;
 
+    values.positions.forEach((p) => {
+      if (p.ShowPacket) {
+        p.Quantity = p.ChangePackQuantity;
+      }
+    });
     const res = await saveDoc(values, "demands");
     if (res.Headers.ResponseStatus === "0") {
       message.success({
@@ -481,6 +659,7 @@ function NewDemand() {
           wrapperCol={{
             span: 14,
           }}
+          onFieldsChange={handleChanged}
           onFinish={handleFinish}
           layout="horizontal"
         >
@@ -491,7 +670,7 @@ function NewDemand() {
                   <Row>
                     <Col xs={24} md={24} xl={24}>
                       <Form.Item
-                        label="Alış №"
+                        label="Satış №"
                         name="name"
                         className="doc_number_form_item"
                       >
@@ -646,7 +825,6 @@ function NewDemand() {
                   />
 
                   <Divider style={{ backgroundColor: "grey" }} />
-   
                 </div>
               </Col>
             </Row>

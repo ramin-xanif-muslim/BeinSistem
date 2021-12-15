@@ -114,6 +114,12 @@ function EnterDetail() {
     setOuterDataSource(dataSource.filter((item) => item.key !== key));
     setPositions(dataSource.filter((item) => item.key !== key));
   };
+    useEffect(() => {
+      setDisable(true);
+      return () => {
+        setDisable(true);
+      };
+    }, []);
   useEffect(() => {
     if (!isFetching) {
       customPositions = [];
@@ -151,13 +157,7 @@ function EnterDetail() {
     }
   }, [isFetching]);
 
-  useEffect(() => {
-    setDisable(true);
-
-    return () => {
-      setDisable(true);
-    };
-  }, []);
+ 
 
   const onClose = () => {
     message.destroy();
