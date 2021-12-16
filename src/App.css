@@ -266,6 +266,8 @@ body {
   text-align: center;
   background-color: #e7e7e7 !important;
   padding: 0 1.3rem !important;
+  border: none;
+  border-radius: 5px !important;
 }
 .flex_directon_col_center span {
   color: #1164B1;
