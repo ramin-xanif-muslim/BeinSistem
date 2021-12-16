@@ -94,8 +94,15 @@ function EnterDetail() {
     createdStock,
     setCreatedStock,
     setProductModal,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
+  const [prevpositions, setPrevPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
   const { doc_id } = useParams();
   const [hasConsumption, setHasConsumption] = useState(false);
@@ -114,12 +121,23 @@ function EnterDetail() {
     setOuterDataSource(dataSource.filter((item) => item.key !== key));
     setPositions(dataSource.filter((item) => item.key !== key));
   };
-    useEffect(() => {
+  useEffect(() => {
+    setDisable(true);
+    setPositions([]);
+    setOuterDataSource([]);
+
+    return () => {
       setDisable(true);
-      return () => {
-        setDisable(true);
-      };
-    }, []);
+      setPositions([]);
+      setOuterDataSource([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
   useEffect(() => {
     if (!isFetching) {
       customPositions = [];
@@ -156,8 +174,6 @@ function EnterDetail() {
       setLoadingForm(true);
     }
   }, [isFetching]);
-
- 
 
   const onClose = () => {
     message.destroy();
@@ -361,7 +377,6 @@ function EnterDetail() {
 
   //#region OwDep
 
-
   var objOwner;
   owners
     ? (objOwner = owners)
@@ -439,6 +454,9 @@ function EnterDetail() {
               duration: 2,
             });
             queryClient.invalidateQueries("enter", doc_id);
+            if (saveFromModal) {
+              setRedirectSaveClose(true);
+            }
           } else {
             message.error({
               content: (
@@ -549,7 +567,7 @@ function EnterDetail() {
         editid={doc_id}
         controller={"enters"}
         closed={"p=enter"}
-        from ={'enters'}
+        from={"enters"}
       />
       <div className="formWrapper">
         <Form
