@@ -226,7 +226,7 @@ function NewEnter() {
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
-          return ConvertFixedTable(value);
+          
         },
       },
       {
@@ -505,8 +505,8 @@ function NewEnter() {
       menuItem: "Əsas",
       render: () => (
         <Tab.Pane attached={false}>
-          <Row>
-            <Col xs={24} md={24} xl={9}>
+          <Row style={{justifyContent: "space-between"}}>
+            <Col xs={24} md={24} xl={9} style={{maxWidth: "none", flex: "0.5", zIndex: 1}}>
               <div className="addProductInputIcon">
                 <AddProductInput className="newProInputWrapper" />
                 <PlusOutlined
@@ -514,9 +514,9 @@ function NewEnter() {
                   className="addNewProductIcon"
                 />
               </div>
+              
             </Col>
-            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
-              <Dropdown
+            <Dropdown
                 overlay={menu}
                 onVisibleChange={handleVisibleChange}
                 visible={visibleMenuSettings}
@@ -526,6 +526,7 @@ function NewEnter() {
                   <SettingOutlined />
                 </Button>
               </Dropdown>
+            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
               <DocTable
                 headers={columns.filter((c) => c.isVisible == true)}
                 datas={positions}

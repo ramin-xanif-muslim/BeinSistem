@@ -38,3 +38,7 @@ export function FindAdditionals(consumption, amount, posAmount) {
   var cofficient = FindCofficient(consumption, amount);
   return ConvertFixedTable(posAmount + cofficient * posAmount);
 }
+
+export function ConvertDecimal(num) {
+  return Math.floor(num * 100) / 100;
+}
