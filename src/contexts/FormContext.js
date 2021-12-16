@@ -6,6 +6,8 @@ const MyFormProvider = ({ children }) => {
   const [docstock, setDocStock] = useState(null);
   const [isReturn, setIsReturn] = useState(null);
   const [isTemp, setIsTemp] = useState(false);
+  const [saveFromModal, setSaveFromModal] = useState(false);
+  const [redirectSaveClose, setRedirectSaveClose] = useState(false);
   const [isPayment, setIsPayment] = useState(null);
   const [paymentModal, setPaymentModal] = useState(false);
   const [productModal, setProductModal] = useState(false);
@@ -55,6 +57,12 @@ const MyFormProvider = ({ children }) => {
     setcusid,
     isTemp,
     setIsTemp,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   };
 
   return <FormContext.Provider value={values}>{children}</FormContext.Provider>;

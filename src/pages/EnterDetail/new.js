@@ -93,6 +93,12 @@ function NewEnter() {
     createdStock,
     setCreatedStock,
     setProductModal,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -115,10 +121,21 @@ function NewEnter() {
 
   useEffect(() => {
     setDisable(true);
+    setPositions([]);
+    setOuterDataSource([]);
+
     return () => {
       setDisable(true);
+      setPositions([]);
+      setOuterDataSource([]);
     };
   }, []);
+
+  useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
   const onClose = () => {
     message.destroy();
   };
@@ -427,7 +444,12 @@ function NewEnter() {
         duration: 2,
       });
       setEditId(res.Body.ResponseService);
-      setRedirect(true);
+
+      if (saveFromModal) {
+        setRedirectSaveClose(true);
+      } else {
+        setRedirect(true);
+      }
     } else {
       message.error({
         content: (

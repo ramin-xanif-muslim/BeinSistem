@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useTableCustom } from "../contexts/TableContext";
 import { Button, message, Modal, Menu, Dropdown } from "antd";
 import { Redirect } from "react-router";
-import { useCustomForm } from "../contexts/FormContext";
 import { Link } from "react-router-dom";
+import { useCustomForm } from "../contexts/FormContext";
 import {
   CheckSquareOutlined,
   PlusCircleOutlined,
@@ -24,8 +24,17 @@ function DocButtons({
   proinfo,
 }) {
   const { outerDataSource, disable, setDisable } = useTableCustom();
+  const {
+    saveFromModal,
+    setSaveFromModal,
+    redirectSaveClose,
+    setRedirectSaveClose,
+  } = useCustomForm();
   const [redirect, setRedirect] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   const [redirectDoc, setRedirectDoc] = useState(false);
+  const [redirectClose, setRedirectClose] = useState(false);
   const { isReturn, setIsReturn, setIsPayment, paymentModal, setPaymentModal } =
     useCustomForm();
   const handleDelete = () => {
@@ -39,6 +48,20 @@ function DocButtons({
     setRedirectDoc(true);
   };
 
+  const handleSaveDocModal = () => {
+    // setRedirectClose(true);
+    setSaveFromModal(true);
+  };
+
+  const handleSaveOrNot = (e) => {
+    if (!disable) {
+      e.preventDefault();
+      e.stopPropagation();
+      setShowModal(true);
+    } else {
+      setRedirectClose(true);
+    }
+  };
   const goCheckPage = () => {};
 
   const deleteDoc = async () => {
@@ -129,6 +152,10 @@ function DocButtons({
   if (redirect) return <Redirect to={`/${closed}`} />;
   if (redirectDoc) return <Redirect to={`${closed}`} />;
 
+  if (redirectClose) return <Redirect to={`/${closed}`} />;
+
+  if (redirectSaveClose) return <Redirect to={`/${closed}`} />;
+
   return (
     <div className="doc_buttons_wrapper">
       <div className="left_doc_button">
@@ -154,8 +181,11 @@ function DocButtons({
             Bagla
           </Button>
         ) : (
-          <Button className="customclosebtn">
-            <Link to={`/${closed}`}>Bagla</Link>
+          <Button
+            onClick={(e) => handleSaveOrNot(e)}
+            className="customclosebtn"
+          >
+            Bagla
           </Button>
         )}
 
@@ -210,6 +240,37 @@ function DocButtons({
           </Button>
         </Dropdown>
       </div>
+
+      <Modal
+        title={
+          <div className="exitModalTitle">
+            <WarningOutlined /> Diqqət
+          </div>
+        }
+        closable={false}
+        className="close_doc_modal_wrapper"
+        visible={showModal}
+        footer={[
+          <Button
+            className="customsavebtn"
+            form={"myForm"}
+            htmlType={"submit"}
+            onClick={(e) => handleSaveDocModal(e)}
+          >
+            Yadda saxla
+          </Button>,
+          <div className="close_doc_modal_right_side">
+            <Button key="back" onClick={() => setShowModal(false)}>
+              Geri qayıt
+            </Button>
+            <Button key="link" href="#" onClick={() => setRedirectClose(true)}>
+              Ok
+            </Button>
+          </div>,
+        ]}
+      >
+        <p className="exitModalBodyText">Dəyişikliklər yadda saxlanılmayacaq</p>
+      </Modal>
     </div>
   );
 }

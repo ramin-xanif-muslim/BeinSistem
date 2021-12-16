@@ -29,6 +29,7 @@ function FilterComponent({ from, settings, cols }) {
   const [rangeFilter, setRangeFilter] = useState({});
   const [normalFilter, setNormalFilter] = useState({});
   const [dropdown, setDropdown] = useState([]);
+  const [changed, setChanged] = useState(false);
   const [initial, setinitial] = useState({});
   const {
     setIsFilter,
@@ -127,17 +128,20 @@ function FilterComponent({ from, settings, cols }) {
 
   function allClear() {
     setSelectFilter([]);
-    setAdvancedPage(0);
-    console.log(initial);
-    console.log(form.resetFields());
-    console.log(form.getFieldsValue());
+    setChanged(true);
+    form.resetFields();
     form.setFieldsValue(initial);
+
+    setIsFilter(true);
+    setAdvancedPage(0);
+    setAdvance(initial);
   }
   function handleClear(id) {
     delete selectFilter[`${id}`];
     delete selectFilter[`${id}_id`];
 
     setSelectFilter(selectFilter);
+    setChanged(true);
   }
   function handleChange(value, option) {
     console.log(form.getFieldValue());
@@ -408,7 +412,7 @@ function FilterComponent({ from, settings, cols }) {
         delete totalvalues[`${key}`];
         totalvalues[`${index}`] = value;
       }
-      if (value === '') {
+      if (value === "") {
         delete totalvalues[`${key}`];
       }
     });
@@ -430,19 +434,29 @@ function FilterComponent({ from, settings, cols }) {
       setinitial(selectFilter);
     } else if (from === "products") {
       if (Object.keys(selectFilter).length === 0) {
-        Object.assign(selectFilter, {
-          ar: 0,
-          wg:'',
-        });
-        Object.assign(initial, {
-          ar: 0,
-          wg: '',
-        });
         setSelectFilter(selectFilter);
-        setinitial(initial);
       }
 
+      setinitial({
+        wg: "",
+        ar: 0,
+      });
+
       form.setFieldsValue(selectFilter);
+
+      if (selectFilter.wg === "" || selectFilter.wg === undefined) {
+        console.log("salam");
+        form.setFieldsValue({
+          wg: "",
+        });
+      }
+      console.log(selectFilter.ar);
+      if (selectFilter.ar === "" || selectFilter.ar === undefined) {
+        console.log("salam");
+        form.setFieldsValue({
+          ar: 0,
+        });
+      }
     } else {
       if (Object.keys(selectFilter).length === 0) {
         setSelectFilter(selectFilter);
@@ -450,7 +464,9 @@ function FilterComponent({ from, settings, cols }) {
       }
       form.setFieldsValue(selectFilter);
     }
-  }, []);
+
+    setChanged(false);
+  }, [changed]);
 
   useEffect(() => {
     if (advanced) {
