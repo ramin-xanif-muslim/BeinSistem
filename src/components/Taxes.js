@@ -11,6 +11,7 @@ import { Redirect } from "react-router-dom";
 import { Divider } from "antd";
 import MaskedInput from "antd-mask-input";
 import { ConvertDecimal } from "../config/function/findadditionals";
+import moment from "moment";
 
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
@@ -26,6 +27,7 @@ import {
   Modal,
   message,
   Spin,
+  Progress,
   Checkbox,
 } from "antd";
 import {
@@ -35,11 +37,21 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import { fetchCompany, fetchTaxes, updateCompany } from "../api";
+moment.locale("az");
 
 function Taxes() {
   const [loading, setLoading] = useState(false);
   const [sendObject, setSendObject] = useState({});
   const [newObj, setNewObj] = useState(null);
+  const [totalStorage, setTotalStorage] = useState(0);
+  const [totalPercent, setTotalPercent] = useState(0);
+  const [totalAmountCheck, setTotalAmountCheck] = useState(0);
+  const [totalAmountNum, setTotalAmountNum] = useState(0);
+  const [totalMonthPrice, setTotalMonthPrice] = useState(0);
+  const [totalDailyPrice, setTotalDailyPrice] = useState(0);
+  const [expired, setExpired] = useState(0);
+  const [expireddate, setExpiredDate] = useState("");
+
   const [services, setServices] = useState([]);
   const [accountservices, setAccountServices] = useState([]);
   const queryClient = useQueryClient();
@@ -50,18 +62,66 @@ function Taxes() {
   const updateMutation = useMutation(updateTaxes, {
     refetchQueris: ["taxes"],
   });
+  useEffect(() => {
+    setTotalStorage(0);
+  }, []);
 
   useEffect(() => {
+    let total = 0;
+    let totalAmount = 0;
+    let totalAmountNumber = 0;
+
+    let totaldailyAmount = 0;
+    let totaldailyAmountNumber = 0;
+
     if (accountservices) {
       var newObj = {};
-
       Object.entries(accountservices).map(([k, v]) => {
         Object.assign(newObj, { [`s${k}`]: v });
       });
+
+      Object.values(services)
+        .filter((s) => s.Id.slice(0, 2) === "20")
+        .map((service) => {
+          Object.entries(accountservices).map(([k, v]) => {
+            if (k.slice(0, 2) === "20") {
+              if (service.Id === k) {
+                total += service.Volume;
+                totalAmount += service.Price * 30;
+                totaldailyAmount += service.Price;
+              }
+            }
+          });
+        });
+      Object.values(services).map((service) => {
+        Object.entries(accountservices).map(([k, v]) => {
+          if (k.slice(0, 2) !== "20") {
+            if (service.Id === k) {
+              totalAmountNumber += service.Price * v;
+              totaldailyAmountNumber += service.Price * v;
+            }
+          }
+        });
+      });
     }
 
+    setTotalStorage(total);
+    setTotalAmountCheck(totalAmount);
+    setTotalAmountNum(totalAmountNumber);
+
+    let month = ConvertDecimal(totalAmount + totalAmountNumber);
+    let daily = ConvertDecimal(totaldailyAmount + totaldailyAmountNumber);
+    setTotalMonthPrice(month);
+    setTotalDailyPrice(daily);
     setSendObject(newObj);
   }, [accountservices]);
+
+  useEffect(() => {
+    if (totalStorage != 0) {
+      let usePercent = (data.Body.UsedStorage * 100) / totalStorage;
+      setTotalPercent(ConvertDecimal(usePercent));
+    }
+  }, [totalStorage]);
 
   useEffect(() => {
     if (newObj) {
@@ -71,6 +131,7 @@ function Taxes() {
     }
   }, [newObj]);
 
+  console.log("totalStorage", totalStorage);
   const onChangeFilter = (e, name) => {
     var n = "s" + name;
     var v = e.target.value;
@@ -87,11 +148,21 @@ function Taxes() {
     if (!isFetching) {
       setServices(Object.values(data.Body.Services));
       setAccountServices(data.Body.AccountServices);
+
+      let expireddays = parseFloat(
+        data.Body.AccountBalance / totalDailyPrice
+      ).toFixed();
+
+      let new_date = moment().add(expireddays, "days").calendar();
+      console.log("DD-MM-YYYY");
+
+      setExpired(expireddays);
+      setExpiredDate(new_date);
     } else {
       setServices([]);
       setAccountServices([]);
     }
-  }, [isFetching]);
+  }, [isFetching, totalDailyPrice]);
 
   const columns = useMemo(() => {
     return [
@@ -160,7 +231,7 @@ function Taxes() {
         },
       },
     ];
-  }, [services, accountservices]);
+  }, [services, accountservices, isFetching]);
 
   const onClose = () => {
     message.destroy();
@@ -206,6 +277,22 @@ function Taxes() {
   return (
     <div>
       <Row>
+        <Col xs={24} md={24} xl={5}>
+          <Progress type="circle" percent={totalPercent} />
+        </Col>
+        <Col xs={24} md={24} xl={19}>
+          <div>
+            <p>
+              <strong>Məlumat :</strong>
+
+              <span>
+                Balansınız {data.Body.AccountBalance} ₼. Hal-hazırki tarifinizin
+                aylıq abunə haqqı {totalMonthPrice} ₼. Bitmə tarixi{" "}
+                {expireddate} ({expired} gün)
+              </span>
+            </p>
+          </div>
+        </Col>
         <Col xs={24} md={24} xl={24}>
           <Table
             rowKey="Id"
