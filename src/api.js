@@ -586,7 +586,17 @@ export const fetchCompany = async () => {
 
   return data;
 };
+export const fetchTaxes = async () => {
+  var progr = {
+    token: localStorage.getItem("access-token"),
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/taxes/get.php`,
+    progr
+  );
 
+  return data;
+};
 export const fetchProductFolders = async () => {
   var progr = {
     token: localStorage.getItem("access-token"),
@@ -660,6 +670,19 @@ export const updateSpendItem = async (obj) => {
 
   return data;
 };
+export const updateTaxes = async (obj) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+  };
+  var sendFilter = Object.assign(editFilter, obj.filter);
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/taxes/put.php`,
+    sendFilter
+  );
+
+  return data;
+};
+;
 export const updateDepartment = async (obj) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
