@@ -79,6 +79,8 @@ function DemandReturnDetail() {
     customers,
     setCustomers,
     setOuterDataSource,
+    setDisable,
+    disable,
   } = useTableCustom();
   const {
     docstock,
@@ -100,6 +102,9 @@ function DemandReturnDetail() {
     isPayment,
     setIsPayment,
     setPaymentModal,
+
+    saveFromModal,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -260,6 +265,24 @@ function DemandReturnDetail() {
   });
 
   useEffect(() => {
+    setDisable(true);
+    setPositions([]);
+    setOuterDataSource([]);
+
+    return () => {
+      setDisable(true);
+      setPositions([]);
+      setOuterDataSource([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
+
+  useEffect(() => {
     if (createdStock) {
       getStocksAgain();
     }
@@ -355,11 +378,15 @@ function DemandReturnDetail() {
               duration: 2,
             });
             queryClient.invalidateQueries("demandreturn", doc_id);
-            if (isReturn) {
-              setRedirect(true);
-            }
-            if (isPayment) {
-              setPaymentModal(true);
+            if (saveFromModal) {
+              setRedirectSaveClose(true);
+            } else {
+                if (isReturn) {
+                    setRedirect(true);
+                }
+                if (isPayment) {
+                    setPaymentModal(true);
+                }
             }
           } else {
             message.error({

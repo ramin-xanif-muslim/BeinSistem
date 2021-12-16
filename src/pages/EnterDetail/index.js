@@ -94,11 +94,12 @@ function EnterDetail() {
     createdStock,
     setCreatedStock,
     setProductModal,
+    
+    isPayment,
+    setPaymentModal,
+    isReturn,
 
     saveFromModal,
-    setSaveFromModal,
-
-    redirectSaveClose,
     setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
@@ -456,6 +457,13 @@ function EnterDetail() {
             queryClient.invalidateQueries("enter", doc_id);
             if (saveFromModal) {
               setRedirectSaveClose(true);
+            } else {
+                if (isReturn) {
+                    setRedirect(true);
+                }
+                if (isPayment) {
+                    setPaymentModal(true);
+                }
             }
           } else {
             message.error({

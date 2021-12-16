@@ -81,6 +81,8 @@ function NewSupply() {
     customers,
     setCustomers,
     setCustomersLocalStorage,
+    setDisable,
+    disable,
   } = useTableCustom();
   const {
     docstock,
@@ -98,6 +100,12 @@ function NewSupply() {
     setCreatedCustomer,
     setProductModal,
     productModal,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -315,6 +323,24 @@ function NewSupply() {
   }, []);
 
   useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
+
+  useEffect(() => {
+    setDisable(true);
+    setPositions([]);
+    setOuterDataSource([]);
+
+    return () => {
+      setDisable(true);
+      setPositions([]);
+      setOuterDataSource([]);
+    };
+  }, []);
+
+  useEffect(() => {
     setColumnChange(false);
   }, [columnChange]);
   const onChangeMenu = (e) => {
@@ -398,7 +424,10 @@ function NewSupply() {
     return attrResponse;
   };
   const handleFinish = async (values) => {
+    setDisable(true);
+
     values.positions = outerDataSource;
+
     values.mark = docmark;
     values.moment = values.moment._i;
     values.description = myRefDescription.current.resizableTextArea.props.value;
@@ -417,7 +446,12 @@ function NewSupply() {
         duration: 2,
       });
       setEditId(res.Body.ResponseService);
-      setRedirect(true);
+
+      if (saveFromModal) {
+        setRedirectSaveClose(true);
+      } else {
+        setRedirect(true);
+      }
     } else {
       message.error({
         content: (
@@ -480,6 +514,11 @@ function NewSupply() {
     setDocStock(stock);
   };
 
+  const handleChanged = () => {
+    if (disable) {
+      setDisable(false);
+    }
+  };
   const panes = [
     {
       menuItem: "Əsas",
@@ -544,6 +583,8 @@ function NewSupply() {
             span: 14,
           }}
           onFinish={handleFinish}
+          onFieldsChange={handleChanged}
+
           layout="horizontal"
         >
           <Row style={{ marginTop: "1em", padding: "1em" }}>

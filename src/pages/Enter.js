@@ -52,9 +52,7 @@ export default function Enter() {
     display,
   } = useTableCustom();
   const {
-    saveFromModal,
     setSaveFromModal,
-    redirectSaveClose,
     setRedirectSaveClose,
   } = useCustomForm();
 

@@ -93,6 +93,12 @@ function NewMove() {
     createdStock,
     setCreatedStock,
     setProductModal,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -113,6 +119,18 @@ function NewMove() {
     setOuterDataSource(dataSource.filter((item) => item.key !== key));
     setPositions(dataSource.filter((item) => item.key !== key));
   };
+
+  useEffect(() => {
+    setDisable(true);
+    setPositions([]);
+    setOuterDataSource([]);
+
+    return () => {
+      setDisable(true);
+      setPositions([]);
+      setOuterDataSource([]);
+    };
+  }, []);
 
   useEffect(() => {
     setDisable(true);
@@ -307,6 +325,12 @@ function NewMove() {
 
     setCreatedStock(null);
   };
+
+  useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
   useEffect(() => {
     form.setFieldsValue({
       moment: moment(),
@@ -359,7 +383,12 @@ function NewMove() {
         duration: 2,
       });
       setEditId(res.Body.ResponseService);
-      setRedirect(true);
+
+      if (saveFromModal) {
+        setRedirectSaveClose(true);
+      } else {
+        setRedirect(true);
+      }
     } else {
       message.error({
         content: (

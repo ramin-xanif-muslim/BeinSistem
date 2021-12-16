@@ -80,6 +80,8 @@ function NewDemandReturn() {
     setStockLocalStorage,
     customers,
     setCustomers,
+    setDisable,
+    disable,
   } = useTableCustom();
   const {
     docstock,
@@ -97,6 +99,9 @@ function NewDemandReturn() {
     setCreatedCustomer,
     setProductModal,
     productModal,
+
+    saveFromModal,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -256,6 +261,25 @@ function NewDemandReturn() {
   useEffect(() => {
     setColumnChange(false);
   }, [columnChange]);
+
+  useEffect(() => {
+    setDisable(true);
+    setPositions([]);
+    setOuterDataSource([]);
+
+    return () => {
+      setDisable(true);
+      setPositions([]);
+      setOuterDataSource([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
+  
   const onChangeMenu = (e) => {
     var initialCols = initial;
     var findelement;
@@ -354,7 +378,12 @@ function NewDemandReturn() {
         duration: 2,
       });
       setEditId(res.Body.ResponseService);
-      setRedirect(true);
+
+      if (saveFromModal) {
+        setRedirectSaveClose(true);
+      } else {
+        setRedirect(true);
+      }
     } else {
       message.error({
         content: (

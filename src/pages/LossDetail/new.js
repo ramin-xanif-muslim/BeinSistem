@@ -92,6 +92,12 @@ function NewLoss() {
     createdStock,
     setCreatedStock,
     setProductModal,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -245,6 +251,24 @@ function NewLoss() {
   }, [consumption, outerDataSource, docSum, columnChange]);
 
   useEffect(() => {
+    setDisable(true);
+    setPositions([]);
+    setOuterDataSource([]);
+
+    return () => {
+      setDisable(true);
+      setPositions([]);
+      setOuterDataSource([]);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
+
+  useEffect(() => {
     setInitial(columns);
   }, []);
 
@@ -342,7 +366,12 @@ function NewLoss() {
         duration: 2,
       });
       setEditId(res.Body.ResponseService);
-      setRedirect(true);
+
+      if (saveFromModal) {
+        setRedirectSaveClose(true);
+      } else {
+        setRedirect(true);
+      }
     } else {
       message.error({
         content: (

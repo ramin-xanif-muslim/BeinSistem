@@ -95,6 +95,12 @@ function MoveDetail() {
     createdStock,
     setCreatedStock,
     setProductModal,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -116,6 +122,12 @@ function MoveDetail() {
     setOuterDataSource(dataSource.filter((item) => item.key !== key));
     setPositions(dataSource.filter((item) => item.key !== key));
   };
+
+  useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
   useEffect(() => {
     if (!isFetching) {
       customPositions = [];
@@ -407,6 +419,9 @@ function MoveDetail() {
               duration: 2,
             });
             queryClient.invalidateQueries("move", doc_id);
+            if (saveFromModal) {
+              setRedirectSaveClose(true);
+            }
           } else {
             message.error({
               content: (
