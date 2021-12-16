@@ -19,6 +19,8 @@ import {
   ConvertFixedPosition,
   ConvertFixedTable,
 } from "../config/function/findadditionals";
+import { isObject } from "../config/function/findadditionals";
+
 const { Text } = Typography;
 export default function Enter() {
   const [redirect, setRedirect] = useState(false);
@@ -51,10 +53,7 @@ export default function Enter() {
     setdisplay,
     display,
   } = useTableCustom();
-  const {
-    setSaveFromModal,
-    setRedirectSaveClose,
-  } = useCustomForm();
+  const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
   const [documentList, setDocumentList] = useState([]);
   const { isLoading, error, data, isFetching } = useQuery(
@@ -346,7 +345,7 @@ export default function Enter() {
 
   useEffect(() => {
     if (!isFetching) {
-      if (!error) {
+      if (isObject(data.Body)) {
         setDocumentList(data.Body.List);
         setallsum(data.Body.AllSum);
       }
@@ -503,6 +502,16 @@ export default function Enter() {
   if (error) return "An error has occurred: " + error.message;
 
   if (redirect) return <Redirect push to={`/editEnter/${editId}`} />;
+
+  
+  if (!isObject(data.Body))
+    return (
+      <>
+        Xəta:
+        <span style={{ color: "red" }}>Serverdə xəta baş verdi : {data}</span>
+      </>
+    );
+
   return (
     <div className="custom_display">
       <Row className="header_row">
