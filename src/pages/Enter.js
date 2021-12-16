@@ -173,14 +173,16 @@ export default function Enter() {
             <span
               className="status_label"
               style={{
-                backgroundColor: markObject.find((m) => m.Id === value)
-                  ? markObject.find((m) => m.Id === value).Color
+                backgroundColor: markObject
+                  ? markObject.find((m) => m.Id === value)
+                    ? markObject.find((m) => m.Id === value).Color
+                    : null
                   : null,
               }}
             >
-              {markObject.find((m) => m.Id === value)
+              {markObject ? markObject.find((m) => m.Id === value)
                 ? markObject.find((m) => m.Id === value).Name
-                : null}
+                : null : null}
             </span>
           );
         },
