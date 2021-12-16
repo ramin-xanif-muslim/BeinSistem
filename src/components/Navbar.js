@@ -70,7 +70,6 @@ function Navbar() {
 
   const getBalance = async () => {
     const balanceres = await fetchNotification();
-    console.log(balanceres);
     if (balanceres === "Balans bitib") {
       setNoBalance(true);
     } else {

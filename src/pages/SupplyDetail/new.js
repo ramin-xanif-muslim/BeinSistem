@@ -183,7 +183,7 @@ function NewSupply() {
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
-          return value;
+          return ConvertFixedTable(value);
         },
       },
       {
@@ -199,7 +199,7 @@ function NewSupply() {
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
-          return value;
+          return ConvertFixedTable(value);
         },
       },
       {
