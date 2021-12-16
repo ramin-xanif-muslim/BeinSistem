@@ -22,7 +22,7 @@ export default function Product() {
   const [editId, setEditId] = useState("");
   const [page, setPage] = useState(0);
   const [productList, setProdutcList] = useState([]);
-  const [initialfilter, setInitialFilter] = useState( null);
+  const [initialfilter, setInitialFilter] = useState(null);
   const [filterChanged, setFilterChanged] = useState(false);
   const [filterChange, setFilterChange] = useState(false);
   const [filterColumns, setFilterColumns] = useState([]);
@@ -41,7 +41,7 @@ export default function Product() {
   const [initialSort, setInitialSort] = useState("GroupName");
   const [fieldSort, setFieldSort] = useState("GroupName");
   const [columnChange, setColumnChange] = useState(false);
-  const [initial, setInitial] =  useState(localStorage.getItem('procolumns') ? JSON.parse(localStorage.getItem('procolumns')) : null)
+  const [initial, setInitial] = useState(localStorage.getItem('procolumns') ? JSON.parse(localStorage.getItem('procolumns')) : null)
   const [menus, setMenu] = useState(null);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
   const {
@@ -73,7 +73,7 @@ export default function Product() {
     attributes,
     setdisplay,
     display,
-    disable,setDisable
+    disable, setDisable
   } = useTableCustom();
 
   const filters = useMemo(() => {
@@ -86,8 +86,8 @@ export default function Product() {
         dataIndex: "productname",
         show: initialfilter
           ? Object.values(initialfilter).find(
-              (i) => i.dataIndex === "productname"
-            ).show
+            (i) => i.dataIndex === "productname"
+          ).show
           : true,
       },
       {
@@ -111,7 +111,7 @@ export default function Product() {
         dataIndex: "buyPrice",
         show: initialfilter
           ? Object.values(initialfilter).find((i) => i.dataIndex === "buyPrice")
-              .show
+            .show
           : true,
       },
       {
@@ -124,8 +124,8 @@ export default function Product() {
         dataIndex: "salePrice",
         show: initialfilter
           ? Object.values(initialfilter).find(
-              (i) => i.dataIndex === "salePrice"
-            ).show
+            (i) => i.dataIndex === "salePrice"
+          ).show
           : true,
       },
       {
@@ -168,9 +168,12 @@ export default function Product() {
 
   let newfilters = [];
 
+  console.log(initialSort)
+
   useEffect(() => {
     if (attributes) {
       Object.values(attributes).forEach((c) => {
+        console.log(c.Name)
         let otherColumn = {
           key: c.ReferenceTypeId,
           label: c.Title,
@@ -178,10 +181,11 @@ export default function Product() {
           type: c.ReferenceTypeId ? "selectMod" : "text",
           controller: c.ReferenceTypeId ? "selectMod" : "textMod",
           dataIndex: c.Name,
+
           show: localStorage.getItem("procolumns")
             ? Object.values(
-                JSON.parse(localStorage.getItem("procolumns"))
-              ).find((i) => i.dataIndex === c.Name).show
+              JSON.parse(localStorage.getItem("procolumns"))
+            ).find((i) => i.dataIndex === c.Name).show
             : true,
         };
         newfilters = [...newfilters, otherColumn];
@@ -226,20 +230,20 @@ export default function Product() {
       <Menu.ItemGroup title="Sutunlar">
         {initialfilter
           ? Object.values(initialfilter).map((d) => (
-              <Menu.Item key={d.dataIndex}>
-                <Checkbox
-                  id={d.dataIndex}
-                  onChange={(e) => onChangeMenuFilter(e)}
-                  defaultChecked={
-                    Object.values(filtersnew).find(
-                      (e) => e.dataIndex === d.dataIndex
-                    ).show
-                  }
-                >
-                  {d.label}
-                </Checkbox>
-              </Menu.Item>
-            ))
+            <Menu.Item key={d.dataIndex}>
+              <Checkbox
+                id={d.dataIndex}
+                onChange={(e) => onChangeMenuFilter(e)}
+                defaultChecked={
+                  Object.values(filtersnew).find(
+                    (e) => e.dataIndex === d.dataIndex
+                  ).show
+                }
+              >
+                {d.label}
+              </Checkbox>
+            </Menu.Item>
+          ))
           : null}
       </Menu.ItemGroup>
     </Menu>
@@ -354,7 +358,7 @@ export default function Product() {
         title: "Şərh",
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "Description")
-              .show
+            .show
           : true,
         sorter: (a, b) => null,
         className:
@@ -366,7 +370,7 @@ export default function Product() {
         defaultSortOrder: initialSort === "StockBalance" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "StockBalance")
-              .show
+            .show
           : true,
         sorter: (a, b) => null,
         className:
@@ -390,7 +394,7 @@ export default function Product() {
         defaultSortOrder: initialSort === "PackQuantity" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "PackQuantity")
-              .show
+            .show
           : false,
         sorter: (a, b) => null,
         className:
@@ -401,14 +405,14 @@ export default function Product() {
         title: "Print",
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "PrintBarcode")
-              .show
+            .show
           : true,
         className:
           initialSort === "PrintBarcode" ? "activesort" : "",
         render: (value, row, index) => {
           return (
             <span
-              style={{color: "#1164B1"}}
+              style={{ color: "#1164B1" }}
               onClick={getProductPrint(
                 row.ProductId,
                 row.BarCode,
@@ -431,22 +435,31 @@ export default function Product() {
   };
   let newcols = [];
   useEffect(() => {
+    setOtherColumns([]);
+
     if (attributes) {
+      console.log('ds  q')
       Object.values(attributes).forEach((c) => {
         let otherColumn = {
           dataIndex: c.Name,
           title: c.Title,
           show: initial
-            ? Object.values(initial).find((i) => i.dataIndex === c.Name) ? Object.values(initial).find((i) => i.dataIndex === c.Name).show :false
+            ? Object.values(initial).find((i) => i.dataIndex === c.Name) ? Object.values(initial).find((i) => i.dataIndex === c.Name).show : false
             : false,
+          defaultSortOrder: initialSort === c.Name ? defaultdr : null,
           sorter: (a, b) => null,
+          className: initialSort === c.Name ? "activesort" : "",
+
         };
         newcols = [...newcols, otherColumn];
+
+        console.log(newcols)
+
       });
       setOtherColumns(newcols);
       setColumnChange(true);
     }
-  }, [attributes]);
+  }, [attributes, initialSort]);
 
   const [cols, setCols] = useState([]);
 
@@ -464,28 +477,28 @@ export default function Product() {
     () => {
       return isFilter === true
         ? fetchFilterPage(
-            "products",
-            advancedPage,
-            advanced,
-            direction,
-            fieldSort,
-            searchGr,
-            null,
-            0
-          )
+          "products",
+          advancedPage,
+          advanced,
+          direction,
+          fieldSort,
+          searchGr,
+          null,
+          0
+        )
         : doSearch
-        ? fecthFastPage("products", advancedPage, search, searchGr)
-        : !isFilter && !doSearch
-        ? fetchPage(
-            "products",
-            advancedPage,
-            direction,
-            fieldSort,
-            searchGr,
-            null,
-            0
-          )
-        : null;
+          ? fecthFastPage("products", advancedPage, search, searchGr)
+          : !isFilter && !doSearch
+            ? fetchPage(
+              "products",
+              advancedPage,
+              direction,
+              fieldSort,
+              searchGr,
+              null,
+              0
+            )
+            : null;
     }
   );
 
@@ -524,6 +537,8 @@ export default function Product() {
   };
 
   function onChange(pagination, filters, sorter, extra) {
+    console.log(sorter.order)
+    console.log(sorter.field)
     setInitialSort(sorter.field);
     if (sorter.order === "ascend") {
       setDirection(0);
@@ -557,10 +572,10 @@ export default function Product() {
   };
 
   const handleVisibleChange = (flag) => {
-   
+
 
     if (!flag) {
-      localStorage.setItem('procolumns',JSON.stringify(columnsnew))
+      localStorage.setItem('procolumns', JSON.stringify(columnsnew))
     }
     setVisibleMenuSettings(flag);
   };
@@ -575,7 +590,7 @@ export default function Product() {
   useEffect(() => {
     if (filtered) setFiltered(false);
     if (columnChange) {
-     
+
 
       setInitial(columnsnew);
     }
@@ -583,30 +598,33 @@ export default function Product() {
 
   const columnsnew = useMemo(
     () => [...columns, ...otherColumns],
-    [columnChange, direction, fieldSort, advancedPage]
+    [columnChange, direction, fieldSort, advancedPage,otherColumns]
   );
+
+
+  console.log(columnsnew)
   const menu = (
     <Menu>
       <Menu.ItemGroup title="Sutunlar">
         {initial
           ? Object.values(initial).map((d) => (
-              <Menu.Item key={d.dataIndex}>
-                <Checkbox
-                  id={d.dataIndex}
-                  onChange={(e) => onChangeMenu(e)}
+            <Menu.Item key={d.dataIndex}>
+              <Checkbox
+                id={d.dataIndex}
+                onChange={(e) => onChangeMenu(e)}
                 defaultChecked={
-                     Object.values(columnsnew).find(
-                      (e) => e.dataIndex === d.dataIndex
-                    ) ? 
+                  Object.values(columnsnew).find(
+                    (e) => e.dataIndex === d.dataIndex
+                  ) ?
                     Object.values(columnsnew).find(
                       (e) => e.dataIndex === d.dataIndex
                     ).show : null
-                  }
-                >
-                  {d.title}
-                </Checkbox>
-              </Menu.Item>
-            ))
+                }
+              >
+                {d.title}
+              </Checkbox>
+            </Menu.Item>
+          ))
           : null}
       </Menu.ItemGroup>
     </Menu>

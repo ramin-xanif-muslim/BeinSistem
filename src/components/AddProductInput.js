@@ -158,7 +158,7 @@ function AddProductInput() {
       <Dropdown
         button
         className="icon"
-        style={{ width: "100%" }}
+        style={{ width: "100%", fontWeight: "400", fontStyle: "italic", opacity: "0.7", padding: "0.7rem 0" }}
         searchQuery={value}
         floating
         labeled
@@ -168,12 +168,13 @@ function AddProductInput() {
         onClose={onClose}
         onSearchChange={(e) => handleSearch(e.target.value)}
         search
-        text="Məhsul əlavə et - Ad, Barkod və ya Artkod ilə"
+        placeholder="Məhsul əlavə et - Ad, Barkod və ya Artkod ilə"
       >
-        <Dropdown.Menu>
+        <Dropdown.Menu style={{maxHeight: "none", height: "53vh"}}>
           {productList.map((option) =>
             option.id != "0" ? (
               <Dropdown.Item
+
                 key={option.value}
                 {...option}
                 onClick={() => onChange(option)}

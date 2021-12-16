@@ -34,7 +34,7 @@
     position: sticky;
     top: 0;
     background-color: #fff;
-    z-index: 999;
+    z-index: 1;
     padding: 10px 20px;
     box-shadow: 2px 2px 3px 0px #b2afaf;
 }
@@ -55,6 +55,10 @@
 
 .doc_name_wrapper {
     padding-left: 20px;
+}
+
+.doc_name_wrapper h2 {
+    font-weight: 600;
 }
 
 .plus_wrapper {
@@ -134,9 +138,10 @@
 }
 
 .addProductInputIcon .anticon-plus {
-    padding: 10px;
+    padding: 9px;
     cursor: pointer;
     border-left: 1px solid #c4c4c4;
+    border-radius: 0 3px 3px 0;
 }
 
 .addNewProductIcon {
@@ -150,7 +155,7 @@
 .ui.button.dropdown.icon {
     width: 100%;
     background: none;
-    border: 1px solid #c4c2c2;
+    border: 1px solid #8a8a8a;
 }
 .custom_modal {
     width: 100% !important;
@@ -174,10 +179,6 @@
 }
 .search_header {
     margin-left: 50px;
-}
-
-.filter_button {
-    /* margin-left: 1em !important; */
 }
 .ui.animated.button.buttons_click {
     transition: all 0.2s ease-in;
@@ -229,7 +230,7 @@
     position: sticky;
     top: 0;
     background: #f9f9f9 !important;
-    z-index: 1000;
+    z-index: 3;
 }
 
 .ant-table-small .ant-table-thead > tr > th {
@@ -313,4 +314,16 @@ td.ant-table-column-sort {
 
 .ant-table-cell-row-hover {
     background-color: rgb(206, 237, 255) !important;
+}
+
+.ant-tree.ant-tree-directory .ant-tree-treenode {
+    padding: 8.5px 0;
+}
+
+.ui.labeled.icon.button>.icon {
+    font-family: Icons !important;
+}
+
+.ant-btn > span + .anticon {
+    margin: 0;
 }
