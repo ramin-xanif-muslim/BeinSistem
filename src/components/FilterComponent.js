@@ -128,9 +128,6 @@ function FilterComponent({ from, settings, cols }) {
   function allClear() {
     setSelectFilter([]);
     setAdvancedPage(0);
-    console.log(initial);
-    console.log(form.resetFields());
-    console.log(form.getFieldsValue());
     form.setFieldsValue(initial);
   }
   function handleClear(id) {
@@ -408,7 +405,7 @@ function FilterComponent({ from, settings, cols }) {
         delete totalvalues[`${key}`];
         totalvalues[`${index}`] = value;
       }
-      if (value === '') {
+      if (value === "") {
         delete totalvalues[`${key}`];
       }
     });
@@ -432,17 +429,24 @@ function FilterComponent({ from, settings, cols }) {
       if (Object.keys(selectFilter).length === 0) {
         Object.assign(selectFilter, {
           ar: 0,
-          wg:'',
+          wg: "",
         });
         Object.assign(initial, {
           ar: 0,
-          wg: '',
+          wg: "",
         });
         setSelectFilter(selectFilter);
         setinitial(initial);
       }
 
       form.setFieldsValue(selectFilter);
+      console.log(selectFilter.wg);
+      if (selectFilter.wg === "" || selectFilter.wg === undefined) {
+        console.log("salam");
+        form.setFieldsValue({
+          wg: "",
+        });
+      }
     } else {
       if (Object.keys(selectFilter).length === 0) {
         setSelectFilter(selectFilter);
