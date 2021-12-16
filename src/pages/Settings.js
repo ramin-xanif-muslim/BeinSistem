@@ -26,6 +26,7 @@ import Stock from "../components/Stock";
 import ModComponent from "../components/ModComponent";
 import Departments from "../components/Departments";
 import Owners from "../components/Owners";
+import Taxes from "../components/Taxes";
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
@@ -133,6 +134,8 @@ export default function Settings() {
               <Departments />
             ) : path === "Users" ? (
               <Owners />
+            ) : path === "taxes" ? (
+              <Taxes />
             ) : null}
           </Content>
         </Layout>

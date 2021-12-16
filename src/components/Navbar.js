@@ -11,10 +11,21 @@ import { Segment } from "semantic-ui-react";
 import { useParams } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import {
+  Form,
+  Button,
+  Row,
+  Collapse,
+  Modal,
+} from "antd";
+import {
+  WarningOutlined,
+} from "@ant-design/icons";
+import {
   fetchStocks,
   fetchMarks,
   fetchCompany,
   fetchNotification,
+
 } from "../api";
 import "../Navbar.css";
 function Navbar() {
@@ -44,8 +55,9 @@ function Navbar() {
   const { loggedIn, token, firstLogin, logout } = useAuth();
 
   const [menu, setMenu] = useState("2");
+  const [noBalance, setNoBalance] = useState(true);
   const [companyname, setCompany] = useState(null);
-  const [activeItem, setActiveItem] = useState(firstLogin ? 'Məhsullar' : '');
+  const [activeItem, setActiveItem] = useState(firstLogin ? "Məhsullar" : "");
   const [activeSubItem, setActiveSubItem] = useState(
     firstLogin ? "Daxilolma" : ""
   );
@@ -57,9 +69,15 @@ function Navbar() {
   };
 
   const getBalance = async () => {
-    const balanceres = await fetchNotification()
-    setBalance(balanceres.Body.AccountBalance);
-  }
+    const balanceres = await fetchNotification();
+    console.log(balanceres);
+    if (balanceres === "Balans bitib") {
+      setNoBalance(true);
+    } else {
+      setNoBalance(false);
+      setBalance(balanceres.Body.AccountBalance);
+    }
+  };
   const getCompany = async () => {
     const compResponse = await fetchCompany();
     setCompany(compResponse.Body.CompanyName);
@@ -85,13 +103,15 @@ function Navbar() {
   };
 
   useEffect(() => {
-    getBalance()
-    getCompany();
-    getMarks();
-    getStocks();
-    getOwners();
-    getDepartments();
-  }, []);
+    getBalance();
+    if (!noBalance) {
+      getCompany();
+      getMarks();
+      getStocks();
+      getOwners();
+      getDepartments();
+    }
+  }, [noBalance]);
 
   const logOut = () => {
     logout();
@@ -122,7 +142,7 @@ function Navbar() {
           </Menu.Item>
         </Menu.Menu>
         {Array.isArray(data.Body)
-          ? data.Body.filter((d) => d.ParentId === '0').map((m) => (
+          ? data.Body.filter((d) => d.ParentId === "0").map((m) => (
               <Menu.Item
                 className="main_header_items custom_flex_direction"
                 key={m.Id}
@@ -241,6 +261,26 @@ function Navbar() {
             : ""}
         </List>
       </Segment>
+
+      <Modal
+        title={
+          <div className="exitModalTitle">
+            <WarningOutlined /> Diqqət
+          </div>
+        }
+        closable={false}
+        className="close_doc_modal_wrapper"
+        visible={noBalance}
+        footer={[
+          <div className="close_doc_modal_right_side">
+            <Button key="link" href="#" onClick={() => logOut()}>
+              Ok
+            </Button>
+          </div>,
+        ]}
+      >
+        <p className="exitModalBodyText">Balans bitib</p>
+      </Modal>
     </div>
     // <nav className="ui pointing main_header menu navbar">
     //   <div className="upper_side">
