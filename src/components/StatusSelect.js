@@ -184,7 +184,7 @@ function StatusSelect({ defaultvalue }) {
 
   return (
     <>
-      <Form.Item label="Status" name="mark">
+      <Form.Item name="mark">
         <Select
           showSearch
           showArrow={false}

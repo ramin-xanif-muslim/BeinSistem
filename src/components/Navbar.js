@@ -56,6 +56,7 @@ function Navbar() {
 
   const [menu, setMenu] = useState("2");
   const [noBalance, setNoBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
   const [companyname, setCompany] = useState(null);
   const [activeItem, setActiveItem] = useState(firstLogin ? "Məhsullar" : "");
   const [activeSubItem, setActiveSubItem] = useState(
@@ -72,6 +73,7 @@ function Navbar() {
     const balanceres = await fetchNotification();
     if (balanceres === "Balans bitib") {
       setNoBalance(true);
+      setShowBalance(true)
     } else {
       setNoBalance(false);
       setBalance(balanceres.Body.AccountBalance);
@@ -114,6 +116,7 @@ function Navbar() {
 
   const logOut = () => {
     logout();
+    setShowBalance(false)
   };
   const handleClick = (id, name) => {
     console.log(name);
@@ -269,7 +272,7 @@ function Navbar() {
         }
         closable={false}
         className="close_doc_modal_wrapper"
-        visible={noBalance}
+        visible={showBalance}
         footer={[
           <div className="close_doc_modal_right_side">
             <Button key="link" href="#" onClick={() => logOut()}>
