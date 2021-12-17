@@ -14,6 +14,7 @@ import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 import { useCustomForm } from "../contexts/FormContext";
+import { isObject } from "../config/function/findadditionals";
 
 import { SettingOutlined } from "@ant-design/icons";
 
@@ -35,9 +36,13 @@ export default function Settlement() {
 	const [page, setPage] = useState(0);
 	const [filtered, setFiltered] = useState(false);
 
+	const [filterChanged, setFilterChanged] = useState(false);
 	const [columnChange, setColumnChange] = useState(false);
 	const [initial, setInitial] = useState(null);
+	const [initialfilter, setInitialFilter] = useState(null);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+	const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
+		useState(false);
 	const {
 		marks,
 		setMarkLocalStorage,
@@ -51,13 +56,15 @@ export default function Settlement() {
 		setdisplay,
 		display,
 	} = useTableCustom();
-	const { visibleDrawer, setVisibleDrawer, setcusid, cusid } =
-		useCustomForm();
+	const {
+		visibleDrawer,
+		setVisibleDrawer,
+		setcusid,
+		cusid,
+		setSaveFromModal,
+		setRedirectSaveClose,
+	} = useCustomForm();
 	const [documentList, setDocumentList] = useState([]);
-    const [filterChanged, setFilterChanged] = useState(false);
-	const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
-		useState(false);
-	const [initialfilter, setInitialFilter] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		["settlements", page, direction, fieldSort, doSearch, search, advanced],
 		() => {
@@ -76,10 +83,17 @@ export default function Settlement() {
 				: null;
 		}
 	);
+
+	useEffect(() => {
+		setRedirectSaveClose(false);
+		setSaveFromModal(false);
+	}, []);
+
 	useEffect(() => {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
-	}, [columnChange, filtered]);
+		if (filterChanged) setFilterChanged(false);
+	}, [columnChange, filtered, filterChanged]);
 
 	var markObject;
 	marks
@@ -149,96 +163,106 @@ export default function Settlement() {
 			},
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
+	const filters = useMemo(() => {
+		return [
+			{
+				key: "1",
+				label: "Qarşı-tərəf",
+				name: "customerName",
+				type: "select",
+				controller: "customers",
+				dataIndex: "customerName",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "customerName"
+					  ).show
+					: true,
+			},
+			{
+				key: "2",
+				label: "Məbləğ",
+				name: "docPrice",
+				start: "amb",
+				end: "ame",
+				type: "range",
+				dataIndex: "docPrice",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "docPrice"
+					  ).show
+					: true,
+			},
+			{
+				key: "3",
+				label: "Tarixi",
+				name: "createdDate",
+				type: "date",
+				dataIndex: "createdDate",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "createdDate"
+					  ).show
+					: true,
+			},
+			{
+				key: "4",
+				label: "Şöbə",
+				name: "departmentName",
+				controller: "departments",
+				type: "select",
+				dataIndex: "departmentName",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "departmentName"
+					  ).show
+					: true,
+			},
+			{
+				key: "5",
+				label: "Cavabdeh",
+				name: "ownerName",
+				controller: "owners",
+				type: "select",
+				dataIndex: "ownerName",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "ownerName"
+					  ).show
+					: true,
+			},
+		];
+	}, [filterChanged]);
 
 	useEffect(() => {
 		setInitial(columns);
+		setInitialFilter(filters);
 	}, []);
-	const filters = useMemo(() => {
-		return [
-            {
-              key: "1",
-              label: "Daxilolma №",
-              name: "docNumber",
-              type: "text",
-              dataIndex: "docNumber",
-              show: initialfilter
-                ? Object.values(initialfilter).find(
-                    (i) => i.dataIndex === "docNumber"
-                  ).show
-                : true,
-            },
-            {
-              key: "2",
-              label: "Məbləğ",
-              name: "docPrice",
-              start: "amb",
-              end: "ame",
-              type: "range",
-              dataIndex: "docPrice",
-              show: initialfilter
-                ? Object.values(initialfilter).find((i) => i.dataIndex === "docPrice")
-                    .show
-                : true,
-            },
-            {
-              key: "3",
-              label: "Tarixi",
-              name: "createdDate",
-              type: "date",
-              dataIndex: "createdDate",
-              show: initialfilter
-                ? Object.values(initialfilter).find(
-                    (i) => i.dataIndex === "createdDate"
-                  ).show
-                : true,
-            },
-            {
-              key: "4",
-              label: "Şöbə",
-              name: "departmentName",
-              controller: "departments",
-              type: "select",
-              dataIndex: "departmentName",
-              show: initialfilter
-                ? Object.values(initialfilter).find(
-                    (i) => i.dataIndex === "departmentName"
-                  ).show
-                : true,
-            },
-            {
-              key: "5",
-              label: "Cavabdeh",
-              name: "ownerName",
-              controller: "owners",
-              type: "select",
-              dataIndex: "ownerName",
-              show: initialfilter
-                ? Object.values(initialfilter).find(
-                    (i) => i.dataIndex === "ownerName"
-                  ).show
-                : true,
-            },
-          ];
-        }, [filterChanged]);
+
 	useEffect(() => {
 		if (!isFetching) {
-			setDocumentList(data.Body.List);
-			setallinsum(data.Body.AllInSum);
-			setalloutsum(data.Body.AllOutSum);
-			setallcurrentsum(
-				parseFloat(data.Body.AllInSum + data.Body.AllOutSum)
-			);
+			if (isObject(data.Body)) {
+				setDocumentList(data.Body.List);
+				setallinsum(data.Body.AllInSum);
+				setalloutsum(data.Body.AllOutSum);
+				setallcurrentsum(
+					parseFloat(data.Body.AllInSum + data.Body.AllOutSum)
+				);
+			}
 		} else {
 			setDocumentList([]);
 		}
 	}, [isFetching]);
 
 	const editPage = (id) => {
-		console.log(id);
-
 		setcusid(id);
 		setVisibleDrawer(true);
 	};
+    const editClickPage = (e, id) => {
+      if (e.target.className.includes("linkedColumns")) {
+        setRedirect(true);
+        setEditId(id);
+      }
+    };
 
 	const handlePagination = (pg) => {
 		setPage(pg - 1);
@@ -263,24 +287,24 @@ export default function Settlement() {
 	const handleVisibleChangeFilter = (flag) => {
 		setVisibleMenuSettingsFilter(flag);
 	};
-    const onChangeMenuFilter = (e) => {
-      var initialCols = initialfilter;
-      var findelement;
-      var findelementindex;
-      var replacedElement;
-      findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-      findelementindex = initialCols.findIndex(
-        (c) => c.dataIndex === e.target.id
-      );
-      findelement.show = e.target.checked;
-      replacedElement = findelement;
-      initialCols.splice(findelementindex, 1, {
-        ...findelement,
-        ...replacedElement,
-      });
-      console.log(initialCols);
-      setFilterChanged(true);
-    };
+	const onChangeMenuFilter = (e) => {
+		var initialCols = initialfilter;
+		var findelement;
+		var findelementindex;
+		var replacedElement;
+		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+		findelementindex = initialCols.findIndex(
+			(c) => c.dataIndex === e.target.id
+		);
+		findelement.show = e.target.checked;
+		replacedElement = findelement;
+		initialCols.splice(findelementindex, 1, {
+			...findelement,
+			...replacedElement,
+		});
+		console.log(initialCols);
+		setFilterChanged(true);
+	};
 	const filtermenus = (
 		<Menu>
 			<Menu.ItemGroup title="Sutunlar">
@@ -364,6 +388,17 @@ export default function Settlement() {
 
 	if (error) return "An error has occurred: " + error.message;
 
+    if (redirect) return <Redirect push to={`/editEnter/${editId}`} />;
+
+  
+    if (!isObject(data.Body))
+      return (
+        <>
+          Xəta:
+          <span style={{ color: "red" }}>Serverdə xəta baş verdi : {data}</span>
+        </>
+      );
+
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -443,7 +478,8 @@ export default function Settlement() {
 				}}
 				size="small"
 				onRow={(r) => ({
-					onDoubleClick: () => editPage(r.CustomerId),
+					onDoubleClick: () => editPage(r.Id),
+					onClick: (e) => editClickPage(e, r.Id),
 				})}
 			/>
 			{visibleDrawer ? <SettlementsDrawer /> : null}
