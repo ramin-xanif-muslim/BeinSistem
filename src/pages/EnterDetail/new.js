@@ -523,7 +523,6 @@ function NewEnter() {
               </div>
             </Col>
             <Dropdown
-<<<<<<< HEAD
                 overlay={menu}
                 onVisibleChange={handleVisibleChange}
                 visible={visibleMenuSettings}
@@ -534,18 +533,6 @@ function NewEnter() {
                 </Button>
               </Dropdown>
             <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem", zIndex: "0" }}>
-=======
-              overlay={menu}
-              onVisibleChange={handleVisibleChange}
-              visible={visibleMenuSettings}
-            >
-              <Button className="flex_directon_col_center">
-                {" "}
-                <SettingOutlined />
-              </Button>
-            </Dropdown>
-            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
->>>>>>> fc16d99406a26a3e3f7d74ef1cdbf661f06b7d68
               <DocTable
                 headers={columns.filter((c) => c.isVisible == true)}
                 datas={positions}
