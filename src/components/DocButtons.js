@@ -175,17 +175,17 @@ function DocButtons({
         </Button>
         {linked ? (
           <Button
-            className="customclosebtn"
-            onClick={() => handleRedirectDoc()}
+              className="customclosebtn"
+              onClick={() => handleRedirectDoc()}
           >
-            Bagla
+            Bağla
           </Button>
         ) : (
           <Button
             onClick={(e) => handleSaveOrNot(e)}
             className="customclosebtn"
           >
-            Bagla
+            Bağla
           </Button>
         )}
 
@@ -244,29 +244,30 @@ function DocButtons({
       <Modal
         title={
           <div className="exitModalTitle">
-            <WarningOutlined /> Diqqət
+            <WarningOutlined style={{color: "#ffb300"}} /> Diqqət
           </div>
         }
         closable={false}
         className="close_doc_modal_wrapper"
         visible={showModal}
         footer={[
-          <Button
-            className="customsavebtn"
-            form={"myForm"}
-            htmlType={"submit"}
-            onClick={(e) => handleSaveDocModal(e)}
-          >
-            Yadda saxla
-          </Button>,
-          <div className="close_doc_modal_right_side">
-            <Button key="back" onClick={() => setShowModal(false)}>
-              Geri qayıt
+          <div style={{display: "flex", justifyContent: "space-between"}}>
+              <Button
+              form={"myForm"}
+              htmlType={"submit"}
+              onClick={(e) => handleSaveDocModal(e)}
+            >
+              Yadda saxla
             </Button>
-            <Button key="link" href="#" onClick={() => setRedirectClose(true)}>
-              Ok
-            </Button>
-          </div>,
+            <div className="close_doc_modal_right_side">
+              <Button key="back" onClick={() => setShowModal(false)}>
+                Geri qayıt
+              </Button>
+              <Button danger key="link" href="#" onClick={() => setRedirectClose(true)}>
+                Ok
+              </Button>
+            </div>
+          </div>
         ]}
       >
         <p className="exitModalBodyText">Dəyişikliklər yadda saxlanılmayacaq</p>

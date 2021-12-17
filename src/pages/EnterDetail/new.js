@@ -48,6 +48,7 @@ import {
   Row,
   Col,
   Collapse,
+  Space
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
@@ -193,6 +194,7 @@ function NewEnter() {
         className: "max_width_field",
         editable: true,
         sortDirections: ["descend", "ascend"],
+        sorter: (a, b) => a.Quantity - b.Quantity,
         render: (value, row, index) => {
           // do something like adding commas to the value or prefix
           return ConvertFixedTable(value);
@@ -321,7 +323,7 @@ function NewEnter() {
               cancelText="Xeyr"
               onConfirm={() => handleDelete(record.key)}
             >
-              <a className="deletePosition">Sil</a>
+              <a className="color-red">Sil</a>
             </Popconfirm>
           </Typography.Link>
         ),
@@ -526,7 +528,7 @@ function NewEnter() {
                   <SettingOutlined />
                 </Button>
               </Dropdown>
-            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
+            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem", zIndex: "0" }}>
               <DocTable
                 headers={columns.filter((c) => c.isVisible == true)}
                 datas={positions}
@@ -563,13 +565,13 @@ function NewEnter() {
             span: 5,
           }}
           wrapperCol={{
-            span: 14,
+            span: 11,
           }}
           onFinish={handleFinish}
           onFieldsChange={handleChanged}
           layout="horizontal"
         >
-          <Row className="MAIN-ROW" >
+          <Row>
             <Col xs={24} md={24} xl={8}>
               <Form.Item
                   label="Daxilolma №"
@@ -577,44 +579,47 @@ function NewEnter() {
                   className="doc_number_form_item"
                   style={{width: "100%"}}
                 >
-                  <Input allowClear style={{width: "100px"}}/>
+                  <Input size="small" allowClear style={{width: "100px"}}/>
                </Form.Item>
             </Col>
             <Col xs={24} md={24} xl={8}></Col>
             <Col xs={24} md={24} xl={8}></Col>
           </Row>
 
-          <Row className="MAIN-ROW-2">
+          <Row>
             <Col xs={24} md={24} xl={8}>
               <Form.Item label="Tarix" name="moment" style={{width: "100%"}}>
                 <DatePicker
+                  size="small"
                   showTime={{ format: "HH:mm:ss" }}
                   format="YYYY-MM-DD HH:mm:ss"
                 />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} xl={8}>
-              <Form.Item label="Anbar" name="stockid" style={{width: "100%"}}>
-                <Select
-                  showSearch
-                  showArrow={false}
-                  filterOption={false}
-                  onChange={onChange}
-                  className="customSelect"
-                  allowClear={true}
-                >
-                  {options}
-                </Select>
-              </Form.Item>
-              <PlusOutlined
-                onClick={() => setStockDrawer(true)}
-                className="add_elements"
-              />
-            </Col>
+                <div className="input-with-icon-btn" >
+                  <Form.Item label="Anbar" name="stockid" style={{width: "60%"}}>
+                    <Select
+                      size="small"
+                      showSearch
+                      showArrow={false}
+                      filterOption={false}
+                      onChange={onChange}
+                      className="customSelect"
+                      allowClear={true}
+                    >
+                      {options}
+                    </Select>
+                  </Form.Item>
+                  <Button className="add-stock-btn">
+                    <PlusOutlined onClick={() => setStockDrawer(true)}/>
+                  </Button>
+                </div>
+              </Col>
             <Col xs={24} md={24} xl={8}></Col>
           </Row>
 
-          <Row className="MAIN-ROW-3">
+          <Row>
             <Collapse ghost style={{width: "100%"}}>
               <Panel className="custom_panel_header" header="Təyinat" key="1">
                 <Row>
@@ -626,6 +631,7 @@ function NewEnter() {
                       style={{width: "100%"}}
                     >
                       <Select
+                        size="small"
                         showSearch
                         placeholder=""
                         filterOption={false}
@@ -648,6 +654,7 @@ function NewEnter() {
                       style={{width: "100%"}}
                     >
                       <Select
+                        size="small"
                         showSearch
                         placeholder=""
                         notFoundContent={<Spin size="small" />}
@@ -669,7 +676,7 @@ function NewEnter() {
                       valuePropName="checked"
                       style={{width: "100%"}}
                     >
-                      <Checkbox name="status"></Checkbox>
+                      <Checkbox size="small" name="status"></Checkbox>
                     </Form.Item>
                   </Col>
                 </Row>

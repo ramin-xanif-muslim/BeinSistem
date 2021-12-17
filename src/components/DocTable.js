@@ -71,12 +71,13 @@ const EditableCell = ({
           },
         ]}
       >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+        <Input size="small" style={{width: "70px"}} ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
       <div
         className="editable-cell-value-wrap"
         style={{
+          border: "5px solid #00000000",
           paddingRight: 24,
         }}
         onClick={toggleEdit}
@@ -89,7 +90,7 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-function DocTable({ headers, datas, from }) {
+function  DocTable({ headers, datas, from }) {
   const {
     setdocPage,
     setDocSum,
@@ -187,7 +188,6 @@ function DocTable({ headers, datas, from }) {
         CostPrice: newPro.costprice,
         CostPriceTotal: newPro.costpricetotal,
       };
-      console.log(newData);
       dataSource.find(
         (pd) => String(pd.ProductId) === String(newData.ProductId)
       )
@@ -197,10 +197,8 @@ function DocTable({ headers, datas, from }) {
         (pd) => String(pd.ProductId) === String(newData.ProductId)
       );
       if (duplicateData === false) {
-        console.log("geldi", dataSource);
         var datas = [...dataSource];
         datas.unshift(newData);
-        console.log(datas);
         setdataSource(datas);
         setOuterDataSource(datas);
         setIsChanged(true);
@@ -216,7 +214,6 @@ function DocTable({ headers, datas, from }) {
 
   useEffect(() => {
     if (isNew) {
-      console.log("newprp", newPro);
       var duplicateData = false;
       var index;
       var newData = {
@@ -295,7 +292,6 @@ function DocTable({ headers, datas, from }) {
         (pd) => String(pd.ProductId) === String(newData.ProductId)
       );
       if (duplicateData === false) {
-        console.log("geldi", dataSource);
         var datas = [...dataSource];
         datas.unshift(newData);
         setdataSource(datas);
@@ -313,15 +309,12 @@ function DocTable({ headers, datas, from }) {
 
   const IsRepeat = async (ds, i, d) => {
     const datas = await AddRepeatProduct(ds, i, d);
-    console.log("tekrar", datas);
     setdataSource(datas);
     setOuterDataSource(datas);
     setIsChanged(true);
   };
   const AddRepeatProduct = (prevdatasource, i, newdata) => {
-    console.log("tekrara gelirmi");
     var quantity = parseFloat(prevdatasource[i].Quantity);
-    console.log("tekrara gelirmi", quantity);
 
     const item = prevdatasource[i];
     quantity++;
@@ -434,6 +427,7 @@ function DocTable({ headers, datas, from }) {
       }),
     };
   });
+  
   return (
     <Table
       components={components}
