@@ -79,8 +79,8 @@ function SupplyDetail() {
 		customers,
 		setCustomers,
 		setOuterDataSource,
-        setDisable,
-        disable,
+		setDisable,
+		disable,
 	} = useTableCustom();
 	const {
 		docstock,
@@ -161,23 +161,23 @@ function SupplyDetail() {
 		}
 	}, [isFetching]);
 
-    useEffect(() => {
-      setDisable(true);
-      setPositions([]);
-      setOuterDataSource([]);
-  
-      return () => {
-        setDisable(true);
-        setPositions([]);
-        setOuterDataSource([]);
-      };
-    }, []);
+	useEffect(() => {
+		setDisable(true);
+		setPositions([]);
+		setOuterDataSource([]);
 
-    useEffect(() => {
-      if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-        setDisable(false);
-      }
-    }, [outerDataSource]);
+		return () => {
+			setDisable(true);
+			setPositions([]);
+			setOuterDataSource([]);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+			setDisable(false);
+		}
+	}, [outerDataSource]);
 
 	const onClose = () => {
 		message.destroy();
@@ -222,7 +222,7 @@ function SupplyDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedTable(value);
 				},
 			},
 			{
@@ -234,7 +234,7 @@ function SupplyDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedTable(value);
 				},
 			},
 			{
@@ -246,7 +246,7 @@ function SupplyDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedTable(value);
 				},
 			},
 			{
@@ -258,7 +258,7 @@ function SupplyDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedTable(value);
 				},
 			},
 			{
