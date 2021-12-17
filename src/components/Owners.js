@@ -78,7 +78,6 @@ export default function Owners() {
 
   const getSalePoints = async () => {
     const saleResponse = await fetchSalePoints();
-    setUpdate(false);
     setSalePoints(saleResponse.Body.List);
     setPermissionLoad(false);
   };
@@ -107,6 +106,7 @@ export default function Owners() {
   };
 
   const handleOpenPermission = (row) => {
+    setUpdate(false);
     setPermissionLoad(true);
     setEditPermission(row);
     setShowPermission(true);

@@ -42,15 +42,19 @@
     background: #21ba45;
     border-radius: 3px;
     color: #fff !important;
-    font-weight: 700;
+    font-weight: 400;
 }
 .customsavebtn:hover {
-    background-color: #21ba45 !important;
+    border-color: #21ba45;
 }
 .customclosebtn {
     margin-left: 10px;
     border-radius: 3px;
     background: #f9f9f9 !important;
+}
+.customclosebtn:hover {
+    border-color: red;
+    color: red;
 }
 
 .doc_name_wrapper {
@@ -148,8 +152,7 @@
     position: absolute;
     right: 1px;
     background-color: #e6f7ff;
-    color: #0288d1;
-    z-index: 9999 !important;
+    color: #1164B1;
     top: 1px;
 }
 .ui.button.dropdown.icon {
@@ -326,4 +329,105 @@ td.ant-table-column-sort {
 
 .ant-btn > span + .anticon {
     margin: 0;
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    padding: 12px 0;
+}
+
+.ui.tabular.menu .active.item {
+    font-weight: 400;
+}
+
+.exitModalTitle {
+    font-size: 1.4em;
+    text-align: center;
+}
+
+.exitModalBodyText {
+    text-align: center;
+    font-size: 1.2em;
+    color: #6e6d6d;
+}
+
+.ui.dropdown .menu{
+    background: white !important;
+    opacity: 1 !important;
+}
+
+.list-item-product {
+    display: flex;
+}
+
+.list-item-product .list-item-body{
+    display: flex;
+    flex-direction: column;
+    font-style: initial;
+    width: 100%;
+    margin-left: 1rem;
+}   
+
+.list-item-product .product-artcode, .list-item-product .product-barcode {
+    opacity: 0.4;
+    font-size: 0.8em;
+} 
+
+.list-item-product .product-stock-quantity {
+    font-size: 0.8em;
+}
+
+.list-item-product .item-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-red {
+    color: red !important;
+}
+
+.ui.dropdown .menu>.item {
+    padding: 0.7rem !important;
+}
+
+.list-item-product .product-index {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    font-size: 0.8em;
+    font-style: initial;
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 4px 16px;
+}
+
+.input-with-icon-btn {
+    display: flex !important;
+    align-items: center;
+}
+
+.input-with-icon-btn .ant-form-item div {
+    max-width: unset;
+}
+
+.input-with-icon-btn .ant-select-selector {
+    border-radius: 2px 0 0 2px !important;
+}
+
+.input-with-icon-btn .add-stock-btn {
+    margin-bottom: 24px;
+    color: #1164B1;
+    border-width: 1px 1px 1px 0;
+    height: 24px;
+    border-radius: 0 2px 2px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    background-color: #e6f7ff;
+    padding: 0;
+}
+
+.input-with-icon-btn .add-stock-btn span svg {
+    width: 12px;
 }

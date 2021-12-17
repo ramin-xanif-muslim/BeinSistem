@@ -186,6 +186,7 @@ function StatusSelect({ defaultvalue }) {
     <>
       <Form.Item name="mark">
         <Select
+          size="small"
           showSearch
           showArrow={false}
           filterOption={false}
@@ -272,10 +273,10 @@ function StatusSelect({ defaultvalue }) {
           }}
           onFinish={onFinish}
         >
-          <Form.Item name="name" label="Status adi">
+          <Form.Item name="name" label="Status adı">
             <Input />
           </Form.Item>
-          <Form.Item name="color" label="Reng">
+          <Form.Item name="color" label="Rəng">
             <Input type="color" defaultValue="#0288d1" />
           </Form.Item>
           <Form.Item hidden={true} name="id" label="id">

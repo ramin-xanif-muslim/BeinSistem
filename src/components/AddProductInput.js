@@ -56,6 +56,7 @@ function AddProductInput() {
 
   useEffect(() => {
     var datas = [];
+
     if (list && list.data.Body.List.length > 0) {
       list.data.Body.List.forEach((r) => {
         datas.push({
@@ -77,6 +78,7 @@ function AddProductInput() {
           costpricetotal: `${parseFloat(r.CostPrice) * parseFloat(1)}`,
         });
       });
+
       setProductList(datas);
       setOpenDropDown(true);
     } else {
@@ -88,8 +90,14 @@ function AddProductInput() {
         barcode: "",
         quantity: "",
       });
-      setProductList(datas);
-      setOpenDropDown(true);
+
+
+      if (list) {
+        setProductList(datas);
+        setOpenDropDown(true);
+      }
+
+
     }
   }, [list]);
   async function getProduct(obj) {
@@ -124,9 +132,8 @@ function AddProductInput() {
       totalprice: `${parseFloat(res.data.Body.List[0].Price) * parseFloat(1)}`,
       name: res.data.Body.List[0].Name,
       costprice: res.data.Body.List[0].CostPrice,
-      costpricetotal: `${
-        parseFloat(res.data.Body.List[0].CostPrice) * parseFloat(1)
-      }`,
+      costpricetotal: `${parseFloat(res.data.Body.List[0].CostPrice) * parseFloat(1)
+        }`,
     });
 
     setNewPro(datas);
@@ -153,12 +160,13 @@ function AddProductInput() {
     setSearchTerm("");
     setOpenDropDown(false);
   };
+
   return (
     <div>
       <Dropdown
         button
         className="icon"
-        style={{ width: "100%", fontWeight: "400", fontStyle: "italic", opacity: "0.7", padding: "0.7rem 0" }}
+        style={{ width: "100%", fontWeight: "400", fontStyle: "italic", opacity: "1", padding: "0.7rem 0" }}
         searchQuery={value}
         floating
         labeled
@@ -170,35 +178,43 @@ function AddProductInput() {
         search
         placeholder="Məhsul əlavə et - Ad, Barkod və ya Artkod ilə"
       >
-        <Dropdown.Menu style={{maxHeight: "none", height: "53vh"}}>
-          {productList.map((option) =>
+        <Dropdown.Menu style={{ maxHeight: "none", maxHeight: "46vh" }}>
+          {
+          productList.map((option, index) =>
             option.id != "0" ? (
               <Dropdown.Item
-
                 key={option.value}
                 {...option}
-                onClick={() => onChange(option)}
+                onClick={() => onChange(option)}                
               >
-                <p className="optionCustom">
-                  <span className="">{option.name}</span>
-                  <span> {option.artcode ? option.artcode + "-" : ""} </span>
-                </p>
-                <p className="optionCustom">
-                  <span className="fadeOption">{option.barcode}</span>
-                  <span
-                    className="fadeOption"
-                    style={{ color: option.stockquantity >= 0 ? "" : "red" }}
-                  >
-                    {option.stockquantity
-                      ? option.stockquantity + " əd"
-                      : "0.00 əd"}
-                  </span>
-                </p>
-                <p>
-                  <span>{option.price} ₼</span>
-                </p>
+                <div className="list-item-product">
+                  <div className="product-index">{index+1}</div>
+                  <div className="list-item-body">
+                    <div className="item-row first-row">
+                      <div>
+                        <div className="product-name">
+                          <p>{option.name}</p>
+                        </div>
+                        <div className="product-artcode">
+                          <p>{option.artcode}</p>
+                        </div>
+                      </div>
+                      <div className="product-price">
+                        <p>{(Math.round(option.buyprice * 100) / 100).toFixed(2)}<sup>₼</sup></p>
+                      </div>
+                    </div>
+                    <div className="item-row second-row">
+                      <div  className="product-barcode">
+                          <p>{option.barcode}</p>
+                        </div>
+                      <div className="product-stock-quantity">
+                        <p className={option.stockquantity < 0 ? "color-red" : ""}>{option.stockquantity ? Math.round(option.stockquantity) + " əd" : "0 əd"}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </Dropdown.Item>
-            ) : !barcodeScan ? (
+              ) : !barcodeScan ? (
               <Dropdown.Item key={option.value} {...option}>
                 <p className="optionCustom">
                   <span className="">{option.name}</span>
