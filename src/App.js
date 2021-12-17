@@ -36,6 +36,7 @@ const NewSupplyReturn = React.lazy(() =>
 );
 const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const SignIn = React.lazy(() => import("./pages/Auth/Signin"));
+const Registration = React.lazy(() => import("./pages/Auth/Registration"));
 const NewProduct = React.lazy(() => import("./pages/ProductDetail/new"));
 const NewCustomer = React.lazy(() => import("./pages/CustomerDetail/new"));
 const SupplyReturnLinked = React.lazy(() =>
@@ -120,6 +121,7 @@ function App() {
                 <Redirect to="/p=product" />
               </Route>
               <Route path="/signin" component={SignIn}></Route>
+              <Route path="/registration" component={Registration}></Route>
               <Route path="/p=enter" component={Enter}></Route>
               <Route path="/p=supply" component={Supply}></Route>
               <Route path="/p=supplyreturns" component={SupplyReturn}></Route>

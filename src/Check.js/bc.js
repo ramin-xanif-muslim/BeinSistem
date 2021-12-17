@@ -1,6 +1,7 @@
 import React from "react";
 import fourtwofirst from "./bcTemplates/4x2_1";
 import fourtwosecond from "./bcTemplates/4x2_2";
+import fourtwothird from "./bcTemplates/4x2_3";
 import threetwofirst from "./bcTemplates/3x2_1";
 import threetwosecond from "./bcTemplates/3x2_2";
 import threetwothird from "./bcTemplates/3x2_3";
@@ -23,10 +24,14 @@ export default function Bc(props) {
       setNav("block");
     };
   }, []);
+
+  var mainWrapperStyle;
+
   var mainStyle;
   var imgStyle;
   var nameStyle;
   var priceStyle;
+  var cssName = localStorage.getItem("tempdesign");
 
   switch (localStorage.getItem("tempdesign")) {
     case "4x2_1.css":
@@ -40,6 +45,14 @@ export default function Bc(props) {
       imgStyle = fourtwosecond.img;
       nameStyle = fourtwosecond.name;
       priceStyle = fourtwosecond.price;
+      break;
+
+    case "4x2_3.css":
+      mainWrapperStyle = fourtwothird.mainWrapper;
+      mainStyle = fourtwothird.main;
+      imgStyle = fourtwothird.img;
+      nameStyle = fourtwothird.name;
+      priceStyle = fourtwothird.price;
       break;
     case "3x2_1.css":
       mainStyle = threetwofirst.main;
@@ -81,27 +94,126 @@ export default function Bc(props) {
   useEffect(() => {
     getBarcode();
   }, []);
-  return (
-    <div className="main" style={mainStyle}>
-      <img
-        style={imgStyle}
-        src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
-          1
-        )}`}
-      />
-      <div style={{ display: "flex" }}>
-        <div className="namepro" style={nameStyle}>
-          {new URLSearchParams(props.location.search).get("nm")}
+
+  const tempfour = (
+    <div className="mainwrapperhold fourtemps" style={mainWrapperStyle}>
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+            1
+          )}`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(props.location.search).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {ConvertFixedBarcode(
+                new URLSearchParams(props.location.search).get("pr")
+              )}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
         </div>
-        <div className="pricepro" style={priceStyle}>
-          <p>
-            {ConvertFixedBarcode(
-              new URLSearchParams(props.location.search).get("pr")
-            )}
-            <sup class="manat">₼</sup>
-          </p>
+      </div>
+
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+            1
+          )}`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(props.location.search).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {ConvertFixedBarcode(
+                new URLSearchParams(props.location.search).get("pr")
+              )}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+            1
+          )}`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(props.location.search).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {ConvertFixedBarcode(
+                new URLSearchParams(props.location.search).get("pr")
+              )}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+            1
+          )}`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(props.location.search).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {ConvertFixedBarcode(
+                new URLSearchParams(props.location.search).get("pr")
+              )}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
+
+  const temp = (
+    <div className="mainwrapperhold" style={mainWrapperStyle}>
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+            1
+          )}`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(props.location.search).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {ConvertFixedBarcode(
+                new URLSearchParams(props.location.search).get("pr")
+              )}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  if (cssName === "4x2_3.css") {
+    return tempfour;
+  } else {
+    return temp;
+  }
 }

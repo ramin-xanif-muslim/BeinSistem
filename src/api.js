@@ -524,6 +524,45 @@ export const fetchProductId = async (id) => {
 
   return data;
 };
+
+export const fetchSalePoints = async () => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/salepoints/get.php`,
+    editFilter
+  );
+
+  return data;
+};
+
+export const fetchPermissionId = async (id) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: id,
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/permissions/get.php`,
+    editFilter
+  );
+
+  return data;
+};
+
+export const updatePermission = async (values) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+  };
+
+  let sendFilter = Object.assign(editFilter,values)
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/permissions/put.php`,
+    sendFilter
+  );
+
+  return data;
+};
 export const fetchSalePointId = async (id) => {
   var editFilter = {
     token: localStorage.getItem("access-token"),
@@ -566,6 +605,30 @@ export const putLogin = async (values) => {
   const { data } = await axios.post(
     `https://dev.bein.az/login/send.php`,
     values
+  );
+  if (data.Headers.ResponseStatus === "0") {
+    return data;
+  } else {
+    return data.Body;
+  }
+};
+
+export const sendRegisterPhp = async (values,val) => {
+  const { data } = await axios.post(
+    `https://dev.bein.az/login/register.php?login=${values.Login}&phone=${values.mobile}&password=${values.password}&code=${val}`
+  );
+
+  if (data.Headers.ResponseStatus === "0") {
+    return data;
+  } else {
+    return data.Body;
+  }
+};
+
+
+export const sendRegOne = async (values) => {
+  const { data } = await axios.post(
+    `https://dev.bein.az/login/regone.php?login=${values.Login}&phone=${values.mobile}&password=${values.password}`
   );
   if (data.Headers.ResponseStatus === "0") {
     return data;

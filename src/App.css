@@ -1,32 +1,40 @@
-* { font-family: 'Blinker' !important }
+* {
+  font-family: "Blinker" !important;
+}
 
 .App {
   text-align: center;
   background-color: #282c34;
 }
-
+.fourtemps{
+  margin-top: 260px !important;
+}
+.unchecked {
+  color: silver !important;
+  font-style: italic !important;
+}
 .filter_wrapper {
   padding: 20px !important;
   padding-bottom: 0 !important;
 }
 .editGr.deleteGr {
-    position: absolute;
-    right: 0;
-    display: none;
+  position: absolute;
+  right: 0;
+  display: none;
 }
-.right_doc_button{
+.right_doc_button {
   display: flex;
 }
 
-.checkbutton{
+.checkbutton {
   margin-right: 5px !important;
 }
 .anticon.anticon-delete {
-    color: #ff3d3d;
+  color: #ff3d3d;
 }
 .editGr {
-    margin-right: 10px;
-    display: none;
+  margin-right: 10px;
+  display: none;
 }
 .ant-tree.ant-tree-directory .ant-tree-treenode:hover .editGr,
 .ant-tree.ant-tree-directory .ant-tree-treenode:hover .deleteGr {
@@ -36,7 +44,7 @@
   z-index: 99999 !important;
 }
 .ant-tree-node-content-wrapper {
-  color: #1164B1 !important;
+  color: #1164b1 !important;
 }
 .ant-tree-treenode-selected .ant-tree-node-content-wrapper {
   color: white !important;
@@ -48,13 +56,13 @@
 }
 
 .linkedColumns.activesort .ant-table-column-title {
-  color: #1164B1 !important;
+  color: #1164b1 !important;
 }
 .activesort .ant-table-column-title {
-  color: #1164B1 !important;
+  color: #1164b1 !important;
 }
 .linkedColumns {
-  color: #1164B1;
+  color: #1164b1;
   cursor: pointer;
 }
 
@@ -86,16 +94,16 @@
 }
 
 .barcodewrapper {
-    font-weight: 600;
+  font-weight: 600;
 }
 .profile_icons_wrapper {
   flex-direction: column !important;
   justify-content: center !important;
 }
 .flex-direction-column-center {
-    display: flex!important;
-    justify-content: center;
-    align-items: center;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
 .admin_dropdown_text {
   display: flex !important;
@@ -270,9 +278,8 @@ body {
   border-radius: 5px !important;
 }
 .flex_directon_col_center span {
-  color: #1164B1;
+  color: #1164b1;
 }
-
 
 .static_wrapper {
   float: right;
@@ -466,121 +473,115 @@ tfoot td.nonshadow {
   justify-content: center;
 }
 
-
-
 .invoice_header {
-    display: flex;
-    justify-content: center;
-    background-color: #a6a6a6;
+  display: flex;
+  justify-content: center;
+  background-color: #a6a6a6;
 }
 
 .invoice_main_info {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 .invoice_main_info_wrapper {
-    padding: 10px 0 0 0;
-    justify-content: center;
+  padding: 10px 0 0 0;
+  justify-content: center;
 }
 
 .invoice_main_info_part {
-    display: flex;
-    color: black;
+  display: flex;
+  color: black;
 }
 
-.customerinfo p{
-    font-size: 17px !important;
+.customerinfo p {
+  font-size: 17px !important;
 }
-.header_name{
-    font-style: italic !important;
+.header_name {
+  font-style: italic !important;
 }
-.companyname{
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    width: 100% !important;
-
+.companyname {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  width: 100% !important;
 }
-.companyname .cols{
-    display: flex;
+.companyname .cols {
+  display: flex;
 }
-.invoice_main_info_part p:last-child{
-    margin-left: 20px;
+.invoice_main_info_part p:last-child {
+  margin-left: 20px;
 }
 .invoice_main_info_part.market {
-    width: 50%;
+  width: 50%;
 }
 .invoice .react-bootstrap-table thead th {
-    top: 0 !important;
-    color: black !important;
+  top: 0 !important;
+  color: black !important;
 }
 .invoice .react-bootstrap-table tfoot th {
-    position: initial !important;
+  position: initial !important;
 }
-.ant-select-item-option-content{
+.ant-select-item-option-content {
   display: flex;
   justify-content: space-between;
 }
-.markselect .ant-select-selection-item{
+.markselect .ant-select-selection-item {
   display: flex;
   justify-content: space-between;
 }
-.invoice .react-bootstrap-table  td {
-    top: 0 !important;
-    color: black !important;
-    border-color: black;
+.invoice .react-bootstrap-table td {
+  top: 0 !important;
+  color: black !important;
+  border-color: black;
 }
-.invoice .react-bootstrap-table  tr {
-    border-color: black;
-    border-top: none !important;
+.invoice .react-bootstrap-table tr {
+  border-color: black;
+  border-top: none !important;
 }
 
-.invoice .react-bootstrap-table  tr:last-of-type td {
-    font-weight: bold !important;
-    font-size: 20px !important;
+.invoice .react-bootstrap-table tr:last-of-type td {
+  font-weight: bold !important;
+  font-size: 20px !important;
 }
 .invoice .react-bootstrap-table table {
-    margin: 0 !important;
+  margin: 0 !important;
 }
 
 .number_wrapper p,
-.cusnames p{
-    font-weight: bold !important;
+.cusnames p {
+  font-weight: bold !important;
 }
 
-.boldFooter{
-   font-size: 24px !important;
-
+.boldFooter {
+  font-size: 24px !important;
 }
-
-
 
 .ant-divider-horizontal.ant-divider-with-text.total_price_divider::before {
-    position: relative;
-    top: 50%;
-    width: 50%;
-    border-top: 1px solid black !important;
-    border-top-color: inherit;
-    border-bottom: 0;
-    transform: translateY(50%);
-    content: '';
+  position: relative;
+  top: 50%;
+  width: 50%;
+  border-top: 1px solid black !important;
+  border-top-color: inherit;
+  border-bottom: 0;
+  transform: translateY(50%);
+  content: "";
 }
 
 .ant-divider-horizontal.ant-divider-with-text.total_price_divider::after {
-    position: relative;
-    top: 50%;
-    width: 50%;
-    border-top: 1px solid black !important;
-    border-top-color: inherit;
-    border-bottom: 0;
-    transform: translateY(50%);
-    content: '';
+  position: relative;
+  top: 50%;
+  width: 50%;
+  border-top: 1px solid black !important;
+  border-top-color: inherit;
+  border-bottom: 0;
+  transform: translateY(50%);
+  content: "";
 }
 
 .cell-bold {
   font-weight: 600;
 }
 
-.ui.list>a.item {
-  color: #1164B1;
+.ui.list > a.item {
+  color: #1164b1;
 }

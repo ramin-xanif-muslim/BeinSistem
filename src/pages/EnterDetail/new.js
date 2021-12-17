@@ -415,10 +415,10 @@ function NewEnter() {
 
     values.positions = outerDataSource;
     values.mark = docmark;
-    values.moment = values.moment._i;
+    values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:ss");
     values.description = myRefDescription.current.resizableTextArea.props.value;
     values.consumption = myRefConsumption.current.clearableInput.props.value;
-    values.status = status;
+    
     message.loading({ content: "Loading...", key: "doc_update" });
 
     try {
@@ -507,8 +507,13 @@ function NewEnter() {
       menuItem: "Əsas",
       render: () => (
         <Tab.Pane attached={false}>
-          <Row style={{justifyContent: "space-between"}}>
-            <Col xs={24} md={24} xl={9} style={{maxWidth: "none", flex: "0.5", zIndex: 1}}>
+          <Row style={{ justifyContent: "space-between" }}>
+            <Col
+              xs={24}
+              md={24}
+              xl={9}
+              style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+            >
               <div className="addProductInputIcon">
                 <AddProductInput className="newProInputWrapper" />
                 <PlusOutlined
@@ -516,9 +521,9 @@ function NewEnter() {
                   className="addNewProductIcon"
                 />
               </div>
-              
             </Col>
             <Dropdown
+<<<<<<< HEAD
                 overlay={menu}
                 onVisibleChange={handleVisibleChange}
                 visible={visibleMenuSettings}
@@ -529,6 +534,18 @@ function NewEnter() {
                 </Button>
               </Dropdown>
             <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem", zIndex: "0" }}>
+=======
+              overlay={menu}
+              onVisibleChange={handleVisibleChange}
+              visible={visibleMenuSettings}
+            >
+              <Button className="flex_directon_col_center">
+                {" "}
+                <SettingOutlined />
+              </Button>
+            </Dropdown>
+            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
+>>>>>>> fc16d99406a26a3e3f7d74ef1cdbf661f06b7d68
               <DocTable
                 headers={columns.filter((c) => c.isVisible == true)}
                 datas={positions}

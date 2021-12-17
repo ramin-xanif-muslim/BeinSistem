@@ -34,6 +34,10 @@ const options = [
         value: "4x2_2.css",
         label: "4x2_2",
       },
+      {
+        value: "4x2_3.css",
+        label: "4x2_3",
+      },
     ],
   },
   {
