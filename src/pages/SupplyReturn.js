@@ -559,7 +559,7 @@ export default function SupplyReturn() {
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+        locale={{ emptyText: isFetching ? <Spin /> : "Tapilmadi" }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,

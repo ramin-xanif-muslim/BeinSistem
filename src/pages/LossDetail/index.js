@@ -80,6 +80,8 @@ function LossDetail() {
     setStockLocalStorage,
     customers,
     setCustomers,
+    disable,
+    setDisable,
   } = useTableCustom();
   const {
     docstock,
@@ -92,6 +94,12 @@ function LossDetail() {
     createdStock,
     setCreatedStock,
     setProductModal,
+
+    saveFromModal,
+    setSaveFromModal,
+
+    redirectSaveClose,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -255,6 +263,12 @@ function LossDetail() {
   }, [consumption, outerDataSource, docSum]);
 
   useEffect(() => {
+    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+      setDisable(false);
+    }
+  }, [outerDataSource]);
+
+  useEffect(() => {
     setInitial(columns);
   }, []);
 
@@ -363,6 +377,9 @@ function LossDetail() {
               duration: 2,
             });
             queryClient.invalidateQueries("loss", doc_id);
+            if (saveFromModal) {
+              setRedirectSaveClose(true);
+            }
           } else {
             message.error({
               content: (

@@ -25,6 +25,7 @@ export default function Customer() {
   const [page, setPage] = useState(0);
   const [columnadd, setColumnAdd] = useState(false);
   const [productList, setProdutcList] = useState([]);
+    
   const [otherColumns, setOtherColumns] = useState([]);
   const [filtered, setFiltered] = useState(false);
   const [direction, setDirection] = useState(1);

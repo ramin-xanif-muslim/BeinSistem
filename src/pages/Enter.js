@@ -79,6 +79,7 @@ export default function Enter() {
     setRedirectSaveClose(false);
     setSaveFromModal(false);
   }, []);
+  
   useEffect(() => {
     setColumnChange(false);
     if (filtered) setFiltered(false);

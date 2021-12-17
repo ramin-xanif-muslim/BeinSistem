@@ -17,6 +17,9 @@ const SalePointDetail = React.lazy(() =>
 const ProductGroupDetail = React.lazy(() =>
   import("./pages/ProductGroupDetail/index")
 );
+const CustomerGroupDetail = React.lazy(() =>
+  import("./pages/CustomerGroupDetail/index")
+);
 const EnterDetail = React.lazy(() => import("./pages/EnterDetail"));
 const SupplyReturnDetail = React.lazy(() =>
   import("./pages/SupplyReturnDetail")
@@ -41,6 +44,9 @@ const SupplyReturnLinked = React.lazy(() =>
 );
 const NewProductGroup = React.lazy(() =>
   import("./pages/ProductGroupDetail/new")
+);
+const NewCustomerGroup = React.lazy(() =>
+  import("./pages/CustomerGroupDetail/new")
 );
 const LossDetail = React.lazy(() => import("./pages/LossDetail"));
 const NewLoss = React.lazy(() => import("./pages/LossDetail/new"));
@@ -205,6 +211,10 @@ function App() {
                 path="/editProductGroup/:progr_id"
                 component={ProductGroupDetail}
               ></Route>
+              <Route
+                path="/editCustomerGroup/:cusgr_id"
+                component={CustomerGroupDetail}
+              ></Route>
               <Route path="/newenter" component={NewEnter}></Route>
               <Route
                 path="/newsupplyreturn"
@@ -228,6 +238,7 @@ function App() {
                 component={NewCustomerOrder}
               ></Route>
               <Route path="/newprogroup" component={NewProductGroup}></Route>
+              <Route path="/newcusgroup" component={NewCustomerGroup}></Route>
               <Route path="/p=loss" component={Loss}></Route>
               <Route path="/p=stockbalance" component={StockBalance}></Route>
               <Route path="/p=product" component={Product}></Route>
