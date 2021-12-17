@@ -3,6 +3,7 @@ import "../Check.js/bcTemplates/bcMain.css";
 import { useCustomForm } from "../contexts/FormContext";
 import fourtwofirst from "../Check.js/bcTemplates/4x2_1";
 import fourtwosecond from "../Check.js/bcTemplates/4x2_2";
+import fourtwothird from "../Check.js/bcTemplates/4x2_3";
 import threetwofirst from "../Check.js/bcTemplates/3x2_1";
 import threetwosecond from "../Check.js/bcTemplates/3x2_2";
 import threetwothird from "../Check.js/bcTemplates/3x2_3";
@@ -30,6 +31,13 @@ export const TemplateExample = (props) => {
       imgStyle = fourtwosecond.img;
       nameStyle = fourtwosecond.name;
       priceStyle = fourtwosecond.price;
+      break;
+    case "4x2_3.css":
+      mainWrapperStyle = fourtwothird.mainWrapper;
+      mainStyle = fourtwothird.main;
+      imgStyle = fourtwothird.img;
+      nameStyle = fourtwothird.name;
+      priceStyle = fourtwothird.price;
       break;
 
     case "3x2_1.css":
@@ -60,6 +68,79 @@ export const TemplateExample = (props) => {
       break;
   }
 
+  const templateFour = (
+    <div className="mainwrapperhold" style={mainWrapperStyle}>
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(searchBarcode).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {new URLSearchParams(searchBarcode).get("pr")}{" "}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(searchBarcode).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {new URLSearchParams(searchBarcode).get("pr")}{" "}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(searchBarcode).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {new URLSearchParams(searchBarcode).get("pr")}{" "}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="main" style={mainStyle}>
+        <img
+          style={imgStyle}
+          src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+        />
+        <div style={{ display: "flex" }}>
+          <div className="namepro" style={nameStyle}>
+            {new URLSearchParams(searchBarcode).get("nm")}
+          </div>
+          <div className="pricepro" style={priceStyle}>
+            <p>
+              {new URLSearchParams(searchBarcode).get("pr")}{" "}
+              <sup class="manat">₼</sup>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
   const template = (
     <div className="mainwrapperhold" style={mainWrapperStyle}>
       <div className="main" style={mainStyle}>
@@ -85,6 +166,10 @@ export const TemplateExample = (props) => {
   if (isTemp) {
     return <div>Loading...</div>;
   } else {
-    return template;
+    if (cssName === "4x2_3.css") {
+      return templateFour;
+    } else {
+      return template;
+    }
   }
 };
