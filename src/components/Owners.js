@@ -8,7 +8,10 @@ import {
   fetchOwners,
   delOwner,
   updateOwner,
+  fetchSalePoints,
   fetchDepartments,
+  fetchPermissionId,
+  updatePermission,
 } from "../api";
 import { Redirect } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -32,6 +35,7 @@ import {
   EyeOutlined,
   PlusOutlined,
   CloseCircleOutlined,
+  KeyOutlined,
 } from "@ant-design/icons";
 const { Option } = Select;
 var patName = /^([a-zA-Z]{4,})?$/;
@@ -39,14 +43,20 @@ var pat = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
 export default function Owners() {
   const [show, setShow] = useState(false);
+  const [showPermission, setShowPermission] = useState(false);
   const [spendid, setSpendId] = useState(null);
   const [documentList, setDocumentList] = useState(null);
   const [edit, setEdit] = useState(null);
+  const [editpermission, setEditPermission] = useState(null);
+  const [salepoints, setSalePoints] = useState(null);
+  const [update, setUpdate] = useState(true);
+  const [permission, setPermission] = useState(null);
+  const [permissionload, setPermissionLoad] = useState(false);
   const queryClient = useQueryClient();
   const { departments, setDepartments, setDepartmentsLocalStorage } =
     useTableCustom();
   const { isLoading, error, data, isFetching } = useQuery(
-    departments && ["owner", { departments }],
+    departments && [("owner", { departments, update })],
     () => fetchOwners()
   );
 
@@ -58,6 +68,19 @@ export default function Owners() {
     const depResponse = await fetchDepartments();
     setDepartments(depResponse.Body.List);
     setDepartmentsLocalStorage(depResponse.Body.List);
+  };
+
+  const getPermission = async (id) => {
+    const perResponse = await fetchPermissionId(id);
+    setPermission(perResponse.Body);
+    getSalePoints();
+  };
+
+  const getSalePoints = async () => {
+    const saleResponse = await fetchSalePoints();
+    setUpdate(false);
+    setSalePoints(saleResponse.Body.List);
+    setPermissionLoad(false);
   };
   const deleteMutation = useMutation(delOwner, {
     refetchQueris: ["owner", { departments }],
@@ -81,6 +104,13 @@ export default function Owners() {
   const handleEdit = (row) => {
     setEdit(row);
     setShow(true);
+  };
+
+  const handleOpenPermission = (row) => {
+    setPermissionLoad(true);
+    setEditPermission(row);
+    setShowPermission(true);
+    getPermission(row.Id);
   };
 
   const delOwners = (id, e) => {
@@ -126,6 +156,10 @@ export default function Owners() {
     <Option key={c.Id}>{c.Name}</Option>
   ));
 
+  const slpntOptions = salepoints
+    ? Object.values(salepoints).map((c) => <Option key={c.Id}>{c.Name}</Option>)
+    : null;
+
   const columns = useMemo(() => {
     return [
       {
@@ -159,7 +193,13 @@ export default function Owners() {
             : null;
         },
       },
-
+      {
+        dataIndex: "PermissionIcon",
+        title: "Icazələr",
+        render: (value, row, index) => {
+          return <KeyOutlined onClick={() => handleOpenPermission(row)} />;
+        },
+      },
       {
         dataIndex: "Edit",
         title: "Bax",
@@ -190,11 +230,47 @@ export default function Owners() {
     // this.setState({ visible: false });
   };
 
+  const handleOkPermission = () => {
+    // this.setState({ visible: false });
+  };
+
   const handleCancel = () => {
     setShow(false);
     setEdit(null);
   };
+  const handleCancelPermission = () => {
+    setShowPermission(false);
+    setEditPermission(null);
+  };
 
+  const onFinishPermission = async (values) => {
+    message.loading({ content: "Loading...", key: "doc_update" });
+    console.log(values);
+    values.saler = "1";
+    const response = await updatePermission(values);
+    if (response.Headers.ResponseStatus === "0") {
+      message.success({
+        content: "Updated",
+        key: "doc_update",
+        duration: 2,
+      });
+      setShowPermission(false);
+      setEditPermission(null);
+      setUpdate(true);
+    } else {
+      message.error({
+        content: (
+          <span className="error_mess_wrap">
+            Saxlanılmadı... {response.Body}{" "}
+            {<CloseCircleOutlined onClick={onClose} />}
+          </span>
+        ),
+        key: "doc_update",
+        duration: 0,
+      });
+      setUpdate(false);
+    }
+  };
   const onFinish = async (values) => {
     message.loading({ content: "Loading...", key: "doc_update" });
     updateMutation.mutate(
@@ -403,6 +479,75 @@ export default function Owners() {
             <Input />
           </Form.Item>
         </Form>
+      </Modal>
+
+      <Modal
+        visible={showPermission}
+        title="Icazələr"
+        onOk={handleOkPermission}
+        destroyOnClose={true}
+        onCancel={handleCancelPermission}
+        footer={[
+          <Button key="back" onClick={handleCancelPermission}>
+            Return
+          </Button>,
+          <Button
+            key="submit"
+            htmlType="submit"
+            type="primary"
+            form="permissionForm"
+            onClick={handleOkPermission}
+          >
+            Submit
+          </Button>,
+        ]}
+      >
+        {permissionload ? (
+          <div>Loading...</div>
+        ) : (
+          <Form
+            id="permissionForm"
+            labelCol={{
+              span: 4,
+            }}
+            wrapperCol={{
+              span: 14,
+            }}
+            layout="horizontal"
+            initialValues={{
+              salepointid: editpermission ? editpermission.SalePointId : "",
+              ownerid: editpermission ? editpermission.Id : "",
+              saler: editpermission ? editpermission.Saler : "",
+            }}
+            onFinish={onFinishPermission}
+          >
+            <Form.Item
+              label="Bağlı olduğu satış nöqtəsinin adı"
+              name="salepointid"
+              style={{ margin: "0" }}
+            >
+              <Select
+                showSearch
+                placeholder=""
+                allowClear={true}
+                notFoundContent={<Spin size="small" />}
+                filterOption={(input, option) =>
+                  option.children.toLowerCase().indexOf(input.toLowerCase()) >=
+                  0
+                }
+              >
+                {slpntOptions}
+              </Select>
+            </Form.Item>
+
+            <Form.Item hidden={true} name="ownerid" label="ownerid">
+              <Input />
+            </Form.Item>
+            <Form.Item hidden={true} name="saler" label="saler">
+              <Input />
+            </Form.Item>
+          </Form>
+        )}
       </Modal>
     </div>
   );

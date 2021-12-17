@@ -180,9 +180,11 @@ export default function Enter() {
                   : null,
               }}
             >
-              {markObject ? markObject.find((m) => m.Id === value)
-                ? markObject.find((m) => m.Id === value).Name
-                : null : null}
+              {markObject
+                ? markObject.find((m) => m.Id === value)
+                  ? markObject.find((m) => m.Id === value).Name
+                  : null
+                : null}
             </span>
           );
         },
@@ -505,7 +507,6 @@ export default function Enter() {
 
   if (redirect) return <Redirect push to={`/editEnter/${editId}`} />;
 
-  
   if (!isObject(data.Body))
     return (
       <>
@@ -556,6 +557,9 @@ export default function Enter() {
       <Table
         rowKey="Name"
         columns={columns.filter((c) => c.show == true)}
+        rowClassName={(record, index) =>
+          record.Status === 0 ? "unchecked" : ""
+        }
         onChange={onChange}
         dataSource={documentList}
         summary={() => (
