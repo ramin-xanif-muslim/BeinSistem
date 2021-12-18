@@ -79,6 +79,8 @@ function SupplyReturnDetail() {
     customers,
     setCustomers,
     setOuterDataSource,
+    setDisable,
+    disable,
   } = useTableCustom();
   const {
     docstock,
@@ -100,6 +102,9 @@ function SupplyReturnDetail() {
     isPayment,
     setIsPayment,
     setPaymentModal,
+
+    saveFromModal,
+    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -116,6 +121,23 @@ function SupplyReturnDetail() {
     setOuterDataSource(dataSource.filter((item) => item.key !== key));
     setPositions(dataSource.filter((item) => item.key !== key));
   };
+  useEffect(() => {
+      setDisable(true);
+      setPositions([]);
+      setOuterDataSource([]);
+
+      return () => {
+          setDisable(true);
+          setPositions([]);
+          setOuterDataSource([]);
+      };
+  }, []);
+
+  useEffect(() => {
+      if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+          setDisable(false);
+      }
+  }, [outerDataSource]);
   useEffect(() => {
     if (!isFetching) {
       customPositions = [];
@@ -355,11 +377,15 @@ function SupplyReturnDetail() {
               duration: 2,
             });
             queryClient.invalidateQueries("supplyreturn", doc_id);
-            if (isReturn) {
-              setRedirect(true);
-            }
-            if (isPayment) {
-              setPaymentModal(true);
+            if (saveFromModal) {
+                setRedirectSaveClose(true);
+            } else {
+                if (isReturn) {
+                    setRedirect(true);
+                }
+                if (isPayment) {
+                    setPaymentModal(true);
+                }
             }
           } else {
             message.error({

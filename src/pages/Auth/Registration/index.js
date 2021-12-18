@@ -55,8 +55,6 @@ export default function Registration() {
 
   async function register(values, val, logdata) {
     const regResponse = await sendRegisterPhp(values, val);
-    console.log(regResponse);
-    console.log(logdata);
     setVisible(false);
 
     signin(logdata);

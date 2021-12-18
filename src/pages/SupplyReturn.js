@@ -20,6 +20,7 @@ import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 
 import { SettingOutlined } from "@ant-design/icons";
+import { useCustomForm } from "../contexts/FormContext";
 const { Text } = Typography;
 export default function SupplyReturn() {
   const [redirect, setRedirect] = useState(false);
@@ -55,6 +56,8 @@ export default function SupplyReturn() {
     setCustomers,
     setAdvance,
   } = useTableCustom();
+  const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
+
 
   const [documentList, setDocumentList] = useState([]);
   const { isLoading, error, data, isFetching } = useQuery(
@@ -75,6 +78,12 @@ export default function SupplyReturn() {
         : null;
     }
   );
+
+  useEffect(() => {
+    setRedirectSaveClose(false);
+    setSaveFromModal(false);
+  }, []);
+
   useEffect(() => {
     setColumnChange(false);
     if (filtered) setFiltered(false);
