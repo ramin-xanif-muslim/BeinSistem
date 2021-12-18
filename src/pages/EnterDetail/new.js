@@ -415,10 +415,10 @@ function NewEnter() {
 
     values.positions = outerDataSource;
     values.mark = docmark;
-    values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:ss");
+    values.moment = values.moment._i;
     values.description = myRefDescription.current.resizableTextArea.props.value;
     values.consumption = myRefConsumption.current.clearableInput.props.value;
-    
+    values.status = status;
     message.loading({ content: "Loading...", key: "doc_update" });
 
     try {
@@ -507,13 +507,8 @@ function NewEnter() {
       menuItem: "Əsas",
       render: () => (
         <Tab.Pane attached={false}>
-          <Row style={{ justifyContent: "space-between" }}>
-            <Col
-              xs={24}
-              md={24}
-              xl={9}
-              style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
-            >
+          <Row style={{justifyContent: "space-between"}}>
+            <Col xs={24} md={24} xl={9} style={{maxWidth: "none", flex: "0.5", zIndex: 1}}>
               <div className="addProductInputIcon">
                 <AddProductInput className="newProInputWrapper" />
                 <PlusOutlined
@@ -521,9 +516,9 @@ function NewEnter() {
                   className="addNewProductIcon"
                 />
               </div>
+              
             </Col>
             <Dropdown
-<<<<<<< HEAD
                 overlay={menu}
                 onVisibleChange={handleVisibleChange}
                 visible={visibleMenuSettings}
@@ -534,18 +529,6 @@ function NewEnter() {
                 </Button>
               </Dropdown>
             <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem", zIndex: "0" }}>
-=======
-              overlay={menu}
-              onVisibleChange={handleVisibleChange}
-              visible={visibleMenuSettings}
-            >
-              <Button className="flex_directon_col_center">
-                {" "}
-                <SettingOutlined />
-              </Button>
-            </Dropdown>
-            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
->>>>>>> fc16d99406a26a3e3f7d74ef1cdbf661f06b7d68
               <DocTable
                 headers={columns.filter((c) => c.isVisible == true)}
                 datas={positions}
@@ -607,6 +590,7 @@ function NewEnter() {
             <Col xs={24} md={24} xl={8}>
               <Form.Item label="Tarix" name="moment" style={{width: "100%"}}>
                 <DatePicker
+                  style={{width: "100%"}}
                   size="small"
                   showTime={{ format: "HH:mm:ss" }}
                   format="YYYY-MM-DD HH:mm:ss"
@@ -615,7 +599,7 @@ function NewEnter() {
             </Col>
             <Col xs={24} md={24} xl={8}>
                 <div className="input-with-icon-btn" >
-                  <Form.Item label="Anbar" name="stockid" style={{width: "60%"}}>
+                  <Form.Item label="Anbar" name="stockid" style={{width: "50%"}}>
                     <Select
                       size="small"
                       showSearch

@@ -247,7 +247,7 @@ function NewMove() {
               cancelText="Xeyr"
               onConfirm={() => handleDelete(record.key)}
             >
-              <a className="deletePosition">Sil</a>
+              <a className="color-red">Sil</a>
             </Popconfirm>
           </Typography.Link>
         ),
@@ -512,132 +512,150 @@ function NewMove() {
           onFieldsChange={handleChanged}
           layout="horizontal"
         >
-          <Row style={{ marginTop: "1em", padding: "1em" }}>
-            <Col xs={24} md={24} xl={18}>
-              <Row>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item
-                        label="Yerdəyişmə №"
-                        name="name"
-                        className="doc_number_form_item"
-                      >
-                        <Input allowClear />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Tarix" name="moment">
-                        <DatePicker
-                          showTime={{ format: "HH:mm:ss" }}
-                          format="YYYY-MM-DD HH:mm:ss"
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} md={24} xl={24}></Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Anbara" name="stocktoid">
-                        <Select
-                          showSearch
-                          showArrow={false}
-                          filterOption={false}
-                          onChange={onChange}
-                          className="customSelect"
-                          allowClear={true}
-                        >
-                          {options}
-                        </Select>
-                      </Form.Item>
-                      <PlusOutlined
-                        onClick={() => openDrawer(true, "to")}
-                        className="add_elements"
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Anbardan" name="stockfromid">
-                        <Select
-                          showSearch
-                          showArrow={false}
-                          filterOption={false}
-                          onChange={onChange}
-                          className="customSelect"
-                          allowClear={true}
-                        >
-                          {options}
-                        </Select>
-                      </Form.Item>
-                      <PlusOutlined
-                        onClick={() => openDrawer(true, "from")}
-                        className="add_elements"
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
+          <Row>
+            <Col xs={24} md={24} xl={8}>
+              <Form.Item
+                  label="Yerdəyişmə №"
+                  name="name"
+                  className="doc_number_form_item"
+                  style={{width: "100%"}}
+                >
+                  <Input size="small" allowClear style={{width: "100px"}}/>
+               </Form.Item>
             </Col>
+            <Col xs={24} md={24} xl={8}></Col>
+            <Col xs={24} md={24} xl={8}></Col>
+          </Row>
 
-            <Col xs={24} md={24} xl={24}>
-              <Collapse ghost>
-                <Panel className="custom_panel_header" header="Təyinat" key="1">
-                  <Form.Item
-                    label="Cavabdeh"
-                    name="ownerid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      filterOption={false}
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {ownersOptions}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Şöbə"
-                    name="departmentid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {depOptions}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Keçirilib"
-                    className="docComponentStatus"
-                    name="status"
-                    valuePropName="checked"
-                  >
-                    <Checkbox name="status"></Checkbox>
-                  </Form.Item>
-                  <Form.Item label="Status" name="mark">
-                    <StatusSelect />
-                  </Form.Item>
-                </Panel>
-              </Collapse>
+          <Row>
+            <Col xs={24} md={24} xl={8}>
+              <Form.Item label="Tarix" name="moment" style={{width: "100%"}}>
+                <DatePicker
+                  style={{width: "100%"}}
+                  size="small"
+                  showTime={{ format: "HH:mm:ss" }}
+                  format="YYYY-MM-DD HH:mm:ss"
+                />
+              </Form.Item>
             </Col>
+            <Col xs={24} md={24} xl={8}>
+                <div className="input-with-icon-btn" >
+                  <Form.Item label="Anbardan" name="stockfromid" style={{width: "70%"}}>
+                    <Select
+                      size="small"
+                      showSearch
+                      showArrow={false}
+                      filterOption={false}
+                      onChange={onChange}
+                      className="customSelect"
+                      allowClear={true}
+                    >
+                      {options}
+                    </Select>
+                  </Form.Item>
+                  <Button className="add-stock-btn">
+                    <PlusOutlined onClick={() => setStockDrawer(true)}/>
+                  </Button>
+                </div>
+              </Col>
+            <Col xs={24} md={24} xl={8}>
+              <div className="input-with-icon-btn" >
+                  <Form.Item label="Anbara" name="stocktoid" style={{width: "60%"}}>
+                    <Select
+                      size="small"
+                      showSearch
+                      showArrow={false}
+                      filterOption={false}
+                      onChange={onChange}
+                      className="customSelect"
+                      allowClear={true}
+                    >
+                      {options}
+                    </Select>
+                  </Form.Item>
+                  <Button className="add-stock-btn">
+                    <PlusOutlined onClick={() => setStockDrawer(true)}/>
+                  </Button>
+              </div>
+            </Col>
+          </Row>
+
+          <Row>
+            <Collapse ghost style={{width: "100%"}}>
+              <Panel className="custom_panel_header" header="Təyinat" key="1">
+                <Row>
+                  <Col xs={24} md={24} xl={8}>
+                    <Form.Item
+                      label="Cavabdeh"
+                      name="ownerid"
+                      style={{ margin: "0" }}
+                      style={{width: "100%"}}
+                    >
+                      <Select
+                        size="small"
+                        showSearch
+                        placeholder=""
+                        filterOption={false}
+                        notFoundContent={<Spin size="small" />}
+                        filterOption={(input, option) =>
+                          option.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                        }
+                      >
+                        {ownersOptions}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={24} xl={8}>
+                    <Form.Item
+                      label="Şöbə"
+                      name="departmentid"
+                      style={{ margin: "0" }}
+                      style={{width: "100%"}}
+                    >
+                      <Select
+                        size="small"
+                        showSearch
+                        placeholder=""
+                        notFoundContent={<Spin size="small" />}
+                        filterOption={(input, option) =>
+                          option.children
+                            .toLowerCase()
+                            .indexOf(input.toLowerCase()) >= 0
+                        }
+                      >
+                        {depOptions}
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={24} xl={8}>
+                    <Form.Item
+                      label="Keçirilib"
+                      className="docComponentStatus"
+                      name="status"
+                      valuePropName="checked"
+                      style={{width: "100%"}}
+                    >
+                      <Checkbox size="small" name="status"></Checkbox>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs={24} md={24} xl={8}>
+                    <Form.Item label="Status" name="mark" style={{width: "100%"}}>
+                      <StatusSelect />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={24} md={24} xl={8}>
+                    
+                  </Col>
+                  <Col xs={24} md={24} xl={8}>
+                    
+                  </Col>
+                </Row>
+              </Panel>
+            </Collapse>
           </Row>
         </Form>
 
