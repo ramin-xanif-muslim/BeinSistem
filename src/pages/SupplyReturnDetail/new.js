@@ -80,6 +80,8 @@ function NewSupplyReturn() {
 		setStockLocalStorage,
 		customers,
 		setCustomers,
+		setDisable,
+		disable,
 	} = useTableCustom();
 	const {
 		docstock,
@@ -97,6 +99,9 @@ function NewSupplyReturn() {
 		setCreatedCustomer,
 		setProductModal,
 		productModal,
+
+		saveFromModal,
+		setRedirectSaveClose,
 	} = useCustomForm();
 	const [positions, setPositions] = useState([]);
 	const [redirect, setRedirect] = useState(false);
@@ -115,6 +120,24 @@ function NewSupplyReturn() {
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
+
+	useEffect(() => {
+		setDisable(true);
+		setPositions([]);
+		setOuterDataSource([]);
+
+		return () => {
+			setDisable(true);
+			setPositions([]);
+			setOuterDataSource([]);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+			setDisable(false);
+		}
+	}, [outerDataSource]);
 	const onClose = () => {
 		message.destroy();
 	};
@@ -345,6 +368,12 @@ function NewSupplyReturn() {
 		const attrResponse = await fetchDocName(docname, "supplies");
 		return attrResponse;
 	};
+
+	const handleChanged = () => {
+		if (disable) {
+			setDisable(false);
+		}
+	};
 	const handleFinish = async (values) => {
 		values.positions = outerDataSource;
 		values.mark = docmark;
@@ -365,7 +394,12 @@ function NewSupplyReturn() {
 				duration: 2,
 			});
 			setEditId(res.Body.ResponseService);
-			setRedirect(true);
+
+			if (saveFromModal) {
+				setRedirectSaveClose(true);
+			} else {
+				setRedirect(true);
+			}
 		} else {
 			message.error({
 				content: (
@@ -503,6 +537,7 @@ function NewSupplyReturn() {
 						span: 14,
 					}}
 					onFinish={handleFinish}
+					onFieldsChange={handleChanged}
 					layout="horizontal"
 				>
 					<Row style={{ marginTop: "1em", padding: "1em" }}>
@@ -546,6 +581,7 @@ function NewSupplyReturn() {
 													showSearch
 													showArrow={false}
 													filterOption={false}
+													onChange={onChange}
 													className="customSelect"
 													allowClear={true}
 												>
