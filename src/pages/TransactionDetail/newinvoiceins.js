@@ -65,6 +65,7 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
+
 function NewPaymentIn() {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
@@ -163,7 +164,7 @@ function NewPaymentIn() {
 		setCustomers(customerResponse.Body.List);
 	};
 	const getDocName = async (docname) => {
-		const attrResponse = await fetchDocName(docname, "paymentins");
+		const attrResponse = await fetchDocName(docname, "invoiceins");
 		return attrResponse;
 	};
 
@@ -237,7 +238,7 @@ function NewPaymentIn() {
 			});
 		}
 
-		const res = await saveDoc(values, "paymentins");
+		const res = await saveDoc(values, "invoiceins");
 		if (res.Headers.ResponseStatus === "0") {
 			message.success({
 				content: "Saxlanildi",
@@ -268,7 +269,7 @@ function NewPaymentIn() {
 	//#region OwDep
 
 	//#endregion OwDep
-	if (redirect) return <Redirect to={`/editPaymentIn/${editId}`} />;
+	if (redirect) return <Redirect to={`/editInvoiceIn/${editId}`} />;
 
 	if (!spends) return <div>Loading....</div>;
 	if (spends)
@@ -353,7 +354,7 @@ function NewPaymentIn() {
 														showArrow={false}
 														filterOption={false}
 														className="customSelect"
-														onFocus={getCustomers}
+														// onFocus={getCustomers}
 														onChange={onChange}
 														onSearch={doSearch}
 														allowClear={true}

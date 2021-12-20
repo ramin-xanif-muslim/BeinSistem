@@ -143,7 +143,6 @@ function PaymentOutDetail() {
     }
   }, [isFetching]);
 
-  console.log(handleMark)
   const updateMutation = useMutation(updateDoc, {
     refetchQueris: ["paymentout", doc_id],
   });
@@ -174,7 +173,7 @@ function PaymentOutDetail() {
   customers
     ? (objCustomers = customers)
     : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-  const customerOptions = Object.values(objCustomers).map((c) => (
+    const customerOptions = Object.values(objCustomers).map((c) => (
     <Option key={c.Id} value={c.Id}>
       {c.Name}
     </Option>
@@ -357,7 +356,7 @@ function PaymentOutDetail() {
                             showArrow={false}
                             filterOption={false}
                             className="customSelect"
-                            onFocus={getCustomers}
+                            // onFocus={getCustomers}
                             onChange={onChange}
                             onSearch={doSearch}
                             allowClear={true}

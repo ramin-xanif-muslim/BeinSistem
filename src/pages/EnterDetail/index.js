@@ -720,7 +720,7 @@ function EnterDetail() {
 										<Select
 											showSearch
 											placeholder=""
-											filterOption={false}
+											// filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}

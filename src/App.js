@@ -78,9 +78,20 @@ const NewDemandReturn = React.lazy(() =>
 const NewPaymentIn = React.lazy(() =>
   import("./pages/TransactionDetail/newpaymentin")
 );
+const NewInvoiceIns = React.lazy(() =>
+  import("./pages/TransactionDetail/newinvoiceins")
+);
+const NewInvoiceOuts = React.lazy(() =>
+  import("./pages/TransactionDetail/newinvoiceouts")
+);
 const NewPaymentOut = React.lazy(() =>
   import("./pages/TransactionDetail/newpaymentout")
 );
+const InvoiceInDetail = React.lazy(() => import("./pages/TransactionDetail/indexinvoicein"));
+const InvoiceOutDetail = React.lazy(() =>
+  import("./pages/TransactionDetail/indexinvoiceout")
+);
+
 const PaymentInDetail = React.lazy(() => import("./pages/TransactionDetail"));
 const PaymentOutDetail = React.lazy(() =>
   import("./pages/TransactionDetail/indexout")
@@ -170,6 +181,14 @@ function App() {
                 component={DemandDetail}
               ></Route>
               <Route
+                path="/editInvoiceIn/:doc_id"
+                component={InvoiceInDetail}
+              ></Route>
+              <Route
+                path="/editInvoiceOut/:doc_id"
+                component={InvoiceOutDetail}
+              ></Route>
+              <Route
                 path="/editPaymentIn/:doc_id"
                 component={PaymentInDetail}
               ></Route>
@@ -226,6 +245,8 @@ function App() {
               ></Route>
               <Route path="/newsupply" component={NewSupply}></Route>
               <Route path="/newpaymentin" component={NewPaymentIn}></Route>
+              <Route path="/newinvoicein" component={NewInvoiceIns}></Route>
+              <Route path="/newinvoiceout" component={NewInvoiceOuts}></Route>
               <Route path="/newsalepoint" component={NewSalePoint}></Route>
               <Route path="/newpaymentout" component={NewPaymentOut}></Route>
               <Route path="/newdemand" component={NewDemand}></Route>

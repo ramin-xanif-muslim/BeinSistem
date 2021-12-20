@@ -431,3 +431,11 @@ td.ant-table-column-sort {
 .input-with-icon-btn .add-stock-btn span svg {
     width: 12px;
 }
+
+.custom_panel_header .ant-collapse-header {
+    color: #d40000 !important;
+}
+
+.ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+    padding: 12px 0 0;
+}

@@ -115,6 +115,10 @@ function SupplyDetail() {
 	const [hasConsumption, setHasConsumption] = useState(false);
 	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
+	const [initial, setInitial] = useState(null);
+	const [columnChange, setColumnChange] = useState(false);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
 	const { isLoading, error, data, isFetching } = useQuery(
 		["supply", doc_id],
 		() => fetchDocId(doc_id, "supplies")
@@ -124,6 +128,23 @@ function SupplyDetail() {
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
+	useEffect(() => {
+		setDisable(true);
+		setPositions([]);
+		setOuterDataSource([]);
+
+		return () => {
+			setDisable(true);
+			setPositions([]);
+			setOuterDataSource([]);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+			setDisable(false);
+		}
+	}, [outerDataSource]);
 	useEffect(() => {
 		if (!isFetching) {
 			customPositions = [];
@@ -161,26 +182,11 @@ function SupplyDetail() {
 		}
 	}, [isFetching]);
 
-	useEffect(() => {
-		setDisable(true);
-		setPositions([]);
-		setOuterDataSource([]);
-
-		return () => {
-			setDisable(true);
-			setPositions([]);
-			setOuterDataSource([]);
-		};
-	}, []);
-
-	useEffect(() => {
-		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-			setDisable(false);
-		}
-	}, [outerDataSource]);
-
 	const onClose = () => {
 		message.destroy();
+	};
+	const handleVisibleChange = (flag) => {
+		setVisibleMenuSettings(flag);
 	};
 	const onChangeConsumption = (e) => {
 		setHasConsumption(true);
@@ -353,6 +359,14 @@ function SupplyDetail() {
 			},
 		];
 	}, [consumption, outerDataSource, docSum]);
+    
+	useEffect(() => {
+		setInitial(columns);
+	}, []);
+
+	useEffect(() => {
+		setColumnChange(false);
+	}, [columnChange]);
 
 	const updateMutation = useMutation(updateDoc, {
 		refetchQueris: ["supply", doc_id],
@@ -449,7 +463,15 @@ function SupplyDetail() {
 			/>
 		);
 
+	const handleChanged = () => {
+		if (disable) {
+			setDisable(false);
+		}
+	};
+
 	const handleFinish = async (values) => {
+		setDisable(true);
+
 		values.positions = outerDataSource;
 		values.moment = values.moment._i;
 		values.modify = values.modify._i;
@@ -496,6 +518,25 @@ function SupplyDetail() {
 				},
 			}
 		);
+	};
+
+	const onChangeMenu = (e) => {
+		var initialCols = initial;
+		var findelement;
+		var findelementindex;
+		var replacedElement;
+		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+		console.log(findelement);
+		findelementindex = initialCols.findIndex(
+			(c) => c.dataIndex === e.target.id
+		);
+		findelement.isVisible = e.target.checked;
+		replacedElement = findelement;
+		initialCols.splice(findelementindex, 1, {
+			...findelement,
+			...replacedElement,
+		});
+		setColumnChange(true);
 	};
 
 	const panes = [
@@ -561,6 +602,7 @@ function SupplyDetail() {
 						status: data.Body.List[0].Status == 1 ? true : false,
 					}}
 					onFinish={handleFinish}
+					onFieldsChange={handleChanged}
 					layout="horizontal"
 				>
 					<Row style={{ marginTop: "1em", padding: "1em" }}>

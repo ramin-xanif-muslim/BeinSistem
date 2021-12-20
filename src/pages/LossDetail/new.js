@@ -150,7 +150,6 @@ function NewLoss() {
 					? Object.values(initial).find((i) => i.dataIndex === "Name")
 							.isVisible
 					: true,
-
 				sorter: (a, b) => a.Name.localeCompare(b.Name),
 			},
 			{
@@ -231,7 +230,6 @@ function NewLoss() {
 					return ConvertFixedTable(value);
 				},
 			},
-
 			{
 				title: "Sil",
 				className: "orderField printField",
@@ -429,7 +427,6 @@ function NewLoss() {
 	));
 
 	//#endregion OwDep
-
 	const onChange = (stock) => {
 		setDocStock(stock);
 	};
@@ -487,7 +484,6 @@ function NewLoss() {
 			<div className="doc_name_wrapper">
 				<h2>Silinmə</h2>
 			</div>
-
 			<DocButtons additional={"none"} editid={null} closed={"p=loss"} />
 			<div className="formWrapper">
 				<Form

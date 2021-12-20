@@ -25,6 +25,8 @@ export default function Transaction() {
   const [redirect, setRedirect] = useState(false);
   const [redirectPaymentIn, setRedirectPaymentIn] = useState(false);
   const [redirectPaymentOut, setRedirectPaymentOut] = useState(false);
+  const [redirectInvoiceIn, setRedirectInvoiceIn] = useState(false);
+  const [redirectInvoiceOut, setRedirectInvoiceOut] = useState(false);
   const [direction, setDirection] = useState(1);
   const [defaultdr, setDefaultDr] = useState("descend");
   const [initialSort, setInitialSort] = useState("Moment");
@@ -367,12 +369,17 @@ export default function Transaction() {
   }, [isFetching]);
 
   const editPage = (id, row) => {
-    console.log(row);
     if (row.Type === "p" && row.Direct === "i") {
       setRedirectPaymentIn(true);
     }
     if (row.Type === "p" && row.Direct === "o") {
       setRedirectPaymentOut(true);
+    }
+    if (row.Type === "i" && row.Direct === "i") {
+        setRedirectInvoiceIn(true);
+    }
+    if (row.Type === "i" && row.Direct === "o") {
+        setRedirectInvoiceOut(true);
     }
     // setRedirect(true);
     setEditId(id);
@@ -526,6 +533,10 @@ export default function Transaction() {
     return <Redirect push to={`/editPaymentIn/${editId}`} />;
   if (redirectPaymentOut)
     return <Redirect push to={`/editPaymentOut/${editId}`} />;
+  if (redirectInvoiceIn)
+    return <Redirect push to={`/editInvoiceIn/${editId}`} />;
+  if (redirectInvoiceOut)
+    return <Redirect push to={`/editInvoiceOut/${editId}`} />;
   return (
     <div className="custom_display">
       <Row className="header_row">

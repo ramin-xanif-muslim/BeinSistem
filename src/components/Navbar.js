@@ -8,7 +8,7 @@ import img_brand from "../images/brand.svg";
 import { Input, Menu } from "semantic-ui-react";
 import { List } from "semantic-ui-react";
 import { Segment } from "semantic-ui-react";
-import { useParams } from "react-router";
+import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import {
   Form,
@@ -71,6 +71,10 @@ function Navbar() {
 
   const getBalance = async () => {
     const balanceres = await fetchNotification();
+    console.log(balanceres)
+    if (balanceres === "Sessiya bitmişdir") {
+        return <Redirect to="/signin" />
+    }
     if (balanceres === "Balans bitib") {
       setNoBalance(true);
       setShowBalance(true)

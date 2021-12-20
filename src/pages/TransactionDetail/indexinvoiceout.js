@@ -66,7 +66,7 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function PaymentInDetail() {
+function PaymentOutDetail() {
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const myRefDescription = useRef(null);
@@ -102,13 +102,6 @@ function PaymentInDetail() {
     createdStock,
     setCreatedStock,
     setProductModal,
-
-    isPayment,
-    setPaymentModal,
-    isReturn,
-
-    saveFromModal,
-    setRedirectSaveClose,
   } = useCustomForm();
   const [positions, setPositions] = useState([]);
   const [redirect, setRedirect] = useState(false);
@@ -127,32 +120,9 @@ function PaymentInDetail() {
   const [customerloading, setcustomerloading] = useState(false);
   const { doc_id } = useParams();
   const { isLoading, error, data, isFetching } = useQuery(
-    ["paymentin", doc_id],
-    () => fetchDocId(doc_id, "paymentins")
+    ["invoiceout", doc_id],
+    () => fetchDocId(doc_id, "invoiceouts")
   );
-  const handleDelete = (key) => {
-      const dataSource = [...outerDataSource];
-      setOuterDataSource(dataSource.filter((item) => item.key !== key));
-      setPositions(dataSource.filter((item) => item.key !== key));
-  };
-  useEffect(() => {
-      setDisable(true);
-      setPositions([]);
-      setOuterDataSource([]);
-
-      return () => {
-          setDisable(true);
-          setPositions([]);
-          setOuterDataSource([]);
-      };
-  }, []);
-
-  useEffect(() => {
-      if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-          setDisable(false);
-      }
-  }, [outerDataSource]);
-
   const onClose = () => {
     message.destroy();
   };
@@ -168,12 +138,13 @@ function PaymentInDetail() {
 
   useEffect(() => {
     if (!isFetching) {
-      setHandleMark(data.Body.List[0] ? data.Body.List[0].Mark : '');
+      console.log(data.Body.List[0].Mark);
+      setHandleMark(data.Body.List[0].Mark);
     }
   }, [isFetching]);
 
   const updateMutation = useMutation(updateDoc, {
-    refetchQueris: ["paymentin", doc_id],
+    refetchQueris: ["invoiceout", doc_id],
   });
   const getSpendItems = async () => {
     setSpends(false);
@@ -194,7 +165,7 @@ function PaymentInDetail() {
     setCustomers(customerResponse.Body.List);
   };
   const getDocName = async (docname) => {
-    const attrResponse = await fetchDocName(docname, "paymentins");
+    const attrResponse = await fetchDocName(docname, "invoiceouts");
     return attrResponse;
   };
 
@@ -202,16 +173,15 @@ function PaymentInDetail() {
   customers
     ? (objCustomers = customers)
     : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-  const customerOptions = Object.values(objCustomers).map((c) => (
+    const customerOptions = Object.values(objCustomers).map((c) => (
     <Option key={c.Id} value={c.Id}>
       {c.Name}
     </Option>
   ));
-
   const onChange = (value, option) => {
     if (value === "00000000-0000-0000-0000-000000000000") {
       form.setFieldsValue({
-        spenditem: spenditems.find((s) => s.StaticName === "correct").Id,
+        spenditem: null,
       });
     } else {
       form.setFieldsValue({
@@ -221,7 +191,7 @@ function PaymentInDetail() {
   };
   const onChangeSpendItem = (value, option) => {
     console.log(value, option);
-    if (option.staticname != "correct") {
+    if (option.staticname != "buyproduct") {
       form.setFieldsValue({
         customerid: "00000000-0000-0000-0000-000000000000",
       });
@@ -236,7 +206,6 @@ function PaymentInDetail() {
       }
     }
   };
-
   const handleChanged = () => {
     if (disable) {
       setDisable(false);
@@ -266,7 +235,7 @@ function PaymentInDetail() {
     }
 
     updateMutation.mutate(
-      { id: doc_id, controller: "paymentins", filter: values },
+      { id: doc_id, controller: "invoiceouts", filter: values },
       {
         onSuccess: (res) => {
           if (res.Headers.ResponseStatus === "0") {
@@ -275,17 +244,7 @@ function PaymentInDetail() {
               key: "doc_update",
               duration: 2,
             });
-            queryClient.invalidateQueries("paymentin", doc_id);
-            // if (saveFromModal) {
-            //     setRedirectSaveClose(true);
-            // } else {
-            //     if (isReturn) {
-            //         setRedirect(true);
-            //     }
-            //     if (isPayment) {
-            //         setPaymentModal(true);
-            //     }
-            // }
+            queryClient.invalidateQueries("invoiceout", doc_id);
           } else {
             message.error({
               content: (
@@ -315,7 +274,7 @@ function PaymentInDetail() {
     return (
       <div className="doc_wrapper">
         <div className="doc_name_wrapper">
-          <h2>Medaxil</h2>
+          <h2>Mexaric</h2>
         </div>
         <DocButtons
           additional={"none"}
@@ -478,4 +437,4 @@ function PaymentInDetail() {
     );
 }
 
-export default PaymentInDetail;
+export default PaymentOutDetail;

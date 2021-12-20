@@ -369,6 +369,12 @@ function NewDemandReturn() {
 		const attrResponse = await fetchDocName(docname, "demands");
 		return attrResponse;
 	};
+
+	const handleChanged = () => {
+		if (disable) {
+			setDisable(false);
+		}
+	};
 	const handleFinish = async (values) => {
 		values.positions = outerDataSource;
 		values.mark = docmark;
@@ -381,7 +387,7 @@ function NewDemandReturn() {
 		const nameres = await getDocName(values.name);
 		values.name = nameres.Body.ResponseService;
 
-		const res = await saveDoc(values, "demands");
+		const res = await saveDoc(values, "demandreturns");
 		if (res.Headers.ResponseStatus === "0") {
 			message.success({
 				content: "Saxlanildi",
@@ -532,6 +538,7 @@ function NewDemandReturn() {
 						span: 14,
 					}}
 					onFinish={handleFinish}
+					onFieldsChange={handleChanged}
 					layout="horizontal"
 				>
 					<Row style={{ marginTop: "1em", padding: "1em" }}>

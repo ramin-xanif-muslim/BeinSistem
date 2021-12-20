@@ -16,34 +16,34 @@ import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 import ProductModal from "../../components/ProductModal";
 import {
-  DeleteOutlined,
-  PlusOutlined,
-  EditOutlined,
-  SettingOutlined,
-  CloseCircleOutlined,
+	DeleteOutlined,
+	PlusOutlined,
+	EditOutlined,
+	SettingOutlined,
+	CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
-  Form,
-  Input,
-  Button,
-  InputNumber,
-  TreeSelect,
-  Checkbox,
-  Dropdown,
-  DatePicker,
-  Switch,
-  Select,
-  Spin,
-  Tag,
-  Divider,
-  Menu,
-  Drawer,
-  Typography,
-  Statistic,
-  Popconfirm,
-  Row,
-  Col,
-  Collapse,
+	Form,
+	Input,
+	Button,
+	InputNumber,
+	TreeSelect,
+	Checkbox,
+	Dropdown,
+	DatePicker,
+	Switch,
+	Select,
+	Spin,
+	Tag,
+	Divider,
+	Menu,
+	Drawer,
+	Typography,
+	Statistic,
+	Popconfirm,
+	Row,
+	Col,
+	Collapse,
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
@@ -54,631 +54,692 @@ import { updateDoc } from "../../api";
 import { useRef } from "react";
 import { useCustomForm } from "../../contexts/FormContext";
 import {
-  FindAdditionals,
-  FindCofficient,
-  ConvertFixedTable,
+	FindAdditionals,
+	FindCofficient,
+	ConvertFixedTable,
 } from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
 function LossDetail() {
-  const [form] = Form.useForm();
-  const queryClient = useQueryClient();
-  const myRefDescription = useRef(null);
-  const myRefConsumption = useRef(null);
-  const {
-    docPage,
-    docCount,
-    docSum,
-    outerDataSource,
-    setOuterDataSource,
-    departments,
-    owners,
-    stocks,
-    setStock,
-    setStockLocalStorage,
-    customers,
-    setCustomers,
-    disable,
-    setDisable,
-  } = useTableCustom();
-  const {
-    docstock,
-    setDocStock,
-    docmark,
-    setDocMark,
-    setLoadingForm,
-    setStockDrawer,
-    stockDrawer,
-    createdStock,
-    setCreatedStock,
-    setProductModal,
+	const [form] = Form.useForm();
+	const queryClient = useQueryClient();
+	const myRefDescription = useRef(null);
+	const myRefConsumption = useRef(null);
+	const {
+		docPage,
+		docCount,
+		docSum,
+		outerDataSource,
+		setOuterDataSource,
+		departments,
+		owners,
+		stocks,
+		setStock,
+		setStockLocalStorage,
+		customers,
+		setCustomers,
+		disable,
+		setDisable,
+	} = useTableCustom();
+	const {
+		docstock,
+		setDocStock,
+		docmark,
+		setDocMark,
+		setLoadingForm,
+		setStockDrawer,
+		stockDrawer,
+		createdStock,
+		setCreatedStock,
+		setProductModal,
 
-    saveFromModal,
-    setSaveFromModal,
+		saveFromModal,
+		setSaveFromModal,
 
-    redirectSaveClose,
-    setRedirectSaveClose,
-  } = useCustomForm();
-  const [positions, setPositions] = useState([]);
-  const [redirect, setRedirect] = useState(false);
-  const { doc_id } = useParams();
-  const [hasConsumption, setHasConsumption] = useState(false);
-  const [status, setStatus] = useState(false);
-  const [consumption, setConsumption] = useState(0);
-  const [initial, setInitial] = useState(null);
-  const [columnChange, setColumnChange] = useState(false);
-  const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+		redirectSaveClose,
+		setRedirectSaveClose,
+	} = useCustomForm();
+	const [positions, setPositions] = useState([]);
+	const [redirect, setRedirect] = useState(false);
+	const { doc_id } = useParams();
+	const [hasConsumption, setHasConsumption] = useState(false);
+	const [status, setStatus] = useState(false);
+	const [consumption, setConsumption] = useState(0);
+	const [initial, setInitial] = useState(null);
+	const [columnChange, setColumnChange] = useState(false);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-  const { isLoading, error, data, isFetching } = useQuery(
-    ["loss", doc_id],
-    () => fetchDocId(doc_id, "losses")
-  );
-  const handleDelete = (key) => {
-    const dataSource = [...outerDataSource];
-    setOuterDataSource(dataSource.filter((item) => item.key !== key));
-    setPositions(dataSource.filter((item) => item.key !== key));
-  };
-  useEffect(() => {
-    if (!isFetching) {
-      customPositions = [];
-      Object.values(data.Body.List[0].Positions).map((d) =>
-        customPositions.push(d)
-      );
-      customPositions.map((c, index) => (c.key = index));
-      customPositions.map((c) => (c.SellPrice = c.Price));
-      customPositions.map((c) =>
-        c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
-      );
-      customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
+	const { isLoading, error, data, isFetching } = useQuery(
+		["loss", doc_id],
+		() => fetchDocId(doc_id, "losses")
+	);
+	const handleDelete = (key) => {
+		const dataSource = [...outerDataSource];
+		setOuterDataSource(dataSource.filter((item) => item.key !== key));
+		setPositions(dataSource.filter((item) => item.key !== key));
+	};
+	useEffect(() => {
+		if (!isFetching) {
+			customPositions = [];
+			Object.values(data.Body.List[0].Positions).map((d) =>
+				customPositions.push(d)
+			);
+			customPositions.map((c, index) => (c.key = index));
+			customPositions.map((c) => (c.SellPrice = c.Price));
+			customPositions.map((c) =>
+				c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
+			);
+			customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
 
-      customPositions.map(
-        (c) => (c.TotalPrice = parseFloat(c.Price) * parseFloat(c.Quantity))
-      );
-      customPositions.map(
-        (c) =>
-          (c.CostPriceTotal = parseFloat(c.CostPrice) * parseFloat(c.Quantity))
-      );
-      setPositions(customPositions);
-      if (data.Body.List[0].Consumption) {
-        setHasConsumption(true);
-      }
-      setConsumption(data.Body.List[0].Consumption);
-      setLoadingForm(false);
-      setStatus(data.Body.List[0].Status);
-    } else {
-      customPositions = [];
-      setPositions([]);
-      setLoadingForm(true);
-    }
-  }, [isFetching]);
+			customPositions.map(
+				(c) =>
+					(c.TotalPrice =
+						parseFloat(c.Price) * parseFloat(c.Quantity))
+			);
+			customPositions.map(
+				(c) =>
+					(c.CostPriceTotal =
+						parseFloat(c.CostPrice) * parseFloat(c.Quantity))
+			);
+			setPositions(customPositions);
+			if (data.Body.List[0].Consumption) {
+				setHasConsumption(true);
+			}
+			setConsumption(data.Body.List[0].Consumption);
+			setLoadingForm(false);
+			setStatus(data.Body.List[0].Status);
+		} else {
+			customPositions = [];
+			setPositions([]);
+			setLoadingForm(true);
+		}
+	}, [isFetching]);
 
-  const onClose = () => {
-    message.destroy();
-  };
-  const handleVisibleChange = (flag) => {
-    setVisibleMenuSettings(flag);
-  };
-  const onChangeConsumption = (e) => {
-    setHasConsumption(true);
-    setConsumption(e.target.value);
-  };
-  const columns = useMemo(() => {
-    return [
-      {
-        title: "№",
-        dataIndex: "Order",
-        className: "orderField",
-        editable: false,
-        isVisible: true,
-        render: (text, record, index) => index + 1 + 100 * docPage,
-      },
-      {
-        title: "Adı",
-        dataIndex: "Name",
-        className: "max_width_field_length",
-        editable: false,
-        isVisible: true,
-        sorter: (a, b) => a.Name.localeCompare(b.Name),
-      },
-      {
-        title: "Barkodu",
-        dataIndex: "BarCode",
-        isVisible: true,
-        className: "max_width_field_length",
-        editable: false,
-        sortDirections: ["descend", "ascend"],
-        sorter: (a, b) => a.BarCode - b.BarCode,
-      },
-      {
-        title: "Miqdar",
-        dataIndex: "Quantity",
-        isVisible: true,
-        className: "max_width_field",
-        editable: true,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return value;
-        },
-      },
-      {
-        title: "Qiyməti",
-        dataIndex: "Price",
-        isVisible: true,
-        className: "max_width_field",
-        editable: true,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return value;
-        },
-      },
-      {
-        title: "Məbləğ",
-        dataIndex: "TotalPrice",
-        isVisible: true,
-        className: "max_width_field",
-        editable: true,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return value;
-        },
-      },
-      {
-        title: "Qalıq",
-        dataIndex: "StockQuantity",
-        className: "max_width_field",
-        isVisible: true,
-        editable: false,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return value;
-        },
-      },
-     
-      {
-        title: "Sil",
-        className: "orderField printField",
-        dataIndex: "operation",
-        isVisible: true,
-        editable: false,
-        render: (_, record) => (
-          <Typography.Link>
-            <Popconfirm
-              title="Silməyə əminsinizmi?"
-              okText="Bəli"
-              cancelText="Xeyr"
-              onConfirm={() => handleDelete(record.key)}
-            >
-              <a className="deletePosition">Sil</a>
-            </Popconfirm>
-          </Typography.Link>
-        ),
-      },
-    ];
-  }, [consumption, outerDataSource, docSum]);
+	const onClose = () => {
+		message.destroy();
+	};
+	const handleVisibleChange = (flag) => {
+		setVisibleMenuSettings(flag);
+	};
+	const onChangeConsumption = (e) => {
+		setHasConsumption(true);
+		setConsumption(e.target.value);
+	};
+	const columns = useMemo(() => {
+		return [
+			{
+				title: "№",
+				dataIndex: "Order",
+				className: "orderField",
+				editable: false,
+				isVisible: true,
+				render: (text, record, index) => index + 1 + 100 * docPage,
+			},
+			{
+				title: "Adı",
+				dataIndex: "Name",
+				className: "max_width_field_length",
+				editable: false,
+				isVisible: true,
+				sorter: (a, b) => a.Name.localeCompare(b.Name),
+			},
+			{
+				title: "Barkodu",
+				dataIndex: "BarCode",
+				isVisible: true,
+				className: "max_width_field_length",
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				sorter: (a, b) => a.BarCode - b.BarCode,
+			},
+			{
+				title: "Miqdar",
+				dataIndex: "Quantity",
+				isVisible: true,
+				className: "max_width_field",
+				editable: true,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return value;
+				},
+			},
+			{
+				title: "Qiyməti",
+				dataIndex: "Price",
+				isVisible: true,
+				className: "max_width_field",
+				editable: true,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return value;
+				},
+			},
+			{
+				title: "Məbləğ",
+				dataIndex: "TotalPrice",
+				isVisible: true,
+				className: "max_width_field",
+				editable: true,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return value;
+				},
+			},
+			{
+				title: "Qalıq",
+				dataIndex: "StockQuantity",
+				className: "max_width_field",
+				isVisible: true,
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return value;
+				},
+			},
 
-  useEffect(() => {
-    if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-      setDisable(false);
-    }
-  }, [outerDataSource]);
+			{
+				title: "Sil",
+				className: "orderField printField",
+				dataIndex: "operation",
+				isVisible: true,
+				editable: false,
+				render: (_, record) => (
+					<Typography.Link>
+						<Popconfirm
+							title="Silməyə əminsinizmi?"
+							okText="Bəli"
+							cancelText="Xeyr"
+							onConfirm={() => handleDelete(record.key)}
+						>
+							<a className="deletePosition">Sil</a>
+						</Popconfirm>
+					</Typography.Link>
+				),
+			},
+		];
+	}, [consumption, outerDataSource, docSum]);
 
-  useEffect(() => {
-    setInitial(columns);
-  }, []);
+	useEffect(() => {
+		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+			setDisable(false);
+		}
+	}, [outerDataSource]);
 
-  useEffect(() => {
-    setColumnChange(false);
-  }, [columnChange]);
+	useEffect(() => {
+		setInitial(columns);
+	}, []);
 
-  const updateMutation = useMutation(updateDoc, {
-    refetchQueris: ["loss", doc_id],
-  });
+	useEffect(() => {
+		setColumnChange(false);
+	}, [columnChange]);
 
-  useEffect(() => {
-    if (createdStock) {
-      getStocksAgain();
-    }
-  }, [createdStock]);
+	const updateMutation = useMutation(updateDoc, {
+		refetchQueris: ["loss", doc_id],
+	});
 
-  const getStocksAgain = async () => {
-    const stockResponse = await fetchStocks();
-    setStock(stockResponse.Body.List);
-    setStockLocalStorage(stockResponse.Body.List);
-    form.setFieldsValue({
-      stockid: createdStock.id,
-    });
-    setCreatedStock(null);
-  };
+	useEffect(() => {
+		if (createdStock) {
+			getStocksAgain();
+		}
+	}, [createdStock]);
 
-  //#region OwDep
-  var objCustomers;
-  customers
-    ? (objCustomers = customers)
-    : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-  const customerOptions = Object.values(objCustomers).map((c) => (
-    <Option key={c.Id} value={c.Id}>
-      {c.Name}
-    </Option>
-  ));
+	const getStocksAgain = async () => {
+		const stockResponse = await fetchStocks();
+		setStock(stockResponse.Body.List);
+		setStockLocalStorage(stockResponse.Body.List);
+		form.setFieldsValue({
+			stockid: createdStock.id,
+		});
+		setCreatedStock(null);
+	};
 
-  var objOwner;
-  owners
-    ? (objOwner = owners)
-    : (objOwner = JSON.parse(localStorage.getItem("owners")));
-  const ownersOptions = Object.values(objOwner).map((c) => (
-    <Option key={c.Id} value={c.Id}>
-      {c.Name}
-    </Option>
-  ));
+	//#region OwDep
+	var objCustomers;
+	customers
+		? (objCustomers = customers)
+		: (objCustomers = JSON.parse(localStorage.getItem("customers")));
+	const customerOptions = Object.values(objCustomers).map((c) => (
+		<Option key={c.Id} value={c.Id}>
+			{c.Name}
+		</Option>
+	));
 
-  var objDep;
-  departments
-    ? (objDep = departments)
-    : (objDep = JSON.parse(localStorage.getItem("departments")));
+	var objOwner;
+	owners
+		? (objOwner = owners)
+		: (objOwner = JSON.parse(localStorage.getItem("owners")));
+	const ownersOptions = Object.values(objOwner).map((c) => (
+		<Option key={c.Id} value={c.Id}>
+			{c.Name}
+		</Option>
+	));
 
-  const depOptions = Object.values(objDep).map((c) => (
-    <Option key={c.Id}>{c.Name}</Option>
-  ));
+	var objDep;
+	departments
+		? (objDep = departments)
+		: (objDep = JSON.parse(localStorage.getItem("departments")));
 
-  var objStock;
-  stocks
-    ? (objStock = stocks)
-    : (objStock = JSON.parse(localStorage.getItem("stocks")));
+	const depOptions = Object.values(objDep).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
 
-  const options = objStock.map((m) => (
-    <Option key={m.Id} value={m.Id}>
-      {m.Name}
-    </Option>
-  ));
+	var objStock;
+	stocks
+		? (objStock = stocks)
+		: (objStock = JSON.parse(localStorage.getItem("stocks")));
 
-  //#endregion OwDep
+	const options = objStock.map((m) => (
+		<Option key={m.Id} value={m.Id}>
+			{m.Name}
+		</Option>
+	));
 
-  if (isLoading) return "Loading...";
+	//#endregion OwDep
 
-  if (error) return "An error has occurred: " + error.message;
+	if (isLoading) return "Loading...";
 
-  if (redirect)
-    return (
-      <Redirect
-        to={{
-          pathname: "/editSupplyReturnLinked",
-          state: {
-            data: data.Body.List[0],
-            position: positions,
-            linked: doc_id,
-          },
-        }}
-      />
-    );
+	if (error) return "An error has occurred: " + error.message;
 
-  const handleFinish = async (values) => {
-    values.positions = outerDataSource;
-    values.moment = values.moment._i;
-    values.modify = values.modify._i;
-    values.description = myRefDescription.current.resizableTextArea.props.value;
-    values.consumption = myRefConsumption.current.clearableInput.props.value;
-    values.status = status;
-    console.log(values);
-    message.loading({ content: "Loading...", key: "doc_update" });
-    updateMutation.mutate(
-      { id: doc_id, controller: "losses", filter: values },
-      {
-        onSuccess: (res) => {
-          if (res.Headers.ResponseStatus === "0") {
-            message.success({
-              content: "Updated",
-              key: "doc_update",
-              duration: 2,
-            });
-            queryClient.invalidateQueries("loss", doc_id);
-            if (saveFromModal) {
-              setRedirectSaveClose(true);
-            }
-          } else {
-            message.error({
-              content: (
-                <span className="error_mess_wrap">
-                  Saxlanılmadı... {res.Body}{" "}
-                  {<CloseCircleOutlined onClick={onClose} />}
-                </span>
-              ),
-              key: "doc_update",
-              duration: 0,
-            });
-          }
-        },
-      }
-    );
-  };
-  const onChangeMenu = (e) => {
-    var initialCols = initial;
-    var findelement;
-    var findelementindex;
-    var replacedElement;
-    findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-    console.log(findelement);
-    findelementindex = initialCols.findIndex(
-      (c) => c.dataIndex === e.target.id
-    );
-    findelement.isVisible = e.target.checked;
-    replacedElement = findelement;
-    initialCols.splice(findelementindex, 1, {
-      ...findelement,
-      ...replacedElement,
-    });
-    setColumnChange(true);
-  };
-  const menu = (
-    <Menu>
-      <Menu.ItemGroup title="Sutunlar">
-        {Object.values(columns).map((d) => (
-          <Menu.Item key={d.dataIndex}>
-            <Checkbox
-              id={d.dataIndex}
-              disabled={
-                columns.length === 3 && d.isVisible === true ? true : false
-              }
-              isVisible={d.isVisible}
-              onChange={(e) => onChangeMenu(e)}
-              defaultChecked={d.isVisible}
-            >
-              {d.title}
-            </Checkbox>
-          </Menu.Item>
-        ))}
-      </Menu.ItemGroup>
-    </Menu>
-  );
+	if (redirect)
+		return (
+			<Redirect
+				to={{
+					pathname: "/editSupplyReturnLinked",
+					state: {
+						data: data.Body.List[0],
+						position: positions,
+						linked: doc_id,
+					},
+				}}
+			/>
+		);
 
-  const panes = [
-    {
-      menuItem: "Əsas",
-      render: () => (
-        <Tab.Pane attached={false}>
-          <Row>
-            <Col xs={24} md={24} xl={9}>
-              <div className="addProductInputIcon">
-                <AddProductInput className="newProInputWrapper" />
-                <PlusOutlined
-                  onClick={() => setProductModal(true)}
-                  className="addNewProductIcon"
-                />
-              </div>
-            </Col>
-            <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
-              <Dropdown
-                overlay={menu}
-                onVisibleChange={handleVisibleChange}
-                visible={visibleMenuSettings}
-              >
-                <Button className="flex_directon_col_center">
-                  {" "}
-                  <SettingOutlined />
-                </Button>
-              </Dropdown>
-              <DocTable
-                headers={columns.filter((c) => c.isVisible == true)}
-                datas={positions}
-              />
-            </Col>
-          </Row>
-        </Tab.Pane>
-      ),
-    },
-    {
-      menuItem: "Əlaqəli sənədlər",
-      render: () => <Tab.Pane attached={false}></Tab.Pane>,
-    },
-  ];
+	const handleChanged = () => {
+		if (disable) {
+			setDisable(false);
+		}
+	};
 
-  return (
-    <div className="doc_wrapper">
-      <div className="doc_name_wrapper">
-        <h2>Silinmə</h2>
-      </div>
-      <DocButtons
-        additional={"none"}
-        editid={doc_id}
-        controller={"losses"}
-        closed={"p=loss"}
-      />
-      <div className="formWrapper">
-        <Form
-          id="myForm"
-          form={form}
-          className="doc_forms"
-          name="basic"
-          labelCol={{
-            span: 5,
-          }}
-          wrapperCol={{
-            span: 14,
-          }}
-          initialValues={{
-            name: data.Body.List[0].Name,
-            moment: moment(data.Body.List[0].Moment),
-            modify: moment(data.Body.List[0].Modify),
-            mark: data.Body.List[0].Mark,
-            stockid: data.Body.List[0].StockId,
-            customerid: data.Body.List[0].CustomerId,
-            status: data.Body.List[0].Status == 1 ? true : false,
-          }}
-          onFinish={handleFinish}
-          layout="horizontal"
-        >
-          <Row style={{ marginTop: "1em", padding: "1em" }}>
-            <Col xs={24} md={24} xl={18}>
-              <Row>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item
-                        label="Dxilolma №"
-                        name="name"
-                        className="doc_number_form_item"
-                      >
-                        <Input allowClear />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Tarixi" name="moment">
-                        <DatePicker
-                          showTime={{ format: "HH:mm:ss" }}
-                          format="YYYY-MM-DD HH:mm:ss"
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} md={24} xl={24}></Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24} className="plus_wrapper">
-                      <Form.Item label="Anbar" name="stockid">
-                        <Select
-                          showSearch
-                          showArrow={false}
-                          filterOption={false}
-                          className="customSelect"
-                          allowClear={true}
-                        >
-                          {options}
-                        </Select>
-                      </Form.Item>
-                      <PlusOutlined
-                        onClick={() => setStockDrawer(true)}
-                        className="add_elements"
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={24} xl={4}>
-                  <Col xs={24} md={24} xl={24}>
-                    <Form.Item label="Dəyişmə Tarixi" name="modify">
-                      <DatePicker
-                        showTime={{ format: "HH:mm:ss" }}
-                        format="YYYY-MM-DD HH:mm:ss"
-                      />
-                    </Form.Item>
-                  </Col>
-                </Col>
-              </Row>
-            </Col>
+	const handleFinish = async (values) => {
+		values.positions = outerDataSource;
+		values.moment = values.moment._i;
+		values.modify = values.modify._i;
+		values.description =
+			myRefDescription.current.resizableTextArea.props.value;
+		values.consumption =
+			myRefConsumption.current.clearableInput.props.value;
+		values.status = status;
+		console.log(values);
+		message.loading({ content: "Loading...", key: "doc_update" });
+		updateMutation.mutate(
+			{ id: doc_id, controller: "losses", filter: values },
+			{
+				onSuccess: (res) => {
+					if (res.Headers.ResponseStatus === "0") {
+						message.success({
+							content: "Updated",
+							key: "doc_update",
+							duration: 2,
+						});
+						queryClient.invalidateQueries("loss", doc_id);
+						if (saveFromModal) {
+							setRedirectSaveClose(true);
+						}
+					} else {
+						message.error({
+							content: (
+								<span className="error_mess_wrap">
+									Saxlanılmadı... {res.Body}{" "}
+									{<CloseCircleOutlined onClick={onClose} />}
+								</span>
+							),
+							key: "doc_update",
+							duration: 0,
+						});
+					}
+				},
+			}
+		);
+	};
+	const onChangeMenu = (e) => {
+		var initialCols = initial;
+		var findelement;
+		var findelementindex;
+		var replacedElement;
+		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+		console.log(findelement);
+		findelementindex = initialCols.findIndex(
+			(c) => c.dataIndex === e.target.id
+		);
+		findelement.isVisible = e.target.checked;
+		replacedElement = findelement;
+		initialCols.splice(findelementindex, 1, {
+			...findelement,
+			...replacedElement,
+		});
+		setColumnChange(true);
+	};
+	const menu = (
+		<Menu>
+			<Menu.ItemGroup title="Sutunlar">
+				{Object.values(columns).map((d) => (
+					<Menu.Item key={d.dataIndex}>
+						<Checkbox
+							id={d.dataIndex}
+							disabled={
+								columns.length === 3 && d.isVisible === true
+									? true
+									: false
+							}
+							isVisible={d.isVisible}
+							onChange={(e) => onChangeMenu(e)}
+							defaultChecked={d.isVisible}
+						>
+							{d.title}
+						</Checkbox>
+					</Menu.Item>
+				))}
+			</Menu.ItemGroup>
+		</Menu>
+	);
 
-            <Col xs={24} md={24} xl={6}>
-              <Collapse ghost>
-                <Panel className="custom_panel_header" header="Təyinat" key="1">
-                  <Form.Item
-                    label="Cavabdeh"
-                    name="ownerid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      filterOption={false}
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {ownersOptions}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Şöbə"
-                    name="departmentid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {depOptions}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Keçirilib"
-                    className="docComponentStatus"
-                    name="status"
-                    valuePropName="checked"
-                  >
-                    <Checkbox
-                      onChange={(e) => setStatus(e.target.checked)}
-                      name="status"
-                    ></Checkbox>
-                  </Form.Item>
-                  <Form.Item label="Status" name="mark">
-                    <StatusSelect defaultValue={null} />
-                  </Form.Item>
-                </Panel>
-              </Collapse>
-            </Col>
-          </Row>
-        </Form>
-        <Row>
-          <Col xs={24} md={24} xl={24}>
-            <Tab className="custom_table_wrapper_tab" panes={panes} />
-          </Col>
-          <Col xs={24} md={24} xl={24}>
-            <Row className="bottom_tab">
-              <Col xs={24} md={24} xl={9}>
-                <div>
-                  <Form.Item name="description">
-                    <TextArea
-                      ref={myRefDescription}
-                      placeholder={"Şərh..."}
-                      defaultValue={data.Body.List[0].Description}
-                      rows={3}
-                    />
-                  </Form.Item>
-                </div>
-              </Col>
-              <Col xs={24} md={24} xl={12}>
-                <div className="static_wrapper">
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text total"
-                    title=""
-                    value={docSum}
-                    prefix={"Yekun məbləğ: "}
-                    suffix={"₼"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
-                    value={docCount}
-                    prefix={"Miqdar: "}
-                    suffix={"əd"}
-                  />
+	const panes = [
+		{
+			menuItem: "Əsas",
+			render: () => (
+				<Tab.Pane attached={false}>
+					<Row>
+						<Col xs={24} md={24} xl={9}>
+							<div className="addProductInputIcon">
+								<AddProductInput className="newProInputWrapper" />
+								<PlusOutlined
+									onClick={() => setProductModal(true)}
+									className="addNewProductIcon"
+								/>
+							</div>
+						</Col>
+						<Col
+							xs={24}
+							md={24}
+							xl={24}
+							style={{ paddingTop: "1rem" }}
+						>
+							<Dropdown
+								overlay={menu}
+								onVisibleChange={handleVisibleChange}
+								visible={visibleMenuSettings}
+							>
+								<Button className="flex_directon_col_center">
+									{" "}
+									<SettingOutlined />
+								</Button>
+							</Dropdown>
+							<DocTable
+								headers={columns.filter(
+									(c) => c.isVisible == true
+								)}
+								datas={positions}
+							/>
+						</Col>
+					</Row>
+				</Tab.Pane>
+			),
+		},
+		{
+			menuItem: "Əlaqəli sənədlər",
+			render: () => <Tab.Pane attached={false}></Tab.Pane>,
+		},
+	];
 
-                  <Divider style={{ backgroundColor: "grey" }} />
-      
-                </div>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </div>
-      <StockDrawer />
-      <ProductModal />
-    </div>
-  );
+	return (
+		<div className="doc_wrapper">
+			<div className="doc_name_wrapper">
+				<h2>Silinmə</h2>
+			</div>
+			<DocButtons
+				additional={"none"}
+				editid={doc_id}
+				controller={"losses"}
+				closed={"p=loss"}
+			/>
+			<div className="formWrapper">
+				<Form
+					id="myForm"
+					form={form}
+					className="doc_forms"
+					name="basic"
+					labelCol={{
+						span: 5,
+					}}
+					wrapperCol={{
+						span: 14,
+					}}
+					initialValues={{
+						name: data.Body.List[0].Name,
+						moment: moment(data.Body.List[0].Moment),
+						modify: moment(data.Body.List[0].Modify),
+						mark: data.Body.List[0].Mark,
+						stockid: data.Body.List[0].StockId,
+						customerid: data.Body.List[0].CustomerId,
+						status: data.Body.List[0].Status == 1 ? true : false,
+					}}
+					onFinish={handleFinish}
+					onFieldsChange={handleChanged}
+					layout="horizontal"
+				>
+					<Row style={{ marginTop: "1em", padding: "1em" }}>
+						<Col xs={24} md={24} xl={18}>
+							<Row>
+								<Col xs={24} md={24} xl={10}>
+									<Row>
+										<Col xs={24} md={24} xl={24}>
+											<Form.Item
+												label="Dxilolma №"
+												name="name"
+												className="doc_number_form_item"
+											>
+												<Input allowClear />
+											</Form.Item>
+										</Col>
+										<Col xs={24} md={24} xl={24}>
+											<Form.Item
+												label="Tarixi"
+												name="moment"
+											>
+												<DatePicker
+													showTime={{
+														format: "HH:mm:ss",
+													}}
+													format="YYYY-MM-DD HH:mm:ss"
+												/>
+											</Form.Item>
+										</Col>
+										<Col xs={24} md={24} xl={24}></Col>
+									</Row>
+								</Col>
+								<Col xs={24} md={24} xl={10}>
+									<Row>
+										<Col
+											xs={24}
+											md={24}
+											xl={24}
+											className="plus_wrapper"
+										>
+											<Form.Item
+												label="Anbar"
+												name="stockid"
+											>
+												<Select
+													showSearch
+													showArrow={false}
+													filterOption={false}
+													className="customSelect"
+													allowClear={true}
+												>
+													{options}
+												</Select>
+											</Form.Item>
+											<PlusOutlined
+												onClick={() =>
+													setStockDrawer(true)
+												}
+												className="add_elements"
+											/>
+										</Col>
+									</Row>
+								</Col>
+								<Col xs={24} md={24} xl={4}>
+									<Col xs={24} md={24} xl={24}>
+										<Form.Item
+											label="Dəyişmə Tarixi"
+											name="modify"
+										>
+											<DatePicker
+												showTime={{
+													format: "HH:mm:ss",
+												}}
+												format="YYYY-MM-DD HH:mm:ss"
+											/>
+										</Form.Item>
+									</Col>
+								</Col>
+							</Row>
+						</Col>
+
+						<Col xs={24} md={24} xl={6}>
+							<Collapse ghost>
+								<Panel
+									className="custom_panel_header"
+									header="Təyinat"
+									key="1"
+								>
+									<Form.Item
+										label="Cavabdeh"
+										name="ownerid"
+										style={{ margin: "0" }}
+									>
+										<Select
+											showSearch
+											placeholder=""
+											filterOption={false}
+											notFoundContent={
+												<Spin size="small" />
+											}
+											filterOption={(input, option) =>
+												option.children
+													.toLowerCase()
+													.indexOf(
+														input.toLowerCase()
+													) >= 0
+											}
+										>
+											{ownersOptions}
+										</Select>
+									</Form.Item>
+									<Form.Item
+										label="Şöbə"
+										name="departmentid"
+										style={{ margin: "0" }}
+									>
+										<Select
+											showSearch
+											placeholder=""
+											notFoundContent={
+												<Spin size="small" />
+											}
+											filterOption={(input, option) =>
+												option.children
+													.toLowerCase()
+													.indexOf(
+														input.toLowerCase()
+													) >= 0
+											}
+										>
+											{depOptions}
+										</Select>
+									</Form.Item>
+									<Form.Item
+										label="Keçirilib"
+										className="docComponentStatus"
+										name="status"
+										valuePropName="checked"
+									>
+										<Checkbox
+											onChange={(e) =>
+												setStatus(e.target.checked)
+											}
+											name="status"
+										></Checkbox>
+									</Form.Item>
+									<Form.Item label="Status" name="mark">
+										<StatusSelect defaultValue={null} />
+									</Form.Item>
+								</Panel>
+							</Collapse>
+						</Col>
+					</Row>
+				</Form>
+				<Row>
+					<Col xs={24} md={24} xl={24}>
+						<Tab
+							className="custom_table_wrapper_tab"
+							panes={panes}
+						/>
+					</Col>
+					<Col xs={24} md={24} xl={24}>
+						<Row className="bottom_tab">
+							<Col xs={24} md={24} xl={9}>
+								<div>
+									<Form.Item name="description">
+										<TextArea
+											ref={myRefDescription}
+											placeholder={"Şərh..."}
+											defaultValue={
+												data.Body.List[0].Description
+											}
+											rows={3}
+										/>
+									</Form.Item>
+								</div>
+							</Col>
+							<Col xs={24} md={24} xl={12}>
+								<div className="static_wrapper">
+									<Statistic
+										groupSeparator=" "
+										className="doc_info_text total"
+										title=""
+										value={docSum}
+										prefix={"Yekun məbləğ: "}
+										suffix={"₼"}
+									/>
+									<Statistic
+										groupSeparator=" "
+										className="doc_info_text doc_info_secondary quantity"
+										title=""
+										value={docCount}
+										prefix={"Miqdar: "}
+										suffix={"əd"}
+									/>
+
+									<Divider
+										style={{ backgroundColor: "grey" }}
+									/>
+								</div>
+							</Col>
+						</Row>
+					</Col>
+				</Row>
+			</div>
+			<StockDrawer />
+			<ProductModal />
+		</div>
+	);
 }
 
 export default LossDetail;

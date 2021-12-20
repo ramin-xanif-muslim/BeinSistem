@@ -127,8 +127,8 @@ function PaymentInDetail() {
   const [customerloading, setcustomerloading] = useState(false);
   const { doc_id } = useParams();
   const { isLoading, error, data, isFetching } = useQuery(
-    ["paymentin", doc_id],
-    () => fetchDocId(doc_id, "paymentins")
+    ["invoicein", doc_id],
+    () => fetchDocId(doc_id, "invoiceins")
   );
   const handleDelete = (key) => {
       const dataSource = [...outerDataSource];
@@ -173,7 +173,7 @@ function PaymentInDetail() {
   }, [isFetching]);
 
   const updateMutation = useMutation(updateDoc, {
-    refetchQueris: ["paymentin", doc_id],
+    refetchQueris: ["invoicein", doc_id],
   });
   const getSpendItems = async () => {
     setSpends(false);
@@ -194,7 +194,7 @@ function PaymentInDetail() {
     setCustomers(customerResponse.Body.List);
   };
   const getDocName = async (docname) => {
-    const attrResponse = await fetchDocName(docname, "paymentins");
+    const attrResponse = await fetchDocName(docname, "invoiceins");
     return attrResponse;
   };
 
@@ -266,7 +266,7 @@ function PaymentInDetail() {
     }
 
     updateMutation.mutate(
-      { id: doc_id, controller: "paymentins", filter: values },
+      { id: doc_id, controller: "invoiceins", filter: values },
       {
         onSuccess: (res) => {
           if (res.Headers.ResponseStatus === "0") {
@@ -275,7 +275,7 @@ function PaymentInDetail() {
               key: "doc_update",
               duration: 2,
             });
-            queryClient.invalidateQueries("paymentin", doc_id);
+            queryClient.invalidateQueries("invoicein", doc_id);
             // if (saveFromModal) {
             //     setRedirectSaveClose(true);
             // } else {

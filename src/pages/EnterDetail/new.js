@@ -435,12 +435,12 @@ function NewEnter() {
 
 		values.positions = outerDataSource;
 		values.mark = docmark;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:ss");
+		values.moment = values.moment._i;
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
 		values.consumption =
 			myRefConsumption.current.clearableInput.props.value;
-
+		values.status = status;
 		message.loading({ content: "Loading...", key: "doc_update" });
 
 		try {
@@ -631,6 +631,7 @@ function NewEnter() {
 								style={{ width: "100%" }}
 							>
 								<DatePicker
+									style={{ width: "100%" }}
 									size="small"
 									showTime={{ format: "HH:mm:ss" }}
 									format="YYYY-MM-DD HH:mm:ss"
@@ -642,21 +643,16 @@ function NewEnter() {
 								<Form.Item
 									label="Anbar"
 									name="stockid"
-									style={{ width: "60%" }}
+									style={{ width: "50%" }}
 								>
 									<Select
 										size="small"
 										showSearch
 										showArrow={false}
+										filterOption={false}
 										onChange={onChange}
 										className="customSelect"
 										allowClear={true}
-										filterOption={(input, option) =>
-											option.children
-												.toLowerCase()
-												.indexOf(input.toLowerCase()) >=
-											0
-										}
 									>
 										{options}
 									</Select>
@@ -690,7 +686,6 @@ function NewEnter() {
 												size="small"
 												showSearch
 												placeholder=""
-												filterOption={false}
 												notFoundContent={
 													<Spin size="small" />
 												}

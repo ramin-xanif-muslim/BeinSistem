@@ -386,7 +386,7 @@ function NewSupplyReturn() {
 		const nameres = await getDocName(values.name);
 		values.name = nameres.Body.ResponseService;
 
-		const res = await saveDoc(values, "supplies");
+		const res = await saveDoc(values, "supplyreturns");
 		if (res.Headers.ResponseStatus === "0") {
 			message.success({
 				content: "Saxlanildi",

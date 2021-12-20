@@ -588,6 +588,7 @@ function NewSupply() {
 		},
 	];
 
+
 	if (redirect) return <Redirect to={`/editSupply/${editId}`} />;
 	return (
 		<div className="doc_wrapper">

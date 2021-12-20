@@ -21,7 +21,7 @@ function TransactionButtons({ text, animate, redirectto }) {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
-        <Button as={Link} to="/newInvoiceIn">
+        <Button as={Link} to="/newinvoicein">
           Köçürmə
         </Button>
       </Menu.Item>
@@ -37,7 +37,7 @@ function TransactionButtons({ text, animate, redirectto }) {
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
-        <Button as={Link} to="/newInvoiceOut">
+        <Button as={Link} to="/newinvoiceout">
           Köçürmə
         </Button>
       </Menu.Item>

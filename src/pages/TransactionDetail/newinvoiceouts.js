@@ -65,7 +65,8 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewPaymentIn() {
+
+function NewInvoiceOuts() {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -163,7 +164,7 @@ function NewPaymentIn() {
 		setCustomers(customerResponse.Body.List);
 	};
 	const getDocName = async (docname) => {
-		const attrResponse = await fetchDocName(docname, "paymentins");
+		const attrResponse = await fetchDocName(docname, "invoiceouts");
 		return attrResponse;
 	};
 
@@ -237,7 +238,7 @@ function NewPaymentIn() {
 			});
 		}
 
-		const res = await saveDoc(values, "paymentins");
+		const res = await saveDoc(values, "invoiceouts");
 		if (res.Headers.ResponseStatus === "0") {
 			message.success({
 				content: "Saxlanildi",
@@ -268,7 +269,7 @@ function NewPaymentIn() {
 	//#region OwDep
 
 	//#endregion OwDep
-	if (redirect) return <Redirect to={`/editPaymentIn/${editId}`} />;
+	if (redirect) return <Redirect to={`/editInvoiceOut/${editId}`} />;
 
 	if (!spends) return <div>Loading....</div>;
 	if (spends)
@@ -462,4 +463,4 @@ function NewPaymentIn() {
 		);
 }
 
-export default NewPaymentIn;
+export default NewInvoiceOuts;
