@@ -22,6 +22,8 @@ function DocButtons({
   additional,
   from,
   proinfo,
+  isArch,
+  onChangeArch
 }) {
   const { outerDataSource, disable, setDisable } = useTableCustom();
   const {
@@ -97,6 +99,13 @@ function DocButtons({
           disabled={editid ? false : true}
         >
           {closed === "p=product" ? "Silin" : "Sənədi silin"}
+        </Button>
+        <Button
+          className="align_center del"
+          onClick={onChangeArch}
+          disabled={editid ? false : true}
+        >
+          {isArch === 0 ? "Arxiva yerləşdir" : 'Arxivden çıxart'}
         </Button>
       </Menu.Item>
       <Menu.Divider />

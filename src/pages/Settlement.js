@@ -230,6 +230,21 @@ export default function Settlement() {
 					  ).show
 					: true,
 			},
+			{
+				key: "6",
+				label: "Siyahı",
+				name: "zeros",
+				controller: "yesno",
+				default: 3,
+				type: "selectDefaultZeros",
+				hidden: false,
+				dataIndex: "zeros",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "zeros"
+					  ).show
+					: true,
+			},
 		];
 	}, [filterChanged]);
 
@@ -253,16 +268,17 @@ export default function Settlement() {
 		}
 	}, [isFetching]);
 
-	const editPage = (id) => {
+	const editPage = (id, r) => {
+        console.log('cusid',r)
 		setcusid(id);
 		setVisibleDrawer(true);
 	};
-    const editClickPage = (e, id) => {
-      if (e.target.className.includes("linkedColumns")) {
-        setRedirect(true);
-        setEditId(id);
-      }
-    };
+	const editClickPage = (e, id) => {
+		if (e.target.className.includes("linkedColumns")) {
+			setRedirect(true);
+			setEditId(id);
+		}
+	};
 
 	const handlePagination = (pg) => {
 		setPage(pg - 1);
@@ -388,16 +404,17 @@ export default function Settlement() {
 
 	if (error) return "An error has occurred: " + error.message;
 
-    if (redirect) return <Redirect push to={`/editEnter/${editId}`} />;
+	if (redirect) return <Redirect push to={`/editEnter/${editId}`} />;
 
-  
-    if (!isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>Serverdə xəta baş verdi : {data}</span>
-        </>
-      );
+	if (!isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>
+					Serverdə xəta baş verdi : {data}
+				</span>
+			</>
+		);
 
 	return (
 		<div className="custom_display">
@@ -478,7 +495,7 @@ export default function Settlement() {
 				}}
 				size="small"
 				onRow={(r) => ({
-					onDoubleClick: () => editPage(r.Id),
+					onDoubleClick: () => editPage(r.CustomerId, r),
 					onClick: (e) => editClickPage(e, r.Id),
 				})}
 			/>

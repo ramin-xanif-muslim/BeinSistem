@@ -96,6 +96,7 @@ function ProductDetail() {
 	const [editPrice, setEditPrice] = useState(null);
 	const [linked, setLinked] = useState(null);
 	const [listLength, setListLength] = useState(0);
+	const [isArch, setIsArch] = useState(0);
 	const { isLoading, error, data, isFetching } = useQuery(
 		["products", product_id],
 		() => fetchProductId(product_id)
@@ -113,6 +114,13 @@ function ProductDetail() {
 			setLinked([]);
 		};
 	}, []);
+
+    useEffect(() => {
+        if(data) {
+            setIsArch(data.Body.List[0].IsArch)
+            console.log(data.Body.List[0].IsArch)
+        }
+    },[])
 
 	useEffect(() => {
 		if (priceIsAdd) {
@@ -138,6 +146,7 @@ function ProductDetail() {
 			getProductGroupsAgain();
 		}
 	}, [newGroup]);
+
 	const getProductGroupsAgain = async () => {
 		const groupResponse = await fetchProductFolders();
 		setProductGroups(groupResponse.Body.List);
@@ -446,7 +455,7 @@ function ProductDetail() {
 	};
 
 	const onValuesChange = (changedValues, allValues) => {
-		console.log(changedValues);
+		console.log(allValues);
 		Object.assign(lastObject, {
 			[changedValues[0].name[0]]: changedValues[0].value,
 		});
@@ -491,6 +500,7 @@ function ProductDetail() {
 		});
 		Object.assign(values, initialValues, lastObject);
 		values.prices = prices;
+		values.isarch = isArch;
 
 		message.loading({ content: "Loading...", key: "pro_update" });
 
@@ -579,6 +589,11 @@ function ProductDetail() {
 		setPrices(priceResponse.Body.List);
 		setPricesLocalStorage(priceResponse.Body.List);
 	};
+    const onChangeArch = () => {
+        isArch === 0 ? setIsArch(1) : setIsArch(0)
+        setDisable(false)
+        console.log(isArch)
+    }
 	return (
 		<div className="doc_wrapper product_wrapper">
 			<div className="doc_name_wrapper">
@@ -586,6 +601,8 @@ function ProductDetail() {
 			</div>
 			{console.log(data)}
 			<DocButtons
+				onChangeArch={onChangeArch}
+				isArch={isArch}
 				editid={product_id}
 				controller={"products"}
 				closed={"p=product"}

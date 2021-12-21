@@ -5,6 +5,8 @@ import { Alert, Spin } from "antd";
 import { Redirect, useParams } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
+
+
 const Move = React.lazy(() => import("./pages/Move"));
 const Product = React.lazy(() => import("./pages/Product"));
 const Enter = React.lazy(() => import("./pages/Enter"));

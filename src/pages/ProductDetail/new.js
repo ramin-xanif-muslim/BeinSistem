@@ -100,6 +100,7 @@ function NewProduct() {
 	const [barcode, setBarcode] = useState(null);
 	const [listLength, setListLength] = useState(0);
 	const [linked, setLinked] = useState(null);
+	const [isArch, setIsArch] = useState(0);
 
 	const [required, setRequired] = useState(false);
 
@@ -200,8 +201,6 @@ function NewProduct() {
 	};
 
 	const onValuesChange = (changedValues, allValues) => {
-		console.log(changedValues);
-
 		Object.assign(lastObject, {
 			[changedValues[0].name[0]]: changedValues[0].value,
 		});
@@ -210,10 +209,14 @@ function NewProduct() {
 		}
 	};
 	const handleFinish = async (values) => {
+        if(!values.isweight) {
+            values.isweight = false
+        }
+        console.log(values)
 		setDisable(true);
 		var error = false;
 		message.loading({ content: "Loading...", key: "pro_update" });
-		Object.assign(values, lastObject);
+		// Object.assign(values, lastObject);
 		var prices = [];
 		Object.entries(values).map(([k, v]) => {
 			if (k.indexOf("PriceType_") != -1) {
@@ -226,6 +229,7 @@ function NewProduct() {
 			}
 		});
 		values.prices = prices;
+		values.isarch = isArch;
 
 		console.log(attrs);
 
@@ -256,6 +260,7 @@ function NewProduct() {
 			});
 		}
 		if (!error) {
+			console.log(values);
 			const res = await saveDoc(values, "products");
 			if (res.Headers.ResponseStatus === "0") {
 				message.success({
@@ -303,7 +308,7 @@ function NewProduct() {
 	const departmentOption = Object.values(departmentList).map((c) => (
 		<Option key={c.Id}>{c.Name}</Option>
 	));
-	const handleGancel = () => {
+	const handleGancel = (e) => {
 		setPriceModal(false);
 		setEditPrice(null);
 	};
@@ -461,9 +466,9 @@ function NewProduct() {
 						className="modal_price_type"
 						title="Ad"
 						visible={priceModal}
-						onCancel={() => handleGancel()}
+						onCancel={(e) => handleGancel(e)}
 						footer={[
-							<Button key="back" onClick={() => handleGancel()}>
+							<Button key="back" onClick={(e) => handleGancel(e)}>
 								Bağla
 							</Button>,
 							<Button
@@ -564,6 +569,10 @@ function NewProduct() {
 		setPrices(priceResponse.Body.List);
 		setPricesLocalStorage(priceResponse.Body.List);
 	};
+    const onChangeArch = () => {
+        isArch === 0 ? setIsArch(1) : setIsArch(0)
+        console.log(isArch)
+    }
 	if (redirect) return <Redirect to={`/editProduct/${editId}`} />;
 
 	return (
@@ -573,6 +582,9 @@ function NewProduct() {
 				<h2>Məhsul</h2>
 			</div>
 			<DocButtons
+				onChangeArch={onChangeArch}
+				isArch={isArch}
+				editid={null}
 				controller={"products"}
 				closed={"p=product"}
 				additional={"none"}

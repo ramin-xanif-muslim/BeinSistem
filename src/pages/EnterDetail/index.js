@@ -458,7 +458,6 @@ function EnterDetail() {
 		values.consumption =
 			myRefConsumption.current.clearableInput.props.value;
 		values.status = status;
-		console.log(values);
 		message.loading({ content: "Loading...", key: "doc_update" });
 		updateMutation.mutate(
 			{ id: doc_id, controller: "enters", filter: values },

@@ -401,6 +401,23 @@ export const fetchDocId = async (id, controller) => {
   }
 };
 
+export const fetchDebt = async (id) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: id,
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/customers/getdata.php`,
+    editFilter
+  );
+
+  if (data.Headers.ResponseStatus === "0") {
+    return data;
+  } else {
+    return data.Body;
+  }
+};
+
 export const fetchLinkedDoc = async (cus, pg, moment, lm) => {
   console.log(cus);
   var editFilter = {
