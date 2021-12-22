@@ -583,6 +583,16 @@ function NewLoss() {
 								<Row>
 									<Col xs={24} md={24} xl={6}>
 										<Form.Item
+											label="Status"
+											name="mark"
+											style={{ width: "100%", margin: "0"}}
+										>
+											<StatusSelect />
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
 											label="Cavabdeh"
 											name="ownerid"
 											style={{ margin: "0" }}
@@ -610,6 +620,22 @@ function NewLoss() {
 									<Col xs={24} md={24} xl={3}></Col>
 									<Col xs={24} md={24} xl={6}>
 										<Form.Item
+											label="Keçirilib"
+											className="docComponentStatus"
+											name="status"
+											valuePropName="checked"
+											style={{ width: "100%" }}
+										>
+											<Checkbox
+												size="small"
+												name="status"
+											></Checkbox>
+										</Form.Item>
+									</Col>
+								</Row>
+								<Row>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
 											label="Şöbə"
 											name="departmentid"
 											style={{ margin: "0" }}
@@ -632,32 +658,6 @@ function NewLoss() {
 											>
 												{depOptions}
 											</Select>
-										</Form.Item>
-									</Col>
-									<Col xs={24} md={24} xl={3}></Col>
-									<Col xs={24} md={24} xl={6}>
-										<Form.Item
-											label="Keçirilib"
-											className="docComponentStatus"
-											name="status"
-											valuePropName="checked"
-											style={{ width: "100%" }}
-										>
-											<Checkbox
-												size="small"
-												name="status"
-											></Checkbox>
-										</Form.Item>
-									</Col>
-								</Row>
-								<Row>
-									<Col xs={24} md={24} xl={6}>
-										<Form.Item
-											label="Status"
-											name="mark"
-											style={{ width: "100%" }}
-										>
-											<StatusSelect />
 										</Form.Item>
 									</Col>
 									<Col xs={24} md={24} xl={3}></Col>
