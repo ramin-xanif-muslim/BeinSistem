@@ -597,17 +597,17 @@ function NewEnter() {
 						status: true,
 					}}
 					labelCol={{
-						span: 5,
+						span: 8,
 					}}
 					wrapperCol={{
-						span: 11,
+						span: 16,
 					}}
 					onFinish={handleFinish}
 					onFieldsChange={handleChanged}
 					layout="horizontal"
 				>
 					<Row>
-						<Col xs={24} md={24} xl={8}>
+						<Col xs={24} md={24} xl={6}>
 							<Form.Item
 								label="Daxilolma №"
 								name="name"
@@ -621,12 +621,14 @@ function NewEnter() {
 								/>
 							</Form.Item>
 						</Col>
-						<Col xs={24} md={24} xl={8}></Col>
-						<Col xs={24} md={24} xl={8}></Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
 					</Row>
 
 					<Row>
-						<Col xs={24} md={24} xl={8}>
+						<Col xs={24} md={24} xl={6}>
 							<Form.Item
 								label="Tarix"
 								name="moment"
@@ -640,33 +642,32 @@ function NewEnter() {
 								/>
 							</Form.Item>
 						</Col>
-						<Col xs={24} md={24} xl={8}>
-							<div className="input-with-icon-btn">
-								<Form.Item
-									label="Anbar"
-									name="stockid"
-									style={{ width: "50%" }}
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6} >
+							<Button className="add-stock-btn">
+								<PlusOutlined
+									onClick={() => setStockDrawer(true)}
+								/>
+							</Button>
+							<Form.Item
+								label="Anbar"
+								name="stockid"
+							>
+								<Select
+									size="small"
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									onChange={onChange}
+									className="customSelect"
+									allowClear={true}
 								>
-									<Select
-										size="small"
-										showSearch
-										showArrow={false}
-										filterOption={false}
-										onChange={onChange}
-										className="customSelect"
-										allowClear={true}
-									>
-										{options}
-									</Select>
-								</Form.Item>
-								<Button className="add-stock-btn">
-									<PlusOutlined
-										onClick={() => setStockDrawer(true)}
-									/>
-								</Button>
-							</div>
+									{options}
+								</Select>
+							</Form.Item>
 						</Col>
-						<Col xs={24} md={24} xl={8}></Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
 					</Row>
 
 					<Row>
@@ -677,7 +678,17 @@ function NewEnter() {
 								key="1"
 							>
 								<Row>
-									<Col xs={24} md={24} xl={8}>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											label="Status"
+											name="mark"
+											style={{ width: "100%", margin: "0"}}
+										>
+											<StatusSelect />
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}>
 										<Form.Item
 											label="Cavabdeh"
 											name="ownerid"
@@ -703,7 +714,24 @@ function NewEnter() {
 											</Select>
 										</Form.Item>
 									</Col>
-									<Col xs={24} md={24} xl={8}>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											label="Keçirilib"
+											className="docComponentStatus"
+											name="status"
+											valuePropName="checked"
+											style={{ width: "100%" }}
+										>
+											<Checkbox
+												size="small"
+												name="status"
+											></Checkbox>
+										</Form.Item>
+									</Col>
+								</Row>
+								<Row>
+									<Col xs={24} md={24} xl={6}>
 										<Form.Item
 											label="Şöbə"
 											name="departmentid"
@@ -729,33 +757,10 @@ function NewEnter() {
 											</Select>
 										</Form.Item>
 									</Col>
-									<Col xs={24} md={24} xl={8}>
-										<Form.Item
-											label="Keçirilib"
-											className="docComponentStatus"
-											name="status"
-											valuePropName="checked"
-											style={{ width: "100%" }}
-										>
-											<Checkbox
-												size="small"
-												name="status"
-											></Checkbox>
-										</Form.Item>
-									</Col>
-								</Row>
-								<Row>
-									<Col xs={24} md={24} xl={8}>
-										<Form.Item
-											label="Status"
-											name="mark"
-											style={{ width: "100%" }}
-										>
-											<StatusSelect />
-										</Form.Item>
-									</Col>
-									<Col xs={24} md={24} xl={8}></Col>
-									<Col xs={24} md={24} xl={8}></Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}></Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}></Col>
 								</Row>
 							</Panel>
 						</Collapse>

@@ -332,7 +332,7 @@ td.ant-table-column-sort {
 }
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-    padding: 12px 0;
+    padding: 0 0 12px;
 }
 
 .ui.tabular.menu .active.item {
@@ -402,8 +402,8 @@ td.ant-table-column-sort {
 }
 
 .input-with-icon-btn {
-    display: flex !important;
-    align-items: center;
+    /* display: flex !important; */
+    /* align-items: center; */
 }
 
 .input-with-icon-btn .ant-form-item div {
@@ -414,10 +414,10 @@ td.ant-table-column-sort {
     border-radius: 2px 0 0 2px !important;
 }
 
-.input-with-icon-btn .add-stock-btn {
-    margin-bottom: 24px;
+.add-stock-btn {
+    /* margin-bottom: 24px; */
     color: #1164B1;
-    border-width: 1px 1px 1px 0;
+    border-width: 1px 1px 1px 1px;
     height: 24px;
     border-radius: 0 2px 2px 0;
     display: flex;
@@ -426,9 +426,11 @@ td.ant-table-column-sort {
     width: 25px;
     background-color: #e6f7ff;
     padding: 0;
+    float: right;
+    margin: 4px 0;
 }
 
-.input-with-icon-btn .add-stock-btn span svg {
+.add-stock-btn span svg {
     width: 12px;
 }
 
@@ -438,4 +440,12 @@ td.ant-table-column-sort {
 
 .ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
     padding: 12px 0 0;
+}
+
+.customSelect .ant-select-selector {
+    border-radius: 2px 0 0 2px !important;
+}
+
+tbody > tr:hover td {
+    background-color: #d9eefc !important;
 }

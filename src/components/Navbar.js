@@ -16,6 +16,7 @@ import {
   Row,
   Collapse,
   Modal,
+  Badge
 } from "antd";
 import {
   WarningOutlined,
@@ -149,6 +150,25 @@ function Navbar() {
         </Menu.Menu>
         {Array.isArray(data.Body)
           ? data.Body.filter((d) => d.ParentId === "0").map((m) => (
+              m.Name == "Komisyon satış" ? (
+                <Badge.Ribbon text="Yeni" color="red">
+                <Menu.Item
+                  className="main_header_items custom_flex_direction"
+                  key={m.Id}
+                  name={m.Name}
+                  active={activeItem === m.Name}
+                  parent_id={m.Id}
+                  onClick={() => handleClick(m.Id, m.Name)}
+                >
+                  <img
+                    className="small_logo_pics"
+                    src={`/images/${m.Icon}.png`}
+                    />
+                  <span>{m.Name}</span>
+              </Menu.Item>
+                </Badge.Ribbon>
+
+              ) : (
               <Menu.Item
                 className="main_header_items custom_flex_direction"
                 key={m.Id}
@@ -163,6 +183,7 @@ function Navbar() {
                 />
                 <span>{m.Name}</span>
               </Menu.Item>
+              )
             ))
           : ""}
         <Menu.Menu position="right">
