@@ -15,6 +15,14 @@ import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 
 import { SettingOutlined } from "@ant-design/icons";
+import { useCustomForm } from "../contexts/FormContext";
+
+import {
+    ConvertFixedPosition,
+    ConvertFixedTable,
+  } from "../config/function/findadditionals";
+import { isObject } from "../config/function/findadditionals";
+
 const { Text } = Typography;
 
 export default function SaleReport() {
@@ -33,22 +41,30 @@ export default function SaleReport() {
   const [page, setPage] = useState(0);
   const [filtered, setFiltered] = useState(false);
 
+  const [filterChanged, setFilterChanged] = useState(false);
   const [columnChange, setColumnChange] = useState(false);
   const [initial, setInitial] = useState(null);
+  const [initialfilter, setInitialFilter] = useState(null);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-  const {
-    marks,
-    setMarkLocalStorage,
-    setMark,
-    isFilter,
-    advancedPage,
-    setAdvancedPage,
-    doSearch,
-    search,
-    advanced,
-    setdisplay,
-    display,
-  } = useTableCustom();
+  const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
+    useState(false);
+    const {
+      marks,
+      setMarkLocalStorage,
+      setMark,
+      isFilter,
+      advancedPage,
+      setAdvancedPage,
+      doSearch,
+      search,
+      advanced,
+      setdisplay,
+      display,
+      setCustomersLocalStorage,
+      setCustomers,
+    } = useTableCustom();
+
+    const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
   const [documentList, setDocumentList] = useState([]);
   const { isLoading, error, data, isFetching } = useQuery(
@@ -69,6 +85,17 @@ export default function SaleReport() {
         : null;
     }
   );
+
+  useEffect(() => {
+    setRedirectSaveClose(false);
+    setSaveFromModal(false);
+  }, []);
+  
+  useEffect(() => {
+    setColumnChange(false);
+    if (filtered) setFiltered(false);
+    if (filterChanged) setFilterChanged(false);
+  }, [columnChange, filtered, filterChanged]);
 
   var markObject;
   var ac = 'salam'
@@ -212,74 +239,197 @@ export default function SaleReport() {
   }, []);
   const filters = useMemo(() => {
     return [
-      {
-        key: "1",
-        label: "Alış №",
-        name: "docNumber",
-        type: "text",
-        hidden: false,
-      },
-      {
-        key: "2",
-        label: "Məhsul adı",
-        name: "productName",
-        type: "select",
-        controller: "products",
-        hidden: false,
-      },
-
-      {
-        key: "3",
-        label: "Anbar",
-        name: "stockName",
-        type: "select",
-        controller: "stocks",
-        hidden: false,
-      },
-      {
-        key: "4",
-        label: "Şöbə",
-        name: "departmentName",
-        controller: "departments",
-        type: "select",
-        hidden: true,
-      },
-      {
-        key: "5",
-        label: "Cavabdeh",
-        name: "ownerName",
-        controller: "owners",
-        type: "select",
-        hidden: true,
-      },
-      {
-        key: "6",
-        label: "Dəyişmə tarixi",
-        name: "modifedDate",
-        type: "date",
-        hidden: true,
-      },
-      {
-        key: "7",
-        label: "Məbləğ",
-        name: "docPrice",
-        start: "amb",
-        end: "ame",
-        type: "range",
-        hidden: true,
-      },
-      {
-        key: "8",
-        label: "Tarixi",
-        name: "createdDate",
-        type: "date",
-        hidden: false,
-      },
+        {
+          key: "1",
+          label: "Barkodu",
+          name: "bc",
+          type: "text",
+          dataIndex: "bc",
+          show: initialfilter
+            ? Object.values(initialfilter).find((i) => i.dataIndex === "bc").show
+            : true,
+        },
+        {
+          key: "2",
+          label: "Məhsul adı",
+          name: "productName",
+          type: "select",
+          controller: "products",
+          dataIndex: "productName",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "productName"
+              ).show
+            : true,
+        },
+  
+        {
+          key: "3",
+          label: "Qarşı-tərəf",
+          name: "customerName",
+          type: "select",
+          controller: "customers",
+          dataIndex: "customerName",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "customerName"
+              ).show
+            : true,
+        },
+        {
+          key: "4",
+          label: "Satış Qiyməti",
+          name: "salePrice",
+          start: "prb",
+          end: "pre",
+          type: "range",
+          dataIndex: "salePrice",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "salePrice"
+            ).show
+            : true,
+        },
+        {
+          key: "5",
+          label: "Mənfəət",
+          name: "profit",
+          start: "prfb",
+          end: "prfe",
+          type: "range",
+          dataIndex: "profit",
+          show: initialfilter
+            ? Object.values(initialfilter).find((i) => i.dataIndex === "profit")
+                .show
+            : true,
+        },
+        {
+          key: "6",
+          label: "Anbar",
+          name: "stockName",
+          type: "select",
+          controller: "stocks",
+          dataIndex: "stockName",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "stockName"
+              ).show
+            : true,
+        },
+        {
+          key: "7",
+          label: "Satış nöqtəsi",
+          name: "slpnt",
+          type: "select",
+          controller: "salepoints",
+          dataIndex: "slpnt",
+          show: initialfilter
+            ? Object.values(initialfilter).find((i) => i.dataIndex === "slpnt")
+                .show
+            : true,
+        },
+        {
+          key: "8",
+          label: "Şöbə",
+          name: "departmentName",
+          controller: "departments",
+          type: "select",
+          dataIndex: "departmentName",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "departmentName"
+              ).show
+            : true,
+        },
+        {
+          key: "9",
+          label: "Cavabdeh",
+          name: "ownerName",
+          controller: "owners",
+          type: "select",
+          dataIndex: "ownerName",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "ownerName"
+              ).show
+            : true,
+        },
+        {
+          key: "10",
+          label: "Arxivli",
+          name: "ar",
+          controller: "yesno",
+          default: 0,
+          type: "selectDefaultYesNo",
+          dataIndex: "ar",
+          show: initialfilter
+            ? Object.values(initialfilter).find((i) => i.dataIndex === "ar").show
+            : true,
+        },
+        {
+          key: "11",
+          label: "Çəkili",
+          name: "wg",
+          controller: "yesno",
+          default: "",
+          type: "selectDefaultYesNo",
+          dataIndex: "wg",
+          show: initialfilter
+            ? Object.values(initialfilter).find((i) => i.dataIndex === "wg").show
+            : true,
+        },
+        {
+          key: "12",
+          label: "Tarixi",
+          name: "createdDate",
+          type: "date",
+          dataIndex: "createdDate",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "createdDate"
+              ).show
+            : true,
+        },
+        {
+          key: "13",
+          label: "Maya dəyəri",
+          name: "docPrice",
+          start: "costprb",
+          end: "costpre",
+          type: "range",
+          dataIndex: "docPrice",
+          show: initialfilter
+            ? Object.values(initialfilter).find((i) => i.dataIndex === "docPrice")
+                .show
+            : true,
+        },
+        {
+          key: "14",
+          label: "Məhsul Qrupu",
+          name: "gp",
+          controller: "productfolders",
+          type: "select",
+          dataIndex: "gp",
+          show: initialfilter
+            ? Object.values(initialfilter).find((i) => i.dataIndex === "gp").show
+            : true,
+        },
     ];
   });
   useEffect(() => {
+    setInitial(columns);
+    setInitialFilter(filters);
+    if (!localStorage.getItem("entercolumns")) {
+      localStorage.setItem("entercolumns", JSON.stringify(columns));
+    }
+  }, []);
+
+  useEffect(() => {
     if (!isFetching) {
-      setDocumentList(data.Body.List);
+      if (isObject(data.Body)) {
+        setDocumentList(data.Body.List);
+        setallsum(data.Body.AllSum);
+      }
     } else {
       setDocumentList([]);
     }
@@ -309,6 +459,9 @@ export default function SaleReport() {
 
   const handleVisibleChange = (flag) => {
     setVisibleMenuSettings(flag);
+  };
+  const handleVisibleChangeFilter = (flag) => {
+    setVisibleMenuSettingsFilter(flag);
   };
 
   const onChangeMenu = (e) => {
@@ -362,7 +515,16 @@ export default function SaleReport() {
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
-  console.log(columns);
+
+  if (redirect) return <Redirect push to={`/editEnter/${editId}`} />;
+
+  if (!isObject(data.Body))
+    return (
+      <>
+        Xəta:
+        <span style={{ color: "red" }}>Serverdə xəta baş verdi : {data}</span>
+      </>
+    );
   return (
     <div className="custom_display">
       <Row className="header_row">

@@ -198,76 +198,8 @@ export default SettlementsDrawer;
 
 const RowAnderTable = (props) => {
 	const [debt, setDebt] = useState();
-    const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
-      useState(true);
 
-	const filters = [
-		{
-			key: "1",
-			label: "Tarixi",
-			name: "createdDate",
-			type: "date",
-			dataIndex: "createdDate",
-		},
-	];
-    const handleVisibleChangeFilter = (flag) => {
-      setVisibleMenuSettingsFilter(flag);
-    };
-
-	const onChangeMenuFilter = (e) => {
-		var initialCols = filters;
-		var findelement;
-		var findelementindex;
-		var replacedElement;
-		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-		findelementindex = initialCols.findIndex(
-			(c) => c.dataIndex === e.target.id
-		);
-		findelement.show = e.target.checked;
-		replacedElement = findelement;
-		initialCols.splice(findelementindex, 1, {
-			...findelement,
-			...replacedElement,
-		});
-		console.log(initialCols);
-	};
-	const filtermenus = (
-		<Menu>
-			<Menu.ItemGroup title="Sutunlar">
-				{filters
-					? Object.values(filters).map((d) => (
-							<Menu.Item key={d.dataIndex}>
-								<Checkbox
-									id={d.dataIndex}
-									onChange={(e) => onChangeMenuFilter(e)}
-									defaultChecked={
-										Object.values(filters).find(
-											(e) => e.dataIndex === d.dataIndex
-										).show
-									}
-								>
-									{d.label}
-								</Checkbox>
-							</Menu.Item>
-					  ))
-					: null}
-			</Menu.ItemGroup>
-		</Menu>
-	);
-
-	const filterSetting = (
-		<Dropdown
-			trigger={["click"]}
-			overlay={filtermenus}
-			onVisibleChange={handleVisibleChangeFilter}
-			visible={visibleMenuSettingsFilter}
-		>
-			<Button className="flex_directon_col_center">
-				{" "}
-				<SettingOutlined />
-			</Button>
-		</Dropdown>
-	);
+	
 	if (props.document[0]) {
 		const fetchDebtCustomer = async () => {
 			let res = await fetchDebt(props.document[0].CustomerId);
@@ -280,8 +212,8 @@ const RowAnderTable = (props) => {
 				<div>Müştəri adı : {props.document[0].CustomerName}</div>
 				<div>Qalıq borc : {ConvertFixedTable(debt)}</div>
 				<div>
-					<MyAntDate />
-					{/* <MyReactDate /> */}
+					{/* <MyAntDate /> */}
+					<MyReactDate />
 				</div>
 				<button>Çap et</button>
 			</div>

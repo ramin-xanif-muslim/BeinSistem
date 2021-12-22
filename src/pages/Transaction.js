@@ -260,33 +260,70 @@ export default function Transaction() {
       },
       {
         key: "2",
-        label: "Məhsul adı",
+        label: "Xərc maddələri",
         name: "productName",
         type: "select",
-        controller: "products",
-        dataIndex: "productName",
+        controller: "spenditems",
+        dataIndex: "spendItems",
         show: initialfilter
           ? Object.values(initialfilter).find(
-              (i) => i.dataIndex === "productName"
+              (i) => i.dataIndex === "spendItems"
             ).show
           : true,
       },
-
       {
-        key: "3",
-        label: "Anbar",
-        name: "stockName",
-        type: "select",
-        controller: "stocks",
-        dataIndex: "stockName",
-        show: initialfilter
-          ? Object.values(initialfilter).find(
-              (i) => i.dataIndex === "stockName"
-            ).show
-          : true,
+          key: "3",
+          label: "Qarşı-tərəf",
+          name: "customerName",
+          type: "select",
+          controller: "customers",
+          dataIndex: "customerName",
+          show: initialfilter
+              ? Object.values(initialfilter).find(
+                      (i) => i.dataIndex === "customerName"
+                ).show
+              : true,
       },
       {
         key: "4",
+        label: "Ödəniş",
+        name: "paytype",
+        controller: "departments",
+        type: "selectPayType",
+        dataIndex: "paytype",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "paytype"
+            ).show
+          : true,
+      },
+      {
+        key: "5",
+        label: "Əməliyyat",
+        name: "paydir",
+        controller: "transactions",
+        type: "selectPayDir",
+        dataIndex: "paydir",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "paydir"
+            ).show
+          : true,
+      },
+      {
+        key: "6",
+        label: "Tarixi",
+        name: "createdDate",
+        type: "date",
+        dataIndex: "createdDate",
+        show: initialfilter
+          ? Object.values(initialfilter).find(
+              (i) => i.dataIndex === "createdDate"
+            ).show
+          : true,
+      },
+      {
+        key: "7",
         label: "Şöbə",
         name: "departmentName",
         controller: "departments",
@@ -299,7 +336,7 @@ export default function Transaction() {
           : true,
       },
       {
-        key: "5",
+        key: "8",
         label: "Cavabdeh",
         name: "ownerName",
         controller: "owners",
@@ -308,43 +345,6 @@ export default function Transaction() {
         show: initialfilter
           ? Object.values(initialfilter).find(
               (i) => i.dataIndex === "ownerName"
-            ).show
-          : true,
-      },
-      {
-        key: "6",
-        label: "Dəyişmə tarixi",
-        name: "modifedDate",
-        type: "date",
-        dataIndex: "modifedDate",
-        show: initialfilter
-          ? Object.values(initialfilter).find(
-              (i) => i.dataIndex === "modifedDate"
-            ).show
-          : true,
-      },
-      {
-        key: "7",
-        label: "Məbləğ",
-        name: "docPrice",
-        start: "amb",
-        end: "ame",
-        type: "range",
-        dataIndex: "docPrice",
-        show: initialfilter
-          ? Object.values(initialfilter).find((i) => i.dataIndex === "docPrice")
-              .show
-          : true,
-      },
-      {
-        key: "8",
-        label: "Tarixi",
-        name: "createdDate",
-        type: "date",
-        dataIndex: "createdDate",
-        show: initialfilter
-          ? Object.values(initialfilter).find(
-              (i) => i.dataIndex === "createdDate"
             ).show
           : true,
       },

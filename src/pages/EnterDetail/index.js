@@ -451,8 +451,8 @@ function EnterDetail() {
 		setDisable(true);
 
 		values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:ss");
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
 		values.consumption =

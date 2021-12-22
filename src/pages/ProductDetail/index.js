@@ -115,12 +115,12 @@ function ProductDetail() {
 		};
 	}, []);
 
-    useEffect(() => {
-        if(data) {
-            setIsArch(data.Body.List[0].IsArch)
-            console.log(data.Body.List[0].IsArch)
-        }
-    },[])
+	useEffect(() => {
+		if (data) {
+			setIsArch(data.Body.List[0].IsArch);
+			console.log(data.Body.List[0].IsArch);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (priceIsAdd) {
@@ -589,11 +589,11 @@ function ProductDetail() {
 		setPrices(priceResponse.Body.List);
 		setPricesLocalStorage(priceResponse.Body.List);
 	};
-    const onChangeArch = () => {
-        isArch === 0 ? setIsArch(1) : setIsArch(0)
-        setDisable(false)
-        console.log(isArch)
-    }
+	const onChangeArch = () => {
+		isArch === 0 ? setIsArch(1) : setIsArch(0);
+		setDisable(false);
+		console.log(isArch);
+	};
 	return (
 		<div className="doc_wrapper product_wrapper">
 			<div className="doc_name_wrapper">
@@ -601,6 +601,7 @@ function ProductDetail() {
 			</div>
 			{console.log(data)}
 			<DocButtons
+				editProduct={true}
 				onChangeArch={onChangeArch}
 				isArch={isArch}
 				editid={product_id}
