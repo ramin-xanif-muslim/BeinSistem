@@ -160,7 +160,6 @@ body {
 .ant-dropdown.ant-dropdown-placement-bottomRight {
   z-index: 99999;
   top: 0 !important;
-  height: 100vh !important;
   transition: none !important;
 }
 

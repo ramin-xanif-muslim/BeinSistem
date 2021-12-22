@@ -467,8 +467,13 @@ function NewSupplyReturn() {
 			menuItem: "Əsas",
 			render: () => (
 				<Tab.Pane attached={false}>
-					<Row>
-						<Col xs={24} md={24} xl={9}>
+					<Row style={{ justifyContent: "space-between" }}>
+						<Col
+							xs={24}
+							md={24}
+							xl={9}
+							style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+						>
 							<div className="addProductInputIcon">
 								<AddProductInput className="newProInputWrapper" />
 								<PlusOutlined
@@ -477,22 +482,22 @@ function NewSupplyReturn() {
 								/>
 							</div>
 						</Col>
+						<Dropdown
+							overlay={menu}
+							onVisibleChange={handleVisibleChange}
+							visible={visibleMenuSettings}
+						>
+							<Button className="flex_directon_col_center">
+								{" "}
+								<SettingOutlined />
+							</Button>
+						</Dropdown>
 						<Col
 							xs={24}
 							md={24}
 							xl={24}
-							style={{ paddingTop: "1rem" }}
+							style={{ paddingTop: "1rem", zIndex: "0" }}
 						>
-							<Dropdown
-								overlay={menu}
-								onVisibleChange={handleVisibleChange}
-								visible={visibleMenuSettings}
-							>
-								<Button className="flex_directon_col_center">
-									{" "}
-									<SettingOutlined />
-								</Button>
-							</Dropdown>
 							<DocTable
 								headers={columns.filter(
 									(c) => c.isVisible == true
@@ -528,177 +533,197 @@ function NewSupplyReturn() {
 					className="doc_forms"
 					name="basic"
 					initialValues={{
-						status: status,
+						status: true,
 					}}
 					labelCol={{
-						span: 5,
+						span: 8,
 					}}
 					wrapperCol={{
-						span: 14,
+						span: 16,
 					}}
 					onFinish={handleFinish}
 					onFieldsChange={handleChanged}
 					layout="horizontal"
 				>
-					<Row style={{ marginTop: "1em", padding: "1em" }}>
-						<Col xs={24} md={24} xl={18}>
-							<Row>
-								<Col xs={24} md={24} xl={10}>
-									<Row>
-										<Col xs={24} md={24} xl={24}>
-											<Form.Item
-												label="Alış №"
-												name="name"
-												className="doc_number_form_item"
-											>
-												<Input allowClear />
-											</Form.Item>
-										</Col>
-										<Col xs={24} md={24} xl={24}>
-											<Form.Item
-												label="Tarix"
-												name="moment"
-											>
-												<DatePicker
-													showTime={{
-														format: "HH:mm:ss",
-													}}
-													format="YYYY-MM-DD HH:mm:ss"
-												/>
-											</Form.Item>
-										</Col>
-										<Col xs={24} md={24} xl={24}></Col>
-									</Row>
-								</Col>
-								<Col xs={24} md={24} xl={10}>
-									<Row>
-										<Col xs={24} md={24} xl={24}>
-											<Form.Item
-												label="Qarşı-tərəf"
-												name="customerid"
-											>
-												<Select
-													showSearch
-													showArrow={false}
-													filterOption={false}
-													onChange={onChange}
-													className="customSelect"
-													allowClear={true}
-												>
-													{customerOptions}
-												</Select>
-											</Form.Item>
-											<PlusOutlined
-												onClick={() =>
-													setCustomerDrawer(true)
-												}
-												className="add_elements"
-											/>
-										</Col>
-										<Col xs={24} md={24} xl={24}>
-											<Form.Item
-												label="Anbar"
-												name="stockid"
-											>
-												<Select
-													showSearch
-													showArrow={false}
-													onChange={onChange}
-													className="customSelect"
-													allowClear={true}
-													filterOption={(
-														input,
-														option
-													) =>
-														option.children
-															.toLowerCase()
-															.indexOf(
-																input.toLowerCase()
-															) >= 0
-													}
-												>
-													{options}
-												</Select>
-											</Form.Item>
-											<PlusOutlined
-												onClick={() =>
-													setStockDrawer(true)
-												}
-												className="add_elements"
-											/>
-										</Col>
-									</Row>
-								</Col>
-								<Col xs={24} md={24} xl={4}></Col>
-							</Row>
-						</Col>
-
+					<Row>
 						<Col xs={24} md={24} xl={6}>
-							<Collapse ghost>
-								<Panel
-									className="custom_panel_header"
-									header="Təyinat"
-									key="1"
-								>
-									<Form.Item
-										label="Cavabdeh"
-										name="ownerid"
-										style={{ margin: "0" }}
-									>
-										<Select
-											showSearch
-											placeholder=""
-											filterOption={false}
-											notFoundContent={
-												<Spin size="small" />
-											}
-											filterOption={(input, option) =>
-												option.children
-													.toLowerCase()
-													.indexOf(
-														input.toLowerCase()
-													) >= 0
-											}
-										>
-											{ownersOptions}
-										</Select>
-									</Form.Item>
-									<Form.Item
-										label="Şöbə"
-										name="departmentid"
-										style={{ margin: "0" }}
-									>
-										<Select
-											showSearch
-											placeholder=""
-											notFoundContent={
-												<Spin size="small" />
-											}
-											filterOption={(input, option) =>
-												option.children
-													.toLowerCase()
-													.indexOf(
-														input.toLowerCase()
-													) >= 0
-											}
-										>
-											{depOptions}
-										</Select>
-									</Form.Item>
-									<Form.Item
-										label="Keçirilib"
-										className="docComponentStatus"
-										name="status"
-										valuePropName="checked"
-									>
-										<Checkbox name="status"></Checkbox>
-									</Form.Item>
-									<Form.Item label="Status" name="mark">
-										<StatusSelect />
-									</Form.Item>
-								</Panel>
-							</Collapse>
+							<Form.Item
+								label="Qaytarma №"
+								name="name"
+								className="doc_number_form_item"
+								style={{ width: "100%" }}
+							>
+								<Input
+									size="small"
+									allowClear
+									style={{ width: "100px" }}
+								/>
+							</Form.Item>
 						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}>
+							<Button className="add-stock-btn">
+								<PlusOutlined 
+									onClick={() =>setCustomerDrawer(true)} 
+								/>
+							</Button>
+							<Form.Item
+								label="Qarşı-tərəf"
+								name="customerid"
+							>
+								<Select
+									size="small"
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect"
+									allowClear={true}
+								>
+									{customerOptions}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
+					</Row>
+
+					<Row>
+						<Col xs={24} md={24} xl={6}>
+							<Form.Item
+								label="Tarix"
+								name="moment"
+								style={{ width: "100%" }}
+							>
+								<DatePicker
+									style={{ width: "100%" }}
+									size="small"
+									showTime={{ format: "HH:mm:ss" }}
+									format="YYYY-MM-DD HH:mm:ss"
+								/>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6} >
+							<Button className="add-stock-btn">
+								<PlusOutlined
+									onClick={() => setStockDrawer(true)}
+								/>
+							</Button>
+							<Form.Item
+								label="Anbar"
+								name="stockid"
+							>
+								<Select
+									size="small"
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									onChange={onChange}
+									className="customSelect"
+									allowClear={true}
+								>
+									{options}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
+					</Row>
+
+					<Row>
+						<Collapse ghost style={{ width: "100%" }}>
+							<Panel
+								className="custom_panel_header"
+								header="Təyinat"
+								key="1"
+							>
+								<Row>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											label="Cavabdeh"
+											name="ownerid"
+											style={{ margin: "0" }}
+											style={{ width: "100%" }}
+										>
+											<Select
+												size="small"
+												showSearch
+												placeholder=""
+												notFoundContent={
+													<Spin size="small" />
+												}
+												filterOption={(input, option) =>
+													option.children
+														.toLowerCase()
+														.indexOf(
+															input.toLowerCase()
+														) >= 0
+												}
+											>
+												{ownersOptions}
+											</Select>
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											label="Şöbə"
+											name="departmentid"
+											style={{ margin: "0" }}
+											style={{ width: "100%" }}
+										>
+											<Select
+												size="small"
+												showSearch
+												placeholder=""
+												notFoundContent={
+													<Spin size="small" />
+												}
+												filterOption={(input, option) =>
+													option.children
+														.toLowerCase()
+														.indexOf(
+															input.toLowerCase()
+														) >= 0
+												}
+											>
+												{depOptions}
+											</Select>
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											label="Keçirilib"
+											className="docComponentStatus"
+											name="status"
+											valuePropName="checked"
+											style={{ width: "100%" }}
+										>
+											<Checkbox
+												size="small"
+												name="status"
+											></Checkbox>
+										</Form.Item>
+									</Col>
+								</Row>
+								<Row>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											label="Status"
+											name="mark"
+											style={{ width: "100%" }}
+										>
+											<StatusSelect />
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}></Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}></Col>
+								</Row>
+							</Panel>
+						</Collapse>
 					</Row>
 				</Form>
 
