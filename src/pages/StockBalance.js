@@ -603,7 +603,9 @@ export default function StockBalance() {
                             .map((c) => (
                                 <Table.Summary.Cell>
                                     <Text type="">
-                                        {c.dataIndex === "Amount"
+                                        {c.dataIndex === "ProductName"
+                                            ? "Cəm"
+                                            : c.dataIndex === "Amount"
                                             ? ConvertFixedTable(allcost) + " ₼"
                                             : c.dataIndex === "Quantity"
                                             ? ConvertFixedTable(allquantity) +

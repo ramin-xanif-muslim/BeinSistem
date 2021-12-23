@@ -531,7 +531,16 @@ tbody > tr:hover td {
     color: #fff;
     padding: 4px 16px;
 }
-#settlement-table {
-    width: 70%;
+
+.short-table {
+    width: 70% !important;
     margin: auto;
+}
+
+.product_wrapper .tab_wrapper .active.item {
+    background: #1164b1 !important;
+}
+.product_wrapper .tab_wrapper .active.item {
+    color: #fff !important;
+    background: #1164b1;
 }

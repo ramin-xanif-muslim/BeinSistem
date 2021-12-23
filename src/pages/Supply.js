@@ -586,7 +586,9 @@ export default function Supply() {
 							.map((c) => (
 								<Table.Summary.Cell>
 									<Text type="">
-										{c.dataIndex === "Amount"
+										{c.dataIndex === "Name"
+                                            ? "Cəm"
+                                            : c.dataIndex === "Amount"
 											? allsum + " ₼"
 											: null}
 									</Text>

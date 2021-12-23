@@ -459,6 +459,7 @@ export default function Settlement() {
             </Row>
             <Table
                 id="settlement-table"
+                className="short-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
@@ -470,7 +471,9 @@ export default function Settlement() {
                             .map((c) => (
                                 <Table.Summary.Cell>
                                     <Text type="">
-                                        {c.dataIndex === "PayIn" ? (
+                                        {c.dataIndex === "CustomerName" ? (
+                                            <span>Cəm</span>
+                                        ) : c.dataIndex === "PayIn" ? (
                                             <span>
                                                 {allinsum}
                                                 <sup>₼</sup>
