@@ -99,6 +99,7 @@ function DocButtons({
 		<Menu>
 			<Menu.Item key="0">
 				<Button
+					danger
 					icon={<DeleteOutlined />}
 					className="align_center del"
 					onClick={handleDelete}
@@ -139,6 +140,7 @@ function DocButtons({
 		<Menu>
 			<Menu.Item key="0">
 				<Button
+					style={{width: "100%"}}
 					disabled={editid ? false : true}
 					onClick={() => setIsPayment(true)}
 					id={"saveTrans"}
@@ -150,7 +152,7 @@ function DocButtons({
 			</Menu.Item>
 			<Menu.Item key="1" disabled={editid ? false : true}>
 				<Button
-					className="customsavebtn"
+					style={{width: "100%"}}
 					onClick={() => setIsReturn(true)}
 					form={"myForm"}
 					htmlType={"submit"}
@@ -248,8 +250,8 @@ function DocButtons({
 						style={{ display: additional }}
 						className="flex_directon_col_center d-flex-row"
 					>
-						Qaimə
 						<PrinterOutlined />
+						Qaimə
 					</Button>
 				</Dropdown>
 				<Dropdown overlay={dots} trigger={["click"]}>

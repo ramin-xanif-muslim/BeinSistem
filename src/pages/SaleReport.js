@@ -119,6 +119,7 @@ export default function SaleReport() {
           : true,
         defaultSortOrder: initialSort === "ProductName" ? defaultdr : null,
         sorter: (a, b) => null,
+        className: "linkedColumns"
       },
       {
         dataIndex: "Quantity",

@@ -103,12 +103,13 @@ export default function CreditTransaction() {
       },
       {
         dataIndex: "Name",
-        title: "Adı",
+        title: "Ödəniş №",
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "Name").show
           : true,
         defaultSortOrder: initialSort === "Name" ? defaultdr : null,
         sorter: (a, b) => null,
+        className: "linkedColumns",
       },
       {
         dataIndex: "SalePoint",
@@ -119,7 +120,6 @@ export default function CreditTransaction() {
         defaultSortOrder: initialSort === "SalePoint" ? defaultdr : null,
         sorter: (a, b) => null,
       },
-
       {
         dataIndex: "CustomerName",
         title: "Tərəf-müqabil",
@@ -129,8 +129,8 @@ export default function CreditTransaction() {
               .show
           : true,
         sorter: (a, b) => null,
+        className: "linkedColumns",
       },
-
       {
         dataIndex: "CashInvoice",
         title: "Nağd/Köçürmə",

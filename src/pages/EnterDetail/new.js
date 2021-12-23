@@ -644,10 +644,8 @@ function NewEnter() {
 						</Col>
 						<Col xs={24} md={24} xl={3}></Col>
 						<Col xs={24} md={24} xl={6} >
-							<Button className="add-stock-btn">
-								<PlusOutlined
-									onClick={() => setStockDrawer(true)}
-								/>
+							<Button className="add-stock-btn" onClick={() => setStockDrawer(true)}>
+								<PlusOutlined />
 							</Button>
 							<Form.Item
 								label="Anbar"

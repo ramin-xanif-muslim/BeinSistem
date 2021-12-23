@@ -98,11 +98,17 @@ function StockDrawer({direction}) {
         className=""
         layout="horizontal"
         onFinish={handleFinish}
+        labelCol={{
+          span: 6,
+        }}
+        wrapperCol={{
+          span: 18,
+        }}
       >
         <Row className="main_form_side">
           <Col xs={24} md={20} xl={24} className="left_form_wrapper">
             <Form.Item
-              label="Group Name"
+              label="Qrup adı"
               name="name"
               rules={[
                 {
@@ -114,8 +120,8 @@ function StockDrawer({direction}) {
               <Input allowClear />
             </Form.Item>
 
-            <Form.Item label="Description" name="description">
-              <TextArea allowClear />
+            <Form.Item label="Şərh" name="description">
+              <TextArea showCount maxLength={100} allowClear />
             </Form.Item>
 
             <Form.Item label="Anbar qrupu" name="parentid">
@@ -129,8 +135,8 @@ function StockDrawer({direction}) {
                 {groupOption}
               </Select>
             </Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
+            <Button className="customsavebtn" htmlType="submit">
+              Yadda saxla
             </Button>
           </Col>
         </Row>

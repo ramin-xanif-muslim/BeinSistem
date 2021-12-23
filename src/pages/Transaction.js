@@ -128,7 +128,7 @@ export default function Transaction() {
               .show
           : true,
         sorter: (a, b) => null,
-        className: initialSort === "CustomerName" ? "activesort" : "",
+        className: initialSort === "CustomerName" ? "linkedColumns activesort" : "linkedColumns",
       },
 
       {

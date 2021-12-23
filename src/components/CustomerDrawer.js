@@ -142,7 +142,7 @@ function CustomerDrawer() {
   };
   return (
     <Drawer
-      title="Musteri Yarat"
+      title="Müştəri yarat"
       placement="right"
       width={600}
       onClose={onClose}
@@ -155,6 +155,12 @@ function CustomerDrawer() {
         className=""
         layout="horizontal"
         onFinish={handleFinish}
+        labelCol={{
+          span: 6,
+        }}
+        wrapperCol={{
+          span: 18,
+        }}
       >
         <Row className="main_form_side">
           <Col xs={24} md={20} xl={24} className="left_form_wrapper">
@@ -183,7 +189,10 @@ function CustomerDrawer() {
               <Input />
             </Form.Item>
 
-            <Form.Item label="Musteri qrupu" name="groupid">
+            <Button className="add-group-btn" onClick={() => setCustomerGroupDrawer(true)}>
+              <PlusOutlined />
+						</Button>
+            <Form.Item label="Müştəri qrupu" name="groupid">
               <Select
                 showSearch
                 className="doc_status_formitem_wrapper_col "
@@ -194,12 +203,9 @@ function CustomerDrawer() {
                 {groupOptions}
               </Select>
             </Form.Item>
-            <PlusOutlined
-              onClick={() => setCustomerGroupDrawer(true)}
-              className="add_elements"
-            />
-            <Button type="primary" htmlType="submit">
-              Submit
+
+            <Button className="customsavebtn" htmlType="submit">
+              Yadda saxla
             </Button>
           </Col>
         </Row>
@@ -215,10 +221,10 @@ function CustomerDrawer() {
       >
         <Form
           labelCol={{
-            span: 4,
+            span: 8,
           }}
           wrapperCol={{
-            span: 14,
+            span: 16,
           }}
           name="basic"
           initialValues={{}}
@@ -238,8 +244,8 @@ function CustomerDrawer() {
             <Input allowClear />
           </Form.Item>
 
-          <Form.Item label="Description" name="description">
-            <TextArea rows={3} />
+          <Form.Item label="Şərh" name="description">
+            <TextArea rows={3} showCount maxLength={100} allowClear />
           </Form.Item>
 
           <Form.Item label="">

@@ -96,6 +96,7 @@ export default function Sale() {
           : true,
         defaultSortOrder: initialSort === "Name" ? defaultdr : null,
         sorter: (a, b) => null,
+        className: "linkedColumns",
       },
       {
         dataIndex: "SalePointName",
@@ -125,6 +126,7 @@ export default function Sale() {
               .show
           : true,
         sorter: (a, b) => null,
+        className: "linkedColumns",
       },
       {
         dataIndex: "Amount",
