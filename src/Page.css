@@ -246,24 +246,13 @@
     filter: drop-shadow(10px 4px 3px rgba(0, 0, 0, 0.25));
 }
 
-.ant-table-summary {
-    background: #f9f9f9 !important;
-}
-
 .setting_button_wrapper {
     display: flex;
     justify-content: flex-end;
 }
 tfoot td {
-    position: sticky !important;
-    background: #f9f9f9 !important;
-    color: rgba(0, 0, 0, 0.85);
-    font-weight: 500;
-    bottom: 24px;
-    filter: drop-shadow(6px -3px 3px rgba(0, 0, 0, 0.1));
-}
-tfoot td.nonshadow {
-    filter: none !important;
+    padding: 4px 16px !important;
+    font-weight: 600;
 }
 .ant-pagination {
     position: sticky;
@@ -448,4 +437,65 @@ td.ant-table-column-sort {
 
 tbody > tr:hover td {
     background-color: #d9eefc !important;
+}
+
+.disabled-date-picker #basic_modify {
+    color: #000;
+}
+.disabled-date-picker .ant-picker-suffix {
+    display: none;
+}
+
+.table-headers {
+    height: 1.7rem;
+    text-align: center;
+}
+.table-headers h3 {
+    font-weight: 600;
+}
+#report-table .ant-table-title {
+    padding: 0.5rem;
+    background: #f9f9f9;
+}
+
+.boldContent {
+    font-weight: 600;
+}
+
+#profit-table th, #cashes-table th {
+    background: #1164B1;
+    color: #fff;
+}
+
+.ui.animated.button.transaction-btn { 
+    padding: 0.4rem 1rem !important;
+    margin-right: 1.7rem;
+}
+
+.transaction-btn {
+    transition: all 0.2s ease-in;
+    border-color: #fff !important;
+    background-color: #fff !important;
+    position: relative;
+    padding: 0.4rem 1rem !important;
+    border: 1px solid #1164B1 !important;
+    font-weight: 400 !important;
+    height: fit-content !important;
+}
+
+.transaction-btn .content {
+    color: #000 !important;
+    margin: 0 !important;
+}
+
+.transaction-btn .content svg {
+    color: #1164B1;
+}
+
+.transaction-btn .hidden.content {
+    top: unset !important;
+}
+
+.transaction_buttons_menu .ant-dropdown-menu-item {
+    padding: 3px 4px !important;
 }

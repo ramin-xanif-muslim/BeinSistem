@@ -289,10 +289,10 @@ function NewPaymentIn() {
 						className="doc_forms"
 						name="basic"
 						labelCol={{
-							span: 5,
+							span: 8,
 						}}
 						wrapperCol={{
-							span: 14,
+							span: 16,
 						}}
 						initialValues={{
 							status: true,
@@ -305,156 +305,248 @@ function NewPaymentIn() {
 						layout="horizontal"
 					>
 						<Row>
-							<Col xs={24} md={24} xl={18}>
-								<Row>
-									<Col xs={24} md={24} xl={10}>
-										<Row>
-											<Col xs={24} md={24} xl={24}>
-												<Form.Item
-													label="Medaxil"
-													name="name"
-													className="doc_number_form_item"
-												>
-													<Input allowClear />
-												</Form.Item>
-												<Form.Item
-													name="linkid"
-													hidden={true}
-													className="doc_number_form_item"
-												>
-													<Input allowClear />
-												</Form.Item>
-											</Col>
-											<Col xs={24} md={24} xl={24}>
-												<Form.Item
-													label="Created Moment"
-													name="moment"
-												>
-													<DatePicker
-														showTime={{
-															format: "HH:mm:ss",
-														}}
-														format="YYYY-MM-DD HH:mm:ss"
-													/>
-												</Form.Item>
-											</Col>
-											<Col xs={24} md={24} xl={24}></Col>
-										</Row>
-									</Col>
-									<Col xs={24} md={24} xl={10}>
-										<Row>
-											<Col xs={24} md={24} xl={24}>
-												<Form.Item
-													label="Qarsi teref"
-													name="customerid"
-												>
-													<Select
-														showSearch
-														showArrow={false}
-														filterOption={false}
-														className="customSelect"
-														onFocus={getCustomers}
-														onChange={onChange}
-														onSearch={doSearch}
-														allowClear={true}
-													>
-														{customerOptions}
-													</Select>
-												</Form.Item>
-											</Col>
-											<Col xs={24} md={24} xl={24}>
-												<Form.Item
-													label="Xerc maddesi"
-													name="spenditem"
-												>
-													<Select
-														showSearch
-														showArrow={false}
-														className="customSelect"
-														notFoundContent={
-															<Spin size="small" />
-														}
-														onChange={
-															onChangeSpendItem
-														}
-														allowClear={true}
-														filterOption={(
-															input,
-															option
-														) =>
-															option.children
-																.toLowerCase()
-																.indexOf(
-																	input.toLowerCase()
-																) >= 0
-														}
-													>
-														{spends
-															? Object.values(
-																	spenditems
-															  )
-																	.filter(
-																		(
-																			item
-																		) =>
-																			item.StaticName ===
-																				"buyproduct" ||
-																			item.StaticName ===
-																				"correct"
-																	)
-																	.map(
-																		(c) => (
-																			<Option
-																				staticname={
-																					c.StaticName
-																				}
-																				key={
-																					c.Id
-																				}
-																				value={
-																					c.Id
-																				}
-																			>
-																				{
-																					c.Name
-																				}
-																			</Option>
-																		)
-																	)
-															: null}
-													</Select>
-												</Form.Item>
-											</Col>
-										</Row>
-									</Col>
-									<Col xs={24} md={24} xl={6}>
-										<Form.Item
-											label="Mebleg"
-											name="amount"
-											className="doc_number_form_item"
-										>
-											<Input
-												type="number"
-												step="any"
-												allowClear
-												addonAfter="₼"
-												min={0}
-											/>
-										</Form.Item>
-										<Form.Item
-											label="Keçirilib"
-											className="docComponentStatus"
-											name="status"
-											valuePropName="checked"
-										>
-											<Checkbox name="status"></Checkbox>
-										</Form.Item>
-										<Form.Item label="Status" name="mark">
-											<StatusSelect />
-										</Form.Item>
-									</Col>
-								</Row>
+							<Col xs={24} md={24} xl={6}>
+								<Form.Item
+									label="Mədaxil №"
+									name="name"
+									className="doc_number_form_item"
+									style={{ width: "100%" }}
+								>
+									<Input
+										size="small"
+										allowClear
+										style={{ width: "100px" }}
+									/>
+								</Form.Item>
 							</Col>
+							<Col xs={24} md={24} xl={3}></Col>
+							<Col xs={24} md={24} xl={6}>
+								<Form.Item
+									label="Status"
+									name="mark"
+									style={{ width: "100%", margin: "0"}}
+								>
+									<StatusSelect />
+								</Form.Item>
+							</Col>
+							<Col xs={24} md={24} xl={3}></Col>
+							<Col xs={24} md={24} xl={6}></Col>
+						</Row>
+
+						<Row>
+							<Col xs={24} md={24} xl={6}>
+								<Form.Item
+									label="Tarix"
+									name="moment"
+									style={{ width: "100%" }}
+								>
+									<DatePicker
+										style={{ width: "100%" }}
+										size="small"
+										showTime={{ format: "HH:mm:ss" }}
+										format="YYYY-MM-DD HH:mm:ss"
+									/>
+								</Form.Item>
+							</Col>
+							<Col xs={24} md={24} xl={3}></Col>
+							<Col xs={24} md={24} xl={6} >
+							<Button className="add-stock-btn">
+								<PlusOutlined 
+									// onClick={() =>setCustomerDrawer(true)} 
+								/>
+							</Button>
+							<Form.Item
+								label="Qarşı-tərəf"
+								name="customerid"
+							>
+								<Select
+									size="small"
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect"
+									allowClear={true}
+								>
+									{/* {customerOptions} */}
+								</Select>
+							</Form.Item>
+							</Col>
+							<Col xs={24} md={24} xl={3}></Col>
+							<Col xs={24} md={24} xl={6}></Col>
+						</Row>
+
+						<Row>
+							<Col xs={24} md={24} xl={6}>
+								<Form.Item
+									label="Xerc maddesi"
+									name="spenditem"
+								>
+									<Select
+										size="small"
+										showSearch
+										showArrow={false}
+										className="customSelect"
+										notFoundContent={
+											<Spin size="small" />
+										}
+										onChange={
+											onChangeSpendItem
+										}
+										allowClear={true}
+										filterOption={(
+											input,
+											option
+										) =>
+											option.children
+												.toLowerCase()
+												.indexOf(
+													input.toLowerCase()
+												) >= 0
+										}
+									>
+										{spends
+											? Object.values(
+													spenditems
+											  )
+													.filter(
+														(
+															item
+														) =>
+															item.StaticName ===
+																"buyproduct" ||
+															item.StaticName ===
+																"correct"
+													)
+													.map(
+														(c) => (
+															<Option
+																staticname={
+																	c.StaticName
+																}
+																key={
+																	c.Id
+																}
+																value={
+																	c.Id
+																}
+															>
+																{
+																	c.Name
+																}
+															</Option>
+														)
+													)
+											: null}
+									</Select>
+								</Form.Item>
+							</Col>
+							<Col xs={24} md={24} xl={3}></Col>
+							<Col xs={24} md={24} xl={6} >
+								<Form.Item
+									label="Mebleg"
+									name="amount"
+									className="doc_number_form_item"
+								>
+									<Input
+										size="small"
+										type="number"
+										step="any"
+										allowClear
+										addonAfter="₼"
+										min={0}
+									/>
+								</Form.Item>
+							</Col>
+							<Col xs={24} md={24} xl={3}></Col>
+							<Col xs={24} md={24} xl={6}></Col>
+						</Row>
+
+						<Row>
+							<Collapse ghost style={{ width: "100%" }}>
+								<Panel
+									className="custom_panel_header"
+									header="Təyinat"
+									key="1"
+								>
+									<Row>
+										<Col xs={24} md={24} xl={6}>
+											<Form.Item
+												label="Cavabdeh"
+												name="ownerid"
+												style={{ margin: "0" }}
+												style={{ width: "100%" }}
+											>
+												<Select
+													size="small"
+													showSearch
+													placeholder=""
+													notFoundContent={
+														<Spin size="small" />
+													}
+													filterOption={(input, option) =>
+														option.children
+															.toLowerCase()
+															.indexOf(
+																input.toLowerCase()
+															) >= 0
+													}
+												>
+													{/* {ownersOptions} */}
+												</Select>
+											</Form.Item>
+										</Col>
+										<Col xs={24} md={24} xl={3}></Col>
+										<Col xs={24} md={24} xl={6}>
+											<Form.Item
+												label="Keçirilib"
+												className="docComponentStatus"
+												name="status"
+												valuePropName="checked"
+												style={{ width: "100%" }}
+											>
+												<Checkbox
+													size="small"
+													name="status"
+												></Checkbox>
+											</Form.Item>
+										</Col>
+										<Col xs={24} md={24} xl={3}></Col>
+										<Col xs={24} md={24} xl={6}></Col>
+									</Row>
+									<Row>
+										<Col xs={24} md={24} xl={6}>
+											<Form.Item
+												label="Şöbə"
+												name="departmentid"
+												style={{ margin: "0" }}
+												style={{ width: "100%" }}
+											>
+												<Select
+													size="small"
+													showSearch
+													placeholder=""
+													notFoundContent={
+														<Spin size="small" />
+													}
+													filterOption={(input, option) =>
+														option.children
+															.toLowerCase()
+															.indexOf(
+																input.toLowerCase()
+															) >= 0
+													}
+												>
+													{/* {depOptions} */}
+												</Select>
+											</Form.Item>
+										</Col>
+										<Col xs={24} md={24} xl={3}></Col>
+										<Col xs={24} md={24} xl={6}></Col>
+										<Col xs={24} md={24} xl={3}></Col>
+										<Col xs={24} md={24} xl={6}></Col>
+									</Row>
+								</Panel>
+							</Collapse>
 						</Row>
 					</Form>
 				</div>

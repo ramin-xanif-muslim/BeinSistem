@@ -1,7 +1,7 @@
 import { Menu, Dropdown } from "antd";
 import { Button, Icon } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
-import { DownOutlined } from "@ant-design/icons";
+import { DownOutlined, PlusCircleOutlined, MinusCircleOutlined} from "@ant-design/icons";
 import { useState } from "react";
 import "semantic-ui-css/semantic.min.css";
 
@@ -15,14 +15,14 @@ function TransactionButtons({ text, animate, redirectto }) {
   const menuPaymentIn = (
     <Menu className="transaction_buttons_menu">
       <Menu.Item key="0">
-        <Button as={Link} to="/newpaymentin">
-          Nağd
+        <Button className="transaction-btn" style={{width: "100%"}} as={Link} to="/newpaymentin">
+          <Button.Content visible>Nağd</Button.Content>
         </Button>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
-        <Button as={Link} to="/newinvoicein">
-          Köçürmə
+        <Button className="transaction-btn" style={{width: "100%"}} as={Link} to="/newinvoicein">
+          <Button.Content visible>Köçürmə</Button.Content>
         </Button>
       </Menu.Item>
     </Menu>
@@ -31,14 +31,14 @@ function TransactionButtons({ text, animate, redirectto }) {
   const menuPaymentOut = (
     <Menu className="transaction_buttons_menu">
       <Menu.Item key="0">
-        <Button as={Link} to="/newpaymentout">
-          Nağd
+        <Button className="transaction-btn" style={{width: "100%"}} as={Link} to="/newpaymentout">
+          <Button.Content visible>Nağd</Button.Content>
         </Button>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item key="1">
-        <Button as={Link} to="/newinvoiceout">
-          Köçürmə
+        <Button className="transaction-btn" style={{width: "100%"}} as={Link} to="/newinvoiceout">
+          <Button.Content visible>Köçürmə</Button.Content>
         </Button>
       </Menu.Item>
     </Menu>
@@ -47,31 +47,25 @@ function TransactionButtons({ text, animate, redirectto }) {
   return (
     <div style={{display:'flex'}}>
       <Dropdown overlay={menuPaymentIn} trigger={["click"]}>
-        <Button
-          icon
-          labelPosition="left"
-          animated="vertical"
-          className="project_buttons mobilehidden"
-        >
-          <Icon name="add circle" />
-          <Button.Content visible>Yeni</Button.Content>
-          <Button.Content hidden>
-            <DownOutlined />
+        <Button className="transaction-btn" animated="fade">
+          <Button.Content hidden>Yarat</Button.Content>
+          <Button.Content visible>
+            <span>
+              <PlusCircleOutlined />
+            </span>
+            <span style={{ marginLeft: "4px" }}>Mədaxil</span>
           </Button.Content>
         </Button>
       </Dropdown>
+
       <Dropdown overlay={menuPaymentOut} trigger={["click"]}>
-        <Button
-          style={{ marginLeft: "15px" }}
-          icon
-          labelPosition="left"
-          animated="vertical"
-          className="project_buttons fotTransMobile mobilehidden"
-        >
-          <Icon name="minus circle" />
-          <Button.Content visible>Yeni</Button.Content>
-          <Button.Content hidden>
-            <DownOutlined />
+        <Button className="transaction-btn" animated="fade">
+          <Button.Content hidden>Yarat</Button.Content>
+          <Button.Content visible>
+            <span>
+              <MinusCircleOutlined />
+            </span>
+            <span style={{ marginLeft: "4px" }}>Məxaric</span>
           </Button.Content>
         </Button>
       </Dropdown>

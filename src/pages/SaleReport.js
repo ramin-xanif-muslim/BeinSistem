@@ -98,11 +98,11 @@ export default function SaleReport() {
   }, [columnChange, filtered, filterChanged]);
 
   var markObject;
-  var ac = 'salam'
   marks
     ? (markObject = marks)
     : (markObject = JSON.parse(localStorage.getItem("marks")));
   const columns = useMemo(() => {
+
     return [
       {
         title: "№",
@@ -134,7 +134,7 @@ export default function SaleReport() {
       },
       {
         dataIndex: "SumCost",
-        title: 'Cəm Maya',
+        title: 'Cəm maya',
         defaultSortOrder: initialSort === "SumCost" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "SumCost")
@@ -145,7 +145,7 @@ export default function SaleReport() {
       },
       {
         dataIndex: "SumPrice",
-        title: "Cəm satış",
+        title: "Satış məbləği",
         defaultSortOrder: initialSort === "SumPrice" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "SumPrice")
@@ -181,7 +181,7 @@ export default function SaleReport() {
       },
       {
         dataIndex: "RetSumPrice",
-        title: "Cəm satış",
+        title: "Qaytarma məbləği",
         defaultSortOrder: initialSort === "RetSumPrice" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "RetSumPrice")
@@ -533,7 +533,7 @@ export default function SaleReport() {
             <h2>Mənfəət</h2>
           </div>
         </Col>
-        <Col xs={24} md={24} xl={20}>
+        <Col xs={24} md={24} xl={19}>
           <div className="page_heder_right">
             <div className="buttons_wrapper">
               <Button
@@ -547,29 +547,28 @@ export default function SaleReport() {
             </div>
           </div>
         </Col>
+        <Col xs={24} md={24} xl={1}>
+          <Dropdown
+              trigger={["click"]}
+              overlay={menu}
+              onVisibleChange={handleVisibleChange}
+              visible={visibleMenuSettings}
+            >
+              <Button className="flex_directon_col_center">
+                {" "}
+                <SettingOutlined />
+              </Button>
+            </Dropdown>
+          </Col>
       </Row>
       <Row>
         <Col xs={24} md={24} xl={24}>
           <FilterComponent cols={filters} />
         </Col>
       </Row>
-      <Row>
-        <Col xs={24} md={24} xl={24} className="setting_button_wrapper">
-          <Dropdown
-            trigger={["click"]}
-            overlay={menu}
-            onVisibleChange={handleVisibleChange}
-            visible={visibleMenuSettings}
-          >
-            <Button className="flex_directon_col_center">
-              {" "}
-              <SettingOutlined />
-            </Button>
-          </Dropdown>
-        </Col>
-      </Row>
 
       <Table
+        id="report-table"
         rowKey="Name"
         columns={columns.filter((c) => c.show == true)}
         bordered
@@ -577,7 +576,15 @@ export default function SaleReport() {
         dataSource={documentList}
         title={(pageData) => (
           <Row>
-            <span>Satislar</span> <span>Qaytarmalar</span>
+            <Col xs={24} md={24} xl={10} className="table-headers">
+              <h3>Satışlar</h3>
+            </Col>
+            <Col xs={24} md={24} xl={9} className="table-headers">
+              <h3>Qaytarmalar</h3>
+            </Col>
+            <Col xs={24} md={24} xl={5} className="table-headers">
+              <h3>Mənfəət</h3>
+            </Col>
           </Row>
         )}
         summary={() => (

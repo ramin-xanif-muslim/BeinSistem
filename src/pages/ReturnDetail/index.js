@@ -418,8 +418,6 @@ function ReturnDetail() {
           <Row>
             <Col xs={24} md={24} xl={9}>
               <div className="addProductInputIcon">
-                <AddProductInput className="newProInputWrapper" />
-                <PlusOutlined className="addNewProductIcon" />
               </div>
             </Col>
             <Col xs={24} md={24} xl={24} style={{ paddingTop: "1rem" }}>
@@ -438,11 +436,11 @@ function ReturnDetail() {
   return (
     <div className="doc_wrapper">
       <div className="doc_name_wrapper">
-        <h2>Satış</h2>
+        <h2>Qaytarma</h2>
       </div>
       <DocButtons
         additional={"none"}
-        editid={doc_id}
+        editid={null}
         controller={"returns"}
         closed={"p=returns"}
       />
@@ -453,10 +451,10 @@ function ReturnDetail() {
           className="doc_forms"
           name="basic"
           labelCol={{
-            span: 5,
+            span: 8,
           }}
           wrapperCol={{
-            span: 14,
+            span: 16,
           }}
           initialValues={{
             name: data.Body.List[0].Name,
@@ -470,141 +468,169 @@ function ReturnDetail() {
           onFinish={handleFinish}
           layout="horizontal"
         >
-          <Row style={{ marginTop: "1em", padding: "1em" }}>
-            <Col xs={24} md={24} xl={18}>
-              <Row>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item
-                        label="Alış №"
-                        name="name"
-                        className="doc_number_form_item"
-                      >
-                        <Input allowClear />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} md={24} xl={24}>
-                      <Form.Item label="Tarixi" name="moment">
-                        <DatePicker
-                          showTime={{ format: "HH:mm:ss" }}
-                          format="YYYY-MM-DD HH:mm:ss"
-                        />
-                      </Form.Item>
-                    </Col>
-                    <Col xs={24} md={24} xl={24}></Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={24} xl={10}>
-                  <Row>
-                    <Col xs={24} md={24} xl={24} className="plus_wrapper">
-                      <Form.Item label="Qarşı-tərəf" name="customerid">
-                        <Select
-                          showSearch
-                          showArrow={false}
-                          filterOption={false}
-                          className="customSelect"
-                          allowClear={true}
-                        >
-                          {customerOptions}
-                        </Select>
-                      </Form.Item>
-                      <PlusOutlined
-                        onClick={() => setCustomerDrawer(true)}
-                        className="add_elements"
-                      />
-                    </Col>
-                    <Col xs={24} md={24} xl={24} className="plus_wrapper">
-                      <Form.Item label="Anbar" name="stockid">
-                        <Select
-                          showSearch
-                          showArrow={false}
-                          filterOption={false}
-                          className="customSelect"
-                          allowClear={true}
-                        >
-                          {options}
-                        </Select>
-                      </Form.Item>
-                      <PlusOutlined
-                        onClick={() => setStockDrawer(true)}
-                        className="add_elements"
-                      />
-                    </Col>
-                  </Row>
-                </Col>
-                <Col xs={24} md={24} xl={4}>
-                  <Col xs={24} md={24} xl={24}>
-                    <Form.Item label="Dəyişmə Tarixi" name="modify">
-                      <DatePicker
-                        showTime={{ format: "HH:mm:ss" }}
-                        format="YYYY-MM-DD HH:mm:ss"
-                      />
-                    </Form.Item>
-                  </Col>
-                </Col>
-              </Row>
-            </Col>
+          <Row>
+						<Col xs={24} md={24} xl={6}>
+							<Form.Item
+								label="Qaytarma №"
+								name="name"
+								className="doc_number_form_item"
+								style={{ width: "100%" }}
+							>
+								<Input
+									size="small"
+									allowClear
+									style={{ width: "100px" }}
+								/>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}>
+							<Form.Item
+								label="Qarşı-tərəf"
+								name="customerid"
+							>
+								<Select
+									size="small"
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect"
+									allowClear={true}
+								>
+									{customerOptions}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
+					</Row>
 
-            <Col xs={24} md={24} xl={6}>
-              <Collapse ghost>
-                <Panel className="custom_panel_header" header="Təyinat" key="1">
-                  <Form.Item
-                    label="Cavabdeh"
-                    name="ownerid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      filterOption={false}
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {ownersOptions}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Şöbə"
-                    name="departmentid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.children
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {depOptions}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label="Keçirilib"
-                    className="docComponentStatus"
-                    name="status"
-                    valuePropName="checked"
-                  >
-                    <Checkbox
-                      onChange={(e) => setStatus(e.target.checked)}
-                      name="status"
-                    ></Checkbox>
-                  </Form.Item>
-                  <Form.Item label="Status" name="mark">
-                    <StatusSelect defaultValue={null} />
-                  </Form.Item>
-                </Panel>
-              </Collapse>
-            </Col>
-          </Row>
+					<Row>
+						<Col xs={24} md={24} xl={6}>
+							<Form.Item
+								label="Tarix"
+								name="moment"
+								style={{ width: "100%" }}
+							>
+								<DatePicker
+									style={{ width: "100%" }}
+									size="small"
+									showTime={{ format: "HH:mm:ss" }}
+									format="YYYY-MM-DD HH:mm:ss"
+								/>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}>
+							<Form.Item
+								label="Anbar"
+								name="stockid"
+							>
+								<Select
+									size="small"
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect"
+									allowClear={true}
+								>
+									{options}
+								</Select>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
+					</Row>
+
+					<Row>
+						<Collapse ghost style={{ width: "100%" }}>
+							<Panel
+								className="custom_panel_header"
+								header="Təyinat"
+								key="1"
+							>
+								<Row>
+									<Col xs={24} md={24} xl={6}>
+                    <Form.Item
+											label="Cavabdeh"
+											name="ownerid"
+											style={{ margin: "0" }}
+											style={{ width: "100%" }}
+										>
+											<Select
+												size="small"
+												showSearch
+												placeholder=""
+												notFoundContent={
+													<Spin size="small" />
+												}
+												filterOption={(input, option) =>
+													option.children
+														.toLowerCase()
+														.indexOf(
+															input.toLowerCase()
+														) >= 0
+												}
+											>
+												{ownersOptions}
+											</Select>
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}>
+                    <Form.Item
+											label="Keçirilib"
+											className="docComponentStatus"
+											name="status"
+											valuePropName="checked"
+											style={{ width: "100%" }}
+										>
+											<Checkbox
+												size="small"
+												name="status"
+											></Checkbox>
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}></Col>
+								</Row>
+								<Row>
+								  <Col xs={24} md={24} xl={6}>
+                    <Form.Item
+											label="Şöbə"
+											name="departmentid"
+											style={{ margin: "0" }}
+											style={{ width: "100%" }}
+										>
+											<Select
+												size="small"
+												showSearch
+												placeholder=""
+												notFoundContent={
+													<Spin size="small" />
+												}
+												filterOption={(input, option) =>
+													option.children
+														.toLowerCase()
+														.indexOf(
+															input.toLowerCase()
+														) >= 0
+												}
+											>
+												{depOptions}
+											</Select>
+										</Form.Item>
+									</Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}></Col>
+									<Col xs={24} md={24} xl={3}></Col>
+									<Col xs={24} md={24} xl={6}></Col>
+								</Row>
+							</Panel>
+						</Collapse>
+					</Row>
         </Form>
+
         <Row>
           <Col xs={24} md={24} xl={24}>
             <Tab className="custom_table_wrapper_tab" panes={panes} />
@@ -627,24 +653,6 @@ function ReturnDetail() {
                 <div className="static_wrapper">
                   <Statistic
                     groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
-                    value={ConvertFixedTable(
-                      (100 * docSum) / (100 - data.Body.List[0].Discount)
-                    )}
-                    prefix={"Ümumi məbləğ: "}
-                    suffix={"₼"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
-                    value={ConvertFixedTable(data.Body.List[0].Discount)}
-                    prefix={"Endirim: "}
-                    suffix={"%"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
                     className="doc_info_text total"
                     title=""
                     value={docSum}
@@ -655,62 +663,9 @@ function ReturnDetail() {
                     groupSeparator=" "
                     className="doc_info_text doc_info_secondary quantity"
                     title=""
-                    value={ConvertFixedTable(data.Body.AllSum)}
-                    prefix={"Nəğd: "}
-                    suffix={"₼"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
-                    value={ConvertFixedTable(data.Body.BankSum)}
-                    prefix={"Nəğdsiz: "}
-                    suffix={"₼"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
-                    value={ConvertFixedTable(data.Body.BonusSum)}
-                    prefix={"Bonus: "}
-                    suffix={"₼"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
-                    value={ConvertFixedTable(data.Body.Credit)}
-                    prefix={"Borca: "}
-                    suffix={"₼"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
                     value={docCount}
                     prefix={"Miqdar: "}
                     suffix={"əd"}
-                  />
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity "
-                    title=""
-                    value={ConvertFixedTable(
-                      isNaN(docSum - data.Body.List[0].Profit)
-                        ? "0.00"
-                        : docSum - data.Body.List[0].Profit
-                    )}
-                    prefix={"Mayası: "}
-                    suffix={"₼"}
-                  />
-
-                  <Statistic
-                    groupSeparator=" "
-                    className="doc_info_text doc_info_secondary quantity"
-                    title=""
-                    value={ConvertFixedTable(data.Body.List[0].Profit)}
-                    prefix={"Qazanc: "}
-                    suffix={"₼"}
                   />
 
                   <Divider style={{ backgroundColor: "grey" }} />

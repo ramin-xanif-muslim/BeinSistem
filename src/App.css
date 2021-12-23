@@ -417,25 +417,11 @@ body {
   filter: drop-shadow(10px 4px 3px rgba(0, 0, 0, 0.25));
 }
 
-.ant-table-summary {
-  background: #f9f9f9 !important;
-}
-
 .setting_button_wrapper {
   display: flex;
   justify-content: flex-end;
 }
-tfoot td {
-  position: sticky !important;
-  background: #f9f9f9 !important;
-  color: rgba(0, 0, 0, 0.85);
-  font-weight: 500;
-  bottom: 24px;
-  filter: drop-shadow(6px -3px 3px rgba(0, 0, 0, 0.1));
-}
-tfoot td.nonshadow {
-  filter: none !important;
-}
+
 .ant-pagination {
   position: sticky;
   bottom: 0;

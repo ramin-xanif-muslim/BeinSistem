@@ -107,7 +107,7 @@ export default function CashOut() {
 
       {
         dataIndex: "Amount",
-        title: "Miqdar",
+        title: "Məbləğ",
         defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "Amount").show

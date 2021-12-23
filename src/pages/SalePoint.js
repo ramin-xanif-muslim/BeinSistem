@@ -88,7 +88,7 @@ export default function SalePoint() {
       },
       {
         dataIndex: "Name",
-        title: "Adı",
+        title: "Satış nöqtəsi",
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "Name").show
           : true,
@@ -124,7 +124,7 @@ export default function SalePoint() {
       },
       {
         dataIndex: "CashBalance",
-        title: "Kassa Balansı",
+        title: "Kassa balansı",
         defaultSortOrder: initialSort === "CashBalance" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "CashBalance")

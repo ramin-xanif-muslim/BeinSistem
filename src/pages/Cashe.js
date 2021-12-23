@@ -104,7 +104,7 @@ export default function Cashe() {
       <Row className="header_row">
         <Col xs={24} md={24} xl={4}>
           <div className="page_heder_left">
-            <h2>Mənfəət və Zərər</h2>
+            <h2>Balans</h2>
           </div>
         </Col>
         <Col xs={24} md={24} xl={20}>
@@ -117,6 +117,8 @@ export default function Cashe() {
       </Row>
 
       <Table
+        id="cashes-table"
+        style={{width: "70%", margin: "auto"}}
         locale={{ emptyText: <Spin /> }}
         columns={columns}
         summary={() => (
@@ -125,7 +127,7 @@ export default function Cashe() {
               <Text type="">Cəm</Text>
             </Table.Summary.Cell>
             <Table.Summary.Cell>
-              <Text type=""> {allsum} ₼ </Text>
+              <Text type=""> {allsum}<sup>₼</sup></Text>
             </Table.Summary.Cell>
           </Table.Summary.Row>
         )}

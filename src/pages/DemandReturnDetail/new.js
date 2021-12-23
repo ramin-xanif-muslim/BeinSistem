@@ -562,7 +562,28 @@ function NewDemandReturn() {
 							</Form.Item>
 						</Col>
 						<Col xs={24} md={24} xl={3}></Col>
-						<Col xs={24} md={24} xl={6}></Col>
+						<Col xs={24} md={24} xl={6}>
+							<Button className="add-stock-btn">
+								<PlusOutlined 
+									onClick={() =>setCustomerDrawer(true)} 
+								/>
+							</Button>
+							<Form.Item
+								label="Qarşı-tərəf"
+								name="customerid"
+							>
+								<Select
+									size="small"
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect"
+									allowClear={true}
+								>
+									{customerOptions}
+								</Select>
+							</Form.Item>
+						</Col>
 						<Col xs={24} md={24} xl={3}></Col>
 						<Col xs={24} md={24} xl={6}></Col>
 					</Row>
@@ -607,28 +628,7 @@ function NewDemandReturn() {
 							</Form.Item>
 						</Col>
 						<Col xs={24} md={24} xl={3}></Col>
-						<Col xs={24} md={24} xl={6}>
-							<Button className="add-stock-btn">
-								<PlusOutlined 
-									onClick={() =>setCustomerDrawer(true)} 
-								/>
-							</Button>
-							<Form.Item
-								label="Qarşı-tərəf"
-								name="customerid"
-							>
-								<Select
-									size="small"
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect"
-									allowClear={true}
-								>
-									{customerOptions}
-								</Select>
-							</Form.Item>
-						</Col>
+						<Col xs={24} md={24} xl={6}></Col>
 					</Row>
 
 					<Row>

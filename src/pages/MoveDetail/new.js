@@ -550,27 +550,6 @@ function NewMove() {
 							</Form.Item>
 						</Col>
 						<Col xs={24} md={24} xl={3}></Col>
-						<Col xs={24} md={24} xl={6}></Col>
-						<Col xs={24} md={24} xl={3}></Col>
-						<Col xs={24} md={24} xl={6}></Col>
-					</Row>
-
-					<Row>
-						<Col xs={24} md={24} xl={6}>
-							<Form.Item
-								label="Tarix"
-								name="moment"
-								style={{ width: "100%" }}
-							>
-								<DatePicker
-									style={{ width: "100%" }}
-									size="small"
-									showTime={{ format: "HH:mm:ss" }}
-									format="YYYY-MM-DD HH:mm:ss"
-								/>
-							</Form.Item>
-						</Col>
-						<Col xs={24} md={24} xl={3}></Col>
 						<Col xs={24} md={24} xl={6}>
 							<Button className="add-stock-btn">
 								<PlusOutlined
@@ -601,6 +580,25 @@ function NewMove() {
 								>
 									{options}
 								</Select>
+							</Form.Item>
+						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
+					</Row>
+
+					<Row>
+						<Col xs={24} md={24} xl={6}>
+							<Form.Item
+								label="Tarix"
+								name="moment"
+								style={{ width: "100%" }}
+							>
+								<DatePicker
+									style={{ width: "100%" }}
+									size="small"
+									showTime={{ format: "HH:mm:ss" }}
+									format="YYYY-MM-DD HH:mm:ss"
+								/>
 							</Form.Item>
 						</Col>
 						<Col xs={24} md={24} xl={3}></Col>
@@ -636,6 +634,8 @@ function NewMove() {
 								</Select>
 							</Form.Item>
 						</Col>
+						<Col xs={24} md={24} xl={3}></Col>
+						<Col xs={24} md={24} xl={6}></Col>
 					</Row>
 
 					<Row>

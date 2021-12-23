@@ -108,8 +108,6 @@ export default function Profit() {
     if (Object.keys(document).length > 0) {
       var childrenArray = [];
       var spendItemsSum = 0;
-      console.log(document.SpendItems);
-      console.log(document);
       document.SpendItems.forEach((d) => {
         spendItemsSum += parseFloat(d.Amount);
       });
@@ -135,23 +133,23 @@ export default function Profit() {
       var datas = [
         {
           key: 1,
-          Name: "Satış dövrüyyəsi",
-          Profit: ConvertFixedTable(document.SaleSum) + " ₼",
+          Name: <span className="boldContent">Satış dövrüyyəsi</span>,
+          Profit: <span className="boldContent">{ConvertFixedTable(document.SaleSum)}<sup>₼</sup></span>,
         },
         {
           key: 2,
           Name: "Mayası",
-          Profit: ConvertFixedTable(document.CostSum) + " ₼",
+          Profit: ConvertFixedTable(document.CostSum),
         },
         {
           key: 3,
-          Name: "Dövrüyyə mənfəəti",
-          Profit: cycleProfit + " ₼",
+          Name: <span className="boldContent">Dövrüyyə mənfəəti</span>,
+          Profit: <span className="boldContent">{cycleProfit}<sup>₼</sup></span>,
         },
         {
           key: 4,
           Name: "Xərclər (toplam)",
-          Profit: ConvertFixedTable(spendItemsSum) + " ₼",
+          Profit: ConvertFixedTable(spendItemsSum),
           children: childrenArray,
         },
         {
@@ -164,7 +162,7 @@ export default function Profit() {
                 color: clearProfit < 0 ? "red" : "initial",
               }}
             >
-              {ConvertFixedTable(clearProfit)} ₼
+              {ConvertFixedTable(clearProfit)}<sup>₼</sup>
             </span>
           ),
         },
@@ -191,7 +189,6 @@ export default function Profit() {
       ...findelement,
       ...replacedElement,
     });
-    console.log(initialCols);
     setFilterChanged(true);
   };
 
@@ -250,7 +247,6 @@ export default function Profit() {
     </Dropdown>
   );
 
-  console.log(documentList);
   if (isLoading) return "Loading...";
 
   if (error) return "An error has occurred: " + error.message;
@@ -285,6 +281,8 @@ export default function Profit() {
       </Row>
 
       <Table
+          id="profit-table"
+          style={{width: "70%", margin: "auto"}}
         locale={{ emptyText: <Spin /> }}
         columns={columns}
         pagination={false}
