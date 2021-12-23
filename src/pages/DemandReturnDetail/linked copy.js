@@ -48,7 +48,6 @@ import { message } from "antd";
 import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
-import { Tab } from "semantic-ui-react";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -67,7 +66,6 @@ function DemandReturnLinked(props) {
 		setStock,
 		setStockLocalStorage,
 		customers,
-		setOuterDataSource,
 		setCustomers,
 		setDisable,
 		disable,
@@ -87,12 +85,6 @@ function DemandReturnLinked(props) {
 		setCreatedStock,
 		setCreatedCustomer,
 		setIsReturn,
-		isPayment,
-		setIsPayment,
-		setPaymentModal,
-
-		saveFromModal,
-		setRedirectSaveClose,
 	} = useCustomForm();
 	const [positions, setPositions] = useState(props.location.state.position);
 	const [redirect, setRedirect] = useState(false);
@@ -103,13 +95,6 @@ function DemandReturnLinked(props) {
 	const onClose = () => {
 		message.destroy();
 	};
-
-
-	useEffect(() => {
-		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-			setDisable(false);
-		}
-	}, [outerDataSource]);
 	const columns = useMemo(() => {
 		return [
 			{
@@ -209,7 +194,6 @@ function DemandReturnLinked(props) {
 
 	useEffect(() => {
 		setIsReturn(false);
-        setDisable(false)
 	}, []);
 
 	useEffect(() => {
@@ -242,6 +226,7 @@ function DemandReturnLinked(props) {
 		setCreatedStock(null);
 	};
 	useEffect(() => {
+		console.log(props);
 		form.setFieldsValue({
 			moment: moment(),
 		});
@@ -254,12 +239,13 @@ function DemandReturnLinked(props) {
 	};
 
 	const handleChanged = () => {
+        console.log('aaa')
 		if (disable) {
 			setDisable(false);
 		}
 	};
 	const handleFinish = async (values) => {
-		// setDisable(true);
+		setDisable(true);
 		values.positions = outerDataSource;
 		values.mark = docmark;
 		values.moment = values.moment._i;
@@ -341,36 +327,6 @@ function DemandReturnLinked(props) {
 	};
 
 	if (redirect) return <Redirect to={`/editDemandReturn/${editId}`} />;
-
-	const panes = [
-		{
-			menuItem: "Əsas",
-			render: () => (
-				<Tab.Pane attached={false}>
-					<Row>
-						<Col xs={24} md={24} xl={9}>
-							<div className="addProductInputIcon">
-								<AddProductInput className="newProInputWrapper" />
-								<PlusOutlined className="addNewProductIcon" />
-							</div>
-						</Col>
-						<Col
-							xs={24}
-							md={24}
-							xl={24}
-							style={{ paddingTop: "1rem" }}
-						>
-							<DocTable headers={columns} datas={positions} />
-						</Col>
-					</Row>
-				</Tab.Pane>
-			),
-		},
-		{
-			menuItem: "Əlaqəli sənədlər",
-			render: () => <Tab.Pane attached={false}></Tab.Pane>,
-		},
-	];
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
@@ -574,12 +530,7 @@ function DemandReturnLinked(props) {
 
 				<Row>
 					<Col xs={24} md={24} xl={24}>
-						<Tab
-							className="custom_table_wrapper_tab"
-							panes={panes}
-						/>
-					</Col>
-					<Col xs={24} md={24} xl={24}>
+						<DocTable headers={columns} datas={positions} />
 						<div>
 							<Statistic
 								groupSeparator=" "

@@ -237,7 +237,7 @@ export default function CreditTransaction() {
         },
         {
           key: "4",
-          label: "Ödəniş",
+          label: "Ödəniş növü",
           name: "paytype",
           controller: "departments",
           type: "selectPayType",
@@ -457,7 +457,7 @@ export default function CreditTransaction() {
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+        locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,

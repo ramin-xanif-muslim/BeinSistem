@@ -61,6 +61,7 @@ const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
+
 function DemandDetail() {
 	const [form] = Form.useForm();
 	const myRefDescription = useRef(null);
@@ -454,8 +455,8 @@ function DemandDetail() {
 
 	const handleFinish = async (values) => {
 		values.positions = outerDataSource;
-		values.moment = values.moment._i;
-		values.modify = values.modify._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
 		values.status = status;

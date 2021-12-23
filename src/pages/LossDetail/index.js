@@ -98,6 +98,10 @@ function LossDetail() {
 		saveFromModal,
 		setSaveFromModal,
 
+		isPayment,
+		setPaymentModal,
+		isReturn,
+
 		redirectSaveClose,
 		setRedirectSaveClose,
 	} = useCustomForm();
@@ -120,6 +124,23 @@ function LossDetail() {
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
+	useEffect(() => {
+		setDisable(true);
+		setPositions([]);
+		setOuterDataSource([]);
+
+		return () => {
+			setDisable(true);
+			setPositions([]);
+			setOuterDataSource([]);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+			setDisable(false);
+		}
+	}, [outerDataSource]);
 	useEffect(() => {
 		if (!isFetching) {
 			customPositions = [];
@@ -367,13 +388,16 @@ function LossDetail() {
 	};
 
 	const handleFinish = async (values) => {
+        console.log('aaaaa')
+		// setDisable(true);
+
 		values.positions = outerDataSource;
-		values.moment = values.moment._i;
-		values.modify = values.modify._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		values.consumption =
-			myRefConsumption.current.clearableInput.props.value;
+		// values.consumption =
+		// 	myRefConsumption.current.clearableInput.props.value;
 		values.status = status;
 		console.log(values);
 		message.loading({ content: "Loading...", key: "doc_update" });
@@ -390,6 +414,13 @@ function LossDetail() {
 						queryClient.invalidateQueries("loss", doc_id);
 						if (saveFromModal) {
 							setRedirectSaveClose(true);
+						} else {
+							if (isReturn) {
+								setRedirect(true);
+							}
+							if (isPayment) {
+								setPaymentModal(true);
+							}
 						}
 					} else {
 						message.error({

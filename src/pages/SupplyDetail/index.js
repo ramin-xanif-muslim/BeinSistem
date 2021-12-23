@@ -474,8 +474,8 @@ function SupplyDetail() {
 		setDisable(true);
 
 		values.positions = outerDataSource;
-		values.moment = values.moment._i;
-		values.modify = values.modify._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
 		values.consumption =

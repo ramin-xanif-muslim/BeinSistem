@@ -605,21 +605,13 @@ export default function SaleReport() {
             {columns
               .filter((c) => c.show === true)
               .map((c) => (
-                <Table.Summary.Cell>
-                  <Text type="">
-                    {c.dataIndex === "Profit"
-                      ? ConvertFixedTable(allProfit) + " ₼"
-                      : c.dataIndex === "SumPrice"
-                      ? ConvertFixedTable(allAmount) + " ₼"
-                      : c.dataIndex === "SumCost"
-                      ? ConvertFixedTable(allCost) + " ₼"
-                      : c.dataIndex === "RetSumCost"
-                      ? ConvertFixedTable(retAllCost) + " ₼"
-                      : c.dataIndex === "RetSumPrice"
-                      ? ConvertFixedTable(retAllAmount) + " ₼"
-                      : null}
-                  </Text>
-                </Table.Summary.Cell>
+								<Table.Summary.Cell>
+									<Text type="">
+										{c.dataIndex === "Profit"
+											? allProfit + " ₼"
+											: null}
+									</Text>
+								</Table.Summary.Cell>
               ))}
           </Table.Summary.Row>
         )}

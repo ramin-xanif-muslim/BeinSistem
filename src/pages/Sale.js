@@ -555,11 +555,11 @@ export default function Sale() {
         <Col xs={24} md={24} xl={20}>
           <div className="page_heder_right">
             <div className="buttons_wrapper">
-              <Buttons
+              {/* <Buttons
                 text={"Yeni satış"}
                 redirectto={"/newdemand"}
                 animate={"Yarat"}
-              />
+              /> */}
               <Button
                 className="filter_button buttons_click"
                 onClick={() =>

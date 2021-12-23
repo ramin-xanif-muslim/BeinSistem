@@ -454,6 +454,14 @@ function NewInvoiceOuts() {
 											<StatusSelect />
 										</Form.Item>
 									</Col>
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											name="description"
+											label="Şərh"
+										>
+											<TextArea rows={3} />
+										</Form.Item>
+									</Col>
 								</Row>
 							</Col>
 						</Row>

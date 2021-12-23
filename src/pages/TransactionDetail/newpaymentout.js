@@ -268,7 +268,7 @@ function NewPaymentOut() {
 							span: 14,
 						}}
 						initialValues={{
-                            status: true,
+							status: true,
 							spenditem: spenditems.find(
 								(s) => s.StaticName === "buyproduct"
 							).Id,
@@ -410,6 +410,15 @@ function NewPaymentOut() {
 										</Form.Item>
 										<Form.Item label="Status" name="mark">
 											<StatusSelect />
+										</Form.Item>
+									</Col>
+
+									<Col xs={24} md={24} xl={6}>
+										<Form.Item
+											name="description"
+											label="Şərh"
+										>
+											<TextArea rows={3} />
 										</Form.Item>
 									</Col>
 								</Row>

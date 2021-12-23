@@ -320,14 +320,13 @@ export default function Return() {
           key: "10",
           label: "Ödəniş növü",
           name: "paytype",
-          controller: "yesno",
-          default: "",
-          type: "selectDefaultPayType",
-          hidden: false,
+          controller: "departments",
+          type: "selectPayType",
           dataIndex: "paytype",
           show: initialfilter
-            ? Object.values(initialfilter).find((i) => i.dataIndex === "paytype")
-                .show
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "paytype"
+              ).show
             : true,
         },
     ];
@@ -477,7 +476,7 @@ export default function Return() {
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+        locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,

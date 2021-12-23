@@ -35,6 +35,7 @@ import {
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
+import { useCustomForm } from "../../contexts/FormContext";
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -62,6 +63,24 @@ function NewProductGroup() {
     setDisable,
     disable,
   } = useTableCustom();
+  const {
+      docstock,
+      setDocStock,
+      docmark,
+      setDocMark,
+      setLoadingForm,
+      setStockDrawer,
+      stockDrawer,
+      createdStock,
+      setCreatedStock,
+      setProductModal,
+
+      saveFromModal,
+      setSaveFromModal,
+
+      redirectSaveClose,
+      setRedirectSaveClose,
+  } = useCustomForm();
   const [attrs, setAttrs] = useState(
     attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
   );
@@ -122,7 +141,7 @@ function NewProductGroup() {
       setDisable(false);
     }
   };
-  if (redirect) return <Redirect to={`/editProductGroup/${editId}`} />;
+  if (redirect) return <Redirect to={`/editCustomerGroup/${editId}`} />;
 
   return (
     <div className="doc_wrapper">
