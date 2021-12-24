@@ -294,6 +294,31 @@ function FilterComponent({ from, settings, cols }) {
 									Hamısı
 								</Option>
 							</Select>
+						) : cols[i].type === "selectSales" ? (
+							<Select
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								id={cols[i].controller}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option nm={cols[i].name} key={"retail"} value={"retail"}>
+                                    Pərakəndə
+								</Option>
+								<Option nm={cols[i].name} key={"wholesale"} value={"wholesale"}>
+									Topdan satış
+								</Option>
+								<Option nm={cols[i].name} key={"all"} value={"all"}>
+									Hamısı
+								</Option>
+							</Select>
 						) : cols[i].type === "selectDefaultYesNo" ? (
 							<Select
 								showSearch

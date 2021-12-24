@@ -377,7 +377,7 @@ function NewInvoiceOuts() {
 										className="customSelect"
 										allowClear={true}
 									>
-										{/* {customerOptions} */}
+										{customerOptions}
 									</Select>
 								</Form.Item>
 							</Col>

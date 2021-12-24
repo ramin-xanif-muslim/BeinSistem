@@ -423,6 +423,19 @@ export default function SaleReport() {
             ? Object.values(initialfilter).find((i) => i.dataIndex === "gp").show
             : true,
         },
+        {
+          key: "15",
+          label: "Topdan satiş",
+          name: "sales",
+          type: "selectSales",
+          controller: "products",
+          dataIndex: "sales",
+          show: initialfilter
+            ? Object.values(initialfilter).find(
+                (i) => i.dataIndex === "sales"
+              ).show
+            : true,
+        },
     ];
   });
   useEffect(() => {
@@ -624,7 +637,7 @@ export default function SaleReport() {
               ))}
           </Table.Summary.Row>
         )}
-        locale={{ emptyText: <Spin /> }}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
         pagination={{
           current: advancedPage + 1,
           total: data.Body.Count,
