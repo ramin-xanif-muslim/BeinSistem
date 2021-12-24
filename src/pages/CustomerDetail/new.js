@@ -170,6 +170,26 @@ function NewCustomer() {
                 </Tab.Pane>
             ),
         },
+        {
+            menuItem: "Hesabatlar",
+            render: () => (
+                <Tab.Pane className="numberinputsholder" attached={false}>
+                    <p>
+                        <i>Tezliklə...</i>
+                    </p>
+                </Tab.Pane>
+            ),
+        },
+        {
+            menuItem: "Şəkillər",
+            render: () => (
+                <Tab.Pane className="numberinputsholder" attached={false}>
+                    <p>
+                        <i>Tezliklə...</i>
+                    </p>
+                </Tab.Pane>
+            ),
+        },
     ];
 
     const handleChanged = () => {
@@ -208,7 +228,7 @@ function NewCustomer() {
     return (
         <div className="doc_wrapper product_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Müştəri</h2>
+                <h2>Tərəf müqabil</h2>
             </div>
             <DocButtons
                 controller={"customers"}
@@ -219,92 +239,149 @@ function NewCustomer() {
                 <Form
                     form={form}
                     id="myForm"
-                    style={{ padding: "0px 20px" }}
+                    style={{ padding: "20px" }}
                     name="basic"
-                    initialValues={{}}
                     className=""
                     layout="horizontal"
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
                 >
                     <Row>
-                        <Col className="left_wrapper" xs={24} md={12} xl={8}>
-                            <Form.Item
-                                label="Müştəri adı"
-                                name="name"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message:
-                                            "Zəhmət olmasa, məhsulun adını qeyd edin..",
-                                    },
-                                ]}
-                            >
-                                <Input allowClear={true} />
-                            </Form.Item>
-                            <Form.Item label="Kart" name="card">
-                                <Input
-                                    suffix={
-                                        <SyncOutlined
-                                            className={"suffixed"}
-                                            onClick={getBarcode}
-                                        />
-                                    }
-                                />
-                            </Form.Item>
-                            <div
-                                style={{
-                                    position: "relative",
-                                    display: "flex",
-                                    alignItems: "center",
-                                }}
-                                className="plus_wrapper"
-                            >
-                                <Form.Item
-                                    label="Qrup"
-                                    name="groupid"
-                                    className="group_item_wrapper"
-                                    style={{ width: "100%" }}
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message:
-                                                "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
-                                        },
-                                    ]}
+                        <Col xs={24} md={12} xl={8}>
+                            <Row>
+                                <Col>
+                                    <h3 style={{ marginBottom: "2.6rem" }}>
+                                        Ümumi məlumat
+                                    </h3>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24}
+                                    md={24}
+                                    xl={24}
                                 >
-                                    <Select
-                                        showSearch
-                                        className="doc_status_formitem_wrapper_col "
-                                        placeholder=""
-                                        filterOption={false}
-                                        notFoundContent={<Spin size="small" />}
+                                    <Form.Item
+                                        label="Tərəf-müqabil adı"
+                                        name="name"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    "Zəhmət olmasa, məhsulun adını qeyd edin..",
+                                            },
+                                        ]}
                                     >
-                                        {groupOption}
-                                    </Select>
-                                </Form.Item>
-                                <PlusOutlined
-                                    onClick={() => setGroupVisible(true)}
-                                    className="add_elements_group"
+                                        <Input allowClear={true} />
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24}
+                                    md={24}
+                                    xl={24}
+                                >
+                                    <Button
+                                        className="add-group-btn"
+                                        // onClick={() => setGroupVisible(true)}
+                                    >
+                                        <PlusOutlined />
+                                    </Button>
+                                    <Form.Item
+                                        label="Qrup"
+                                        name="groupid"
+                                        className="group_item_wrapper"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            showSearch
+                                            className="doc_status_formitem_wrapper_col "
+                                            placeholder=""
+                                            filterOption={false}
+                                            notFoundContent={
+                                                <Spin size="small" />
+                                            }
+                                        >
+                                            {groupOption}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24}
+                                    md={24}
+                                    xl={24}
+                                >
+                                    <Form.Item label="Telefon" name="phone">
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24}
+                                    md={24}
+                                    xl={24}
+                                >
+                                    <Form.Item label="Email" name="email">
+                                        <Input type="email" />
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24}
+                                    md={24}
+                                    xl={24}
+                                >
+                                    <Form.Item label="Kart nömrəsi" name="card">
+                                        <Input
+                                            suffix={
+                                                <SyncOutlined
+                                                    style={{ color: "#0288d1" }}
+                                                    className={"suffixed"}
+                                                    onClick={getBarcode}
+                                                />
+                                            }
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} md={24} xl={24}>
+                                    <Form.Item name="description" label="Şərh">
+                                        <TextArea rows={3} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col
+                            style={{ paddingLeft: "5rem" }}
+                            xs={24}
+                            md={24}
+                            xl={10}
+                        >
+                            <div className="tab_wrapper">
+                                <Tab
+                                    menu={{ attached: false }}
+                                    // onTabChange={handleTabChange}
+                                    panes={panes}
                                 />
                             </div>
-                            <Form.Item label="Telefon" name="phone">
-                                <Input />
-                            </Form.Item>
-
-                            <Form.Item label="Email" name="email">
-                                <Input />
-                            </Form.Item>
-                            <Form.Item name="description" label="Şərh">
-                                <TextArea rows={3} />
-                            </Form.Item>
-
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={24} md={24} xl={8}>
                             <Collapse ghost>
-                                <Panel header="Təyinat" key="1">
+                                <Panel
+                                    className="custom_panel_header"
+                                    header="Təyinat"
+                                    key="1"
+                                >
                                     <Form.Item
                                         label={"Cavabdeh"}
                                         name="ownerid"
-                                        style={{ margin: "0" }}
                                     >
                                         <Select
                                             showSearch
@@ -327,7 +404,6 @@ function NewCustomer() {
                                     <Form.Item
                                         label={"Şöbə"}
                                         name="departmentid"
-                                        style={{ margin: "0" }}
                                     >
                                         <Select
                                             showSearch
@@ -349,16 +425,6 @@ function NewCustomer() {
                                     </Form.Item>
                                 </Panel>
                             </Collapse>
-                        </Col>
-                        <Col
-                            style={{ paddingLeft: "3rem" }}
-                            xs={24}
-                            md={12}
-                            xl={8}
-                        >
-                            <div className="tab_wrapper">
-                                <Tab menu={{ attached: false }} panes={panes} />
-                            </div>
                         </Col>
                     </Row>
                 </Form>

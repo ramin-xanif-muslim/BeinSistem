@@ -222,15 +222,6 @@
     z-index: 3;
 }
 
-.ant-table-small .ant-table-thead > tr > th {
-    position: sticky;
-    top: 64px !important;
-    z-index: 1000;
-}
-.ant-table-small .ant-table-thead > tr > th.boxshadow {
-    filter: drop-shadow(10px 4px 3px rgba(0, 0, 0, 0.25));
-}
-
 .setting_button_wrapper {
     display: flex;
     justify-content: flex-end;
@@ -242,7 +233,6 @@ tfoot td {
 .ant-pagination {
     position: sticky;
     bottom: 0;
-    background: #f9f9f9 !important;
     display: flex;
     justify-content: center;
 }
@@ -289,7 +279,7 @@ td.ant-table-column-sort {
 }
 
 .ant-table-cell-row-hover {
-    background-color: rgb(206, 237, 255) !important;
+    background-color: #ceedff !important;
 }
 
 .ant-tree.ant-tree-directory .ant-tree-treenode {
@@ -369,7 +359,7 @@ td.ant-table-column-sort {
 
 .ant-table-thead > tr > th,
 .ant-table-tbody > tr > td {
-    padding: 4px 16px;
+    padding: 8px 8px;
 }
 
 .input-with-icon-btn {
@@ -423,17 +413,6 @@ td.ant-table-column-sort {
 }
 .custom_panel_header_2 .ant-collapse-header {
     color: #1164b1 !important;
-}
-
-/* .ant-collapse-ghost
-    > .ant-collapse-item
-    > .ant-collapse-content
-    > .ant-collapse-content-box {
-    padding: 12px 0 0;
-} */
-
-.ant-collapse-content > .ant-collapse-content-box {
-    /* padding: 0 16px !important; */
 }
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
@@ -549,4 +528,56 @@ tbody > tr:hover td {
 .product_wrapper .tab_wrapper .item {
     flex: 1;
     justify-content: center;
+}
+
+.table_holder_section {
+    width: 100%;
+}
+.filter_table_wrapper_row {
+    width: 100%;
+}
+.components-table-demo-nested {
+    width: 100%;
+}
+.components-table-demo-nested th,
+.components-table-demo-nested tbody tr td:first-child {
+    color: #1164b1 !important;
+}
+tr.ant-table-expanded-row:hover td {
+    background-color: unset !important;
+    cursor: default;
+}
+.ant-table-tbody > tr > td > .ant-table-wrapper:only-child .ant-table {
+    margin: 0;
+}
+.minus_errors {
+    background-color: #ffff0075;
+}
+.pilus_errors {
+    background-color: unset;
+}
+#taxes-table th {
+    background: #1164b1;
+    color: #fff;
+}
+#taxes-table {
+    border: 1px solid #1164b1;
+    /* border-radius: 5px; */
+}
+/* #taxes-table th:first-child {
+    border-radius: 5px 0 0 0;
+}
+#taxes-table th:last-child {
+    border-radius: 0 5px 0 0;
+} */
+.ant-switch-checked {
+    background-color: #1164b1;
+}
+.taxes-input {
+    width: 70px;
+    border-radius: 20px;
+}
+.taxes-input input {
+    font-weight: 600;
+    color: #1164b1;
 }

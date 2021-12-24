@@ -381,14 +381,6 @@ body {
     top: 0 !important;
     z-index: 1000;
 }
-.ant-table-small .ant-table-thead > tr > th {
-    position: sticky;
-    top: 64px !important;
-    z-index: 1000;
-}
-.ant-table-small .ant-table-thead > tr > th.boxshadow {
-    filter: drop-shadow(10px 4px 3px rgba(0, 0, 0, 0.25));
-}
 
 .setting_button_wrapper {
     display: flex;
@@ -398,7 +390,6 @@ body {
 .ant-pagination {
     position: sticky;
     bottom: 0;
-    background: #f9f9f9 !important;
     display: flex;
     justify-content: center;
 }

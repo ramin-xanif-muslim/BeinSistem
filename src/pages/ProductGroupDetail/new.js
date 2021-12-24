@@ -151,7 +151,7 @@ function NewProductGroup() {
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
                 >
-                    <Row style={{ marginTop: "1em", padding: "1em" }}>
+                    <Row>
                         <Col
                             xs={24}
                             md={20}
