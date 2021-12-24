@@ -367,6 +367,7 @@ export default function Product() {
       {
         dataIndex: "StockBalance",
         title: "Anbar qalığı",
+        default: 0,
         defaultSortOrder: initialSort === "StockBalance" ? defaultdr : null,
         show: initial
           ? Object.values(initial).find((i) => i.dataIndex === "StockBalance")

@@ -69,16 +69,6 @@
     position: relative;
 }
 
-.add_elements {
-    position: absolute;
-    top: 0.5em;
-    right: 7em;
-}
-
-.add_elements svg {
-    color: #0288d1;
-}
-
 .left_doc_button {
     display: flex;
 }
@@ -152,7 +142,7 @@
     position: absolute;
     right: 1px;
     background-color: #e6f7ff;
-    color: #1164B1;
+    color: #1164b1;
     top: 1px;
 }
 .ui.button.dropdown.icon {
@@ -189,7 +179,7 @@
     background-color: #fff !important;
     position: relative;
     padding: 0.4rem 1rem !important;
-    border: 1px solid #1164B1 !important;
+    border: 1px solid #1164b1 !important;
     font-weight: 400;
     margin-right: 1.7rem;
     height: fit-content;
@@ -200,14 +190,14 @@
     background-color: #fff !important;
     position: relative;
     padding: 0.4rem 1rem !important;
-    border: 1px solid #1164B1 !important;
+    border: 1px solid #1164b1 !important;
     font-weight: 400;
     margin-right: 1.7rem;
     height: fit-content;
 }
 
 .ui.animated.button.buttons_click svg {
-    color: #1164B1;
+    color: #1164b1;
 }
 
 .status_label {
@@ -237,7 +227,6 @@
 }
 
 .ant-table-small .ant-table-thead > tr > th {
-    background: #f9f9f9 !important;
     position: sticky;
     top: 64px !important;
     z-index: 1000;
@@ -292,7 +281,7 @@ tfoot td {
     justify-content: center;
 }
 
-td.ant-table-column-sort { 
+td.ant-table-column-sort {
     background: none;
 }
 
@@ -312,7 +301,7 @@ td.ant-table-column-sort {
     padding: 8.5px 0;
 }
 
-.ui.labeled.icon.button>.icon {
+.ui.labeled.icon.button > .icon {
     font-family: Icons !important;
 }
 
@@ -321,7 +310,7 @@ td.ant-table-column-sort {
 }
 
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
-    padding: 0 0 12px;
+    padding: 12px 0;
 }
 
 .ui.tabular.menu .active.item {
@@ -339,7 +328,7 @@ td.ant-table-column-sort {
     color: #6e6d6d;
 }
 
-.ui.dropdown .menu{
+.ui.dropdown .menu {
     background: white !important;
     opacity: 1 !important;
 }
@@ -348,18 +337,19 @@ td.ant-table-column-sort {
     display: flex;
 }
 
-.list-item-product .list-item-body{
+.list-item-product .list-item-body {
     display: flex;
     flex-direction: column;
     font-style: initial;
     width: 100%;
     margin-left: 1rem;
-}   
+}
 
-.list-item-product .product-artcode, .list-item-product .product-barcode {
+.list-item-product .product-artcode,
+.list-item-product .product-barcode {
     opacity: 0.4;
     font-size: 0.8em;
-} 
+}
 
 .list-item-product .product-stock-quantity {
     font-size: 0.8em;
@@ -374,7 +364,7 @@ td.ant-table-column-sort {
     color: red !important;
 }
 
-.ui.dropdown .menu>.item {
+.ui.dropdown .menu > .item {
     padding: 0.7rem !important;
 }
 
@@ -386,7 +376,8 @@ td.ant-table-column-sort {
     font-style: initial;
 }
 
-.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td {
     padding: 4px 16px;
 }
 
@@ -404,8 +395,7 @@ td.ant-table-column-sort {
 }
 
 .add-stock-btn {
-    /* margin-bottom: 24px; */
-    color: #1164B1;
+    color: #1164b1;
     border-width: 1px 1px 1px 1px;
     height: 24px;
     border-radius: 0 2px 2px 0;
@@ -423,11 +413,28 @@ td.ant-table-column-sort {
     width: 12px;
 }
 
+.add-group-btn {
+    color: #1164b1;
+    border-width: 1px 1px 1px 1px;
+    height: 32px;
+    border-radius: 0 2px 2px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    background-color: #e6f7ff;
+    padding: 0;
+    float: right;
+}
+
 .custom_panel_header .ant-collapse-header {
     color: #d40000 !important;
 }
 
-.ant-collapse-ghost > .ant-collapse-item > .ant-collapse-content > .ant-collapse-content-box {
+.ant-collapse-ghost
+    > .ant-collapse-item
+    > .ant-collapse-content
+    > .ant-collapse-content-box {
     padding: 12px 0 0;
 }
 
@@ -462,12 +469,13 @@ tbody > tr:hover td {
     font-weight: 600;
 }
 
-#profit-table th, #cashes-table th {
-    background: #1164B1;
+#profit-table th,
+#cashes-table th {
+    background: #1164b1;
     color: #fff;
 }
 
-.ui.animated.button.transaction-btn { 
+.ui.animated.button.transaction-btn {
     padding: 0.4rem 1rem !important;
     margin-right: 1.7rem;
 }
@@ -478,7 +486,7 @@ tbody > tr:hover td {
     background-color: #fff !important;
     position: relative;
     padding: 0.4rem 1rem !important;
-    border: 1px solid #1164B1 !important;
+    border: 1px solid #1164b1 !important;
     font-weight: 400 !important;
     height: fit-content !important;
 }
@@ -489,7 +497,7 @@ tbody > tr:hover td {
 }
 
 .transaction-btn .content svg {
-    color: #1164B1;
+    color: #1164b1;
 }
 
 .transaction-btn .hidden.content {
@@ -498,4 +506,41 @@ tbody > tr:hover td {
 
 .transaction_buttons_menu .ant-dropdown-menu-item {
     padding: 3px 4px !important;
+}
+
+.react-datepicker-wrapper {
+    width: fit-content !important;
+    height: fit-content !important;
+}
+.react-datepicker-popper {
+    z-index: 9999 !important;
+}
+.my-date-picker {
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    line-height: unset;
+    padding: 0 0.5rem;
+}
+
+.drawertable th {
+    color: #1164b1 !important;
+}
+
+#settlement-table th {
+    background: #1164b1;
+    color: #fff;
+    padding: 4px 16px;
+}
+
+.short-table {
+    width: 70% !important;
+    margin: auto;
+}
+
+.product_wrapper .tab_wrapper .active.item {
+    background: #1164b1 !important;
+}
+.product_wrapper .tab_wrapper .active.item {
+    color: #fff !important;
+    background: #1164b1;
 }

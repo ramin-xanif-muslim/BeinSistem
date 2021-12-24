@@ -105,7 +105,8 @@ function SettlementsDrawer() {
 			},
 			{
 				dataIndex: "Name",
-				title: "Adı",
+				title: "Sənəd nömrəsi",
+				className: "linkedColumns",
 			},
 			{
 				dataIndex: "DocType",
@@ -199,7 +200,6 @@ export default SettlementsDrawer;
 const RowAnderTable = (props) => {
 	const [debt, setDebt] = useState();
 
-	
 	if (props.document[0]) {
 		const fetchDebtCustomer = async () => {
 			let res = await fetchDebt(props.document[0].CustomerId);
@@ -208,14 +208,18 @@ const RowAnderTable = (props) => {
 		};
 		fetchDebtCustomer();
 		return (
-			<div style={{ display: "flex" }}>
-				<div>Müştəri adı : {props.document[0].CustomerName}</div>
-				<div>Qalıq borc : {ConvertFixedTable(debt)}</div>
-				<div>
-					{/* <MyAntDate /> */}
-					<MyReactDate />
+			<div style={{ display: "flex", flexDirection: "column", marginBottom: "1rem"}}>
+				<div style={{ display: "flex", justifyContent: "space-between"}}>
+					<h1 style={{fontWeight: "600", color: "#041A3A"}}>{props.document[0].CustomerName}</h1>
+					<Button type="primary">Çap et</Button>
 				</div>
-				<button>Çap et</button>
+				<div style={{ display: "flex", alignItems: "center"}}>
+					<span style={{display: "flex", justifyContent: "space-between", width: "250px", alignItems: "end", marginRight: "2rem"}}>
+						<p style={{margin: "0"}}>Bu tarixə:</p>
+						<MyReactDate className="my-date-picker"/>
+					</span>
+					<p style={{color: "#1164B1"}}>Qalıq borc: <span style={ ConvertFixedTable(debt) < 0 ? {color: "red", fontWeight: "600"} : {color: "#000", fontWeight: "600"}}>{ConvertFixedTable(debt)}<sup>₼</sup></span></p>
+				</div>
 			</div>
 		);
 	}

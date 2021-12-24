@@ -140,7 +140,7 @@ export default function Supply() {
 					  ).show
 					: true,
 				sorter: (a, b) => null,
-				className: initialSort === "CustomerName" ? "activesort" : "",
+				className: initialSort === "CustomerName" ? "linkedColumns activesort" : "linkedColumns",
 			},
 			{
 				dataIndex: "Amount",
@@ -586,7 +586,9 @@ export default function Supply() {
 							.map((c) => (
 								<Table.Summary.Cell>
 									<Text type="">
-										{c.dataIndex === "Amount"
+										{c.dataIndex === "Name"
+                                            ? "Cəm"
+                                            : c.dataIndex === "Amount"
 											? allsum + " ₼"
 											: null}
 									</Text>

@@ -182,7 +182,7 @@ function FilterComponent({ from, settings, cols }) {
 							<Input
 								onChange={onChange}
 								name={cols[i].name}
-								placeholder="placeholder"
+								placeholder={cols[i].label}
 							/>
 						) : cols[i].type === "select" ? (
 							<Select
@@ -613,7 +613,7 @@ function FilterComponent({ from, settings, cols }) {
 						}}
 					>
 						<Button type="primary" htmlType="submit">
-							Search
+							Axtar
 						</Button>
 						<Button
 							style={{
@@ -621,7 +621,7 @@ function FilterComponent({ from, settings, cols }) {
 							}}
 							onClick={() => allClear()}
 						>
-							Clear
+							Təmizlə
 						</Button>
 						{settings}
 					</Col>

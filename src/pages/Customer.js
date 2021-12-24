@@ -82,6 +82,7 @@ export default function Customer() {
               (i) => i.dataIndex === "customerName"
             ).show
           : true,
+        className: "linkedColumns",
       },
       {
         key: "2",
@@ -241,6 +242,7 @@ export default function Customer() {
           : true,
         defaultSortOrder: initialSort === "Name" ? defaultdr : null,
         sorter: (a, b) => null,
+        className: initialSort === "Name" ? "linkedColumns activesort" : "linkedColumns",
       },
       {
         dataIndex: "Card",
@@ -252,6 +254,7 @@ export default function Customer() {
             ).find((i) => i.dataIndex === "Card").show
           : true,
         sorter: (a, b) => null,
+        className: initialSort === "Card" ? "activesort" : "",
       },
       {
         dataIndex: "Phone",
@@ -264,6 +267,7 @@ export default function Customer() {
             ).find((i) => i.dataIndex === "Phone").show
           : true,
         sorter: (a, b) => null,
+        className: initialSort === "Phone" ? "activesort" : "",
       },
       {
         dataIndex: "GroupName",
@@ -275,6 +279,7 @@ export default function Customer() {
             ).find((i) => i.dataIndex === "GroupName").show
           : true,
         sorter: (a, b) => null,
+        className: initialSort === "GroupName" ? "activesort" : "",
       },
       {
         dataIndex: "Discount",
@@ -287,6 +292,7 @@ export default function Customer() {
             ).find((i) => i.dataIndex === "Discount").show
           : true,
         sorter: (a, b) => null,
+        className: initialSort === "Discount" ? "activesort" : "",
       },
       {
         dataIndex: "Bonus",
@@ -299,6 +305,7 @@ export default function Customer() {
             ).find((i) => i.dataIndex === "Bonus").show
           : true,
         sorter: (a, b) => null,
+        className: initialSort === "Bonus" ? "activesort" : "",
       },
       {
         dataIndex: "Mail",
@@ -310,8 +317,8 @@ export default function Customer() {
             ).find((i) => i.dataIndex === "Mail").show
           : true,
         sorter: (a, b) => null,
+        className: initialSort === "Mail" ? "activesort" : "",
       },
-
       {
         dataIndex: "Description",
         defaultSortOrder: initialSort === "Description" ? defaultdr : null,
@@ -322,6 +329,7 @@ export default function Customer() {
             ).find((i) => i.dataIndex === "Description").show
           : true,
         sorter: (a, b) => null,
+        className: initialSort === "Description" ? "activesort" : "",
       },
     ];
   }, [defaultdr, direction, fieldSort, filtered, advancedPage]);
