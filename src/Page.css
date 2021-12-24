@@ -150,10 +150,6 @@
     background: none;
     border: 1px solid #8a8a8a;
 }
-.custom_modal {
-    width: 100% !important;
-    top: 0 !important;
-}
 
 .page_header {
     display: flex;
@@ -277,7 +273,6 @@ tfoot td {
     color: #0288d1;
     align-items: center;
     display: flex;
-    width: 269px;
     justify-content: center;
 }
 
@@ -307,10 +302,6 @@ td.ant-table-column-sort {
 
 .ant-btn > span + .anticon {
     margin: 0;
-}
-
-.ant-collapse > .ant-collapse-item > .ant-collapse-header {
-    padding: 12px 0;
 }
 
 .ui.tabular.menu .active.item {
@@ -430,12 +421,23 @@ td.ant-table-column-sort {
 .custom_panel_header .ant-collapse-header {
     color: #d40000 !important;
 }
+.custom_panel_header_2 .ant-collapse-header {
+    color: #1164b1 !important;
+}
 
-.ant-collapse-ghost
+/* .ant-collapse-ghost
     > .ant-collapse-item
     > .ant-collapse-content
     > .ant-collapse-content-box {
     padding: 12px 0 0;
+} */
+
+.ant-collapse-content > .ant-collapse-content-box {
+    /* padding: 0 16px !important; */
+}
+
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    padding: 12px 0;
 }
 
 .customSelect .ant-select-selector {
@@ -543,4 +545,8 @@ tbody > tr:hover td {
 .product_wrapper .tab_wrapper .active.item {
     color: #fff !important;
     background: #1164b1;
+}
+.product_wrapper .tab_wrapper .item {
+    flex: 1;
+    justify-content: center;
 }

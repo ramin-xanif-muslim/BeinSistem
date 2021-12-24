@@ -115,14 +115,12 @@
 body {
     background: #f9f9f9 !important;
 }
-.groupmodal .ant-modal-content {
-    width: max-content;
-    margin: auto;
-    top: calc(50vh - 442px);
-}
 
-.numberinputsholder .ant-input-wrapper.ant-input-group {
-    width: 10em;
+.numberinputsholder h3 {
+    font-weight: 600;
+}
+.numberinputsholder button {
+    margin-top: 2.5rem;
 }
 .product_wrapper .ant-row.ant-form-item {
     display: flex;
@@ -134,6 +132,7 @@ body {
     justify-content: flex-start;
     display: flex;
     width: 10em;
+    color: #0288d1;
 }
 
 .add_elements_group {
@@ -314,10 +313,6 @@ body {
     background: none;
     border: 1px solid #c4c2c2;
 }
-.custom_modal {
-    width: 100% !important;
-    top: 0 !important;
-}
 
 .page_header {
     display: flex;
@@ -428,14 +423,6 @@ body {
     color: #0288d1;
     cursor: pointer;
     font-weight: bold;
-}
-
-.create_new_price_button {
-    color: #0288d1;
-    align-items: center;
-    display: flex;
-    width: 269px;
-    justify-content: center;
 }
 
 .invoice_header {

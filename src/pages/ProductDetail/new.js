@@ -357,9 +357,7 @@ function NewProduct() {
                     showSearch
                     allowClear={true}
                     autoFocus={false}
-                    style={{ width: 200 }}
                     id={`col_${a.Name}`}
-                    placeholder=""
                     onFocus={() => fillOption(a.ReferenceTypeId)}
                     filterOption={(input, option) =>
                         option.label
@@ -393,69 +391,75 @@ function NewProduct() {
             menuItem: "Qiymət",
             render: () => (
                 <Tab.Pane className="numberinputsholder" attached={false}>
-                    <Form.Item label="Alış qiyməti" name="buyprice">
-                        <Input
-                            type="number"
-                            step="any"
-                            addonAfter="₼"
-                            min={0}
-                        />
-                    </Form.Item>
-                    <h3>Satış qiymətləri</h3>
-                    <Form.Item label="Minimal qiyməti" name="minprice">
-                        <Input
-                            type="number"
-                            step="any"
-                            addonAfter="₼"
-                            min={0}
-                        />
-                    </Form.Item>
-                    <Form.Item label="Satış qiyməti" name="price">
-                        <Input
-                            type="number"
-                            step="any"
-                            addonAfter="₼"
-                            min={0}
-                        />
-                    </Form.Item>
-                    <div className="prices_wrapper">
-                        {pricetypes.map((c) => (
-                            <div className="price_del_icons">
-                                <Form.Item
-                                    label={c.Name}
-                                    name={"PriceType_" + c.Id}
-                                >
-                                    <Input
-                                        type="number"
-                                        step="any"
-                                        className="hiddenarrows"
-                                        addonAfter="₼"
-                                        min={0}
-                                    />
-                                </Form.Item>
+                    <div style={{ padding: "0.3rem 1rem 1rem" }}>
+                        <Form.Item label="Alış qiyməti" name="buyprice">
+                            <Input
+                                type="number"
+                                step="any"
+                                allowClear
+                                addonAfter="₼"
+                                min={0}
+                            />
+                        </Form.Item>
+                        <h3>Satış qiymətləri</h3>
+                        <Form.Item label="Minimal qiyməti" name="minprice">
+                            <Input
+                                type="number"
+                                step="any"
+                                addonAfter="₼"
+                                allowClear
+                                min={0}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Satış qiyməti" name="price">
+                            <Input
+                                type="number"
+                                step="any"
+                                addonAfter="₼"
+                                allowClear
+                                min={0}
+                            />
+                        </Form.Item>
+                        <div className="prices_wrapper">
+                            {pricetypes.map((c) => (
+                                <div className="price_del_icons">
+                                    <Form.Item
+                                        label={c.Name}
+                                        name={"PriceType_" + c.Id}
+                                    >
+                                        <Input
+                                            type="number"
+                                            step="any"
+                                            className="hiddenarrows"
+                                            allowClear
+                                            addonAfter="₼"
+                                            min={0}
+                                        />
+                                    </Form.Item>
 
-                                <Dropdown
-                                    className="customnewdoc"
-                                    overlay={editDel({
-                                        namepr: c.Name,
-                                        id: c.Id,
-                                    })}
-                                    trigger={["click"]}
-                                >
-                                    <BsThreeDotsVertical />
-                                </Dropdown>
-                            </div>
-                        ))}
+                                    <Dropdown
+                                        className="customnewdoc"
+                                        overlay={editDel({
+                                            namepr: c.Name,
+                                            id: c.Id,
+                                        })}
+                                        trigger={["click"]}
+                                    >
+                                        <BsThreeDotsVertical />
+                                    </Dropdown>
+                                </div>
+                            ))}
+                        </div>
+                        <Button
+                            type="dashed"
+                            className={"create_new_price_button"}
+                            onClick={() => handleOpenNewPrice()}
+                            block
+                            icon={<PlusOutlined />}
+                        >
+                            Yeni qiymət
+                        </Button>
                     </div>
-                    <Button
-                        type="dashed"
-                        className={"create_new_price_button"}
-                        onClick={() => handleOpenNewPrice()}
-                        block
-                        icon={<PlusOutlined />}
-                    >
-                        Yeni qiymət
-                    </Button>
                     <Modal
                         destroyOnClose
                         className="modal_price_type"
@@ -504,6 +508,26 @@ function NewProduct() {
                 <Tab.Pane attached={false} loading={attrLoading}>
                     {modInputs}
                     {modSelects}
+                </Tab.Pane>
+            ),
+        },
+        {
+            menuItem: "Şəkillər",
+            render: () => (
+                <Tab.Pane attached={false}>
+                    <p>
+                        <i>Tezliklə...</i>
+                    </p>
+                </Tab.Pane>
+            ),
+        },
+        {
+            menuItem: "Anbar qalığı",
+            render: () => (
+                <Tab.Pane attached={false}>
+                    <p>
+                        <i>Tezliklə...</i>
+                    </p>
                 </Tab.Pane>
             ),
         },
@@ -599,7 +623,7 @@ function NewProduct() {
                         <Col xs={24} md={12} xl={8}>
                             <Row>
                                 <Col>
-                                    <h3 style={{ marginBottom: "2.35rem" }}>
+                                    <h3 style={{ marginBottom: "2.6rem" }}>
                                         Ümumi məlumat
                                     </h3>
                                 </Col>
@@ -633,6 +657,7 @@ function NewProduct() {
                                         <Input
                                             suffix={
                                                 <SyncOutlined
+                                                    style={{ color: "#0288d1" }}
                                                     className={"suffixed"}
                                                     // onClick={this.onGetBarcode}
                                                 />
@@ -728,7 +753,7 @@ function NewProduct() {
                             style={{ paddingLeft: "5rem" }}
                             xs={24}
                             md={24}
-                            xl={8}
+                            xl={10}
                         >
                             <div className="tab_wrapper">
                                 <Tab
@@ -740,10 +765,14 @@ function NewProduct() {
                         </Col>
                     </Row>
                     <Row>
-                        <Col>
+                        <Col xs={24} md={24} xl={8}>
                             <Collapse ghost>
-                                <Panel header="Əlavə parametr" key="1">
-                                    <Collapse>
+                                <Panel
+                                    className="custom_panel_header_2"
+                                    header="Əlavə parametr"
+                                    key="1"
+                                >
+                                    <Collapse ghost>
                                         <Panel header="Paket (qutu)" key="1">
                                             <Form.Item
                                                 label={"Paketli məhsul"}
@@ -770,12 +799,19 @@ function NewProduct() {
                                     </Collapse>
                                 </Panel>
                             </Collapse>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={24} md={24} xl={8}>
                             <Collapse ghost>
-                                <Panel header="Təyinat" key="1">
+                                <Panel
+                                    className="custom_panel_header"
+                                    header="Təyinat"
+                                    key="1"
+                                >
                                     <Form.Item
                                         label={"Cavabdeh"}
                                         name="ownerid"
-                                        style={{ margin: "0" }}
                                     >
                                         <Select
                                             showSearch
@@ -798,7 +834,6 @@ function NewProduct() {
                                     <Form.Item
                                         label={"Şöbə"}
                                         name="departmentid"
-                                        style={{ margin: "0" }}
                                     >
                                         <Select
                                             showSearch
