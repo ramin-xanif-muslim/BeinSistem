@@ -186,7 +186,7 @@ function NewSalePoint() {
                 <Form
                     form={form}
                     id="myForm"
-                    style={{ padding: "0px 20px" }}
+                    style={{ padding: "20px" }}
                     name="basic"
                     initialValues={{}}
                     className=""
@@ -194,107 +194,7 @@ function NewSalePoint() {
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
                 >
-                    {/* <Row>
-            <Col className="left_wrapper" xs={24} md={12} xl={8}>
-              <Form.Item
-                label="S/N/adi"
-                name="name"
-                rules={[
-                  {
-                    required: true,
-                    message: "Zəhmət olmasa, məhsulun adını qeyd edin..",
-                  },
-                ]}
-              >
-                <Input allowClear={true} />
-              </Form.Item>
-     
-              <div
-                style={{
-                  position: "relative",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                className="plus_wrapper"
-              >
-                <Form.Item
-                  label="Qrup"
-                  name="stockid"
-                  className="group_item_wrapper"
-                  style={{ width: "100%" }}
-                  rules={[
-                    {
-                      required: true,
-                      message: "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
-                    },
-                  ]}
-                >
-                  <Select
-                    showSearch
-                    className="doc_status_formitem_wrapper_col "
-                    placeholder=""
-                    filterOption={false}
-                    notFoundContent={<Spin size="small" />}
-                  >
-                    {groupOption}
-                  </Select>
-                </Form.Item>
-                <PlusOutlined
-                  onClick={() => setGroupVisible(true)}
-                  className="add_elements_group"
-                />
-              </div>
-
-              <Form.Item name="description" label="Şərh">
-                <TextArea rows={3} />
-              </Form.Item>
-
-              <Collapse ghost>
-                <Panel header="Təyinat" key="1">
-                  <Form.Item
-                    label={"Cavabdeh"}
-                    name="ownerid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      filterOption={false}
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.label
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {ownerOption}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    label={"Şöbə"}
-                    name="departmentid"
-                    style={{ margin: "0" }}
-                  >
-                    <Select
-                      showSearch
-                      placeholder=""
-                      filterOption={false}
-                      notFoundContent={<Spin size="small" />}
-                      filterOption={(input, option) =>
-                        option.label
-                          .toLowerCase()
-                          .indexOf(input.toLowerCase()) >= 0
-                      }
-                    >
-                      {departmentOption}
-                    </Select>
-                  </Form.Item>
-                </Panel>
-              </Collapse>
-            </Col>
-          </Row> */}
-
-                    <Row style={{ marginTop: "1em", padding: "1em" }}>
+                    <Row>
                         <Col
                             xs={24}
                             md={20}
