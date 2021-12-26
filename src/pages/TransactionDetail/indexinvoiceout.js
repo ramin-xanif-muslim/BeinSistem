@@ -178,6 +178,21 @@ function PaymentOutDetail() {
             {c.Name}
         </Option>
     ));
+	var ownerList;
+	owners
+		? (ownerList = owners)
+		: (ownerList = JSON.parse(localStorage.getItem("owners")));
+
+	var departmentList;
+	departments
+		? (departmentList = departments)
+		: (departmentList = JSON.parse(localStorage.getItem("departments")));
+	const ownerOption = Object.values(ownerList).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
+	const departmentOption = Object.values(departmentList).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
     const onChange = (value, option) => {
         if (value === "00000000-0000-0000-0000-000000000000") {
             form.setFieldsValue({
@@ -383,7 +398,7 @@ function PaymentOutDetail() {
                                         className="customSelect"
                                         allowClear={true}
                                     >
-                                        {/* {customerOptions} */}
+                                        {customerOptions}
                                     </Select>
                                 </Form.Item>
                             </Col>
@@ -493,7 +508,7 @@ function PaymentOutDetail() {
                                                             ) >= 0
                                                     }
                                                 >
-                                                    {/* {ownersOptions} */}
+                                                    {ownerOption}
                                                 </Select>
                                             </Form.Item>
                                         </Col>
@@ -541,7 +556,7 @@ function PaymentOutDetail() {
                                                             ) >= 0
                                                     }
                                                 >
-                                                    {/* {depOptions} */}
+                                                    {departmentOption}
                                                 </Select>
                                             </Form.Item>
                                         </Col>

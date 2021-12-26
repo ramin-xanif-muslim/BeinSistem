@@ -43,7 +43,7 @@ let count = 0;
 let oneRefArray = [];
 var guid =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-function CustomerGroupDetail;() {
+function CustomerGroupDetail() {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
 
