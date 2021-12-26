@@ -617,6 +617,18 @@ export const fetchProductGroupId = async (id) => {
 
   return data;
 };
+export const fetchCustomerGroupId = async (id) => {
+  var editFilter = {
+    token: localStorage.getItem("access-token"),
+    id: id,
+  };
+  const { data } = await axios.post(
+    `https://dev.bein.az/controllers/customergroups/get.php`,
+    editFilter
+  );
+
+  return data;
+};
 //#LogIn function starts
 export const putLogin = async (values) => {
   const { data } = await axios.post(
