@@ -20,6 +20,8 @@ import {
     ConvertFixedTable,
 } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
+import SearchByDate from "../components/SearchByDate";
+import sendRequest from "../config/sentRequest";
 
 const { Text } = Typography;
 export default function Enter() {
@@ -510,6 +512,12 @@ export default function Enter() {
             </Button>
         </Dropdown>
     );
+    const getSearcObjByDate = async (ob) => {
+        let res = await sendRequest('enters/get.php',ob)
+        setDocumentList(res.List)
+        setallsum(res.AllSum)
+        console.log(res)
+    }
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -552,6 +560,7 @@ export default function Enter() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
+                            <SearchByDate getSearcObjByDate={getSearcObjByDate} />
                         </div>
 
                         <div>{tableSettings}</div>

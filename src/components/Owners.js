@@ -373,39 +373,7 @@ export default function Owners() {
                         login: edit ? edit.Login : "",
                         departmentid: edit ? edit.DepartmentId : "",
                         description: edit ? edit.Description : "",
-
-<<<<<<< HEAD
-                        id: edit ? edit.Id : "",
-                        status: edit && edit.status ? true : false,
-                    }}
-                    onFinish={onFinish}
-                >
-                    <Form.Item
-                        name="name"
-                        label="Adı"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Zəhmət olmasa, ad daxil edin",
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="login"
-                        label="İstifadəçi adı"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Zəhmət olmasa, login daxil edin",
-                            },
-                            ({ getFieldValue }) => ({
-                                validator(_, value) {
-                                    if (!value || patName.test(value)) {
-                                        return Promise.resolve();
-                                    }
-=======
+                        
 						id: edit ? edit.Id : "",
                         status: edit && edit.Status === 1 ? true  : false
 					}}
@@ -436,7 +404,6 @@ export default function Owners() {
 									if (!value || patName.test(value)) {
 										return Promise.resolve();
 									}
->>>>>>> 5261728aef976fc15de4554866f96f691f16a671
 
                                     return Promise.reject(
                                         new Error(
@@ -502,47 +469,6 @@ export default function Owners() {
                     >
                         <Input />
                     </Form.Item>
-
-<<<<<<< HEAD
-                    <Form.Item name="phone" label="Əlaqə nömrəsi">
-                        <Input />
-                    </Form.Item>
-                    <Form.Item label="Şöbə" name="departmentid">
-                        <Select
-                            showSearch
-                            placeholder=""
-                            notFoundContent={<Spin size="small" />}
-                            filterOption={(input, option) =>
-                                option.children
-                                    .toLowerCase()
-                                    .indexOf(input.toLowerCase()) >= 0
-                            }
-                        >
-                            {depOptions}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item name="description" label="Şərh">
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Status"
-                        name="status"
-                        valuePropName="checked"
-                    >
-                        <Switch
-                            checkedChildren="Aktiv"
-                            unCheckedChildren="Deaktiv"
-                            defaultChecked={true}
-                            // onChange={(e) => console.log(e.target.checked)}
-                            name="st"
-                        />
-                    </Form.Item>
-                    <Form.Item hidden={true} name="id" label="id">
-                        <Input />
-                    </Form.Item>
-                </Form>
-            </Modal>
-=======
 					<Form.Item name="phone" label="Əlaqə nömrəsi">
 						<Input />
 					</Form.Item>
@@ -583,7 +509,6 @@ export default function Owners() {
 					</Form.Item>
 				</Form>
 			</Modal>
->>>>>>> 5261728aef976fc15de4554866f96f691f16a671
 
             <Modal
                 visible={showPermission}

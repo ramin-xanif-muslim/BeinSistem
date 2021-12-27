@@ -1,6 +1,14 @@
 import React from "react";
 
-function SearchByDate({ obj, getSearcObjByDate }) {
+function SearchByDate({ getSearcObjByDate }) {
+    const obj = {
+		pg: 0,
+		nm: "",
+		dr: 1,
+		sr: "Moment",
+		momb: "",
+		mome: "",
+	}
 	const select = (i) => {
 		let today = new Date();
 		let y = today.getFullYear();
