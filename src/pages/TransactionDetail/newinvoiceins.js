@@ -97,7 +97,7 @@ function NewPaymentIn() {
 		docmark,
 		setDocMark,
 		setLoadingForm,
-        setCustomerDrawer,
+		setCustomerDrawer,
 
 		saveFromModal,
 		setRedirectSaveClose,
@@ -374,7 +374,7 @@ function NewPaymentIn() {
 							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
 									<PlusOutlined
-									onClick={() =>setCustomerDrawer(true)}
+										onClick={() => setCustomerDrawer(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -414,11 +414,6 @@ function NewPaymentIn() {
 							</Col>
 							<Col xs={24} md={24} xl={3}></Col>
 							<Col xs={24} md={24} xl={6}>
-								<Button className="add-stock-btn">
-									<PlusOutlined
-									onClick={() =>setCustomerDrawer(true)}
-									/>
-								</Button>
 								<Form.Item
 									label="Xərc maddəsi"
 									name="spenditem"
@@ -573,7 +568,7 @@ function NewPaymentIn() {
 					</Form>
 				</div>
 
-<CustomerDrawer />
+				<CustomerDrawer />
 			</div>
 		);
 }

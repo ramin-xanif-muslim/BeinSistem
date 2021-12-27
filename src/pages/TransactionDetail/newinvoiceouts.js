@@ -61,6 +61,7 @@ import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
+import Expenditure from "../../components/Expenditure";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -97,7 +98,7 @@ function NewInvoiceOuts() {
 		docmark,
 		setDocMark,
 		setLoadingForm,
-        setCustomerDrawer,
+		setCustomerDrawer,
 
 		saveFromModal,
 		setRedirectSaveClose,
@@ -115,6 +116,7 @@ function NewInvoiceOuts() {
 	const [columnChange, setColumnChange] = useState(false);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 	const [spends, setSpends] = useState(false);
+	const [expenditure, setExpenditure] = useState(false);
 
 	useEffect(() => {
 		setDisable(true);
@@ -371,10 +373,10 @@ function NewInvoiceOuts() {
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6} >
+							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
-									<PlusOutlined 
-										onClick={() =>setCustomerDrawer(true)} 
+									<PlusOutlined
+										onClick={() => setCustomerDrawer(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -402,21 +404,21 @@ function NewInvoiceOuts() {
 								<Form.Item
 									label="Şərh"
 									name="description"
-									style={{ margin: "0", width: "100%"}}
+									style={{ margin: "0", width: "100%" }}
 								>
-									<TextArea 
-										size="small" 
+									<TextArea
+										size="small"
 										showCount
-										maxLength={100} 
-										style={{ width: "100%" }} 
+										maxLength={100}
+										style={{ width: "100%" }}
 									/>
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={24} xl={3}></Col>
 							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
-									<PlusOutlined 
-										onClick={() =>setCustomerDrawer(true)} 
+									<PlusOutlined
+										onClick={() => setExpenditure(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -428,57 +430,29 @@ function NewInvoiceOuts() {
 										showSearch
 										showArrow={false}
 										className="customSelect"
-										notFoundContent={
-											<Spin size="small" />
-										}
-										onChange={
-											onChangeSpendItem
-										}
+										notFoundContent={<Spin size="small" />}
+										onChange={onChangeSpendItem}
 										allowClear={true}
-										filterOption={(
-											input,
-											option
-										) =>
+										filterOption={(input, option) =>
 											option.children
 												.toLowerCase()
-												.indexOf(
-													input.toLowerCase()
-												) >= 0
+												.indexOf(input.toLowerCase()) >=
+											0
 										}
 									>
 										{spends
-											? Object.values(
-													spenditems
-											  )
-													.filter(
-														(
-															item
-														) =>
-
-															item.StaticName ===
-																"buyproduct" ||
-															item.StaticName ===
-																"correct"
-													)
-													.map(
-														(c) => (
-															<Option
-																staticname={
-																	c.StaticName
-																}
-																key={
-																	c.Id
-																}
-																value={
-																	c.Id
-																}
-															>
-																{
-																	c.Name
-																}
-															</Option>
-														)
-													)
+											? Object.values(spenditems)
+													.map((c) => (
+														<Option
+															staticname={
+																c.StaticName
+															}
+															key={c.Id}
+															value={c.Id}
+														>
+															{c.Name}
+														</Option>
+													))
 											: null}
 									</Select>
 								</Form.Item>
@@ -509,7 +483,10 @@ function NewInvoiceOuts() {
 													notFoundContent={
 														<Spin size="small" />
 													}
-													filterOption={(input, option) =>
+													filterOption={(
+														input,
+														option
+													) =>
 														option.children
 															.toLowerCase()
 															.indexOf(
@@ -554,7 +531,10 @@ function NewInvoiceOuts() {
 													notFoundContent={
 														<Spin size="small" />
 													}
-													filterOption={(input, option) =>
+													filterOption={(
+														input,
+														option
+													) =>
 														option.children
 															.toLowerCase()
 															.indexOf(
@@ -571,7 +551,10 @@ function NewInvoiceOuts() {
 											<Form.Item
 												label="Status"
 												name="mark"
-												style={{ width: "100%", margin: "0"}}
+												style={{
+													width: "100%",
+													margin: "0",
+												}}
 											>
 												<StatusSelect />
 											</Form.Item>
@@ -585,7 +568,8 @@ function NewInvoiceOuts() {
 					</Form>
 				</div>
 
-<CustomerDrawer />
+				<CustomerDrawer />
+				<Expenditure show={expenditure} setShow={setExpenditure} />
 			</div>
 		);
 }

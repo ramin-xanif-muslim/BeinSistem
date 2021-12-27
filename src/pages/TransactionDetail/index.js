@@ -60,6 +60,7 @@ import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
+import Expenditure from "../../components/Expenditure";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -104,6 +105,8 @@ function PaymentInDetail() {
 	const [spends, setSpends] = useState(false);
 	const [handleMark, setHandleMark] = useState(null);
 	const [customerloading, setcustomerloading] = useState(false);
+	const [expenditure, setExpenditure] = useState(false);
+
 	const { doc_id } = useParams();
 	const { isLoading, error, data, isFetching } = useQuery(
 		["paymentin", doc_id],
@@ -446,7 +449,7 @@ function PaymentInDetail() {
 							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
 									<PlusOutlined
-									onClick={() =>setCustomerDrawer(true)}
+										onClick={() => setExpenditure(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -604,6 +607,10 @@ function PaymentInDetail() {
 				</div>
 
 				<CustomerDrawer />
+				<Expenditure
+					show={expenditure}
+					setShow={setExpenditure}
+				/>
 			</div>
 		);
 }
