@@ -16,6 +16,7 @@ import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
 import { SettingOutlined } from "@ant-design/icons";
+import SearchByDate from "../components/SearchByDate";
 export default function Product() {
 	const [redirect, setRedirect] = useState(false);
 	const [editId, setEditId] = useState("");
@@ -685,6 +686,7 @@ export default function Product() {
 								content="Filter"
 							/>
 							<FastSearch className="search_header" />
+                            <SearchByDate />
 						</div>
 						{tableSettings}
 					</div>
