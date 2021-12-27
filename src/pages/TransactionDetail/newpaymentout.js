@@ -61,6 +61,7 @@ import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
+import Expenditure from "../../components/Expenditure";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -111,6 +112,7 @@ function NewPaymentOut() {
 	const [columnChange, setColumnChange] = useState(false);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 	const [spends, setSpends] = useState(false);
+	const [expenditure, setExpenditure] = useState(false);
 
 	const onClose = () => {
 		message.destroy();
@@ -388,7 +390,7 @@ function NewPaymentOut() {
 							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
 									<PlusOutlined
-									onClick={() =>setCustomerDrawer(true)}
+										onClick={() => setExpenditure(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -412,13 +414,6 @@ function NewPaymentOut() {
 									>
 										{spends
 											? Object.values(spenditems)
-													.filter(
-														(item) =>
-															item.StaticName ===
-																"buyproduct" ||
-															item.StaticName ===
-																"correct"
-													)
 													.map((c) => (
 														<Option
 															staticname={
@@ -546,6 +541,10 @@ function NewPaymentOut() {
 				</div>
 
 				<CustomerDrawer />
+				<Expenditure
+					show={expenditure}
+					setShow={setExpenditure}
+				/>
 			</div>
 		);
 }
