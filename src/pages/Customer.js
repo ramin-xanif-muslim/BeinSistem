@@ -546,13 +546,15 @@ export default function Customer() {
                         columns={columns.filter((c) => c.show == true)}
                         dataSource={productList}
                         onChange={onChange}
-                        locale={{ emptyText: <Spin /> }}
                         pagination={{
                             current: advancedPage + 1,
                             total: data.Body.Count,
                             onChange: handlePagination,
                             defaultPageSize: data.Body.Limit,
                             showSizeChanger: false,
+                        }}
+                        locale={{
+                            emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
                         }}
                         size="small"
                         onRow={(r) => ({

@@ -15,6 +15,8 @@ import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 
 import { SettingOutlined } from "@ant-design/icons";
+import SearchByDate from "../components/SearchByDate";
+import sendRequest from "../config/sentRequest";
 const { Text } = Typography;
 export default function CashIn() {
     const [redirect, setRedirect] = useState(false);
@@ -386,6 +388,11 @@ export default function CashIn() {
             </Button>
         </Dropdown>
     );
+    const getSearcObjByDate = async (ob) => {
+        let res = await sendRequest("cashins/get.php", ob);
+        setDocumentList(res.List);
+        setallsum(res.AllSum);
+    };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -412,6 +419,9 @@ export default function CashIn() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
+                            <SearchByDate
+                                getSearcObjByDate={getSearcObjByDate}
+                            />
                         </div>
                         <div>{tableSettings}</div>
                     </div>
@@ -445,7 +455,7 @@ export default function CashIn() {
                             ))}
                     </Table.Summary.Row>
                 )}
-                locale={{ emptyText: isFetching ? <Spin /> : "Tapilmadi" }}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
                     current: advancedPage + 1,
                     total: data.Body.Count,

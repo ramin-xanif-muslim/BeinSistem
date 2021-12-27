@@ -626,7 +626,7 @@ export default function Demand() {
                             ))}
                     </Table.Summary.Row>
                 )}
-                locale={{ emptyText: <Spin /> }}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
                     current: advancedPage + 1,
                     total: data.Body.Count,

@@ -15,6 +15,8 @@ import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import { SettingOutlined } from "@ant-design/icons";
+import sendRequest from "../config/sentRequest";
+import SearchByDate from "../components/SearchByDate";
 const { Text } = Typography;
 
 export default function Profit() {
@@ -261,6 +263,11 @@ export default function Profit() {
             </Button>
         </Dropdown>
     );
+    const getSearcObjByDate = async (ob) => {
+        let res = await sendRequest("profits/get.php", ob);
+        setDocumentList(res.List);
+        setallsum(res.AllSum);
+    };
 
     if (isLoading) return "Loading...";
 
@@ -277,7 +284,6 @@ export default function Profit() {
                 <Col xs={24} md={24} xl={20}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <FastSearch className="search_header" />
                             <Button
                                 className="filter_button buttons_click"
                                 onClick={() =>
@@ -286,6 +292,10 @@ export default function Profit() {
                                         : setdisplay("none")
                                 }
                                 content="Filter"
+                            />
+                            <FastSearch className="search_header" />
+                            <SearchByDate
+                                getSearcObjByDate={getSearcObjByDate}
                             />
                         </div>
                     </div>
@@ -300,10 +310,10 @@ export default function Profit() {
             <Table
                 id="profit-table"
                 className="short-table"
-                locale={{ emptyText: <Spin /> }}
                 columns={columns}
                 pagination={false}
                 dataSource={documentList}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
             />
         </div>
     );

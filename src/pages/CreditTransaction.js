@@ -20,6 +20,8 @@ import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 
 import { SettingOutlined } from "@ant-design/icons";
+import sendRequest from "../config/sentRequest";
+import SearchByDate from "../components/SearchByDate";
 const { Text } = Typography;
 export default function CreditTransaction() {
     const [redirect, setRedirect] = useState(false);
@@ -403,6 +405,11 @@ export default function CreditTransaction() {
             </Menu.ItemGroup>
         </Menu>
     );
+    const getSearcObjByDate = async (ob) => {
+        let res = await sendRequest("credittransactions/get.php", ob);
+        setDocumentList(res.List);
+        // setallsum(res.AllSum);
+    };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -428,6 +435,9 @@ export default function CreditTransaction() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
+                            <SearchByDate
+                                getSearcObjByDate={getSearcObjByDate}
+                            />
                         </div>
                     </div>
                 </Col>
@@ -476,7 +486,7 @@ export default function CreditTransaction() {
                             ))}
                     </Table.Summary.Row>
                 )}
-                locale={{ emptyText: <Spin /> }}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
                     current: advancedPage + 1,
                     total: data.Body.Count,

@@ -135,6 +135,7 @@ export default function Cashe() {
                         </Table.Summary.Cell>
                     </Table.Summary.Row>
                 )}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={false}
                 dataSource={documentList}
             />
