@@ -71,16 +71,10 @@ function PaymentInDetail() {
 	const myRefDescription = useRef(null);
 	const myRefConsumption = useRef(null);
 	const {
-		docPage,
-		docCount,
-		docSum,
 		outerDataSource,
 		setOuterDataSource,
 		departments,
 		owners,
-		stocks,
-		setStock,
-		setStockLocalStorage,
 		setCustomersLocalStorage,
 		customers,
 		setCustomers,
@@ -91,24 +85,9 @@ function PaymentInDetail() {
 		disable,
 	} = useTableCustom();
 	const {
-		docstock,
-		setDocStock,
 		docmark,
-		setDocMark,
 		setLoadingForm,
-		setStockDrawer,
         setCustomerDrawer,
-		stockDrawer,
-		createdStock,
-		setCreatedStock,
-		setProductModal,
-
-		isPayment,
-		setPaymentModal,
-		isReturn,
-
-		saveFromModal,
-		setRedirectSaveClose,
 	} = useCustomForm();
 	const [positions, setPositions] = useState([]);
 	const [redirect, setRedirect] = useState(false);

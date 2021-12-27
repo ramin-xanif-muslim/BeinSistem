@@ -5,16 +5,13 @@ import { fetchDepartments, fetchNavbar, fetchOwners } from "../api";
 import { useTableCustom } from "../contexts/TableContext";
 import { Dropdown } from "semantic-ui-react";
 import img_brand from "../images/brand.svg";
-import { Input, Menu } from "semantic-ui-react";
+import { Menu } from "semantic-ui-react";
 import { List } from "semantic-ui-react";
 import { Segment } from "semantic-ui-react";
 import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import {
-  Form,
   Button,
-  Row,
-  Collapse,
   Modal,
   Badge
 } from "antd";
@@ -31,29 +28,22 @@ import {
 import "../Navbar.css";
 function Navbar() {
   const {
-    marks,
     setMark,
     setMarkLocalStorage,
-    markLoading,
     setMarkLoading,
-    stocks,
     setStock,
     setStockLocalStorage,
-    owners,
     setOwners,
-    departments,
     setDepartments,
     setOwnersLocalStorage,
     setDepartmentsLocalStorage,
-    searchGr,
     setSearchGr,
     setAdvancedPage,
     nav,
-    setNav,
     balance,
     setBalance,
   } = useTableCustom();
-  const { loggedIn, token, firstLogin, logout } = useAuth();
+  const { firstLogin, logout } = useAuth();
 
   const [menu, setMenu] = useState("2");
   const [noBalance, setNoBalance] = useState(true);
@@ -72,8 +62,8 @@ function Navbar() {
 
   const getBalance = async () => {
     const balanceres = await fetchNotification();
-    console.log(balanceres)
-    if (balanceres === "Sessiya bitmişdir") {
+    // if (balanceres === "Sessiya bitmişdir") {
+    if (balanceres === "Tarifə görə məhdudiyyət, Sessiyanız bitdi") {
         return <Redirect to="/signin" />
     }
     if (balanceres === "Balans bitib") {
@@ -124,7 +114,6 @@ function Navbar() {
     setShowBalance(false)
   };
   const handleClick = (id, name) => {
-    console.log(name);
     setMenu(id);
     setActiveItem(name);
     localStorage.setItem("activemenu", name);

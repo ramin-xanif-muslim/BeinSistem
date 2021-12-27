@@ -60,6 +60,7 @@ import {
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
+import CustomerDrawer from "../../components/CustomerDrawer";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -96,11 +97,7 @@ function NewPaymentIn() {
 		docmark,
 		setDocMark,
 		setLoadingForm,
-		setStockDrawer,
-		stockDrawer,
-		createdStock,
-		setCreatedStock,
-		setProductModal,
+        setCustomerDrawer,
 
 		saveFromModal,
 		setRedirectSaveClose,
@@ -377,7 +374,7 @@ function NewPaymentIn() {
 							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
 									<PlusOutlined
-									// onClick={() =>setCustomerDrawer(true)}
+									onClick={() =>setCustomerDrawer(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -419,7 +416,7 @@ function NewPaymentIn() {
 							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
 									<PlusOutlined
-									// onClick={() =>setCustomerDrawer(true)}
+									onClick={() =>setCustomerDrawer(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -575,6 +572,8 @@ function NewPaymentIn() {
 						</Row>
 					</Form>
 				</div>
+
+<CustomerDrawer />
 			</div>
 		);
 }

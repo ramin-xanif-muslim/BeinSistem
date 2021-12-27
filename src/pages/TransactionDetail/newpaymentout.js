@@ -60,6 +60,7 @@ import {
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
+import CustomerDrawer from "../../components/CustomerDrawer";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -95,11 +96,7 @@ function NewPaymentOut() {
 		docmark,
 		setDocMark,
 		setLoadingForm,
-		setStockDrawer,
-		stockDrawer,
-		createdStock,
-		setCreatedStock,
-		setProductModal,
+		setCustomerDrawer,
 	} = useCustomForm();
 	const [positions, setPositions] = useState([]);
 	const [redirect, setRedirect] = useState(false);
@@ -346,10 +343,10 @@ function NewPaymentOut() {
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6} >
+							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
-									<PlusOutlined 
-										// onClick={() =>setCustomerDrawer(true)} 
+									<PlusOutlined
+									onClick={() =>setCustomerDrawer(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -377,21 +374,21 @@ function NewPaymentOut() {
 								<Form.Item
 									label="Şərh"
 									name="description"
-									style={{ margin: "0", width: "100%"}}
+									style={{ margin: "0", width: "100%" }}
 								>
-									<TextArea 
-										size="small" 
+									<TextArea
+										size="small"
 										showCount
-										maxLength={100} 
-										style={{ width: "100%" }} 
+										maxLength={100}
+										style={{ width: "100%" }}
 									/>
 								</Form.Item>
 							</Col>
 							<Col xs={24} md={24} xl={3}></Col>
 							<Col xs={24} md={24} xl={6}>
 								<Button className="add-stock-btn">
-									<PlusOutlined 
-										// onClick={() =>setCustomerDrawer(true)} 
+									<PlusOutlined
+									onClick={() =>setCustomerDrawer(true)}
 									/>
 								</Button>
 								<Form.Item
@@ -403,57 +400,36 @@ function NewPaymentOut() {
 										showSearch
 										showArrow={false}
 										className="customSelect"
-										notFoundContent={
-											<Spin size="small" />
-										}
-										onChange={
-											onChangeSpendItem
-										}
+										notFoundContent={<Spin size="small" />}
+										onChange={onChangeSpendItem}
 										allowClear={true}
-										filterOption={(
-											input,
-											option
-										) =>
+										filterOption={(input, option) =>
 											option.children
 												.toLowerCase()
-												.indexOf(
-													input.toLowerCase()
-												) >= 0
+												.indexOf(input.toLowerCase()) >=
+											0
 										}
 									>
 										{spends
-											? Object.values(
-													spenditems
-											  )
+											? Object.values(spenditems)
 													.filter(
-														(
-															item
-														) =>
-
+														(item) =>
 															item.StaticName ===
 																"buyproduct" ||
 															item.StaticName ===
 																"correct"
 													)
-													.map(
-														(c) => (
-															<Option
-																staticname={
-																	c.StaticName
-																}
-																key={
-																	c.Id
-																}
-																value={
-																	c.Id
-																}
-															>
-																{
-																	c.Name
-																}
-															</Option>
-														)
-													)
+													.map((c) => (
+														<Option
+															staticname={
+																c.StaticName
+															}
+															key={c.Id}
+															value={c.Id}
+														>
+															{c.Name}
+														</Option>
+													))
 											: null}
 									</Select>
 								</Form.Item>
@@ -484,7 +460,10 @@ function NewPaymentOut() {
 													notFoundContent={
 														<Spin size="small" />
 													}
-													filterOption={(input, option) =>
+													filterOption={(
+														input,
+														option
+													) =>
 														option.children
 															.toLowerCase()
 															.indexOf(
@@ -529,7 +508,10 @@ function NewPaymentOut() {
 													notFoundContent={
 														<Spin size="small" />
 													}
-													filterOption={(input, option) =>
+													filterOption={(
+														input,
+														option
+													) =>
 														option.children
 															.toLowerCase()
 															.indexOf(
@@ -546,7 +528,10 @@ function NewPaymentOut() {
 											<Form.Item
 												label="Status"
 												name="mark"
-												style={{ width: "100%", margin: "0"}}
+												style={{
+													width: "100%",
+													margin: "0",
+												}}
 											>
 												<StatusSelect />
 											</Form.Item>
@@ -559,6 +544,8 @@ function NewPaymentOut() {
 						</Row>
 					</Form>
 				</div>
+
+				<CustomerDrawer />
 			</div>
 		);
 }

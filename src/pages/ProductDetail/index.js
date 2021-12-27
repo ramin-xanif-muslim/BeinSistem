@@ -185,6 +185,7 @@ function ProductDetail() {
             [key.toLowerCase()]: selectedProduct[key],
         }))
     );
+    console.log(initialValues)
     if (Array.isArray(selectedProduct.Prices)) {
         selectedProduct.Prices.map((p) => {
             var name = "PriceType_" + p.PriceType;

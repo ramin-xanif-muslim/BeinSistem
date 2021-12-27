@@ -374,7 +374,7 @@ export default function Owners() {
 						description: edit ? edit.Description : "",
 
 						id: edit ? edit.Id : "",
-                        status: edit && edit.status ? true : false
+                        status: edit && edit.Status === 1 ? true  : false
 					}}
 					onFinish={onFinish}
 				>
@@ -499,8 +499,8 @@ export default function Owners() {
 						valuePropName="checked"
 					>
 						<Checkbox
-                        checked={true}
-							onChange={(e) => console.log(e.target.checked)}
+                        // checked={true}
+							onChange={(e) => console.log(edit)}
 							name="st"
 						></Checkbox>
 					</Form.Item>

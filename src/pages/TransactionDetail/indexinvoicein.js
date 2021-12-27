@@ -67,7 +67,7 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function PaymentInDetail() {
+function IvoiceInDetail() {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -616,4 +616,4 @@ function PaymentInDetail() {
 		);
 }
 
-export default PaymentInDetail;
+export default IvoiceInDetail;
