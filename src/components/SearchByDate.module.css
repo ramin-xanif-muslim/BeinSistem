@@ -14,4 +14,13 @@
 
 .div li {
     margin: 0 1rem;
+    font-size: 0.9em;
+}
+
+.div a {
+    color: var(--blue);
+}
+
+.div a::selection {
+    text-decoration: underline;
 }
