@@ -1,0 +1,17 @@
+.div {
+    display: flex;
+    align-items: center;
+}
+
+.div ul {
+    display: flex;
+    margin: 0;
+}
+
+.div li:first-child {
+    list-style-type: none;
+}
+
+.div li {
+    margin: 0 1rem;
+}

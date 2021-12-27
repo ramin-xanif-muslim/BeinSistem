@@ -507,7 +507,6 @@ export default function Owners() {
 					</Form.Item>
 				</Form>
 			</Modal>
-            
             <Modal
                 visible={showPermission}
                 title="Icazələr"

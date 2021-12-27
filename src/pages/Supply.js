@@ -16,6 +16,8 @@ import enters from "../ButtonsNames/Enters/buttonsNames";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
+import sendRequest from "../config/sentRequest";
+import SearchByDate from "../components/SearchByDate";
 const { Text } = Typography;
 export default function Supply() {
 	const [redirect, setRedirect] = useState(false);
@@ -532,6 +534,11 @@ export default function Supply() {
 			</Button>
 		</Dropdown>
 	);
+	const getSearcObjByDate = async (ob) => {
+        let res = await sendRequest("supplies/get.php", ob);
+        setDocumentList(res.List);
+        setallsum(res.AllSum);
+    };
 	if (isLoading) return "Loading...";
 
 	if (error) return "An error has occurred: " + error.message;
@@ -563,6 +570,9 @@ export default function Supply() {
 								content="Filter"
 							/>
 							<FastSearch className="search_header" />
+							<SearchByDate
+                                getSearcObjByDate={getSearcObjByDate}
+                            />
 						</div>
 						<div>{tableSettings}</div>
 					</div>
