@@ -50,6 +50,9 @@ import {
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import ProductGroupModal from "../../components/ProductGroupModal";
+import { useCustomForm } from "../../contexts/FormContext"; 
+import StockDrawer from "../../components/StockDrawer";
+
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -94,6 +97,7 @@ function NewSalePoint() {
         setStockLocalStorage,
         setStock,
     } = useTableCustom();
+    const { setStockDrawer } = useCustomForm();
     const [attrs, setAttrs] = useState(
         attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
     );
@@ -220,7 +224,7 @@ function NewSalePoint() {
                             </Form.Item>
                             <Button className="add-group-btn">
                                 <PlusOutlined
-                                // onClick={() => setStockDrawer(true)}
+                                onClick={() => setStockDrawer(true)}
                                 />
                             </Button>
                             <Form.Item
@@ -307,6 +311,8 @@ function NewSalePoint() {
                     </Row>
                 </Form>
             </div>
+            <StockDrawer />
+            <ProductModal />
         </div>
     );
 }

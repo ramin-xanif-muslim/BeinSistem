@@ -61,6 +61,7 @@ import {
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
+import CustomerDrawer from "../../components/CustomerDrawer";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -92,16 +93,9 @@ function PaymentOutDetail() {
         disable,
     } = useTableCustom();
     const {
-        docstock,
-        setDocStock,
         docmark,
-        setDocMark,
         setLoadingForm,
-        setStockDrawer,
-        stockDrawer,
-        createdStock,
-        setCreatedStock,
-        setProductModal,
+        setCustomerDrawer,
     } = useCustomForm();
     const [positions, setPositions] = useState([]);
     const [redirect, setRedirect] = useState(false);
@@ -178,6 +172,21 @@ function PaymentOutDetail() {
             {c.Name}
         </Option>
     ));
+	var ownerList;
+	owners
+		? (ownerList = owners)
+		: (ownerList = JSON.parse(localStorage.getItem("owners")));
+
+	var departmentList;
+	departments
+		? (departmentList = departments)
+		: (departmentList = JSON.parse(localStorage.getItem("departments")));
+	const ownerOption = Object.values(ownerList).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
+	const departmentOption = Object.values(departmentList).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
     const onChange = (value, option) => {
         if (value === "00000000-0000-0000-0000-000000000000") {
             form.setFieldsValue({
@@ -368,7 +377,7 @@ function PaymentOutDetail() {
                             <Col xs={24} md={24} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
-                                    // onClick={() =>setCustomerDrawer(true)}
+                                    onClick={() =>setCustomerDrawer(true)}
                                     />
                                 </Button>
                                 <Form.Item
@@ -383,7 +392,7 @@ function PaymentOutDetail() {
                                         className="customSelect"
                                         allowClear={true}
                                     >
-                                        {/* {customerOptions} */}
+                                        {customerOptions}
                                     </Select>
                                 </Form.Item>
                             </Col>
@@ -410,7 +419,7 @@ function PaymentOutDetail() {
                             <Col xs={24} md={24} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
-                                    // onClick={() =>setCustomerDrawer(true)}
+                                    onClick={() =>setCustomerDrawer(true)}
                                     />
                                 </Button>
                                 <Form.Item
@@ -493,7 +502,7 @@ function PaymentOutDetail() {
                                                             ) >= 0
                                                     }
                                                 >
-                                                    {/* {ownersOptions} */}
+                                                    {ownerOption}
                                                 </Select>
                                             </Form.Item>
                                         </Col>
@@ -541,7 +550,7 @@ function PaymentOutDetail() {
                                                             ) >= 0
                                                     }
                                                 >
-                                                    {/* {depOptions} */}
+                                                    {departmentOption}
                                                 </Select>
                                             </Form.Item>
                                         </Col>
@@ -566,6 +575,8 @@ function PaymentOutDetail() {
                         </Row>
                     </Form>
                 </div>
+
+<CustomerDrawer />
             </div>
         );
 }

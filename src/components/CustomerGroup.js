@@ -37,6 +37,7 @@ function convert(array) {
 }
 
 function CustomerGroup() {
+    var convertedDatas = [];
     const {
         setProductGroups,
         setProductGroupsLocalStorage,
@@ -72,34 +73,37 @@ function CustomerGroup() {
 
     if (error) return "An error has occurred: " + error.message;
 
-    if (redirect) return <Redirect to={`/editProductGroup/${editId}`} />;
+    if (redirect) return <Redirect to={`/editCustomerGroup/${editId}`} />;
 
-    Object.values(data.Body.List).map((d) => {
-        d.ParentId === "00000000-0000-0000-0000-000000000000"
+    if (Object.keys(data.Body.List).length > 0) {
+        Object.values(data.Body.List).map((d) => {
+          d.ParentId === "00000000-0000-0000-0000-000000000000"
             ? (pid = "")
             : (pid = d.ParentId);
-        datas.push({
+          datas.push({
             id: d.Id,
             name: d.Name,
             parent: pid,
             title: d.Name,
             key: d.Id,
             icon: (
-                <EditOutlined
-                    onClick={(e) => handleEdit(e, d.Id)}
-                    className="editGr"
-                />
+              <EditOutlined
+                onClick={(e) => handleEdit(e, d.Id)}
+                className="editGr"
+              />
             ),
+          });
         });
-    });
+        convertedDatas = convert(datas);
+      }
 
-    datas.unshift({
+      convertedDatas.unshift({
         id: "",
-        name: "Bütün müştərilər",
+        name: "Bütün məhsullar",
         parent: "",
-        title: "Bütün müştərilər",
+        title: "Bütün məhsullar",
         key: "",
-    });
+      });
 
     const onSelect = (keys, info) => {
         setSearchGr(keys[0]);

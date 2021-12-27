@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useEffect, useState, useMemo, useRef } from "react";
-import { fetchProductGroupId, fetchRefList } from "../../api";
+import { fetchProductGroupId, fetchCustomerGroupId, fetchRefList } from "../../api";
 import DocButtons from "../../components/DocButtons";
 import {
     Form,
@@ -32,7 +32,7 @@ import {
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
-import { updateProduct } from "../../api";
+import { updateCustomer } from "../../api";
 var mods = {};
 let lastObject = {};
 const { Option } = Select;
@@ -43,14 +43,14 @@ let count = 0;
 let oneRefArray = [];
 var guid =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-function ProductGroupDetail() {
+function CustomerGroupDetail() {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
 
     const inputEl = useRef(null);
-    const { progr_id } = useParams();
+    const { cusgr_id } = useParams();
     const {
-        productGroups,
+        customerGroups,
         departments,
         owners,
         attributes,
@@ -77,16 +77,16 @@ function ProductGroupDetail() {
     const [linked, setLinked] = useState(null);
     const [listLength, setListLength] = useState(0);
     const { isLoading, error, data, isFetching } = useQuery(
-        ["productgroup", progr_id],
-        () => fetchProductGroupId(progr_id)
+        ["customergroups", cusgr_id],
+        () => fetchCustomerGroupId(cusgr_id)
     );
     const onClose = () => {
         message.destroy();
     };
     var obj;
-    productGroups
-        ? (obj = productGroups)
-        : (obj = JSON.parse(localStorage.getItem("progroups")));
+    customerGroups
+        ? (obj = customerGroups)
+        : (obj = JSON.parse(localStorage.getItem("cusgroups")));
 
     const handleFinish = async (values) => {
         setDisable(true);
@@ -96,7 +96,7 @@ function ProductGroupDetail() {
         message.loading({ content: "Loading...", key: "progr_update" });
 
         updateMutation.mutate(
-            { id: progr_id, controller: "productfolders", filter: values },
+            { id: cusgr_id, controller: "customergroups", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
@@ -106,8 +106,8 @@ function ProductGroupDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries(
-                            "productfolders",
-                            progr_id
+                            "customergroups",
+                            cusgr_id
                         );
                     } else {
                         message.error({
@@ -131,8 +131,8 @@ function ProductGroupDetail() {
             setDisable(false);
         }
     };
-    const updateMutation = useMutation(updateProduct, {
-        refetchQueris: ["productgroup", progr_id],
+    const updateMutation = useMutation(updateCustomer, {
+        refetchQueris: ["customergroups", cusgr_id],
     });
 
     if (isLoading) return "Loading...";
@@ -154,10 +154,10 @@ function ProductGroupDetail() {
             </div>
 
             <DocButtons
-                controller={"productfolders"}
+                controller={"customergroups"}
                 additional={"none"}
-                editid={progr_id}
-                closed={"p=product"}
+                editid={cusgr_id}
+                closed={"p=customer"}
             />
             <div className="formWrapper">
                 <Form
@@ -218,4 +218,4 @@ function ProductGroupDetail() {
     );
 }
 
-export default ProductGroupDetail;
+export default CustomerGroupDetail;;

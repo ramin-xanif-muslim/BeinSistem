@@ -116,6 +116,7 @@ const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 function App() {
   const { loggedIn, token, firstLogin } = useAuth();
   const { nav } = useTableCustom();
+
   return (
     <>
       <React.Suspense
