@@ -15,6 +15,7 @@ import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
 import { SettingOutlined } from "@ant-design/icons";
+import { isObject } from "../config/function/findadditionals";
 export default function Product() {
 	const [redirect, setRedirect] = useState(false);
 	const [editId, setEditId] = useState("");
@@ -502,16 +503,15 @@ export default function Product() {
 		}
 	);
 
-	useEffect(() => {
-		if (
-			!isFetching &&
-			!data === "Tarifə görə məhdudiyyət, Sessiyanız bitdi"
-		) {
-			setProdutcList(data.Body.List);
-		} else {
-			setProdutcList([]);
-		}
-	}, [isFetching]);
+    useEffect(() => {
+        if (!isFetching) {
+            if (isObject(data.Body)) {
+                setProdutcList(data.Body.List);
+            }
+        } else {
+            setProdutcList([]);
+        }
+    }, [isFetching]);
 
 	useEffect(() => {
 		setRefList([]);

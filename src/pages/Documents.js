@@ -12,7 +12,6 @@ import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
-import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
@@ -61,20 +60,20 @@ export default function Sale() {
 
     const [documentList, setDocumentList] = useState([]);
     const { isLoading, error, data, isFetching } = useQuery(
-        ["sales", page, direction, fieldSort, doSearch, search, advanced],
+        ["documents", page, direction, fieldSort, doSearch, search, advanced],
         () => {
             return isFilter === true
                 ? fetchFilterPage(
-                      "sales",
+                      "documents",
                       advancedPage,
                       advanced,
                       direction,
                       fieldSort
                   )
                 : doSearch
-                ? fecthFastPage("sales", page, search)
+                ? fecthFastPage("documents", page, search)
                 : !isFilter && !doSearch
-                ? fetchPage("sales", page, direction, fieldSort)
+                ? fetchPage("documents", page, direction, fieldSort)
                 : null;
         }
     );
@@ -581,9 +580,12 @@ export default function Sale() {
         </Dropdown>
     );
     const getSearcObjByDate = async (ob) => {
-        let res = await sendRequest("sales/get.php", ob);
+        let res = await sendRequest("documents/get.php", ob);
         setDocumentList(res.List);
         setallsum(res.AllSum);
+        setallprofit(res.AllProfit);
+        setallbonus(res.BonusSum);
+        setallbank(res.BankSum);
     };
     if (isLoading) return "Loading...";
 
@@ -593,7 +595,7 @@ export default function Sale() {
             <Row className="header_row">
                 <Col xs={24} md={24} xl={4}>
                     <div className="page_heder_left">
-                        <h2>Satışlar</h2>
+                        <h2>Sənədlər</h2>
                     </div>
                 </Col>
                 <Col xs={24} md={24} xl={20}>

@@ -277,13 +277,7 @@ function EnterDetail() {
 					outerDataSource.forEach((p) => {
 						defaultCostArray.push(Number(p.Price));
 					});
-					console.log("defaultCostArray", defaultCostArray);
 					if (hasConsumption) {
-						console.log(hasConsumption);
-						console.log(positions);
-						console.log(consumption);
-						console.log(docSum);
-						console.log(FindAdditionals(consumption, docSum, 12));
 						consumtionPriceArray = [];
 						outerDataSource.forEach((p) => {
 							consumtionPriceArray.push(
@@ -294,10 +288,6 @@ function EnterDetail() {
 								)
 							);
 						});
-						console.log(
-							"consumtionPriceArray",
-							consumtionPriceArray
-						);
 						return ConvertFixedTable(consumtionPriceArray[index]);
 					} else {
 						return ConvertFixedTable(defaultCostArray[index]);

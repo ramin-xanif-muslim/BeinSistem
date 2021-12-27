@@ -22,6 +22,12 @@ const ProductGroupDetail = React.lazy(() =>
 const CustomerGroupDetail = React.lazy(() =>
   import("./pages/CustomerGroupDetail/index")
 );
+const Dashboard = React.lazy(() =>
+  import("./pages/Dashboard")
+);
+const Documents = React.lazy(() =>
+  import("./pages/Documents")
+);
 const EnterDetail = React.lazy(() => import("./pages/EnterDetail"));
 const SupplyReturnDetail = React.lazy(() =>
   import("./pages/SupplyReturnDetail")
@@ -236,6 +242,14 @@ function App() {
               <Route
                 path="/editCustomerGroup/:cusgr_id"
                 component={CustomerGroupDetail}
+              ></Route>
+              <Route
+                path="/p=dashboard"
+                component={Dashboard}
+              ></Route>
+              <Route
+                path="/p=documents"
+                component={Documents}
               ></Route>
               <Route path="/newenter" component={NewEnter}></Route>
               <Route

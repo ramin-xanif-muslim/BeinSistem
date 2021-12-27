@@ -21,7 +21,6 @@ import {
     Dropdown,
     message,
     Popconfirm,
-	Typography,
     Card,
     Select,
     Spin,
@@ -46,17 +45,10 @@ import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import { updateProduct } from "../../api";
 import ProductGroupModal from "../../components/ProductGroupModal";
-import { useCustomForm } from "../../contexts/FormContext";
-import {
-	FindAdditionals,
-	FindCofficient,
-	ConvertFixedTable,
-} from "../../config/function/findadditionals";
 var mods = {};
 let lastObject = {};
 const { Option } = Select;
 const { TextArea } = Input;
-let customPositions = [];
 const { Panel } = Collapse;
 let array = [];
 let count = 0;
@@ -70,7 +62,6 @@ function ProductDetail() {
     const inputEl = useRef(null);
     const { product_id } = useParams();
     const {
-        docPage,
         productGroups,
         setProductGroupsLocalStorage,
         setProductGroups,
@@ -81,7 +72,6 @@ function ProductDetail() {
 		setOuterDataSource,
         attrLoading,
         setAttrLoading,
-        docSum,
         refList,
         setRefList,
         setRefsLocalStorage,
@@ -97,29 +87,9 @@ function ProductDetail() {
         disable,
         setDisable,
     } = useTableCustom();
-	const {
-		docstock,
-		setDocStock,
-		docmark,
-		setDocMark,
-		setLoadingForm,
-		setStockDrawer,
-		stockDrawer,
-		createdStock,
-		setCreatedStock,
-		setProductModal,
-
-		isPayment,
-		setPaymentModal,
-		isReturn,
-
-		saveFromModal,
-		setRedirectSaveClose,
-	} = useCustomForm();
     const [attrs, setAttrs] = useState(
         attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
     );
-    console.log( localStorage.getItem("attr"))
     const [pricetypes, setPriceTypes] = useState(
         prices ? prices : JSON.parse(localStorage.getItem("prices"))
     );
@@ -131,20 +101,13 @@ function ProductDetail() {
     const [linked, setLinked] = useState(null);
     const [listLength, setListLength] = useState(0);
     const [isArch, setIsArch] = useState(0);
-    
-	const [redirect, setRedirect] = useState(false);
-	const { doc_id } = useParams();
-	const [hasConsumption, setHasConsumption] = useState(false);
-	const [status, setStatus] = useState(false);
-	const [consumption, setConsumption] = useState(0);
-	const [initial, setInitial] = useState(null);
-	const [columnChange, setColumnChange] = useState(false);
-	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-
     const { isLoading, error, data, isFetching } = useQuery(
         ["products", product_id],
         () => fetchProductId(product_id)
     );
+    const onClose = () => {
+        message.destroy();
+    };
 
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -168,215 +131,7 @@ function ProductDetail() {
 			setDisable(false);
 		}
 	}, [outerDataSource]);
-	useEffect(() => {
-		if (!isFetching) {
-			customPositions = [];
-			Object.values(data.Body.List[0].Positions).map((d) =>
-				customPositions.push(d)
-			);
-			customPositions.map((c, index) => (c.key = index));
-			customPositions.map((c) => (c.SellPrice = c.Price));
-			customPositions.map((c) =>
-				c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
-			);
-			customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
-
-			customPositions.map(
-				(c) =>
-					(c.TotalPrice =
-						parseFloat(c.Price) * parseFloat(c.Quantity))
-			);
-			customPositions.map(
-				(c) =>
-					(c.CostPriceTotal =
-						parseFloat(c.CostPrice) * parseFloat(c.Quantity))
-			);
-			setPositions(customPositions);
-			if (data.Body.List[0].Consumption) {
-				setHasConsumption(true);
-			}
-			setConsumption(data.Body.List[0].Consumption);
-			setLoadingForm(false);
-			setStatus(data.Body.List[0].Status);
-			form.setFieldsValue({
-				mark: data.Body.List[0].Mark,
-			});
-		} else {
-			customPositions = [];
-			setPositions([]);
-			setLoadingForm(true);
-		}
-	}, [isFetching]);
-
-    const onClose = () => {
-        message.destroy();
-    };
-	const handleVisibleChange = (flag) => {
-		setVisibleMenuSettings(flag);
-	};
-	const onChangeConsumption = (e) => {
-		setHasConsumption(true);
-		setConsumption(e.target.value);
-	};
-	const columns = useMemo(() => {
-		return [
-			{
-				title: "№",
-				dataIndex: "Order",
-				className: "orderField",
-				editable: false,
-				isVisible: true,
-				render: (text, record, index) => index + 1 + 100 * docPage,
-			},
-			{
-				title: "Adı",
-				dataIndex: "Name",
-				className: "max_width_field_length",
-				editable: false,
-				isVisible: true,
-				sorter: (a, b) => a.Name.localeCompare(b.Name),
-			},
-			{
-				title: "Barkodu",
-				dataIndex: "BarCode",
-				isVisible: true,
-				className: "max_width_field_length",
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				sorter: (a, b) => a.BarCode - b.BarCode,
-			},
-			{
-				title: "Miqdar",
-				dataIndex: "Quantity",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Qiyməti",
-				dataIndex: "Price",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Məbləğ",
-				dataIndex: "TotalPrice",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Qalıq",
-				dataIndex: "StockQuantity",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Maya",
-				dataIndex: "CostPr",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					let defaultCostArray = [];
-					let consumtionPriceArray = [];
-					outerDataSource.forEach((p) => {
-						defaultCostArray.push(Number(p.Price));
-					});
-					if (hasConsumption) {
-						consumtionPriceArray = [];
-						outerDataSource.forEach((p) => {
-							consumtionPriceArray.push(
-								FindAdditionals(
-									consumption,
-									docSum,
-									Number(p.Price)
-								)
-							);
-						});
-						return ConvertFixedTable(consumtionPriceArray[index]);
-					} else {
-						return ConvertFixedTable(defaultCostArray[index]);
-					}
-				},
-			},
-			{
-				title: "Cəm Maya",
-				dataIndex: "CostTotalPr",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					let defaultCostArray = [];
-					let consumtionPriceArray = [];
-					outerDataSource.forEach((p) => {
-						defaultCostArray.push(Number(p.TotalPrice));
-					});
-					if (hasConsumption) {
-						consumtionPriceArray = [];
-						outerDataSource.forEach((p) => {
-							consumtionPriceArray.push(
-								FindAdditionals(
-									consumption,
-									docSum,
-									Number(p.TotalPrice)
-								)
-							);
-						});
-
-						return ConvertFixedTable(consumtionPriceArray[index]);
-					} else {
-						return ConvertFixedTable(defaultCostArray[index]);
-					}
-				},
-			},
-			{
-				title: "Sil",
-				className: "orderField printField",
-				dataIndex: "operation",
-				isVisible: true,
-				editable: false,
-				render: (_, record) => (
-					<Typography.Link>
-						<Popconfirm
-							title="Silməyə əminsinizmi?"
-							okText="Bəli"
-							cancelText="Xeyr"
-							onConfirm={() => handleDelete(record.key)}
-						>
-							<a className="deletePosition">Sil</a>
-						</Popconfirm>
-					</Typography.Link>
-				),
-			},
-		];
-	}, [consumption, outerDataSource, docSum]);
-
-
+    
     useEffect(() => {
         setLinkedList([]);
         setOneRef([]);
@@ -435,16 +190,14 @@ function ProductDetail() {
         setLinkedList([]);
         setOneRef([]);
         count = 0;
-        if (attrs !== null) {
-            const elements = attrs.filter((a) => a.ReferenceTypeId !== "");
-            setListLength(Object.keys(elements).length);
-            for (const elem of elements) {
-                const arr = await fetchRefList(elem.ReferenceTypeId);
-                count++;
-                setLinked(elem.ReferenceTypeId);
-                setList(arr);
-            }
-        } 
+        const elements = attrs.filter((a) => a.ReferenceTypeId != "");
+        setListLength(Object.keys(elements).length);
+        for (const elem of elements) {
+            const arr = await fetchRefList(elem.ReferenceTypeId);
+            count++;
+            setLinked(elem.ReferenceTypeId);
+            setList(arr);
+        }
     };
     const updateMutation = useMutation(updateProduct, {
         refetchQueris: ["products", product_id],
@@ -459,6 +212,7 @@ function ProductDetail() {
             [key.toLowerCase()]: selectedProduct[key],
         }))
     );
+    console.log(initialValues)
     if (Array.isArray(selectedProduct.Prices)) {
         selectedProduct.Prices.map((p) => {
             var name = "PriceType_" + p.PriceType;
