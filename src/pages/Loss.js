@@ -12,11 +12,13 @@ import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
+import SearchByDate from "../components/SearchByDate";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 import { isObject } from "../config/function/findadditionals";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
+import sendRequest from "../config/sentRequest";
 const { Text } = Typography;
 export default function Loss() {
     const [redirect, setRedirect] = useState(false);
@@ -494,6 +496,13 @@ export default function Loss() {
             </Button>
         </Dropdown>
     );
+
+    const getSearcObjByDate = async (ob) => {
+        let res = await sendRequest("losses/get.php", ob);
+        setDocumentList(res.List);
+        setallsum(res.AllSum);
+    };
+
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -525,6 +534,9 @@ export default function Loss() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
+                            <SearchByDate
+                                getSearcObjByDate={getSearcObjByDate}
+                            />
                         </div>
                         <div>{tableSettings}</div>
                     </div>

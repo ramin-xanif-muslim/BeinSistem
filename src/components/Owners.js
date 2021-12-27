@@ -373,7 +373,6 @@ export default function Owners() {
                         login: edit ? edit.Login : "",
                         departmentid: edit ? edit.DepartmentId : "",
                         description: edit ? edit.Description : "",
-                        
 						id: edit ? edit.Id : "",
                         status: edit && edit.Status === 1 ? true  : false
 					}}
@@ -404,7 +403,6 @@ export default function Owners() {
 									if (!value || patName.test(value)) {
 										return Promise.resolve();
 									}
-
                                     return Promise.reject(
                                         new Error(
                                             "İstifadəçi adı minimum 4 hərfdən ibarət olmalıdır"
@@ -509,7 +507,6 @@ export default function Owners() {
 					</Form.Item>
 				</Form>
 			</Modal>
-
             <Modal
                 visible={showPermission}
                 title="Icazələr"

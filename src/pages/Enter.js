@@ -513,11 +513,10 @@ export default function Enter() {
         </Dropdown>
     );
     const getSearcObjByDate = async (ob) => {
-        let res = await sendRequest('enters/get.php',ob)
-        setDocumentList(res.List)
-        setallsum(res.AllSum)
-        console.log(res)
-    }
+        let res = await sendRequest("enters/get.php", ob);
+        setDocumentList(res.List);
+        setallsum(res.AllSum);
+    };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -560,7 +559,9 @@ export default function Enter() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
-                            <SearchByDate getSearcObjByDate={getSearcObjByDate} />
+                            <SearchByDate
+                                getSearcObjByDate={getSearcObjByDate}
+                            />
                         </div>
 
                         <div>{tableSettings}</div>
