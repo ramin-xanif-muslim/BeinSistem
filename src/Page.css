@@ -562,6 +562,7 @@ tr.ant-table-expanded-row:hover td {
 }
 #taxes-table {
     border: 1px solid #1164b1;
+    border-bottom: unset;
     /* border-radius: 5px; */
 }
 /* #taxes-table th:first-child {
@@ -580,4 +581,22 @@ tr.ant-table-expanded-row:hover td {
 .taxes-input input {
     font-weight: 600;
     color: #1164b1;
+}
+.taxes-progress .ant-progress-inner {
+    width: 90px !important;
+    height: 90px !important;
+}
+.ant-progress-circle-trail {
+    stroke: #1164b1;
+}
+.ant-progress-inner:not(.ant-progress-circle-gradient)
+    .ant-progress-circle-path {
+    stroke: #fff;
+}
+.attribute-modal {
+    width: 600px !important;
+}
+
+.ant-list-item-meta-title > a {
+    font-weight: 400;
 }

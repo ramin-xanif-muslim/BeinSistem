@@ -289,7 +289,7 @@ function Taxes() {
                 <Col xs={24} md={24} xl={3}></Col>
                 <Col xs={24} md={24} xl={3}>
                     <Progress
-                        color="red"
+                        className="taxes-progress"
                         type="circle"
                         percent={totalPercent}
                     />
@@ -341,6 +341,7 @@ function Taxes() {
                         size="small"
                     />
                     <Button
+                        className="customsavebtn"
                         style={{
                             float: "right",
                             width: "100%",
@@ -349,7 +350,6 @@ function Taxes() {
                         }}
                         onClick={() => handleSaveTaxes()}
                         form="taxesForm"
-                        type="primary"
                     >
                         Yadda saxla
                     </Button>
