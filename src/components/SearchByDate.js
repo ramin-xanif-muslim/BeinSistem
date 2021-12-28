@@ -1,8 +1,37 @@
 import React, { useState } from "react";
-import { Radio } from "antd";
 import style from "./SearchByDate.module.css";
 
 function SearchByDate({ getSearcObjByDate }) {
+
+    const [activId, setActivId] = useState(0)
+
+    const [dates, setDates] = useState([
+        {
+            id: 1,
+            title: "Bu gün",
+            onclick: false,
+        },
+        {
+            id: 2,
+            title: "Dünən",
+            onclick: false,
+        },
+        {
+            id: 3,
+            title: "Bu ay",
+            onclick: false,
+        },
+        {
+            id: 4,
+            title: "30 gün",
+            onclick: false,
+        },
+        {
+            id: 5,
+            title: "Müddətsiz",
+            onclick: false,
+        },
+    ]);
     const obj = {
         pg: 0,
         lm: 25,
@@ -80,37 +109,8 @@ function SearchByDate({ getSearcObjByDate }) {
 
     const onClick = (i) => {
         select(i);
-        setOnClick(true);
-        setDates([...dates]);
+        setActivId(i)
     };
-
-    const [dates, setDates] = useState([
-        {
-            id: 1,
-            title: "Bu gün",
-            onclick: false,
-        },
-        {
-            id: 2,
-            title: "Dünən",
-            onclick: false,
-        },
-        {
-            id: 3,
-            title: "Bu ay",
-            onclick: false,
-        },
-        {
-            id: 4,
-            title: "30 gün",
-            onclick: false,
-        },
-        {
-            id: 5,
-            title: "Müddətsiz",
-            onclick: false,
-        },
-    ]);
 
     return (
         <div className={style.div}>
@@ -119,7 +119,7 @@ function SearchByDate({ getSearcObjByDate }) {
                     return (
                         <li
                             onClick={() => onClick(m.id)}
-                            className={m.onclick ? style.active : ""}
+                            className={m.id === activId ? style.active : ""}
                         >
                             <a>{m.title}</a>
                         </li>
