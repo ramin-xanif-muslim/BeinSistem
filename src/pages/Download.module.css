@@ -1,0 +1,20 @@
+img {
+    width: 50rem;
+}
+
+h1 {
+    font-weight: 600;
+}
+
+.rowCenter {
+    justify-content: center;
+}
+
+.colCenter {
+    display: flex;
+    align-items: center;
+}
+
+button {
+    width: 75%;
+}

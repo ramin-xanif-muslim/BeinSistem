@@ -124,39 +124,38 @@ export default function Sale() {
                           (i) => i.dataIndex === "DocType"
                       ).show
                     : true,
-                defaultSortOrder:
-                    initialSort === "DocType" ? defaultdr : null,
+                defaultSortOrder: initialSort === "DocType" ? defaultdr : null,
                 sorter: (a, b) => null,
-				render: (value, row, index) => {
-					switch (value) {
-						case "Return":
-							return "Pərakəndə Qaytarma";
-						case "Sale":
-							return "Pərakəndə Satış";
-						case "PaymentOut":
-							return "Məxaric nəğd";
-						case "PaymentIn":
-							return "Mədaxil nəğd";
-						case "Enter":
-							return "Alış";
-						case "Move":
-							return "Alış";
-						case "Supply":
-							return "Alış";
-						case "SupplyReturn":
-							return "Alış";
-						case "Demand":
-							return "Satış";
-						case "Loss":
-							return "Satış";
-						case "InvoiceOut":
-							return "Satış";
-						case "InvoiceIn":
-							return "Nağdsız";
-						default:
-							break;
-					}
-				},
+                render: (value, row, index) => {
+                    switch (value) {
+                        case "Return":
+                            return "Pərakəndə Qaytarma";
+                        case "Sale":
+                            return "Pərakəndə Satış";
+                        case "PaymentOut":
+                            return "Məxaric nəğd";
+                        case "PaymentIn":
+                            return "Mədaxil nəğd";
+                        case "Enter":
+                            return "Daxilolma";
+                        case "Move":
+                            return "Yerdəyişmə";
+                        case "Supply":
+                            return "Alış";
+                        case "SupplyReturn":
+                            return "Alışın qaytarması";
+                        case "Demand":
+                            return "Satış";
+                        case "Loss":
+                            return "Silinmə";
+                        case "InvoiceOut":
+                            return "Məxaric nağdsız";
+                        case "InvoiceIn":
+                            return "Mədaxil nağdsız";
+                        default:
+                            break;
+                    }
+                },
             },
             {
                 dataIndex: "Moment",
