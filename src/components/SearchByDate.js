@@ -80,7 +80,6 @@ function SearchByDate({ getSearcObjByDate }) {
 
     const onClick = (i) => {
         select(i);
-        setOnClick(true);
         setDates([...dates]);
     };
 
@@ -118,7 +117,7 @@ function SearchByDate({ getSearcObjByDate }) {
                 {dates.map((m) => {
                     return (
                         <li
-                            onClick={() => onClick(m.id)}
+                            // onClick={() => onClick(m.id)}
                             className={m.onclick ? style.active : ""}
                         >
                             <a>{m.title}</a>
