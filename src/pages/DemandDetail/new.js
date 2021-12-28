@@ -327,9 +327,6 @@ function NewDemand() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    {
-                        console.log(row);
-                    }
                     return row.IsPack === 1 || row.IsPack === true ? (
                         <div className="packOrQuantityWrapper">
                             {row.ShowPacket
@@ -673,7 +670,7 @@ function NewDemand() {
                         >
                             <DocTable
                                 headers={columns.filter(
-                                    (c) => c.isVisible == true
+                                    (c) => c.isVisible === true
                                 )}
                                 datas={positions}
                             />

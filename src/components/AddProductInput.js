@@ -105,6 +105,7 @@ function AddProductInput() {
       `https://dev.bein.az/controllers/products/getfast.php`,
       obj
     );
+    console.log(data)
     setList(data);
   }
 
@@ -200,7 +201,7 @@ function AddProductInput() {
                         </div>
                       </div>
                       <div className="product-price">
-                        <p>{(Math.round(option.buyprice * 100) / 100).toFixed(2)}<sup>₼</sup></p>
+                        <p>{(Math.round(option.price * 100) / 100).toFixed(2)}<sup>₼</sup></p>
                       </div>
                     </div>
                     <div className="item-row second-row">
