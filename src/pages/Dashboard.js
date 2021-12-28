@@ -60,7 +60,7 @@ function Dashboard() {
                     {statistic}
                 </Col>
             </Row>
-            {/* <Row>
+            <Row>
                 <Col xs={24} md={24} xl={6}>
                     {statistic}
                 </Col>
@@ -73,7 +73,7 @@ function Dashboard() {
                 <Col xs={24} md={24} xl={6}>
                     {statistic}
                 </Col>
-            </Row> */}
+            </Row>
             <Row>
                 <DemoLine />
             </Row>
