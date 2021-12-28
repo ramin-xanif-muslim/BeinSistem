@@ -21,6 +21,10 @@
     color: var(--blue);
 }
 
-.div a::selection {
-    text-decoration: underline;
+.div a:hover {
+    font-weight: 600;
+}
+
+.active {
+    font-weight: 600;
 }

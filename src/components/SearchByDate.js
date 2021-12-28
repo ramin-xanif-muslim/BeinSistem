@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import { Radio } from "antd";
 import style from "./SearchByDate.module.css";
 
 function SearchByDate({ getSearcObjByDate }) {
     const obj = {
         pg: 0,
-		lm: 25,
-		dr: 1,
+        lm: 25,
+        dr: 1,
         sr: "Moment",
         momb: "",
         mome: "",
@@ -76,24 +77,54 @@ function SearchByDate({ getSearcObjByDate }) {
             return;
         }
     };
+
+    const onClick = (i) => {
+        select(i);
+        setOnClick(true);
+        setDates([...dates]);
+    };
+
+    const [dates, setDates] = useState([
+        {
+            id: 1,
+            title: "Bu gün",
+            onclick: false,
+        },
+        {
+            id: 2,
+            title: "Dünən",
+            onclick: false,
+        },
+        {
+            id: 3,
+            title: "Bu ay",
+            onclick: false,
+        },
+        {
+            id: 4,
+            title: "30 gün",
+            onclick: false,
+        },
+        {
+            id: 5,
+            title: "Müddətsiz",
+            onclick: false,
+        },
+    ]);
+
     return (
         <div className={style.div}>
             <ul>
-                <li onClick={() => select(1)}>
-                    <a>Bu gün</a>
-                </li>
-                <li onClick={() => select(2)}>
-                    <a>Dünən</a>
-                </li>
-                <li onClick={() => select(3)}>
-                    <a>Bu ay</a>
-                </li>
-                <li onClick={() => select(4)}>
-                    <a>30 gün</a>
-                </li>
-                <li onClick={() => select(5)}>
-                    <a>Müddətsiz</a>
-                </li>
+                {dates.map((m) => {
+                    return (
+                        <li
+                            onClick={() => onClick(m.id)}
+                            className={m.onclick ? style.active : ""}
+                        >
+                            <a>{m.title}</a>
+                        </li>
+                    );
+                })}
             </ul>
         </div>
     );
