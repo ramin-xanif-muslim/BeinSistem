@@ -520,12 +520,10 @@ export default function Product() {
 	}, []);
 
 	const getAttributes = async () => {
-		if (!data === "Tarifə görə məhdudiyyət, Sessiyanız bitdi") {
 			const attrResponse = await fetchAttributes();
             console.log(attrResponse)
 			setAttributes(attrResponse.Body.List);
 			setAttrLocalStorage(attrResponse.Body.List);
-		}
 	};
 	const getPrices = async () => {
 		const priceResponse = await fetchPriceTypes();

@@ -267,7 +267,6 @@ export default function Settlement() {
     }, [isFetching]);
 
     const editPage = (id, r) => {
-        console.log("cusid", r);
         setcusid(id);
         setVisibleDrawer(true);
     };
@@ -461,7 +460,7 @@ export default function Settlement() {
                 id="settlement-table"
                 className="short-table"
                 rowKey="Name"
-                columns={columns.filter((c) => c.show == true)}
+                columns={columns.filter((c) => c.show === true)}
                 onChange={onChange}
                 dataSource={documentList}
                 summary={() => (

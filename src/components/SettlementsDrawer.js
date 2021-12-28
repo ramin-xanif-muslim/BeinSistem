@@ -149,7 +149,6 @@ function SettlementsDrawer() {
 	};
 	useEffect(() => {
 		if (!isFetching) {
-			console.log(data.Body.List);
 			setDocumentList(data.Body.List);
 		} else {
 			setDocumentList([]);

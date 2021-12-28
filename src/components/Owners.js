@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
 import { Checkbox, Table } from "antd";
+import sendRequest from "../config/sentRequest";
 import {
     fetchSpendItems,
     delSpendItems,
@@ -310,6 +311,7 @@ export default function Owners() {
                 },
             }
         );
+        // console.log(res.List)
     };
     if (isLoading) return "Loading...";
 
@@ -491,17 +493,15 @@ export default function Owners() {
 					<Form.Item name="description" label="Şərh">
 						<Input />
 					</Form.Item>
-					<Form.Item
-						label="Status"
-						name="status"
-						valuePropName="checked"
-					>
-						<Checkbox
-                        // checked={true}
-							onChange={(e) => console.log(edit)}
-							name="st"
-						></Checkbox>
-					</Form.Item>
+							<Form.Item name="status"
+								valuePropName="checked"
+						            >
+								<Switch
+									checkedChildren="Aktiv"
+									unCheckedChildren="Deaktiv"
+									// defaultChecked
+								/>
+							</Form.Item>
 					<Form.Item hidden={true} name="id" label="id">
 						<Input />
 					</Form.Item>

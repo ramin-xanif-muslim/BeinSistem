@@ -116,8 +116,10 @@ const CustomerOrders = React.lazy(() => import("./pages/CustomerOrders"));
 const NewCustomerOrder = React.lazy(() =>
   import("./pages/CustomerOrderDetail/new")
 );
+const DocumentDetail = React.lazy(() => import("./pages/DocumentDetail"));
 const SaleDetail = React.lazy(() => import("./pages/SaleDetail"));
 const Settings = React.lazy(() => import("./pages/Settings"));
+const Download = React.lazy(() => import("./pages/Download"));
 const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 function App() {
   const { loggedIn, token, firstLogin } = useAuth();
@@ -172,6 +174,7 @@ function App() {
               <Route path="/p=loss" component={Loss}></Route>
               <Route path="/editEnter/:doc_id" component={EnterDetail}></Route>
               <Route path="/editSale/:doc_id" component={SaleDetail}></Route>
+              <Route path="/editDocument/:doc_id" component={DocumentDetail}></Route>
               <Route
                 path="/editReturn/:doc_id"
                 component={ReturnDetail}
@@ -183,6 +186,10 @@ function App() {
               <Route
                 path="/editCustomerOrder/:doc_id"
                 component={CustomerOrderDetail}
+              ></Route>
+              <Route
+                path="/p=download"
+                component={Download}
               ></Route>
 
               <Route

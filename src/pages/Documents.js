@@ -20,6 +20,8 @@ import enters from "../ButtonsNames/Enters/buttonsNames";
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
+import SettlementsDrawer from "../components/SettlementsDrawer";
+import { useCustomForm } from "../contexts/FormContext";
 const { Text } = Typography;
 export default function Sale() {
     const [redirect, setRedirect] = useState(false);
@@ -57,6 +59,14 @@ export default function Sale() {
         setCustomersLocalStorage,
         setCustomers,
     } = useTableCustom();
+    const {
+        visibleDrawer,
+        setVisibleDrawer,
+        setcusid,
+        cusid,
+        setSaveFromModal,
+        setRedirectSaveClose,
+    } = useCustomForm();
 
     const [documentList, setDocumentList] = useState([]);
     const { isLoading, error, data, isFetching } = useQuery(
@@ -107,16 +117,46 @@ export default function Sale() {
                 className: "linkedColumns",
             },
             {
-                dataIndex: "SalePointName",
-                title: "Satış nöqtəsi",
+                dataIndex: "DocType",
+                title: "Sənəd növü",
                 show: initial
                     ? Object.values(initial).find(
-                          (i) => i.dataIndex === "SalePointName"
+                          (i) => i.dataIndex === "DocType"
                       ).show
                     : true,
                 defaultSortOrder:
-                    initialSort === "SalePointName" ? defaultdr : null,
+                    initialSort === "DocType" ? defaultdr : null,
                 sorter: (a, b) => null,
+				render: (value, row, index) => {
+					switch (value) {
+						case "Return":
+							return "Pərakəndə Qaytarma";
+						case "Sale":
+							return "Pərakəndə Satış";
+						case "PaymentOut":
+							return "Məxaric nəğd";
+						case "PaymentIn":
+							return "Mədaxil nəğd";
+						case "Enter":
+							return "Alış";
+						case "Move":
+							return "Alış";
+						case "Supply":
+							return "Alış";
+						case "SupplyReturn":
+							return "Alış";
+						case "Demand":
+							return "Satış";
+						case "Loss":
+							return "Satış";
+						case "InvoiceOut":
+							return "Satış";
+						case "InvoiceIn":
+							return "Nağdsız";
+						default:
+							break;
+					}
+				},
             },
             {
                 dataIndex: "Moment",
@@ -440,9 +480,13 @@ export default function Sale() {
     }, [isFetching]);
 
     const editPage = (id) => {
-        setRedirect(true);
-        setEditId(id);
+        setcusid(id);
+        setVisibleDrawer(true);
     };
+    // const editPage = (id) => {
+    //     setRedirect(true);
+    //     setEditId(id);
+    // };
 
     const handlePagination = (pg) => {
         setPage(pg - 1);
@@ -501,7 +545,6 @@ export default function Sale() {
             ...findelement,
             ...replacedElement,
         });
-        console.log(initialCols);
         setFilterChanged(true);
     };
     const menu = (
@@ -589,7 +632,7 @@ export default function Sale() {
     };
     if (isLoading) return "Loading...";
 
-    if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
+    if (redirect) return <Redirect push to={`/editDocument/${editId}`} />;
     return (
         <div className="custom_display">
             <Row className="header_row">
@@ -667,9 +710,12 @@ export default function Sale() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onDoubleClick: () => editPage(r.Id),
+                    // onDoubleClick: () => editPage(r.Id),
+                    onDoubleClick: () => editPage(r.CustomerId, r),
+                    // onClick: (e) => editClickPage(e, r.Id),
                 })}
             />
+            {visibleDrawer ? <SettlementsDrawer /> : null}
         </div>
     );
 }

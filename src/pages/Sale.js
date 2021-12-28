@@ -502,7 +502,6 @@ export default function Sale() {
             ...findelement,
             ...replacedElement,
         });
-        console.log(initialCols);
         setFilterChanged(true);
     };
     const menu = (
@@ -625,7 +624,7 @@ export default function Sale() {
 
             <Table
                 rowKey="Name"
-                columns={columns.filter((c) => c.show == true)}
+                columns={columns.filter((c) => c.show === true)}
                 onChange={onChange}
                 dataSource={documentList}
                 summary={() => (
