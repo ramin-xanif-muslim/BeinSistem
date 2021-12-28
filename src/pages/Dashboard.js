@@ -1,89 +1,212 @@
-import { Col, Row } from "antd";
+import { Col, Row, Switch, Select, DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import style from "./Dashboard.module.css";
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
-import { Line } from "@ant-design/charts";
+import { Line, Pie, G2 } from "@ant-design/charts";
 import sendRequest from "../config/sentRequest";
 
 function Dashboard() {
     const [data, setData] = useState({});
     useEffect(async () => {
-        let res = await sendRequest("dashboard/get.php",{});
-        setData(res.cards)
-        console.log(res.cards)
-    },[]);
+        // let res = await sendRequest("dashboard/get.php", {});
+        // setData(res.cards);
+    }, []);
 
-    let datas = [
-        {
-            id: 1,
-            name: "SATIŞLAR",
-            date: "12 Dekabr 2021",
-        },
-    ];
+    const { Option } = Select;
 
-    let statistic = (
-        <div className={style.statistic}>
-            <div className={style.header}>
-                <p className={style.name}>SATIŞLAR</p>
-                <p className={style.date}>12 Dekabr 2021</p>
-            </div>
-            <hr />
-            <p className={style.amount}>₼ 1236.50</p>
-            <div className={style.footer}>
-                <span className={style.percent}>
-                    {true ? (
-                        <ArrowUpOutlined style={{ color: "#00c900" }} />
-                    ) : (
-                        <ArrowDownOutlined style={{ color: "#ff0000" }} />
-                    )}
-                    <p>33.87%</p>
-                </span>
-                <p className={style.ptext}>dünənə nisbətən</p>
-            </div>
-        </div>
-    );
+    function handleChange(value) {
+        console.log(`selected ${value}`);
+    }
 
     return (
         <div id="dashboard" className={style.div}>
-            <h1>Göstəricilər</h1>
+            <div className={style.dashboardHeader}>
+                <h1>Göstəricilər</h1>
+                <DatePicker picker="month" placeholder="Tarixi seçin" />
+            </div>
             <Row>
                 <Col xs={24} md={24} xl={6}>
-                    {statistic}
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>SATIŞLAR</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>₼ 1253.56</p>
+                        <div className={style.footer}>
+                            <span className={style.percent}>
+                                {true ? (
+                                    <ArrowUpOutlined
+                                        style={{ color: "#00c900" }}
+                                    />
+                                ) : (
+                                    <ArrowDownOutlined
+                                        style={{ color: "#ff0000" }}
+                                    />
+                                )}
+                                <p>33.85%</p>
+                            </span>
+                            <p className={style.ptext}>
+                                <i>dünənə nisbətən</i>
+                            </p>
+                        </div>
+                    </div>
                 </Col>
                 <Col xs={24} md={24} xl={6}>
-                    {statistic}
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>BORCLAR</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>
+                            <span>Borc (Alacaq):</span> 1253.56 ₼
+                        </p>
+                        <p className={style.amount}>
+                            <span>Borc (Verəcək):</span> 1253.56 ₼
+                        </p>
+                    </div>
                 </Col>
                 <Col xs={24} md={24} xl={6}>
-                    {statistic}
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>KOMİSYON SATIŞ</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>₼ 1253.56</p>
+                        <div className={style.footer}>
+                            <span className={style.percent}>
+                                {true ? (
+                                    <ArrowUpOutlined
+                                        style={{ color: "#00c900" }}
+                                    />
+                                ) : (
+                                    <ArrowDownOutlined
+                                        style={{ color: "#ff0000" }}
+                                    />
+                                )}
+                                <p>33.85%</p>
+                            </span>
+                            <p className={style.ptext}>
+                                <i>dünənə nisbətən</i>
+                            </p>
+                        </div>
+                    </div>
                 </Col>
                 <Col xs={24} md={24} xl={6}>
-                    {statistic}
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>ANBAR QALIĞI</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>
+                            <span>Maya:</span>1253.56 ₼
+                        </p>
+                    </div>
+                </Col>
+                <Col xs={24} md={24} xl={6}>
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>MƏNFƏƏT</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>₼ 1253.56</p>
+                        <div className={style.footer}>
+                            <span className={style.percent}>
+                                {true ? (
+                                    <ArrowUpOutlined
+                                        style={{ color: "#00c900" }}
+                                    />
+                                ) : (
+                                    <ArrowDownOutlined
+                                        style={{ color: "#ff0000" }}
+                                    />
+                                )}
+                                <p>33.85%</p>
+                            </span>
+                            <p className={style.ptext}>
+                                <i>dünənə nisbətən</i>
+                            </p>
+                        </div>
+                    </div>
+                </Col>
+                <Col xs={24} md={24} xl={6}>
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>ÖDƏNİŞLƏR</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>
+                            <span>Mədaxil:</span>1253.56 ₼
+                        </p>
+                        <p className={style.amount}>
+                            <span>Məxaric:</span>1253.56 ₼
+                        </p>
+                    </div>
+                </Col>
+                <Col xs={24} md={24} xl={6}>
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>SİFARİŞLƏR</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>
+                            <span>Rezerv:</span>1253.56 ₼
+                        </p>
+                        <p className={style.amount}>
+                            <span>Hazırlanıb:</span>1253.56 ₼
+                        </p>
+                    </div>
+                </Col>
+                <Col xs={24} md={24} xl={6}>
+                    <div className={style.statistic}>
+                        <div className={style.header}>
+                            <p className={style.name}>KAPİTAL</p>
+                            <p className={style.date}>Bu gün</p>
+                        </div>
+                        <hr />
+                        <p className={style.amount}>
+                            <span>Məbləğ:</span>1253.56 ₼
+                        </p>
+                    </div>
                 </Col>
             </Row>
-            <Row>
-                <Col xs={24} md={24} xl={6}>
-                    {statistic}
+            <Row className={style.row}>
+                <Col className={style.col} xs={24} md={24} xl={14}>
+                    <div className={style.analiticHeader}>
+                        <div className={style.analiticSelectText}>
+                            <h2> QRAFİK</h2>
+                            <Select
+                                className={style.analiticSelect}
+                                defaultValue="1"
+                                onChange={handleChange}
+                            >
+                                <Option value="1">SATIŞ</Option>
+                                <Option value="2">MƏNFƏƏT</Option>
+                                <Option value="3">KAPİTAL</Option>
+                            </Select>
+                        </div>
+                        <div className={style.time}>
+                            <p>30 gün</p>
+                            <Switch className={style.switch} />
+                            <p>2022-ci il</p>
+                        </div>
+                    </div>
+                    <DemoLine />
                 </Col>
-                <Col xs={24} md={24} xl={6}>
-                    {statistic}
+                <Col className={style.col} xs={24} md={24} xl={10}>
+                    <h2 style={{ margin: "auto" }}>BALANS</h2>
+                    <DemoPie />
                 </Col>
-                <Col xs={24} md={24} xl={6}>
-                    {statistic}
-                </Col>
-                <Col xs={24} md={24} xl={6}>
-                    {statistic}
-                </Col>
-            </Row>
-            <Row>
-                <DemoLine />
             </Row>
         </div>
     );
 }
-
-export default Dashboard;
-
-
 
 const DemoLine = () => {
     const data = [
@@ -124,6 +247,7 @@ const DemoLine = () => {
             Məbləğ: 13,
         },
     ];
+
     const config = {
         data,
         xField: "year",
@@ -158,3 +282,81 @@ const DemoLine = () => {
     };
     return <Line className={style.chart} {...config} />;
 };
+
+const DemoPie = () => {
+    const G = G2.getEngine("canvas");
+    const data = [
+        {
+            type: "Sahibkar",
+            value: 250,
+        },
+        {
+            type: "Kassa",
+            value: 1250,
+        },
+        {
+            type: "Balans",
+            value: 850,
+        },
+    ];
+    const cfg = {
+        appendPadding: 10,
+        data,
+        angleField: "value",
+        colorField: "type",
+        radius: 0.75,
+        legend: false,
+        label: {
+            type: "spider",
+            labelHeight: 40,
+            formatter: (data, mappingData) => {
+                const group = new G.Group({});
+                group.addShape({
+                    type: "circle",
+                    attrs: {
+                        x: 0,
+                        y: 0,
+                        width: 40,
+                        height: 50,
+                        r: 5,
+                        fill: mappingData.color,
+                    },
+                });
+                group.addShape({
+                    type: "text",
+                    attrs: {
+                        x: 10,
+                        y: 8,
+                        text: `${data.type}`,
+                        fill: mappingData.color,
+                    },
+                });
+                group.addShape({
+                    type: "text",
+                    attrs: {
+                        x: 0,
+                        y: 35,
+                        text: `${data.value}₼ \n${(data.percent * 100).toFixed(
+                            2
+                        )}%`,
+                        fill: "rgba(0, 0, 0, 0.65)",
+                        fontWeight: 700,
+                    },
+                });
+                return group;
+            },
+        },
+        interactions: [
+            {
+                type: "element-selected",
+            },
+            {
+                type: "element-active",
+            },
+        ],
+    };
+    const config = cfg;
+    return <Pie {...config} />;
+};
+
+export default Dashboard;
