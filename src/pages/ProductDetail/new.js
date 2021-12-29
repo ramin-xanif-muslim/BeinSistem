@@ -394,6 +394,7 @@ function NewProduct() {
                     <div style={{ padding: "0.3rem 1rem 1rem" }}>
                         <Form.Item label="Alış qiyməti" name="buyprice">
                             <Input
+                                className="detail-input-addon"
                                 type="number"
                                 step="any"
                                 allowClear
@@ -404,6 +405,7 @@ function NewProduct() {
                         <h3>Satış qiymətləri</h3>
                         <Form.Item label="Minimal qiyməti" name="minprice">
                             <Input
+                                className="detail-input-addon"
                                 type="number"
                                 step="any"
                                 addonAfter="₼"
@@ -413,6 +415,7 @@ function NewProduct() {
                         </Form.Item>
                         <Form.Item label="Satış qiyməti" name="price">
                             <Input
+                                className="detail-input-addon"
                                 type="number"
                                 step="any"
                                 addonAfter="₼"
@@ -430,7 +433,7 @@ function NewProduct() {
                                         <Input
                                             type="number"
                                             step="any"
-                                            className="hiddenarrows"
+                                            className="hiddenarrows detail-input-addon"
                                             allowClear
                                             addonAfter="₼"
                                             min={0}
@@ -644,7 +647,10 @@ function NewProduct() {
                                             },
                                         ]}
                                     >
-                                        <Input allowClear={true} />
+                                        <Input
+                                            className="detail-input"
+                                            allowClear={true}
+                                        />
                                     </Form.Item>
                                 </Col>
                                 <Col
@@ -655,10 +661,11 @@ function NewProduct() {
                                 >
                                     <Form.Item label="Barkod" name="barcode">
                                         <Input
+                                            className="detail-input"
                                             suffix={
                                                 <SyncOutlined
                                                     style={{ color: "#0288d1" }}
-                                                    className={"suffixed"}
+                                                    className="suffixed"
                                                     // onClick={this.onGetBarcode}
                                                 />
                                             }
@@ -672,7 +679,7 @@ function NewProduct() {
                                     xl={24}
                                 >
                                     <Button
-                                        className="add-group-btn"
+                                        className="add-stock-btn"
                                         onClick={() => setGroupVisible(true)}
                                     >
                                         <PlusOutlined />
@@ -691,8 +698,8 @@ function NewProduct() {
                                     >
                                         <Select
                                             showSearch
-                                            className="doc_status_formitem_wrapper_col "
-                                            placeholder=""
+                                            className="doc_status_formitem_wrapper_col"
+                                            className="detail-select"
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
@@ -716,7 +723,7 @@ function NewProduct() {
                                     xl={24}
                                 >
                                     <Form.Item label="Artkod" name="artcode">
-                                        <Input />
+                                        <Input className="detail-input" />
                                     </Form.Item>
                                 </Col>
                                 <Col
@@ -786,14 +793,14 @@ function NewProduct() {
                                                 name="packprice"
                                                 // onBlur={(e) => this.onChangeItem(e, "packprice")}
                                             >
-                                                <InputNumber />
+                                                <InputNumber className="detail-input-number" />
                                             </Form.Item>
                                             <Form.Item
                                                 label="Ədəd"
                                                 name="packquantity"
                                                 // onBlur={(e) => this.onChangeItem(e, "packquantity")}
                                             >
-                                                <InputNumber />
+                                                <InputNumber className="detail-input-number" />
                                             </Form.Item>
                                         </Panel>
                                     </Collapse>
@@ -814,8 +821,8 @@ function NewProduct() {
                                         name="ownerid"
                                     >
                                         <Select
+                                            className="detail-select"
                                             showSearch
-                                            placeholder=""
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
@@ -836,8 +843,8 @@ function NewProduct() {
                                         name="departmentid"
                                     >
                                         <Select
+                                            className="detail-select"
                                             showSearch
-                                            placeholder=""
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />

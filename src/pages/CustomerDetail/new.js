@@ -155,7 +155,7 @@ function NewCustomer() {
                         <Input
                             type="number"
                             step="any"
-                            className="hiddenarrows"
+                            className="hiddenarrows detail-input"
                             min={0}
                         />
                     </Form.Item>
@@ -163,7 +163,7 @@ function NewCustomer() {
                         <Input
                             type="number"
                             step="any"
-                            className="hiddenarrows"
+                            className="hiddenarrows detail-input"
                             min={0}
                         />
                     </Form.Item>
@@ -271,7 +271,10 @@ function NewCustomer() {
                                             },
                                         ]}
                                     >
-                                        <Input allowClear={true} />
+                                        <Input
+                                            className="detail-input"
+                                            allowClear={true}
+                                        />
                                     </Form.Item>
                                 </Col>
                                 <Col
@@ -281,7 +284,7 @@ function NewCustomer() {
                                     xl={24}
                                 >
                                     <Button
-                                        className="add-group-btn"
+                                        className="add-stock-btn"
                                         // onClick={() => setGroupVisible(true)}
                                     >
                                         <PlusOutlined />
@@ -300,8 +303,7 @@ function NewCustomer() {
                                     >
                                         <Select
                                             showSearch
-                                            className="doc_status_formitem_wrapper_col "
-                                            placeholder=""
+                                            className="doc_status_formitem_wrapper_col detail-select"
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
@@ -318,7 +320,7 @@ function NewCustomer() {
                                     xl={24}
                                 >
                                     <Form.Item label="Telefon" name="phone">
-                                        <Input />
+                                        <Input className="detail-input" />
                                     </Form.Item>
                                 </Col>
                                 <Col
@@ -328,7 +330,10 @@ function NewCustomer() {
                                     xl={24}
                                 >
                                     <Form.Item label="Email" name="email">
-                                        <Input type="email" />
+                                        <Input
+                                            className="detail-input"
+                                            type="email"
+                                        />
                                     </Form.Item>
                                 </Col>
                                 <Col
@@ -339,6 +344,7 @@ function NewCustomer() {
                                 >
                                     <Form.Item label="Kart nömrəsi" name="card">
                                         <Input
+                                            className="detail-input"
                                             suffix={
                                                 <SyncOutlined
                                                     style={{ color: "#0288d1" }}
@@ -384,8 +390,8 @@ function NewCustomer() {
                                         name="ownerid"
                                     >
                                         <Select
+                                            className="detail-select"
                                             showSearch
-                                            placeholder=""
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
@@ -407,7 +413,7 @@ function NewCustomer() {
                                     >
                                         <Select
                                             showSearch
-                                            placeholder=""
+                                            className="detail-select"
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />

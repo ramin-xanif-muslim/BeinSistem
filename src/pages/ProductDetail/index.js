@@ -21,7 +21,7 @@ import {
     Dropdown,
     message,
     Popconfirm,
-	Typography,
+    Typography,
     Card,
     Select,
     Spin,
@@ -48,9 +48,9 @@ import { updateProduct } from "../../api";
 import ProductGroupModal from "../../components/ProductGroupModal";
 import { useCustomForm } from "../../contexts/FormContext";
 import {
-	FindAdditionals,
-	FindCofficient,
-	ConvertFixedTable,
+    FindAdditionals,
+    FindCofficient,
+    ConvertFixedTable,
 } from "../../config/function/findadditionals";
 var mods = {};
 let lastObject = {};
@@ -77,8 +77,8 @@ function ProductDetail() {
         departments,
         owners,
         attributes,
-		outerDataSource,
-		setOuterDataSource,
+        outerDataSource,
+        setOuterDataSource,
         attrLoading,
         setAttrLoading,
         docSum,
@@ -97,33 +97,33 @@ function ProductDetail() {
         disable,
         setDisable,
     } = useTableCustom();
-	const {
-		docstock,
-		setDocStock,
-		docmark,
-		setDocMark,
-		setLoadingForm,
-		setStockDrawer,
-		stockDrawer,
-		createdStock,
-		setCreatedStock,
-		setProductModal,
+    const {
+        docstock,
+        setDocStock,
+        docmark,
+        setDocMark,
+        setLoadingForm,
+        setStockDrawer,
+        stockDrawer,
+        createdStock,
+        setCreatedStock,
+        setProductModal,
 
-		isPayment,
-		setPaymentModal,
-		isReturn,
+        isPayment,
+        setPaymentModal,
+        isReturn,
 
-		saveFromModal,
-		setRedirectSaveClose,
-	} = useCustomForm();
+        saveFromModal,
+        setRedirectSaveClose,
+    } = useCustomForm();
     const [attrs, setAttrs] = useState(
         attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
     );
-    console.log( localStorage.getItem("attr"))
+    console.log(localStorage.getItem("attr"));
     const [pricetypes, setPriceTypes] = useState(
         prices ? prices : JSON.parse(localStorage.getItem("prices"))
     );
-	const [positions, setPositions] = useState([]);
+    const [positions, setPositions] = useState([]);
     const [oneref, setOneRef] = useState([]);
     const [priceIsAdd, setPriceIsAdd] = useState(false);
     const [list, setList] = useState([]);
@@ -131,15 +131,15 @@ function ProductDetail() {
     const [linked, setLinked] = useState(null);
     const [listLength, setListLength] = useState(0);
     const [isArch, setIsArch] = useState(0);
-    
-	const [redirect, setRedirect] = useState(false);
-	const { doc_id } = useParams();
-	const [hasConsumption, setHasConsumption] = useState(false);
-	const [status, setStatus] = useState(false);
-	const [consumption, setConsumption] = useState(0);
-	const [initial, setInitial] = useState(null);
-	const [columnChange, setColumnChange] = useState(false);
-	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
+    const [redirect, setRedirect] = useState(false);
+    const { doc_id } = useParams();
+    const [hasConsumption, setHasConsumption] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [consumption, setConsumption] = useState(0);
+    const [initial, setInitial] = useState(null);
+    const [columnChange, setColumnChange] = useState(false);
+    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["products", product_id],
@@ -152,37 +152,35 @@ function ProductDetail() {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-	useEffect(() => {
-		setDisable(true);
-		setPositions([]);
-		setOuterDataSource([]);
+    useEffect(() => {
+        setDisable(true);
+        setPositions([]);
+        setOuterDataSource([]);
 
-		return () => {
-			setDisable(true);
-			setPositions([]);
-			setOuterDataSource([]);
-		};
-	}, []);
-	useEffect(() => {
-		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-			setDisable(false);
-		}
-	}, [outerDataSource]);
-	useEffect(() => {
-		if (!isFetching) {
-            console.log(data)
-			customPositions = [];
+        return () => {
+            setDisable(true);
+            setPositions([]);
+            setOuterDataSource([]);
+        };
+    }, []);
+    useEffect(() => {
+        if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+            setDisable(false);
+        }
+    }, [outerDataSource]);
+    useEffect(() => {
+        if (!isFetching) {
+            console.log(data);
+            customPositions = [];
             if (data.Body.List[0].Positions) {
-                data.Body.List[0].Positions.map((d) =>
-                    customPositions.push(d)
-                );
+                data.Body.List[0].Positions.map((d) => customPositions.push(d));
                 customPositions.map((c, index) => (c.key = index));
                 customPositions.map((c) => (c.SellPrice = c.Price));
                 customPositions.map((c) =>
                     c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
                 );
                 customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
-    
+
                 customPositions.map(
                     (c) =>
                         (c.TotalPrice =
@@ -203,182 +201,181 @@ function ProductDetail() {
                 form.setFieldsValue({
                     mark: data.Body.List[0].Mark,
                 });
-                }
-		} else {
-			customPositions = [];
-			setPositions([]);
-			setLoadingForm(true);
-		}
-	}, [isFetching]);
+            }
+        } else {
+            customPositions = [];
+            setPositions([]);
+            setLoadingForm(true);
+        }
+    }, [isFetching]);
 
     const onClose = () => {
         message.destroy();
     };
-	const handleVisibleChange = (flag) => {
-		setVisibleMenuSettings(flag);
-	};
-	const onChangeConsumption = (e) => {
-		setHasConsumption(true);
-		setConsumption(e.target.value);
-	};
-	const columns = useMemo(() => {
-		return [
-			{
-				title: "№",
-				dataIndex: "Order",
-				className: "orderField",
-				editable: false,
-				isVisible: true,
-				render: (text, record, index) => index + 1 + 100 * docPage,
-			},
-			{
-				title: "Adı",
-				dataIndex: "Name",
-				className: "max_width_field_length",
-				editable: false,
-				isVisible: true,
-				sorter: (a, b) => a.Name.localeCompare(b.Name),
-			},
-			{
-				title: "Barkodu",
-				dataIndex: "BarCode",
-				isVisible: true,
-				className: "max_width_field_length",
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				sorter: (a, b) => a.BarCode - b.BarCode,
-			},
-			{
-				title: "Miqdar",
-				dataIndex: "Quantity",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Qiyməti",
-				dataIndex: "Price",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Məbləğ",
-				dataIndex: "TotalPrice",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Qalıq",
-				dataIndex: "StockQuantity",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Maya",
-				dataIndex: "CostPr",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					let defaultCostArray = [];
-					let consumtionPriceArray = [];
-					outerDataSource.forEach((p) => {
-						defaultCostArray.push(Number(p.Price));
-					});
-					if (hasConsumption) {
-						consumtionPriceArray = [];
-						outerDataSource.forEach((p) => {
-							consumtionPriceArray.push(
-								FindAdditionals(
-									consumption,
-									docSum,
-									Number(p.Price)
-								)
-							);
-						});
-						return ConvertFixedTable(consumtionPriceArray[index]);
-					} else {
-						return ConvertFixedTable(defaultCostArray[index]);
-					}
-				},
-			},
-			{
-				title: "Cəm Maya",
-				dataIndex: "CostTotalPr",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					let defaultCostArray = [];
-					let consumtionPriceArray = [];
-					outerDataSource.forEach((p) => {
-						defaultCostArray.push(Number(p.TotalPrice));
-					});
-					if (hasConsumption) {
-						consumtionPriceArray = [];
-						outerDataSource.forEach((p) => {
-							consumtionPriceArray.push(
-								FindAdditionals(
-									consumption,
-									docSum,
-									Number(p.TotalPrice)
-								)
-							);
-						});
+    const handleVisibleChange = (flag) => {
+        setVisibleMenuSettings(flag);
+    };
+    const onChangeConsumption = (e) => {
+        setHasConsumption(true);
+        setConsumption(e.target.value);
+    };
+    const columns = useMemo(() => {
+        return [
+            {
+                title: "№",
+                dataIndex: "Order",
+                className: "orderField",
+                editable: false,
+                isVisible: true,
+                render: (text, record, index) => index + 1 + 100 * docPage,
+            },
+            {
+                title: "Adı",
+                dataIndex: "Name",
+                className: "max_width_field_length",
+                editable: false,
+                isVisible: true,
+                sorter: (a, b) => a.Name.localeCompare(b.Name),
+            },
+            {
+                title: "Barkodu",
+                dataIndex: "BarCode",
+                isVisible: true,
+                className: "max_width_field_length",
+                editable: false,
+                sortDirections: ["descend", "ascend"],
+                sorter: (a, b) => a.BarCode - b.BarCode,
+            },
+            {
+                title: "Miqdar",
+                dataIndex: "Quantity",
+                isVisible: true,
+                className: "max_width_field",
+                editable: true,
+                sortDirections: ["descend", "ascend"],
+                render: (value, row, index) => {
+                    // do something like adding commas to the value or prefix
+                    return ConvertFixedTable(value);
+                },
+            },
+            {
+                title: "Qiyməti",
+                dataIndex: "Price",
+                isVisible: true,
+                className: "max_width_field",
+                editable: true,
+                sortDirections: ["descend", "ascend"],
+                render: (value, row, index) => {
+                    // do something like adding commas to the value or prefix
+                    return ConvertFixedTable(value);
+                },
+            },
+            {
+                title: "Məbləğ",
+                dataIndex: "TotalPrice",
+                isVisible: true,
+                className: "max_width_field",
+                editable: true,
+                sortDirections: ["descend", "ascend"],
+                render: (value, row, index) => {
+                    // do something like adding commas to the value or prefix
+                    return ConvertFixedTable(value);
+                },
+            },
+            {
+                title: "Qalıq",
+                dataIndex: "StockQuantity",
+                className: "max_width_field",
+                isVisible: true,
+                editable: false,
+                sortDirections: ["descend", "ascend"],
+                render: (value, row, index) => {
+                    // do something like adding commas to the value or prefix
+                    return ConvertFixedTable(value);
+                },
+            },
+            {
+                title: "Maya",
+                dataIndex: "CostPr",
+                className: "max_width_field",
+                isVisible: true,
+                editable: false,
+                sortDirections: ["descend", "ascend"],
+                render: (value, row, index) => {
+                    let defaultCostArray = [];
+                    let consumtionPriceArray = [];
+                    outerDataSource.forEach((p) => {
+                        defaultCostArray.push(Number(p.Price));
+                    });
+                    if (hasConsumption) {
+                        consumtionPriceArray = [];
+                        outerDataSource.forEach((p) => {
+                            consumtionPriceArray.push(
+                                FindAdditionals(
+                                    consumption,
+                                    docSum,
+                                    Number(p.Price)
+                                )
+                            );
+                        });
+                        return ConvertFixedTable(consumtionPriceArray[index]);
+                    } else {
+                        return ConvertFixedTable(defaultCostArray[index]);
+                    }
+                },
+            },
+            {
+                title: "Cəm Maya",
+                dataIndex: "CostTotalPr",
+                className: "max_width_field",
+                isVisible: true,
+                editable: false,
+                sortDirections: ["descend", "ascend"],
+                render: (value, row, index) => {
+                    let defaultCostArray = [];
+                    let consumtionPriceArray = [];
+                    outerDataSource.forEach((p) => {
+                        defaultCostArray.push(Number(p.TotalPrice));
+                    });
+                    if (hasConsumption) {
+                        consumtionPriceArray = [];
+                        outerDataSource.forEach((p) => {
+                            consumtionPriceArray.push(
+                                FindAdditionals(
+                                    consumption,
+                                    docSum,
+                                    Number(p.TotalPrice)
+                                )
+                            );
+                        });
 
-						return ConvertFixedTable(consumtionPriceArray[index]);
-					} else {
-						return ConvertFixedTable(defaultCostArray[index]);
-					}
-				},
-			},
-			{
-				title: "Sil",
-				className: "orderField printField",
-				dataIndex: "operation",
-				isVisible: true,
-				editable: false,
-				render: (_, record) => (
-					<Typography.Link>
-						<Popconfirm
-							title="Silməyə əminsinizmi?"
-							okText="Bəli"
-							cancelText="Xeyr"
-							onConfirm={() => handleDelete(record.key)}
-						>
-							<a className="deletePosition">Sil</a>
-						</Popconfirm>
-					</Typography.Link>
-				),
-			},
-		];
-	}, [consumption, outerDataSource, docSum]);
-
+                        return ConvertFixedTable(consumtionPriceArray[index]);
+                    } else {
+                        return ConvertFixedTable(defaultCostArray[index]);
+                    }
+                },
+            },
+            {
+                title: "Sil",
+                className: "orderField printField",
+                dataIndex: "operation",
+                isVisible: true,
+                editable: false,
+                render: (_, record) => (
+                    <Typography.Link>
+                        <Popconfirm
+                            title="Silməyə əminsinizmi?"
+                            okText="Bəli"
+                            cancelText="Xeyr"
+                            onConfirm={() => handleDelete(record.key)}
+                        >
+                            <a className="deletePosition">Sil</a>
+                        </Popconfirm>
+                    </Typography.Link>
+                ),
+            },
+        ];
+    }, [consumption, outerDataSource, docSum]);
 
     useEffect(() => {
         setLinkedList([]);
@@ -447,7 +444,7 @@ function ProductDetail() {
                 setLinked(elem.ReferenceTypeId);
                 setList(arr);
             }
-        } 
+        }
     };
     const updateMutation = useMutation(updateProduct, {
         refetchQueris: ["products", product_id],
@@ -587,6 +584,7 @@ function ProductDetail() {
                     <div style={{ padding: "0.3rem 1rem 1rem" }}>
                         <Form.Item label="Alış qiyməti" name="buyprice">
                             <Input
+                                className="detail-input-addon"
                                 type="number"
                                 step="any"
                                 allowClear
@@ -597,6 +595,7 @@ function ProductDetail() {
                         <h3>Satış qiymətləri</h3>
                         <Form.Item label="Minimal qiyməti" name="minprice">
                             <Input
+                                className="detail-input-addon"
                                 type="number"
                                 step="any"
                                 addonAfter="₼"
@@ -606,6 +605,7 @@ function ProductDetail() {
                         </Form.Item>
                         <Form.Item label="Satış qiyməti" name="price">
                             <Input
+                                className="detail-input-addon"
                                 type="number"
                                 step="any"
                                 addonAfter="₼"
@@ -623,7 +623,7 @@ function ProductDetail() {
                                         <Input
                                             type="number"
                                             step="any"
-                                            className="hiddenarrows"
+                                            className="hiddenarrows detail-input-addon"
                                             allowClear
                                             addonAfter="₼"
                                             min={0}
@@ -954,7 +954,10 @@ function ProductDetail() {
                                             },
                                         ]}
                                     >
-                                        <Input allowClear={true} />
+                                        <Input
+                                            className="detail-input"
+                                            allowClear={true}
+                                        />
                                     </Form.Item>
                                 </Col>
                                 <Col
@@ -965,10 +968,11 @@ function ProductDetail() {
                                 >
                                     <Form.Item label="Barkod" name="barcode">
                                         <Input
+                                            className="detail-input"
                                             suffix={
                                                 <SyncOutlined
                                                     style={{ color: "#0288d1" }}
-                                                    className={"suffixed"}
+                                                    className="suffixed"
                                                     // onClick={this.onGetBarcode}
                                                 />
                                             }
@@ -982,7 +986,7 @@ function ProductDetail() {
                                     xl={24}
                                 >
                                     <Button
-                                        className="add-group-btn"
+                                        className="add-stock-btn"
                                         onClick={() => setGroupVisible(true)}
                                     >
                                         <PlusOutlined />
@@ -1001,8 +1005,8 @@ function ProductDetail() {
                                     >
                                         <Select
                                             showSearch
-                                            className="doc_status_formitem_wrapper_col "
-                                            placeholder=""
+                                            className="doc_status_formitem_wrapper_col"
+                                            className="detail-select"
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
@@ -1026,7 +1030,7 @@ function ProductDetail() {
                                     xl={24}
                                 >
                                     <Form.Item label="Artkod" name="artcode">
-                                        <Input />
+                                        <Input className="detail-input" />
                                     </Form.Item>
                                 </Col>
                                 <Col
@@ -1096,14 +1100,14 @@ function ProductDetail() {
                                                 name="packprice"
                                                 // onBlur={(e) => this.onChangeItem(e, "packprice")}
                                             >
-                                                <InputNumber />
+                                                <InputNumber className="detail-input-number" />
                                             </Form.Item>
                                             <Form.Item
                                                 label="Ədəd"
                                                 name="packquantity"
                                                 // onBlur={(e) => this.onChangeItem(e, "packquantity")}
                                             >
-                                                <InputNumber />
+                                                <InputNumber className="detail-input-number" />
                                             </Form.Item>
                                         </Panel>
                                     </Collapse>
@@ -1124,8 +1128,8 @@ function ProductDetail() {
                                         name="ownerid"
                                     >
                                         <Select
+                                            className="detail-select"
                                             showSearch
-                                            placeholder=""
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
@@ -1146,8 +1150,8 @@ function ProductDetail() {
                                         name="departmentid"
                                     >
                                         <Select
+                                            className="detail-select"
                                             showSearch
-                                            placeholder=""
                                             filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />

@@ -372,7 +372,7 @@ td.ant-table-column-sort {
 .add-stock-btn {
     color: #1164b1;
     border-width: 1px 1px 1px 1px;
-    height: 24px;
+    height: 26px;
     border-radius: 0 2px 2px 0;
     display: flex;
     justify-content: center;
@@ -381,7 +381,7 @@ td.ant-table-column-sort {
     background-color: #e6f7ff;
     padding: 0;
     float: right;
-    margin: 4px 0;
+    margin: 3px 0;
 }
 
 .add-stock-btn span svg {
@@ -593,4 +593,34 @@ tr.ant-table-expanded-row:hover td {
 
 .ant-list-item-meta-title > a {
     font-weight: 400;
+}
+
+.formWrapper .ant-collapse-header {
+    width: fit-content;
+}
+
+.detail-input,
+.detail-input-addon .ant-input-affix-wrapper {
+    padding: 1px 11px;
+    width: 100%;
+}
+
+.detail-input-addon {
+    padding: 0;
+    width: 100%;
+}
+
+.detail-select div {
+    height: 26px !important;
+    width: 100%;
+}
+
+.detail-select span {
+    display: flex;
+    align-items: center;
+}
+
+.detail-input-number,
+.detail-input-number input {
+    height: 26px !important;
 }
