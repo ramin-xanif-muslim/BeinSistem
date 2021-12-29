@@ -92,11 +92,7 @@ function PaymentOutDetail() {
         setDisable,
         disable,
     } = useTableCustom();
-    const {
-        docmark,
-        setLoadingForm,
-        setCustomerDrawer,
-    } = useCustomForm();
+    const { docmark, setLoadingForm, setCustomerDrawer } = useCustomForm();
     const [positions, setPositions] = useState([]);
     const [redirect, setRedirect] = useState(false);
     const [editId, setEditId] = useState(null);
@@ -172,21 +168,21 @@ function PaymentOutDetail() {
             {c.Name}
         </Option>
     ));
-	var ownerList;
-	owners
-		? (ownerList = owners)
-		: (ownerList = JSON.parse(localStorage.getItem("owners")));
+    var ownerList;
+    owners
+        ? (ownerList = owners)
+        : (ownerList = JSON.parse(localStorage.getItem("owners")));
 
-	var departmentList;
-	departments
-		? (departmentList = departments)
-		: (departmentList = JSON.parse(localStorage.getItem("departments")));
-	const ownerOption = Object.values(ownerList).map((c) => (
-		<Option key={c.Id}>{c.Name}</Option>
-	));
-	const departmentOption = Object.values(departmentList).map((c) => (
-		<Option key={c.Id}>{c.Name}</Option>
-	));
+    var departmentList;
+    departments
+        ? (departmentList = departments)
+        : (departmentList = JSON.parse(localStorage.getItem("departments")));
+    const ownerOption = Object.values(ownerList).map((c) => (
+        <Option key={c.Id}>{c.Name}</Option>
+    ));
+    const departmentOption = Object.values(departmentList).map((c) => (
+        <Option key={c.Id}>{c.Name}</Option>
+    ));
     const onChange = (value, option) => {
         if (value === "00000000-0000-0000-0000-000000000000") {
             form.setFieldsValue({
@@ -284,7 +280,7 @@ function PaymentOutDetail() {
         return (
             <div className="doc_wrapper">
                 <div className="doc_name_wrapper">
-                    <h2>Məxaric</h2>
+                    <h2>Məxaric (nağdsız)</h2>
                 </div>
                 <DocButtons
                     additional={"none"}
@@ -330,7 +326,7 @@ function PaymentOutDetail() {
                                 >
                                     <Input
                                         placeholder="0000"
-                                        size="small"
+                                        className="detail-input"
                                         allowClear
                                         style={{ width: "100px" }}
                                     />
@@ -344,7 +340,7 @@ function PaymentOutDetail() {
                                     className="doc_number_form_item"
                                 >
                                     <Input
-                                        size="small"
+                                        className="detail-input"
                                         type="number"
                                         step="any"
                                         placeholder="₼"
@@ -366,8 +362,7 @@ function PaymentOutDetail() {
                                     style={{ width: "100%" }}
                                 >
                                     <DatePicker
-                                        style={{ width: "100%" }}
-                                        size="small"
+                                        className="detail-input"
                                         showTime={{ format: "HH:mm:ss" }}
                                         format="YYYY-MM-DD HH:mm:ss"
                                     />
@@ -377,19 +372,25 @@ function PaymentOutDetail() {
                             <Col xs={24} md={24} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
-                                    onClick={() =>setCustomerDrawer(true)}
+                                        onClick={() => setCustomerDrawer(true)}
                                     />
                                 </Button>
                                 <Form.Item
                                     label="Qarşı-tərəf"
                                     name="customerid"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Zəhmət olmasa, qarşı tərəfi seçin",
+                                        },
+                                    ]}
                                 >
                                     <Select
-                                        size="small"
                                         showSearch
                                         showArrow={false}
                                         filterOption={false}
-                                        className="customSelect"
+                                        className="customSelect detail-select"
                                         allowClear={true}
                                     >
                                         {customerOptions}
@@ -408,7 +409,6 @@ function PaymentOutDetail() {
                                     style={{ margin: "0", width: "100%" }}
                                 >
                                     <TextArea
-                                        size="small"
                                         showCount
                                         maxLength={100}
                                         style={{ width: "100%" }}
@@ -419,7 +419,7 @@ function PaymentOutDetail() {
                             <Col xs={24} md={24} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
-                                    onClick={() =>setCustomerDrawer(true)}
+                                    // onClick={() => setExpenditure(true)}
                                     />
                                 </Button>
                                 <Form.Item
@@ -427,10 +427,9 @@ function PaymentOutDetail() {
                                     name="spenditem"
                                 >
                                     <Select
-                                        size="small"
                                         showSearch
                                         showArrow={false}
-                                        className="customSelect"
+                                        className="customSelect detail-select"
                                         notFoundContent={<Spin size="small" />}
                                         onChange={onChangeSpendItem}
                                         allowClear={true}
@@ -442,15 +441,8 @@ function PaymentOutDetail() {
                                         }
                                     >
                                         {spends
-                                            ? Object.values(spenditems)
-                                                  .filter(
-                                                      (item) =>
-                                                          item.StaticName ===
-                                                              "buyproduct" ||
-                                                          item.StaticName ===
-                                                              "correct"
-                                                  )
-                                                  .map((c) => (
+                                            ? Object.values(spenditems).map(
+                                                  (c) => (
                                                       <Option
                                                           staticname={
                                                               c.StaticName
@@ -460,7 +452,8 @@ function PaymentOutDetail() {
                                                       >
                                                           {c.Name}
                                                       </Option>
-                                                  ))
+                                                  )
+                                              )
                                             : null}
                                     </Select>
                                 </Form.Item>
@@ -485,9 +478,8 @@ function PaymentOutDetail() {
                                                 style={{ width: "100%" }}
                                             >
                                                 <Select
-                                                    size="small"
                                                     showSearch
-                                                    placeholder=""
+                                                    className="detail-select"
                                                     notFoundContent={
                                                         <Spin size="small" />
                                                     }
@@ -515,10 +507,7 @@ function PaymentOutDetail() {
                                                 valuePropName="checked"
                                                 style={{ width: "100%" }}
                                             >
-                                                <Checkbox
-                                                    size="small"
-                                                    name="status"
-                                                ></Checkbox>
+                                                <Checkbox name="status"></Checkbox>
                                             </Form.Item>
                                         </Col>
                                         <Col xs={24} md={24} xl={3}></Col>
@@ -533,9 +522,8 @@ function PaymentOutDetail() {
                                                 style={{ width: "100%" }}
                                             >
                                                 <Select
-                                                    size="small"
                                                     showSearch
-                                                    placeholder=""
+                                                    className="detail-select"
                                                     notFoundContent={
                                                         <Spin size="small" />
                                                     }
@@ -576,7 +564,7 @@ function PaymentOutDetail() {
                     </Form>
                 </div>
 
-<CustomerDrawer />
+                <CustomerDrawer />
             </div>
         );
 }
