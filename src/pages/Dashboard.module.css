@@ -1,11 +1,18 @@
-.div {
+.dashboardHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding: 1rem 5rem 0;
 }
 
 h1 {
     font-weight: 600;
-    margin: 5rem 0 0 4rem;
-    margin-right: 12px;
-    margin-bottom: 0;
+    margin: 0;
+    font-size: 2em;
+}
+
+h2 {
+    font-weight: 600;
     font-size: 2em;
 }
 
@@ -30,7 +37,7 @@ h1 {
 }
 
 .date {
-    opacity: 0.5;
+    opacity: 0.4;
     font-size: 0.9em;
 }
 
@@ -41,11 +48,19 @@ hr {
 }
 
 .amount {
-    font-size: 1.8em;
+    font-size: 1.3em;
     font-weight: 500;
     margin: 0;
-    color: var(--dark);
+    color: #414141;
     font-family: "Roboto" !important;
+    display: flex;
+    justify-content: space-between;
+}
+
+.amount span {
+    color: var(--dark-blue);
+    font-weight: 400;
+    font-size: 0.8em;
 }
 
 .percent {
@@ -66,7 +81,61 @@ hr {
     align-items: flex-end;
 }
 
-.chart {
-    width: 100%;
-    margin: 4rem;
+.row {
+    padding: 4rem;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.analiticHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.analiticHeader .switch {
+    margin: 0 1rem;
+}
+
+.analiticHeader .time {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    color: var(--dark-blue);
+}
+
+.analiticHeader .time p {
+    margin: 0;
+}
+
+.analiticSelectText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.analiticSelectText h2 {
+    margin: 0;
+}
+
+.analiticHeader .analiticSelect > span {
+    color: var(--dark-blue);
+}
+
+.analiticSelect:focus-visible {
+    border: none !important;
+    outline: none !important;
+}
+
+.analiticHeader .analiticSelect > div {
+    border: none !important;
+    outline: none !important;
+    background: none !important;
+    color: var(--dark-blue);
+}
+.analiticHeader .analiticSelect > div > span {
+    font-weight: 600;
+    font-size: 2em;
 }
