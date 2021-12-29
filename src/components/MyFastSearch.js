@@ -5,32 +5,29 @@ import { Input, Space } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 const { Search } = Input;
 
-function MyFastSearch({searchTerm, setSearchTerm, searchFunc}) {
-  const { search, setFastSearch,setIsFilter, doSearch, setDoSearch } = useTableCustom();
+function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
+	const handleSearch = () => {
+		searchFunc(searchTerm);
+	};
 
-//   useEffect(() => {
-//     handleSearch()
-//     //  alert('clear')
-//   },[])
-
-  const handleSearch = () => {
-    searchFunc(searchTerm)
-    
-  };
-  const onChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-  return (
-    <div>
-      <Search
-        className="search_header"
-        onChange={onChange}
-        onPressEnter={handleSearch}
-        style={{ width: 200 }}
-        defaultValue={searchTerm}
-      />
-    </div>
-  );
+	const onSearch = () => {
+		searchFunc(searchTerm);
+	};
+	const onChange = (e) => {
+		setSearchTerm(e.target.value);
+	};
+	return (
+		<div>
+			<Search
+				className="search_header"
+				onChange={onChange}
+				onPressEnter={handleSearch}
+				style={{ width: 200 }}
+				defaultValue={searchTerm}
+				onSearch={onSearch}
+			/>
+		</div>
+	);
 }
 
 export default MyFastSearch;

@@ -25,6 +25,7 @@ import { isObject } from "../config/function/findadditionals";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import style from "./SaleReport.module.css";
+import MyFastSearch from "../components/MyFastSearch";
 
 const { Text } = Typography;
 
@@ -59,6 +60,8 @@ export default function SaleReport() {
     const [retAllCost, setRetAllCost] = useState(0);
 
     const {
+        salereportsSearchTerm,
+        setSalereportsSearchTerm,
         marks,
         setMarkLocalStorage,
         setMark,
@@ -73,6 +76,21 @@ export default function SaleReport() {
         setCustomersLocalStorage,
         setCustomers,
     } = useTableCustom();
+
+    const searchFunc = async (value) => {
+        setSalereportsSearchTerm(value)
+        let obj = {
+            nm: value,
+            lm: 25,
+        }
+        let res = await sendRequest('salereports/get.php',obj)
+		setDocumentList(res.List);
+        setAllAmount(res.AllAmount);
+        setAllCost(res.AllCost);
+        setAllProfit(res.AllProfit);
+        setRetAllAmount(res.RetAllAmount);
+        setRetAllCost(res.RetAllCost);
+    }
 
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -511,7 +529,6 @@ export default function SaleReport() {
     useEffect(() => {
         if (!isFetching) {
             if (isObject(data.Body)) {
-                console.log(data.Body);
                 setDocumentList(data.Body.List);
                 setAllAmount(data.Body.AllAmount);
                 setAllCost(data.Body.AllCost);
@@ -641,7 +658,9 @@ export default function SaleReport() {
                                 }
                                 content="Filter"
                             />
-                            <FastSearch className="search_header" />
+                            {/* <FastSearch className="search_header" /> */}
+							<MyFastSearch searchFunc={searchFunc} setSearchTerm={setSalereportsSearchTerm}
+                            searchTerm={salereportsSearchTerm} className="search_header" />
                             <SearchByDate
                                 getSearcObjByDate={getSearcObjByDate}
                             />

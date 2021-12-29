@@ -39,6 +39,9 @@ const TableProvider = ({ children }) => {
   const [orderStatusArr, setOrderStatusArr] = useState(null);
   const [changedInnerTable, setChangedInnerTable] = useState(false);
   const [pricechanged, setPriceChanged] = useState(false);
+  const [productSearchTerm, setProductSearchTerm] = useState('');
+  const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState('');
+  const [salereportsSearchTerm, setSalereportsSearchTerm] = useState('');
 
   const [balance, setBalance] = useState(0);
   const [nav, setNav] = useState("block");
@@ -79,6 +82,12 @@ const TableProvider = ({ children }) => {
     localStorage.setItem("cusgroups", JSON.stringify(obj));
   };
   const values = {
+    salereportsSearchTerm,
+    setSalereportsSearchTerm,
+    stockbalanceSearchTerm,
+    setStockbalanceSearchTerm,
+    productSearchTerm,
+    setProductSearchTerm,
     searchGr,
     setSearchGr,
     productcols,

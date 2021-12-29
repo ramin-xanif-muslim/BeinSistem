@@ -40,6 +40,8 @@ export default function StockBalance() {
     const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
         useState(false);
     const {
+        stockbalanceSearchTerm,
+        setStockbalanceSearchTerm,
         marks,
         setMarkLocalStorage,
         setMark,
@@ -53,6 +55,19 @@ export default function StockBalance() {
         setdisplay,
         display,
     } = useTableCustom();
+
+    const searchFunc = async (value) => {
+        setStockbalanceSearchTerm(value)
+        let obj = {
+            nm: value,
+            lm: 25,
+        }
+        let res = await sendRequest('stockbalance/get.php',obj)
+		setDocumentList(res.List);
+        setallsum(res.SaleSum);
+        setallcost(res.CostSum);
+        setallquantity(res.QuantitySum);
+    }
 
     const [documentList, setDocumentList] = useState([]);
     const { isLoading, error, data, isFetching } = useQuery(
@@ -415,23 +430,6 @@ export default function StockBalance() {
         ];
     }, [filterChanged]);
 
-    
-
-    const searchFunc = async (value) => {
-        setSearchTerm(value)
-        let obj = {
-            ar: 0,
-            dr: 1,
-            fast: value,
-            gp: "",
-            pg: 0,
-            lm: 25,
-        }
-        let res = await sendRequest('products/getfast.php',obj)
-        console.log(res);
-        setDocumentList(res.List[0]);
-    }
-
 
     useEffect(() => {
         setInitial(columns);
@@ -610,9 +608,9 @@ export default function StockBalance() {
                                 }
                                 content="Filter"
                             />
-                            <FastSearch className="search_header" />
-							{/* <MyFastSearch searchFunc={searchFunc} setSearchTerm={setSearchTerm}
-                            searchTerm={searchTerm} className="search_header" /> */}
+                            {/* <FastSearch className="search_header" /> */}
+							<MyFastSearch searchFunc={searchFunc} setSearchTerm={setStockbalanceSearchTerm}
+                            searchTerm={stockbalanceSearchTerm} className="search_header" />
                         </div>
 
                         <div>{tableSettings}</div>

@@ -20,7 +20,6 @@ import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 
 export default function Product() {
-    const [ searchTerm, setSearchTerm ] = useState('')
 	const [redirect, setRedirect] = useState(false);
 	const [editId, setEditId] = useState("");
 	const [page, setPage] = useState(0);
@@ -47,6 +46,8 @@ export default function Product() {
 	);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 	const {
+        productSearchTerm,
+        setProductSearchTerm,
 		setAttributes,
 		setAttrLocalStorage,
 		setPrices,
@@ -65,7 +66,7 @@ export default function Product() {
 	} = useTableCustom();
 
     const searchFunc = async (value) => {
-        setSearchTerm(value)
+        setProductSearchTerm(value)
         let obj = {
             ar: 0,
             dr: 1,
@@ -75,8 +76,8 @@ export default function Product() {
             lm: 25,
         }
         let res = await sendRequest('products/getfast.php',obj)
-        console.log(res.List[0]);
-        setProdutcList(res.List[0]);
+        console.log(res);
+		setProdutcList(res.List);
     }
 
 	const filters = useMemo(() => {
@@ -700,9 +701,9 @@ export default function Product() {
 								}
 								content="Filter"
 							/>
-                            <FastSearch className="search_header" />
-							{/* <MyFastSearch searchFunc={searchFunc} setSearchTerm={setSearchTerm}
-                            searchTerm={searchTerm} className="search_header" /> */}
+                            {/* <FastSearch className="search_header" /> */}
+							<MyFastSearch searchFunc={searchFunc} setSearchTerm={setProductSearchTerm}
+                            searchTerm={productSearchTerm} className="search_header" />
 						</div>
 						{tableSettings}
 					</div>
