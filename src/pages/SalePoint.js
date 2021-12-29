@@ -15,6 +15,7 @@ import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 
 import { SettingOutlined } from "@ant-design/icons";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function SalePoint() {
     const [redirect, setRedirect] = useState(false);
@@ -139,6 +140,9 @@ export default function SalePoint() {
                       ).show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
         ];
     }, [defaultdr, initialSort, filtered, marks, advancedPage, stocks]);

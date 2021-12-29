@@ -22,6 +22,7 @@ import enters from "../ButtonsNames/Enters/buttonsNames";
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function CreditTransaction() {
     const [redirect, setRedirect] = useState(false);
@@ -165,7 +166,7 @@ export default function CreditTransaction() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Direct === "i") {
-                        return row.Amount;
+                        return ConvertFixedTable(row.Amount);
                     } else {
                         return "";
                     }
@@ -181,7 +182,7 @@ export default function CreditTransaction() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Direct === "o") {
-                        return row.Amount;
+                        return ConvertFixedTable(row.Amount);
                     } else {
                         return "";
                     }

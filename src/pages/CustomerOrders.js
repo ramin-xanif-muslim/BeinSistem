@@ -27,7 +27,7 @@ import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
-import { isObject } from "../config/function/findadditionals";
+import { ConvertFixedTable, isObject } from "../config/function/findadditionals";
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
@@ -203,6 +203,9 @@ export default function CustomerOrders() {
                     : true,
                 className: initialSort === "Amount" ? "activesort" : "",
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "OrderStatus",
@@ -312,6 +315,9 @@ export default function CustomerOrders() {
                       ).show
                     : false,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Discount",
@@ -324,6 +330,9 @@ export default function CustomerOrders() {
                       ).show
                     : false,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
         ];
     }, [defaultdr, initialSort, filtered, marks, advancedPage]);

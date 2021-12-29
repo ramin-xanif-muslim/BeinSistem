@@ -22,6 +22,7 @@ import TransactionButtons from "../components/TransactionButton";
 import { SettingOutlined } from "@ant-design/icons";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function Transaction() {
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
@@ -179,7 +180,8 @@ export default function Transaction() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Direct === "i") {
-                        return row.Amount;
+                        return ConvertFixedTable(row.Amount);
+                        // return row.Amount;
                     } else {
                         return "";
                     }
@@ -195,7 +197,7 @@ export default function Transaction() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Direct === "o") {
-                        return row.Amount;
+                        return ConvertFixedTable(row.Amount);
                     } else {
                         return "";
                     }

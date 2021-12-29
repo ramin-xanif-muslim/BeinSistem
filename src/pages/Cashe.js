@@ -83,6 +83,9 @@ export default function Cashe() {
             {
                 dataIndex: "Balance",
                 title: "Məbləğ",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
         ];
     }, [defaultdr, initialSort, filtered, marks, advancedPage]);

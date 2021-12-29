@@ -138,19 +138,19 @@ export default function StockBalance() {
                 sorter: (a, b) => null,
                 className: initialSort === "BarCode" ? "activesort" : "",
             },
-            {
-                dataIndex: "StockId",
-                title: "Yerləşdiyi Anbar",
-                sort: true,
-                defaultSortOrder: initialSort === "StockId" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "StockId"
-                      ).show
-                    : true,
-                sorter: (a, b) => null,
-                className: initialSort === "StockId" ? "activesort" : "",
-            },
+            // {
+            //     dataIndex: "StockName",
+            //     title: "Yerləşdiyi Anbar",
+            //     sort: true,
+            //     defaultSortOrder: initialSort === "StockName" ? defaultdr : null,
+            //     show: initial
+            //         ? Object.values(initial).find(
+            //               (i) => i.dataIndex === "StockName"
+            //           ).show
+            //         : true,
+            //     sorter: (a, b) => null,
+            //     className: initialSort === "StockName" ? "activesort" : "",
+            // },
             {
                 dataIndex: "ArtCode",
                 title: "Artkodu",
@@ -160,7 +160,7 @@ export default function StockBalance() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "ArtCode"
                       ).show
-                    : true,
+                    : false,
                 sorter: (a, b) => null,
                 className: initialSort === "ArtCode" ? "activesort" : "",
             },

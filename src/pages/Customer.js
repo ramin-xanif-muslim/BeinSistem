@@ -14,6 +14,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button, Icon } from "semantic-ui-react";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 export default function Customer() {
     const [initialfilter, setInitialFilter] = useState(null);
     const [filterChanged, setFilterChanged] = useState(false);
@@ -305,6 +306,9 @@ export default function Customer() {
                     : true,
                 sorter: (a, b) => null,
                 className: initialSort === "Discount" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Bonus",
@@ -318,6 +322,9 @@ export default function Customer() {
                     : true,
                 sorter: (a, b) => null,
                 className: initialSort === "Bonus" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Mail",

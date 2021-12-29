@@ -14,7 +14,7 @@ import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 import { useCustomForm } from "../contexts/FormContext";
-import { isObject } from "../config/function/findadditionals";
+import { ConvertFixedTable, isObject } from "../config/function/findadditionals";
 
 import { SettingOutlined } from "@ant-design/icons";
 
@@ -129,7 +129,7 @@ export default function Settlement() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Amount > 0) {
-                        return row.Amount;
+                        return ConvertFixedTable(row.Amount);
                     }
                 },
             },
@@ -143,7 +143,7 @@ export default function Settlement() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Amount < 0) {
-                        return row.Amount;
+                        return ConvertFixedTable(row.Amount);
                     }
                 },
             },
@@ -156,7 +156,7 @@ export default function Settlement() {
                       ).show
                     : false,
                 render: (value, row, index) => {
-                    return row.Amount;
+                    return ConvertFixedTable(row.Amount);
                 },
             },
         ];
