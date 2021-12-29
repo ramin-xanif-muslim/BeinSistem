@@ -37,9 +37,16 @@ export default function SignIn() {
 
 	async function signin(values) {
 		const loginResponse = await putLogin(values);
-		login(loginResponse);
-		setLoading(false);
-	}
+        console.log(loginResponse)
+        if (loginResponse.Headers.ResponseStatus === "0") {
+            login(loginResponse);
+            setLoading(false);
+        }
+        if (loginResponse.Headers.ResponseStatus !== "0") {
+            alert(loginResponse.Body)
+            setLoading(false);
+        }
+    }
 	const onFinish = (values) => {
 		setLoading(true);
 		signin(values);

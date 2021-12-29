@@ -719,7 +719,11 @@ function NewDemand() {
                                 className="doc_number_form_item"
                                 style={{ width: "100%" }}
                             >
-                                <Input className="detail-input" allowClear />
+                                <Input
+                                    size="small"
+                                    allowClear
+                                    style={{ width: "100px" }}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
@@ -729,22 +733,13 @@ function NewDemand() {
                                     onClick={() => setCustomerDrawer(true)}
                                 />
                             </Button>
-                            <Form.Item
-                                label="Qarşı-tərəf"
-                                name="customerid"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message:
-                                            "Zəhmət olmasa, qarşı tərəfi seçin",
-                                    },
-                                ]}
-                            >
+                            <Form.Item label="Qarşı-tərəf" name="customerid">
                                 <Select
+                                    size="small"
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
-                                    className="customSelect detail-select"
+                                    className="customSelect"
                                     allowClear={true}
                                 >
                                     {customerOptions}
@@ -763,7 +758,8 @@ function NewDemand() {
                                 style={{ width: "100%" }}
                             >
                                 <DatePicker
-                                    className="detail-input"
+                                    style={{ width: "100%" }}
+                                    size="small"
                                     showTime={{ format: "HH:mm:ss" }}
                                     format="YYYY-MM-DD HH:mm:ss"
                                 />
@@ -776,22 +772,14 @@ function NewDemand() {
                                     onClick={() => setStockDrawer(true)}
                                 />
                             </Button>
-                            <Form.Item
-                                label="Anbar"
-                                name="stockid"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: "Zəhmət olmasa, anbarı seçin",
-                                    },
-                                ]}
-                            >
+                            <Form.Item label="Anbar" name="stockid">
                                 <Select
+                                    size="small"
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
                                     onChange={onChange}
-                                    className="customSelect detail-select"
+                                    className="customSelect"
                                     allowClear={true}
                                 >
                                     {options}
@@ -831,8 +819,9 @@ function NewDemand() {
                                             style={{ width: "100%" }}
                                         >
                                             <Select
+                                                size="small"
                                                 showSearch
-                                                className="detail-select"
+                                                placeholder=""
                                                 notFoundContent={
                                                     <Spin size="small" />
                                                 }
@@ -857,7 +846,10 @@ function NewDemand() {
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
                                         >
-                                            <Checkbox name="status"></Checkbox>
+                                            <Checkbox
+                                                size="small"
+                                                name="status"
+                                            ></Checkbox>
                                         </Form.Item>
                                     </Col>
                                 </Row>
@@ -870,8 +862,9 @@ function NewDemand() {
                                             style={{ width: "100%" }}
                                         >
                                             <Select
+                                                size="small"
                                                 showSearch
-                                                className="detail-select"
+                                                placeholder=""
                                                 notFoundContent={
                                                     <Spin size="small" />
                                                 }
