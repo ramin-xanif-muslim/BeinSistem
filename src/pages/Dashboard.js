@@ -1,7 +1,12 @@
 import { Col, Row, Switch, Select, DatePicker } from "antd";
 import React, { useEffect, useState } from "react";
 import style from "./Dashboard.module.css";
-import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons";
+import {
+    ArrowUpOutlined,
+    ArrowDownOutlined,
+    CaretUpOutlined,
+    CaretDownOutlined,
+} from "@ant-design/icons";
 import { Line, Pie, G2 } from "@ant-design/charts";
 import sendRequest from "../config/sentRequest";
 
@@ -195,6 +200,29 @@ function Dashboard() {
                             <p>30 gün</p>
                             <Switch className={style.switch} />
                             <p>2022-ci il</p>
+                            <div className={style.profit}>
+                                <p>₼ 1253.56</p>
+                                <div
+                                    className={style.dflex}
+                                    style={
+                                        true
+                                            ? { color: "#00c900" }
+                                            : { color: "red" }
+                                    }
+                                >
+                                    {true ? (
+                                        <CaretUpOutlined
+                                            style={{ color: "#00c900" }}
+                                        />
+                                    ) : (
+                                        <CaretDownOutlined
+                                            style={{ color: "red" }}
+                                        />
+                                    )}
+
+                                    <p>21.80 %</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <DemoLine />

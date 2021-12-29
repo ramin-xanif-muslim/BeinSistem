@@ -230,12 +230,6 @@ tfoot td {
     padding: 4px 16px !important;
     font-weight: 600;
 }
-.ant-pagination {
-    position: sticky;
-    bottom: 0;
-    display: flex;
-    justify-content: center;
-}
 
 .ant-dropdown-trigger {
     background: none;

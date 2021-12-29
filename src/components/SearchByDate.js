@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import style from "./SearchByDate.module.css";
-import { Spin } from 'antd';
+import { Spin } from "antd";
 
-
-function SearchByDate({ getSearcObjByDate }) {
-
-    const [activId, setActivId] = useState(0)
+function SearchByDate({ getSearchObjByDate }) {
+    const [activId, setActivId] = useState(0);
 
     const [dates, setDates] = useState([
         {
@@ -53,7 +51,7 @@ function SearchByDate({ getSearcObjByDate }) {
                 mome: `${date} 23:59:59`,
             };
             Object.assign(obj, tarix);
-            getSearcObjByDate(obj);
+            getSearchObjByDate(obj);
             return;
         }
         if (i === 2) {
@@ -64,7 +62,7 @@ function SearchByDate({ getSearcObjByDate }) {
                 mome: `${date} 23:59:59`,
             };
             Object.assign(obj, tarix);
-            getSearcObjByDate(obj);
+            getSearchObjByDate(obj);
             return;
         }
         if (i === 3) {
@@ -80,7 +78,7 @@ function SearchByDate({ getSearcObjByDate }) {
                 mome: `${date} 23:59:59`,
             };
             Object.assign(obj, tarix);
-            getSearcObjByDate(obj);
+            getSearchObjByDate(obj);
             return;
         }
         if (i === 4) {
@@ -94,7 +92,7 @@ function SearchByDate({ getSearcObjByDate }) {
                 mome: `${date} 23:59:59`,
             };
             Object.assign(obj, tarix);
-            getSearcObjByDate(obj);
+            getSearchObjByDate(obj);
             return;
         }
         if (i === 5) {
@@ -103,14 +101,14 @@ function SearchByDate({ getSearcObjByDate }) {
                 mome: "",
             };
             Object.assign(obj, tarix);
-            getSearcObjByDate(obj);
+            getSearchObjByDate(obj);
             return;
         }
     };
 
     const onClick = (i) => {
         select(i);
-        setActivId(i)
+        setActivId(i);
     };
 
     return (

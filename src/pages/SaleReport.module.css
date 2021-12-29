@@ -1,0 +1,7 @@
+.cellLeftBorder {
+    border-left: 2px solid var(--dark-blue);
+}
+
+.colorDarkBlue {
+    color: var(--dark-blue);
+}

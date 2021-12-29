@@ -24,6 +24,7 @@ import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 const { Text } = Typography;
 export default function Transaction() {
+    const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [redirectPaymentIn, setRedirectPaymentIn] = useState(false);
     const [redirectPaymentOut, setRedirectPaymentOut] = useState(false);
@@ -561,11 +562,13 @@ export default function Transaction() {
             </Button>
         </Dropdown>
     );
-    const getSearcObjByDate = async (ob) => {
-        let res = await sendRequest("transactions/get.php", ob);
-        setDocumentList(res.List);
-        setallinsum(res.AllSum);
-    };
+    // const getSearchObjByDate = async (ob) => {
+    //     setFetchSearchByDate(true);
+    //     let res = await sendRequest("transactions/get.php", ob);
+    //     setDocumentList(res.List);
+    //     setallsum(res.InSum);
+    //     setFetchSearchByDate(false);
+    // };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -599,9 +602,9 @@ export default function Transaction() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
-                            <SearchByDate
-                                getSearcObjByDate={getSearcObjByDate}
-                            />
+                            {/* <SearchByDate
+                                getSearchObjByDate={getSearchObjByDate}
+                            /> */}
                         </div>
                         <div>{tableSettings}</div>
                     </div>
@@ -612,7 +615,7 @@ export default function Transaction() {
                     <FilterComponent settings={filterSetting} cols={filters} />
                 </Col>
             </Row>
-
+            {isFetchSearchByDate && <Spin />}
             <Table
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}

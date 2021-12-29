@@ -24,6 +24,7 @@ import {
 import { isObject } from "../config/function/findadditionals";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
+import style from "./SaleReport.module.css";
 
 const { Text } = Typography;
 
@@ -148,8 +149,9 @@ export default function SaleReport() {
             },
             {
                 dataIndex: "SumCost",
-                title: "Cəm maya",
+                title: "Mayası",
                 defaultSortOrder: initialSort === "SumCost" ? defaultdr : null,
+                className: "",
                 show: initial
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "SumCost"
@@ -178,9 +180,10 @@ export default function SaleReport() {
             },
             {
                 dataIndex: "RetQuantity",
-                title: "Miqdar",
+                title: "Qaytarma miqdarı",
                 defaultSortOrder:
                     initialSort === "RetQuantity" ? defaultdr : null,
+                className: style.cellLeftBorder,
                 show: initial
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "RetQuantity"
@@ -194,7 +197,7 @@ export default function SaleReport() {
             },
             {
                 dataIndex: "RetSumCost",
-                title: "Cəm maya",
+                title: "Qaytarma mayası",
                 defaultSortOrder:
                     initialSort === "RetSumCost" ? defaultdr : null,
                 show: initial
@@ -228,6 +231,7 @@ export default function SaleReport() {
             {
                 dataIndex: "Profit",
                 title: "Qazanc",
+                className: style.cellLeftBorder,
                 show: initial
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Profit"
@@ -239,6 +243,7 @@ export default function SaleReport() {
             {
                 dataIndex: "Percent",
                 title: "Marja",
+                className: style.colorDarkBlue,
                 show: initial
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Profit"
@@ -560,7 +565,7 @@ export default function SaleReport() {
     }, [filtered, columnChange]);
     const menu = (
         <Menu>
-            <Menu.ItemGroup title="Sutunlar">
+            <Menu.ItemGroup title="Sütunlar">
                 {initial
                     ? Object.values(initial).map((d) => (
                           <Menu.Item key={d.dataIndex}>

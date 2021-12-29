@@ -25,8 +25,8 @@ import sendRequest from "../config/sentRequest";
 
 const { Text } = Typography;
 export default function Enter() {
-    const [redirect, setRedirect] = useState(false);
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
+    const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
     const [initialSort, setInitialSort] = useState("Moment");
@@ -513,12 +513,12 @@ export default function Enter() {
             </Button>
         </Dropdown>
     );
-    const getSearcObjByDate = async (ob) => {
-        setFetchSearchByDate(true)
+    const getSearchObjByDate = async (ob) => {
+        setFetchSearchByDate(true);
         let res = await sendRequest("enters/get.php", ob);
         setDocumentList(res.List);
         setallsum(res.AllSum);
-        setFetchSearchByDate(false)
+        setFetchSearchByDate(false);
     };
     if (isLoading) return <Spin />;
 
@@ -563,7 +563,7 @@ export default function Enter() {
                             />
                             <FastSearch className="search_header" />
                             <SearchByDate
-                                getSearcObjByDate={getSearcObjByDate}
+                                getSearchObjByDate={getSearchObjByDate}
                             />
                         </div>
 

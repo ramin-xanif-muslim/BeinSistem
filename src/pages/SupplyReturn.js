@@ -25,6 +25,7 @@ import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 const { Text } = Typography;
 export default function SupplyReturn() {
+    const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -549,10 +550,12 @@ export default function SupplyReturn() {
             </Button>
         </Dropdown>
     );
-    const getSearcObjByDate = async (ob) => {
+    const getSearchObjByDate = async (ob) => {
+        setFetchSearchByDate(true);
         let res = await sendRequest("supplyreturns/get.php", ob);
         setDocumentList(res.List);
         setallsum(res.AllSum);
+        setFetchSearchByDate(false);
     };
     if (isLoading) return "Loading...";
 
@@ -586,7 +589,7 @@ export default function SupplyReturn() {
                             />
                             <FastSearch className="search_header" />
                             <SearchByDate
-                                getSearcObjByDate={getSearcObjByDate}
+                                getSearchObjByDate={getSearchObjByDate}
                             />
                         </div>
                         <div>{tableSettings}</div>
@@ -598,7 +601,7 @@ export default function SupplyReturn() {
                     <FilterComponent settings={filterSetting} cols={filters} />
                 </Col>
             </Row>
-
+            {isFetchSearchByDate && <Spin />}
             <Table
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
