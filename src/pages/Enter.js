@@ -26,6 +26,7 @@ import sendRequest from "../config/sentRequest";
 const { Text } = Typography;
 export default function Enter() {
     const [redirect, setRedirect] = useState(false);
+    const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
     const [initialSort, setInitialSort] = useState("Moment");
@@ -513,11 +514,13 @@ export default function Enter() {
         </Dropdown>
     );
     const getSearcObjByDate = async (ob) => {
+        setFetchSearchByDate(true)
         let res = await sendRequest("enters/get.php", ob);
         setDocumentList(res.List);
         setallsum(res.AllSum);
+        setFetchSearchByDate(false)
     };
-    if (isLoading) return "Loading...";
+    if (isLoading) return <Spin />;
 
     if (error) return "An error has occurred: " + error.message;
 
@@ -581,7 +584,7 @@ export default function Enter() {
                     className="setting_button_wrapper"
                 ></Col>
             </Row>
-
+            {isFetchSearchByDate && <Spin />}
             <Table
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}

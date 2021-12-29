@@ -5,9 +5,8 @@ import { Input, Space } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 const { Search } = Input;
 
-function FastSearch() {
+function MyFastSearch({searchTerm, setSearchTerm, searchFunc}) {
   const { search, setFastSearch,setIsFilter, doSearch, setDoSearch } = useTableCustom();
-  const [value, setValue] = useState(null);
 
 //   useEffect(() => {
 //     handleSearch()
@@ -15,19 +14,11 @@ function FastSearch() {
 //   },[])
 
   const handleSearch = () => {
-    console.log("enter oldu");
-    setFastSearch(value);
-    if (value) {
-      setIsFilter(false)
-      setDoSearch(true);
-    } else {
-      setDoSearch(false);
-      setIsFilter(false);
-
-    }
+    searchFunc(searchTerm)
+    
   };
   const onChange = (e) => {
-    setValue(e.target.value);
+    setSearchTerm(e.target.value);
   };
   return (
     <div>
@@ -36,10 +27,10 @@ function FastSearch() {
         onChange={onChange}
         onPressEnter={handleSearch}
         style={{ width: 200 }}
-        defaultValue={search}
+        defaultValue={searchTerm}
       />
     </div>
   );
 }
 
-export default FastSearch;
+export default MyFastSearch;

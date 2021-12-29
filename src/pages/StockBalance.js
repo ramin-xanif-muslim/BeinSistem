@@ -15,8 +15,12 @@ import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import { SettingOutlined } from "@ant-design/icons";
+import MyFastSearch from "../components/MyFastSearch";
+import sendRequest from "../config/sentRequest";
+
 const { Text } = Typography;
 export default function StockBalance() {
+    const [ searchTerm, setSearchTerm ] = useState('')
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(0);
     const [defaultdr, setDefaultDr] = useState("ascend");
@@ -133,6 +137,19 @@ export default function StockBalance() {
                     : true,
                 sorter: (a, b) => null,
                 className: initialSort === "BarCode" ? "activesort" : "",
+            },
+            {
+                dataIndex: "StockId",
+                title: "Yerləşdiyi Anbar",
+                sort: true,
+                defaultSortOrder: initialSort === "StockId" ? defaultdr : null,
+                show: initial
+                    ? Object.values(initial).find(
+                          (i) => i.dataIndex === "StockId"
+                      ).show
+                    : true,
+                sorter: (a, b) => null,
+                className: initialSort === "StockId" ? "activesort" : "",
             },
             {
                 dataIndex: "ArtCode",
@@ -397,6 +414,25 @@ export default function StockBalance() {
             },
         ];
     }, [filterChanged]);
+
+    
+
+    const searchFunc = async (value) => {
+        setSearchTerm(value)
+        let obj = {
+            ar: 0,
+            dr: 1,
+            fast: value,
+            gp: "",
+            pg: 0,
+            lm: 25,
+        }
+        let res = await sendRequest('products/getfast.php',obj)
+        console.log(res);
+        setDocumentList(res.List[0]);
+    }
+
+
     useEffect(() => {
         setInitial(columns);
         setInitialFilter(filters);
@@ -575,6 +611,8 @@ export default function StockBalance() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
+							{/* <MyFastSearch searchFunc={searchFunc} setSearchTerm={setSearchTerm}
+                            searchTerm={searchTerm} className="search_header" /> */}
                         </div>
 
                         <div>{tableSettings}</div>

@@ -130,6 +130,7 @@ function FilterComponent({ from, settings, cols }) {
 		setSelectFilter([]);
 		setChanged(true);
 		form.resetFields();
+        console.log(initial)
 		form.setFieldsValue(initial);
 
 		setIsFilter(true);
@@ -144,8 +145,6 @@ function FilterComponent({ from, settings, cols }) {
 		setChanged(true);
 	}
 	function handleChange(value, option) {
-		console.log(form.getFieldValue());
-		console.log(option);
 		if (option) {
 			Object.assign(selectFilter, {
 				[option.nm]: option.children ? option.children : null,
@@ -550,7 +549,7 @@ function FilterComponent({ from, settings, cols }) {
 			Object.assign(selectFilter, {
 				ar: 0,
 				zeros: 3,
-				wg: "",
+				// wg: "",
 			});
 
 			setSelectFilter(selectFilter);
@@ -561,21 +560,19 @@ function FilterComponent({ from, settings, cols }) {
 			}
 
 			setinitial({
-				wg: "",
+				// wg: "",
 				ar: 0,
 			});
 
 			form.setFieldsValue(selectFilter);
 
-			if (selectFilter.wg === "" || selectFilter.wg === undefined) {
-				console.log("salam");
-				form.setFieldsValue({
-					wg: "",
-				});
-			}
-			console.log(selectFilter.ar);
+			// if (selectFilter.wg === "" || selectFilter.wg === undefined) {
+			// 	console.log("salam");
+			// 	form.setFieldsValue({
+			// 		wg: "",
+			// 	});
+			// }
 			if (selectFilter.ar === "" || selectFilter.ar === undefined) {
-				console.log("salam");
 				form.setFieldsValue({
 					ar: 0,
 				});
@@ -601,7 +598,6 @@ function FilterComponent({ from, settings, cols }) {
 		}
 	}, [advanced]);
 
-	console.log(selectFilter);
 
 	// var defaults = {
 	//   ar: "Xeyr",

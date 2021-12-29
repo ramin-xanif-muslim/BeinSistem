@@ -34,7 +34,6 @@ function AddProductInput() {
             delete result["key"];
             result = { ...result, value: result.productid, text: result.name };
             delete result["productid"];
-            console.log("res", result);
 
             setNewPro(result);
             setAdd(true);
@@ -54,7 +53,7 @@ function AddProductInput() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
 
-  useEffect(() => {
+    useEffect(() => {
     var datas = [];
 
     if (list && list.data.Body.List.length > 0) {
@@ -105,7 +104,6 @@ function AddProductInput() {
       `https://dev.bein.az/controllers/products/getfast.php`,
       obj
     );
-    console.log(data)
     setList(data);
   }
 
@@ -114,7 +112,6 @@ function AddProductInput() {
       `https://dev.bein.az/controllers/products/getfast.php`,
       obj
     );
-    console.log(res.data.Body.List);
     var datas = {};
 
     Object.assign(datas, {
@@ -148,7 +145,6 @@ function AddProductInput() {
   };
 
   const onChange = (ob) => {
-    console.log(ob);
     setNewPro(ob);
     setAdd(true);
     setOpenDropDown(false);
@@ -182,7 +178,7 @@ function AddProductInput() {
         <Dropdown.Menu style={{ maxHeight: "none", maxHeight: "46vh" }}>
           {
           productList.map((option, index) =>
-            option.id != "0" ? (
+            option.id !== "0" ? (
               <Dropdown.Item
                 key={option.value}
                 {...option}

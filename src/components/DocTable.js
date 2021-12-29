@@ -118,7 +118,6 @@ function  DocTable({ headers, datas, from }) {
 
   useEffect(() => {
     if (isAdd) {
-        console.log(newPro)
       var duplicateData = false;
       var index;
       var newData = {
@@ -238,16 +237,16 @@ function  DocTable({ headers, datas, from }) {
             : newPro.buyprice
           : newPro.buyprice,
         PrintPrice: newPro.price,
-        // Price: from
-        //   ? from === "demands"
-        //     ? newPro.price
-        //     : newPro.price
-        //   : newPro.price,
         Price: from
           ? from === "demands"
             ? newPro.price
-            : newPro.buyprice
-          : newPro.buyprice,
+            : newPro.price
+          : newPro.price,
+        // Price: from
+        //   ? from === "demands"
+        //     ? newPro.price
+        //     : newPro.buyprice
+        //   : newPro.buyprice,
         CostPr: from
           ? from === "demands"
             ? newPro.price
@@ -330,7 +329,7 @@ function  DocTable({ headers, datas, from }) {
     newdata.Quantity = quantity;
     newdata.TotalPrice = totalprice;
     newdata.CostPriceTotal = totalcostprice;
-    newdata.Price = prevdatasource[i].SellPrice;
+    newdata.Price = prevdatasource[i].Price;
     prevdatasource.splice(i, 1);
     prevdatasource.unshift(newdata);
 

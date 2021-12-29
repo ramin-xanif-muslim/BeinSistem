@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import style from "./SearchByDate.module.css";
+import { Spin } from 'antd';
+
 
 function SearchByDate({ getSearcObjByDate }) {
 
@@ -36,7 +38,6 @@ function SearchByDate({ getSearcObjByDate }) {
         pg: 0,
         lm: 25,
         dr: 1,
-        sr: "Moment",
         momb: "",
         mome: "",
     };

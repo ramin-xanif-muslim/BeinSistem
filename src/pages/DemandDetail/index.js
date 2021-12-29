@@ -141,6 +141,7 @@ function DemandDetail() {
 	}, [outerDataSource]);
 	useEffect(() => {
 		if (!isFetching) {
+            console.log(data.Body)
 			customPositions = [];
 			Object.values(data.Body.List[0].Positions).map((d) =>
 				customPositions.push(d)

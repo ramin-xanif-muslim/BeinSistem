@@ -16,7 +16,11 @@ import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
 import { SettingOutlined } from "@ant-design/icons";
 import { isObject } from "../config/function/findadditionals";
+import MyFastSearch from "../components/MyFastSearch";
+import sendRequest from "../config/sentRequest";
+
 export default function Product() {
+    const [ searchTerm, setSearchTerm ] = useState('')
 	const [redirect, setRedirect] = useState(false);
 	const [editId, setEditId] = useState("");
 	const [page, setPage] = useState(0);
@@ -59,6 +63,21 @@ export default function Product() {
 		setdisplay,
 		display,
 	} = useTableCustom();
+
+    const searchFunc = async (value) => {
+        setSearchTerm(value)
+        let obj = {
+            ar: 0,
+            dr: 1,
+            fast: value,
+            gp: "",
+            pg: 0,
+            lm: 25,
+        }
+        let res = await sendRequest('products/getfast.php',obj)
+        console.log(res.List[0]);
+        setProdutcList(res.List[0]);
+    }
 
 	const filters = useMemo(() => {
 		return [
@@ -681,7 +700,9 @@ export default function Product() {
 								}
 								content="Filter"
 							/>
-							<FastSearch className="search_header" />
+                            <FastSearch className="search_header" />
+							{/* <MyFastSearch searchFunc={searchFunc} setSearchTerm={setSearchTerm}
+                            searchTerm={searchTerm} className="search_header" /> */}
 						</div>
 						{tableSettings}
 					</div>
