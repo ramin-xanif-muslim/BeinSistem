@@ -226,6 +226,9 @@ export default function Loss() {
                     initialSort === "Consumption" ? defaultdr : null,
                 sorter: (a, b) => null,
                 className: initialSort === "Consumption" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
         ];
     }, [defaultdr, initialSort, filtered, marks, advancedPage]);

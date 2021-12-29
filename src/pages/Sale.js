@@ -21,6 +21,7 @@ import enters from "../ButtonsNames/Enters/buttonsNames";
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function Sale() {
     const [redirect, setRedirect] = useState(false);
@@ -174,6 +175,9 @@ export default function Sale() {
                       ).show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Credit",
@@ -185,6 +189,9 @@ export default function Sale() {
                       ).show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "SumMoney",
@@ -222,6 +229,9 @@ export default function Sale() {
                       ).show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {
@@ -234,6 +244,9 @@ export default function Sale() {
                       ).show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {

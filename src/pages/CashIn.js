@@ -17,6 +17,7 @@ import enters from "../ButtonsNames/Enters/buttonsNames";
 import { SettingOutlined } from "@ant-design/icons";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function CashIn() {
     const [redirect, setRedirect] = useState(false);
@@ -121,6 +122,9 @@ export default function CashIn() {
                       ).show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {

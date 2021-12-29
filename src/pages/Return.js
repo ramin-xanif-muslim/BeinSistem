@@ -18,6 +18,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function Return() {
     const [redirect, setRedirect] = useState(false);
@@ -156,6 +157,9 @@ export default function Return() {
                       ).show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Bank",
@@ -166,6 +170,9 @@ export default function Return() {
                           .show
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Description",

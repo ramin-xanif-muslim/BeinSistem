@@ -23,6 +23,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function SupplyReturn() {
     const [redirect, setRedirect] = useState(false);
@@ -177,6 +178,9 @@ export default function SupplyReturn() {
                     : true,
                 sorter: (a, b) => null,
                 className: initialSort === "Amount" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {
@@ -247,6 +251,9 @@ export default function SupplyReturn() {
                       ).show
                     : false,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {
@@ -261,6 +268,9 @@ export default function SupplyReturn() {
                       ).show
                     : false,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Discount",
@@ -274,6 +284,9 @@ export default function SupplyReturn() {
                       ).show
                     : false,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
         ];
     }, [defaultdr, initialSort, filtered, marks, advancedPage]);

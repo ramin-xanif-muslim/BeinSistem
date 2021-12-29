@@ -160,6 +160,9 @@ export default function SaleReport() {
                         : true
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "SumPrice",
@@ -175,6 +178,9 @@ export default function SaleReport() {
                         : true
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "RetQuantity",
@@ -207,6 +213,9 @@ export default function SaleReport() {
                         : true
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "RetSumPrice",
@@ -223,6 +232,9 @@ export default function SaleReport() {
                         : true
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {
@@ -235,6 +247,9 @@ export default function SaleReport() {
                     : true,
                 defaultSortOrder: initialSort === "Profit" ? defaultdr : null,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Percent",
