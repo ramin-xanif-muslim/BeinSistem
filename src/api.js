@@ -638,7 +638,7 @@ export const putLogin = async (values) => {
   if (data.Headers.ResponseStatus === "0") {
     return data;
   } else {
-    return data.Body;
+    return data;
   }
 };
 
