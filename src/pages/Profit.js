@@ -20,7 +20,7 @@ import SearchByDate from "../components/SearchByDate";
 const { Text } = Typography;
 
 export default function Profit() {
-	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
+    const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("");
@@ -264,12 +264,12 @@ export default function Profit() {
             </Button>
         </Dropdown>
     );
-	const getSearchObjByDate = async (ob) => {
-		// setFetchSearchByDate(true);
-		// let res = await sendRequest("profit/get.php", ob);
+    const getSearchObjByDate = async (ob) => {
+        // setFetchSearchByDate(true);
+        // let res = await sendRequest("profit/get.php", ob);
         // setDocument(res.Body);
-		// setFetchSearchByDate(false);
-	};
+        // setFetchSearchByDate(false);
+    };
 
     if (isLoading) return "Loading...";
 
@@ -296,9 +296,9 @@ export default function Profit() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
-							<SearchByDate
-								getSearchObjByDate={getSearchObjByDate}
-							/>
+                            <SearchByDate
+                                getSearchObjByDate={getSearchObjByDate}
+                            />
                         </div>
                     </div>
                 </Col>
@@ -308,7 +308,7 @@ export default function Profit() {
                     <FilterComponent settings={filterSetting} cols={filters} />
                 </Col>
             </Row>
-			{isFetchSearchByDate && <Spin />}
+            {isFetchSearchByDate && <Spin />}
             <Table
                 id="profit-table"
                 className="short-table"

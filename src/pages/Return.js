@@ -21,7 +21,7 @@ import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function Return() {
-	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
+    const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -405,13 +405,13 @@ export default function Return() {
             </Menu.ItemGroup>
         </Menu>
     );
-	const getSearchObjByDate = async (ob) => {
-		setFetchSearchByDate(true);
-		let res = await sendRequest("returns/get.php", ob);
-		setDocumentList(res.List);
-		setallsum(res.AllSum);
-		setFetchSearchByDate(false);
-	};
+    const getSearchObjByDate = async (ob) => {
+        setFetchSearchByDate(true);
+        let res = await sendRequest("returns/get.php", ob);
+        setDocumentList(res.List);
+        setallsum(res.AllSum);
+        setFetchSearchByDate(false);
+    };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -439,7 +439,7 @@ export default function Return() {
                             />
                             <FastSearch className="search_header" />
                             <SearchByDate
-								getSearchObjByDate={getSearchObjByDate}
+                                getSearchObjByDate={getSearchObjByDate}
                             />
                         </div>
                     </div>
@@ -465,8 +465,9 @@ export default function Return() {
                     </Dropdown>
                 </Col>
             </Row>
-			{isFetchSearchByDate && <Spin />}
+            {isFetchSearchByDate && <Spin />}
             <Table
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}

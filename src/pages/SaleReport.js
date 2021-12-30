@@ -30,7 +30,7 @@ import MyFastSearch from "../components/MyFastSearch";
 const { Text } = Typography;
 
 export default function SaleReport() {
-	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
+    const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -79,19 +79,19 @@ export default function SaleReport() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
-        setSalereportsSearchTerm(value)
+        setSalereportsSearchTerm(value);
         let obj = {
             nm: value,
             lm: 25,
-        }
-        let res = await sendRequest('salereports/get.php',obj)
-		setDocumentList(res.List);
+        };
+        let res = await sendRequest("salereports/get.php", obj);
+        setDocumentList(res.List);
         setAllAmount(res.AllAmount);
         setAllCost(res.AllCost);
         setAllProfit(res.AllProfit);
         setRetAllAmount(res.RetAllAmount);
         setRetAllCost(res.RetAllCost);
-    }
+    };
 
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -619,17 +619,17 @@ export default function SaleReport() {
             </Menu.ItemGroup>
         </Menu>
     );
-	const getSearchObjByDate = async (ob) => {
-		setFetchSearchByDate(true);
-		let res = await sendRequest("salereports/get.php", ob);
-		setDocumentList(res.List);
+    const getSearchObjByDate = async (ob) => {
+        setFetchSearchByDate(true);
+        let res = await sendRequest("salereports/get.php", ob);
+        setDocumentList(res.List);
         setAllAmount(res.AllAmount);
         setAllCost(res.AllCost);
         setAllProfit(res.AllProfit);
         setRetAllAmount(res.RetAllAmount);
         setRetAllCost(res.RetAllCost);
-		setFetchSearchByDate(false);
-	};
+        setFetchSearchByDate(false);
+    };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -666,11 +666,15 @@ export default function SaleReport() {
                                 content="Filter"
                             />
                             {/* <FastSearch className="search_header" /> */}
-							<MyFastSearch searchFunc={searchFunc} setSearchTerm={setSalereportsSearchTerm}
-                            searchTerm={salereportsSearchTerm} className="search_header" />
-							<SearchByDate
-								getSearchObjByDate={getSearchObjByDate}
-							/>
+                            <MyFastSearch
+                                searchFunc={searchFunc}
+                                setSearchTerm={setSalereportsSearchTerm}
+                                searchTerm={salereportsSearchTerm}
+                                className="search_header"
+                            />
+                            <SearchByDate
+                                getSearchObjByDate={getSearchObjByDate}
+                            />
                         </div>
                     </div>
                 </Col>
@@ -693,8 +697,9 @@ export default function SaleReport() {
                     <FilterComponent cols={filters} />
                 </Col>
             </Row>
-			{isFetchSearchByDate && <Spin />}
+            {isFetchSearchByDate && <Spin />}
             <Table
+                className="main-table"
                 id="report-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}

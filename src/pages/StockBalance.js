@@ -20,7 +20,7 @@ import sendRequest from "../config/sentRequest";
 
 const { Text } = Typography;
 export default function StockBalance() {
-    const [ searchTerm, setSearchTerm ] = useState('')
+    const [searchTerm, setSearchTerm] = useState("");
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(0);
     const [defaultdr, setDefaultDr] = useState("ascend");
@@ -57,17 +57,17 @@ export default function StockBalance() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
-        setStockbalanceSearchTerm(value)
+        setStockbalanceSearchTerm(value);
         let obj = {
             nm: value,
             lm: 25,
-        }
-        let res = await sendRequest('stockbalance/get.php',obj)
-		setDocumentList(res.List);
+        };
+        let res = await sendRequest("stockbalance/get.php", obj);
+        setDocumentList(res.List);
         setallsum(res.SaleSum);
         setallcost(res.CostSum);
         setallquantity(res.QuantitySum);
-    }
+    };
 
     const [documentList, setDocumentList] = useState([]);
     const { isLoading, error, data, isFetching } = useQuery(
@@ -430,7 +430,6 @@ export default function StockBalance() {
         ];
     }, [filterChanged]);
 
-
     useEffect(() => {
         setInitial(columns);
         setInitialFilter(filters);
@@ -609,8 +608,12 @@ export default function StockBalance() {
                                 content="Filter"
                             />
                             {/* <FastSearch className="search_header" /> */}
-							<MyFastSearch searchFunc={searchFunc} setSearchTerm={setStockbalanceSearchTerm}
-                            searchTerm={stockbalanceSearchTerm} className="search_header" />
+                            <MyFastSearch
+                                searchFunc={searchFunc}
+                                setSearchTerm={setStockbalanceSearchTerm}
+                                searchTerm={stockbalanceSearchTerm}
+                                className="search_header"
+                            />
                         </div>
 
                         <div>{tableSettings}</div>
@@ -628,6 +631,7 @@ export default function StockBalance() {
             </Row>
 
             <Table
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}

@@ -27,7 +27,10 @@ import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
-import { ConvertFixedTable, isObject } from "../config/function/findadditionals";
+import {
+    ConvertFixedTable,
+    isObject,
+} from "../config/function/findadditionals";
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
@@ -675,6 +678,7 @@ export default function CustomerOrders() {
             </Row>
             {isFetchSearchByDate && <Spin />}
             <Table
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}

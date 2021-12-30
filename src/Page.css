@@ -14,8 +14,6 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    z-index: 1000;
     background-color: white;
 }
 .formWrapper {
@@ -34,7 +32,7 @@
     position: sticky;
     top: 0;
     background-color: #fff;
-    z-index: 1;
+    z-index: 2;
     padding: 10px 20px;
     box-shadow: 2px 2px 3px 0px #b2afaf;
 }
@@ -623,4 +621,14 @@ tr.ant-table-expanded-row:hover td {
 .detail-input-number,
 .detail-input-number input {
     height: 26px !important;
+}
+
+.main-table .ant-table-thead {
+    position: sticky;
+    top: 100px;
+    z-index: 1;
+}
+
+.ant-table-thead th.ant-table-column-has-sorters:hover {
+    background: #f6f6f6;
 }

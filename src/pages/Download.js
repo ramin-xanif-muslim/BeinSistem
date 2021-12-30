@@ -54,6 +54,7 @@ function Download() {
                             shape="round"
                             icon={<WindowsOutlined />}
                             size="large"
+                            className={s.downloadButton}
                         >
                             Kassa programını yüklə
                         </Button>
