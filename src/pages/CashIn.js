@@ -20,7 +20,7 @@ import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function CashIn() {
-	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
+    const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -393,13 +393,13 @@ export default function CashIn() {
             </Button>
         </Dropdown>
     );
-	const getSearchObjByDate = async (ob) => {
-		setFetchSearchByDate(true);
-		let res = await sendRequest("cashins/get.php", ob);
-		setDocumentList(res.List);
-		setallsum(res.AllSum);
-		setFetchSearchByDate(false);
-	};
+    const getSearchObjByDate = async (ob) => {
+        setFetchSearchByDate(true);
+        let res = await sendRequest("cashins/get.php", ob);
+        setDocumentList(res.List);
+        setallsum(res.AllSum);
+        setFetchSearchByDate(false);
+    };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -426,9 +426,9 @@ export default function CashIn() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
-							<SearchByDate
-								getSearchObjByDate={getSearchObjByDate}
-							/>
+                            <SearchByDate
+                                getSearchObjByDate={getSearchObjByDate}
+                            />
                         </div>
                         <div>{tableSettings}</div>
                     </div>
@@ -439,8 +439,9 @@ export default function CashIn() {
                     <FilterComponent settings={filterSetting} cols={filters} />
                 </Col>
             </Row>
-			{isFetchSearchByDate && <Spin />}
+            {isFetchSearchByDate && <Spin />}
             <Table
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}

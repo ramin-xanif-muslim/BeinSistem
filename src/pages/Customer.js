@@ -549,6 +549,7 @@ export default function Customer() {
                 </Col>
                 <Col xs={24} md={24} xl={20}>
                     <Table
+                        className="main-table"
                         rowKey="Id"
                         columns={columns.filter((c) => c.show == true)}
                         dataSource={productList}

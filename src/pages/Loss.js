@@ -555,6 +555,7 @@ export default function Loss() {
             </Row>
             {isFetchSearchByDate && <Spin />}
             <Table
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}

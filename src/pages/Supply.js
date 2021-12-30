@@ -234,9 +234,9 @@ export default function Supply() {
                 sorter: (a, b) => null,
                 className:
                     initialSort === "CustomerDiscount" ? "activesort" : "",
-                    render: (value, row, index) => {
-                        return ConvertFixedTable(value);
-                    },
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {
@@ -604,6 +604,7 @@ export default function Supply() {
             </Row>
             {isFetchSearchByDate && <Spin />}
             <Table
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
