@@ -25,6 +25,7 @@ import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function CreditTransaction() {
+	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -406,11 +407,14 @@ export default function CreditTransaction() {
             </Menu.ItemGroup>
         </Menu>
     );
-    const getSearcObjByDate = async (ob) => {
-        let res = await sendRequest("credittransactions/get.php", ob);
-        setDocumentList(res.List);
-        // setallsum(res.AllSum);
-    };
+	const getSearchObjByDate = async (ob) => {
+		setFetchSearchByDate(true);
+		let res = await sendRequest("credittransactions/get.php", ob);
+		setDocumentList(res.List);
+        setallinsum(res.InSum);
+        setalloutsum(res.OutSum);
+		setFetchSearchByDate(false);
+	};
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -436,9 +440,9 @@ export default function CreditTransaction() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
-                            <SearchByDate
-                                getSearcObjByDate={getSearcObjByDate}
-                            />
+							<SearchByDate
+								getSearchObjByDate={getSearchObjByDate}
+							/>
                         </div>
                     </div>
                 </Col>
@@ -463,6 +467,7 @@ export default function CreditTransaction() {
                     </Dropdown>
                 </Col>
             </Row>
+			{isFetchSearchByDate && <Spin />}
             <Table
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}

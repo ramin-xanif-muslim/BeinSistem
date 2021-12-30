@@ -24,6 +24,7 @@ import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
 export default function Sale() {
+	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -592,11 +593,16 @@ export default function Sale() {
             </Button>
         </Dropdown>
     );
-    const getSearcObjByDate = async (ob) => {
-        let res = await sendRequest("sales/get.php", ob);
-        setDocumentList(res.List);
+	const getSearchObjByDate = async (ob) => {
+		setFetchSearchByDate(true);
+		let res = await sendRequest("sales/get.php", ob);
+		setDocumentList(res.List);
         setallsum(res.AllSum);
-    };
+        setallprofit(res.AllProfit);
+        setallbonus(res.BonusSum);
+        setallbank(res.BankSum);
+		setFetchSearchByDate(false);
+	};
     if (isLoading) return "Loading...";
 
     if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
@@ -622,7 +628,7 @@ export default function Sale() {
                             />
                             <FastSearch className="search_header" />
                             <SearchByDate
-                                getSearcObjByDate={getSearcObjByDate}
+                                getSearchObjByDate={getSearchObjByDate}
                             />
                         </div>
                         <div>{tableSettings}</div>
@@ -634,6 +640,7 @@ export default function Sale() {
                     <FilterComponent settings={filterSetting} cols={filters} />
                 </Col>
             </Row>
+			{isFetchSearchByDate && <Spin />}
 
             <Table
                 rowKey="Name"

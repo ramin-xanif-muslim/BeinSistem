@@ -564,13 +564,14 @@ export default function Transaction() {
             </Button>
         </Dropdown>
     );
-    // const getSearchObjByDate = async (ob) => {
-    //     setFetchSearchByDate(true);
-    //     let res = await sendRequest("transactions/get.php", ob);
-    //     setDocumentList(res.List);
-    //     setallsum(res.InSum);
-    //     setFetchSearchByDate(false);
-    // };
+    const getSearchObjByDate = async (ob) => {
+        setFetchSearchByDate(true);
+        let res = await sendRequest("transactions/get.php", ob);
+        setDocumentList(res.List);
+        setallinsum(res.InSum);
+        setalloutsum(res.OutSum);
+        setFetchSearchByDate(false);
+    };
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -604,9 +605,9 @@ export default function Transaction() {
                                 content="Filter"
                             />
                             <FastSearch className="search_header" />
-                            {/* <SearchByDate
+                            <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
-                            /> */}
+                            />
                         </div>
                         <div>{tableSettings}</div>
                     </div>

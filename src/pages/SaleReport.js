@@ -30,6 +30,7 @@ import MyFastSearch from "../components/MyFastSearch";
 const { Text } = Typography;
 
 export default function SaleReport() {
+	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -618,11 +619,17 @@ export default function SaleReport() {
             </Menu.ItemGroup>
         </Menu>
     );
-    const getSearcObjByDate = async (ob) => {
-        let res = await sendRequest("salereports/get.php", ob);
-        setDocumentList(res.List);
-        setallsum(res.AllSum);
-    };
+	const getSearchObjByDate = async (ob) => {
+		setFetchSearchByDate(true);
+		let res = await sendRequest("salereports/get.php", ob);
+		setDocumentList(res.List);
+        setAllAmount(res.AllAmount);
+        setAllCost(res.AllCost);
+        setAllProfit(res.AllProfit);
+        setRetAllAmount(res.RetAllAmount);
+        setRetAllCost(res.RetAllCost);
+		setFetchSearchByDate(false);
+	};
     if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
@@ -661,9 +668,9 @@ export default function SaleReport() {
                             {/* <FastSearch className="search_header" /> */}
 							<MyFastSearch searchFunc={searchFunc} setSearchTerm={setSalereportsSearchTerm}
                             searchTerm={salereportsSearchTerm} className="search_header" />
-                            <SearchByDate
-                                getSearcObjByDate={getSearcObjByDate}
-                            />
+							<SearchByDate
+								getSearchObjByDate={getSearchObjByDate}
+							/>
                         </div>
                     </div>
                 </Col>
@@ -686,7 +693,7 @@ export default function SaleReport() {
                     <FilterComponent cols={filters} />
                 </Col>
             </Row>
-
+			{isFetchSearchByDate && <Spin />}
             <Table
                 id="report-table"
                 rowKey="Name"

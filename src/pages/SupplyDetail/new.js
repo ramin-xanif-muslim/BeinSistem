@@ -578,7 +578,7 @@ function NewSupply() {
                         >
                             <DocTable
                                 headers={columns.filter(
-                                    (c) => c.isVisible == true
+                                    (c) => c.isVisible === true
                                 )}
                                 datas={positions}
                             />

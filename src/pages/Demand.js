@@ -572,6 +572,7 @@ export default function Demand() {
         let res = await sendRequest("demands/get.php", ob);
         setDocumentList(res.List);
         setallsum(res.AllSum);
+        setallprofit(res.AllProfit);
         setFetchSearchByDate(false);
     };
     if (isLoading) return "Loading...";

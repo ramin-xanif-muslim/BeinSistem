@@ -3,7 +3,7 @@ import { Dropdown } from "semantic-ui-react";
 import axios from "axios";
 import { useTableCustom } from "../contexts/TableContext";
 
-function AddProductInput() {
+function AddProductInput({ from }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [barcodeScan, setBarcodeScan] = useState(false);
   const [openDropDown, setOpenDropDown] = useState(false);
@@ -197,7 +197,13 @@ function AddProductInput() {
                         </div>
                       </div>
                       <div className="product-price">
+                      {
+                          from === 'demands'
+                          ?
                         <p>{(Math.round(option.price * 100) / 100).toFixed(2)}<sup>₼</sup></p>
+                        :
+                        <p>{(Math.round(option.buyprice * 100) / 100).toFixed(2)}<sup>₼</sup></p>
+                      }
                       </div>
                     </div>
                     <div className="item-row second-row">
