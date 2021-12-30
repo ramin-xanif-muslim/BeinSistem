@@ -6,6 +6,14 @@ import { useTableCustom } from "../contexts/TableContext";
 const { Search } = Input;
 
 function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        searchFunc(searchTerm)
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
 	const handleSearch = () => {
 		searchFunc(searchTerm);
 	};

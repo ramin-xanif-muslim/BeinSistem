@@ -15,7 +15,7 @@ import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
 import { SettingOutlined } from "@ant-design/icons";
-import { isObject } from "../config/function/findadditionals";
+import { ConvertFixedTable, isObject } from "../config/function/findadditionals";
 import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 
@@ -46,8 +46,8 @@ export default function Product() {
 	);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 	const {
-        productSearchTerm,
-        setProductSearchTerm,
+		productSearchTerm,
+		setProductSearchTerm,
 		setAttributes,
 		setAttrLocalStorage,
 		setPrices,
@@ -65,20 +65,20 @@ export default function Product() {
 		display,
 	} = useTableCustom();
 
-    const searchFunc = async (value) => {
-        setProductSearchTerm(value)
-        let obj = {
-            ar: 0,
-            dr: 1,
-            fast: value,
-            gp: "",
-            pg: 0,
-            lm: 25,
-        }
-        let res = await sendRequest('products/getfast.php',obj)
-        console.log(res);
+	const searchFunc = async (value) => {
+		setProductSearchTerm(value);
+		let obj = {
+			ar: 0,
+			dr: 1,
+			fast: value,
+			gp: "",
+			pg: 0,
+			lm: 25,
+		};
+		let res = await sendRequest("products/getfast.php", obj);
+		console.log(res);
 		setProdutcList(res.List);
-    }
+	};
 
 	const filters = useMemo(() => {
 		return [
@@ -339,6 +339,9 @@ export default function Product() {
 					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "BuyPrice" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
 			},
 			{
 				dataIndex: "Price",
@@ -352,6 +355,9 @@ export default function Product() {
 					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "Price" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
 			},
 			{
 				dataIndex: "MinPrice",
@@ -364,6 +370,9 @@ export default function Product() {
 					: false,
 				sorter: (a, b) => null,
 				className: initialSort === "MinPrice" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
 			},
 
 			{
@@ -392,6 +401,9 @@ export default function Product() {
 					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "StockBalance" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
 			},
 
 			{
@@ -406,6 +418,9 @@ export default function Product() {
 					: false,
 				sorter: (a, b) => null,
 				className: initialSort === "PackPrice" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
 			},
 			{
 				dataIndex: "PackQuantity",
@@ -419,6 +434,9 @@ export default function Product() {
 					: false,
 				sorter: (a, b) => null,
 				className: initialSort === "PackQuantity" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
 			},
 			{
 				dataIndex: "PrintBarcode",
@@ -523,15 +541,15 @@ export default function Product() {
 		}
 	);
 
-    useEffect(() => {
-        if (!isFetching) {
-            if (isObject(data.Body)) {
-                setProdutcList(data.Body.List);
-            }
-        } else {
-            setProdutcList([]);
-        }
-    }, [isFetching]);
+	useEffect(() => {
+		if (!isFetching) {
+			if (isObject(data.Body)) {
+				setProdutcList(data.Body.List);
+			}
+		} else {
+			setProdutcList([]);
+		}
+	}, [isFetching]);
 
 	useEffect(() => {
 		setRefList([]);
@@ -540,10 +558,10 @@ export default function Product() {
 	}, []);
 
 	const getAttributes = async () => {
-			const attrResponse = await fetchAttributes();
-            console.log(attrResponse)
-			setAttributes(attrResponse.Body.List);
-			setAttrLocalStorage(attrResponse.Body.List);
+		const attrResponse = await fetchAttributes();
+		console.log(attrResponse);
+		setAttributes(attrResponse.Body.List);
+		setAttrLocalStorage(attrResponse.Body.List);
 	};
 	const getPrices = async () => {
 		const priceResponse = await fetchPriceTypes();
@@ -701,9 +719,13 @@ export default function Product() {
 								}
 								content="Filter"
 							/>
-                            {/* <FastSearch className="search_header" /> */}
-							<MyFastSearch searchFunc={searchFunc} setSearchTerm={setProductSearchTerm}
-                            searchTerm={productSearchTerm} className="search_header" />
+							{/* <FastSearch className="search_header" /> */}
+							<MyFastSearch
+								searchFunc={searchFunc}
+								setSearchTerm={setProductSearchTerm}
+								searchTerm={productSearchTerm}
+								className="search_header"
+							/>
 						</div>
 						{tableSettings}
 					</div>

@@ -265,10 +265,10 @@ export default function Profit() {
         </Dropdown>
     );
 	const getSearchObjByDate = async (ob) => {
-		// setFetchSearchByDate(true);
-		// let res = await sendRequest("profit/get.php", ob);
-        // setDocument(res.Body);
-		// setFetchSearchByDate(false);
+		setFetchSearchByDate(true);
+		let res = await sendRequest("profit/get.php", ob);
+        setDocument(res);
+		setFetchSearchByDate(false);
 	};
 
     if (isLoading) return "Loading...";
