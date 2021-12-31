@@ -107,7 +107,6 @@ function EnterDetail() {
 	const [redirect, setRedirect] = useState(false);
 	const { doc_id } = useParams();
 	const [hasConsumption, setHasConsumption] = useState(false);
-	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
 	const [initial, setInitial] = useState(null);
 	const [columnChange, setColumnChange] = useState(false);
@@ -169,7 +168,7 @@ function EnterDetail() {
 			}
 			setConsumption(data.Body.List[0].Consumption);
 			setLoadingForm(false);
-			setStatus(data.Body.List[0].Status);
+			// setStatus(data.Body.List[0].Status);
 			form.setFieldsValue({
 				mark: data.Body.List[0].Mark,
 			});
@@ -448,7 +447,6 @@ function EnterDetail() {
 			myRefDescription.current.resizableTextArea.props.value;
 		values.consumption =
 			myRefConsumption.current.clearableInput.props.value;
-		values.status = status;
 		message.loading({ content: "Loading...", key: "doc_update" });
 		updateMutation.mutate(
 			{ id: doc_id, controller: "enters", filter: values },

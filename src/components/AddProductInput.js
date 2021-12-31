@@ -149,6 +149,7 @@ function AddProductInput({ from }) {
     setAdd(true);
     setOpenDropDown(false);
     setProductList([]);
+    setValue("");
   };
 
   const onClose = () => {

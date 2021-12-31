@@ -195,8 +195,7 @@ function SaleDetail() {
                 editable: true,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -207,8 +206,7 @@ function SaleDetail() {
                 editable: true,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -219,8 +217,7 @@ function SaleDetail() {
                 editable: true,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -252,8 +249,7 @@ function SaleDetail() {
                 editable: false,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
 

@@ -95,6 +95,7 @@ function DocButtons({
 			});
 		}
 	};
+    console.log(editid)
 	const dots = (
 		<Menu>
 			<Menu.Item key="0">

@@ -7,7 +7,6 @@ import {
 	fetchCustomers,
 } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
@@ -16,7 +15,6 @@ import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
@@ -46,8 +44,6 @@ export default function Sale() {
 		useState(false);
 	const {
 		marks,
-		setMarkLocalStorage,
-		setMark,
 		isFilter,
 		advancedPage,
 		setAdvancedPage,
@@ -63,9 +59,6 @@ export default function Sale() {
 		visibleDrawer,
 		setVisibleDrawer,
 		setcusid,
-		cusid,
-		setSaveFromModal,
-		setRedirectSaveClose,
 	} = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);

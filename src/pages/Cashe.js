@@ -18,45 +18,28 @@ import { SettingOutlined } from "@ant-design/icons";
 const { Text } = Typography;
 
 export default function Cashe() {
-    const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("");
     const [initialSort, setInitialSort] = useState("");
     const [fieldSort, setFieldSort] = useState("");
     const [allsum, setallsum] = useState(0);
-    const [allprofit, setallprofit] = useState(0);
-    const [allbonus, setallbonus] = useState(0);
-    const [allbank, setallbank] = useState(0);
-    const [editId, setEditId] = useState("");
     const [page, setPage] = useState(0);
     const [filtered, setFiltered] = useState(false);
-    const [expandedRowKeys, setexpandedRowKeys] = useState(["4"]);
-    const [children, setChildren] = useState([]);
-    const [columnChange, setColumnChange] = useState(false);
-    const [initial, setInitial] = useState(null);
-    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const {
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         advancedPage,
-        setAdvancedPage,
         doSearch,
         search,
         advanced,
-        setdisplay,
-        display,
     } = useTableCustom();
 
     const [documentList, setDocumentList] = useState([]);
-    const [document, setDocument] = useState({});
     const { isLoading, error, data, isFetching } = useQuery(
         ["cashes", page, direction, fieldSort, doSearch, search, advanced],
         () => {
             return isFilter === true
                 ? fetchFilterPage(
-                      "cashes",
                       advancedPage,
                       advanced,
                       direction,

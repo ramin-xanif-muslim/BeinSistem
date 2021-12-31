@@ -47,8 +47,6 @@ export default function Demand() {
         useState(false);
     const {
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         advancedPage,
         setAdvancedPage,
@@ -59,7 +57,6 @@ export default function Demand() {
         display,
         setCustomersLocalStorage,
         setCustomers,
-        setAdvance,
     } = useTableCustom();
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 

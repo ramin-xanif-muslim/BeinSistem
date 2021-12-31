@@ -47,8 +47,6 @@ export default function Demand() {
         useState(false);
     const {
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         advancedPage,
         setAdvancedPage,
@@ -59,7 +57,6 @@ export default function Demand() {
         display,
         setCustomersLocalStorage,
         setCustomers,
-        setAdvance,
     } = useTableCustom();
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -625,6 +622,9 @@ export default function Demand() {
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
                 dataSource={documentList}
+                rowClassName={(record, index) =>
+                    record.Status === 0 ? "unchecked" : ""
+                }
                 summary={() => (
                     <Table.Summary.Row>
                         {columns
@@ -635,9 +635,9 @@ export default function Demand() {
                                         {c.dataIndex === "Name"
                                             ? "Cəm"
                                             : c.dataIndex === "Amount"
-                                            ? allsum + " ₼"
+                                            ? ConvertFixedTable(allsum) + " ₼"
                                             : c.dataIndex === "Profit"
-                                            ? allprofit + " ₼"
+                                            ? ConvertFixedTable(allprofit) + " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>

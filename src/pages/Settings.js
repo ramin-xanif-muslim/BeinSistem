@@ -1,10 +1,5 @@
 import { Layout, Menu, Breadcrumb } from "antd";
 import React from "react";
-import {
-    UserOutlined,
-    LaptopOutlined,
-    NotificationOutlined,
-} from "@ant-design/icons";
 import { FaWarehouse } from "react-icons/fa";
 import { MdSettings, MdInfo, MdImportExport } from "react-icons/md";
 import { HiTemplate } from "react-icons/hi";
@@ -33,7 +28,6 @@ const { Header, Content, Sider } = Layout;
 export default function Settings() {
     const [pathHeader, setPathHeader] = useState("Məlumatlar");
     const [path, setPath] = useState("");
-    const { isTemp, setIsTemp } = useCustomForm();
 
     return (
         <Layout>

@@ -2,28 +2,23 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
 import Buttons from "../components/Button";
-import { Button, Icon } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
 import { useCustomForm } from "../contexts/FormContext";
 import { SettingOutlined } from "@ant-design/icons";
 import {
-    ConvertFixedPosition,
     ConvertFixedTable,
 } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
-import MyFastSearch from "../components/MyFastSearch";
-import SearchInput from "../components/UI/SearchInput";
 
 const { Text } = Typography;
 export default function Enter() {
@@ -47,8 +42,6 @@ export default function Enter() {
         useState(false);
     const {
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         advancedPage,
         setAdvancedPage,

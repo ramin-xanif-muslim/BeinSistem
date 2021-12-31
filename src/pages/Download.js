@@ -1,6 +1,6 @@
 import { Col, Row, Button } from "antd";
 import React from "react";
-import { WindowsOutlined, DownloadOutlined } from "@ant-design/icons";
+import { WindowsOutlined } from "@ant-design/icons";
 import img_pos from "../images/pos.png";
 import s from "./Download.module.css";
 
