@@ -18,6 +18,7 @@ import {
     Dropdown,
     Typography,
     Tag,
+    Alert
 } from "antd";
 
 import Buttons from "../components/Button";
@@ -616,7 +617,9 @@ export default function CustomerOrders() {
         setallsum(res.AllSum);
         setFetchSearchByDate(false);
     };
-    if (isLoading) return "Loading...";
+    if (isLoading) return <Spin className="fetchSpinner" tip="Yüklənir...">
+                        <Alert />
+                    </Spin>;
 
     if (error) return "An error has occurred: " + error.message;
 

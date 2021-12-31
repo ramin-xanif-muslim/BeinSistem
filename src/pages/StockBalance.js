@@ -3,7 +3,16 @@ import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
 import { Table } from "antd";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
+import {
+    Spin,
+    Row,
+    Col,
+    Menu,
+    Checkbox,
+    Dropdown,
+    Typography,
+    Alert,
+} from "antd";
 
 import { Button, Icon } from "semantic-ui-react";
 import FilterComponent from "../components/FilterComponent";
@@ -575,7 +584,12 @@ export default function StockBalance() {
             </Button>
         </Dropdown>
     );
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

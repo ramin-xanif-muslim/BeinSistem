@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
-import { Table } from "antd";
+import { Alert, Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
@@ -13,9 +13,7 @@ import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import { useCustomForm } from "../contexts/FormContext";
 import { SettingOutlined } from "@ant-design/icons";
-import {
-    ConvertFixedTable,
-} from "../config/function/findadditionals";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
@@ -516,7 +514,12 @@ export default function Enter() {
         setFetchSearchByDate(false);
     };
 
-    if (isLoading) return <Spin />;
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

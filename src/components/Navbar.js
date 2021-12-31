@@ -119,7 +119,7 @@ function Navbar() {
         localStorage.setItem("activesubmenu", name);
     };
     if (isLoading) return null;
-
+    
     if (error) return "An error has occurred: " + error.message;
 
     return (
