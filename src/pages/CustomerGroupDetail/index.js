@@ -1,7 +1,11 @@
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useEffect, useState, useMemo, useRef } from "react";
-import { fetchProductGroupId, fetchCustomerGroupId, fetchRefList } from "../../api";
+import {
+    fetchProductGroupId,
+    fetchCustomerGroupId,
+    fetchRefList,
+} from "../../api";
 import DocButtons from "../../components/DocButtons";
 import {
     Form,
@@ -135,7 +139,12 @@ function CustomerGroupDetail() {
         refetchQueris: ["customergroups", cusgr_id],
     });
 
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
     const groupOption = Object.values(obj).map((c) => (
@@ -218,4 +227,4 @@ function CustomerGroupDetail() {
     );
 }
 
-export default CustomerGroupDetail;;
+export default CustomerGroupDetail;

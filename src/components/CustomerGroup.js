@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
-import { Tree } from "antd";
+import { Tree, Alert, Spin } from "antd";
 import { EditOutlined } from "@ant-design/icons";
 import { fetchCustomerGroups } from "../api";
 import { Redirect } from "react-router";
@@ -69,7 +69,12 @@ function CustomerGroup() {
         }
     }, [isFetching]);
 
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinnerTop" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 
@@ -77,33 +82,33 @@ function CustomerGroup() {
 
     if (Object.keys(data.Body.List).length > 0) {
         Object.values(data.Body.List).map((d) => {
-          d.ParentId === "00000000-0000-0000-0000-000000000000"
-            ? (pid = "")
-            : (pid = d.ParentId);
-          datas.push({
-            id: d.Id,
-            name: d.Name,
-            parent: pid,
-            title: d.Name,
-            key: d.Id,
-            icon: (
-              <EditOutlined
-                onClick={(e) => handleEdit(e, d.Id)}
-                className="editGr"
-              />
-            ),
-          });
+            d.ParentId === "00000000-0000-0000-0000-000000000000"
+                ? (pid = "")
+                : (pid = d.ParentId);
+            datas.push({
+                id: d.Id,
+                name: d.Name,
+                parent: pid,
+                title: d.Name,
+                key: d.Id,
+                icon: (
+                    <EditOutlined
+                        onClick={(e) => handleEdit(e, d.Id)}
+                        className="editGr"
+                    />
+                ),
+            });
         });
         convertedDatas = convert(datas);
-      }
+    }
 
-      convertedDatas.unshift({
+    convertedDatas.unshift({
         id: "",
         name: "Bütün məhsullar",
         parent: "",
         title: "Bütün məhsullar",
         key: "",
-      });
+    });
 
     const onSelect = (keys, info) => {
         setSearchGr(keys[0]);

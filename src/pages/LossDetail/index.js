@@ -44,6 +44,7 @@ import {
     Row,
     Col,
     Collapse,
+    Alert,
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
@@ -363,7 +364,12 @@ function LossDetail() {
 
     //#endregion OwDep
 
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

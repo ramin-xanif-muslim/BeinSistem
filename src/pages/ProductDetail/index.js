@@ -449,7 +449,12 @@ function ProductDetail() {
     const updateMutation = useMutation(updateProduct, {
         refetchQueris: ["products", product_id],
     });
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
     var selectedProduct = data.Body.List[0];

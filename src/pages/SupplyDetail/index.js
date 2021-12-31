@@ -24,6 +24,7 @@ import {
 } from "@ant-design/icons";
 import {
     Form,
+    Alert,
     Input,
     Button,
     InputNumber,
@@ -446,7 +447,12 @@ function SupplyDetail() {
 
     //#endregion OwDep
 
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

@@ -135,7 +135,12 @@ function ProductGroupDetail() {
         refetchQueris: ["productgroup", progr_id],
     });
 
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
     const groupOption = Object.values(obj).map((c) => (

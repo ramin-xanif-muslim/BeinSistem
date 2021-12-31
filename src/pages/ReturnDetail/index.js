@@ -23,6 +23,7 @@ import {
 } from "@ant-design/icons";
 import {
     Form,
+    Alert,
     Input,
     Button,
     InputNumber,
@@ -79,8 +80,8 @@ function ReturnDetail() {
         customers,
         setCustomers,
         setOuterDataSource,
-		setDisable,
-		disable,
+        setDisable,
+        disable,
     } = useTableCustom();
     const {
         docstock,
@@ -109,7 +110,7 @@ function ReturnDetail() {
     const [hasConsumption, setHasConsumption] = useState(false);
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
-	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["return", doc_id],
@@ -120,23 +121,23 @@ function ReturnDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
-	useEffect(() => {
-		setDisable(true);
-		setPositions([]);
-		setOuterDataSource([]);
+    useEffect(() => {
+        setDisable(true);
+        setPositions([]);
+        setOuterDataSource([]);
 
-		return () => {
-			setDisable(true);
-			setPositions([]);
-			setOuterDataSource([]);
-		};
-	}, []);
+        return () => {
+            setDisable(true);
+            setPositions([]);
+            setOuterDataSource([]);
+        };
+    }, []);
 
-	useEffect(() => {
-		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-			setDisable(false);
-		}
-	}, [outerDataSource]);
+    useEffect(() => {
+        if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+            setDisable(false);
+        }
+    }, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
             customPositions = [];
@@ -177,9 +178,9 @@ function ReturnDetail() {
     const onClose = () => {
         message.destroy();
     };
-	const handleVisibleChange = (flag) => {
-		setVisibleMenuSettings(flag);
-	};
+    const handleVisibleChange = (flag) => {
+        setVisibleMenuSettings(flag);
+    };
     const onChangeConsumption = (e) => {
         setHasConsumption(true);
         setConsumption(e.target.value);
@@ -376,7 +377,12 @@ function ReturnDetail() {
 
     //#endregion OwDep
 
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 
