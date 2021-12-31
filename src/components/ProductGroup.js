@@ -33,7 +33,6 @@ function convert(array) {
 
         map[parent].children.push(map[obj.id]);
     }
-    console.log(map["-"].children);
     return map["-"].children;
 }
 
@@ -104,7 +103,6 @@ function ProductGroup() {
     }
 
     const onSelect = (keys, info) => {
-        console.log("Trigger Select", keys, info);
         setSearchGr(keys[0]);
         setAdvancedPage(0);
     };

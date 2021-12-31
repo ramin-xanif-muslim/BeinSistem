@@ -1,13 +1,11 @@
 import React from "react";
-import { Select, Drawer, Input, Divider, Button } from "antd";
-import { DeleteOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons";
+import { Select } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 import { useCustomForm } from "../contexts/FormContext";
 const { Option, OptGroup } = Select;
 function StockFromSelect({ defaultValue }) {
-  const { stocks, setStockLocalStorage } = useTableCustom();
-  const { docstock, setDocStock, docfromstock, setDocFromStock } =
-    useCustomForm();
+  const { stocks } = useTableCustom();
+  const {  setDocFromStock } = useCustomForm();
 
   var obj;
   stocks ? (obj = stocks) : (obj = JSON.parse(localStorage.getItem("stocks")));

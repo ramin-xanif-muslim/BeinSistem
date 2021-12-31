@@ -8,37 +8,27 @@ import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
-import PaymentOutModal from "../../components/PaymentOutModal";
-import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 import ProductModal from "../../components/ProductModal";
 import {
-    DeleteOutlined,
     PlusOutlined,
-    EditOutlined,
     SettingOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
     Form,
+    Alert,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
     Checkbox,
     Dropdown,
     DatePicker,
-    Switch,
     Select,
     Spin,
-    Tag,
     Divider,
     Menu,
-    Alert,
-    Drawer,
     Typography,
     Statistic,
     Popconfirm,
@@ -48,7 +38,6 @@ import {
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
-import { fetchCustomers } from "../../api";
 import { fetchStocks } from "../../api";
 import { message } from "antd";
 import { updateDoc } from "../../api";
@@ -56,7 +45,6 @@ import { useRef } from "react";
 import { useCustomForm } from "../../contexts/FormContext";
 import {
     FindAdditionals,
-    FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
@@ -79,19 +67,13 @@ function EnterDetail() {
         stocks,
         setStock,
         setStockLocalStorage,
-        customers,
-        setCustomers,
         setDisable,
         disable,
     } = useTableCustom();
     const {
-        docstock,
-        setDocStock,
         docmark,
-        setDocMark,
         setLoadingForm,
         setStockDrawer,
-        stockDrawer,
         createdStock,
         setCreatedStock,
         setProductModal,
@@ -104,10 +86,10 @@ function EnterDetail() {
         setRedirectSaveClose,
     } = useCustomForm();
     const [positions, setPositions] = useState([]);
-    const [prevpositions, setPrevPositions] = useState([]);
     const [redirect, setRedirect] = useState(false);
     const { doc_id } = useParams();
     const [hasConsumption, setHasConsumption] = useState(false);
+    const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
@@ -169,7 +151,7 @@ function EnterDetail() {
             }
             setConsumption(data.Body.List[0].Consumption);
             setLoadingForm(false);
-            // setStatus(data.Body.List[0].Status);
+            setStatus(data.Body.List[0].Status);
             form.setFieldsValue({
                 mark: data.Body.List[0].Mark,
             });
@@ -453,6 +435,9 @@ function EnterDetail() {
             myRefDescription.current.resizableTextArea.props.value;
         values.consumption =
             myRefConsumption.current.clearableInput.props.value;
+        if (!values.status) {
+            values.status = status;
+        }
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "enters", filter: values },

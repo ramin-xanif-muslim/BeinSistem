@@ -3,12 +3,10 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 
 import { Tree } from "antd";
 import {
-    fetchProductFolders,
     fetchStocks,
     updateStocks,
     delStocks,
 } from "../api";
-import { Redirect } from "react-router";
 import {
     DeleteOutlined,
     EditOutlined,
@@ -17,15 +15,12 @@ import {
 } from "@ant-design/icons";
 
 import {
-    Col,
-    Row,
     Modal,
     Form,
     Input,
     Button,
     Popconfirm,
     message,
-    TreeSelect,
     Select,
     Spin,
 } from "antd";
@@ -58,16 +53,11 @@ function convert(array) {
 
         map[parent].children.push(map[obj.id]);
     }
-    console.log(map["-"].children);
     return map["-"].children;
 }
 
 function Stock() {
     const {
-        setProductGroups,
-        setProductGroupsLocalStorage,
-        customerGroups,
-        setCustomerGroups,
         searchGr,
         setSearchGr,
         setAdvancedPage,
@@ -77,7 +67,6 @@ function Stock() {
     } = useTableCustom();
     var datas = [];
     const [editId, setEditId] = useState(null);
-    const [redirect, setRedirect] = useState(false);
     const [show, setShow] = useState(false);
     const [edit, setEdit] = useState(null);
 
@@ -112,7 +101,6 @@ function Stock() {
     const deleteGroup = (id, e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(id);
         message.loading({ content: "Loading...", key: "doc_del" });
         deleteMutation.mutate(id, {
             onSuccess: (res) => {

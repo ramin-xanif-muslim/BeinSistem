@@ -1,39 +1,27 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useEffect, useState, useMemo, useRef } from "react";
-import { fetchProductId, fetchRefList } from "../api";
-import DocButtons from "../components/DocButtons";
+import { useEffect, useState } from "react";
+import { fetchRefList } from "../api";
 import { fetchProductFolders } from "../api";
 import { useCustomForm } from "../contexts/FormContext";
 import {
-    Form,
-    Input,
-    Button,
-    InputNumber,
-    TreeSelect,
-    Checkbox,
-    Dropdown,
-    Card,
-    Select,
-    Spin,
-    Space,
-    Alert,
-    Menu,
-    Row,
-    Col,
-    Collapse,
+  Form,
+  Input,
+  Button,
+  InputNumber,
+  Checkbox,
+  Select,
+  Spin,
+  Row,
+  Col,
+  Collapse,
 } from "antd";
 import "antd/dist/antd.css";
 import { message } from "antd";
-import { Redirect } from "react-router";
 import { saveDoc, fetchBarcode } from "../api";
 import {
-    SyncOutlined,
-    PlusOutlined,
-    MinusCircleOutlined,
-    CloseCircleOutlined,
-    EditOutlined,
+  SyncOutlined,
+  PlusOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../contexts/TableContext";
@@ -109,7 +97,6 @@ function ProductModal() {
         } else {
             form.resetFields();
         }
-
         return () => {
             setLinkedList([]);
             setLinked([]);
@@ -129,7 +116,6 @@ function ProductModal() {
             },
         ]);
     }, [list]);
-
     const getGroups = async () => {
         const res = await fetchProductFolders();
         if (res.Headers.ResponseStatus === "0") {

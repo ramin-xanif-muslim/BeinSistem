@@ -2,18 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
 import { Table } from "antd";
 import { fetchSpendItems, delSpendItems, updateSpendItem } from "../api";
-import { Redirect } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
-    Col,
-    Row,
     Form,
     Input,
     Button,
     Popconfirm,
-    TreeSelect,
-    Select,
-    Switch,
     Modal,
     message,
     Spin,
@@ -26,7 +20,6 @@ import {
 } from "@ant-design/icons";
 export default function SpendItems() {
     const [show, setShow] = useState(false);
-    const [spendid, setSpendId] = useState(null);
     const [documentList, setDocumentList] = useState(null);
     const [edit, setEdit] = useState(null);
     const queryClient = useQueryClient();
@@ -62,7 +55,6 @@ export default function SpendItems() {
     const delSpendItem = (id, e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(id);
         message.loading({ content: "Loading...", key: "doc_del" });
         deleteMutation.mutate(id, {
             onSuccess: (res) => {
@@ -90,7 +82,6 @@ export default function SpendItems() {
                 console.log(e);
             },
         });
-        //   deleteSpendItems(delAttr, id);
     };
     const columns = useMemo(() => {
         return [

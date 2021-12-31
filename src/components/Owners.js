@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
 import { Checkbox, Table } from "antd";
-import sendRequest from "../config/sentRequest";
 import {
-	fetchSpendItems,
-	delSpendItems,
-	updateSpendItem,
 	fetchOwners,
 	delOwner,
 	updateOwner,
@@ -18,13 +14,10 @@ import { Redirect } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useTableCustom } from "../contexts/TableContext";
 import {
-	Col,
-	Row,
 	Form,
 	Input,
 	Button,
 	Popconfirm,
-	TreeSelect,
 	Select,
 	Switch,
 	Modal,
@@ -117,7 +110,6 @@ export default function Owners() {
 	const delOwners = (id, e) => {
 		e.preventDefault();
 		e.stopPropagation();
-		console.log(id);
 		message.loading({ content: "Loading...", key: "doc_del" });
 		deleteMutation.mutate(id, {
 			onSuccess: (res) => {
@@ -252,7 +244,6 @@ export default function Owners() {
 
 	const onFinishPermission = async (values) => {
 		message.loading({ content: "Loading...", key: "doc_update" });
-		console.log(values);
 		values.saler = "1";
 		const response = await updatePermission(values);
 		if (response.Headers.ResponseStatus === "0") {
@@ -311,13 +302,11 @@ export default function Owners() {
 				},
 			}
 		);
-		// console.log(res.List)
 	};
 	if (isLoading) return "Loading...";
 
 	if (error) return "An error has occurred: " + error.message;
 
-	console.log(edit);
 
 	return (
 		<div>

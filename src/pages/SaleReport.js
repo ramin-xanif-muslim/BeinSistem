@@ -36,6 +36,7 @@ import MyFastSearch from "../components/MyFastSearch";
 const { Text } = Typography;
 
 export default function SaleReport() {
+    const [count, setCount] = useState(1);
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
@@ -97,6 +98,7 @@ export default function SaleReport() {
         setAllProfit(res.AllProfit);
         setRetAllAmount(res.RetAllAmount);
         setRetAllCost(res.RetAllCost);
+        setCount(res.Count)
     };
 
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
@@ -545,6 +547,7 @@ export default function SaleReport() {
                 setAllProfit(data.Body.AllProfit);
                 setRetAllAmount(data.Body.RetAllAmount);
                 setRetAllCost(data.Body.RetAllCost);
+                setCount(data.Body.Count);
             }
         } else {
             setDocumentList([]);
@@ -763,7 +766,7 @@ export default function SaleReport() {
                 locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
                     current: advancedPage + 1,
-                    total: data.Body.Count,
+                    total: count,
                     onChange: handlePagination,
                     defaultPageSize: 100,
                     showSizeChanger: false,

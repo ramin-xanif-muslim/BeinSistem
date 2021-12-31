@@ -24,6 +24,7 @@ import sendRequest from "../config/sentRequest";
 
 const { Text } = Typography;
 export default function StockBalance() {
+    const [count, setCount] = useState(1);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(0);
     const [defaultdr, setDefaultDr] = useState("ascend");
@@ -68,6 +69,7 @@ export default function StockBalance() {
         setallsum(res.SaleSum);
         setallcost(res.CostSum);
         setallquantity(res.QuantitySum);
+        setCount(res.Count)
     };
 
     const [documentList, setDocumentList] = useState([]);
@@ -443,6 +445,7 @@ export default function StockBalance() {
             setallcost(data.Body.CostSum);
             setallquantity(data.Body.QuantitySum);
             setIsFilter(false);
+            setCount(data.Body.Count);
         } else {
             setDocumentList([]);
         }
@@ -670,7 +673,7 @@ export default function StockBalance() {
                 locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
                     current: advancedPage + 1,
-                    total: data.Body.Count,
+                    total: count,
                     onChange: handlePagination,
                     defaultPageSize: 100,
                     showSizeChanger: false,

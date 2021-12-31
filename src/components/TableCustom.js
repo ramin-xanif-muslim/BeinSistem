@@ -59,7 +59,6 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  console.log(order,orderBy)
   return order === "desc"
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -122,7 +121,6 @@ function EnhancedTableHead(props) {
     onRequestSort,
   } = props;
   const createSortHandler = (property) => (event) => {
-    console.log(property, event);
     onRequestSort(event, property);
   };
 

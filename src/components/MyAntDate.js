@@ -2,7 +2,6 @@ import React from "react";
 
 import moment from "moment";
 import { DatePicker } from "antd";
-const { MonthPicker, RangePicker } = DatePicker;
 
 function range(start, end) {
 	const result = [];

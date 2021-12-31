@@ -1,87 +1,24 @@
 import { useState, useEffect } from "react";
 import { useCustomForm } from "../contexts/FormContext";
-import { fetchDebt, fetchLinkedDoc, saveDoc } from "../api";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useTableCustom } from "../contexts/TableContext";
+import { fetchDebt, fetchLinkedDoc } from "../api";
+import { useQuery } from "react-query";
 import { useMemo } from "react";
 import { Table } from "antd";
-import { SettingOutlined } from "@ant-design/icons";
-import FilterComponent from "../components/FilterComponent";
 
 import {
-	Form,
-	Input,
 	Button,
-	InputNumber,
-	TreeSelect,
-	Checkbox,
-	Dropdown,
-	DatePicker,
-	Switch,
-	Select,
 	Spin,
-	Tag,
-	Divider,
-	Menu,
 	Drawer,
-	Typography,
-	Statistic,
-	Popconfirm,
-	Row,
-	Col,
-	message,
-	Collapse,
 } from "antd";
-import { CloseCircleOutlined } from "@ant-design/icons";
 import { ConvertFixedTable } from "../config/function/findadditionals";
-import MyAntDate from "./MyAntDate";
 import MyReactDate from "./MyReactDate";
-const { Option } = Select;
-const { TextArea } = Input;
 function SettlementsDrawer() {
 	const {
-		docstock,
-		setDocStock,
-		docmark,
-		setDocMark,
-		setLoadingForm,
-		setStockDrawer,
-		stockDrawer,
-		createdStock,
-		setCreatedStock,
 		visibleDrawer,
 		setVisibleDrawer,
 		cusid,
 		setcusid,
 	} = useCustomForm();
-	const {
-		productGroups,
-		setAttrLoading,
-		setAttributes,
-		attributes,
-		setAttrLocalStorage,
-		setPrices,
-		prices,
-		setPricesLocalStorage,
-		setRefList,
-		search,
-		setFastSearch,
-		doSearch,
-		setDoSearch,
-		isFilter,
-		setIsFilter,
-		advanced,
-		setAdvance,
-		advancedPage,
-		setAdvancedPage,
-		productcols,
-		setproductcols,
-		productcolsinitials,
-		setproductcolsinitials,
-		searchGr,
-		setSearchGr,
-	} = useTableCustom();
-	const { stocks, setStockLocalStorage } = useTableCustom();
 	const [documentList, setDocumentList] = useState([]);
 	const [page, setPage] = useState(0);
 
@@ -202,7 +139,6 @@ const RowAnderTable = (props) => {
 	if (props.document[0]) {
 		const fetchDebtCustomer = async () => {
 			let res = await fetchDebt(props.document[0].CustomerId);
-			console.log(res.Body.Debt);
 			setDebt(res.Body.Debt);
 		};
 		fetchDebtCustomer();

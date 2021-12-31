@@ -1,22 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useMemo } from "react";
-import { useRef } from "react";
-import { Table } from "antd";
 import {
-    fetchSpendItems,
-    delSpendItems,
-    updateSpendItem,
-    fetchAttributes,
-    fetchRefTypes,
-    delAttributes,
-    updateAttributes,
     fetchRefList,
-    updateRef,
-    delRefs,
     updateRefList,
     delRefsList,
 } from "../api";
-import { Redirect } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
     Col,
@@ -26,13 +13,9 @@ import {
     Input,
     Button,
     Popconfirm,
-    TreeSelect,
     Select,
-    Switch,
     Modal,
-    Spin,
     message,
-    Checkbox,
 } from "antd";
 import {
     EyeOutlined,
@@ -89,7 +72,6 @@ export default function ModList({ visible, openModal, editid }) {
     const delRef = (id, e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(id);
         message.loading({ content: "Loading...", key: "doc_del" });
         deleteMutation.mutate(id, {
             onSuccess: (res) => {

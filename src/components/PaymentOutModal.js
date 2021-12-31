@@ -1,51 +1,26 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import { fetchDocName } from "../api";
 import { useEffect, useState } from "react";
-import { Redirect } from "react-router";
 import moment from "moment";
-import { useMemo } from "react";
 import { useTableCustom } from "../contexts/TableContext";
-import StatusSelect from "../components/StatusSelect";
-import AddProductInput from "../components/AddProductInput";
-import StockSelect from "../components/StockSelect";
-import StockDrawer from "../components/StockDrawer";
-import CustomerDrawer from "../components/CustomerDrawer";
 import { fetchCustomers } from "../api";
 import {
-  DeleteOutlined,
-  PlusOutlined,
-  EditOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
   Form,
   Input,
   Button,
-  InputNumber,
-  TreeSelect,
-  Checkbox,
-  Dropdown,
   DatePicker,
   Switch,
   Select,
   Spin,
-  Tag,
-  Divider,
-  Menu,
-  Drawer,
-  Typography,
-  Statistic,
-  Popconfirm,
   Modal,
   Row,
   Col,
   Collapse,
 } from "antd";
-import axios from "axios";
-import DocTable from "../components/DocTable";
-import DocButtons from "../components/DocButtons";
 import { message } from "antd";
 import { saveDoc } from "../api";
 import { useCustomForm } from "../contexts/FormContext";
@@ -141,7 +116,6 @@ function PaymentOutModal({ datas }) {
       });
     }
 
-    console.log(values);
   };
   return (
     <Modal

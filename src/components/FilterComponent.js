@@ -130,7 +130,6 @@ function FilterComponent({ from, settings, cols }) {
 		setSelectFilter([]);
 		setChanged(true);
 		form.resetFields();
-        console.log(initial)
 		form.setFieldsValue(initial);
 
 		setIsFilter(true);
@@ -526,7 +525,6 @@ function FilterComponent({ from, settings, cols }) {
 				: "",
 		};
 
-		console.log(totalvalues, selectFilter);
 		Object.assign(totalvalues, selectFilter);
 		Object.entries(totalvalues).forEach(([key, value]) => {
 			if (key.includes("_id")) {
@@ -567,7 +565,6 @@ function FilterComponent({ from, settings, cols }) {
 			form.setFieldsValue(selectFilter);
 
 			// if (selectFilter.wg === "" || selectFilter.wg === undefined) {
-			// 	console.log("salam");
 			// 	form.setFieldsValue({
 			// 		wg: "",
 			// 	});
