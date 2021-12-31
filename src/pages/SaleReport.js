@@ -5,7 +5,16 @@ import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
+import {
+    Spin,
+    Row,
+    Col,
+    Menu,
+    Checkbox,
+    Dropdown,
+    Typography,
+    Alert,
+} from "antd";
 
 import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
@@ -17,9 +26,7 @@ import enters from "../ButtonsNames/Enters/buttonsNames";
 import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 
-import {
-    ConvertFixedTable,
-} from "../config/function/findadditionals";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
@@ -635,7 +642,12 @@ export default function SaleReport() {
         setRetAllCost(res.RetAllCost);
         setFetchSearchByDate(false);
     };
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

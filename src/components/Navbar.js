@@ -10,7 +10,7 @@ import { List } from "semantic-ui-react";
 import { Segment } from "semantic-ui-react";
 import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
-import { Button, Modal, Badge } from "antd";
+import { Button, Modal, Badge, Spin, Alert } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
 import {
     fetchStocks,
@@ -118,8 +118,8 @@ function Navbar() {
         setAdvancedPage(0);
         localStorage.setItem("activesubmenu", name);
     };
-    if (isLoading) return "Loading...";
-
+    if (isLoading) return null;
+    
     if (error) return "An error has occurred: " + error.message;
 
     return (

@@ -4,13 +4,25 @@ import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
+import {
+    Spin,
+    Row,
+    Col,
+    Menu,
+    Checkbox,
+    Dropdown,
+    Typography,
+    Alert,
+} from "antd";
 import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import { useCustomForm } from "../contexts/FormContext";
-import { ConvertFixedTable, isObject } from "../config/function/findadditionals";
+import {
+    ConvertFixedTable,
+    isObject,
+} from "../config/function/findadditionals";
 
 import { SettingOutlined } from "@ant-design/icons";
 
@@ -391,7 +403,12 @@ export default function Settlement() {
             </Menu.ItemGroup>
         </Menu>
     );
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

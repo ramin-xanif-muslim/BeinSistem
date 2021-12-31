@@ -4,7 +4,16 @@ import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
+import {
+    Spin,
+    Row,
+    Col,
+    Menu,
+    Checkbox,
+    Dropdown,
+    Typography,
+    Alert,
+} from "antd";
 
 import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
@@ -396,7 +405,12 @@ export default function CashOut() {
         setallsum(res.AllSum);
         setFetchSearchByDate(false);
     };
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

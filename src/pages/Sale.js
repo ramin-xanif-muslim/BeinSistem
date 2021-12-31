@@ -10,7 +10,7 @@ import {
 import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
+import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography, Alert } from "antd";
 
 import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
@@ -605,7 +605,12 @@ export default function Sale() {
         setallbank(res.BankSum);
         setFetchSearchByDate(false);
     };
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
     return (
@@ -665,7 +670,8 @@ export default function Sale() {
                                             : c.dataIndex === "Amount"
                                             ? ConvertFixedTable(allsum) + " ₼"
                                             : c.dataIndex === "Profit"
-                                            ? ConvertFixedTable(allprofit) + " ₼"
+                                            ? ConvertFixedTable(allprofit) +
+                                              " ₼"
                                             : c.dataIndex === "Bank"
                                             ? ConvertFixedTable(allbank) + " ₼"
                                             : c.dataIndex === "UseBonus"

@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
-import { Table } from "antd";
+import { Alert, Table } from "antd";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
 import { Button, Icon } from "semantic-ui-react";
@@ -246,14 +246,19 @@ export default function Profit() {
             </Button>
         </Dropdown>
     );
-	const getSearchObjByDate = async (ob) => {
-		setFetchSearchByDate(true);
-		let res = await sendRequest("profit/get.php", ob);
+    const getSearchObjByDate = async (ob) => {
+        setFetchSearchByDate(true);
+        let res = await sendRequest("profit/get.php", ob);
         setDocument(res);
-		setFetchSearchByDate(false);
-	};
+        setFetchSearchByDate(false);
+    };
 
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 

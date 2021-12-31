@@ -5,7 +5,16 @@ import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
+import {
+    Spin,
+    Row,
+    Col,
+    Menu,
+    Checkbox,
+    Dropdown,
+    Typography,
+    Alert,
+} from "antd";
 
 import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
@@ -25,26 +34,15 @@ export default function Cashe() {
     const [allsum, setallsum] = useState(0);
     const [page, setPage] = useState(0);
     const [filtered, setFiltered] = useState(false);
-    const {
-        marks,
-        isFilter,
-        advancedPage,
-        doSearch,
-        search,
-        advanced,
-    } = useTableCustom();
+    const { marks, isFilter, advancedPage, doSearch, search, advanced } =
+        useTableCustom();
 
     const [documentList, setDocumentList] = useState([]);
     const { isLoading, error, data, isFetching } = useQuery(
         ["cashes", page, direction, fieldSort, doSearch, search, advanced],
         () => {
             return isFilter === true
-                ? fetchFilterPage(
-                      advancedPage,
-                      advanced,
-                      direction,
-                      fieldSort
-                  )
+                ? fetchFilterPage(advancedPage, advanced, direction, fieldSort)
                 : doSearch
                 ? fecthFastPage("cashes", page, search)
                 : !isFilter && !doSearch
@@ -81,7 +79,12 @@ export default function Cashe() {
             setDocumentList([]);
         }
     }, [isFetching]);
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 
