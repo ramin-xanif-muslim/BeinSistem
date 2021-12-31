@@ -383,15 +383,17 @@ function SupplyReturnDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-        values.moment = values.moment._i;
-        values.modify = values.modify._i;
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         console.log(values);
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
-            { id: doc_id, controller: "supplies", filter: values },
+            { id: doc_id, controller: "supplyreturns", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
@@ -700,6 +702,7 @@ function SupplyReturnDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) => setStatus(e.target.checked)}
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

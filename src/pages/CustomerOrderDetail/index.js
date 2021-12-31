@@ -456,7 +456,9 @@ function CustomerOrderDetail() {
         values.modify = values.modify._i;
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         console.log(values);
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
@@ -702,6 +704,7 @@ function CustomerOrderDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) => setStatus(e.target.checked)}
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

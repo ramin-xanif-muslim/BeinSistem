@@ -394,11 +394,13 @@ function DemandReturnDetail() {
         values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         console.log(values);
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
-            { id: doc_id, controller: "demands", filter: values },
+            { id: doc_id, controller: "demandreturns", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
@@ -643,6 +645,7 @@ function DemandReturnDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) => setStatus(e.target.checked)}
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

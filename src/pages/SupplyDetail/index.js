@@ -486,7 +486,9 @@ function SupplyDetail() {
             myRefDescription.current.resizableTextArea.props.value;
         values.consumption =
             myRefConsumption.current.clearableInput.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         console.log(values);
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
@@ -653,7 +655,7 @@ function SupplyDetail() {
                         mark: data.Body.List[0].Mark,
                         stockid: data.Body.List[0].StockId,
                         customerid: data.Body.List[0].CustomerId,
-                        status: data.Body.List[0].Status == 1 ? true : false,
+                        status: data.Body.List[0].Status === 1 ? true : false,
                     }}
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
@@ -805,6 +807,7 @@ function SupplyDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) => setStatus(e.target.checked)}
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
