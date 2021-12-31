@@ -671,3 +671,43 @@ tr.ant-table-expanded-row:hover td {
     max-height: 400px;
     margin: auto;
 }
+
+tbody .ant-table-cell {
+    padding: 4px 8px !important;
+    background: #fff !important;
+}
+.editable-cell-value-wrap {
+    padding: 0 !important;
+    border: none !important;
+}
+
+.packOrQuantityWrapper {
+    width: fit-content;
+}
+.packOrQuantitySelect {
+    margin-left: 1rem;
+}
+.packOrQuantitySelect div {
+    width: fit-content;
+    background: none !important;
+    border: none !important;
+}
+
+.tableHeaderSelect div {
+    border: none !important;
+    background: none !important;
+}
+
+.orderField {
+    width: 50px;
+}
+/* .tableCellBarcode,
+.tableCellQuantity,
+.tableCellAmount,
+.tableCellPrice,
+.tableCellStockBalance {
+    width: 10vw;
+}
+
+.tableCellName {
+} */
