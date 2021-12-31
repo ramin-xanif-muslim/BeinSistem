@@ -23,6 +23,7 @@ import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 
 export default function Product() {
+    const [count, setCount] = useState(1);
     const [redirect, setRedirect] = useState(false);
     const [editId, setEditId] = useState("");
     const [page, setPage] = useState(0);
@@ -79,7 +80,7 @@ export default function Product() {
             lm: 25,
         };
         let res = await sendRequest("products/getfast.php", obj);
-        console.log(res);
+        setCount(res.Count)
         setProdutcList(res.List);
     };
 
@@ -545,6 +546,7 @@ export default function Product() {
         if (!isFetching) {
             if (isObject(data.Body)) {
                 setProdutcList(data.Body.List);
+                setCount(data.Body.Count);
             }
         } else {
             setProdutcList([]);
@@ -559,7 +561,6 @@ export default function Product() {
 
     const getAttributes = async () => {
         const attrResponse = await fetchAttributes();
-        console.log(attrResponse);
         setAttributes(attrResponse.Body.List);
         setAttrLocalStorage(attrResponse.Body.List);
     };
@@ -758,7 +759,7 @@ export default function Product() {
                         }}
                         pagination={{
                             current: advancedPage + 1,
-                            total: data.Body.Count,
+                            total: count,
                             onChange: handlePagination,
                             defaultPageSize: data.Body.Limit,
                             showSizeChanger: false,

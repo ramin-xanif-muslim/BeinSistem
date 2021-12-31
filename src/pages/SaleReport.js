@@ -86,6 +86,7 @@ export default function SaleReport() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
+        console.log("aaa")
         setSalereportsSearchTerm(value);
         let obj = {
             nm: value,

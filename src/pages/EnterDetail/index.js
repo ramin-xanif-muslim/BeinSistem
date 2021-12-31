@@ -592,9 +592,6 @@ function EnterDetail() {
                     id="myForm"
                     className="doc_forms"
                     name="basic"
-                    initialValues={{
-                        status: true,
-                    }}
                     labelCol={{
                         span: 8,
                     }}
@@ -607,7 +604,7 @@ function EnterDetail() {
                         modify: moment(data.Body.List[0].Modify),
                         mark: data.Body.List[0].Mark,
                         stockid: data.Body.List[0].StockId,
-                        status: data.Body.List[0].Status == 1 ? true : false,
+                        status: data.Body.List[0].Status === 1 ? true : false,
                     }}
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
@@ -736,6 +733,7 @@ function EnterDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) => setStatus(e.target.checked)}
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

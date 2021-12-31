@@ -892,18 +892,27 @@ function SupplyDetail() {
                                         style={{ backgroundColor: "grey" }}
                                     />
                                     <div style={{ marginTop: "20px" }}>
-                                        <Form.Item
-                                            className="comsumption_input_wrapper"
-                                            label="Əlavə xərc"
-                                            onChange={onChangeConsumption}
-                                            name="consumption"
+                                        <Form
+                                            initialValues={{
+                                                consumption: ConvertFixedTable(
+                                                    data.Body.List[0]
+                                                        .Consumption
+                                                ),
+                                            }}
                                         >
-                                            <Input
-                                                ref={myRefConsumption}
-                                                type="number"
-                                                step="any"
-                                            />
-                                        </Form.Item>
+                                            <Form.Item
+                                                className="comsumption_input_wrapper"
+                                                label="Əlavə xərc"
+                                                onChange={onChangeConsumption}
+                                                name="consumption"
+                                            >
+                                                <Input
+                                                    ref={myRefConsumption}
+                                                    type="number"
+                                                    step="any"
+                                                />
+                                            </Form.Item>
+                                        </Form>
                                     </div>
                                 </div>
                             </Col>
