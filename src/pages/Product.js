@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown } from "antd";
+import { Spin, Row, Col, Menu, Checkbox, Dropdown, Alert } from "antd";
 import "semantic-ui-css/semantic.min.css";
 import { PrinterOutlined } from "@ant-design/icons";
 
@@ -662,7 +662,12 @@ export default function Product() {
             </Button>
         </Dropdown>
     );
-    if (isLoading) return "Loading...";
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 
@@ -727,7 +732,7 @@ export default function Product() {
                 </Col>
                 <Col xs={24} md={24} xl={19}>
                     <Table
-						className="main-table"
+                        className="main-table"
                         rowKey="Id"
                         columns={columnsnew.filter((c) => c.show == true)}
                         dataSource={productList}
