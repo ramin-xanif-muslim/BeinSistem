@@ -404,7 +404,9 @@ function LossDetail() {
             myRefDescription.current.resizableTextArea.props.value;
         // values.consumption =
         // 	myRefConsumption.current.clearableInput.props.value;
-        values.status = status;
+        if (!values.status) {
+            values.status = status;
+        }
         console.log(values);
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
@@ -556,9 +558,6 @@ function LossDetail() {
                     id="myForm"
                     className="doc_forms"
                     name="basic"
-                    initialValues={{
-                        status: true,
-                    }}
                     labelCol={{
                         span: 8,
                     }}
@@ -571,7 +570,7 @@ function LossDetail() {
                         modify: moment(data.Body.List[0].Modify),
                         mark: data.Body.List[0].Mark,
                         stockid: data.Body.List[0].StockId,
-                        status: data.Body.List[0].Status == 1 ? true : false,
+                        status: data.Body.List[0].Status === 1 ? true : false,
                     }}
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
@@ -696,6 +695,7 @@ function LossDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) => setStatus(e.target.checked)}
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

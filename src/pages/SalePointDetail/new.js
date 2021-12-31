@@ -229,7 +229,7 @@ function NewSalePoint() {
                             </Button>
                             <Form.Item
                                 label="Bağlı anbar"
-                                name="parentid"
+                                name="stockid"
                                 rules={[
                                     {
                                         required: true,

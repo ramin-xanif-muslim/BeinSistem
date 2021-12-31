@@ -423,7 +423,9 @@ function MoveDetail() {
         values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "moves", filter: values },
@@ -584,7 +586,7 @@ function MoveDetail() {
                         mark: data.Body.List[0].Mark,
                         stocktoid: data.Body.List[0].StockToId,
                         stockfromid: data.Body.List[0].StockFromId,
-                        status: data.Body.List[0].Status == 1 ? true : false,
+                        status: data.Body.List[0].Status === 1 ? true : false,
                     }}
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
@@ -744,6 +746,7 @@ function MoveDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) => setStatus(e.target.checked)}
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

@@ -145,8 +145,10 @@ function NewPaymentIn() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
-        values.moment = values.moment._i;
-        values.status = status;
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+        if (!values.status) {
+            values.status = status;
+        }
         values.mark = docmark;
 
         message.loading({ content: "Loading...", key: "doc_update" });
