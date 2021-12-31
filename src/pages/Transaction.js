@@ -7,17 +7,14 @@ import {
     fetchCustomers,
 } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
-import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
 import TransactionButtons from "../components/TransactionButton";
 import { SettingOutlined } from "@ant-design/icons";
 import SearchByDate from "../components/SearchByDate";
@@ -625,6 +622,9 @@ export default function Transaction() {
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
                 dataSource={documentList}
+                rowClassName={(record, index) =>
+                    record.Status === 0 ? "unchecked" : ""
+                }
                 summary={() => (
                     <Table.Summary.Row>
                         {columns

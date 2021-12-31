@@ -10,10 +10,9 @@ function FastSearch() {
 		useTableCustom();
 	const [value, setValue] = useState(null);
 
-	//   useEffect(() => {
-	//     handleSearch()
-	//     //  alert('clear')
-	//   },[])
+	  useEffect(() => {
+	    handleSearch()
+	  },[])
 
 	const onSearch = (value) => {
 		setFastSearch(value);

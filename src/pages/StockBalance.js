@@ -2,17 +2,12 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
-import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
-import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
-import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import { SettingOutlined } from "@ant-design/icons";
 import MyFastSearch from "../components/MyFastSearch";
@@ -20,7 +15,6 @@ import sendRequest from "../config/sentRequest";
 
 const { Text } = Typography;
 export default function StockBalance() {
-    const [searchTerm, setSearchTerm] = useState("");
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(0);
     const [defaultdr, setDefaultDr] = useState("ascend");
@@ -43,8 +37,6 @@ export default function StockBalance() {
         stockbalanceSearchTerm,
         setStockbalanceSearchTerm,
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         setIsFilter,
         advancedPage,
@@ -636,6 +628,9 @@ export default function StockBalance() {
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
                 dataSource={documentList}
+                rowClassName={(record, index) =>
+                    record.Status === 0 ? "unchecked" : ""
+                }
                 summary={() => (
                     <Table.Summary.Row>
                         {columns

@@ -15,7 +15,10 @@ import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
 import { SettingOutlined } from "@ant-design/icons";
-import { isObject } from "../config/function/findadditionals";
+import {
+    ConvertFixedTable,
+    isObject,
+} from "../config/function/findadditionals";
 import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 
@@ -339,6 +342,9 @@ export default function Product() {
                     : true,
                 sorter: (a, b) => null,
                 className: initialSort === "BuyPrice" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "Price",
@@ -352,6 +358,9 @@ export default function Product() {
                     : true,
                 sorter: (a, b) => null,
                 className: initialSort === "Price" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "MinPrice",
@@ -364,6 +373,9 @@ export default function Product() {
                     : false,
                 sorter: (a, b) => null,
                 className: initialSort === "MinPrice" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {
@@ -406,6 +418,9 @@ export default function Product() {
                     : false,
                 sorter: (a, b) => null,
                 className: initialSort === "PackPrice" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "PackQuantity",
@@ -419,6 +434,9 @@ export default function Product() {
                     : false,
                 sorter: (a, b) => null,
                 className: initialSort === "PackQuantity" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "PrintBarcode",
@@ -648,7 +666,6 @@ export default function Product() {
             </Menu.ItemGroup>
         </Menu>
     );
-
     const tableSettings = (
         <Dropdown
             trigger={["click"]}
@@ -662,12 +679,7 @@ export default function Product() {
             </Button>
         </Dropdown>
     );
-    if (isLoading)
-        return (
-            <Spin className="fetchSpinner" tip="Yüklənir...">
-                <Alert />
-            </Spin>
-        );
+    if (isLoading) return "Loading...";
 
     if (error) return "An error has occurred: " + error.message;
 
@@ -732,9 +744,8 @@ export default function Product() {
                 </Col>
                 <Col xs={24} md={24} xl={19}>
                     <Table
-                        className="main-table"
                         rowKey="Id"
-                        columns={columnsnew.filter((c) => c.show == true)}
+                        columns={columnsnew.filter((c) => c.show === true)}
                         dataSource={productList}
                         onChange={onChange}
                         locale={{

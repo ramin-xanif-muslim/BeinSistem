@@ -18,7 +18,6 @@ import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 
 import {
-    ConvertFixedPosition,
     ConvertFixedTable,
 } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
@@ -219,6 +218,9 @@ export default function SaleReport() {
                         : true
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "RetSumCost",

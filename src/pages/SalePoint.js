@@ -9,10 +9,7 @@ import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
 import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
-import FastSearch from "../components/FastSearch";
-import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { ConvertFixedTable } from "../config/function/findadditionals";
@@ -23,10 +20,6 @@ export default function SalePoint() {
     const [defaultdr, setDefaultDr] = useState("descend");
     const [initialSort, setInitialSort] = useState("");
     const [fieldSort, setFieldSort] = useState("");
-    const [allsum, setallsum] = useState(0);
-    const [allprofit, setallprofit] = useState(0);
-    const [allbonus, setallbonus] = useState(0);
-    const [allbank, setallbank] = useState(0);
     const [editId, setEditId] = useState("");
     const [page, setPage] = useState(0);
     const [filtered, setFiltered] = useState(false);
@@ -36,8 +29,6 @@ export default function SalePoint() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const {
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         advancedPage,
         setAdvancedPage,
@@ -347,6 +338,9 @@ export default function SalePoint() {
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
                 dataSource={documentList}
+                rowClassName={(record, index) =>
+                    record.Status === 0 ? "unchecked" : ""
+                }
                 locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
                     current: advancedPage + 1,

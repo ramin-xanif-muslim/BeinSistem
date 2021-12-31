@@ -7,7 +7,6 @@ import {
     fetchCustomers,
 } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import {
@@ -22,11 +21,10 @@ import {
 } from "antd";
 
 import Buttons from "../components/Button";
-import { Button, Icon } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
 import {
     ConvertFixedTable,
     isObject,
@@ -57,8 +55,6 @@ export default function CustomerOrders() {
         useState(false);
     const {
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         advancedPage,
         setAdvancedPage,
@@ -69,8 +65,6 @@ export default function CustomerOrders() {
         display,
         setCustomersLocalStorage,
         setCustomers,
-        setAdvance,
-        orderStatusArr,
         setOrderStatusArr,
     } = useTableCustom();
 
@@ -683,6 +677,9 @@ export default function CustomerOrders() {
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
                 dataSource={documentList}
+                rowClassName={(record, index) =>
+                    record.Status === 0 ? "unchecked" : ""
+                }
                 summary={() => (
                     <Table.Summary.Row>
                         {columns

@@ -2,17 +2,13 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
-import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
-import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
@@ -21,23 +17,12 @@ const { Text } = Typography;
 
 export default function Profit() {
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
-    const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("");
     const [initialSort, setInitialSort] = useState("");
     const [fieldSort, setFieldSort] = useState("");
-    const [allsum, setallsum] = useState(0);
-    const [allprofit, setallprofit] = useState(0);
-    const [allbonus, setallbonus] = useState(0);
-    const [allbank, setallbank] = useState(0);
-    const [editId, setEditId] = useState("");
     const [page, setPage] = useState(0);
     const [filtered, setFiltered] = useState(false);
-    const [expandedRowKeys, setexpandedRowKeys] = useState(["4"]);
-    const [children, setChildren] = useState([]);
-    const [columnChange, setColumnChange] = useState(false);
-    const [initial, setInitial] = useState(null);
-    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [initialfilter, setInitialFilter] = useState(null);
 
     const [filterChanged, setFilterChanged] = useState(false);
@@ -46,11 +31,8 @@ export default function Profit() {
 
     const {
         marks,
-        setMarkLocalStorage,
-        setMark,
         isFilter,
         advancedPage,
-        setAdvancedPage,
         doSearch,
         search,
         advanced,
@@ -264,12 +246,12 @@ export default function Profit() {
             </Button>
         </Dropdown>
     );
-    const getSearchObjByDate = async (ob) => {
-        // setFetchSearchByDate(true);
-        // let res = await sendRequest("profit/get.php", ob);
-        // setDocument(res.Body);
-        // setFetchSearchByDate(false);
-    };
+	const getSearchObjByDate = async (ob) => {
+		setFetchSearchByDate(true);
+		let res = await sendRequest("profit/get.php", ob);
+        setDocument(res);
+		setFetchSearchByDate(false);
+	};
 
     if (isLoading) return "Loading...";
 

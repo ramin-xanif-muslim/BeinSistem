@@ -79,6 +79,8 @@ function ReturnDetail() {
         customers,
         setCustomers,
         setOuterDataSource,
+		setDisable,
+		disable,
     } = useTableCustom();
     const {
         docstock,
@@ -107,6 +109,8 @@ function ReturnDetail() {
     const [hasConsumption, setHasConsumption] = useState(false);
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
     const { isLoading, error, data, isFetching } = useQuery(
         ["return", doc_id],
         () => fetchDocId(doc_id, "returns")
@@ -116,6 +120,23 @@ function ReturnDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+	useEffect(() => {
+		setDisable(true);
+		setPositions([]);
+		setOuterDataSource([]);
+
+		return () => {
+			setDisable(true);
+			setPositions([]);
+			setOuterDataSource([]);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+			setDisable(false);
+		}
+	}, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
             customPositions = [];
@@ -156,6 +177,9 @@ function ReturnDetail() {
     const onClose = () => {
         message.destroy();
     };
+	const handleVisibleChange = (flag) => {
+		setVisibleMenuSettings(flag);
+	};
     const onChangeConsumption = (e) => {
         setHasConsumption(true);
         setConsumption(e.target.value);
@@ -195,8 +219,7 @@ function ReturnDetail() {
                 editable: true,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -207,8 +230,7 @@ function ReturnDetail() {
                 editable: true,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -219,8 +241,7 @@ function ReturnDetail() {
                 editable: true,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -252,8 +273,7 @@ function ReturnDetail() {
                 editable: false,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
 
@@ -473,7 +493,7 @@ function ReturnDetail() {
                         modify: moment(data.Body.List[0].Modify),
                         mark: data.Body.List[0].Mark,
                         stockid: data.Body.List[0].StockId,
-                        customerid: data.Body.List[0].CustomerId,
+                        customerid: data.Body.List[0].CustomerName,
                         status: data.Body.List[0].Status == 1 ? true : false,
                     }}
                     onFinish={handleFinish}

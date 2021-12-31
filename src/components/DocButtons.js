@@ -73,7 +73,7 @@ function DocButtons({
     const goCheckPage = () => {};
 
     const deleteDoc = async () => {
-        message.loading({ content: "LOADİNG...", key: "doc_delete" });
+        message.loading({ content: "Loading...", key: "doc_delete" });
         const res = await delDoc(editid, controller);
         if (res.Body.ResponseStatus === "0") {
             message.success({
@@ -95,6 +95,7 @@ function DocButtons({
             });
         }
     };
+    console.log(editid);
     const dots = (
         <Menu>
             <Menu.Item key="0">
