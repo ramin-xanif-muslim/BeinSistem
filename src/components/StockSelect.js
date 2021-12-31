@@ -1,20 +1,16 @@
 import React from "react";
-import { Select, Drawer, Input, Divider, Button } from "antd";
-import { DeleteOutlined, PlusOutlined, EditOutlined } from "@ant-design/icons";
+import { Select} from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 import { useCustomForm } from "../contexts/FormContext";
 import { useRef, useEffect, useState } from "react";
 import { fetchStocks } from "../api";
-const { Option, OptGroup } = Select;
+const { Option } = Select;
 function StockSelect({ defaultValue }) {
   const select = useRef(null);
-  const [isCreate, setisCreate] = useState(false);
+  const [ setisCreate] = useState(false);
   const { stocks, setStockLocalStorage, setStock } = useTableCustom();
   const {
-    docstock,
     setDocStock,
-    docfromstock,
-    setDocFromStock,
     createdStock,
     setCreatedStock,
   } = useCustomForm();

@@ -1,15 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
 import { Table } from "antd";
 import {
-    fetchSpendItems,
-    delSpendItems,
-    updateSpendItem,
     updateTaxes,
 } from "../api";
-import { Redirect } from "react-router-dom";
-import { Divider } from "antd";
-import MaskedInput from "antd-mask-input";
 import { ConvertDecimal } from "../config/function/findadditionals";
 import moment from "moment";
 
@@ -17,23 +11,14 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
     Col,
     Row,
-    Form,
     Input,
     Button,
-    Popconfirm,
-    TreeSelect,
-    Select,
     Switch,
-    Modal,
     message,
     Spin,
     Progress,
-    Checkbox,
 } from "antd";
 import {
-    DeleteOutlined,
-    EyeOutlined,
-    PlusOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
 import { fetchCompany, fetchTaxes, updateCompany } from "../api";
@@ -131,7 +116,6 @@ function Taxes() {
         }
     }, [newObj]);
 
-    console.log("totalStorage", totalStorage);
     const onChangeFilter = (e, name) => {
         var n = "s" + name;
         var v = e.target.value;
@@ -154,7 +138,6 @@ function Taxes() {
             ).toFixed();
 
             let new_date = moment().add(expireddays, "days").calendar();
-            console.log("DD-MM-YYYY");
 
             setExpired(expireddays);
             setExpiredDate(new_date);

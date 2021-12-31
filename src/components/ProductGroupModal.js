@@ -1,23 +1,11 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useEffect, useState, useMemo, useRef } from "react";
-import { fetchProductFolders, fetchProductId, fetchRefList } from "../api";
-import DocButtons from "../components/DocButtons";
+import {  useState} from "react";
 import {
     Form,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
-    Checkbox,
-    Dropdown,
-    Card,
     Select,
     Spin,
-    Space,
-    Alert,
-    Menu,
     Row,
     Col,
     Collapse,
@@ -25,16 +13,10 @@ import {
 } from "antd";
 import "antd/dist/antd.css";
 import { message } from "antd";
-import { Redirect } from "react-router";
-import { saveDoc, fetchBarcode } from "../api";
+import { saveDoc } from "../api";
 import {
-    SyncOutlined,
-    PlusOutlined,
-    MinusCircleOutlined,
     CloseCircleOutlined,
-    EditOutlined,
 } from "@ant-design/icons";
-import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../contexts/TableContext";
 const { Option } = Select;
 const { TextArea } = Input;
@@ -48,18 +30,8 @@ function ProductGroupModal() {
     const [form] = Form.useForm();
     const {
         productGroups,
-        departments,
-        owners,
         attributes,
-        attrLoading,
-        setAttrLoading,
-        refList,
-        setRefList,
-        setRefsLocalStorage,
-        linkedList,
-        setLinkedList,
         prices,
-        setPrices,
         groupVisible,
         setGroupVisible,
         setNewGroup,
@@ -70,13 +42,6 @@ function ProductGroupModal() {
     const [pricetypes, setPriceTypes] = useState(
         prices ? prices : JSON.parse(localStorage.getItem("prices"))
     );
-    const [oneref, setOneRef] = useState([]);
-    const [redirect, setRedirect] = useState(false);
-    const [editId, setEditId] = useState(null);
-    const [list, setList] = useState([]);
-    const [barcode, setBarcode] = useState(null);
-    const [listLength, setListLength] = useState(0);
-    const [linked, setLinked] = useState(null);
 
     const onClose = () => {
         message.destroy();

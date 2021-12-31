@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { useCustomForm } from "../contexts/FormContext";
 import { saveDoc } from "../api";
 import { useTableCustom } from "../contexts/TableContext";
@@ -6,39 +5,20 @@ import {
   Form,
   Input,
   Button,
-  InputNumber,
-  TreeSelect,
-  Checkbox,
-  Dropdown,
-  DatePicker,
-  Switch,
   Select,
   Spin,
-  Tag,
-  Divider,
-  Menu,
   Drawer,
-  Typography,
-  Statistic,
-  Popconfirm,
   Row,
   Col,
   message,
-  Collapse,
 } from "antd";
 import { CloseCircleOutlined } from "@ant-design/icons";
 const { Option } = Select;
 const { TextArea } = Input;
 function StockDrawer({direction}) {
   const {
-    docstock,
-    setDocStock,
-    docmark,
-    setDocMark,
-    setLoadingForm,
     setStockDrawer,
     stockDrawer,
-    createdStock,
     setCreatedStock,
   } = useCustomForm();
   const { stocks, setStockLocalStorage } = useTableCustom();

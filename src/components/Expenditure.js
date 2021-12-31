@@ -11,7 +11,6 @@ export default function Expenditure({ show, setShow }) {
 	};
 
 	const onFinish = async (values) => {
-		console.log("alindi");
 		let res = await sendRequest("spenditems/put.php", values);
 		setShow(false);
 	};

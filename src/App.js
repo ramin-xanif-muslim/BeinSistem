@@ -135,7 +135,7 @@ function App() {
         }
       >
         <Router>
-          {loggedIn && nav != "none" ? <Navbar /> : ""}
+          {loggedIn && nav !== "none" ? <Navbar /> : ""}
 
           <div>
             <Switch>

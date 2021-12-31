@@ -1,9 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useEffect, useState, useMemo, useRef } from "react";
-import { fetchProductId, fetchRefList } from "../api";
-import DocButtons from "../components/DocButtons";
+import { useEffect, useState } from "react";
+import { fetchRefList } from "../api";
 import { fetchProductFolders } from "../api";
 import { useCustomForm } from "../contexts/FormContext";
 import {
@@ -11,29 +8,20 @@ import {
   Input,
   Button,
   InputNumber,
-  TreeSelect,
   Checkbox,
-  Dropdown,
-  Card,
   Select,
   Spin,
-  Space,
-  Alert,
-  Menu,
   Row,
   Col,
   Collapse,
 } from "antd";
 import "antd/dist/antd.css";
 import { message } from "antd";
-import { Redirect } from "react-router";
 import { saveDoc, fetchBarcode } from "../api";
 import {
   SyncOutlined,
   PlusOutlined,
-  MinusCircleOutlined,
   CloseCircleOutlined,
-  EditOutlined,
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../contexts/TableContext";
@@ -55,17 +43,11 @@ function ProductModal() {
     attributes,
     attrLoading,
     setAttrLoading,
-    refList,
-    setRefList,
-    setRefsLocalStorage,
     linkedList,
     setLinkedList,
     prices,
-    setPrices,
-    isNew,
     setNew,
     setNewPro,
-    setAdd,
     setProductGroups,
     setProductGroupsLocalStorage,
   } = useTableCustom();
@@ -78,8 +60,6 @@ function ProductModal() {
     prices ? prices : JSON.parse(localStorage.getItem("prices"))
   );
   const [oneref, setOneRef] = useState([]);
-  const [redirect, setRedirect] = useState(false);
-  const [editId, setEditId] = useState(null);
   const [list, setList] = useState([]);
   const [barcode, setBarcode] = useState(null);
   const [listLength, setListLength] = useState(0);
@@ -186,7 +166,6 @@ function ProductModal() {
     });
   };
   const handleFinish = async (values) => {
-    console.log(values);
     var error = false;
 
     message.loading({ content: "Loading...", key: "pro_update" });
@@ -212,7 +191,6 @@ function ProductModal() {
             ([k, v]) => k === "col_" + atr.Name
           ) === -1
         ) {
-          console.log("values", values);
           error = true;
         }
       }

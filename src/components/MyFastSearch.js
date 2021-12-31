@@ -11,7 +11,7 @@ function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
       if(searchTerm !== ''){
         const timer = setTimeout(() => {
             searchFunc(searchTerm)
-        }, 1000);
+        }, 500);
         return () => clearTimeout(timer);
     }
   }, []);

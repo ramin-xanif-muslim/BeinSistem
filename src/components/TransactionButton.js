@@ -1,8 +1,7 @@
 import { Menu, Dropdown } from "antd";
-import { Button, Icon } from "semantic-ui-react";
-import { Link, withRouter } from "react-router-dom";
+import { Button } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import {
-    DownOutlined,
     PlusCircleOutlined,
     MinusCircleOutlined,
 } from "@ant-design/icons";

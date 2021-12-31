@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import style from "./SearchByDate.module.css";
-import { Spin } from "antd";
 
 function SearchByDate({ getSearchObjByDate }) {
     const [activId, setActivId] = useState(0);

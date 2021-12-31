@@ -94,7 +94,6 @@ export default function ModComponent() {
     const delSpendItem = (id, e) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(id);
         message.loading({ content: "Loading...", key: "doc_del" });
         deleteMutation.mutate(id, {
             onSuccess: (res) => {

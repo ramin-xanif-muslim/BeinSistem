@@ -14,7 +14,6 @@ import { useTableCustom } from "../contexts/TableContext";
 import { useCustomForm } from "../contexts/FormContext";
 import {
     DeleteOutlined,
-    EyeOutlined,
     PlusOutlined,
     EditOutlined,
     CloseCircleOutlined,
@@ -24,15 +23,12 @@ const { Option, OptGroup } = Select;
 function StatusSelect({ defaultvalue }) {
     const { marks, setMarkLocalStorage, setMark } = useTableCustom();
     const { docmark, setDocMark } = useCustomForm();
-    const [statusName, setStatusName] = useState(null);
     const [defaultName, setDefaultName] = useState(defaultvalue);
-    const [statusColor, setStatusColor] = useState(null);
     const [show, setShow] = useState(false);
     const [edit, setEdit] = useState(null);
     const [markLoading, setMarkLoading] = useState(false);
     var obj;
     marks ? (obj = marks) : (obj = JSON.parse(localStorage.getItem("marks")));
-    console.log(docmark);
     const options = obj.map((m) => (
         <Option
             style={{ display: "flex", justifyContent: "space-between" }}

@@ -1,30 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useMemo } from "react";
-import { Table } from "antd";
-import { fetchSpendItems, delSpendItems, updateSpendItem } from "../api";
-import { Redirect } from "react-router-dom";
+import React, { useRef } from "react";
 import { Divider } from "antd";
 import MaskedInput from "antd-mask-input";
 
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import {
-    Col,
-    Row,
     Form,
     Input,
     Button,
-    Popconfirm,
-    TreeSelect,
-    Select,
-    Switch,
-    Modal,
     message,
-    Spin,
 } from "antd";
 import {
-    DeleteOutlined,
-    EyeOutlined,
-    PlusOutlined,
     UserOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
@@ -38,7 +23,6 @@ const deviderStyle = {
 function Profile() {
     const inputMaskRef = useRef(null);
 
-    const [loading, setLoading] = useState(false);
     const queryClient = useQueryClient();
 
     const { isLoading, error, data, isFetching } = useQuery(["company"], () =>
@@ -199,7 +183,6 @@ function Profile() {
                     rules={[
                         ({ getFieldValue }) => ({
                             validator(_, value) {
-                                console.log(value);
                                 if (
                                     !value ||
                                     value.slice(7, 9) == "55" ||

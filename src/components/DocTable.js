@@ -43,7 +43,7 @@ const EditableCell = ({
 	const toggleEdit = () => {
 		setEditing(!editing);
 		form.setFieldsValue({
-			[dataIndex]: record[dataIndex],
+			[dataIndex]: ConvertFixedTable(record[dataIndex]),
 		});
 	};
 
