@@ -172,7 +172,6 @@ function ProductModal() {
         });
     };
     const handleFinish = async (values) => {
-        console.log(values);
         var error = false;
 
         message.loading({ content: "Loading...", key: "pro_update" });
@@ -500,7 +499,7 @@ function ProductModal() {
             >
                 <Form
                     form={form}
-                    id="myForm"
+                    id="newPro"
                     style={{ padding: "0px 20px" }}
                     name="basic"
                     initialValues={{}}

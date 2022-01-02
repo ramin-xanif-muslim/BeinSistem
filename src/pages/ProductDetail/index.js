@@ -757,7 +757,6 @@ function ProductDetail() {
     };
 
     const onValuesChange = (changedValues, allValues) => {
-        console.log(allValues);
         Object.assign(lastObject, {
             [changedValues[0].name[0]]: changedValues[0].value,
         });

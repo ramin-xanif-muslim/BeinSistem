@@ -94,7 +94,6 @@ function EnterDetail() {
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-    const [ debt, setDebt] = useState(null)
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["enter", doc_id],
@@ -105,14 +104,6 @@ function EnterDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
-
-    const fetchDebt = async () => {
-        let res = await api.fetchDebt(doc_id)
-        setDebt(res)
-    }
-    useEffect(() => {
-        fetchDebt()
-    },[])
 
     useEffect(() => {
         setDisable(true);

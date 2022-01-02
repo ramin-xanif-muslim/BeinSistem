@@ -139,8 +139,8 @@ function PaymentOutDetail() {
 
     useEffect(() => {
         if (!isFetching) {
-            console.log(data.Body.List[0].Mark);
             setHandleMark(data.Body.List[0].Mark);
+			setStatus(data.Body.List[0].Status);
         }
     }, [isFetching]);
 
@@ -231,8 +231,11 @@ function PaymentOutDetail() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
-        values.moment = values.moment._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
         values.mark = docmark;
+		if (!values.status) {
+			values.status = status;
+		}
 
         message.loading({ content: "Loading...", key: "doc_update" });
 
@@ -325,8 +328,8 @@ function PaymentOutDetail() {
                             mark: data.Body.List[0].Mark,
                             description: data.Body.List[0].Description,
                             linkid: data.Body.List[0].LinkId,
-                            status:
-                                data.Body.List[0].Status == "1" ? true : false,
+							status:
+								data.Body.List[0].Status === 1 ? true : false,
                             spenditem: data.Body.List[0].SpendItem,
                         }}
                         onFinish={handleFinish}
@@ -520,6 +523,9 @@ function PaymentOutDetail() {
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
+												onChange={(e) =>
+													setStatus(e.target.checked)
+												}
                                                 name="status"
                                                 valuePropName="checked"
                                                 style={{ width: "100%" }}
