@@ -268,77 +268,77 @@ function DemandDetail() {
                     return value;
                 },
             },
-            {
-                title: "Maya",
-                dataIndex: "CostPr",
-                className: "max_width_field",
-                isVisible: true,
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    let defaultCostArray = [];
-                    let consumtionPriceArray = [];
-                    outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.Price));
-                    });
-                    console.log("defaultCostArray", defaultCostArray);
-                    if (hasConsumption) {
-                        console.log(hasConsumption);
-                        console.log(positions);
-                        console.log(consumption);
-                        console.log(docSum);
-                        console.log(FindAdditionals(consumption, docSum, 12));
-                        consumtionPriceArray = [];
-                        outerDataSource.forEach((p) => {
-                            consumtionPriceArray.push(
-                                FindAdditionals(
-                                    consumption,
-                                    docSum,
-                                    Number(p.Price)
-                                )
-                            );
-                        });
-                        console.log(
-                            "consumtionPriceArray",
-                            consumtionPriceArray
-                        );
-                        return ConvertFixedTable(consumtionPriceArray[index]);
-                    } else {
-                        return ConvertFixedTable(defaultCostArray[index]);
-                    }
-                },
-            },
-            {
-                title: "Cəm Maya",
-                dataIndex: "CostTotalPr",
-                className: "max_width_field",
-                isVisible: true,
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    let defaultCostArray = [];
-                    let consumtionPriceArray = [];
-                    outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.TotalPrice));
-                    });
-                    if (hasConsumption) {
-                        consumtionPriceArray = [];
-                        outerDataSource.forEach((p) => {
-                            consumtionPriceArray.push(
-                                FindAdditionals(
-                                    consumption,
-                                    docSum,
-                                    Number(p.TotalPrice)
-                                )
-                            );
-                        });
+            // {
+            //     title: "Maya",
+            //     dataIndex: "CostPr",
+            //     className: "max_width_field",
+            //     isVisible: true,
+            //     editable: false,
+            //     sortDirections: ["descend", "ascend"],
+            //     render: (value, row, index) => {
+            //         let defaultCostArray = [];
+            //         let consumtionPriceArray = [];
+            //         outerDataSource.forEach((p) => {
+            //             defaultCostArray.push(Number(p.Price));
+            //         });
+            //         console.log("defaultCostArray", defaultCostArray);
+            //         if (hasConsumption) {
+            //             console.log(hasConsumption);
+            //             console.log(positions);
+            //             console.log(consumption);
+            //             console.log(docSum);
+            //             console.log(FindAdditionals(consumption, docSum, 12));
+            //             consumtionPriceArray = [];
+            //             outerDataSource.forEach((p) => {
+            //                 consumtionPriceArray.push(
+            //                     FindAdditionals(
+            //                         consumption,
+            //                         docSum,
+            //                         Number(p.Price)
+            //                     )
+            //                 );
+            //             });
+            //             console.log(
+            //                 "consumtionPriceArray",
+            //                 consumtionPriceArray
+            //             );
+            //             return ConvertFixedTable(consumtionPriceArray[index]);
+            //         } else {
+            //             return ConvertFixedTable(defaultCostArray[index]);
+            //         }
+            //     },
+            // },
+            // {
+            //     title: "Cəm Maya",
+            //     dataIndex: "CostTotalPr",
+            //     className: "max_width_field",
+            //     isVisible: true,
+            //     editable: false,
+            //     sortDirections: ["descend", "ascend"],
+            //     render: (value, row, index) => {
+            //         let defaultCostArray = [];
+            //         let consumtionPriceArray = [];
+            //         outerDataSource.forEach((p) => {
+            //             defaultCostArray.push(Number(p.TotalPrice));
+            //         });
+            //         if (hasConsumption) {
+            //             consumtionPriceArray = [];
+            //             outerDataSource.forEach((p) => {
+            //                 consumtionPriceArray.push(
+            //                     FindAdditionals(
+            //                         consumption,
+            //                         docSum,
+            //                         Number(p.TotalPrice)
+            //                     )
+            //                 );
+            //             });
 
-                        return ConvertFixedTable(consumtionPriceArray[index]);
-                    } else {
-                        return ConvertFixedTable(defaultCostArray[index]);
-                    }
-                },
-            },
+            //             return ConvertFixedTable(consumtionPriceArray[index]);
+            //         } else {
+            //             return ConvertFixedTable(defaultCostArray[index]);
+            //         }
+            //     },
+            // },
             {
                 title: "Sil",
                 className: "orderField printField",
@@ -825,6 +825,32 @@ function DemandDetail() {
                                         value={docCount}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
+                                    />
+                                    <Statistic
+                                        groupSeparator=" "
+                                        className="doc_info_text doc_info_secondary quantity "
+                                        title=""
+                                        value={ConvertFixedTable(
+                                            isNaN(
+                                                docSum -
+                                                    data.Body.List[0].Profit
+                                            )
+                                                ? "0.00"
+                                                : docSum -
+                                                      data.Body.List[0].Profit
+                                        )}
+                                        prefix={"Mayası: "}
+                                        suffix={"₼"}
+                                    />
+                                    <Statistic
+                                        groupSeparator=" "
+                                        className="doc_info_text doc_info_secondary quantity"
+                                        title=""
+                                        value={ConvertFixedTable(
+                                            data.Body.List[0].Profit
+                                        )}
+                                        prefix={"Qazanc: "}
+                                        suffix={"₼"}
                                     />
 
                                     <Divider
