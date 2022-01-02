@@ -677,7 +677,7 @@ export default function Sale() {
                                             : c.dataIndex === "UseBonus"
                                             ? allbonus
                                             : c.dataIndex === "SumMoney"
-                                            ? parseFloat(
+                                            ? ConvertFixedTable(
                                                   allsum + allbank + allbonus
                                               ) + " ₼"
                                             : null}

@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocId } from "../../api";
+import { api, fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
@@ -94,6 +94,7 @@ function EnterDetail() {
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+    const [ debt, setDebt] = useState(null)
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["enter", doc_id],
@@ -104,10 +105,20 @@ function EnterDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+
+    const fetchDebt = async () => {
+        let res = await api.fetchDebt(doc_id)
+        setDebt(res)
+    }
+    useEffect(() => {
+        fetchDebt()
+    },[])
+
     useEffect(() => {
         setDisable(true);
         setPositions([]);
         setOuterDataSource([]);
+        console.log(doc_id)
 
         return () => {
             setDisable(true);

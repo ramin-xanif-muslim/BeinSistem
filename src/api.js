@@ -1,4 +1,13 @@
 import axios from "axios";
+import sendRequest from "./config/sentRequest";
+
+export const api = Object.freeze({
+    async fetchDebt(CustomerId) {
+        let obj = { id: CustomerId }
+        const response = await sendRequest("customers/getdata.php",obj)
+        return response.Debt
+    },
+})
 
 export const fetchNavbar = async () => {
   var navFilter = {

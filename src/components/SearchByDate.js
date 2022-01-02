@@ -71,7 +71,7 @@ function SearchByDate({ getSearchObjByDate }) {
                 momb: `${date} 00:00:00`,
             };
             Object.assign(obj, tarix);
-            d = 30;
+            d = today.getDate();
             date = y + "-" + (m + 1) + "-" + d;
             tarix = {
                 mome: `${date} 23:59:59`,
@@ -81,12 +81,14 @@ function SearchByDate({ getSearchObjByDate }) {
             return;
         }
         if (i === 4) {
-            let date = y + "-" + m + "-" + d;
+            if(m === 0){
+            let date = y + "-" + 12 + "-" + d;
             var tarix = {
                 momb: `${date} 00:00:00`,
             };
             Object.assign(obj, tarix);
-            date = y + "-" + (m + 1) + "-" + d;
+            }
+            let date = y + "-" + (m + 1) + "-" + d;
             var tarix = {
                 mome: `${date} 23:59:59`,
             };

@@ -294,29 +294,23 @@ export default function SaleReport() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Profit"
                       ).show
-                    : true,
+                    : false,
                 render: (value, row, index) => {
                     if (row.SumPrice - row.RetSumPrice === 0) {
                         return "0 %";
                     } else {
                         if (!row.SumPrice) {
-                            return (
-                                (parseFloat(row.Profit) * 100) /
-                                    parseFloat(row.RetSumPrice) +
-                                " %"
-                            );
+                           let num = (parseFloat(row.Profit) * 100) /
+                                    parseFloat(row.RetSumPrice)
+                                return ConvertFixedTable(num) + " %";
                         } else if (row.RetSumPrice) {
-                            return (
-                                (parseFloat(row.Profit) * 100) /
-                                    parseFloat(row.SumPrice - row.RetSumPrice) +
-                                " %"
-                            );
+                            let num = (parseFloat(row.Profit) * 100) /
+                            parseFloat(row.SumPrice - row.RetSumPrice)
+                        return ConvertFixedTable(num) + " %";
                         } else {
-                            return (
-                                (parseFloat(row.Profit) * 100) /
-                                    parseFloat(row.SumPrice) +
-                                " %"
-                            );
+                            let num = (parseFloat(row.Profit) * 100) /
+                            parseFloat(row.SumPrice)
+                        return ConvertFixedTable(num) + " %";
                         }
                     }
                 },

@@ -230,13 +230,8 @@ function SaleDetail() {
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
                     if (row.BasicPrice != 0) {
-                        return (
-                            parseFloat(
-                                (row.BasicPrice - row.Price) / row.BasicPrice
-                            ) *
-                                100 +
-                            " %"
-                        );
+                           let num = (row.BasicPrice - row.Price) / row.BasicPrice * 100
+                           return ConvertFixedTable(num) +  " %"
                     } else {
                         return 0 + " %";
                     }
