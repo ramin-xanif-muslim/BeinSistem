@@ -391,8 +391,8 @@ function SupplyReturnDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
-        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         if (!values.status) {

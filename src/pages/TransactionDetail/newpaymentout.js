@@ -207,9 +207,9 @@ function NewPaymentOut() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
-        values.moment = values.moment._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.status = status;
-        values.mark = docmark;
+        // values.mark = docmark;
 
         message.loading({ content: "Loading...", key: "doc_update" });
 

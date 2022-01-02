@@ -90,7 +90,6 @@ function EnterDetail() {
 	const { doc_id } = useParams();
 	const [hasConsumption, setHasConsumption] = useState(false);
 	const [status, setStatus] = useState(false);
-	// const [mark, setMark] = useState(false);
 	const [consumption, setConsumption] = useState(0);
 	const [initial, setInitial] = useState(null);
 	const [columnChange, setColumnChange] = useState(false);
@@ -431,8 +430,8 @@ function EnterDetail() {
 		setDisable(true);
 
 		values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
 		values.consumption =

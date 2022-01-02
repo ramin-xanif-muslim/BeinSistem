@@ -254,7 +254,7 @@ function IvoiceInDetail() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.mark = docmark;
 		if (!values.status) {
 			values.status = status;

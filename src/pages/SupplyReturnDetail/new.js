@@ -376,8 +376,8 @@ function NewSupplyReturn() {
     };
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-        values.mark = docmark;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+        // values.mark = docmark;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;
