@@ -336,6 +336,13 @@ function NewPaymentIn() {
                                 <Form.Item
                                     label="Xərc maddəsi"
                                     name="spenditem"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Zəhmət olmasa, xərc maddəsini seçin",
+                                        },
+                                    ]}
                                 >
                                     <Select
                                         showSearch

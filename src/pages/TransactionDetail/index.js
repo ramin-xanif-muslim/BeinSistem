@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName, fetchDocId } from "../../api";
+import { fetchDocName, fetchDocId, api } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -68,56 +68,63 @@ let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
 function PaymentInDetail() {
-	const [form] = Form.useForm();
-	const queryClient = useQueryClient();
-	const myRefDescription = useRef(null);
-	const myRefConsumption = useRef(null);
-	const {
-		outerDataSource,
-		setOuterDataSource,
-		departments,
-		owners,
-		setCustomersLocalStorage,
-		customers,
-		setCustomers,
-		spenditems,
-		setSpendItems,
-		setSpendsLocalStorage,
-		setDisable,
-		disable,
-	} = useTableCustom();
-	const { docmark, setLoadingForm, setCustomerDrawer } = useCustomForm();
-	const [positions, setPositions] = useState([]);
-	const [redirect, setRedirect] = useState(false);
-	const [editId, setEditId] = useState(null);
-	const [docname, setDocName] = useState(null);
-	const [newStocksLoad, setNewStocksLoad] = useState(null);
-	const [hasConsumption, setHasConsumption] = useState(false);
-	const [consumption, setConsumption] = useState(0);
-	const [status, setStatus] = useState(true);
-	const [initial, setInitial] = useState(null);
-	const [tablecolumns, setTableColumns] = useState([]);
-	const [columnChange, setColumnChange] = useState(false);
-	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-	const [spends, setSpends] = useState(false);
-	const [handleMark, setHandleMark] = useState(null);
-	const [customerloading, setcustomerloading] = useState(false);
-	const [expenditure, setExpenditure] = useState(false);
-
-	const { doc_id } = useParams();
-	const { isLoading, error, data, isFetching } = useQuery(
-		["paymentin", doc_id],
-		() => fetchDocId(doc_id, "paymentins")
-	);
-	const handleDelete = (key) => {
-		const dataSource = [...outerDataSource];
-		setOuterDataSource(dataSource.filter((item) => item.key !== key));
-		setPositions(dataSource.filter((item) => item.key !== key));
-	};
-	useEffect(() => {
-		setDisable(true);
-		setPositions([]);
-		setOuterDataSource([]);
+    const [form] = Form.useForm();
+    const queryClient = useQueryClient();
+    const myRefDescription = useRef(null);
+    const myRefConsumption = useRef(null);
+    const {
+        outerDataSource,
+        setOuterDataSource,
+        departments,
+        owners,
+        setCustomersLocalStorage,
+        customers,
+        setCustomers,
+        spenditems,
+        setSpendItems,
+        setSpendsLocalStorage,
+        setDisable,
+        disable,
+    } = useTableCustom();
+    const { docmark, setLoadingForm, setCustomerDrawer } = useCustomForm();
+    const [positions, setPositions] = useState([]);
+    const [redirect, setRedirect] = useState(false);
+    const [editId, setEditId] = useState(null);
+    const [docname, setDocName] = useState(null);
+    const [newStocksLoad, setNewStocksLoad] = useState(null);
+    const [hasConsumption, setHasConsumption] = useState(false);
+    const [consumption, setConsumption] = useState(0);
+    const [status, setStatus] = useState(true);
+    const [initial, setInitial] = useState(null);
+    const [tablecolumns, setTableColumns] = useState([]);
+    const [columnChange, setColumnChange] = useState(false);
+    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+    const [spends, setSpends] = useState(false);
+    const [handleMark, setHandleMark] = useState(null);
+    const [customerloading, setcustomerloading] = useState(false);
+    const [expenditure, setExpenditure] = useState(false);
+    const [debt, setDebt] = useState(null);
+    const fetchDebt = async () => {
+        let res = await api.fetchDebt(doc_id);
+        setDebt(res);
+    };
+    useEffect(() => {
+        fetchDebt();
+    }, []);
+    const { doc_id } = useParams();
+    const { isLoading, error, data, isFetching } = useQuery(
+        ["paymentin", doc_id],
+        () => fetchDocId(doc_id, "paymentins")
+    );
+    const handleDelete = (key) => {
+        const dataSource = [...outerDataSource];
+        setOuterDataSource(dataSource.filter((item) => item.key !== key));
+        setPositions(dataSource.filter((item) => item.key !== key));
+    };
+    useEffect(() => {
+        setDisable(true);
+        setPositions([]);
+        setOuterDataSource([]);
 
 		return () => {
 			setDisable(true);
@@ -394,115 +401,131 @@ function PaymentInDetail() {
 							<Col xs={24} md={24} xl={3}></Col>
 							<Col xs={24} md={24} xl={6}></Col>
 						</Row>
+                        <Row>
+                            <Col xs={24} md={24} xl={6}>
+                                <Form.Item
+                                    label="Tarix"
+                                    name="moment"
+                                    style={{ width: "100%" }}
+                                >
+                                    <DatePicker
+                                        className="detail-input"
+                                        showTime={{ format: "HH:mm:ss" }}
+                                        format="YYYY-MM-DD HH:mm:ss"
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={24} xl={3}></Col>
+                            <Col xs={24} md={24} xl={6}>
+                                <Button className="add-stock-btn">
+                                    <PlusOutlined
+                                        onClick={() => setCustomerDrawer(true)}
+                                    />
+                                </Button>
+                                <Form.Item
+                                    label="Qarşı-tərəf"
+                                    name="customerid"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Zəhmət olmasa, qarşı tərəfi seçin",
+                                        },
+                                    ]}
+                                    className="form-item-customer"
+                                >
+                                    <Select
+                                        showSearch
+                                        showArrow={false}
+                                        filterOption={false}
+                                        className="customSelect detail-select"
+                                        allowClear={true}
+                                    >
+                                        {customerOptions}
+                                    </Select>
+                                </Form.Item>
+                                <p
+                                    className="customer-debt"
+                                    style={debt < 0 ? { color: "red" } : {}}
+                                >
+                                    <span style={{ color: "red" }}>
+                                        Qalıq borc:
+                                    </span>
+                                    {debt} ₼
+                                </p>
+                            </Col>
+                            <Col xs={24} md={24} xl={3}></Col>
+                            <Col xs={24} md={24} xl={6}></Col>
+                        </Row>
 
-						<Row>
-							<Col xs={24} md={24} xl={6}>
-								<Form.Item
-									label="Tarix"
-									name="moment"
-									style={{ width: "100%" }}
-								>
-									<DatePicker
-										className="detail-input"
-										showTime={{ format: "HH:mm:ss" }}
-										format="YYYY-MM-DD HH:mm:ss"
-									/>
-								</Form.Item>
-							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}>
-								<Button className="add-stock-btn">
-									<PlusOutlined
-										onClick={() => setCustomerDrawer(true)}
-									/>
-								</Button>
-								<Form.Item
-									label="Qarşı-tərəf"
-									name="customerid"
-									rules={[
-										{
-											required: true,
-											message:
-												"Zəhmət olmasa, qarşı tərəfi seçin",
-										},
-									]}
-								>
-									<Select
-										showSearch
-										showArrow={false}
-										filterOption={false}
-										className="customSelect detail-select"
-										allowClear={true}
-									>
-										{customerOptions}
-									</Select>
-								</Form.Item>
-							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}></Col>
-						</Row>
-
-						<Row>
-							<Col xs={24} md={24} xl={6}>
-								<Form.Item
-									label="Şərh"
-									name="description"
-									style={{ margin: "0", width: "100%" }}
-								>
-									<TextArea
-										showCount
-										maxLength={100}
-										style={{ width: "100%" }}
-									/>
-								</Form.Item>
-							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}>
-								<Form.Item
-									label="Xərc maddəsi"
-									name="spenditem"
-								>
-									<Select
-										showSearch
-										showArrow={false}
-										className="customSelect detail-select"
-										notFoundContent={<Spin size="small" />}
-										onChange={onChangeSpendItem}
-										allowClear={true}
-										filterOption={(input, option) =>
-											option.children
-												.toLowerCase()
-												.indexOf(input.toLowerCase()) >=
-											0
-										}
-									>
-										{spends
-											? Object.values(spenditems)
-													.filter(
-														(item) =>
-															item.StaticName ===
-																"buyproduct" ||
-															item.StaticName ===
-																"correct"
-													)
-													.map((c) => (
-														<Option
-															staticname={
-																c.StaticName
-															}
-															key={c.Id}
-															value={c.Id}
-														>
-															{c.Name}
-														</Option>
-													))
-											: null}
-									</Select>
-								</Form.Item>
-							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}></Col>
-						</Row>
+                        <Row>
+                            <Col xs={24} md={24} xl={6}>
+                                <Form.Item
+                                    label="Şərh"
+                                    name="description"
+                                    style={{ margin: "0", width: "100%" }}
+                                >
+                                    <TextArea
+                                        showCount
+                                        maxLength={100}
+                                        style={{ width: "100%" }}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={24} xl={3}></Col>
+                            <Col xs={24} md={24} xl={6}>
+                                <Form.Item
+                                    label="Xərc maddəsi"
+                                    name="spenditem"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Zəhmət olmasa, xərc maddəsini seçin",
+                                        },
+                                    ]}
+                                >
+                                    <Select
+                                        showSearch
+                                        showArrow={false}
+                                        className="customSelect detail-select"
+                                        notFoundContent={<Spin size="small" />}
+                                        onChange={onChangeSpendItem}
+                                        allowClear={true}
+                                        filterOption={(input, option) =>
+                                            option.children
+                                                .toLowerCase()
+                                                .indexOf(input.toLowerCase()) >=
+                                            0
+                                        }
+                                    >
+                                        {spends
+                                            ? Object.values(spenditems)
+                                                  .filter(
+                                                      (item) =>
+                                                          item.StaticName ===
+                                                              "buyproduct" ||
+                                                          item.StaticName ===
+                                                              "correct"
+                                                  )
+                                                  .map((c) => (
+                                                      <Option
+                                                          staticname={
+                                                              c.StaticName
+                                                          }
+                                                          key={c.Id}
+                                                          value={c.Id}
+                                                      >
+                                                          {c.Name}
+                                                      </Option>
+                                                  ))
+                                            : null}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            <Col xs={24} md={24} xl={3}></Col>
+                            <Col xs={24} md={24} xl={6}></Col>
+                        </Row>
 
 						<Row>
 							<Collapse ghost style={{ width: "100%" }}>

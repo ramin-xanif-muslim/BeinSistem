@@ -120,6 +120,9 @@ function FixError() {
         <Row className="table_holder_section">
             <Row className="filter_table_wrapper_row doc">
                 <Table
+                    locale={{
+                        emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
+                    }}
                     className="components-table-demo-nested fixederrodtable"
                     columns={cols}
                     rowClassName={() => "barcodewrapper"}

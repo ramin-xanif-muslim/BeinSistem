@@ -208,7 +208,7 @@
 }
 .filter_wrapper form {
     background-color: rgba(72, 69, 255, 0.09019607843137255);
-    padding: 24px;
+    padding: 14px 18px;
     border: 1px solid #d9d9d9;
     border-radius: 2px;
 }
@@ -672,8 +672,15 @@ tr.ant-table-expanded-row:hover td {
     margin: auto;
 }
 
+/* tbody tr td {
+    border-right: none !important;
+}
+tbody tr td:last-child {
+    border-right: 1px solid #f0f0f0 !important;
+} */
+
 tbody .ant-table-cell {
-    padding: 4px 8px !important;
+    padding: 6px 14px !important;
     background: #fff !important;
 }
 .editable-cell-value-wrap {
@@ -682,12 +689,13 @@ tbody .ant-table-cell {
 }
 
 .packOrQuantityWrapper {
-    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
 }
-.packOrQuantitySelect {
-    margin-left: 1rem;
-}
-.packOrQuantitySelect div {
+.packOrQuantitySelect div,
+.disabledPacket div {
     width: fit-content;
     background: none !important;
     border: none !important;
@@ -711,3 +719,19 @@ tbody .ant-table-cell {
 
 .tableCellName {
 } */
+
+.form-item-customer {
+    margin-bottom: 0;
+}
+.customer-debt {
+    display: flex;
+    justify-content: end;
+    margin-bottom: 18px !important;
+}
+
+.filter-input .ant-col-24.ant-form-item-label {
+    padding: 0;
+}
+.filter-input .ant-col-24.ant-form-item-label label {
+    height: fit-content;
+}

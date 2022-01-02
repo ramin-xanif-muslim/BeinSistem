@@ -3,18 +3,10 @@ import { useMemo } from "react";
 import { Table } from "antd";
 import { fetchSpendItems, delSpendItems, updateSpendItem } from "../api";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import {
-    Form,
-    Input,
-    Button,
-    Popconfirm,
-    Modal,
-    message,
-    Spin,
-} from "antd";
+import { Form, Input, Button, Popconfirm, Modal, message, Spin } from "antd";
 import {
     DeleteOutlined,
-    EyeOutlined,
+    EditOutlined,
     PlusOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
@@ -98,9 +90,14 @@ export default function SpendItems() {
 
             {
                 dataIndex: "Edit",
-                title: "Bax",
+                title: "Redaktə et",
                 render: (value, row, index) => {
-                    return <EyeOutlined onClick={() => handleEdit(row)} />;
+                    return (
+                        <EditOutlined
+                            style={{ color: "var(--dark-blue)" }}
+                            onClick={() => handleEdit(row)}
+                        />
+                    );
                 },
             },
             {
@@ -188,7 +185,7 @@ export default function SpendItems() {
                 rowKey="Id"
                 columns={columns}
                 dataSource={documentList}
-                locale={{ emptyText: <Spin /> }}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 size="small"
             />
 

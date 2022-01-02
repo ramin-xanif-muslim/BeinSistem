@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocId } from "../../api";
+import { api, fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
@@ -117,6 +117,14 @@ function SupplyReturnDetail() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [columnChange, setColumnChange] = useState(false);
     const [initial, setInitial] = useState(null);
+    const [debt, setDebt] = useState(null);
+    const fetchDebt = async () => {
+        let res = await api.fetchDebt(doc_id);
+        setDebt(res);
+    };
+    useEffect(() => {
+        fetchDebt();
+    }, []);
     const { isLoading, error, data, isFetching } = useQuery(
         ["supplyreturn", doc_id],
         () => fetchDocId(doc_id, "supplyreturns")
@@ -387,9 +395,9 @@ function SupplyReturnDetail() {
         values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-            if (!values.status) {
-                values.status = status;
-            }
+        if (!values.status) {
+            values.status = status;
+        }
         console.log(values);
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
@@ -588,6 +596,7 @@ function SupplyReturnDetail() {
                                             "Zəhmət olmasa, qarşı tərəfi seçin",
                                     },
                                 ]}
+                                className="form-item-customer"
                             >
                                 <Select
                                     showSearch
@@ -599,6 +608,15 @@ function SupplyReturnDetail() {
                                     {customerOptions}
                                 </Select>
                             </Form.Item>
+                            <p
+                                className="customer-debt"
+                                style={debt < 0 ? { color: "red" } : {}}
+                            >
+                                <span style={{ color: "red" }}>
+                                    Qalıq borc:
+                                </span>
+                                {debt} ₼
+                            </p>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}></Col>
@@ -702,7 +720,9 @@ function SupplyReturnDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
-                                            onChange={(e) => setStatus(e.target.checked)}
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

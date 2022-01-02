@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName, fetchDocId } from "../../api";
+import { fetchDocName, fetchDocId, api } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -118,7 +118,14 @@ function PaymentOutDetail() {
     const [handleMark, setHandleMark] = useState(null);
     const [customerloading, setcustomerloading] = useState(false);
     const [expenditure, setExpenditure] = useState(false);
-
+    const [debt, setDebt] = useState(null);
+    const fetchDebt = async () => {
+        let res = await api.fetchDebt(doc_id);
+        setDebt(res);
+    };
+    useEffect(() => {
+        fetchDebt();
+    }, []);
     const { doc_id } = useParams();
     const { isLoading, error, data, isFetching } = useQuery(
         ["paymentout", doc_id],
@@ -405,6 +412,7 @@ function PaymentOutDetail() {
                                                 "Zəhmət olmasa, qarşı tərəfi seçin",
                                         },
                                     ]}
+                                    className="form-item-customer"
                                 >
                                     <Select
                                         showSearch
@@ -416,6 +424,15 @@ function PaymentOutDetail() {
                                         {customerOptions}
                                     </Select>
                                 </Form.Item>
+                                <p
+                                    className="customer-debt"
+                                    style={debt < 0 ? { color: "red" } : {}}
+                                >
+                                    <span style={{ color: "red" }}>
+                                        Qalıq borc:
+                                    </span>
+                                    {debt} ₼
+                                </p>
                             </Col>
                             <Col xs={24} md={24} xl={3}></Col>
                             <Col xs={24} md={24} xl={6}></Col>
@@ -445,6 +462,13 @@ function PaymentOutDetail() {
                                 <Form.Item
                                     label="Xərc maddəsi"
                                     name="spenditem"
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message:
+                                                "Zəhmət olmasa, xərc maddəsini seçin",
+                                        },
+                                    ]}
                                 >
                                     <Select
                                         showSearch
