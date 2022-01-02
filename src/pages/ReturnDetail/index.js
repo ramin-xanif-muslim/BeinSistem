@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocId } from "../../api";
+import { api, fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
@@ -111,7 +111,14 @@ function ReturnDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-
+    const [debt, setDebt] = useState(null);
+    const fetchDebt = async () => {
+        let res = await api.fetchDebt(doc_id);
+        setDebt(res);
+    };
+    useEffect(() => {
+        fetchDebt();
+    }, []);
     const { isLoading, error, data, isFetching } = useQuery(
         ["return", doc_id],
         () => fetchDocId(doc_id, "returns")
@@ -514,7 +521,7 @@ function ReturnDetail() {
                                 style={{ width: "100%" }}
                             >
                                 <Input
-                                    size="small"
+                                    className="detail-input"
                                     allowClear
                                     style={{ width: "100px" }}
                                 />
@@ -522,18 +529,30 @@ function ReturnDetail() {
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}>
-                            <Form.Item label="Qarşı-tərəf" name="customerid">
+                            <Form.Item
+                                label="Qarşı-tərəf"
+                                name="customername"
+                                className="form-item-customer"
+                            >
                                 <Select
-                                    size="small"
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
-                                    className="customSelect"
+                                    className="customSelect detail-select"
                                     allowClear={true}
                                 >
                                     {customerOptions}
                                 </Select>
                             </Form.Item>
+                            <p
+                                className="customer-debt"
+                                style={debt < 0 ? { color: "red" } : {}}
+                            >
+                                <span style={{ color: "red" }}>
+                                    Qalıq borc:
+                                </span>
+                                {debt} ₼
+                            </p>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}></Col>
@@ -547,8 +566,7 @@ function ReturnDetail() {
                                 style={{ width: "100%" }}
                             >
                                 <DatePicker
-                                    style={{ width: "100%" }}
-                                    size="small"
+                                    className="detail-input"
                                     showTime={{ format: "HH:mm:ss" }}
                                     format="YYYY-MM-DD HH:mm:ss"
                                 />
@@ -558,11 +576,10 @@ function ReturnDetail() {
                         <Col xs={24} md={24} xl={6}>
                             <Form.Item label="Anbar" name="stockid">
                                 <Select
-                                    size="small"
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
-                                    className="customSelect"
+                                    className="customSelect detail-input"
                                     allowClear={true}
                                 >
                                     {options}
@@ -589,9 +606,8 @@ function ReturnDetail() {
                                             style={{ width: "100%" }}
                                         >
                                             <Select
-                                                size="small"
+                                                className="detail-input"
                                                 showSearch
-                                                placeholder=""
                                                 notFoundContent={
                                                     <Spin size="small" />
                                                 }
@@ -616,10 +632,7 @@ function ReturnDetail() {
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
                                         >
-                                            <Checkbox
-                                                size="small"
-                                                name="status"
-                                            ></Checkbox>
+                                            <Checkbox name="status"></Checkbox>
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} md={24} xl={3}></Col>
@@ -634,9 +647,8 @@ function ReturnDetail() {
                                             style={{ width: "100%" }}
                                         >
                                             <Select
-                                                size="small"
                                                 showSearch
-                                                placeholder=""
+                                                className="detail-select"
                                                 notFoundContent={
                                                     <Spin size="small" />
                                                 }

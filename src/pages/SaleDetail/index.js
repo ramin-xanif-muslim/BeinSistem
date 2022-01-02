@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocId } from "../../api";
+import { api, fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
@@ -108,6 +108,14 @@ function SaleDetail() {
     const [hasConsumption, setHasConsumption] = useState(false);
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
+    const [debt, setDebt] = useState(null);
+    const fetchDebt = async () => {
+        let res = await api.fetchDebt(doc_id);
+        setDebt(res);
+    };
+    useEffect(() => {
+        fetchDebt();
+    }, []);
     const { isLoading, error, data, isFetching } = useQuery(
         ["sale", doc_id],
         () => fetchDocId(doc_id, "sales")
@@ -117,6 +125,7 @@ function SaleDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+
     useEffect(() => {
         if (!isFetching) {
             customPositions = [];
@@ -230,8 +239,10 @@ function SaleDetail() {
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
                     if (row.BasicPrice != 0) {
-                           let num = (row.BasicPrice - row.Price) / row.BasicPrice * 100
-                           return ConvertFixedTable(num) +  " %"
+                        let num =
+                            ((row.BasicPrice - row.Price) / row.BasicPrice) *
+                            100;
+                        return ConvertFixedTable(num) + " %";
                     } else {
                         return 0 + " %";
                     }
@@ -485,7 +496,7 @@ function SaleDetail() {
                                 style={{ width: "100%" }}
                             >
                                 <Input
-                                    size="small"
+                                    className="detail-input"
                                     allowClear
                                     style={{ width: "100px" }}
                                 />
@@ -493,18 +504,30 @@ function SaleDetail() {
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}>
-                            <Form.Item label="Qarşı-tərəf" name="customername">
+                            <Form.Item
+                                label="Qarşı-tərəf"
+                                name="customername"
+                                className="form-item-customer"
+                            >
                                 <Select
-                                    size="small"
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
-                                    className="customSelect"
+                                    className="customSelect detail-select"
                                     allowClear={true}
                                 >
                                     {customerOptions}
                                 </Select>
                             </Form.Item>
+                            <p
+                                className="customer-debt"
+                                style={debt < 0 ? { color: "red" } : {}}
+                            >
+                                <span style={{ color: "red" }}>
+                                    Qalıq borc:
+                                </span>
+                                {debt} ₼
+                            </p>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}></Col>
@@ -518,8 +541,7 @@ function SaleDetail() {
                                 style={{ width: "100%" }}
                             >
                                 <DatePicker
-                                    style={{ width: "100%" }}
-                                    size="small"
+                                    className="detail-input"
                                     showTime={{ format: "HH:mm:ss" }}
                                     format="YYYY-MM-DD HH:mm:ss"
                                 />
@@ -529,11 +551,10 @@ function SaleDetail() {
                         <Col xs={24} md={24} xl={6}>
                             <Form.Item label="Anbar" name="stockid">
                                 <Select
-                                    size="small"
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
-                                    className="customSelect"
+                                    className="customSelect detail-select"
                                     allowClear={true}
                                 >
                                     {options}
@@ -560,9 +581,8 @@ function SaleDetail() {
                                             style={{ width: "100%" }}
                                         >
                                             <Select
-                                                size="small"
                                                 showSearch
-                                                placeholder=""
+                                                className="detail-select"
                                                 notFoundContent={
                                                     <Spin size="small" />
                                                 }
@@ -587,10 +607,7 @@ function SaleDetail() {
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
                                         >
-                                            <Checkbox
-                                                size="small"
-                                                name="status"
-                                            ></Checkbox>
+                                            <Checkbox name="status"></Checkbox>
                                         </Form.Item>
                                     </Col>
                                     <Col xs={24} md={24} xl={3}></Col>
@@ -605,9 +622,8 @@ function SaleDetail() {
                                             style={{ width: "100%" }}
                                         >
                                             <Select
-                                                size="small"
                                                 showSearch
-                                                placeholder=""
+                                                className="detail-select"
                                                 notFoundContent={
                                                     <Spin size="small" />
                                                 }

@@ -27,7 +27,7 @@ import {
 } from "antd";
 import {
     DeleteOutlined,
-    EyeOutlined,
+    EditOutlined,
     PlusOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
@@ -117,9 +117,14 @@ export default function Departments() {
             },
             {
                 dataIndex: "Edit",
-                title: "Bax",
+                title: "Redaktə et",
                 render: (value, row, index) => {
-                    return <EyeOutlined onClick={() => handleEdit(row)} />;
+                    return (
+                        <EditOutlined
+                            style={{ color: "var(--dark-blue)" }}
+                            onClick={() => handleEdit(row)}
+                        />
+                    );
                 },
             },
             {

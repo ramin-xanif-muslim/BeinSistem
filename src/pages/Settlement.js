@@ -33,10 +33,10 @@ const SettlementsDrawer = React.lazy(() =>
 );
 export default function Settlement() {
     const [redirect, setRedirect] = useState(false);
-    const [direction, setDirection] = useState(1);
-    const [defaultdr, setDefaultDr] = useState("descend");
-    const [initialSort, setInitialSort] = useState("Moment");
-    const [fieldSort, setFieldSort] = useState("Moment");
+    const [direction, setDirection] = useState(0);
+    const [defaultdr, setDefaultDr] = useState("ascend");
+    const [initialSort, setInitialSort] = useState("CustomerName");
+    const [fieldSort, setFieldSort] = useState("CustomerName");
     const [allinsum, setallinsum] = useState(0);
     const [alloutsum, setalloutsum] = useState(0);
     const [allcurrentsum, setallcurrentsum] = useState(0);

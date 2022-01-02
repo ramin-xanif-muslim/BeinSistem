@@ -335,6 +335,7 @@ function NewDemand() {
                                   )})`
                                 : ConvertFixedPosition(row.Quantity)}
                             <Select
+                                showArrow={false}
                                 className="packOrQuantitySelect"
                                 labelInValue
                                 value={{
@@ -345,16 +346,16 @@ function NewDemand() {
                                 onClick={handleClick}
                             >
                                 <Option value="pc">Əd</Option>
-                                <Option value="pack">Paket</Option>
+                                <Option value="pack">Pk</Option>
                             </Select>
                         </div>
                     ) : (
                         <div className="packOrQuantityWrapper">
                             {ConvertFixedPosition(row.Quantity)}{" "}
                             <Select
+                                showArrow={false}
                                 className="disabledPacket"
                                 labelInValue
-                                showArrow={false}
                                 defaultValue={{ value: "pc" }}
                                 disabled={true}
                             >

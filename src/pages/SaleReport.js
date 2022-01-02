@@ -39,10 +39,10 @@ export default function SaleReport() {
     const [count, setCount] = useState(1);
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
-    const [direction, setDirection] = useState(1);
-    const [defaultdr, setDefaultDr] = useState("descend");
-    const [initialSort, setInitialSort] = useState("Quantity");
-    const [fieldSort, setFieldSort] = useState("Quantity");
+    const [direction, setDirection] = useState(0);
+    const [defaultdr, setDefaultDr] = useState("ascend");
+    const [initialSort, setInitialSort] = useState("ProductName");
+    const [fieldSort, setFieldSort] = useState("ProductName");
     const [otherColumns, setOtherColumns] = useState([]);
 
     const [allsum, setallsum] = useState(0);
@@ -86,7 +86,7 @@ export default function SaleReport() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
-        console.log("aaa")
+        console.log("aaa");
         setSalereportsSearchTerm(value);
         let obj = {
             nm: value,
@@ -99,7 +99,7 @@ export default function SaleReport() {
         setAllProfit(res.AllProfit);
         setRetAllAmount(res.RetAllAmount);
         setRetAllCost(res.RetAllCost);
-        setCount(res.Count)
+        setCount(res.Count);
     };
 
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
@@ -300,17 +300,20 @@ export default function SaleReport() {
                         return "0 %";
                     } else {
                         if (!row.SumPrice) {
-                           let num = (parseFloat(row.Profit) * 100) /
-                                    parseFloat(row.RetSumPrice)
-                                return ConvertFixedTable(num) + " %";
+                            let num =
+                                (parseFloat(row.Profit) * 100) /
+                                parseFloat(row.RetSumPrice);
+                            return ConvertFixedTable(num) + " %";
                         } else if (row.RetSumPrice) {
-                            let num = (parseFloat(row.Profit) * 100) /
-                            parseFloat(row.SumPrice - row.RetSumPrice)
-                        return ConvertFixedTable(num) + " %";
+                            let num =
+                                (parseFloat(row.Profit) * 100) /
+                                parseFloat(row.SumPrice - row.RetSumPrice);
+                            return ConvertFixedTable(num) + " %";
                         } else {
-                            let num = (parseFloat(row.Profit) * 100) /
-                            parseFloat(row.SumPrice)
-                        return ConvertFixedTable(num) + " %";
+                            let num =
+                                (parseFloat(row.Profit) * 100) /
+                                parseFloat(row.SumPrice);
+                            return ConvertFixedTable(num) + " %";
                         }
                     }
                 },

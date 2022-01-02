@@ -354,12 +354,6 @@ body {
     vertical-align: baseline;
     border-radius: 0.25em;
 }
-.filter_wrapper form {
-    background-color: rgba(72, 69, 255, 0.09019607843137255);
-    padding: 24px;
-    border: 1px solid #d9d9d9;
-    border-radius: 2px;
-}
 
 .header_row {
     position: sticky;

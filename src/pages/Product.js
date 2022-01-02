@@ -38,10 +38,10 @@ export default function Product() {
 
     const [otherColumns, setOtherColumns] = useState([]);
     const [filtered, setFiltered] = useState(false);
-    const [direction, setDirection] = useState(1);
-    const [defaultdr, setDefaultDr] = useState("descend");
-    const [initialSort, setInitialSort] = useState("GroupName");
-    const [fieldSort, setFieldSort] = useState("GroupName");
+    const [direction, setDirection] = useState(0);
+    const [defaultdr, setDefaultDr] = useState("ascend");
+    const [initialSort, setInitialSort] = useState("Name");
+    const [fieldSort, setFieldSort] = useState("Name");
     const [columnChange, setColumnChange] = useState(false);
     const [initial, setInitial] = useState(
         localStorage.getItem("procolumns")
@@ -80,7 +80,7 @@ export default function Product() {
             lm: 25,
         };
         let res = await sendRequest("products/getfast.php", obj);
-        setCount(res.Count)
+        setCount(res.Count);
         setProdutcList(res.List);
     };
 

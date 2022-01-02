@@ -363,7 +363,6 @@ function NewEnter() {
         var findelementindex;
         var replacedElement;
         findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-        console.log(findelement);
         findelementindex = initialCols.findIndex(
             (c) => c.dataIndex === e.target.id
         );
@@ -437,7 +436,6 @@ function NewEnter() {
         values.mark = docmark;
         // values.moment = values.moment._i;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
-        console.log(values);
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.consumption =
@@ -462,7 +460,6 @@ function NewEnter() {
         }
 
         const res = await saveDoc(values, "enters");
-        console.log(res);
         if (res.Headers.ResponseStatus === "0") {
             message.success({
                 content: "Saxlanildi",

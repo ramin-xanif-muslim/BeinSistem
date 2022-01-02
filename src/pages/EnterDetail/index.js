@@ -94,7 +94,6 @@ function EnterDetail() {
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-    const [ debt, setDebt] = useState(null)
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["enter", doc_id],
@@ -106,19 +105,10 @@ function EnterDetail() {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-    const fetchDebt = async () => {
-        let res = await api.fetchDebt(doc_id)
-        setDebt(res)
-    }
-    useEffect(() => {
-        fetchDebt()
-    },[])
-
     useEffect(() => {
         setDisable(true);
         setPositions([]);
         setOuterDataSource([]);
-        console.log(doc_id)
 
         return () => {
             setDisable(true);
@@ -744,7 +734,9 @@ function EnterDetail() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
-                                            onChange={(e) => setStatus(e.target.checked)}
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}

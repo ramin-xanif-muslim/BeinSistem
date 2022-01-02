@@ -310,7 +310,7 @@ export default function ModComponent() {
                 rowKey="Id"
                 columns={columns}
                 dataSource={documentList}
-                locale={{ emptyText: <Spin /> }}
+                locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 size="small"
             />
 

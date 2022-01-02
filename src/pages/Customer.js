@@ -23,8 +23,8 @@ export default function Customer() {
     const [productList, setProdutcList] = useState([]);
 
     const [filtered, setFiltered] = useState(false);
-    const [direction, setDirection] = useState(1);
-    const [defaultdr, setDefaultDr] = useState("descend");
+    const [direction, setDirection] = useState(0);
+    const [defaultdr, setDefaultDr] = useState("ascend");
     const [initialSort, setInitialSort] = useState("GroupName");
     const [fieldSort, setFieldSort] = useState("GroupName");
     const [columnChange, setColumnChange] = useState(false);
