@@ -212,7 +212,6 @@ function NewProduct() {
         if (!values.isweight) {
             values.isweight = false;
         }
-        console.log(values);
         setDisable(true);
         var error = false;
         message.loading({ content: "Loading...", key: "pro_update" });

@@ -207,11 +207,12 @@ export default function Enter() {
             {
                 dataIndex: "Modify",
                 title: "Dəyişmə tarixi",
-                show: JSON.parse(localStorage.getItem("entercolumns"))
-                    ? Object.values(
-                          JSON.parse(localStorage.getItem("entercolumns"))
-                      ).find((i) => i.dataIndex === "Modify").show
-                    : true,
+                // show: JSON.parse(localStorage.getItem("entercolumns"))
+                //     ? Object.values(
+                //           JSON.parse(localStorage.getItem("entercolumns"))
+                //       ).find((i) => i.dataIndex === "Modify").show
+                //     : false,
+                show: false,
                 defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
                 sorter: (a, b) => null,
                 className: initialSort === "Modify" ? "activesort" : "",

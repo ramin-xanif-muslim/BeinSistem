@@ -261,23 +261,6 @@ function IvoiceInDetail() {
 		}
 
         message.loading({ content: "Loading...", key: "doc_update" });
-
-        try {
-            const nameres = await getDocName(values.name);
-            values.name = nameres.Body.ResponseService;
-        } catch (error) {
-            message.error({
-                content: (
-                    <span className="error_mess_wrap">
-                        Saxlanılmadı... {error.message}{" "}
-                        {<CloseCircleOutlined onClick={onClose} />}
-                    </span>
-                ),
-                key: "doc_update",
-                duration: 0,
-            });
-        }
-
         updateMutation.mutate(
             { id: doc_id, controller: "invoiceins", filter: values },
             {
@@ -357,12 +340,12 @@ function IvoiceInDetail() {
                             moment: moment(data.Body.List[0].Moment),
                             customerid: data.Body.List[0].CustomerId,
                             id: data.Body.List[0].Id,
-                            amount: data.Body.List[0].Amount,
+                            amount: ConvertFixedTable(data.Body.List[0].Amount),
                             mark: data.Body.List[0].Mark,
                             description: data.Body.List[0].Description,
                             linkid: data.Body.List[0].LinkId,
 							status:
-								data.Body.List[0].Status === 1 ? true : false,
+								data.Body.List[0].Status == 1 ? true : false,
                             spenditem: data.Body.List[0].SpendItem,
                         }}
                         onFinish={handleFinish}
