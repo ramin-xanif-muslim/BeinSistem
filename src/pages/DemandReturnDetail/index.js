@@ -748,6 +748,32 @@ function DemandReturnDetail() {
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />
+                                    <Statistic
+                                        groupSeparator=" "
+                                        className="doc_info_text doc_info_secondary quantity "
+                                        title=""
+                                        value={ConvertFixedTable(
+                                            isNaN(
+                                                docSum -
+                                                    data.Body.List[0].Profit
+                                            )
+                                                ? "0.00"
+                                                : docSum -
+                                                      data.Body.List[0].Profit
+                                        )}
+                                        prefix={"Mayası: "}
+                                        suffix={"₼"}
+                                    />
+                                    <Statistic
+                                        groupSeparator=" "
+                                        className="doc_info_text doc_info_secondary quantity"
+                                        title=""
+                                        value={ConvertFixedTable(
+                                            data.Body.List[0].Profit
+                                        )}
+                                        prefix={"Qazanc: "}
+                                        suffix={"₼"}
+                                    />
 
                                     <Divider
                                         style={{ backgroundColor: "grey" }}
