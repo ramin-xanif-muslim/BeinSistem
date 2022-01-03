@@ -57,6 +57,7 @@ import {
     FindAdditionals,
     FindCofficient,
     ConvertFixedTable,
+    ConvertFixedPosition,
 } from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
@@ -214,7 +215,7 @@ function DemandReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedPosition(value);
                 },
             },
             {
@@ -226,7 +227,7 @@ function DemandReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedPosition(value);
                 },
             },
             {
@@ -238,7 +239,7 @@ function DemandReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedPosition(value);
                 },
             },
             {
@@ -250,7 +251,7 @@ function DemandReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedPosition(value);
                 },
             },
 
@@ -457,7 +458,7 @@ function DemandReturnDetail() {
                     <Row>
                         <Col xs={24} md={24} xl={9}>
                             <div className="addProductInputIcon">
-                                <AddProductInput className="newProInputWrapper" />
+                                <AddProductInput from="demands" className="newProInputWrapper" />
                                 <PlusOutlined className="addNewProductIcon" />
                             </div>
                         </Col>

@@ -57,6 +57,7 @@ import {
 	FindAdditionals,
 	FindCofficient,
 	ConvertFixedTable,
+    ConvertFixedPosition,
 } from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -194,7 +195,7 @@ function NewDemandReturn() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 			{
@@ -211,7 +212,7 @@ function NewDemandReturn() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 			{
@@ -227,7 +228,7 @@ function NewDemandReturn() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 			{
@@ -243,7 +244,7 @@ function NewDemandReturn() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 
@@ -487,7 +488,7 @@ function NewDemandReturn() {
 							style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
 						>
 							<div className="addProductInputIcon">
-								<AddProductInput className="newProInputWrapper" />
+								<AddProductInput from="demands" className="newProInputWrapper" />
 								<PlusOutlined
 									onClick={() => setProductModal(true)}
 									className="addNewProductIcon"

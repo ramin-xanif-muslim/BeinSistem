@@ -82,7 +82,7 @@ function SearchByDate({ getSearchObjByDate }) {
         }
         if (i === 4) {
             if(m === 0){
-            let date = y + "-" + 12 + "-" + d;
+            let date = (y-1) + "-" + 12 + "-" + d;
             var tarix = {
                 momb: `${date} 00:00:00`,
             };

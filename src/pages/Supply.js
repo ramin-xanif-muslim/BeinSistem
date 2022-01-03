@@ -644,7 +644,7 @@ export default function Supply() {
                     current: advancedPage + 1,
                     total: data.Body.Count,
                     onChange: handlePagination,
-                    defaultPageSize: 100,
+                    defaultPageSize: data.Body.Limit,
                     showSizeChanger: false,
                 }}
                 size="small"

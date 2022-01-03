@@ -389,7 +389,7 @@ function NewDemand() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedPosition(value);
                 },
             },
             {
@@ -405,7 +405,7 @@ function NewDemand() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedPosition(value);
                 },
             },
             {
@@ -421,7 +421,7 @@ function NewDemand() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedPosition(value);
                 },
             },
             {

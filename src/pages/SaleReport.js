@@ -766,7 +766,7 @@ export default function SaleReport() {
                     current: advancedPage + 1,
                     total: count,
                     onChange: handlePagination,
-                    defaultPageSize: 100,
+                    defaultPageSize: data.Body.Limit,
                     showSizeChanger: false,
                 }}
                 size="small"

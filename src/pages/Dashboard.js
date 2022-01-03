@@ -196,7 +196,7 @@ function Dashboard() {
 						</div>
 						<hr />
 						<p className={style.amount}>
-							<span>Məbləğ:</span>{data && ConvertFixedTable(data.Profits.CurrAmount)} ₼
+							<span>Məbləğ:</span>{data && ConvertFixedTable(data.Capital.Amount)} ₼
 						</p>
 					</div>
 				</Col>
@@ -250,7 +250,8 @@ function Dashboard() {
 				</Col>
 				<Col className={style.col} xs={24} md={24} xl={10}>
 					<h2 style={{ margin: "auto" }}>BALANS</h2>
-					<DemoPie />
+                    {data && <DemoPie balances={data ? data.Balances : ''} />}
+					
 				</Col>
 			</Row>
 		</div>
@@ -262,13 +263,13 @@ const DemoLine = ({charts}) => {
     let data = charts.Sales.map( d => (
         {
 			year: d.Moment,
-			Məbləğ: d.Amount,
+			Məbləğ: ConvertFixedTable(d.Amount),
         }
     ))
     
 	// const data = [
 	// 	{
-	// 		year: "1991",
+	// 		year: 5,
 	// 		Məbləğ: 3,
 	// 	},
 	// 	{
@@ -340,20 +341,23 @@ const DemoLine = ({charts}) => {
 	return <Line className={style.chart} {...config} />;
 };
 
-const DemoPie = () => {
+const DemoPie = (props) => {
+    let balance = props.balances.Balance < 0 ? 0 : Math.abs(props.balances.Balance)
+    let retailCashes = props.balances.RetailCashes < 0 ? 0 : props.balances.RetailCashes
+    let bankBalance = props.balances.BankBalance < 0 ? 0 : props.balances.BankBalance
 	const G = G2.getEngine("canvas");
 	const data = [
 		{
 			type: "Sahibkar",
-			value: 250,
+			value: balance,
 		},
 		{
-			type: "Kassa",
-			value: 1250,
+			type: "Kassalar",
+			value: retailCashes,
 		},
 		{
-			type: "Balans",
-			value: 850,
+			type: "Hesab",
+			value: bankBalance,
 		},
 	];
 	const cfg = {

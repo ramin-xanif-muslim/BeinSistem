@@ -49,6 +49,7 @@ import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { Tab } from "semantic-ui-react";
+import { ConvertFixedPosition } from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -146,7 +147,7 @@ function DemandReturnLinked(props) {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 			{
@@ -158,7 +159,7 @@ function DemandReturnLinked(props) {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 			{
@@ -170,7 +171,7 @@ function DemandReturnLinked(props) {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 			{
@@ -182,7 +183,7 @@ function DemandReturnLinked(props) {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedPosition(value);
 				},
 			},
 			{
