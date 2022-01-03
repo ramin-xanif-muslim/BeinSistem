@@ -305,7 +305,7 @@ function ProductDetail() {
                     let defaultCostArray = [];
                     let consumtionPriceArray = [];
                     outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.Price));
+                        defaultCostArray.push(Number(p.CostPrice));
                     });
                     if (hasConsumption) {
                         consumtionPriceArray = [];
@@ -314,7 +314,7 @@ function ProductDetail() {
                                 FindAdditionals(
                                     consumption,
                                     docSum,
-                                    Number(p.Price)
+                                    Number(p.CostPrice)
                                 )
                             );
                         });
@@ -335,7 +335,7 @@ function ProductDetail() {
                     let defaultCostArray = [];
                     let consumtionPriceArray = [];
                     outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.TotalPrice));
+                        defaultCostArray.push(Number(p.TotalCostPrice));
                     });
                     if (hasConsumption) {
                         consumtionPriceArray = [];
@@ -344,7 +344,7 @@ function ProductDetail() {
                                 FindAdditionals(
                                     consumption,
                                     docSum,
-                                    Number(p.TotalPrice)
+                                    Number(p.TotalCostPrice)
                                 )
                             );
                         });
@@ -589,6 +589,17 @@ function ProductDetail() {
                     <div style={{ padding: "0.3rem 1rem 1rem" }}>
                         <Form.Item label="Alış qiyməti" name="buyprice">
                             <Input
+                                className="detail-input-addon"
+                                type="number"
+                                step="any"
+                                allowClear
+                                addonAfter="₼"
+                                min={0}
+                            />
+                        </Form.Item>
+                        <Form.Item label="Mayası" name="costprice">
+                            <Input
+                                disabled
                                 className="detail-input-addon"
                                 type="number"
                                 step="any"

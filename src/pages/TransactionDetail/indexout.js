@@ -118,14 +118,17 @@ function PaymentOutDetail() {
 	const [handleMark, setHandleMark] = useState(null);
 	const [customerloading, setcustomerloading] = useState(false);
 	const [expenditure, setExpenditure] = useState(false);
-	const [debt, setDebt] = useState(null);
-	const fetchDebt = async () => {
-		let res = await api.fetchDebt(doc_id);
-		setDebt(res);
-	};
-	useEffect(() => {
-		fetchDebt();
-	}, []);
+
+    const [debt, setDebt] = useState(null);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        fetchDebt(customerId);
+    }, [customerId]);
+
 	const { doc_id } = useParams();
 	const { isLoading, error, data, isFetching } = useQuery(
 		["paymentout", doc_id],
@@ -146,6 +149,7 @@ function PaymentOutDetail() {
 
 	useEffect(() => {
 		if (!isFetching) {
+            setCustomerId(data.Body.List[0].CustomerId);
 			setHandleMark(data.Body.List[0].Mark);
 			setStatus(data.Body.List[0].Status);
 		}
@@ -404,6 +408,7 @@ function PaymentOutDetail() {
 										filterOption={false}
 										className="customSelect detail-select"
 										allowClear={true}
+                                        onChange={e => setCustomerId(e)}
 									>
 										{customerOptions}
 									</Select>

@@ -113,14 +113,17 @@ function DemandReturnDetail() {
     const [hasConsumption, setHasConsumption] = useState(false);
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
+
     const [debt, setDebt] = useState(null);
-    const fetchDebt = async () => {
-        let res = await api.fetchDebt(doc_id);
-        setDebt(res);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        fetchDebt();
-    }, []);
+        fetchDebt(customerId);
+    }, [customerId]);
+
     const { isLoading, error, data, isFetching } = useQuery(
         ["demandreturn", doc_id],
         () => fetchDocId(doc_id, "demandreturns")
@@ -132,6 +135,7 @@ function DemandReturnDetail() {
     };
     useEffect(() => {
         if (!isFetching) {
+            setCustomerId(data.Body.List[0].CustomerId);
             customPositions = [];
             Object.values(data.Body.List[0].Positions).map((d) =>
                 customPositions.push(d)
@@ -398,8 +402,8 @@ function DemandReturnDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         if (!values.status) {
@@ -514,7 +518,7 @@ function DemandReturnDetail() {
                     <Row>
                         <Col xs={24} md={24} xl={6}>
                             <Form.Item
-                                label="Satış №"
+                                label="Qaytarma №"
                                 name="name"
                                 className="doc_number_form_item"
                                 style={{ width: "100%" }}
@@ -547,6 +551,7 @@ function DemandReturnDetail() {
                                     filterOption={false}
                                     className="customSelect detail-select"
                                     allowClear={true}
+                                    onChange={e => setCustomerId(e)}
                                 >
                                     {customerOptions}
                                 </Select>
@@ -721,19 +726,20 @@ function DemandReturnDetail() {
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
                                 <div>
-									<Form
-										initialValues={{
-											description: data.Body.List[0].Description,
-										}}
-									>
-										<Form.Item name="description">
-											<TextArea
-												ref={myRefDescription}
-												placeholder={"Şərh..."}
-												rows={3}
-											/>
-										</Form.Item>
-									</Form>
+                                    <Form
+                                        initialValues={{
+                                            description:
+                                                data.Body.List[0].Description,
+                                        }}
+                                    >
+                                        <Form.Item name="description">
+                                            <TextArea
+                                                ref={myRefDescription}
+                                                placeholder={"Şərh..."}
+                                                rows={3}
+                                            />
+                                        </Form.Item>
+                                    </Form>
                                 </div>
                             </Col>
                             <Col xs={24} md={24} xl={12}>

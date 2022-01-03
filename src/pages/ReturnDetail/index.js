@@ -111,14 +111,17 @@ function ReturnDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
     const [debt, setDebt] = useState(null);
-    const fetchDebt = async () => {
-        let res = await api.fetchDebt(doc_id);
-        setDebt(res);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        fetchDebt();
-    }, []);
+        fetchDebt(customerId);
+    }, [customerId]);
+
     const { isLoading, error, data, isFetching } = useQuery(
         ["return", doc_id],
         () => fetchDocId(doc_id, "returns")
@@ -147,6 +150,7 @@ function ReturnDetail() {
     }, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
+            setCustomerId(data.Body.List[0].CustomerId);
             customPositions = [];
             Object.values(data.Body.List[0].Positions).map((d) =>
                 customPositions.push(d)
@@ -540,6 +544,7 @@ function ReturnDetail() {
                                     filterOption={false}
                                     className="customSelect detail-select"
                                     allowClear={true}
+                                    onChange={e => setCustomerId(e)}
                                 >
                                     {customerOptions}
                                 </Select>

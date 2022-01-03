@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -113,6 +113,17 @@ function NewPaymentOut() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [spends, setSpends] = useState(false);
     const [expenditure, setExpenditure] = useState(false);
+
+    const [debt, setDebt] = useState(null);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        fetchDebt(customerId);
+    }, [customerId]);
+
 
     const onClose = () => {
         message.destroy();
@@ -367,10 +378,20 @@ function NewPaymentOut() {
                                         filterOption={false}
                                         className="customSelect detail-select"
                                         allowClear={true}
+                                    onChange={e => setCustomerId(e)}
                                     >
                                         {customerOptions}
                                     </Select>
                                 </Form.Item>
+                            <p
+                                className="customer-debt"
+                                style={debt < 0 ? { color: "red" } : {}}
+                            >
+                                <span style={{ color: "red" }}>
+                                    Qalıq borc:
+                                </span>
+                                {debt} ₼
+                            </p>
                             </Col>
                             <Col xs={24} md={24} xl={3}></Col>
                             <Col xs={24} md={24} xl={6}></Col>

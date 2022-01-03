@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -115,6 +115,17 @@ function NewDemandReturn() {
     const [tablecolumns, setTableColumns] = useState([]);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
+    const [debt, setDebt] = useState(null);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        fetchDebt(customerId);
+    }, [customerId]);
+
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
@@ -378,7 +389,7 @@ function NewDemandReturn() {
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
         // values.mark = docmark;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;
@@ -549,7 +560,7 @@ function NewDemandReturn() {
                     <Row>
                         <Col xs={24} md={24} xl={6}>
                             <Form.Item
-                                label="Satış №"
+                                label="Qaytarma №"
                                 name="name"
                                 className="doc_number_form_item"
                                 style={{ width: "100%" }}
@@ -581,10 +592,20 @@ function NewDemandReturn() {
                                     filterOption={false}
                                     className="customSelect detail-select"
                                     allowClear={true}
+                                    onChange={e => setCustomerId(e)}
                                 >
                                     {customerOptions}
                                 </Select>
                             </Form.Item>
+                            <p
+                                className="customer-debt"
+                                style={debt < 0 ? { color: "red" } : {}}
+                            >
+                                <span style={{ color: "red" }}>
+                                    Qalıq borc:
+                                </span>
+                                {debt} ₼
+                            </p>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}></Col>

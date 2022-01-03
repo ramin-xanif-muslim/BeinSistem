@@ -103,14 +103,17 @@ function PaymentInDetail() {
     const [handleMark, setHandleMark] = useState(null);
     const [customerloading, setcustomerloading] = useState(false);
     const [expenditure, setExpenditure] = useState(false);
+
     const [debt, setDebt] = useState(null);
-    const fetchDebt = async () => {
-        let res = await api.fetchDebt(doc_id);
-        setDebt(res);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        fetchDebt();
-    }, []);
+        fetchDebt(customerId);
+    }, [customerId]);
+
     const { doc_id } = useParams();
     const { isLoading, error, data, isFetching } = useQuery(
         ["paymentin", doc_id],
@@ -154,6 +157,7 @@ function PaymentInDetail() {
 
 	useEffect(() => {
 		if (!isFetching) {
+            setCustomerId(data.Body.List[0].CustomerId);
 			setHandleMark(data.Body.List[0] ? data.Body.List[0].Mark : "");
 			setStatus(data.Body.List[0].Status);
 		}
@@ -424,6 +428,7 @@ function PaymentInDetail() {
                                         filterOption={false}
                                         className="customSelect detail-select"
                                         allowClear={true}
+                                        onChange={e => setCustomerId(e)}
                                     >
                                         {customerOptions}
                                     </Select>

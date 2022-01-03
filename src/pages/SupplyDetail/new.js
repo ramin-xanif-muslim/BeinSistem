@@ -674,6 +674,15 @@ function NewSupply() {
                                     {customerOptions}
                                 </Select>
                             </Form.Item>
+                            <p
+                                className="customer-debt"
+                                style={debt < 0 ? { color: "red" } : {}}
+                            >
+                                <span style={{ color: "red" }}>
+                                    Qalıq borc:
+                                </span>
+                                {debt} ₼
+                            </p>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}></Col>
