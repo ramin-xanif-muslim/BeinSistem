@@ -878,6 +878,7 @@ function SupplyDetail() {
 										initialValues={{
 											description: data.Body.List[0].Description,
 										}}
+                                        onFieldsChange={handleChanged}
 									>
 										<Form.Item name="description">
 											<TextArea
@@ -919,6 +920,7 @@ function SupplyDetail() {
                                                         .Consumption
                                                 ),
                                             }}
+                                            onFieldsChange={handleChanged}
                                         >
                                             <Form.Item
                                                 className="comsumption_input_wrapper"

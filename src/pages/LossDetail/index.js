@@ -755,6 +755,7 @@ function LossDetail() {
 										initialValues={{
 											description: data.Body.List[0].Description,
 										}}
+                                        onFieldsChange={handleChanged}
 									>
 										<Form.Item name="description">
 											<TextArea
@@ -789,18 +790,28 @@ function LossDetail() {
                                         style={{ backgroundColor: "grey" }}
                                     />
                                     <div style={{ marginTop: "20px" }}>
-                                        <Form.Item
-                                            className="comsumption_input_wrapper"
-                                            label="Əlavə xərc"
-                                            onChange={onChangeConsumption}
-                                            name="consumption"
-                                        >
-                                            <Input
-                                                ref={myRefConsumption}
-                                                type="number"
-                                                step="any"
-                                            />
-                                        </Form.Item>
+										<Form
+											initialValues={{
+												consumption: ConvertFixedTable(
+													data.Body.List[0]
+														.Consumption
+												),
+											}}
+                                            onFieldsChange={handleChanged}
+										>
+											<Form.Item
+												className="comsumption_input_wrapper"
+												label="Əlavə xərc"
+												onChange={onChangeConsumption}
+												name="consumption"
+											>
+												<Input
+													ref={myRefConsumption}
+													type="number"
+													step="any"
+												/>
+											</Form.Item>
+										</Form>
                                     </div>
                                 </div>
                             </Col>

@@ -683,13 +683,17 @@ function NewLoss() {
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
                                 <div>
-                                    <Form.Item name="description">
-                                        <TextArea
-                                            ref={myRefDescription}
-                                            placeholder={"Şərh..."}
-                                            rows={3}
-                                        />
-                                    </Form.Item>
+                                    <Form
+                                        onFieldsChange={handleChanged}
+                                    >
+                                        <Form.Item name="description">
+                                            <TextArea
+                                                ref={myRefDescription}
+                                                placeholder={"Şərh..."}
+                                                rows={3}
+                                            />
+                                        </Form.Item>
+                                    </Form>
                                 </div>
                             </Col>
                             <Col xs={24} md={24} xl={12}>
@@ -715,6 +719,9 @@ function NewLoss() {
                                         style={{ backgroundColor: "grey" }}
                                     />
                                     <div style={{ marginTop: "20px" }}>
+                                    <Form
+                                        onFieldsChange={handleChanged}
+                                    >
                                         <Form.Item
                                             className="comsumption_input_wrapper"
                                             label="Əlavə xərc"
@@ -727,6 +734,7 @@ function NewLoss() {
                                                 step="any"
                                             />
                                         </Form.Item>
+                                    </Form>
                                     </div>
                                 </div>
                             </Col>

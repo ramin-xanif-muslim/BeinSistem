@@ -787,6 +787,7 @@ function SupplyReturnDetail() {
 										initialValues={{
 											description: data.Body.List[0].Description,
 										}}
+                                        onFieldsChange={handleChanged}
 									>
 										<Form.Item name="description">
 											<TextArea
