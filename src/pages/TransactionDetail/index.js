@@ -94,7 +94,7 @@ function PaymentInDetail() {
     const [newStocksLoad, setNewStocksLoad] = useState(null);
     const [hasConsumption, setHasConsumption] = useState(false);
     const [consumption, setConsumption] = useState(0);
-    const [status, setStatus] = useState(true);
+    const [status, setStatus] = useState(false);
     const [initial, setInitial] = useState(null);
     const [tablecolumns, setTableColumns] = useState([]);
     const [columnChange, setColumnChange] = useState(false);
@@ -248,29 +248,13 @@ function PaymentInDetail() {
 	};
 	const handleFinish = async (values) => {
 		setDisable(true);
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.mark = docmark;
 		if (!values.status) {
 			values.status = status;
 		}
 
 		message.loading({ content: "Loading...", key: "doc_update" });
-
-		try {
-			const nameres = await getDocName(values.name);
-			values.name = nameres.Body.ResponseService;
-		} catch (error) {
-			message.error({
-				content: (
-					<span className="error_mess_wrap">
-						Saxlanılmadı... {error.message}{" "}
-						{<CloseCircleOutlined onClick={onClose} />}
-					</span>
-				),
-				key: "doc_update",
-				duration: 0,
-			});
-		}
 
 		updateMutation.mutate(
 			{ id: doc_id, controller: "paymentins", filter: values },
@@ -352,12 +336,12 @@ function PaymentInDetail() {
 							moment: moment(data.Body.List[0].Moment),
 							customerid: data.Body.List[0].CustomerId,
 							id: data.Body.List[0].Id,
-							amount: data.Body.List[0].Amount,
+							amount: ConvertFixedTable(data.Body.List[0].Amount),
 							mark: data.Body.List[0].Mark,
 							description: data.Body.List[0].Description,
 							linkid: data.Body.List[0].LinkId,
-							status:
-								data.Body.List[0].Status === 1 ? true : false,
+                            status: data.Body.List[0].Status == 1 ? true : false,
+                            // status: true,
 							spenditem: data.Body.List[0].SpendItem,
 						}}
 						onFinish={handleFinish}
@@ -565,18 +549,21 @@ function PaymentInDetail() {
 										</Col>
 										<Col xs={24} md={24} xl={3}></Col>
 										<Col xs={24} md={24} xl={6}>
-											<Form.Item
-												label="Keçirilib"
-												className="docComponentStatus"
-												onChange={(e) =>
-													setStatus(e.target.checked)
-												}
-												name="status"
-												valuePropName="checked"
-												style={{ width: "100%" }}
-											>
-												<Checkbox name="status"></Checkbox>
-											</Form.Item>
+                                        <Form.Item
+                                            label="Keçirilib"
+                                            className="docComponentStatus"
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
+                                            name="status"
+                                            valuePropName="checked"
+                                            style={{ width: "100%" }}
+                                        >
+                                            <Checkbox
+                                                size="small"
+                                                name="status"
+                                            ></Checkbox>
+                                        </Form.Item>
 										</Col>
 										<Col xs={24} md={24} xl={3}></Col>
 										<Col xs={24} md={24} xl={6}></Col>

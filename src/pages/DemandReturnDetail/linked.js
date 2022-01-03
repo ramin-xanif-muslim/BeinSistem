@@ -262,7 +262,7 @@ function DemandReturnLinked(props) {
 		// setDisable(true);
 		values.positions = outerDataSource;
 		values.mark = docmark;
-		values.moment = values.moment._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 
 		message.loading({ content: "Loading...", key: "doc_update" });
 		const nameres = await getDocName(values.name);

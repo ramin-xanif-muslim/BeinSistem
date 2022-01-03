@@ -211,7 +211,7 @@ export default function Enter() {
                     ? Object.values(
                           JSON.parse(localStorage.getItem("entercolumns"))
                       ).find((i) => i.dataIndex === "Modify").show
-                    : true,
+                    : false,
                 defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
                 sorter: (a, b) => null,
                 className: initialSort === "Modify" ? "activesort" : "",

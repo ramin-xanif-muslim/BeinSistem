@@ -1,52 +1,32 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useEffect, useState, useMemo, useRef } from "react";
-import ProductModal from "../../components/ProductModal";
+import { useState } from "react";
 import {
-    fetchProductId,
-    fetchRefList,
-    savePrice,
-    fetchPriceTypes,
-    delPrice,
-    fetchProductFolders,
     fetchCustomerId,
     updateCustomer,
 } from "../../api";
 import DocButtons from "../../components/DocButtons";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 import {
     Form,
     Input,
-    Button,
-    InputNumber,
-    TreeSelect,
-    Checkbox,
-    Dropdown,
-    Popconfirm,
-    Card,
+    Button, 
     Select,
-    Spin,
-    Space,
-    Alert,
-    Menu,
+    Spin, 
+    Alert, 
     Row,
     Col,
-    Collapse,
-    Modal,
+    Collapse, 
 } from "antd";
 import "antd/dist/antd.css";
 import { message } from "antd";
 import { Redirect } from "react-router";
-import { saveDoc, fetchBarcode, fetchCard } from "../../api";
+import { fetchCard } from "../../api";
 import {
     SyncOutlined,
     PlusOutlined,
-    MinusCircleOutlined,
     CloseCircleOutlined,
-    DeleteOutlined,
-    EditOutlined,
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
@@ -63,49 +43,17 @@ function CustomerDetail() {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
 
-    const [priceModal, setPriceModal] = useState(false);
     const { cus_id } = useParams();
 
     const {
-        productGroups,
-        setProductGroupsLocalStorage,
-        setProductGroups,
         departments,
         owners,
-        attributes,
-        attrLoading,
-        setAttrLoading,
-        refList,
-        setRefList,
-        setRefsLocalStorage,
-        linkedList,
-        setLinkedList,
-        prices,
-        setPrices,
-        setPricesLocalStorage,
-        groupVisible,
-        setGroupVisible,
-        setNewGroup,
-        newGroup,
-        setStockLocalStorage,
-        customers,
         setCustomers,
         customerGroups,
-        setCustomerGroups,
-        setCustomerGroupsLocalStorage,
         setDisable,
         disable,
     } = useTableCustom();
-
-    const [oneref, setOneRef] = useState([]);
-    const [priceIsAdd, setPriceIsAdd] = useState(false);
-    const [editPrice, setEditPrice] = useState(null);
-    const [redirect, setRedirect] = useState(false);
-    const [editId, setEditId] = useState(null);
-    const [list, setList] = useState([]);
     const [barcode, setBarcode] = useState(null);
-    const [listLength, setListLength] = useState(0);
-    const [linked, setLinked] = useState(null);
     const { isLoading, error, data, isFetching } = useQuery(
         ["customers", cus_id],
         () => fetchCustomerId(cus_id)

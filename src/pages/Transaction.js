@@ -160,6 +160,20 @@ export default function Transaction() {
             },
 
             {
+                dataIndex: "SpendName",
+                title: "	Xərc maddəsi",
+                defaultSortOrder:
+                    initialSort === "SpendName" ? defaultdr : null,
+                show: initial
+                    ? Object.values(initial).find(
+                          (i) => i.dataIndex === "SpendName"
+                      ).show
+                    : true,
+                sorter: (a, b) => null,
+                className: initialSort === "SpendName" ? "activesort" : "",
+            },
+
+            {
                 dataIndex: "CashInvoice",
                 title: "Nağd/Köçürmə",
 
@@ -219,23 +233,9 @@ export default function Transaction() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Description"
                       ).show
-                    : false,
+                    : true,
                 sorter: (a, b) => null,
                 className: initialSort === "Description" ? "activesort" : "",
-            },
-
-            {
-                dataIndex: "SpendName",
-                title: "	Xərc maddəsi",
-                defaultSortOrder:
-                    initialSort === "SpendName" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "SpendName"
-                      ).show
-                    : false,
-                sorter: (a, b) => null,
-                className: initialSort === "SpendName" ? "activesort" : "",
             },
             {
                 dataIndex: "Mark",

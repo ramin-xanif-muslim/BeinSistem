@@ -409,8 +409,8 @@ function ReturnDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-        values.moment = values.moment._i;
-        values.modify = values.modify._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;

@@ -375,7 +375,7 @@ function NewDemandReturn() {
     }, []);
 
     const getDocName = async (docname) => {
-        const attrResponse = await fetchDocName(docname, "demands");
+        const attrResponse = await fetchDocName(docname, "demandreturns");
         return attrResponse;
     };
 
@@ -386,8 +386,8 @@ function NewDemandReturn() {
     };
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-        values.mark = docmark;
-        values.moment = values.moment._i;
+        // values.mark = docmark;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;

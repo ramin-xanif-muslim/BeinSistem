@@ -8,7 +8,6 @@ import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
 import PaymentOutModal from "../../components/PaymentOutModal";
@@ -16,9 +15,7 @@ import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
 import {
-    DeleteOutlined,
     PlusOutlined,
-    EditOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
@@ -26,18 +23,11 @@ import {
     Alert,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
     Checkbox,
-    Dropdown,
     DatePicker,
-    Switch,
     Select,
     Spin,
-    Tag,
     Divider,
-    Menu,
-    Drawer,
     Typography,
     Statistic,
     Popconfirm,
@@ -86,24 +76,15 @@ function CustomerOrderDetail() {
         setDisable,
     } = useTableCustom();
     const {
-        docstock,
-        setDocStock,
-        docmark,
-        setDocMark,
         setLoadingForm,
-        loadingForm,
         setStockDrawer,
         setCustomerDrawer,
-        customerDrawer,
-        stockDrawer,
         createdStock,
         createdCustomer,
         setCreatedStock,
         setCreatedCustomer,
         isReturn,
-        setIsReturn,
         isPayment,
-        setIsPayment,
         setPaymentModal,
     } = useCustomForm();
     const [positions, setPositions] = useState([]);
@@ -452,8 +433,8 @@ function CustomerOrderDetail() {
     const handleFinish = async (values) => {
         setDisable(true);
         values.positions = outerDataSource;
-        values.moment = values.moment._i;
-        values.modify = values.modify._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
             if (!values.status) {
@@ -760,13 +741,19 @@ function CustomerOrderDetail() {
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
                                 <div>
-                                    <Form.Item name="description">
-                                        <TextArea
-                                            ref={myRefDescription}
-                                            placeholder={"Şərh..."}
-                                            rows={3}
-                                        />
-                                    </Form.Item>
+									<Form
+										initialValues={{
+											description: data.Body.List[0].Description,
+										}}
+									>
+										<Form.Item name="description">
+											<TextArea
+												ref={myRefDescription}
+												placeholder={"Şərh..."}
+												rows={3}
+											/>
+										</Form.Item>
+									</Form>
                                 </div>
                             </Col>
                             <Col xs={24} md={24} xl={12}>

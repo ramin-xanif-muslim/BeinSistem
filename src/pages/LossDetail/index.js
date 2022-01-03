@@ -398,8 +398,8 @@ function LossDetail() {
         // setDisable(true);
 
         values.positions = outerDataSource;
-        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
-        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm");
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         // values.consumption =
@@ -751,13 +751,19 @@ function LossDetail() {
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
                                 <div>
-                                    <Form.Item name="description">
-                                        <TextArea
-                                            ref={myRefDescription}
-                                            placeholder={"Şərh..."}
-                                            rows={3}
-                                        />
-                                    </Form.Item>
+									<Form
+										initialValues={{
+											description: data.Body.List[0].Description,
+										}}
+									>
+										<Form.Item name="description">
+											<TextArea
+												ref={myRefDescription}
+												placeholder={"Şərh..."}
+												rows={3}
+											/>
+										</Form.Item>
+									</Form>
                                 </div>
                             </Col>
                             <Col xs={24} md={24} xl={12}>
