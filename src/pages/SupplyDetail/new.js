@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -119,6 +119,17 @@ function NewSupply() {
     const [tablecolumns, setTableColumns] = useState([]);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
+    const [debt, setDebt] = useState(null);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        fetchDebt(customerId);
+    }, [customerId]);
+
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
@@ -254,7 +265,7 @@ function NewSupply() {
                     let defaultCostArray = [];
                     let consumtionPriceArray = [];
                     outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.Price));
+                        defaultCostArray.push(Number(p.CostPrice));
                     });
                     if (hasConsumption) {
                         consumtionPriceArray = [];
@@ -263,7 +274,7 @@ function NewSupply() {
                                 FindAdditionals(
                                     consumption,
                                     docSum,
-                                    Number(p.Price)
+                                    Number(p.CostPrice)
                                 )
                             );
                         });
@@ -658,6 +669,7 @@ function NewSupply() {
                                     filterOption={false}
                                     className="customSelect detail-select"
                                     allowClear={true}
+                                    onChange={e => setCustomerId(e)}
                                 >
                                     {customerOptions}
                                 </Select>

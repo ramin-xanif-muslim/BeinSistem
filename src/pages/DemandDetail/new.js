@@ -425,29 +425,20 @@ function NewDemand() {
                     let defaultCostArray = [];
                     let consumtionPriceArray = [];
                     outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.Price));
+                        defaultCostArray.push(Number(p.CostPrice));
                     });
                     console.log("defaultCostArray", defaultCostArray);
                     if (hasConsumption) {
-                        console.log(hasConsumption);
-                        console.log(positions);
-                        console.log(consumption);
-                        console.log(docSum);
-                        console.log(FindAdditionals(consumption, docSum, 12));
                         consumtionPriceArray = [];
                         outerDataSource.forEach((p) => {
                             consumtionPriceArray.push(
                                 FindAdditionals(
                                     consumption,
                                     docSum,
-                                    Number(p.Price)
+                                    Number(p.CostPrice)
                                 )
                             );
                         });
-                        console.log(
-                            "consumtionPriceArray",
-                            consumtionPriceArray
-                        );
                         return ConvertFixedTable(consumtionPriceArray[index]);
                     } else {
                         return ConvertFixedTable(defaultCostArray[index]);

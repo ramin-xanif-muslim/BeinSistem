@@ -85,10 +85,6 @@ function SupplyDetail() {
         disable,
     } = useTableCustom();
     const {
-        docstock,
-        setDocStock,
-        docmark,
-        setDocMark,
         setLoadingForm,
         loadingForm,
         setStockDrawer,
@@ -120,14 +116,17 @@ function SupplyDetail() {
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
     const [debt, setDebt] = useState(null);
-    const fetchDebt = async () => {
-        let res = await api.fetchDebt(doc_id);
-        setDebt(res);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id);
+        setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        fetchDebt();
-    }, []);
+        fetchDebt(customerId);
+    }, [customerId]);
+
     const { isLoading, error, data, isFetching } = useQuery(
         ["supply", doc_id],
         () => fetchDocId(doc_id, "supplies")
@@ -156,6 +155,7 @@ function SupplyDetail() {
     }, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
+            setCustomerId(data.Body.List[0].CustomerId);
             customPositions = [];
             Object.values(data.Body.List[0].Positions).map((d) =>
                 customPositions.push(d)
@@ -287,14 +287,9 @@ function SupplyDetail() {
                     let defaultCostArray = [];
                     let consumtionPriceArray = [];
                     outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.Price));
+                        defaultCostArray.push(Number(p.CostPrice));
                     });
-                    console.log("defaultCostArray", defaultCostArray);
                     if (hasConsumption) {
-                        console.log(hasConsumption);
-                        console.log(positions);
-                        console.log(consumption);
-                        console.log(docSum);
                         console.log(FindAdditionals(consumption, docSum, 12));
                         consumtionPriceArray = [];
                         outerDataSource.forEach((p) => {
@@ -302,14 +297,10 @@ function SupplyDetail() {
                                 FindAdditionals(
                                     consumption,
                                     docSum,
-                                    Number(p.Price)
+                                    Number(p.CostPrice)
                                 )
                             );
                         });
-                        console.log(
-                            "consumtionPriceArray",
-                            consumtionPriceArray
-                        );
                         return ConvertFixedTable(consumtionPriceArray[index]);
                     } else {
                         return ConvertFixedTable(defaultCostArray[index]);
@@ -708,6 +699,7 @@ function SupplyDetail() {
                                     filterOption={false}
                                     className="customSelect detail-select"
                                     allowClear={true}
+                                    onChange={e => setCustomerId(e)}
                                 >
                                     {customerOptions}
                                 </Select>
