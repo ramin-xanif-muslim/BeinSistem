@@ -398,8 +398,8 @@ function DemandReturnDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         if (!values.status) {
@@ -514,7 +514,7 @@ function DemandReturnDetail() {
                     <Row>
                         <Col xs={24} md={24} xl={6}>
                             <Form.Item
-                                label="Satış №"
+                                label="Qaytarma №"
                                 name="name"
                                 className="doc_number_form_item"
                                 style={{ width: "100%" }}
@@ -721,19 +721,20 @@ function DemandReturnDetail() {
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
                                 <div>
-									<Form
-										initialValues={{
-											description: data.Body.List[0].Description,
-										}}
-									>
-										<Form.Item name="description">
-											<TextArea
-												ref={myRefDescription}
-												placeholder={"Şərh..."}
-												rows={3}
-											/>
-										</Form.Item>
-									</Form>
+                                    <Form
+                                        initialValues={{
+                                            description:
+                                                data.Body.List[0].Description,
+                                        }}
+                                    >
+                                        <Form.Item name="description">
+                                            <TextArea
+                                                ref={myRefDescription}
+                                                placeholder={"Şərh..."}
+                                                rows={3}
+                                            />
+                                        </Form.Item>
+                                    </Form>
                                 </div>
                             </Col>
                             <Col xs={24} md={24} xl={12}>

@@ -387,7 +387,7 @@ function NewDemandReturn() {
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
         // values.mark = docmark;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;
@@ -558,7 +558,7 @@ function NewDemandReturn() {
                     <Row>
                         <Col xs={24} md={24} xl={6}>
                             <Form.Item
-                                label="Satış №"
+                                label="Qaytarma №"
                                 name="name"
                                 className="doc_number_form_item"
                                 style={{ width: "100%" }}
