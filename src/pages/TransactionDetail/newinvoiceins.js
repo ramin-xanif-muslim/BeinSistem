@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -115,7 +115,15 @@ function NewPaymentIn() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [spends, setSpends] = useState(false);
-
+    // const { doc_id } = useParams();
+    // const [debt, setDebt] = useState(null);
+    // const fetchDebt = async () => {
+    //     let res = await api.fetchDebt(doc_id);
+    //     setDebt(res);
+    // };
+    // useEffect(() => {
+    //     fetchDebt();
+    // }, []);
     useEffect(() => {
         setDisable(true);
         setPositions([]);

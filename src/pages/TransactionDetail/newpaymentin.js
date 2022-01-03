@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchDocName } from "../../api";
+import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -54,6 +54,15 @@ function NewPaymentIn() {
     const [editId, setEditId] = useState(null);
     const [status, setStatus] = useState(true);
     const [spends, setSpends] = useState(false);
+    // const { doc_id } = useParams();
+    // const [debt, setDebt] = useState(null);
+    // const fetchDebt = async () => {
+    //     let res = await api.fetchDebt(doc_id);
+    //     setDebt(res);
+    // };
+    // useEffect(() => {
+    //     fetchDebt();
+    // }, []);
 
     useEffect(() => {
         setDisable(true);
