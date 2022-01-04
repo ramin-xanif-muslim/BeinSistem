@@ -58,6 +58,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import { useFetchDebt, useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -115,21 +116,33 @@ function NewCustomerOrder() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+    const {debt, setCustomerId} = useFetchDebt()
 
+    const { allsum, allQuantity } = useGetDocItems()
+    
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+
+    useEffect(() => {
+        setDisable(true);
+        setPositions([]);
+        setOuterDataSource([]);
+
+        return () => {
+            setDisable(true);
+            setPositions([]);
+            setOuterDataSource([]);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+            setDisable(false);
+        }
+    }, [outerDataSource]);
     const onClose = () => {
         message.destroy();
     };
@@ -193,7 +206,7 @@ function NewCustomerOrder() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -210,7 +223,7 @@ function NewCustomerOrder() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -226,7 +239,7 @@ function NewCustomerOrder() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -242,7 +255,7 @@ function NewCustomerOrder() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
 
@@ -764,7 +777,7 @@ function NewCustomerOrder() {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        value={docSum}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -772,7 +785,7 @@ function NewCustomerOrder() {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        value={docCount}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />

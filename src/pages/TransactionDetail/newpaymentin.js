@@ -24,6 +24,7 @@ import { saveDoc, fetchSpendItems } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { ConvertFixedTable } from "../../config/function/findadditionals";
+import { useFetchDebt } from "../../hooks";
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -56,15 +57,7 @@ function NewPaymentIn() {
     const [status, setStatus] = useState(true);
     const [spends, setSpends] = useState(false);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+    const {debt, setCustomerId} = useFetchDebt()
 
 
     useEffect(() => {

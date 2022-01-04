@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../api';
 import { ConvertFixedTable } from '../config/function/findadditionals';
 
-export function useFetchDebt(data) {
+export function useFetchDebt() {
     const [debt, setDebt] = useState(null);
     const [ customerId, setCustomerId] = useState()
     const fetchDebt = async (id) => {
@@ -10,13 +10,10 @@ export function useFetchDebt(data) {
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        if(data){
-            setCustomerId(data);
+        if(customerId) {
+            fetchDebt(customerId);
         }
-    }, []);
-    useEffect(() => {
-        fetchDebt(customerId);
     }, [customerId]);
-    return {debt,setDebt,setCustomerId}
+    return {debt,setCustomerId}
 }
 

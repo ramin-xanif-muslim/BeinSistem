@@ -56,6 +56,7 @@ import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
+import { useGetDocItems } from "../../hooks";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -114,6 +115,9 @@ function NewMove() {
     const [tablecolumns, setTableColumns] = useState([]);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
+    const { allsum, allQuantity } = useGetDocItems()
+
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
@@ -762,7 +766,7 @@ function NewMove() {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        value={ConvertFixedTable(docSum)}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -770,7 +774,7 @@ function NewMove() {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        value={ConvertFixedTable(docCount)}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />

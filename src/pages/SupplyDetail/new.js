@@ -58,6 +58,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import { useFetchDebt, useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -120,15 +121,9 @@ function NewSupply() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+    const {debt, setCustomerId} = useFetchDebt()
+
+    const { allsum, allQuantity } = useGetDocItems()
 
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -860,7 +855,7 @@ function NewSupply() {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        value={docSum}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -868,7 +863,7 @@ function NewSupply() {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        value={docCount}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />

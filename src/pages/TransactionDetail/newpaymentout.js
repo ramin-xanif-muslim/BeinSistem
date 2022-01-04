@@ -62,6 +62,7 @@ import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import Expenditure from "../../components/Expenditure";
+import { useFetchDebt } from "../../hooks";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -114,15 +115,11 @@ function NewPaymentOut() {
     const [spends, setSpends] = useState(false);
     const [expenditure, setExpenditure] = useState(false);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
+    const {debt, setCustomerId} = useFetchDebt()
+
     useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+        getSpendItems();
+    }, [expenditure]);
 
 
     const onClose = () => {
@@ -568,7 +565,7 @@ function NewPaymentOut() {
                 </div>
 
                 <CustomerDrawer />
-                <Expenditure show={expenditure} setShow={setExpenditure} />
+                <Expenditure show={expenditure} setShow={setExpenditure} getSpendItems={getSpendItems}/>
             </div>
         );
 }

@@ -59,6 +59,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import { useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -115,6 +116,8 @@ function LossDetail() {
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
+    const { allsum, allQuantity } = useGetDocItems()
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["loss", doc_id],
@@ -741,12 +744,15 @@ function LossDetail() {
                 </Form>
 
                 <Row>
-                    <Col xs={24} md={24} xl={24}>
-                        <Tab
-                            className="custom_table_wrapper_tab"
-                            panes={panes}
-                        />
-                    </Col>
+                    { isFetching ? <Spin />
+                        :
+                        <Col xs={24} md={24} xl={24}>
+                            <Tab
+                                className="custom_table_wrapper_tab"
+                                panes={panes}
+                            />
+                        </Col>
+                    }
                     <Col xs={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
@@ -773,7 +779,7 @@ function LossDetail() {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        value={ConvertFixedTable(docSum)}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -781,7 +787,7 @@ function LossDetail() {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        value={ConvertFixedTable(docCount)}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />

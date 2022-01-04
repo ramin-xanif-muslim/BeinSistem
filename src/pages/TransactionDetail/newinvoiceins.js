@@ -61,6 +61,7 @@ import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
+import { useFetchDebt } from "../../hooks";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -116,15 +117,7 @@ function NewPaymentIn() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [spends, setSpends] = useState(false);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+    const {debt, setCustomerId} = useFetchDebt()
 
     useEffect(() => {
         setDisable(true);

@@ -58,6 +58,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import { useFetchDebt } from "../../hooks";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -109,15 +110,7 @@ function SaleDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+    const {debt, setCustomerId} = useFetchDebt()
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["sale", doc_id],
@@ -655,12 +648,15 @@ function SaleDetail() {
                 </Form>
 
                 <Row>
-                    <Col xs={24} md={24} xl={24}>
-                        <Tab
-                            className="custom_table_wrapper_tab"
-                            panes={panes}
-                        />
-                    </Col>
+                    { isFetching ? <Spin />
+                        :
+                        <Col xs={24} md={24} xl={24}>
+                            <Tab
+                                className="custom_table_wrapper_tab"
+                                panes={panes}
+                            />
+                        </Col>
+                    }
                     <Col xs={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>

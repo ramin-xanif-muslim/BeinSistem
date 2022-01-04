@@ -59,7 +59,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt } from "../../hooks/useFetchDebt";
+import { useFetchDebt, useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -120,6 +120,8 @@ function SupplyDetail() {
 
     const {debt, setCustomerId} = useFetchDebt()
 
+    const { allsum, allQuantity } = useGetDocItems()
+
     const { isLoading, error, data, isFetching } = useQuery(
         ["supply", doc_id],
         () => fetchDocId(doc_id, "supplies")
@@ -129,6 +131,7 @@ function SupplyDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+    
     useEffect(() => {
         setDisable(true);
         setPositions([]);
@@ -856,12 +859,15 @@ function SupplyDetail() {
                 </Form>
 
                 <Row>
-                    <Col xs={24} md={24} xl={24}>
-                        <Tab
-                            className="custom_table_wrapper_tab"
-                            panes={panes}
-                        />
-                    </Col>
+                    { isFetching ? <Spin />
+                        :
+                        <Col xs={24} md={24} xl={24}>
+                            <Tab
+                                className="custom_table_wrapper_tab"
+                                panes={panes}
+                            />
+                        </Col>
+                    }
                     <Col xs={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
@@ -888,7 +894,7 @@ function SupplyDetail() {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        value={docSum}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -896,7 +902,7 @@ function SupplyDetail() {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        value={docCount}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />

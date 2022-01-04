@@ -157,6 +157,7 @@ function AddProductInput({ from }) {
         setOpenDropDown(false);
         setProductList([]);
         setValue("");
+        setSearchTerm("");
     };
 
     const onClose = () => {

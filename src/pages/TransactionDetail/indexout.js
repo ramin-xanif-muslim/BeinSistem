@@ -64,6 +64,7 @@ import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import Expenditure from "../../components/Expenditure";
+import { useFetchDebt } from "../../hooks";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -119,15 +120,7 @@ function PaymentOutDetail() {
 	const [customerloading, setcustomerloading] = useState(false);
 	const [expenditure, setExpenditure] = useState(false);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+    const {debt, setCustomerId} = useFetchDebt()
 
 	const { doc_id } = useParams();
 	const { isLoading, error, data, isFetching } = useQuery(

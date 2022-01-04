@@ -47,6 +47,7 @@ import {
 	FindAdditionals,
 	ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import { useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -104,6 +105,8 @@ function EnterDetail() {
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
+
+    const { allsum, allQuantity } = useGetDocItems()
 
 	useEffect(() => {
 		setDisable(true);
@@ -786,12 +789,15 @@ function EnterDetail() {
 				</Form>
 
 				<Row>
-					<Col xs={24} md={24} xl={24}>
-						<Tab
-							className="custom_table_wrapper_tab"
-							panes={panes}
-						/>
-					</Col>
+                    { isFetching ? <Spin />
+                        :
+                        <Col xs={24} md={24} xl={24}>
+                            <Tab
+                                className="custom_table_wrapper_tab"
+                                panes={panes}
+                            />
+                        </Col>
+                    }
 					<Col xs={24} md={24} xl={24}>
 						<Row className="bottom_tab">
 							<Col xs={24} md={24} xl={9}>
@@ -818,7 +824,7 @@ function EnterDetail() {
 										groupSeparator=" "
 										className="doc_info_text total"
 										title=""
-										value={ConvertFixedTable(docSum)}
+										value={allsum}
 										prefix={"Yekun məbləğ: "}
 										suffix={"₼"}
 									/>
@@ -826,7 +832,7 @@ function EnterDetail() {
 										groupSeparator=" "
 										className="doc_info_text doc_info_secondary quantity"
 										title=""
-										value={ConvertFixedTable(docCount)}
+										value={allQuantity}
 										prefix={"Miqdar: "}
 										suffix={"əd"}
 									/>

@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button, Modal } from "antd";
 import sendRequest from "../config/sentRequest";
-export default function Expenditure({ show, setShow }) {
+export default function Expenditure({ show, setShow, getSpendItems }) {
 	const handleOk = () => {
 		// this.setState({ visible: false });
 	};
