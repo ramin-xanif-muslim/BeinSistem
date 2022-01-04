@@ -59,6 +59,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import { useFetchDebt } from "../../hooks/useFetchDebt";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -117,15 +118,7 @@ function SupplyDetail() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const [debt, setDebt] = useState(null);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        fetchDebt(customerId);
-    }, [customerId]);
+    const {debt, setCustomerId} = useFetchDebt()
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["supply", doc_id],
@@ -290,7 +283,6 @@ function SupplyDetail() {
                         defaultCostArray.push(Number(p.CostPrice));
                     });
                     if (hasConsumption) {
-                        console.log(FindAdditionals(consumption, docSum, 12));
                         consumtionPriceArray = [];
                         outerDataSource.forEach((p) => {
                             consumtionPriceArray.push(

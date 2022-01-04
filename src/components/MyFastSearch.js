@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { PlusCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { fecthFastPage } from "../api";
-import { Input, Space } from "antd";
-import { useTableCustom } from "../contexts/TableContext";
+import React, { useEffect } from "react";
+import { Input } from "antd";
 const { Search } = Input;
 
 function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {

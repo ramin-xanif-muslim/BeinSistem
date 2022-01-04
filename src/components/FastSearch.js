@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PlusCircleOutlined, SearchOutlined } from "@ant-design/icons";
-import { fecthFastPage } from "../api";
-import { Input, Space } from "antd";
+import { Input } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 const { Search } = Input;
 
