@@ -12,6 +12,7 @@ import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { Button, Modal, Badge, Spin, Alert } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
+import { useNotification } from "../hooks";
 import {
     fetchStocks,
     fetchMarks,
@@ -37,6 +38,8 @@ function Navbar() {
         setBalance,
     } = useTableCustom();
     const { firstLogin, logout } = useAuth();
+
+    const { getNotification } = useNotification()
 
     const [menu, setMenu] = useState("2");
     const [noBalance, setNoBalance] = useState(true);
@@ -189,11 +192,13 @@ function Navbar() {
                             src={`/images/help.png`}
                         />
                     </Menu.Item>
-                    <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
-                        <img
-                            className="small_logo_pics custom_width"
-                            src={`/images/notification.png`}
-                        />
+                    <Menu.Item 
+                        onClick={() => getNotification()}
+                        className="main_header_items custom_flex_direction profile_icons_wrapper">
+                            <img
+                                className="small_logo_pics custom_width"
+                                src={`/images/notification.png`}
+                            />
                     </Menu.Item>
                     <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
                         <Dropdown

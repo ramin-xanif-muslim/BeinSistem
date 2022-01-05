@@ -48,6 +48,7 @@ import { message } from "antd";
 import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
+import {  useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -92,6 +93,7 @@ function SupplyReturnLinked(props) {
 	const [editId, setEditId] = useState(null);
 	const [docname, setDocName] = useState(null);
 	const [newStocksLoad, setNewStocksLoad] = useState(null);
+    const { allsum, allQuantity } = useGetDocItems()
 
 	const onClose = () => {
 		message.destroy();
@@ -542,7 +544,7 @@ function SupplyReturnLinked(props) {
 								groupSeparator=" "
 								className="doc_info_text total"
 								title=""
-								value={docSum}
+								value={allsum}
 								prefix={"Yekun məbləğ: "}
 								suffix={"₼"}
 							/>
@@ -550,7 +552,7 @@ function SupplyReturnLinked(props) {
 								groupSeparator=" "
 								className="doc_info_text doc_info_secondary quantity"
 								title=""
-								value={docCount}
+								value={allQuantity}
 								prefix={"Miqdar: "}
 								suffix={"əd"}
 							/>

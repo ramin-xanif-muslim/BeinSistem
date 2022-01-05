@@ -15,6 +15,7 @@ import "./Group.css";
 import { AuthProvider } from "./contexts/AuthContext";
 import { TableProvider } from "./contexts/TableContext";
 import { MyFormProvider } from "./contexts/FormContext";
+import Notification from "./components/Notification";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -30,6 +31,7 @@ ReactDOM.render(
             <AuthProvider>
                 <TableProvider>
                     <MyFormProvider>
+                        <Notification />
                         <App />
                     </MyFormProvider>
                 </TableProvider>

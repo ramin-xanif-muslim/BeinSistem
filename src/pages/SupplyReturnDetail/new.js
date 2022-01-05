@@ -371,7 +371,7 @@ function NewSupplyReturn() {
     }, []);
 
     const getDocName = async (docname) => {
-        const attrResponse = await fetchDocName(docname, "supplies");
+        const attrResponse = await fetchDocName(docname, "supplyreturns");
         return attrResponse;
     };
 

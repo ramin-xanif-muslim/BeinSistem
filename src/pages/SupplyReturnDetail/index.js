@@ -120,7 +120,6 @@ function SupplyReturnDetail() {
     const [initial, setInitial] = useState(null);
 
     const {debt, setCustomerId} = useFetchDebt()
-
     const { allsum, allQuantity } = useGetDocItems()
 
     const { isLoading, error, data, isFetching } = useQuery(

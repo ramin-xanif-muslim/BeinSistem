@@ -58,7 +58,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt } from "../../hooks";
+import { useFetchDebt, useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -111,6 +111,7 @@ function SaleDetail() {
     const [consumption, setConsumption] = useState(0);
 
     const {debt, setCustomerId} = useFetchDebt()
+    const { allsum, allQuantity } = useGetDocItems()
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["sale", doc_id],
@@ -680,7 +681,7 @@ function SaleDetail() {
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
                                         value={ConvertFixedTable(
-                                            (100 * docSum) /
+                                            (100 * allsum) /
                                                 (100 -
                                                     data.Body.List[0].Discount)
                                         )}
@@ -701,7 +702,7 @@ function SaleDetail() {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        value={docSum}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -749,7 +750,7 @@ function SaleDetail() {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        value={docCount}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />
@@ -759,11 +760,11 @@ function SaleDetail() {
                                         title=""
                                         value={ConvertFixedTable(
                                             isNaN(
-                                                docSum -
+                                                allsum -
                                                     data.Body.List[0].Profit
                                             )
                                                 ? "0.00"
-                                                : docSum -
+                                                : allsum -
                                                       data.Body.List[0].Profit
                                         )}
                                         prefix={"Mayası: "}

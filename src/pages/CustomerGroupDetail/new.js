@@ -113,7 +113,7 @@ function NewProductGroup() {
         //     values.parentid = "00000000-0000-0000-0000-000000000000";
         // }
         message.loading({ content: "Loading...", key: "progr_update" });
-        const res = await saveDoc(values, "productfolders");
+        const res = await saveDoc(values, "customergroups");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
                 content: "Saxlanildi",
@@ -151,7 +151,7 @@ function NewProductGroup() {
             <DocButtons
                 additional={"none"}
                 editid={null}
-                closed={"p=product"}
+                closed={"p=customer"}
             />
             <div className="formWrapper">
                 <Form
