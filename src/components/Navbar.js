@@ -39,7 +39,7 @@ function Navbar() {
     } = useTableCustom();
     const { firstLogin, logout } = useAuth();
 
-    const { getNotification } = useNotification()
+    const { getNotification, notificationsCount } = useNotification()
 
     const [menu, setMenu] = useState("2");
     const [noBalance, setNoBalance] = useState(true);

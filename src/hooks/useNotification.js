@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import sendRequest from "../config/sentRequest";
+import { useTableCustom } from "../contexts/TableContext";
 
 export function useNotification() {
+
 	const [notifications, setNotifications] = useState([]);
+    const [notificationsCount, setNotificationsCount] = useState();
+
 	const getNotification = async () => {
 		let res = await sendRequest("notifications/get.php", {});
 		setNotifications(res.Notifications);
 		if (notifications[0]) {
+            setNotificationsCount(notifications.length)
             for (let item of notifications) {
                 if(item.NotType === 1){
                     toast.info(item.Message)
@@ -21,7 +26,7 @@ export function useNotification() {
                 if(item.NotType === 4){
                     toast.error(item.Message, {
                         position: "top-right",
-                        autoClose: 5000,
+                        autoClose: false,
                         hideProgressBar: false,
                         closeOnClick: true,
                         pauseOnHover: true,
@@ -33,5 +38,5 @@ export function useNotification() {
             }
         }
 	};
-	return { getNotification, notifications };
+	return { getNotification, notifications, notificationsCount };
 }

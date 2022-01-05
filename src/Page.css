@@ -593,7 +593,8 @@ tr.ant-table-expanded-row:hover td {
     font-weight: 400;
 }
 
-.formWrapper .ant-collapse-header {
+.formWrapper .ant-collapse-header,
+.payment-out-modal .ant-collapse-header {
     width: fit-content;
 }
 
@@ -734,4 +735,13 @@ tbody .ant-table-cell {
 }
 .filter-input .ant-col-24.ant-form-item-label label {
     height: fit-content;
+}
+
+.payment-out-modal {
+    width: 100% !important;
+}
+.payment-out-modal .ant-form-item-label {
+    justify-content: flex-start;
+    display: flex;
+    width: 10em;
 }
