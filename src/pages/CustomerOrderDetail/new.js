@@ -59,6 +59,7 @@ import {
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems } from "../../hooks";
+import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -576,21 +577,10 @@ function NewCustomerOrder() {
                                     },
                                 ]}
                             >
-                                <Select
-                                    showSearch
-                                    showArrow={false}
-                                    filterOption={false}
-                                    className="customSelect detail-select"
-                                    allowClear={true}
-                                    onChange={e => setCustomerId(e)}
-                                    filterOption={(input, option) =>
-                                        option.children
-                                            .toLowerCase()
-                                            .indexOf(input.toLowerCase()) >= 0
-                                    }
-                                >
-                                    {customerOptions}
-                                </Select>
+								<CustomersSelectInput
+									handleChanged={handleChanged}
+									setCustomerId={setCustomerId}
+								/>
                             </Form.Item>
                             <p
                                 className="customer-debt"

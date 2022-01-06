@@ -662,6 +662,7 @@ function NewSupply() {
 								]}
 							>
 								<CustomersSelectInput
+									handleChanged={handleChanged}
 									setCustomerId={setCustomerId}
 								/>
 							</Form.Item>

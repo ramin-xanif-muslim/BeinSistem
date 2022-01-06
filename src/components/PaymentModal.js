@@ -53,7 +53,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
 	const [expenditure, setExpenditure] = useState(false);
     const [status, setStatus] = useState(false);
 
-    const {debt, setCustomerId, customerId} = useFetchDebt()
+    const {debt, setCustomerId, customerId, fetchDebt} = useFetchDebt()
 
     useEffect(() => {
         setCustomerId(datas.CustomerId)
@@ -129,6 +129,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
         return attrResponse;
     };
     const onClose = () => {
+        fetchDebt()
         message.destroy();
     };
     //#endregion OwDep
@@ -153,7 +154,6 @@ function PaymentOutModal({ datas, title, endPoint }) {
                 key: "payment_update",
                 duration: 2,
             });
-            setPaymentModal(false);
         } else {
             message.error({
                 content: (

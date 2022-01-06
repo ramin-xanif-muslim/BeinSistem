@@ -540,8 +540,10 @@ function DemandReturnDetail() {
                                 ]}
                                 className="form-item-customer"
                             >
-                                <CustomersSelectInput 
-                                setCustomerId={setCustomerId} />
+								<CustomersSelectInput
+									handleChanged={handleChanged}
+									setCustomerId={setCustomerId}
+								/>
                             </Form.Item>
                             <p
                                 className="customer-debt"

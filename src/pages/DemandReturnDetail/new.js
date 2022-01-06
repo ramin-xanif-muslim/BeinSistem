@@ -579,8 +579,10 @@ function NewDemandReturn() {
 									},
 								]}
 							>
-                                <CustomersSelectInput 
-                                setCustomerId={setCustomerId} />
+								<CustomersSelectInput
+									handleChanged={handleChanged}
+									setCustomerId={setCustomerId}
+								/>
 							</Form.Item>
 							<p
 								className="customer-debt"

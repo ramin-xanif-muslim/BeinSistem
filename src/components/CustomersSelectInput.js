@@ -4,17 +4,21 @@ import sendRequest from "../config/sentRequest";
 
 const { Option } = Select;
 
-function CustomersSelectInput({ setCustomerId }) {
+function CustomersSelectInput({ setCustomerId, handleChanged }) {
 
     const [ obj, setObj ] = useState({})
     const [ inputValue, setInputValue ] = useState()
 	const [customers, setCustomers] = useState([]);
 
-    const onChangeSelectInput = (e) => {
+    const onSearchSelectInput = (e) => {
         setInputValue(e)
         setObj({
             fast: inputValue,
         })
+    }
+    const onChangeSelectInput = (e) => {
+        handleChanged()
+        setCustomerId(e)
     }
 
 	const getCustomer = async () => {
@@ -43,8 +47,8 @@ function CustomersSelectInput({ setCustomerId }) {
 			filterOption={false}
 			className="customSelect detail-select"
 			allowClear={true}
-            onSearch={(e) => onChangeSelectInput(e)}
-			onChange={(e) => setCustomerId(e)}
+            onSearch={(e) => onSearchSelectInput(e)}
+			onChange={(e) => onChangeSelectInput(e)}
 		>
 			{customers[0] &&
 				customers.map((c) => {

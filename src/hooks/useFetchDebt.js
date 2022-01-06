@@ -6,7 +6,7 @@ export function useFetchDebt() {
     const [debt, setDebt] = useState(0);
     const [ customerId, setCustomerId] = useState()
     const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id);
+        let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
@@ -14,6 +14,6 @@ export function useFetchDebt() {
             fetchDebt(customerId);
         }
     }, [customerId]);
-    return {debt,setCustomerId, customerId}
+    return {debt, setCustomerId, customerId, fetchDebt}
 }
 
