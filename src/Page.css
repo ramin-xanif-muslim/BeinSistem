@@ -6,6 +6,10 @@
     display: flex;
 }
 
+.ant-table-tbody tr td {
+    font-family: "Calibri" !important;
+}
+
 .ant-form-item-label {
     text-align: left;
 }

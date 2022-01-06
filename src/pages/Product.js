@@ -750,6 +750,7 @@ export default function Product() {
                 </Col>
                 <Col xs={24} md={24} xl={19}>
                     <Table
+                        className="main-table"
                         rowKey="Id"
                         columns={columnsnew.filter((c) => c.show === true)}
                         dataSource={productList}
