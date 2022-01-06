@@ -29,7 +29,8 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 var spendOptions = null;
-function PaymentOutModal({ datas }) {
+
+function PaymentOutModal({ datas, title, endPoint }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const {
@@ -78,7 +79,7 @@ function PaymentOutModal({ datas }) {
     ));
 
     const getDocName = async (docname) => {
-        const attrResponse = await fetchDocName(docname, "paymentouts");
+        const attrResponse = await fetchDocName(docname, endPoint);
         return attrResponse;
     };
     const onClose = () => {
@@ -95,7 +96,7 @@ function PaymentOutModal({ datas }) {
         message.loading({ content: "Loading...", key: "payment_update" });
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
-        const res = await saveDoc(values, "paymentouts");
+        const res = await saveDoc(values, endPoint);
         if (res.Headers.ResponseStatus === "0") {
             message.success({
                 content: "Mexaric saxlanildi",
@@ -119,7 +120,7 @@ function PaymentOutModal({ datas }) {
     return (
         <Modal
             className="payment-out-modal"
-            title="Məxaric"
+            title={title}
             visible={paymentModal}
             onCancel={handleGancel}
             footer={[

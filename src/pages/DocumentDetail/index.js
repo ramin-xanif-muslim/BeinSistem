@@ -8,11 +8,8 @@ import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
-import PaymentOutModal from "../../components/PaymentOutModal";
-import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 import ProductModal from "../../components/ProductModal";
 import {
@@ -27,18 +24,13 @@ import {
     Alert,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
     Checkbox,
     Dropdown,
     DatePicker,
-    Switch,
     Select,
     Spin,
-    Tag,
     Divider,
     Menu,
-    Drawer,
     Typography,
     Statistic,
     Popconfirm,
@@ -48,7 +40,6 @@ import {
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
-import { fetchCustomers } from "../../api";
 import { fetchStocks } from "../../api";
 import { message } from "antd";
 import { updateDoc } from "../../api";

@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { Alert, Spin } from "antd";
 import { Redirect, useParams } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
+import { useNotification } from "./hooks";
 
 const Move = React.lazy(() => import("./pages/Move"));
 const Product = React.lazy(() => import("./pages/Product"));
@@ -118,9 +119,22 @@ const SaleDetail = React.lazy(() => import("./pages/SaleDetail"));
 const Settings = React.lazy(() => import("./pages/Settings"));
 const Download = React.lazy(() => import("./pages/Download"));
 const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
+
+
+
 function App() {
+
+    const { getNotification } = useNotification()
     const { loggedIn, token, firstLogin } = useAuth();
     const { nav } = useTableCustom();
+
+    useEffect(() => {
+        const intervalId = setInterval(() => { 
+            getNotification()
+        }, 10000)
+        return () => clearInterval(intervalId)
+    },[])
+
     return (
         <>
             <React.Suspense

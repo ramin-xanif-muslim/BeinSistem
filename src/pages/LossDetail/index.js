@@ -8,17 +8,12 @@ import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
-import PaymentOutModal from "../../components/PaymentOutModal";
-import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 import ProductModal from "../../components/ProductModal";
 import {
-    DeleteOutlined,
     PlusOutlined,
-    EditOutlined,
     SettingOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
@@ -26,18 +21,13 @@ import {
     Form,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
     Checkbox,
     Dropdown,
     DatePicker,
-    Switch,
     Select,
     Spin,
-    Tag,
     Divider,
     Menu,
-    Drawer,
     Typography,
     Statistic,
     Popconfirm,

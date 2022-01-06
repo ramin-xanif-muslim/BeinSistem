@@ -1,4 +1,5 @@
 import React from "react";
+import CustomerGroupDrawer from "../../components/CustomerGroupDrawer";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useState } from "react";
@@ -31,6 +32,7 @@ import {
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import ProductGroupModal from "../../components/ProductGroupModal";
+import { useCustomForm } from "../../contexts/FormContext";
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -39,11 +41,17 @@ let mods = {};
 let count = 0;
 let oneRefArray = [];
 let lastObject = {};
+
+
 function CustomerDetail() {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
 
     const { cus_id } = useParams();
+
+    const {
+      setCustomerGroupDrawer,
+    } = useCustomForm();
 
     const {
         departments,
@@ -199,6 +207,7 @@ function CustomerDetail() {
                 controller={"customers"}
                 closed={"p=customer"}
                 additional={"none"}
+				editid={cus_id}
             />
             <div className="formWrapper">
                 <Form
@@ -260,6 +269,7 @@ function CustomerDetail() {
                                 >
                                     <Button
                                         className="add-stock-btn"
+                                        onClick={() => setCustomerGroupDrawer(true)}
                                         // onClick={() => setGroupVisible(true)}
                                     >
                                         <PlusOutlined />
@@ -410,6 +420,7 @@ function CustomerDetail() {
                     </Row>
                 </Form>
             </div>
+            <CustomerGroupDrawer />
         </div>
     );
 }

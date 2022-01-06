@@ -10,7 +10,7 @@ import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
-import PaymentOutModal from "../../components/PaymentOutModal";
+import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
@@ -807,7 +807,7 @@ function CustomerOrderDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentOutModal datas={data.Body.List[0]} />
+            <PaymentModal datas={data.Body.List[0]} title="Məxaric" endPoint="paymentouts"/>
         </div>
     );
 }

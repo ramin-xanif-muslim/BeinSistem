@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { fetchDocName } from "../../api";
@@ -50,6 +50,7 @@ import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { Tab } from "semantic-ui-react";
 import { ConvertFixedPosition } from "../../config/function/findadditionals";
+import { useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -57,6 +58,7 @@ const { Panel } = Collapse;
 
 function DemandReturnLinked(props) {
     const [form] = Form.useForm();
+    const myRefDescription = useRef(null);
     const queryClient = useQueryClient();
     const {
         docPage,
@@ -92,7 +94,6 @@ function DemandReturnLinked(props) {
         isPayment,
         setIsPayment,
         setPaymentModal,
-
         saveFromModal,
         setRedirectSaveClose,
     } = useCustomForm();
@@ -101,10 +102,20 @@ function DemandReturnLinked(props) {
     const [editId, setEditId] = useState(null);
     const [docname, setDocName] = useState(null);
     const [newStocksLoad, setNewStocksLoad] = useState(null);
+    const [status, setStatus] = useState(false);
+    
+    const { allsum, allQuantity } = useGetDocItems()
+
+    const {debt, setCustomerId} = useFetchDebt()
 
     const onClose = () => {
         message.destroy();
     };
+
+    useEffect(() => {
+        setStatus(props.location.state.data.Status)
+        setCustomerId(props.location.state.data.CustomerId)
+    },[])
 
     useEffect(() => {
         if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
@@ -264,6 +275,11 @@ function DemandReturnLinked(props) {
         values.positions = outerDataSource;
         values.mark = docmark;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.description =
+            myRefDescription.current.resizableTextArea.props.value;
+        if (!values.status) {
+            values.status = status;
+        }
 
         message.loading({ content: "Loading...", key: "doc_update" });
         const nameres = await getDocName(values.name);
@@ -361,7 +377,7 @@ function DemandReturnLinked(props) {
                             xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
-                            <DocTable headers={columns} datas={positions} />
+                            <DocTable headers={columns} datas={props.location.state.data.Positions} />
                         </Col>
                     </Row>
                 </Tab.Pane>
@@ -459,12 +475,12 @@ function DemandReturnLinked(props) {
                             </Form.Item>
                             <p
                                 className="customer-debt"
-                                // style={debt < 0 ? { color: "red" } : {}}
+                                style={debt < 0 ? { color: "red" } : {}}
                             >
                                 <span style={{ color: "red" }}>
                                     Qalıq borc:
                                 </span>
-                                {/* {debt} ₼ */}
+                                {debt} ₼
                             </p>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
@@ -490,7 +506,7 @@ function DemandReturnLinked(props) {
                         <Col xs={24} md={24} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
-                                    onClick={() => setStockDrawer(true)}
+                                    // onClick={() => setStockDrawer(true)}
                                 />
                             </Button>
                             <Form.Item
@@ -572,9 +588,9 @@ function DemandReturnLinked(props) {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
-                                            // onChange={(e) =>
-                                            //     setStatus(e.target.checked)
-                                            // }
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
@@ -619,32 +635,26 @@ function DemandReturnLinked(props) {
                         </Collapse>
                     </Row>
                 </Form>
-
                 <Row>
-                    {/* {isFetching ? (
-                        <Spin />
-                    ) : (
                         <Col xs={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
-                    )} */}
                     <Col xs={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
                                 <div>
                                     <Form
-                                        // initialValues={{
-                                        //     description:
-                                        //         data.Body.List[0].Description,
-                                        // }}
+                                        initialValues={{
+                                            description: props.location.state.data.Description,
+                                        }}
                                         onFieldsChange={handleChanged}
                                     >
                                         <Form.Item name="description">
                                             <TextArea
-                                                // ref={myRefDescription}
+                                                ref={myRefDescription}
                                                 placeholder={"Şərh..."}
                                                 rows={3}
                                             />
@@ -658,7 +668,7 @@ function DemandReturnLinked(props) {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        // value={allsum}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -666,7 +676,7 @@ function DemandReturnLinked(props) {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        // value={allQuantity}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />

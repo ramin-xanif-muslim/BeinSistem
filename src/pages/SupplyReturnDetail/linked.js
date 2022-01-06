@@ -1,5 +1,4 @@
-import React from "react";
-import { useParams } from "react-router-dom";
+import React, { useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
@@ -23,8 +22,6 @@ import {
     Form,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
     Checkbox,
     Dropdown,
     DatePicker,
@@ -48,13 +45,16 @@ import { message } from "antd";
 import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
+import {  useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
+import { Tab } from "semantic-ui-react";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 
 function SupplyReturnLinked(props) {
     const [form] = Form.useForm();
+    const myRefDescription = useRef(null);
     const queryClient = useQueryClient();
     const {
         docPage,
@@ -93,10 +93,21 @@ function SupplyReturnLinked(props) {
     const [editId, setEditId] = useState(null);
     const [docname, setDocName] = useState(null);
     const [newStocksLoad, setNewStocksLoad] = useState(null);
+    const [status, setStatus] = useState(false);
+    
+    const { allsum, allQuantity } = useGetDocItems()
+
+    const {debt, setCustomerId} = useFetchDebt()
 
     const onClose = () => {
         message.destroy();
     };
+
+    useEffect(() => {
+        setStatus(props.location.state.data.Status)
+        setCustomerId(props.location.state.data.CustomerId)
+    },[])
+
     const columns = useMemo(() => {
         return [
             {
@@ -255,6 +266,11 @@ function SupplyReturnLinked(props) {
         values.positions = outerDataSource;
         values.mark = docmark;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.description =
+            myRefDescription.current.resizableTextArea.props.value;
+        if (!values.status) {
+            values.status = status;
+        }
 
         message.loading({ content: "Loading...", key: "doc_update" });
         const nameres = await getDocName(values.name);
@@ -333,6 +349,38 @@ function SupplyReturnLinked(props) {
     };
 
     if (redirect) return <Redirect to={`/editSupplyReturn/${editId}`} />;
+    
+
+    const panes = [
+        {
+            menuItem: "Əsas",
+            render: () => (
+                <Tab.Pane attached={false}>
+                    <Row>
+                        <Col xs={24} md={24} xl={9}>
+                            <div className="addProductInputIcon">
+                                <AddProductInput className="newProInputWrapper" />
+                                <PlusOutlined className="addNewProductIcon" />
+                            </div>
+                        </Col>
+                        <Col
+                            xs={24}
+                            md={24}
+                            xl={24}
+                            style={{ paddingTop: "1rem" }}
+                        >
+                            <DocTable headers={columns} datas={props.location.state.data.Positions} />
+                        </Col>
+                    </Row>
+                </Tab.Pane>
+            ),
+        },
+        {
+            menuItem: "Əlaqəli sənədlər",
+            render: () => <Tab.Pane attached={false}></Tab.Pane>,
+        },
+    ];
+    
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
@@ -420,12 +468,12 @@ function SupplyReturnLinked(props) {
                             </Form.Item>
                             <p
                                 className="customer-debt"
-                                // style={debt < 0 ? { color: "red" } : {}}
+                                style={debt < 0 ? { color: "red" } : {}}
                             >
                                 <span style={{ color: "red" }}>
                                     Qalıq borc:
                                 </span>
-                                {/* {debt} ₼ */}
+                                {debt} ₼
                             </p>
                         </Col>
                         <Col xs={24} md={24} xl={3}></Col>
@@ -480,7 +528,6 @@ function SupplyReturnLinked(props) {
                         <Col xs={24} md={24} xl={3}></Col>
                         <Col xs={24} md={24} xl={6}></Col>
                     </Row>
-
                     <Row>
                         <Collapse ghost style={{ width: "100%" }}>
                             <Panel
@@ -533,9 +580,9 @@ function SupplyReturnLinked(props) {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
-                                            // onChange={(e) =>
-                                            //     setStatus(e.target.checked)
-                                            // }
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
@@ -582,30 +629,25 @@ function SupplyReturnLinked(props) {
                 </Form>
 
                 <Row>
-                    {/* {isFetching ? (
-                        <Spin />
-                    ) : (
                         <Col xs={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
-                    )} */}
                     <Col xs={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
                                 <div>
                                     <Form
-                                        // initialValues={{
-                                        //     description:
-                                        //         data.Body.List[0].Description,
-                                        // }}
+                                        initialValues={{
+                                            description: props.location.state.data.Description,
+                                        }}
                                         onFieldsChange={handleChanged}
                                     >
                                         <Form.Item name="description">
                                             <TextArea
-                                                // ref={myRefDescription}
+                                                ref={myRefDescription}
                                                 placeholder={"Şərh..."}
                                                 rows={3}
                                             />
@@ -619,7 +661,7 @@ function SupplyReturnLinked(props) {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        // value={allsum}
+                                        value={allsum}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />
@@ -627,7 +669,7 @@ function SupplyReturnLinked(props) {
                                         groupSeparator=" "
                                         className="doc_info_text doc_info_secondary quantity"
                                         title=""
-                                        // value={allQuantity}
+                                        value={allQuantity}
                                         prefix={"Miqdar: "}
                                         suffix={"əd"}
                                     />
