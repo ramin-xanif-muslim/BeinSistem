@@ -105,8 +105,8 @@ function SupplyReturnDetail() {
     const [columnChange, setColumnChange] = useState(false);
     const [initial, setInitial] = useState(null);
 
-    const {debt, setCustomerId} = useFetchDebt()
-    const { allsum, allQuantity } = useGetDocItems()
+    const { debt, setCustomerId } = useFetchDebt();
+    const { allsum, allQuantity } = useGetDocItems();
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["supplyreturn", doc_id],
@@ -375,8 +375,8 @@ function SupplyReturnDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         if (!values.status) {
@@ -470,8 +470,9 @@ function SupplyReturnDetail() {
                 <Tab.Pane attached={false}>
                     <Row style={{ justifyContent: "space-between" }}>
                         <Col
-                            xs={24}
-                            md={24}
+                            xs={9}
+                            sm={9}
+                            md={9}
                             xl={9}
                             style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
                         >
@@ -495,6 +496,7 @@ function SupplyReturnDetail() {
                         </Dropdown>
                         <Col
                             xs={24}
+                            sm={24}
                             md={24}
                             xl={24}
                             style={{ paddingTop: "1rem", zIndex: "0" }}
@@ -553,7 +555,7 @@ function SupplyReturnDetail() {
                     layout="horizontal"
                 >
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Qaytarma №"
                                 name="name"
@@ -563,8 +565,8 @@ function SupplyReturnDetail() {
                                 <Input className="detail-input" allowClear />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     onClick={() => setCustomerDrawer(true)}
@@ -608,12 +610,12 @@ function SupplyReturnDetail() {
                                 {debt} ₼
                             </p>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Tarix"
                                 name="moment"
@@ -626,8 +628,8 @@ function SupplyReturnDetail() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     onClick={() => setStockDrawer(true)}
@@ -660,8 +662,8 @@ function SupplyReturnDetail() {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
@@ -672,7 +674,7 @@ function SupplyReturnDetail() {
                                 key="1"
                             >
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Status"
                                             name="mark"
@@ -684,8 +686,8 @@ function SupplyReturnDetail() {
                                             <StatusSelect />
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
@@ -710,8 +712,8 @@ function SupplyReturnDetail() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
@@ -727,7 +729,7 @@ function SupplyReturnDetail() {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
@@ -752,10 +754,10 @@ function SupplyReturnDetail() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
                                 </Row>
                             </Panel>
                         </Collapse>
@@ -763,36 +765,38 @@ function SupplyReturnDetail() {
                 </Form>
 
                 <Row>
-                    { isFetching ? <Spin />
-                        :
-                        <Col xs={24} md={24} xl={24}>
+                    {isFetching ? (
+                        <Spin />
+                    ) : (
+                        <Col xs={24} sm={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
-                    }
-                    <Col xs={24} md={24} xl={24}>
+                    )}
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
-                            <Col xs={24} md={24} xl={9}>
+                            <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
-									<Form
-										initialValues={{
-											description: data.Body.List[0].Description,
-										}}
+                                    <Form
+                                        initialValues={{
+                                            description:
+                                                data.Body.List[0].Description,
+                                        }}
                                         onFieldsChange={handleChanged}
-									>
-										<Form.Item name="description">
-											<TextArea
-												ref={myRefDescription}
-												placeholder={"Şərh..."}
-												rows={3}
-											/>
-										</Form.Item>
-									</Form>
+                                    >
+                                        <Form.Item name="description">
+                                            <TextArea
+                                                ref={myRefDescription}
+                                                placeholder={"Şərh..."}
+                                                rows={3}
+                                            />
+                                        </Form.Item>
+                                    </Form>
                                 </div>
                             </Col>
-                            <Col xs={24} md={24} xl={12}>
+                            <Col xs={12} sm={12} md={12} xl={12}>
                                 <div className="static_wrapper">
                                     <Statistic
                                         groupSeparator=" "
@@ -822,7 +826,11 @@ function SupplyReturnDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentModal datas={data.Body.List[0]} title="Məxaric" endPoint="paymentouts"/>
+            <PaymentModal
+                datas={data.Body.List[0]}
+                title="Məxaric"
+                endPoint="paymentouts"
+            />
         </div>
     );
 }

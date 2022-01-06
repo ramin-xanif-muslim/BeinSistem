@@ -116,7 +116,7 @@ function NewEnter() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const { allsum, allQuantity } = useGetDocItems()
+    const { allsum, allQuantity } = useGetDocItems();
 
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -533,8 +533,9 @@ function NewEnter() {
                 <Tab.Pane attached={false}>
                     <Row style={{ justifyContent: "space-between" }}>
                         <Col
-                            xs={24}
-                            md={24}
+                            xs={9}
+                            sm={9}
+                            md={9}
                             xl={9}
                             style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
                         >
@@ -558,6 +559,7 @@ function NewEnter() {
                         </Dropdown>
                         <Col
                             xs={24}
+                            sm={24}
                             md={24}
                             xl={24}
                             style={{ paddingTop: "1rem", zIndex: "0" }}
@@ -607,7 +609,7 @@ function NewEnter() {
                     layout="horizontal"
                 >
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Daxilolma №"
                                 name="name"
@@ -623,14 +625,14 @@ function NewEnter() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Tarix"
                                 name="moment"
@@ -643,8 +645,8 @@ function NewEnter() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button
                                 className="add-stock-btn"
                                 onClick={() => setStockDrawer(true)}
@@ -678,8 +680,8 @@ function NewEnter() {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
@@ -690,7 +692,7 @@ function NewEnter() {
                                 key="1"
                             >
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Status"
                                             name="mark"
@@ -702,8 +704,8 @@ function NewEnter() {
                                             <StatusSelect className="detail-select" />
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
@@ -729,8 +731,8 @@ function NewEnter() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
@@ -746,7 +748,7 @@ function NewEnter() {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
@@ -772,10 +774,10 @@ function NewEnter() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
                                 </Row>
                             </Panel>
                         </Collapse>
@@ -783,19 +785,17 @@ function NewEnter() {
                 </Form>
 
                 <Row>
-                    <Col xs={24} md={24} xl={24}>
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Tab
                             className="custom_table_wrapper_tab"
                             panes={panes}
                         />
                     </Col>
-                    <Col xs={24} md={24} xl={24}>
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
-                            <Col xs={24} md={24} xl={9}>
+                            <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
-                                    <Form
-                                        onFieldsChange={handleChanged}
-                                    >
+                                    <Form onFieldsChange={handleChanged}>
                                         <Form.Item name="description">
                                             <TextArea
                                                 ref={myRefDescription}
@@ -806,7 +806,7 @@ function NewEnter() {
                                     </Form>
                                 </div>
                             </Col>
-                            <Col xs={24} md={24} xl={12}>
+                            <Col xs={12} sm={12} md={12} xl={12}>
                                 <div className="static_wrapper">
                                     <Statistic
                                         groupSeparator=" "
@@ -829,22 +829,20 @@ function NewEnter() {
                                         style={{ backgroundColor: "grey" }}
                                     />
                                     <div style={{ marginTop: "20px" }}>
-                                    <Form
-                                        onFieldsChange={handleChanged}
-                                    >
-                                        <Form.Item
-                                            className="comsumption_input_wrapper"
-                                            label="Əlavə xərc"
-                                            onChange={onChangeConsumption}
-                                            name="consumption"
-                                        >
-                                            <Input
-                                                ref={myRefConsumption}
-                                                type="number"
-                                                step="any"
-                                            />
-                                        </Form.Item>
-                                    </Form>
+                                        <Form onFieldsChange={handleChanged}>
+                                            <Form.Item
+                                                className="comsumption_input_wrapper"
+                                                label="Əlavə xərc"
+                                                onChange={onChangeConsumption}
+                                                name="consumption"
+                                            >
+                                                <Input
+                                                    ref={myRefConsumption}
+                                                    type="number"
+                                                    step="any"
+                                                />
+                                            </Form.Item>
+                                        </Form>
                                     </div>
                                 </div>
                             </Col>

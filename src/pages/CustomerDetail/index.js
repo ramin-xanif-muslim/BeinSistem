@@ -202,230 +202,209 @@ function CustomerDetail() {
 				closed={"p=customer"}
 				additional={"none"}
 				editid={cus_id}
-			/>
-			<div className="formWrapper">
-				<Form
-					form={form}
-					id="myForm"
-					style={{ padding: "0px 20px" }}
-					name="basic"
-					initialValues={{
-						name: data.Body.List[0].Name,
-						card: data.Body.List[0].Card,
-						groupid: data.Body.List[0].GroupId,
-						mail: data.Body.List[0].Mail,
-						phone: data.Body.List[0].Phone,
-						description: data.Body.List[0].Description,
-						bonus: data.Body.List[0].Bonus,
-						discount: data.Body.List[0].Discount,
-					}}
-					className=""
-					layout="horizontal"
-					onFinish={handleFinish}
-					onFieldsChange={handleChanged}
-				>
-					<Row>
-						<Col xs={24} md={12} xl={8}>
-							<Row>
-								<Col>
-									<h3 style={{ marginBottom: "2.6rem" }}>
-										Ümumi məlumat
-									</h3>
-								</Col>
-								<Col
-									className="left_wrapper"
-									xs={24}
-									md={24}
-									xl={24}
-								>
-									<Form.Item
-										label="Tərəf-müqabil adı"
-										name="name"
-										rules={[
-											{
-												required: true,
-												message:
-													"Zəhmət olmasa, məhsulun adını qeyd edin..",
-											},
-										]}
-									>
-										<Input
-											className="detail-input"
-											allowClear={true}
-										/>
-									</Form.Item>
-								</Col>
-								<Col
-									className="left_wrapper"
-									xs={24}
-									md={24}
-									xl={24}
-								>
-									<Button
-										className="add-stock-btn"
-										onClick={() =>
-											setCustomerGroupDrawer(true)
-										}
-										// onClick={() => setGroupVisible(true)}
-									>
-										<PlusOutlined />
-									</Button>
-									<Form.Item
-										label="Qrup"
-										name="groupid"
-										className="group_item_wrapper"
-										rules={[
-											{
-												required: true,
-												message:
-													"Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
-											},
-										]}
-									>
-										<Select
-											showSearch
-											className="doc_status_formitem_wrapper_col detail-select"
-											filterOption={false}
-											notFoundContent={
-												<Spin size="small" />
-											}
-											filterOption={(input, option) =>
-												option.children
-													.toLowerCase()
-													.indexOf(
-														input.toLowerCase()
-													) >= 0
-											}
-										>
-											{groupOption}
-										</Select>
-									</Form.Item>
-								</Col>
-								<Col
-									className="left_wrapper"
-									xs={24}
-									md={24}
-									xl={24}
-								>
-									<Form.Item label="Telefon" name="phone">
-										<Input className="detail-input" />
-									</Form.Item>
-								</Col>
-								<Col
-									className="left_wrapper"
-									xs={24}
-									md={24}
-									xl={24}
-								>
-									<Form.Item label="Email" name="email">
-										<Input
-											className="detail-input"
-											type="email"
-										/>
-									</Form.Item>
-								</Col>
-								<Col
-									className="left_wrapper"
-									xs={24}
-									md={24}
-									xl={24}
-								>
-									<Form.Item label="Kart nömrəsi" name="card">
-										<Input
-											className="detail-input"
-											suffix={
-												<SyncOutlined
-													style={{ color: "#0288d1" }}
-													className={"suffixed"}
-													onClick={getBarcode}
-												/>
-											}
-										/>
-									</Form.Item>
-								</Col>
-								<Col xs={24} md={24} xl={24}>
-									<Form.Item name="description" label="Şərh">
-										<TextArea rows={3} />
-									</Form.Item>
-								</Col>
-							</Row>
-						</Col>
-						<Col
-							style={{ paddingLeft: "5rem" }}
-							xs={24}
-							md={24}
-							xl={10}
-						>
-							<div className="tab_wrapper">
-								<Tab
-									menu={{ attached: false }}
-									// onTabChange={handleTabChange}
-									panes={panes}
-								/>
-							</div>
-						</Col>
-					</Row>
-					<Row>
-						<Col xs={24} md={24} xl={8}>
-							<Collapse ghost>
-								<Panel
-									className="custom_panel_header"
-									header="Təyinat"
-									key="1"
-								>
-									<Form.Item
-										label={"Cavabdeh"}
-										name="ownerid"
-									>
-										<Select
-											className="detail-select"
-											showSearch
-											filterOption={false}
-											notFoundContent={
-												<Spin size="small" />
-											}
-											filterOption={(input, option) =>
-												option.label
-													.toLowerCase()
-													.indexOf(
-														input.toLowerCase()
-													) >= 0
-											}
-										>
-											{ownerOption}
-										</Select>
-									</Form.Item>
-									<Form.Item
-										label={"Şöbə"}
-										name="departmentid"
-									>
-										<Select
-											showSearch
-											className="detail-select"
-											filterOption={false}
-											notFoundContent={
-												<Spin size="small" />
-											}
-											filterOption={(input, option) =>
-												option.label
-													.toLowerCase()
-													.indexOf(
-														input.toLowerCase()
-													) >= 0
-											}
-										>
-											{departmentOption}
-										</Select>
-									</Form.Item>
-								</Panel>
-							</Collapse>
-						</Col>
-					</Row>
-				</Form>
-			</div>
-			<CustomerGroupDrawer />
-		</div>
-	);
+            />
+            <div className="formWrapper">
+                <Form
+                    form={form}
+                    id="myForm"
+                    style={{ padding: "0px 20px" }}
+                    name="basic"
+                    initialValues={{
+                        name: data.Body.List[0].Name,
+                        card: data.Body.List[0].Card,
+                        groupid: data.Body.List[0].GroupId,
+                        mail: data.Body.List[0].Mail,
+                        phone: data.Body.List[0].Phone,
+                        description: data.Body.List[0].Description,
+                        bonus: data.Body.List[0].Bonus,
+                        discount: data.Body.List[0].Discount,
+                    }}
+                    className=""
+                    layout="horizontal"
+                    onFinish={handleFinish}
+                    onFieldsChange={handleChanged}
+                >
+                    <Row>
+                        <Col xs={8} sm={8} md={8} xl={8}>
+                            <Row>
+                                <Col>
+                                    <h3 style={{ marginBottom: "2.6rem" }}>
+                                        Ümumi məlumat
+                                    </h3>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24} sm={24} md={24} xl={24}
+                                >
+                                    <Form.Item
+                                        label="Tərəf-müqabil adı"
+                                        name="name"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    "Zəhmət olmasa, məhsulun adını qeyd edin..",
+                                            },
+                                        ]}
+                                    >
+                                        <Input
+                                            className="detail-input"
+                                            allowClear={true}
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24} sm={24} md={24} xl={24}
+                                >
+                                    <Button
+                                        className="add-stock-btn"
+                                        onClick={() => setCustomerGroupDrawer(true)}
+                                        // onClick={() => setGroupVisible(true)}
+                                    >
+                                        <PlusOutlined />
+                                    </Button>
+                                    <Form.Item
+                                        label="Qrup"
+                                        name="groupid"
+                                        className="group_item_wrapper"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
+                                            },
+                                        ]}
+                                    >
+                                        <Select
+                                            showSearch
+                                            className="doc_status_formitem_wrapper_col detail-select"
+                                            filterOption={false}
+                                            notFoundContent={
+                                                <Spin size="small" />
+                                            }
+                                        >
+                                            {groupOption}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24} sm={24} md={24} xl={24}
+                                >
+                                    <Form.Item label="Telefon" name="phone">
+                                        <Input className="detail-input" />
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24} sm={24} md={24} xl={24}
+                                >
+                                    <Form.Item label="Email" name="email">
+                                        <Input
+                                            className="detail-input"
+                                            type="email"
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col
+                                    className="left_wrapper"
+                                    xs={24} sm={24} md={24} xl={24}
+                                >
+                                    <Form.Item label="Kart nömrəsi" name="card">
+                                        <Input
+                                            className="detail-input"
+                                            suffix={
+                                                <SyncOutlined
+                                                    style={{ color: "#0288d1" }}
+                                                    className={"suffixed"}
+                                                    onClick={getBarcode}
+                                                />
+                                            }
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col xs={24} sm={24} md={24} xl={24}>
+                                    <Form.Item name="description" label="Şərh">
+                                        <TextArea rows={3} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col
+                            style={{ paddingLeft: "5rem" }}
+                            xs={10} sm={10} md={10} xl={10}
+                        >
+                            <div className="tab_wrapper">
+                                <Tab
+                                    menu={{ attached: false }}
+                                    // onTabChange={handleTabChange}
+                                    panes={panes}
+                                />
+                            </div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={8} sm={8} md={8} xl={8}>
+                            <Collapse ghost>
+                                <Panel
+                                    className="custom_panel_header"
+                                    header="Təyinat"
+                                    key="1"
+                                >
+                                    <Form.Item
+                                        label={"Cavabdeh"}
+                                        name="ownerid"
+                                    >
+                                        <Select
+                                            className="detail-select"
+                                            showSearch
+                                            filterOption={false}
+                                            notFoundContent={
+                                                <Spin size="small" />
+                                            }
+                                            filterOption={(input, option) =>
+                                                option.label
+                                                    .toLowerCase()
+                                                    .indexOf(
+                                                        input.toLowerCase()
+                                                    ) >= 0
+                                            }
+                                        >
+                                            {ownerOption}
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label={"Şöbə"}
+                                        name="departmentid"
+                                    >
+                                        <Select
+                                            showSearch
+                                            className="detail-select"
+                                            filterOption={false}
+                                            notFoundContent={
+                                                <Spin size="small" />
+                                            }
+                                            filterOption={(input, option) =>
+                                                option.label
+                                                    .toLowerCase()
+                                                    .indexOf(
+                                                        input.toLowerCase()
+                                                    ) >= 0
+                                            }
+                                        >
+                                            {departmentOption}
+                                        </Select>
+                                    </Form.Item>
+                                </Panel>
+                            </Collapse>
+                        </Col>
+                    </Row>
+                </Form>
+            </div>
+            <CustomerGroupDrawer />
+        </div>
+    );
 }
 
 export default CustomerDetail;

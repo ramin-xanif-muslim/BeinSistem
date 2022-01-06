@@ -8,10 +8,10 @@ function Download() {
     return (
         <div>
             <Row className={s.rowCenter}>
-                <Col xs={24} md={24} xl={12}>
+                <Col xs={12} sm={12} md={12} xl={12}>
                     <img src={img_pos} alt="POS"></img>
                 </Col>
-                <Col xs={24} md={24} xl={10} className={s.colCenter}>
+                <Col xs={10} sm={10} md={10} xl={10} className={s.colCenter}>
                     <div>
                         <h1>Kassa programı</h1>
                         <p>

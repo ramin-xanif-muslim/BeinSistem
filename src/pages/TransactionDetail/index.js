@@ -69,58 +69,58 @@ let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
 function PaymentInDetail() {
-    const [form] = Form.useForm();
-    const queryClient = useQueryClient();
-    const myRefDescription = useRef(null);
-    const myRefConsumption = useRef(null);
-    const {
-        outerDataSource,
-        setOuterDataSource,
-        departments,
-        owners,
-        setCustomersLocalStorage,
-        customers,
-        setCustomers,
-        spenditems,
-        setSpendItems,
-        setSpendsLocalStorage,
-        setDisable,
-        disable,
-    } = useTableCustom();
-    const { docmark, setLoadingForm, setCustomerDrawer } = useCustomForm();
-    const [positions, setPositions] = useState([]);
-    const [redirect, setRedirect] = useState(false);
-    const [editId, setEditId] = useState(null);
-    const [docname, setDocName] = useState(null);
-    const [newStocksLoad, setNewStocksLoad] = useState(null);
-    const [hasConsumption, setHasConsumption] = useState(false);
-    const [consumption, setConsumption] = useState(0);
-    const [status, setStatus] = useState(false);
-    const [initial, setInitial] = useState(null);
-    const [tablecolumns, setTableColumns] = useState([]);
-    const [columnChange, setColumnChange] = useState(false);
-    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-    const [spends, setSpends] = useState(false);
-    const [handleMark, setHandleMark] = useState(null);
-    const [customerloading, setcustomerloading] = useState(false);
-    const [expenditure, setExpenditure] = useState(false);
+	const [form] = Form.useForm();
+	const queryClient = useQueryClient();
+	const myRefDescription = useRef(null);
+	const myRefConsumption = useRef(null);
+	const {
+		outerDataSource,
+		setOuterDataSource,
+		departments,
+		owners,
+		setCustomersLocalStorage,
+		customers,
+		setCustomers,
+		spenditems,
+		setSpendItems,
+		setSpendsLocalStorage,
+		setDisable,
+		disable,
+	} = useTableCustom();
+	const { docmark, setLoadingForm, setCustomerDrawer } = useCustomForm();
+	const [positions, setPositions] = useState([]);
+	const [redirect, setRedirect] = useState(false);
+	const [editId, setEditId] = useState(null);
+	const [docname, setDocName] = useState(null);
+	const [newStocksLoad, setNewStocksLoad] = useState(null);
+	const [hasConsumption, setHasConsumption] = useState(false);
+	const [consumption, setConsumption] = useState(0);
+	const [status, setStatus] = useState(false);
+	const [initial, setInitial] = useState(null);
+	const [tablecolumns, setTableColumns] = useState([]);
+	const [columnChange, setColumnChange] = useState(false);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+	const [spends, setSpends] = useState(false);
+	const [handleMark, setHandleMark] = useState(null);
+	const [customerloading, setcustomerloading] = useState(false);
+	const [expenditure, setExpenditure] = useState(false);
 
-    const {debt, setCustomerId} = useFetchDebt()
+	const { debt, setCustomerId } = useFetchDebt();
 
-    const { doc_id } = useParams();
-    const { isLoading, error, data, isFetching } = useQuery(
-        ["paymentin", doc_id],
-        () => fetchDocId(doc_id, "paymentins")
-    );
-    const handleDelete = (key) => {
-        const dataSource = [...outerDataSource];
-        setOuterDataSource(dataSource.filter((item) => item.key !== key));
-        setPositions(dataSource.filter((item) => item.key !== key));
-    };
-    useEffect(() => {
-        setDisable(true);
-        setPositions([]);
-        setOuterDataSource([]);
+	const { doc_id } = useParams();
+	const { isLoading, error, data, isFetching } = useQuery(
+		["paymentin", doc_id],
+		() => fetchDocId(doc_id, "paymentins")
+	);
+	const handleDelete = (key) => {
+		const dataSource = [...outerDataSource];
+		setOuterDataSource(dataSource.filter((item) => item.key !== key));
+		setPositions(dataSource.filter((item) => item.key !== key));
+	};
+	useEffect(() => {
+		setDisable(true);
+		setPositions([]);
+		setOuterDataSource([]);
 
 		return () => {
 			setDisable(true);
@@ -150,7 +150,7 @@ function PaymentInDetail() {
 
 	useEffect(() => {
 		if (!isFetching) {
-            setCustomerId(data.Body.List[0].CustomerId);
+			setCustomerId(data.Body.List[0].CustomerId);
 			setHandleMark(data.Body.List[0] ? data.Body.List[0].Mark : "");
 			setStatus(data.Body.List[0].Status);
 		}
@@ -337,8 +337,9 @@ function PaymentInDetail() {
 							mark: data.Body.List[0].Mark,
 							description: data.Body.List[0].Description,
 							linkid: data.Body.List[0].LinkId,
-                            status: data.Body.List[0].Status == 1 ? true : false,
-                            // status: true,
+							status:
+								data.Body.List[0].Status == 1 ? true : false,
+							// status: true,
 							spenditem: data.Body.List[0].SpendItem,
 						}}
 						onFinish={handleFinish}
@@ -346,7 +347,7 @@ function PaymentInDetail() {
 						layout="horizontal"
 					>
 						<Row>
-							<Col xs={24} md={24} xl={6}>
+							<Col xs={6} sm={6} md={6} xl={6}>
 								<Form.Item
 									label="Məxaric №"
 									name="name"
@@ -361,8 +362,8 @@ function PaymentInDetail() {
 									/>
 								</Form.Item>
 							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}>
+							<Col xs={3} sm={3} md={3} xl={3}></Col>
+							<Col xs={6} sm={6} md={6} xl={6}>
 								<Form.Item
 									label="Məbləğ"
 									name="amount"
@@ -379,140 +380,141 @@ function PaymentInDetail() {
 									/>
 								</Form.Item>
 							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}></Col>
+							<Col xs={3} sm={3} md={3} xl={3}></Col>
+							<Col xs={6} sm={6} md={6} xl={6}></Col>
 						</Row>
-                        <Row>
-                            <Col xs={24} md={24} xl={6}>
-                                <Form.Item
-                                    label="Tarix"
-                                    name="moment"
-                                    style={{ width: "100%" }}
-                                >
-                                    <DatePicker
-                                        className="detail-input"
-                                        showTime={{ format: "HH:mm:ss" }}
-                                        format="YYYY-MM-DD HH:mm:ss"
-                                    />
-                                </Form.Item>
-                            </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
-                                <Button className="add-stock-btn">
-                                    <PlusOutlined
-                                        onClick={() => setCustomerDrawer(true)}
-                                    />
-                                </Button>
-                                <Form.Item
-                                    label="Qarşı-tərəf"
-                                    name="customerid"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message:
-                                                "Zəhmət olmasa, qarşı tərəfi seçin",
-                                        },
-                                    ]}
-                                    className="form-item-customer"
-                                >
-                                    <Select
-                                        showSearch
-                                        showArrow={false}
-                                        filterOption={false}
-                                        className="customSelect detail-select"
-                                        allowClear={true}
-                                        onChange={e => setCustomerId(e)}
-                                    filterOption={(input, option) =>
-                                        option.children
-                                            .toLowerCase()
-                                            .indexOf(input.toLowerCase()) >= 0
-                                    }
-                                    >
-                                        {customerOptions}
-                                    </Select>
-                                </Form.Item>
-                                <p
-                                    className="customer-debt"
-                                    style={debt < 0 ? { color: "red" } : {}}
-                                >
-                                    <span style={{ color: "red" }}>
-                                        Qalıq borc:
-                                    </span>
-                                    {debt} ₼
-                                </p>
-                            </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
-                        </Row>
+						<Row>
+							<Col xs={6} sm={6} md={6} xl={6}>
+								<Form.Item
+									label="Tarix"
+									name="moment"
+									style={{ width: "100%" }}
+								>
+									<DatePicker
+										className="detail-input"
+										showTime={{ format: "HH:mm:ss" }}
+										format="YYYY-MM-DD HH:mm:ss"
+									/>
+								</Form.Item>
+							</Col>
+							<Col xs={3} sm={3} md={3} xl={3}></Col>
+							<Col xs={6} sm={6} md={6} xl={6}>
+								<Button className="add-stock-btn">
+									<PlusOutlined
+										onClick={() => setCustomerDrawer(true)}
+									/>
+								</Button>
+								<Form.Item
+									label="Qarşı-tərəf"
+									name="customerid"
+									rules={[
+										{
+											required: true,
+											message:
+												"Zəhmət olmasa, qarşı tərəfi seçin",
+										},
+									]}
+									className="form-item-customer"
+								>
+									<Select
+										showSearch
+										showArrow={false}
+										filterOption={false}
+										className="customSelect detail-select"
+										allowClear={true}
+										onChange={(e) => setCustomerId(e)}
+										filterOption={(input, option) =>
+											option.children
+												.toLowerCase()
+												.indexOf(input.toLowerCase()) >=
+											0
+										}
+									>
+										{customerOptions}
+									</Select>
+								</Form.Item>
+								<p
+									className="customer-debt"
+									style={debt < 0 ? { color: "red" } : {}}
+								>
+									<span style={{ color: "red" }}>
+										Qalıq borc:
+									</span>
+									{debt} ₼
+								</p>
+							</Col>
+							<Col xs={3} sm={3} md={3} xl={3}></Col>
+							<Col xs={6} sm={6} md={6} xl={6}></Col>
+						</Row>
 
-                        <Row>
-                            <Col xs={24} md={24} xl={6}>
-                                <Form.Item
-                                    label="Şərh"
-                                    name="description"
-                                    style={{ margin: "0", width: "100%" }}
-                                >
-                                    <TextArea
-                                        showCount
-                                        maxLength={100}
-                                        style={{ width: "100%" }}
-                                    />
-                                </Form.Item>
-                            </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
-                                <Form.Item
-                                    label="Xərc maddəsi"
-                                    name="spenditem"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message:
-                                                "Zəhmət olmasa, xərc maddəsini seçin",
-                                        },
-                                    ]}
-                                >
-                                    <Select
-                                        showSearch
-                                        showArrow={false}
-                                        className="customSelect detail-select"
-                                        notFoundContent={<Spin size="small" />}
-                                        onChange={onChangeSpendItem}
-                                        allowClear={true}
-                                        filterOption={(input, option) =>
-                                            option.children
-                                                .toLowerCase()
-                                                .indexOf(input.toLowerCase()) >=
-                                            0
-                                        }
-                                    >
-                                        {spends
-                                            ? Object.values(spenditems)
-                                                  .filter(
-                                                      (item) =>
-                                                          item.StaticName ===
-                                                              "buyproduct" ||
-                                                          item.StaticName ===
-                                                              "correct"
-                                                  )
-                                                  .map((c) => (
-                                                      <Option
-                                                          staticname={
-                                                              c.StaticName
-                                                          }
-                                                          key={c.Id}
-                                                          value={c.Id}
-                                                      >
-                                                          {c.Name}
-                                                      </Option>
-                                                  ))
-                                            : null}
-                                    </Select>
-                                </Form.Item>
-                            </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
-                        </Row>
+						<Row>
+							<Col xs={6} sm={6} md={6} xl={6}>
+								<Form.Item
+									label="Şərh"
+									name="description"
+									style={{ margin: "0", width: "100%" }}
+								>
+									<TextArea
+										showCount
+										maxLength={100}
+										style={{ width: "100%" }}
+									/>
+								</Form.Item>
+							</Col>
+							<Col xs={3} sm={3} md={3} xl={3}></Col>
+							<Col xs={6} sm={6} md={6} xl={6}>
+								<Form.Item
+									label="Xərc maddəsi"
+									name="spenditem"
+									rules={[
+										{
+											required: true,
+											message:
+												"Zəhmət olmasa, xərc maddəsini seçin",
+										},
+									]}
+								>
+									<Select
+										showSearch
+										showArrow={false}
+										className="customSelect detail-select"
+										notFoundContent={<Spin size="small" />}
+										onChange={onChangeSpendItem}
+										allowClear={true}
+										filterOption={(input, option) =>
+											option.children
+												.toLowerCase()
+												.indexOf(input.toLowerCase()) >=
+											0
+										}
+									>
+										{spends
+											? Object.values(spenditems)
+													.filter(
+														(item) =>
+															item.StaticName ===
+																"buyproduct" ||
+															item.StaticName ===
+																"correct"
+													)
+													.map((c) => (
+														<Option
+															staticname={
+																c.StaticName
+															}
+															key={c.Id}
+															value={c.Id}
+														>
+															{c.Name}
+														</Option>
+													))
+											: null}
+									</Select>
+								</Form.Item>
+							</Col>
+							<Col xs={3} sm={3} md={3} xl={3}></Col>
+							<Col xs={6} sm={6} md={6} xl={6}></Col>
+						</Row>
 
 						<Row>
 							<Collapse ghost style={{ width: "100%" }}>
@@ -522,7 +524,7 @@ function PaymentInDetail() {
 									key="1"
 								>
 									<Row>
-										<Col xs={24} md={24} xl={6}>
+										<Col xs={6} sm={6} md={6} xl={6}>
 											<Form.Item
 												label="Cavabdeh"
 												name="ownerid"
@@ -550,29 +552,29 @@ function PaymentInDetail() {
 												</Select>
 											</Form.Item>
 										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}>
-                                        <Form.Item
-                                            label="Keçirilib"
-                                            className="docComponentStatus"
-                                            onChange={(e) =>
-                                                setStatus(e.target.checked)
-                                            }
-                                            name="status"
-                                            valuePropName="checked"
-                                            style={{ width: "100%" }}
-                                        >
-                                            <Checkbox
-                                                size="small"
-                                                name="status"
-                                            ></Checkbox>
-                                        </Form.Item>
+										<Col xs={3} sm={3} md={3} xl={3}></Col>
+										<Col xs={6} sm={6} md={6} xl={6}>
+											<Form.Item
+												label="Keçirilib"
+												className="docComponentStatus"
+												onChange={(e) =>
+													setStatus(e.target.checked)
+												}
+												name="status"
+												valuePropName="checked"
+												style={{ width: "100%" }}
+											>
+												<Checkbox
+													size="small"
+													name="status"
+												></Checkbox>
+											</Form.Item>
 										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}></Col>
+										<Col xs={3} sm={3} md={3} xl={3}></Col>
+										<Col xs={6} sm={6} md={6} xl={6}></Col>
 									</Row>
 									<Row>
-										<Col xs={24} md={24} xl={6}>
+										<Col xs={6} sm={6} md={6} xl={6}>
 											<Form.Item
 												label="Şöbə"
 												name="departmentid"
@@ -600,8 +602,8 @@ function PaymentInDetail() {
 												</Select>
 											</Form.Item>
 										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}>
+										<Col xs={3} sm={3} md={3} xl={3}></Col>
+										<Col xs={6} sm={6} md={6} xl={6}>
 											<Form.Item
 												label="Status"
 												name="mark"
@@ -613,8 +615,8 @@ function PaymentInDetail() {
 												<StatusSelect />
 											</Form.Item>
 										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}></Col>
+										<Col xs={3} sm={3} md={3} xl={3}></Col>
+										<Col xs={6} sm={6} md={6} xl={6}></Col>
 									</Row>
 								</Panel>
 							</Collapse>

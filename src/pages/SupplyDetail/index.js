@@ -572,9 +572,7 @@ function SupplyDetail() {
                 <Tab.Pane attached={false}>
                     <Row style={{ justifyContent: "space-between" }}>
                         <Col
-                            xs={24}
-                            md={24}
-                            xl={9}
+                            xs={9} sm={9} md={9} xl={9}
                             style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
                         >
                             <div className="addProductInputIcon">
@@ -596,9 +594,7 @@ function SupplyDetail() {
                             </Button>
                         </Dropdown>
                         <Col
-                            xs={24}
-                            md={24}
-                            xl={24}
+                            xs={24} sm={24} md={24} xl={24}
                             style={{ paddingTop: "1rem", zIndex: "0" }}
                         >
                             <DocTable
@@ -655,7 +651,7 @@ function SupplyDetail() {
                     layout="horizontal"
                 >
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Alış №"
                                 name="name"
@@ -669,8 +665,8 @@ function SupplyDetail() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     onClick={() => setCustomerDrawer(true)}
@@ -714,12 +710,12 @@ function SupplyDetail() {
                                 {debt} ₼
                             </p>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Tarix"
                                 name="moment"
@@ -732,8 +728,8 @@ function SupplyDetail() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     onClick={() => setStockDrawer(true)}
@@ -766,8 +762,8 @@ function SupplyDetail() {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
@@ -778,7 +774,7 @@ function SupplyDetail() {
                                 key="1"
                             >
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Status"
                                             name="mark"
@@ -790,8 +786,8 @@ function SupplyDetail() {
                                             <StatusSelect />
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
@@ -816,8 +812,8 @@ function SupplyDetail() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
@@ -833,7 +829,7 @@ function SupplyDetail() {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
@@ -858,10 +854,10 @@ function SupplyDetail() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
                                 </Row>
                             </Panel>
                         </Collapse>
@@ -871,16 +867,16 @@ function SupplyDetail() {
                 <Row>
                     { isFetching ? <Spin />
                         :
-                        <Col xs={24} md={24} xl={24}>
+                        <Col xs={24} sm={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
                     }
-                    <Col xs={24} md={24} xl={24}>
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
-                            <Col xs={24} md={24} xl={9}>
+                            <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
 									<Form
 										initialValues={{
@@ -898,7 +894,7 @@ function SupplyDetail() {
 									</Form>
                                 </div>
                             </Col>
-                            <Col xs={24} md={24} xl={12}>
+                            <Col xs={12} sm={12} md={12} xl={12}>
                                 <div className="static_wrapper">
                                     <Statistic
                                         groupSeparator=" "
