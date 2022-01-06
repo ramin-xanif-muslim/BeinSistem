@@ -99,7 +99,7 @@ function EnterDetail() {
     const [redirect, setRedirect] = useState(false);
     const { doc_id } = useParams();
     const [hasConsumption, setHasConsumption] = useState(false);
-    const [status, setStatus] = useState(false);
+    const [status, setStatus] = useState(true);
     const [consumption, setConsumption] = useState(0);
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
@@ -445,7 +445,9 @@ function EnterDetail() {
             myRefDescription.current.resizableTextArea.props.value;
         values.consumption =
             myRefConsumption.current.clearableInput.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         message.loading({ content: "Loading...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "documents", filter: values },
@@ -600,9 +602,6 @@ function EnterDetail() {
                     id="myForm"
                     className="doc_forms"
                     name="basic"
-                    initialValues={{
-                        status: true,
-                    }}
                     labelCol={{
                         span: 8,
                     }}
@@ -736,6 +735,9 @@ function EnterDetail() {
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                         >
                                             <Checkbox
                                                 size="small"

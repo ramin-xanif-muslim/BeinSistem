@@ -51,11 +51,13 @@ function PaymentOutModal({ datas, title, endPoint }) {
     const [spends, setSpends] = useState(false);
     const [newStocksLoad, setNewStocksLoad] = useState(null);
 	const [expenditure, setExpenditure] = useState(false);
+    const [status, setStatus] = useState(false);
 
     const {debt, setCustomerId, customerId} = useFetchDebt()
 
     useEffect(() => {
         setCustomerId(datas.CustomerId)
+        setStatus(datas.Status);
     }, []);
     useEffect(() => {
         if (isPayment) getSpendItems();
@@ -138,6 +140,9 @@ function PaymentOutModal({ datas, title, endPoint }) {
     const handleFinish = async (values) => {
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.customerid = customerId;
+        if (!values.status) {
+            values.status = status;
+        }
         message.loading({ content: "Loading...", key: "payment_update" });
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
@@ -390,6 +395,9 @@ function PaymentOutModal({ datas, title, endPoint }) {
                                         name="status"
                                         valuePropName="checked"
                                         style={{ width: "100%" }}
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                     >
                                         <Checkbox name="status"></Checkbox>
                                     </Form.Item>

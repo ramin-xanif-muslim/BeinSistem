@@ -60,6 +60,7 @@ import {
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems } from "../../hooks";
+import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -684,7 +685,7 @@ function SupplyDetail() {
                                 ]}
                                 className="form-item-customer"
                             >
-                                <Select
+                                {/* <Select
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
@@ -698,7 +699,9 @@ function SupplyDetail() {
                                     }
                                 >
                                     {customerOptions}
-                                </Select>
+                                </Select> */}
+                                <CustomersSelectInput 
+                                setCustomerId={setCustomerId} />
                             </Form.Item>
                             <p
                                 className="customer-debt"

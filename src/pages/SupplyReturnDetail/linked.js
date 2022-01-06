@@ -104,6 +104,8 @@ function SupplyReturnLinked(props) {
     };
 
     useEffect(() => {
+        console.log(props.location.state.data.Positions)
+        setPositions(props.location.state.position)
         setStatus(props.location.state.data.Status)
         setCustomerId(props.location.state.data.CustomerId)
     },[])
