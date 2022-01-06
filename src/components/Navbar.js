@@ -19,6 +19,7 @@ import {
     fetchNotification,
 } from "../api";
 import "../Navbar.css";
+import { useNotification } from "../hooks/useNotification";
 function Navbar() {
     const {
         setMark,
@@ -37,6 +38,8 @@ function Navbar() {
         setBalance,
     } = useTableCustom();
     const { firstLogin, logout } = useAuth();
+
+    const { getNotification, notificationsCount } = useNotification()
 
     const [menu, setMenu] = useState("2");
     const [noBalance, setNoBalance] = useState(true);
@@ -90,6 +93,17 @@ function Navbar() {
         setStock(stockResponse.Body.List);
         setStockLocalStorage(stockResponse.Body.List);
     };
+    const onClickNotification = () => {
+        getNotification()
+        // setIsNotificationModalVisible(true)
+    }
+
+    useEffect(() => {
+        const intervalId = setInterval(() => { 
+            onClickNotification()
+        }, 10000)
+        return () => clearInterval(intervalId)
+    },[])
 
     useEffect(() => {
         getBalance();
@@ -189,8 +203,10 @@ function Navbar() {
                             src={`/images/help.png`}
                         />
                     </Menu.Item>
-                    <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
-                        <Badge count={notificationCount} size="small">
+                    <Menu.Item 
+                        onClick={() => onClickNotification()}
+                        className="main_header_items custom_flex_direction profile_icons_wrapper">
+                        <Badge count={notificationsCount} size="small">
                             <img
                                 className="small_logo_pics custom_width"
                                 src={`/images/notification.png`}
