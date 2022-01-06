@@ -256,9 +256,7 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24}
-                                    md={24}
-                                    xl={24}
+                                    xs={24} sm={24} md={24} xl={24}
                                 >
                                     <Form.Item
                                         label="Tərəf-müqabil adı"
@@ -279,9 +277,7 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24}
-                                    md={24}
-                                    xl={24}
+                                    xs={24} sm={24} md={24} xl={24}
                                 >
                                     <Button
                                         className="add-stock-btn"
@@ -315,9 +311,7 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24}
-                                    md={24}
-                                    xl={24}
+                                    xs={24} sm={24} md={24} xl={24}
                                 >
                                     <Form.Item label="Telefon" name="phone">
                                         <Input className="detail-input" />
@@ -325,9 +319,7 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24}
-                                    md={24}
-                                    xl={24}
+                                    xs={24} sm={24} md={24} xl={24}
                                 >
                                     <Form.Item label="Email" name="email">
                                         <Input
@@ -338,9 +330,7 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24}
-                                    md={24}
-                                    xl={24}
+                                    xs={24} sm={24} md={24} xl={24}
                                 >
                                     <Form.Item label="Kart nömrəsi" name="card">
                                         <Input
@@ -355,7 +345,7 @@ function NewCustomer() {
                                         />
                                     </Form.Item>
                                 </Col>
-                                <Col xs={24} md={24} xl={24}>
+                                <Col xs={24} sm={24} md={24} xl={24}>
                                     <Form.Item name="description" label="Şərh">
                                         <TextArea rows={3} />
                                     </Form.Item>
@@ -364,9 +354,7 @@ function NewCustomer() {
                         </Col>
                         <Col
                             style={{ paddingLeft: "5rem" }}
-                            xs={24}
-                            md={24}
-                            xl={10}
+                            xs={10} sm={10} md={10} xl={10}
                         >
                             <div className="tab_wrapper">
                                 <Tab
@@ -378,7 +366,7 @@ function NewCustomer() {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs={24} md={24} xl={8}>
+                        <Col xs={8} sm={8} md={8} xl={8}>
                             <Collapse ghost>
                                 <Panel
                                     className="custom_panel_header"

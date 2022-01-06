@@ -350,7 +350,7 @@ function IvoiceInDetail() {
                         layout="horizontal"
                     >
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Məxaric №"
                                     name="name"
@@ -365,8 +365,8 @@ function IvoiceInDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Məbləğ"
                                     name="amount"
@@ -383,12 +383,12 @@ function IvoiceInDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Tarix"
                                     name="moment"
@@ -401,8 +401,8 @@ function IvoiceInDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
                                         onClick={() => setCustomerDrawer(true)}
@@ -441,12 +441,12 @@ function IvoiceInDetail() {
                                     {debt} ₼
                                 </p>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Şərh"
                                     name="description"
@@ -459,8 +459,8 @@ function IvoiceInDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Xərc maddəsi"
                                     name="spenditem"
@@ -510,8 +510,8 @@ function IvoiceInDetail() {
                                     </Select>
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
                         <Row>
@@ -522,7 +522,7 @@ function IvoiceInDetail() {
                                     key="1"
                                 >
                                     <Row>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Cavabdeh"
                                                 name="ownerid"
@@ -550,8 +550,8 @@ function IvoiceInDetail() {
                                                 </Select>
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
@@ -565,11 +565,11 @@ function IvoiceInDetail() {
                                                 <Checkbox name="status"></Checkbox>
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}></Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                                     </Row>
                                     <Row>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Şöbə"
                                                 name="departmentid"
@@ -597,8 +597,8 @@ function IvoiceInDetail() {
                                                 </Select>
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Status"
                                                 name="mark"
@@ -610,8 +610,8 @@ function IvoiceInDetail() {
                                                 <StatusSelect />
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}></Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                                     </Row>
                                 </Panel>
                             </Collapse>

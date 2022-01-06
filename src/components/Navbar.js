@@ -190,7 +190,7 @@ function Navbar() {
                         />
                     </Menu.Item>
                     <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
-                        <Badge count={notificationCount} size="small">
+                        <Badge count={4} size="small">
                             <img
                                 className="small_logo_pics custom_width"
                                 src={`/images/notification.png`}

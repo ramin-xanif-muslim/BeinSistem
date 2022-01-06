@@ -761,6 +761,9 @@ tbody .ant-table-cell {
     .doc_wrapper {
         width: 400% !important;
     }
+    .filter_wrapper {
+        width: 320vw;
+    }
 
     .product_wrapper .ant-form .ant-form-item .ant-form-item-label {
         flex: unset !important;
@@ -768,5 +771,9 @@ tbody .ant-table-cell {
 
     .ant-form-horizontal .ant-form-item-control {
         flex: 1 1 !important;
+    }
+
+    .ant-form .ant-form-item .ant-form-item-label {
+        max-width: 0;
     }
 }

@@ -172,8 +172,9 @@ function NewProductGroup() {
                 >
                     <Row>
                         <Col
-                            xs={24}
-                            md={20}
+                            xs={8}
+                            sm={8}
+                            md={8}
                             xl={8}
                             className="left_form_wrapper"
                         >

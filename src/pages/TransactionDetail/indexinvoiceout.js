@@ -315,7 +315,7 @@ function PaymentOutDetail() {
                         layout="horizontal"
                     >
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Məxaric №"
                                     name="name"
@@ -330,8 +330,8 @@ function PaymentOutDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Məbləğ"
                                     name="amount"
@@ -348,12 +348,12 @@ function PaymentOutDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Tarix"
                                     name="moment"
@@ -366,8 +366,8 @@ function PaymentOutDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
                                         onClick={() => setCustomerDrawer(true)}
@@ -406,12 +406,12 @@ function PaymentOutDetail() {
                                     {debt} ₼
                                 </p>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Şərh"
                                     name="description"
@@ -424,8 +424,8 @@ function PaymentOutDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
                                     // onClick={() => setExpenditure(true)}
@@ -474,8 +474,8 @@ function PaymentOutDetail() {
                                     </Select>
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
                         <Row>
@@ -486,7 +486,7 @@ function PaymentOutDetail() {
                                     key="1"
                                 >
                                     <Row>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Cavabdeh"
                                                 name="ownerid"
@@ -514,8 +514,8 @@ function PaymentOutDetail() {
                                                 </Select>
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
@@ -529,11 +529,11 @@ function PaymentOutDetail() {
                                                 <Checkbox name="status"></Checkbox>
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}></Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                                     </Row>
                                     <Row>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Şöbə"
                                                 name="departmentid"
@@ -561,8 +561,8 @@ function PaymentOutDetail() {
                                                 </Select>
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
                                             <Form.Item
                                                 label="Status"
                                                 name="mark"
@@ -574,8 +574,8 @@ function PaymentOutDetail() {
                                                 <StatusSelect />
                                             </Form.Item>
                                         </Col>
-                                        <Col xs={24} md={24} xl={3}></Col>
-                                        <Col xs={24} md={24} xl={6}></Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                                     </Row>
                                 </Panel>
                             </Collapse>

@@ -50,7 +50,7 @@ import {
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import ProductGroupModal from "../../components/ProductGroupModal";
-import { useCustomForm } from "../../contexts/FormContext"; 
+import { useCustomForm } from "../../contexts/FormContext";
 import StockDrawer from "../../components/StockDrawer";
 
 const { Option } = Select;
@@ -200,8 +200,9 @@ function NewSalePoint() {
                 >
                     <Row>
                         <Col
-                            xs={24}
-                            md={20}
+                            xs={8}
+                            sm={8}
+                            md={8}
                             xl={8}
                             className="left_form_wrapper"
                         >
@@ -224,7 +225,7 @@ function NewSalePoint() {
                             </Form.Item>
                             <Button className="add-group-btn">
                                 <PlusOutlined
-                                onClick={() => setStockDrawer(true)}
+                                    onClick={() => setStockDrawer(true)}
                                 />
                             </Button>
                             <Form.Item

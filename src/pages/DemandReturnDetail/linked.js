@@ -365,16 +365,14 @@ function DemandReturnLinked(props) {
             render: () => (
                 <Tab.Pane attached={false}>
                     <Row>
-                        <Col xs={24} md={24} xl={9}>
+                        <Col xs={9} sm={9} md={9} xl={9}>
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
                                 <PlusOutlined className="addNewProductIcon" />
                             </div>
                         </Col>
                         <Col
-                            xs={24}
-                            md={24}
-                            xl={24}
+                            xs={24} sm={24} md={24} xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
                             <DocTable headers={columns} datas={props.location.state.data.Positions} />
@@ -428,7 +426,7 @@ function DemandReturnLinked(props) {
                     layout="horizontal"
                 >
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Qaytarma №"
                                 name="name"
@@ -442,8 +440,8 @@ function DemandReturnLinked(props) {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                 // onClick={() => setCustomerDrawer(true)}
@@ -483,12 +481,12 @@ function DemandReturnLinked(props) {
                                 {debt} ₼
                             </p>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Tarix"
                                 name="moment"
@@ -502,8 +500,8 @@ function DemandReturnLinked(props) {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     // onClick={() => setStockDrawer(true)}
@@ -532,8 +530,8 @@ function DemandReturnLinked(props) {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
@@ -544,7 +542,7 @@ function DemandReturnLinked(props) {
                                 key="1"
                             >
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Status"
                                             name="mark"
@@ -556,8 +554,8 @@ function DemandReturnLinked(props) {
                                             <StatusSelect />
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
@@ -583,8 +581,8 @@ function DemandReturnLinked(props) {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
@@ -600,7 +598,7 @@ function DemandReturnLinked(props) {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
@@ -626,25 +624,25 @@ function DemandReturnLinked(props) {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
                                 </Row>
                             </Panel>
                         </Collapse>
                     </Row>
                 </Form>
                 <Row>
-                        <Col xs={24} md={24} xl={24}>
+                        <Col xs={24} sm={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
-                    <Col xs={24} md={24} xl={24}>
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
-                            <Col xs={24} md={24} xl={9}>
+                            <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
                                     <Form
                                         initialValues={{
@@ -662,7 +660,7 @@ function DemandReturnLinked(props) {
                                     </Form>
                                 </div>
                             </Col>
-                            <Col xs={24} md={24} xl={12}>
+                            <Col xs={12} sm={12} md={12} xl={12}>
                                 <div className="static_wrapper">
                                     <Statistic
                                         groupSeparator=" "

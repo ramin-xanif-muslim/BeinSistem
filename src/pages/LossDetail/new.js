@@ -113,7 +113,7 @@ function NewLoss() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const { allsum, allQuantity } = useGetDocItems()
+    const { allsum, allQuantity } = useGetDocItems();
 
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -362,7 +362,7 @@ function NewLoss() {
         setDisable(true);
         values.positions = outerDataSource;
         // values.mark = docmark;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;
@@ -441,8 +441,9 @@ function NewLoss() {
                 <Tab.Pane attached={false}>
                     <Row style={{ justifyContent: "space-between" }}>
                         <Col
-                            xs={24}
-                            md={24}
+                            xs={9}
+                            sm={9}
+                            md={9}
                             xl={9}
                             style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
                         >
@@ -466,6 +467,7 @@ function NewLoss() {
                         </Dropdown>
                         <Col
                             xs={24}
+                            sm={24}
                             md={24}
                             xl={24}
                             style={{ paddingTop: "1rem", zIndex: "0" }}
@@ -514,7 +516,7 @@ function NewLoss() {
                     layout="horizontal"
                 >
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Silinmə №"
                                 name="name"
@@ -528,14 +530,14 @@ function NewLoss() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Tarix"
                                 name="moment"
@@ -548,8 +550,8 @@ function NewLoss() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     onClick={() => setStockDrawer(true)}
@@ -577,8 +579,8 @@ function NewLoss() {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
@@ -589,7 +591,7 @@ function NewLoss() {
                                 key="1"
                             >
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Status"
                                             name="mark"
@@ -601,8 +603,8 @@ function NewLoss() {
                                             <StatusSelect />
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
@@ -627,8 +629,8 @@ function NewLoss() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
@@ -641,7 +643,7 @@ function NewLoss() {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
@@ -666,10 +668,10 @@ function NewLoss() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
                                 </Row>
                             </Panel>
                         </Collapse>
@@ -677,19 +679,17 @@ function NewLoss() {
                 </Form>
 
                 <Row>
-                    <Col xs={24} md={24} xl={24}>
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Tab
                             className="custom_table_wrapper_tab"
                             panes={panes}
                         />
                     </Col>
-                    <Col xs={24} md={24} xl={24}>
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
-                            <Col xs={24} md={24} xl={9}>
+                            <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
-                                    <Form
-                                        onFieldsChange={handleChanged}
-                                    >
+                                    <Form onFieldsChange={handleChanged}>
                                         <Form.Item name="description">
                                             <TextArea
                                                 ref={myRefDescription}
@@ -700,7 +700,7 @@ function NewLoss() {
                                     </Form>
                                 </div>
                             </Col>
-                            <Col xs={24} md={24} xl={12}>
+                            <Col xs={12} sm={12} md={12} xl={12}>
                                 <div className="static_wrapper">
                                     <Statistic
                                         groupSeparator=" "
@@ -723,22 +723,20 @@ function NewLoss() {
                                         style={{ backgroundColor: "grey" }}
                                     />
                                     <div style={{ marginTop: "20px" }}>
-                                    <Form
-                                        onFieldsChange={handleChanged}
-                                    >
-                                        <Form.Item
-                                            className="comsumption_input_wrapper"
-                                            label="Əlavə xərc"
-                                            onChange={onChangeConsumption}
-                                            name="consumption"
-                                        >
-                                            <Input
-                                                ref={myRefConsumption}
-                                                type="number"
-                                                step="any"
-                                            />
-                                        </Form.Item>
-                                    </Form>
+                                        <Form onFieldsChange={handleChanged}>
+                                            <Form.Item
+                                                className="comsumption_input_wrapper"
+                                                label="Əlavə xərc"
+                                                onChange={onChangeConsumption}
+                                                name="consumption"
+                                            >
+                                                <Input
+                                                    ref={myRefConsumption}
+                                                    type="number"
+                                                    step="any"
+                                                />
+                                            </Form.Item>
+                                        </Form>
                                     </div>
                                 </div>
                             </Col>

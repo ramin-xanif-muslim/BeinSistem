@@ -13,49 +13,49 @@ import AddProductInput from "../../components/AddProductInput";
 import ProductModal from "../../components/ProductModal";
 import { Tab } from "semantic-ui-react";
 import {
-	FindAdditionals,
-	FindCofficient,
-	ConvertFixedTable,
+    FindAdditionals,
+    FindCofficient,
+    ConvertFixedTable,
 } from "../../config/function/findadditionals";
 import {
-	DeleteOutlined,
-	PlusOutlined,
-	EditOutlined,
-	SettingOutlined,
-	CloseCircleOutlined,
+    DeleteOutlined,
+    PlusOutlined,
+    EditOutlined,
+    SettingOutlined,
+    CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
-	Form,
-	Alert,
-	Input,
-	Button,
-	InputNumber,
-	TreeSelect,
-	Checkbox,
-	Dropdown,
-	DatePicker,
-	Switch,
-	Select,
-	Spin,
-	Tag,
-	Divider,
-	Menu,
-	Drawer,
-	Typography,
-	Statistic,
-	Popconfirm,
-	Row,
-	Col,
-	Collapse,
+    Form,
+    Alert,
+    Input,
+    Button,
+    InputNumber,
+    TreeSelect,
+    Checkbox,
+    Dropdown,
+    DatePicker,
+    Switch,
+    Select,
+    Spin,
+    Tag,
+    Divider,
+    Menu,
+    Drawer,
+    Typography,
+    Statistic,
+    Popconfirm,
+    Row,
+    Col,
+    Collapse,
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
 import { message } from "antd";
 import {
-	saveDoc,
-	fetchSpendItems,
-	getCustomerFastFilter,
-	fetchCustomers,
+    saveDoc,
+    fetchSpendItems,
+    getCustomerFastFilter,
+    fetchCustomers,
 } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
@@ -105,7 +105,7 @@ function PaymentInDetail() {
     const [customerloading, setcustomerloading] = useState(false);
     const [expenditure, setExpenditure] = useState(false);
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { debt, setCustomerId } = useFetchDebt();
 
     const { doc_id } = useParams();
     const { isLoading, error, data, isFetching } = useQuery(
@@ -122,268 +122,269 @@ function PaymentInDetail() {
         setPositions([]);
         setOuterDataSource([]);
 
-		return () => {
-			setDisable(true);
-			setPositions([]);
-			setOuterDataSource([]);
-		};
-	}, []);
+        return () => {
+            setDisable(true);
+            setPositions([]);
+            setOuterDataSource([]);
+        };
+    }, []);
 
-	useEffect(() => {
-		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-			setDisable(false);
-		}
-	}, [outerDataSource]);
+    useEffect(() => {
+        if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+            setDisable(false);
+        }
+    }, [outerDataSource]);
 
-	const onClose = () => {
-		message.destroy();
-	};
+    const onClose = () => {
+        message.destroy();
+    };
 
-	useEffect(() => {
-		form.setFieldsValue({
-			moment: moment(),
-		});
-		setLoadingForm(false);
-		getSpendItems();
-		getCustomers();
-	}, []);
+    useEffect(() => {
+        form.setFieldsValue({
+            moment: moment(),
+        });
+        setLoadingForm(false);
+        getSpendItems();
+        getCustomers();
+    }, []);
 
-	useEffect(() => {
-		if (!isFetching) {
+    useEffect(() => {
+        if (!isFetching) {
             setCustomerId(data.Body.List[0].CustomerId);
-			setHandleMark(data.Body.List[0] ? data.Body.List[0].Mark : "");
-			setStatus(data.Body.List[0].Status);
-		}
-	}, [isFetching]);
+            setHandleMark(data.Body.List[0] ? data.Body.List[0].Mark : "");
+            setStatus(data.Body.List[0].Status);
+        }
+    }, [isFetching]);
 
-	const updateMutation = useMutation(updateDoc, {
-		refetchQueris: ["paymentin", doc_id],
-	});
-	const getSpendItems = async () => {
-		setSpends(false);
-		const itemResponse = await fetchSpendItems();
-		setSpendItems(itemResponse.Body.List);
-		setSpendsLocalStorage(itemResponse.Body.List);
-		setSpends(true);
-	};
-	const getCustomers = async () => {
-		setcustomerloading(false);
-		const customerResponse = await fetchCustomers();
-		setCustomers(customerResponse.Body.List);
-		setCustomersLocalStorage(customerResponse.Body.List);
-		setcustomerloading(true);
-	};
-	const doSearch = async (value) => {
-		const customerResponse = await getCustomerFastFilter(value);
-		setCustomers(customerResponse.Body.List);
-	};
-	const getDocName = async (docname) => {
-		const attrResponse = await fetchDocName(docname, "paymentins");
-		return attrResponse;
-	};
+    const updateMutation = useMutation(updateDoc, {
+        refetchQueris: ["paymentin", doc_id],
+    });
+    const getSpendItems = async () => {
+        setSpends(false);
+        const itemResponse = await fetchSpendItems();
+        setSpendItems(itemResponse.Body.List);
+        setSpendsLocalStorage(itemResponse.Body.List);
+        setSpends(true);
+    };
+    const getCustomers = async () => {
+        setcustomerloading(false);
+        const customerResponse = await fetchCustomers();
+        setCustomers(customerResponse.Body.List);
+        setCustomersLocalStorage(customerResponse.Body.List);
+        setcustomerloading(true);
+    };
+    const doSearch = async (value) => {
+        const customerResponse = await getCustomerFastFilter(value);
+        setCustomers(customerResponse.Body.List);
+    };
+    const getDocName = async (docname) => {
+        const attrResponse = await fetchDocName(docname, "paymentins");
+        return attrResponse;
+    };
 
-	var objCustomers;
-	customers
-		? (objCustomers = customers)
-		: (objCustomers = JSON.parse(localStorage.getItem("customers")));
-	const customerOptions = Object.values(objCustomers).map((c) => (
-		<Option key={c.Id} value={c.Id}>
-			{c.Name}
-		</Option>
-	));
-	var ownerList;
-	owners
-		? (ownerList = owners)
-		: (ownerList = JSON.parse(localStorage.getItem("owners")));
+    var objCustomers;
+    customers
+        ? (objCustomers = customers)
+        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
+    const customerOptions = Object.values(objCustomers).map((c) => (
+        <Option key={c.Id} value={c.Id}>
+            {c.Name}
+        </Option>
+    ));
+    var ownerList;
+    owners
+        ? (ownerList = owners)
+        : (ownerList = JSON.parse(localStorage.getItem("owners")));
 
-	var departmentList;
-	departments
-		? (departmentList = departments)
-		: (departmentList = JSON.parse(localStorage.getItem("departments")));
-	const ownerOption = Object.values(ownerList).map((c) => (
-		<Option key={c.Id}>{c.Name}</Option>
-	));
-	const departmentOption = Object.values(departmentList).map((c) => (
-		<Option key={c.Id}>{c.Name}</Option>
-	));
+    var departmentList;
+    departments
+        ? (departmentList = departments)
+        : (departmentList = JSON.parse(localStorage.getItem("departments")));
+    const ownerOption = Object.values(ownerList).map((c) => (
+        <Option key={c.Id}>{c.Name}</Option>
+    ));
+    const departmentOption = Object.values(departmentList).map((c) => (
+        <Option key={c.Id}>{c.Name}</Option>
+    ));
 
-	const onChange = (value, option) => {
-		if (value === "00000000-0000-0000-0000-000000000000") {
-			form.setFieldsValue({
-				spenditem: spenditems.find((s) => s.StaticName === "correct")
-					.Id,
-			});
-		} else {
-			form.setFieldsValue({
-				spenditem: spenditems.find((s) => s.StaticName === "buyproduct")
-					.Id,
-			});
-		}
-	};
-	const onChangeSpendItem = (value, option) => {
-		console.log(value, option);
-		if (option.staticname != "correct") {
-			form.setFieldsValue({
-				customerid: "00000000-0000-0000-0000-000000000000",
-			});
-		} else {
-			if (
-				form.getFieldsValue().customerid ===
-				"00000000-0000-0000-0000-000000000000"
-			) {
-				form.setFieldsValue({
-					customerid: "",
-				});
-			}
-		}
-	};
+    const onChange = (value, option) => {
+        if (value === "00000000-0000-0000-0000-000000000000") {
+            form.setFieldsValue({
+                spenditem: spenditems.find((s) => s.StaticName === "correct")
+                    .Id,
+            });
+        } else {
+            form.setFieldsValue({
+                spenditem: spenditems.find((s) => s.StaticName === "buyproduct")
+                    .Id,
+            });
+        }
+    };
+    const onChangeSpendItem = (value, option) => {
+        console.log(value, option);
+        if (option.staticname != "correct") {
+            form.setFieldsValue({
+                customerid: "00000000-0000-0000-0000-000000000000",
+            });
+        } else {
+            if (
+                form.getFieldsValue().customerid ===
+                "00000000-0000-0000-0000-000000000000"
+            ) {
+                form.setFieldsValue({
+                    customerid: "",
+                });
+            }
+        }
+    };
 
-	const handleChanged = () => {
-		if (disable) {
-			setDisable(false);
-		}
-	};
-	const handleFinish = async (values) => {
-		setDisable(true);
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.mark = docmark;
-		if (!values.status) {
-			values.status = status;
-		}
+    const handleChanged = () => {
+        if (disable) {
+            setDisable(false);
+        }
+    };
+    const handleFinish = async (values) => {
+        setDisable(true);
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.mark = docmark;
+        if (!values.status) {
+            values.status = status;
+        }
 
-		message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Loading...", key: "doc_update" });
 
-		updateMutation.mutate(
-			{ id: doc_id, controller: "paymentins", filter: values },
-			{
-				onSuccess: (res) => {
-					if (res.Headers.ResponseStatus === "0") {
-						message.success({
-							content: "Updated",
-							key: "doc_update",
-							duration: 2,
-						});
-						queryClient.invalidateQueries("paymentin", doc_id);
-						// if (saveFromModal) {
-						//     setRedirectSaveClose(true);
-						// } else {
-						//     if (isReturn) {
-						//         setRedirect(true);
-						//     }
-						//     if (isPayment) {
-						//         setPaymentModal(true);
-						//     }
-						// }
-					} else {
-						message.error({
-							content: (
-								<span className="error_mess_wrap">
-									Saxlanılmadı... {res.Body}{" "}
-									{<CloseCircleOutlined onClick={onClose} />}
-								</span>
-							),
-							key: "doc_update",
-							duration: 0,
-						});
-					}
-				},
-			}
-		);
-	};
+        updateMutation.mutate(
+            { id: doc_id, controller: "paymentins", filter: values },
+            {
+                onSuccess: (res) => {
+                    if (res.Headers.ResponseStatus === "0") {
+                        message.success({
+                            content: "Updated",
+                            key: "doc_update",
+                            duration: 2,
+                        });
+                        queryClient.invalidateQueries("paymentin", doc_id);
+                        // if (saveFromModal) {
+                        //     setRedirectSaveClose(true);
+                        // } else {
+                        //     if (isReturn) {
+                        //         setRedirect(true);
+                        //     }
+                        //     if (isPayment) {
+                        //         setPaymentModal(true);
+                        //     }
+                        // }
+                    } else {
+                        message.error({
+                            content: (
+                                <span className="error_mess_wrap">
+                                    Saxlanılmadı... {res.Body}{" "}
+                                    {<CloseCircleOutlined onClick={onClose} />}
+                                </span>
+                            ),
+                            key: "doc_update",
+                            duration: 0,
+                        });
+                    }
+                },
+            }
+        );
+    };
 
-	//#region OwDep
+    //#region OwDep
 
-	//#endregion OwDep
-	if (isLoading)
-		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
-		);
+    //#endregion OwDep
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
-	if (error) return "An error has occurred: " + error.message;
-	if (!spends) return <div>Loading....</div>;
-	if (!customerloading) return <div>Loading....</div>;
-	if (spends && customerloading)
-		return (
-			<div className="doc_wrapper">
-				<div className="doc_name_wrapper">
-					<h2>Mədaxil (nağd)</h2>
-				</div>
-				<DocButtons
-					additional={"none"}
-					editid={null}
-					closed={"p=transactions"}
-					editid={doc_id}
-				/>
-				<div className="formWrapper">
-					<Form
-						form={form}
-						id="myForm"
-						className="doc_forms"
-						name="basic"
-						labelCol={{
-							span: 8,
-						}}
-						wrapperCol={{
-							span: 16,
-						}}
-						initialValues={{
-							name: data.Body.List[0].Name,
-							moment: moment(data.Body.List[0].Moment),
-							customerid: data.Body.List[0].CustomerId,
-							id: data.Body.List[0].Id,
-							amount: ConvertFixedTable(data.Body.List[0].Amount),
-							mark: data.Body.List[0].Mark,
-							description: data.Body.List[0].Description,
-							linkid: data.Body.List[0].LinkId,
-                            status: data.Body.List[0].Status == 1 ? true : false,
+    if (error) return "An error has occurred: " + error.message;
+    if (!spends) return <div>Loading....</div>;
+    if (!customerloading) return <div>Loading....</div>;
+    if (spends && customerloading)
+        return (
+            <div className="doc_wrapper">
+                <div className="doc_name_wrapper">
+                    <h2>Mədaxil (nağd)</h2>
+                </div>
+                <DocButtons
+                    additional={"none"}
+                    editid={null}
+                    closed={"p=transactions"}
+                    editid={doc_id}
+                />
+                <div className="formWrapper">
+                    <Form
+                        form={form}
+                        id="myForm"
+                        className="doc_forms"
+                        name="basic"
+                        labelCol={{
+                            span: 8,
+                        }}
+                        wrapperCol={{
+                            span: 16,
+                        }}
+                        initialValues={{
+                            name: data.Body.List[0].Name,
+                            moment: moment(data.Body.List[0].Moment),
+                            customerid: data.Body.List[0].CustomerId,
+                            id: data.Body.List[0].Id,
+                            amount: ConvertFixedTable(data.Body.List[0].Amount),
+                            mark: data.Body.List[0].Mark,
+                            description: data.Body.List[0].Description,
+                            linkid: data.Body.List[0].LinkId,
+                            status:
+                                data.Body.List[0].Status == 1 ? true : false,
                             // status: true,
-							spenditem: data.Body.List[0].SpendItem,
-						}}
-						onFinish={handleFinish}
-						onFieldsChange={handleChanged}
-						layout="horizontal"
-					>
-						<Row>
-							<Col xs={24} md={24} xl={6}>
-								<Form.Item
-									label="Məxaric №"
-									name="name"
-									className="doc_number_form_item"
-									style={{ width: "100%" }}
-								>
-									<Input
-										style={{ width: "100px" }}
-										placeholder="0000"
-										allowClear
-										className="detail-input"
-									/>
-								</Form.Item>
-							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}>
-								<Form.Item
-									label="Məbləğ"
-									name="amount"
-									className="doc_number_form_item"
-								>
-									<Input
-										style={{ width: "100px" }}
-										className="detail-input"
-										type="number"
-										step="any"
-										placeholder="₼"
-										allowClear
-										min={0}
-									/>
-								</Form.Item>
-							</Col>
-							<Col xs={24} md={24} xl={3}></Col>
-							<Col xs={24} md={24} xl={6}></Col>
-						</Row>
+                            spenditem: data.Body.List[0].SpendItem,
+                        }}
+                        onFinish={handleFinish}
+                        onFieldsChange={handleChanged}
+                        layout="horizontal"
+                    >
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
+                                <Form.Item
+                                    label="Məxaric №"
+                                    name="name"
+                                    className="doc_number_form_item"
+                                    style={{ width: "100%" }}
+                                >
+                                    <Input
+                                        style={{ width: "100px" }}
+                                        placeholder="0000"
+                                        allowClear
+                                        className="detail-input"
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
+                                <Form.Item
+                                    label="Məbləğ"
+                                    name="amount"
+                                    className="doc_number_form_item"
+                                >
+                                    <Input
+                                        style={{ width: "100px" }}
+                                        className="detail-input"
+                                        type="number"
+                                        step="any"
+                                        placeholder="₼"
+                                        allowClear
+                                        min={0}
+                                    />
+                                </Form.Item>
+                            </Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
+                        </Row>
+                        <Row>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Tarix"
                                     name="moment"
@@ -396,8 +397,8 @@ function PaymentInDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Button className="add-stock-btn">
                                     <PlusOutlined
                                         onClick={() => setCustomerDrawer(true)}
@@ -421,7 +422,7 @@ function PaymentInDetail() {
                                         filterOption={false}
                                         className="customSelect detail-select"
                                         allowClear={true}
-                                        onChange={e => setCustomerId(e)}
+                                        onChange={(e) => setCustomerId(e)}
                                     >
                                         {customerOptions}
                                     </Select>
@@ -436,12 +437,12 @@ function PaymentInDetail() {
                                     {debt} ₼
                                 </p>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
                         <Row>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Şərh"
                                     name="description"
@@ -454,8 +455,8 @@ function PaymentInDetail() {
                                     />
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}>
                                 <Form.Item
                                     label="Xərc maddəsi"
                                     name="spenditem"
@@ -505,122 +506,122 @@ function PaymentInDetail() {
                                     </Select>
                                 </Form.Item>
                             </Col>
-                            <Col xs={24} md={24} xl={3}></Col>
-                            <Col xs={24} md={24} xl={6}></Col>
+                            <Col xs={3} sm={3} md={3} xl={3}></Col>
+                            <Col xs={6} sm={6} md={6} xl={6}></Col>
                         </Row>
 
-						<Row>
-							<Collapse ghost style={{ width: "100%" }}>
-								<Panel
-									className="custom_panel_header"
-									header="Təyinat"
-									key="1"
-								>
-									<Row>
-										<Col xs={24} md={24} xl={6}>
-											<Form.Item
-												label="Cavabdeh"
-												name="ownerid"
-												style={{ margin: "0" }}
-												style={{ width: "100%" }}
-											>
-												<Select
-													showSearch
-													className="detail-select"
-													notFoundContent={
-														<Spin size="small" />
-													}
-													filterOption={(
-														input,
-														option
-													) =>
-														option.children
-															.toLowerCase()
-															.indexOf(
-																input.toLowerCase()
-															) >= 0
-													}
-												>
-													{ownerOption}
-												</Select>
-											</Form.Item>
-										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}>
-                                        <Form.Item
-                                            label="Keçirilib"
-                                            className="docComponentStatus"
-                                            onChange={(e) =>
-                                                setStatus(e.target.checked)
-                                            }
-                                            name="status"
-                                            valuePropName="checked"
-                                            style={{ width: "100%" }}
-                                        >
-                                            <Checkbox
-                                                size="small"
+                        <Row>
+                            <Collapse ghost style={{ width: "100%" }}>
+                                <Panel
+                                    className="custom_panel_header"
+                                    header="Təyinat"
+                                    key="1"
+                                >
+                                    <Row>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
+                                            <Form.Item
+                                                label="Cavabdeh"
+                                                name="ownerid"
+                                                style={{ margin: "0" }}
+                                                style={{ width: "100%" }}
+                                            >
+                                                <Select
+                                                    showSearch
+                                                    className="detail-select"
+                                                    notFoundContent={
+                                                        <Spin size="small" />
+                                                    }
+                                                    filterOption={(
+                                                        input,
+                                                        option
+                                                    ) =>
+                                                        option.children
+                                                            .toLowerCase()
+                                                            .indexOf(
+                                                                input.toLowerCase()
+                                                            ) >= 0
+                                                    }
+                                                >
+                                                    {ownerOption}
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
+                                            <Form.Item
+                                                label="Keçirilib"
+                                                className="docComponentStatus"
+                                                onChange={(e) =>
+                                                    setStatus(e.target.checked)
+                                                }
                                                 name="status"
-                                            ></Checkbox>
-                                        </Form.Item>
-										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}></Col>
-									</Row>
-									<Row>
-										<Col xs={24} md={24} xl={6}>
-											<Form.Item
-												label="Şöbə"
-												name="departmentid"
-												style={{ margin: "0" }}
-												style={{ width: "100%" }}
-											>
-												<Select
-													showSearch
-													className="detail-select"
-													notFoundContent={
-														<Spin size="small" />
-													}
-													filterOption={(
-														input,
-														option
-													) =>
-														option.children
-															.toLowerCase()
-															.indexOf(
-																input.toLowerCase()
-															) >= 0
-													}
-												>
-													{departmentOption}
-												</Select>
-											</Form.Item>
-										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}>
-											<Form.Item
-												label="Status"
-												name="mark"
-												style={{
-													width: "100%",
-													margin: "0",
-												}}
-											>
-												<StatusSelect />
-											</Form.Item>
-										</Col>
-										<Col xs={24} md={24} xl={3}></Col>
-										<Col xs={24} md={24} xl={6}></Col>
-									</Row>
-								</Panel>
-							</Collapse>
-						</Row>
-					</Form>
-				</div>
+                                                valuePropName="checked"
+                                                style={{ width: "100%" }}
+                                            >
+                                                <Checkbox
+                                                    size="small"
+                                                    name="status"
+                                                ></Checkbox>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    </Row>
+                                    <Row>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
+                                            <Form.Item
+                                                label="Şöbə"
+                                                name="departmentid"
+                                                style={{ margin: "0" }}
+                                                style={{ width: "100%" }}
+                                            >
+                                                <Select
+                                                    showSearch
+                                                    className="detail-select"
+                                                    notFoundContent={
+                                                        <Spin size="small" />
+                                                    }
+                                                    filterOption={(
+                                                        input,
+                                                        option
+                                                    ) =>
+                                                        option.children
+                                                            .toLowerCase()
+                                                            .indexOf(
+                                                                input.toLowerCase()
+                                                            ) >= 0
+                                                    }
+                                                >
+                                                    {departmentOption}
+                                                </Select>
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}>
+                                            <Form.Item
+                                                label="Status"
+                                                name="mark"
+                                                style={{
+                                                    width: "100%",
+                                                    margin: "0",
+                                                }}
+                                            >
+                                                <StatusSelect />
+                                            </Form.Item>
+                                        </Col>
+                                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                        <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    </Row>
+                                </Panel>
+                            </Collapse>
+                        </Row>
+                    </Form>
+                </div>
 
-				<CustomerDrawer />
-				<Expenditure show={expenditure} setShow={setExpenditure} />
-			</div>
-		);
+                <CustomerDrawer />
+                <Expenditure show={expenditure} setShow={setExpenditure} />
+            </div>
+        );
 }
 
 export default PaymentInDetail;
