@@ -631,7 +631,7 @@ function NewProduct() {
                     onFieldsChange={onValuesChange}
                 >
                     <Row>
-                        <Col xs={24} md={12} xl={8}>
+                        <Col xs={12} sm={8} md={8} xl={8}>
                             <Row>
                                 <Col>
                                     <h3 style={{ marginBottom: "2.6rem" }}>
@@ -641,6 +641,7 @@ function NewProduct() {
                                 <Col
                                     className="left_wrapper"
                                     xs={24}
+                                    sm={24}
                                     md={24}
                                     xl={24}
                                 >
@@ -664,6 +665,7 @@ function NewProduct() {
                                 <Col
                                     className="left_wrapper"
                                     xs={24}
+                                    sm={24}
                                     md={24}
                                     xl={24}
                                 >
@@ -683,6 +685,7 @@ function NewProduct() {
                                 <Col
                                     className="left_wrapper"
                                     xs={24}
+                                    sm={24}
                                     md={24}
                                     xl={24}
                                 >
@@ -727,6 +730,7 @@ function NewProduct() {
                                 <Col
                                     className="left_wrapper"
                                     xs={24}
+                                    sm={24}
                                     md={24}
                                     xl={24}
                                 >
@@ -737,6 +741,7 @@ function NewProduct() {
                                 <Col
                                     className="left_wrapper"
                                     xs={24}
+                                    sm={24}
                                     md={24}
                                     xl={24}
                                 >
@@ -747,6 +752,7 @@ function NewProduct() {
                                 <Col
                                     className="left_wrapper"
                                     xs={24}
+                                    sm={24}
                                     md={24}
                                     xl={24}
                                 >
@@ -765,10 +771,11 @@ function NewProduct() {
                             </Row>
                         </Col>
                         <Col
-                            style={{ paddingLeft: "5rem" }}
-                            xs={24}
-                            md={24}
+                            xs={12}
+                            sm={10}
+                            md={10}
                             xl={10}
+                            style={{ paddingLeft: "5rem" }}
                         >
                             <div className="tab_wrapper">
                                 <Tab
@@ -780,7 +787,7 @@ function NewProduct() {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs={24} md={24} xl={8}>
+                        <Col xs={8} sm={8} md={8} xl={8}>
                             <Collapse ghost>
                                 <Panel
                                     className="custom_panel_header_2"
@@ -817,7 +824,7 @@ function NewProduct() {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs={24} md={24} xl={8}>
+                        <Col xs={8} sm={8} md={8} xl={8}>
                             <Collapse ghost>
                                 <Panel
                                     className="custom_panel_header"

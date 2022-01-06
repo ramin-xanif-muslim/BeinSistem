@@ -119,7 +119,7 @@ function Navbar() {
         localStorage.setItem("activesubmenu", name);
     };
     if (isLoading) return null;
-    
+
     if (error) return "An error has occurred: " + error.message;
 
     return (
@@ -190,10 +190,12 @@ function Navbar() {
                         />
                     </Menu.Item>
                     <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
-                        <img
-                            className="small_logo_pics custom_width"
-                            src={`/images/notification.png`}
-                        />
+                        <Badge count={notificationCount} size="small">
+                            <img
+                                className="small_logo_pics custom_width"
+                                src={`/images/notification.png`}
+                            />
+                        </Badge>
                     </Menu.Item>
                     <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
                         <Dropdown
