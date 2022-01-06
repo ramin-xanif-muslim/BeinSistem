@@ -1,25 +1,21 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { api, fetchDocId } from "../../api";
+import { fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
-import { Redirect } from "react-router";
-import PaymentOutModal from "../../components/PaymentOutModal";
+import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
 import {
-    DeleteOutlined,
     PlusOutlined,
     SettingOutlined,
-    EditOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
@@ -27,18 +23,13 @@ import {
     Alert,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
     Checkbox,
     Dropdown,
     DatePicker,
-    Switch,
     Select,
     Spin,
-    Tag,
     Divider,
     Menu,
-    Drawer,
     Typography,
     Statistic,
     Popconfirm,
@@ -54,11 +45,6 @@ import { message } from "antd";
 import { updateDoc } from "../../api";
 import { useRef } from "react";
 import { useCustomForm } from "../../contexts/FormContext";
-import {
-    FindAdditionals,
-    FindCofficient,
-    ConvertFixedTable,
-} from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems } from "../../hooks";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
@@ -826,7 +812,7 @@ function SupplyReturnDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentOutModal datas={data.Body.List[0]} />
+            <PaymentModal datas={data.Body.List[0]} title="Məxaric" endPoint="paymentouts"/>
         </div>
     );
 }

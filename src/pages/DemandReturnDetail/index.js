@@ -11,7 +11,7 @@ import AddProductInput from "../../components/AddProductInput";
 import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
-import PaymentOutModal from "../../components/PaymentOutModal";
+import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
@@ -797,7 +797,7 @@ function DemandReturnDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentOutModal datas={data.Body.List[0]} />
+            <PaymentModal datas={data.Body.List[0]} title="Məxaric" endPoint="paymentouts"/>
         </div>
     );
 }

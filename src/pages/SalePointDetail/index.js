@@ -1,59 +1,33 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { useEffect, useState, useMemo, useRef } from "react";
-import ProductModal from "../../components/ProductModal";
+import { useState } from "react";
 import {
-    fetchProductId,
-    fetchRefList,
-    savePrice,
-    fetchPriceTypes,
-    delPrice,
-    fetchProductFolders,
-    fetchCustomerId,
-    updateCustomer,
     fetchSalePointId,
     updateSalePoint,
 } from "../../api";
 import DocButtons from "../../components/DocButtons";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
 import {
     Form,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
-    Checkbox,
-    Dropdown,
-    Popconfirm,
-    Card,
     Select,
     Spin,
-    Space,
     Alert,
-    Menu,
     Row,
     Col,
     Switch,
     Collapse,
-    Modal,
 } from "antd";
 import "antd/dist/antd.css";
 import { message } from "antd";
-import { Redirect } from "react-router";
-import { saveDoc, fetchBarcode, fetchCard } from "../../api";
+import { fetchCard } from "../../api";
 import {
-    SyncOutlined,
     PlusOutlined,
-    MinusCircleOutlined,
     CloseCircleOutlined,
-    DeleteOutlined,
-    EditOutlined,
 } from "@ant-design/icons";
-import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
-import ProductGroupModal from "../../components/ProductGroupModal";
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
