@@ -296,7 +296,7 @@ body {
     right: 1px;
     background-color: #e6f7ff;
     color: #0288d1;
-    z-index: 9999 !important;
+    z-index: 2 !important;
     top: 1px;
 }
 .ui.button.dropdown.icon {

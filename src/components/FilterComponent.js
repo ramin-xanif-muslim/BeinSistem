@@ -169,7 +169,7 @@ function FilterComponent({ from, settings, cols }) {
 
         for (let i = 0; i < cols.length; i++) {
             children.push(
-                <Col xs={24} md={12} xl={5} key={i}>
+                <Col xs={24} sm={24} md={12} xl={5} key={i}>
                     <Form.Item
                         className="filter-input"
                         name={cols[i].name}
@@ -634,7 +634,10 @@ function FilterComponent({ from, settings, cols }) {
     // console.log(initialvalues);
 
     return (
-        <div className="filter_wrapper" style={{ display: display }}>
+        <div
+            className="filter_wrapper"
+            style={{ display: display, width: "100vw" }}
+        >
             <Form
                 form={form}
                 name="advanced_search"

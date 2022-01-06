@@ -93,6 +93,7 @@ export default function Move() {
             {
                 dataIndex: "Name",
                 title: "Yerdəyişmə №",
+                className: "linkedColumns",
                 show: initial
                     ? Object.values(initial).find((i) => i.dataIndex === "Name")
                           .show

@@ -12,7 +12,6 @@ import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { Button, Modal, Badge, Spin, Alert } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
-import { useNotification } from "../hooks";
 import {
     fetchStocks,
     fetchMarks,
@@ -38,8 +37,6 @@ function Navbar() {
         setBalance,
     } = useTableCustom();
     const { firstLogin, logout } = useAuth();
-
-    const { getNotification, notificationsCount } = useNotification()
 
     const [menu, setMenu] = useState("2");
     const [noBalance, setNoBalance] = useState(true);
@@ -122,7 +119,7 @@ function Navbar() {
         localStorage.setItem("activesubmenu", name);
     };
     if (isLoading) return null;
-    
+
     if (error) return "An error has occurred: " + error.message;
 
     return (
@@ -192,13 +189,13 @@ function Navbar() {
                             src={`/images/help.png`}
                         />
                     </Menu.Item>
-                    <Menu.Item 
-                        onClick={() => getNotification()}
-                        className="main_header_items custom_flex_direction profile_icons_wrapper">
+                    <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
+                        <Badge count={notificationCount} size="small">
                             <img
                                 className="small_logo_pics custom_width"
                                 src={`/images/notification.png`}
                             />
+                        </Badge>
                     </Menu.Item>
                     <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
                         <Dropdown

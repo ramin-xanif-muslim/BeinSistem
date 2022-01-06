@@ -745,3 +745,28 @@ tbody .ant-table-cell {
     display: flex;
     width: 10em;
 }
+
+@media screen and (max-width: 1200px) {
+    body,
+    .doc_wrapper {
+        width: max-content !important;
+    }
+
+    .doc_wrapper {
+        overflow: auto !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .doc_wrapper {
+        width: 400% !important;
+    }
+
+    .product_wrapper .ant-form .ant-form-item .ant-form-item-label {
+        flex: unset !important;
+    }
+
+    .ant-form-horizontal .ant-form-item-control {
+        flex: 1 1 !important;
+    }
+}

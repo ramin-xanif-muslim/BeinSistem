@@ -125,7 +125,7 @@ function NewProductGroup() {
     if (redirect) return <Redirect to={`/editProductGroup/${editId}`} />;
 
     return (
-        <div className="doc_wrapper">
+        <div className="doc_wrapper product_wrapper">
             <div className="doc_name_wrapper">
                 <h2>Məhsul qrupu</h2>
             </div>
@@ -147,47 +147,76 @@ function NewProductGroup() {
                         span: 16,
                     }}
                     className="doc_forms"
-                    layout="horizontal"
                     onFinish={handleFinish}
                     onFieldsChange={handleChanged}
                 >
                     <Row>
-                        <Col
-                            xs={24}
-                            md={20}
-                            xl={8}
-                            className="left_form_wrapper"
-                        >
-                            <Form.Item
-                                size="small"
-                                label="Məhsulun qrupu"
-                                name="name"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message:
-                                            "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
-                                    },
-                                ]}
-                            >
-                                <Input allowClear />
-                            </Form.Item>
-
-                            <Form.Item label="Şərh" name="description">
-                                <TextArea size="small" allowClear />
-                            </Form.Item>
-
-                            <Form.Item label="Yerləşdiyi Qrup" name="parentid">
-                                <Select
-                                    showSearch
-                                    className="doc_status_formitem_wrapper_col "
-                                    placeholder=""
-                                    filterOption={false}
-                                    notFoundContent={<Spin size="small" />}
+                        <Col xs={8} sm={8} md={8} xl={8}>
+                            <Row>
+                                <Col
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
+                                    className="left_form_wrapper"
                                 >
-                                    {groupOption}
-                                </Select>
-                            </Form.Item>
+                                    <Form.Item
+                                        size="small"
+                                        label="Məhsulun qrupu"
+                                        name="name"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message:
+                                                    "Zəhmət olmasa, məhsulun qrupunu qeyd edin..",
+                                            },
+                                        ]}
+                                    >
+                                        <Input allowClear />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
+                                    className="left_form_wrapper"
+                                >
+                                    <Form.Item label="Şərh" name="description">
+                                        <TextArea size="small" allowClear />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+
+                            <Row>
+                                <Col
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
+                                    className="left_form_wrapper"
+                                >
+                                    <Form.Item
+                                        label="Yerləşdiyi Qrup"
+                                        name="parentid"
+                                    >
+                                        <Select
+                                            showSearch
+                                            className="doc_status_formitem_wrapper_col "
+                                            placeholder=""
+                                            filterOption={false}
+                                            notFoundContent={
+                                                <Spin size="small" />
+                                            }
+                                        >
+                                            {groupOption}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </Form>
