@@ -47,6 +47,7 @@ import { useRef } from "react";
 import { useCustomForm } from "../../contexts/FormContext";
 import { useFetchDebt, useGetDocItems } from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
+import { ConvertFixedTable } from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -216,7 +217,7 @@ function SupplyReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -228,7 +229,7 @@ function SupplyReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -240,7 +241,7 @@ function SupplyReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -252,7 +253,7 @@ function SupplyReturnDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
 

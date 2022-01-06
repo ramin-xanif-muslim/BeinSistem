@@ -48,6 +48,7 @@ import { fetchStocks } from "../../api";
 import {  useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
 import { Tab } from "semantic-ui-react";
+import { ConvertFixedTable } from "../../config/function/findadditionals";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -146,7 +147,7 @@ function SupplyReturnLinked(props) {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -158,7 +159,7 @@ function SupplyReturnLinked(props) {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -170,7 +171,7 @@ function SupplyReturnLinked(props) {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -182,7 +183,7 @@ function SupplyReturnLinked(props) {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {

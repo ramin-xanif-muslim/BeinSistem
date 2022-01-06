@@ -190,7 +190,7 @@ function CustomerOrderDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -202,7 +202,7 @@ function CustomerOrderDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -214,7 +214,7 @@ function CustomerOrderDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -226,7 +226,7 @@ function CustomerOrderDetail() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -244,11 +244,6 @@ function CustomerOrderDetail() {
                     });
                     console.log("defaultCostArray", defaultCostArray);
                     if (hasConsumption) {
-                        console.log(hasConsumption);
-                        console.log(positions);
-                        console.log(consumption);
-                        console.log(docSum);
-                        console.log(FindAdditionals(consumption, docSum, 12));
                         consumtionPriceArray = [];
                         outerDataSource.forEach((p) => {
                             consumtionPriceArray.push(
@@ -259,10 +254,6 @@ function CustomerOrderDetail() {
                                 )
                             );
                         });
-                        console.log(
-                            "consumtionPriceArray",
-                            consumtionPriceArray
-                        );
                         return ConvertFixedTable(consumtionPriceArray[index]);
                     } else {
                         return ConvertFixedTable(defaultCostArray[index]);

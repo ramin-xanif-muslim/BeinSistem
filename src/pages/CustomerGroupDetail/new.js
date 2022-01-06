@@ -48,39 +48,12 @@ function NewProductGroup() {
     const [form] = Form.useForm();
     const {
         productGroups,
-        departments,
-        owners,
         attributes,
-        attrLoading,
-        setAttrLoading,
-        refList,
-        setRefList,
-        setRefsLocalStorage,
-        linkedList,
-        setLinkedList,
         prices,
         setPrices,
         setDisable,
         disable,
     } = useTableCustom();
-    const {
-        docstock,
-        setDocStock,
-        docmark,
-        setDocMark,
-        setLoadingForm,
-        setStockDrawer,
-        stockDrawer,
-        createdStock,
-        setCreatedStock,
-        setProductModal,
-
-        saveFromModal,
-        setSaveFromModal,
-
-        redirectSaveClose,
-        setRedirectSaveClose,
-    } = useCustomForm();
     const [attrs, setAttrs] = useState(
         attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
     );

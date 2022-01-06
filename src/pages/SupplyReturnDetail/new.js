@@ -208,7 +208,7 @@ function NewSupplyReturn() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -225,7 +225,7 @@ function NewSupplyReturn() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -241,7 +241,7 @@ function NewSupplyReturn() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
             {
@@ -257,7 +257,7 @@ function NewSupplyReturn() {
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
-                    return value;
+                    return ConvertFixedTable(value);
                 },
             },
 
