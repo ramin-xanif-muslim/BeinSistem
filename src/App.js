@@ -123,17 +123,8 @@ const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 
 
 function App() {
-
-    const { getNotification } = useNotification()
     const { loggedIn, token, firstLogin } = useAuth();
     const { nav } = useTableCustom();
-
-    useEffect(() => {
-        const intervalId = setInterval(() => { 
-            getNotification()
-        }, 10000)
-        return () => clearInterval(intervalId)
-    },[])
 
     return (
         <>

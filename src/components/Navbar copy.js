@@ -12,6 +12,7 @@ import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { Button, Modal, Badge, Spin, Alert } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
+import { useNotification } from "../hooks";
 import {
     fetchStocks,
     fetchMarks,
@@ -19,7 +20,7 @@ import {
     fetchNotification,
 } from "../api";
 import "../Navbar.css";
-import { useNotification } from "../hooks/useNotification";
+import NatificationModal from "./NatificationModal";
 function Navbar() {
     const {
         setMark,
@@ -39,7 +40,7 @@ function Navbar() {
     } = useTableCustom();
     const { firstLogin, logout } = useAuth();
 
-    const { getNotification, notificationsCount } = useNotification()
+    const { getNotification, notificationsCount, isNotificationModalVisible , setIsNotificationModalVisible } = useNotification()
 
     const [menu, setMenu] = useState("2");
     const [noBalance, setNoBalance] = useState(true);
@@ -93,17 +94,6 @@ function Navbar() {
         setStock(stockResponse.Body.List);
         setStockLocalStorage(stockResponse.Body.List);
     };
-    const onClickNotification = () => {
-        getNotification()
-        // setIsNotificationModalVisible(true)
-    }
-
-    useEffect(() => {
-        const intervalId = setInterval(() => { 
-            onClickNotification()
-        }, 10000)
-        return () => clearInterval(intervalId)
-    },[])
 
     useEffect(() => {
         getBalance();
@@ -132,8 +122,13 @@ function Navbar() {
         setAdvancedPage(0);
         localStorage.setItem("activesubmenu", name);
     };
+    const onClickNotification = () => {
+        getNotification()
+        alert(notificationsCount)
+        // setIsNotificationModalVisible(true)
+    }
     if (isLoading) return null;
-
+    
     if (error) return "An error has occurred: " + error.message;
 
     return (
@@ -204,14 +199,12 @@ function Navbar() {
                         />
                     </Menu.Item>
                     <Menu.Item 
-                        onClick={() => onClickNotification()}
+                        onClick={onClickNotification}
                         className="main_header_items custom_flex_direction profile_icons_wrapper">
-                        <Badge count={notificationsCount} size="small">
                             <img
                                 className="small_logo_pics custom_width"
                                 src={`/images/notification.png`}
                             />
-                        </Badge>
                     </Menu.Item>
                     <Menu.Item className="main_header_items custom_flex_direction profile_icons_wrapper">
                         <Dropdown
@@ -322,33 +315,9 @@ function Navbar() {
             >
                 <p className="exitModalBodyText">Balans bitib</p>
             </Modal>
+
+            <NatificationModal isNotificationModalVisible={isNotificationModalVisible} setIsNotificationModalVisible={setIsNotificationModalVisible} />
         </div>
-        // <nav className="ui pointing main_header menu navbar">
-        //   <div className="upper_side">
-        //     <div className="left_nav">
-        //       <a className="brand_logo">
-        //         <img src={img_brand} />
-        //       </a>
-        //       <ul className="nav_ul">
-        //         {data.Body.filter((item) => item.ParentId === "0").map((c) => (
-        //           <li onClick={() => setMenu(c.Id)} key={c.Id}>
-        //             {c.Name}
-        //           </li>
-        //         ))}
-        //       </ul>
-        //     </div>
-        //     <div className="right_nav"></div>
-        //   </div>
-        //   <div className="lower_side">
-        //     <ul className="nav_ul">
-        //       {data.Body.filter((item) => item.ParentId === menu).map((c) => (
-        //         <li key={c.Id}>
-        //           <Link to={`/${c.Url}`}>{c.Name}</Link>
-        //         </li>
-        //       ))}
-        //     </ul>
-        //   </div>
-        // </nav>
     );
 }
 
