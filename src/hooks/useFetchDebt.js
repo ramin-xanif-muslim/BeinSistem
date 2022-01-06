@@ -14,6 +14,6 @@ export function useFetchDebt() {
             fetchDebt(customerId);
         }
     }, [customerId]);
-    return {debt,setCustomerId}
+    return {debt,setCustomerId, customerId}
 }
 

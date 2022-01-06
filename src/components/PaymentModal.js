@@ -25,6 +25,9 @@ import { useCustomForm } from "../contexts/FormContext";
 import { fetchStocks, getCustomerFastFilter, fetchSpendItems } from "../api";
 import StatusSelect from "./StatusSelect";
 import TextArea from "antd/lib/input/TextArea";
+import { useFetchDebt } from "../hooks";
+import CustomerDrawer from "./CustomerDrawer";
+import Expenditure from "./Expenditure";
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -34,18 +37,26 @@ function PaymentOutModal({ datas, title, endPoint }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const {
+		departments,
+		owners,
         customers,
         setCustomers,
         spenditems,
         setSpendItems,
         setSpendsLocalStorage,
     } = useTableCustom();
-    const { paymentModal, setPaymentModal, isPayment, setIsPayment } =
+    const { paymentModal, setPaymentModal, isPayment, setIsPayment, setCustomerDrawer } =
         useCustomForm();
     const [docname, setDocName] = useState(null);
     const [spends, setSpends] = useState(false);
     const [newStocksLoad, setNewStocksLoad] = useState(null);
+	const [expenditure, setExpenditure] = useState(false);
 
+    const {debt, setCustomerId, customerId} = useFetchDebt()
+
+    useEffect(() => {
+        setCustomerId(datas.CustomerId)
+    }, []);
     useEffect(() => {
         if (isPayment) getSpendItems();
     }, [isPayment]);
@@ -66,17 +77,50 @@ function PaymentOutModal({ datas, title, endPoint }) {
         setCustomers(customerResponse.Body.List);
     };
 
-    //#region OwDep
+	var objCustomers;
+	customers
+		? (objCustomers = customers)
+		: (objCustomers = JSON.parse(localStorage.getItem("customers")));
+	const customerOptions = Object.values(objCustomers).map((c) => (
+		<Option key={c.Id} value={c.Id}>
+			{c.Name}
+		</Option>
+	));
+	var ownerList;
+	owners
+		? (ownerList = owners)
+		: (ownerList = JSON.parse(localStorage.getItem("owners")));
 
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
+	var departmentList;
+	departments
+		? (departmentList = departments)
+		: (departmentList = JSON.parse(localStorage.getItem("departments")));
+	const ownerOption = Object.values(ownerList).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
+	const departmentOption = Object.values(departmentList).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
+
+	const onChangeSpendItem = (value, option) => {
+		console.log(value, option);
+		if (option.staticname != "buyproduct") {
+			form.setFieldsValue({
+				customerid: "00000000-0000-0000-0000-000000000000",
+			});
+		} else {
+			if (
+				form.getFieldsValue().customerid ===
+				"00000000-0000-0000-0000-000000000000"
+			) {
+				form.setFieldsValue({
+					customerid: "",
+				});
+			}
+		}
+	};
+
+    //#region OwDep
 
     const getDocName = async (docname) => {
         const attrResponse = await fetchDocName(docname, endPoint);
@@ -92,14 +136,15 @@ function PaymentOutModal({ datas, title, endPoint }) {
     };
 
     const handleFinish = async (values) => {
-        values.moment = values.moment._i;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.customerid = customerId;
         message.loading({ content: "Loading...", key: "payment_update" });
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
         const res = await saveDoc(values, endPoint);
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Mexaric saxlanildi",
+                content: `${title} saxlanildi`,
                 key: "payment_update",
                 duration: 2,
             });
@@ -143,7 +188,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                 name="basic"
                 initialValues={{
                     status: true,
-                    customerid: datas.CustomerId,
+                    customerid: datas.CustomerName,
                     linkid: datas.Id,
                     moment: moment(),
                     spenditem: spenditems
@@ -157,7 +202,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                 <Row>
                     <Col xs={24} md={24} xl={11}>
                         <Form.Item
-                            label="Məxaric №"
+                            label={`${title} №`}
                             name="name"
                             className="doc_number_form_item"
                             style={{ width: "100%" }}
@@ -209,7 +254,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                     <Col xs={24} md={24} xl={11}>
                         <Button className="add-stock-btn">
                             <PlusOutlined
-                            // onClick={() => setCustomerDrawer(true)}
+                            onClick={() => setCustomerDrawer(true)}
                             />
                         </Button>
                         <Form.Item
@@ -230,17 +275,17 @@ function PaymentOutModal({ datas, title, endPoint }) {
                                 filterOption={false}
                                 className="customSelect detail-select"
                                 allowClear={true}
-                                // onChange={(e) => setCustomerId(e)}
+                                onChange={(e) => setCustomerId(e)}
                             >
-                                {/* {customerOptions} */}
+                                {customerOptions}
                             </Select>
                         </Form.Item>
                         <p
                             className="customer-debt"
-                            // style={debt < 0 ? { color: "red" } : {}}
+                            style={debt < 0 ? { color: "red" } : {}}
                         >
                             <span style={{ color: "red" }}>Qalıq borc:</span>
-                            {/* {debt} ₼ */}
+                            {debt} ₼
                         </p>
                     </Col>
                 </Row>
@@ -262,7 +307,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                     <Col xs={24} md={24} xl={11}>
                         <Button className="add-stock-btn">
                             <PlusOutlined
-                            // onClick={() => setExpenditure(true)}
+                            onClick={() => setExpenditure(true)}
                             />
                         </Button>
                         <Form.Item
@@ -281,7 +326,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                                 showArrow={false}
                                 className="customSelect detail-select"
                                 notFoundContent={<Spin size="small" />}
-                                // onChange={onChangeSpendItem}
+                                onChange={onChangeSpendItem}
                                 allowClear={true}
                                 filterOption={(input, option) =>
                                     option.children
@@ -333,7 +378,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                                                     ) >= 0
                                             }
                                         >
-                                            {/* {ownerOption} */}
+                                            {ownerOption}
                                         </Select>
                                     </Form.Item>
                                 </Col>
@@ -372,7 +417,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                                                     ) >= 0
                                             }
                                         >
-                                            {/* {departmentOption} */}
+                                            {departmentOption}
                                         </Select>
                                     </Form.Item>
                                 </Col>
@@ -393,100 +438,10 @@ function PaymentOutModal({ datas, title, endPoint }) {
                         </Panel>
                     </Collapse>
                 </Row>
-
-                {/* <Row>
-                    <Col xs={24} md={24} xl={18}>
-                        <Row>
-                            <Col xs={24} md={24} xl={10}>
-                                <Row>
-                                    <Col xs={24} md={24} xl={24}>
-                                        <Form.Item
-                                            label="Mexaric"
-                                            name="name"
-                                            className="doc_number_form_item"
-                                        >
-                                            <Input allowClear />
-                                        </Form.Item>
-                                        <Form.Item
-                                            name="linkid"
-                                            hidden={true}
-                                            className="doc_number_form_item"
-                                        >
-                                            <Input allowClear />
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={24} xl={24}>
-                                        <Form.Item
-                                            label="Created Moment"
-                                            name="moment"
-                                        >
-                                            <DatePicker
-                                                showTime={{
-                                                    format: "HH:mm:ss",
-                                                }}
-                                                format="YYYY-MM-DD HH:mm:ss"
-                                            />
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col xs={24} md={24} xl={10}>
-                                <Row>
-                                    <Col xs={24} md={24} xl={24}>
-                                        <Form.Item
-                                            label="Qarsu teref"
-                                            name="customerid"
-                                        >
-                                            <Select
-                                                showSearch
-                                                showArrow={false}
-                                                filterOption={false}
-                                                className="customSelect"
-                                                onFocus={getCustomers}
-                                                onSearch={doSearch}
-                                                allowClear={true}
-                                            >
-                                                {customerOptions}
-                                            </Select>
-                                        </Form.Item>
-                                    </Col>
-                                    <Col xs={24} md={24} xl={24}>
-                                        <Form.Item
-                                            label="Xerc maddesi"
-                                            name="spenditem"
-                                        >
-                                            <Select
-                                                showSearch
-                                                showArrow={false}
-                                                filterOption={false}
-                                                className="customSelect"
-                                                onFocus={() => getSpendItems()}
-                                                notFoundContent={
-                                                    <Spin size="small" />
-                                                }
-                                                allowClear={true}
-                                            >
-                                                {spends
-                                                    ? Object.values(
-                                                          spenditems
-                                                      ).map((c) => (
-                                                          <Option
-                                                              key={c.Id}
-                                                              value={c.Id}
-                                                          >
-                                                              {c.Name}
-                                                          </Option>
-                                                      ))
-                                                    : null}
-                                            </Select>
-                                        </Form.Item>
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row> */}
             </Form>
+            
+            <CustomerDrawer />
+			<Expenditure show={expenditure} setShow={setExpenditure} />
         </Modal>
     );
 }

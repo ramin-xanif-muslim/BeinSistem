@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button } from 'antd';
 import { useNotification } from '../hooks';
 
-const NatificationModal = () => {
-  const [isNotificationModalVisible, setIsNotificationModalVisible] = useState(false);
+const NatificationModal = ({ isNotificationModalVisible, setIsNotificationModalVisible }) => {
+
+    const [ notify, setNotify ] = useState([])
   const { notifications } = useNotification()
+
+  useEffect(() => {
+    setNotify(notifications)
+  },[notifications])
   console.log(notifications)
 
   const showModal = () => {
@@ -21,12 +26,12 @@ const NatificationModal = () => {
 
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Open Modal
-      </Button>
       <Modal title="Basic Modal" visible={isNotificationModalVisible} onOk={handleOk} onCancel={handleCancel}>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        { notify[0] && notify.map(n => {
+            return(
+                <p>{n.Message}</p>
+            )
+        })}
         <p>Some contents...</p>
       </Modal>
     </>

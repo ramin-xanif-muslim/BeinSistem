@@ -76,16 +76,8 @@ function PaymentOutDetail() {
 	const myRefDescription = useRef(null);
 	const myRefConsumption = useRef(null);
 	const {
-		docPage,
-		docCount,
-		docSum,
-		outerDataSource,
-		setOuterDataSource,
 		departments,
 		owners,
-		stocks,
-		setStock,
-		setStockLocalStorage,
 		setCustomersLocalStorage,
 		customers,
 		setCustomers,

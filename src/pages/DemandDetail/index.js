@@ -116,7 +116,7 @@ function DemandDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const {debt, setCustomerId, customerId} = useFetchDebt()
 
     const { allsum, allQuantity } = useGetDocItems()
 
@@ -457,6 +457,7 @@ function DemandDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
+        values.customerid = customerId;
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
@@ -570,7 +571,7 @@ function DemandDetail() {
                         modify: moment(data.Body.List[0].Modify),
                         mark: data.Body.List[0].Mark,
                         stockid: data.Body.List[0].StockId,
-                        customerid: data.Body.List[0].CustomerId,
+                        customerid: data.Body.List[0].CustomerName,
                         status: data.Body.List[0].Status == 1 ? true : false,
                     }}
                     onFinish={handleFinish}
@@ -863,7 +864,7 @@ function DemandDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentModal datas={data.Body.List[0]} title="Mədahil" endPoint="paymentins"/>
+            <PaymentModal datas={data.Body.List[0]} title="Mədaxil" endPoint="paymentins"/>
         </div>
     );
 }
