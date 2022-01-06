@@ -572,6 +572,11 @@ function NewLoss() {
                                     onChange={onChange}
                                     className="customSelect detail-select"
                                     allowClear={true}
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
                                 >
                                     {options}
                                 </Select>

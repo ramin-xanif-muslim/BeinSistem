@@ -397,6 +397,11 @@ function NewPaymentIn() {
                                         className="customSelect detail-select"
                                         allowClear={true}
                                         onChange={e => setCustomerId(e)}
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
                                     >
                                         {customerOptions}
                                     </Select>

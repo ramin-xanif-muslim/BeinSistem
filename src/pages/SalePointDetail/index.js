@@ -247,6 +247,11 @@ function SalePointDetail() {
                                     placeholder=""
                                     filterOption={false}
                                     notFoundContent={<Spin size="small" />}
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
                                 >
                                     {groupOption}
                                 </Select>

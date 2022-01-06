@@ -11,6 +11,7 @@ import { Segment } from "semantic-ui-react";
 import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { Button, Modal, Badge, Spin, Alert } from "antd";
+import { toast } from "react-toastify";
 import { WarningOutlined } from "@ant-design/icons";
 import {
     fetchStocks,
@@ -20,6 +21,7 @@ import {
 } from "../api";
 import "../Navbar.css";
 import { useNotification } from "../hooks/useNotification";
+import sendRequest from "../config/sentRequest";
 function Navbar() {
     const {
         setMark,
@@ -39,13 +41,49 @@ function Navbar() {
     } = useTableCustom();
     const { firstLogin, logout } = useAuth();
 
-    const { getNotification, notificationsCount } = useNotification()
+    // const { getNotification, notificationsCount } = useNotification()
 
     const [menu, setMenu] = useState("2");
     const [noBalance, setNoBalance] = useState(true);
     const [showBalance, setShowBalance] = useState(false);
     const [companyname, setCompany] = useState(null);
     const [activeItem, setActiveItem] = useState(firstLogin ? "Məhsullar" : "");
+    
+
+	const [notifications, setNotifications] = useState([]);
+    const [notificationsCount, setNotificationsCount] = useState();
+
+	const getNotification = async () => {
+		let res = await sendRequest("notifications/get.php", {});
+		setNotifications(res.Notifications);
+		if (notifications[0]) {
+            setNotificationsCount(notifications.length)
+            for (let item of notifications) {
+                if(item.NotType === 1){
+                    toast.info(item.Message)
+                }
+                if(item.NotType === 2){
+                    toast.success(item.Message)
+                }
+                if(item.NotType === 3){
+                    toast.warn(item.Message)
+                }
+                if(item.NotType === 4){
+                    toast.error(item.Message, {
+                        position: "top-right",
+                        autoClose: false,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: 0,
+                        });
+                    // toast.error(item.Message)
+                }
+            }
+        }
+	};
+
     const [activeSubItem, setActiveSubItem] = useState(
         firstLogin ? "Daxilolma" : ""
     );
@@ -99,11 +137,14 @@ function Navbar() {
     }
 
     useEffect(() => {
-        const intervalId = setInterval(() => { 
-            onClickNotification()
-        }, 10000)
-        return () => clearInterval(intervalId)
+        onClickNotification()
     },[])
+    // useEffect(() => {
+    //     const intervalId = setInterval(() => { 
+    //         onClickNotification()
+    //     }, 10000)
+    //     return () => clearInterval(intervalId)
+    // },[])
 
     useEffect(() => {
         getBalance();

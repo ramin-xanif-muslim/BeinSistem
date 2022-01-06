@@ -469,6 +469,11 @@ function DemandReturnLinked(props) {
                                     className="customSelect detail-select"
                                     allowClear={true}
                                     // onChange={(e) => setCustomerId(e)}
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
                                 >
                                     {/* {customerOptions} */}
                                 </Select>
@@ -527,6 +532,11 @@ function DemandReturnLinked(props) {
                                     // onChange={onChange}
                                     className="customSelect detail-select"
                                     allowClear={true}
+                                    filterOption={(input, option) =>
+                                        option.children
+                                            .toLowerCase()
+                                            .indexOf(input.toLowerCase()) >= 0
+                                    }
                                 >
                                     {/* {options} */}
                                 </Select>
