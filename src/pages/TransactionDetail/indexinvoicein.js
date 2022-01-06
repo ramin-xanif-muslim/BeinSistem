@@ -64,6 +64,7 @@ import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { useFetchDebt } from "../../hooks";
+import CustomersSelectInput from "../../components/CustomersSelectInput";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -420,21 +421,8 @@ function IvoiceInDetail() {
                                     ]}
                                     className="form-item-customer"
                                 >
-                                    <Select
-                                        showSearch
-                                        showArrow={false}
-                                        filterOption={false}
-                                        className="customSelect detail-select"
-                                        allowClear={true}
-                                        onChange={e => setCustomerId(e)}
-                                    filterOption={(input, option) =>
-                                        option.children
-                                            .toLowerCase()
-                                            .indexOf(input.toLowerCase()) >= 0
-                                    }
-                                    >
-                                        {customerOptions}
-                                    </Select>
+                                <CustomersSelectInput 
+                                setCustomerId={setCustomerId} />
                                 </Form.Item>
                                 <p
                                     className="customer-debt"

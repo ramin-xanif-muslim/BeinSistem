@@ -685,21 +685,6 @@ function SupplyDetail() {
                                 ]}
                                 className="form-item-customer"
                             >
-                                {/* <Select
-                                    showSearch
-                                    showArrow={false}
-                                    filterOption={false}
-                                    className="customSelect detail-select"
-                                    allowClear={true}
-                                    onChange={e => setCustomerId(e)}
-                                    filterOption={(input, option) =>
-                                        option.children
-                                            .toLowerCase()
-                                            .indexOf(input.toLowerCase()) >= 0
-                                    }
-                                >
-                                    {customerOptions}
-                                </Select> */}
                                 <CustomersSelectInput 
                                 setCustomerId={setCustomerId} />
                             </Form.Item>

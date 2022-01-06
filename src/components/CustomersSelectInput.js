@@ -11,32 +11,40 @@ function CustomersSelectInput({ setCustomerId }) {
 	const [customers, setCustomers] = useState([]);
 
     const onChangeSelectInput = (e) => {
-        alert(e)
-        console.log(e)
-        setCustomerId(e)
         setInputValue(e)
         setObj({
             fast: inputValue,
         })
     }
 
-	useEffect( async () => {
-        let res = await sendRequest('customers/get.php',obj)
+	const getCustomer = async () => {
+        let res = await sendRequest('customers/getfast.php',obj)
         console.log(res)
-        setCustomers(res)
+        setCustomers(res.List)
+    }
+    useEffect(() => {
+        const delayDebounceFn = setTimeout(() => {
+            setObj({
+                fast: inputValue,
+            });
+            if (inputValue) {
+                getCustomer();
+            } else getCustomer([]);
+        }, 300);
+
+        return () => clearTimeout(delayDebounceFn);
     }, [inputValue]);
 
 	return (
 		<Select
+            lazyLoad
 			showSearch
 			showArrow={false}
 			filterOption={false}
 			className="customSelect detail-select"
 			allowClear={true}
-			onChange={(e) => onChangeSelectInput(e)}
-			filterOption={(input, option) =>
-				option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-			}
+            onSearch={(e) => onChangeSelectInput(e)}
+			onChange={(e) => setCustomerId(e)}
 		>
 			{customers[0] &&
 				customers.map((c) => {
