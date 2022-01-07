@@ -530,7 +530,7 @@ function NewDemandReturn() {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Alıcıya qaytarma</h2>
+				<h2>Alıcıdan qaytarma</h2>
 			</div>
 			<DocButtons
 				additional={"none"}

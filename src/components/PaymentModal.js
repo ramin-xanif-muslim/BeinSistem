@@ -33,7 +33,7 @@ let customPositions = [];
 const { Panel } = Collapse;
 var spendOptions = null;
 
-function PaymentOutModal({ datas, title, endPoint }) {
+function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const {
@@ -130,11 +130,14 @@ function PaymentOutModal({ datas, title, endPoint }) {
         return attrResponse;
     };
     const onClose = () => {
+        console.log("aaaa")
+        fetchDebt()
         setDebt(debt + amount)
         message.destroy();
     };
     //#endregion OwDep
     const handleGancel = () => {
+        updateDebt()
         setPaymentModal(false);
         setIsPayment(false);
     };
@@ -149,6 +152,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
         const res = await saveDoc(values, endPoint);
+        fetchDebt()
         if (res.Headers.ResponseStatus === "0") {
             message.success({
                 content: `${title} saxlanildi`,

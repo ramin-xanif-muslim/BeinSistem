@@ -294,7 +294,7 @@ function DemandReturnLinked(props) {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
-            setRedirect(true);
+            // setRedirect(true);
         } else {
             message.error({
                 content: (
@@ -389,7 +389,7 @@ function DemandReturnLinked(props) {
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Qaytarma</h2>
+                <h2>Alıcıdan qaytarma</h2>
             </div>
             <DocButtons
                 editid={props.location.state.linked}

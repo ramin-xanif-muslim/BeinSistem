@@ -288,7 +288,7 @@ function SupplyReturnLinked(props) {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
-            setRedirect(true);
+            // setRedirect(true);
         } else {
             message.error({
                 content: (
@@ -351,7 +351,7 @@ function SupplyReturnLinked(props) {
         setDocStock(stock);
     };
 
-    if (redirect) return <Redirect to={`/editSupplyReturn/${editId}`} />;
+    if (redirect) return <Redirect to={`/editSupply/${props.location.state.linked}`} />;
     
 
     const panes = [
@@ -385,12 +385,14 @@ function SupplyReturnLinked(props) {
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Qaytarma</h2>
+                <h2>Təchizatçıya qaytarma</h2>
             </div>
             <DocButtons
                 editid={props.location.state.linked}
                 linked={true}
                 closed={`/editSupply/${props.location.state.linked}`}
+                from="linked"
+
             />
             <div className="formWrapper">
                 <Form

@@ -6,6 +6,8 @@ export function useFetchDebt() {
     const [debt, setDebt] = useState(0);
     const [ customerId, setCustomerId] = useState()
     const fetchDebt = async (id) => {
+        console.log(id)
+        console.log(customerId)
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };

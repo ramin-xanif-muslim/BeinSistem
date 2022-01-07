@@ -124,7 +124,7 @@ function SupplyDetail() {
 	const [columnChange, setColumnChange] = useState(false);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-	const { debt, setCustomerId, fetchDebt } = useFetchDebt();
+	const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
 
 	const { allsum, allQuantity } = useGetDocItems();
 
@@ -485,6 +485,7 @@ function SupplyDetail() {
 		setDisable(true);
 
 		values.positions = outerDataSource;
+		values.customerid = customerId;
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
@@ -494,7 +495,6 @@ function SupplyDetail() {
 		if (!values.status) {
 			values.status = status;
 		}
-		console.log(values);
 		message.loading({ content: "Loading...", key: "doc_update" });
 		updateMutation.mutate(
 			{ id: doc_id, controller: "supplies", filter: values },
@@ -995,6 +995,7 @@ function SupplyDetail() {
 				datas={data.Body.List[0]}
 				title="Məxaric"
 				endPoint="paymentouts"
+                updateDebt={fetchDebt}
 			/>
 		</div>
 	);

@@ -117,7 +117,7 @@ function DemandDetail() {
 	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
 
-	const { debt, setCustomerId, customerId } = useFetchDebt();
+	const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
 
 	const { allsum, allQuantity } = useGetDocItems();
 
@@ -472,7 +472,6 @@ function DemandDetail() {
 		if (!values.status) {
 			values.status = status;
 		}
-		console.log(values);
 		message.loading({ content: "Loading...", key: "doc_update" });
 		updateMutation.mutate(
 			{ id: doc_id, controller: "demands", filter: values },
@@ -892,6 +891,7 @@ function DemandDetail() {
 				datas={data.Body.List[0]}
 				title="Mədaxil"
 				endPoint="paymentins"
+                updateDebt={fetchDebt}
 			/>
 		</div>
 	);
