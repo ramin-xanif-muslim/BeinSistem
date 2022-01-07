@@ -696,7 +696,7 @@ export default function Sale() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onDoubleClick: () => editPage(r.Id),
+                    onClick: () => editPage(r.Id),
                 })}
             />
         </div>

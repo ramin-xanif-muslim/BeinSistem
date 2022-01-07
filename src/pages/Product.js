@@ -767,7 +767,7 @@ export default function Product() {
                         }}
                         size="small"
                         onRow={(r) => ({
-                            onDoubleClick: () => editPage(r.Id),
+                            onClick: () => editPage(r.Id),
                         })}
                     />
                 </Col>

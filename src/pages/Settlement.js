@@ -517,7 +517,6 @@ export default function Settlement() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onDoubleClick: () => editPage(r.CustomerId, r),
                     onClick: (e) => editClickPage(e, r.Id),
                 })}
             />

@@ -388,6 +388,12 @@ export default function Customer() {
         setRedirect(true);
         setEditId(id);
     };
+    const editClickPage = (e, id) => {
+        if (e.target.className.includes("linkedColumns")) {
+            setRedirect(true);
+            setEditId(id);
+        }
+    };
 
     const handlePagination = (pg) => {
         setPage(pg - 1);
@@ -549,7 +555,7 @@ export default function Customer() {
                         }}
                         size="small"
                         onRow={(r) => ({
-                            onDoubleClick: () => editPage(r.Id),
+                            onClick: (e) => editClickPage(e, r.Id),
                         })}
                     />
                 </Col>

@@ -668,7 +668,6 @@ export default function Transaction() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onDoubleClick: () => editPage(r.Id, r),
                     onClick: (e) => editClickPage(e, r.Id),
                 })}
             />
