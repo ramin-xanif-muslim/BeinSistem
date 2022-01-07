@@ -183,7 +183,7 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
             className="payment-out-modal"
             title={title}
             visible={paymentModal}
-            onCancel={handleGancel}
+            // onCancel={handleGancel}
             footer={[
                 <Button danger key="back" onClick={handleGancel}>
                     Bağla

@@ -375,7 +375,7 @@ function SupplyReturnLinked(props) {
                         >
                             <DocTable
                                 headers={columns}
-                                datas={props.location.state.data.Positions}
+                                datas={debt && props.location.state.data.Positions}
                             />
                         </Col>
                     </Row>

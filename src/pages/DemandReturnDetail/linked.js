@@ -359,6 +359,8 @@ function DemandReturnLinked(props) {
 
     if (redirect) return <Redirect to={`/editDemandReturn/${editId}`} />;
 
+    console.log(props.location.state.data.Positions)
+
     const panes = [
         {
             menuItem: "Əsas",
@@ -380,7 +382,7 @@ function DemandReturnLinked(props) {
                         >
                             <DocTable
                                 headers={columns}
-                                datas={props.location.state.data.Positions}
+                                datas={debt && props.location.state.data.Positions}
                             />
                         </Col>
                     </Row>
