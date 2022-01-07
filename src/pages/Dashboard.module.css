@@ -81,7 +81,8 @@ hr {
     align-items: flex-end;
 }
 
-.row {
+.row,
+.demoLineRow {
     padding: 4rem;
 }
 
@@ -152,4 +153,17 @@ hr {
     padding: 0.5rem 1rem;
     margin-left: 1rem;
     background: rgba(0, 119, 255, 0.075);
+}
+
+.bold {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 1200px) {
+    body,
+    .doc_wrapper {
+        width: 330vw !important;
+    }
+    /* width: max-content !important; */
 }
