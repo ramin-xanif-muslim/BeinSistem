@@ -60,7 +60,7 @@ function Taxes() {
         let totaldailyAmountNumber = 0;
 
         if (accountservices) {
-            var newObj = {};
+            let newObj = {};
             Object.entries(accountservices).map(([k, v]) => {
                 Object.assign(newObj, { [`s${k}`]: v });
             });
@@ -204,6 +204,7 @@ function Taxes() {
                         );
                         return (
                             <Switch
+                                style={{width: "71px"}}
                                 checkedChildren="Aktiv"
                                 unCheckedChildren="Deaktiv"
                                 defaultChecked={
@@ -290,13 +291,12 @@ function Taxes() {
                                 padding: "1rem",
                             }}
                         >
-                            <strong>Məlumat :</strong>
-                            <span>
-                                Balansınız {data.Body.AccountBalance} ₼.
+                            <span style={{fontWeight: "600"}}>Məlumat :</span>
+                            <p className="settings-prices-text">
+                                Balansınız <span>{data.Body.AccountBalance}<sup>₼</sup></span>.
                                 Hal-hazırki tarifinizin aylıq abunə haqqı{" "}
-                                {totalMonthPrice} ₼. Bitmə tarixi {expireddate}{" "}
-                                ({expired} gün)
-                            </span>
+                                <span>{totalMonthPrice}<sup>₼</sup></span> . Bitmə tarixi <span>{expireddate} ({expired} gün)</span>
+                            </p>
                         </p>
                     </div>
                 </Col>

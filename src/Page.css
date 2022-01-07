@@ -750,6 +750,15 @@ tbody .ant-table-cell {
     width: 10em;
 }
 
+.settings-prices-text {
+    font-family: 'Calibri' !important;
+    letter-spacing: 1px;
+}
+
+.settings-prices-text span {
+    color: #d40000;
+}
+
 @media screen and (max-width: 1200px) {
     body,
     .doc_wrapper {
