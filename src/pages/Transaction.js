@@ -413,6 +413,7 @@ export default function Transaction() {
     }, [isFetching]);
 
     const editPage = (id, row) => {
+        console.log(row)
         if (row.Type === "p" && row.Direct === "i") {
             setRedirectPaymentIn(true);
         }
@@ -668,7 +669,7 @@ export default function Transaction() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onClick: (e) => editPage(r.Id),
+                    onClick: (e) => editPage(r.Id, r),
                 })}
             />
         </div>
