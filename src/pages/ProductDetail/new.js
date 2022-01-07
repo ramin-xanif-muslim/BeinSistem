@@ -220,7 +220,7 @@ function NewProduct() {
         values.price = price;
         setDisable(true);
         var error = false;
-        message.loading({ content: "Loading...", key: "pro_update" });
+        message.loading({ content: "Yüklənir...", key: "pro_update" });
         // Object.assign(values, lastObject);
         var prices = [];
         Object.entries(values).map(([k, v]) => {
@@ -269,7 +269,7 @@ function NewProduct() {
             const res = await saveDoc(values, "products");
             if (res.Headers.ResponseStatus === "0") {
                 message.success({
-                    content: "Saxlanildi",
+                    content: "Saxlanıldı",
                     key: "pro_update",
                     duration: 2,
                 });
@@ -547,14 +547,14 @@ function NewProduct() {
         var newPriceTypes = {};
         newPriceTypes = values;
         newPriceTypes.name = values.namepr;
-        message.loading({ content: "Loading...", key: "price_update" });
+        message.loading({ content: "Yüklənir...", key: "price_update" });
 
         const res = await savePrice(values);
         if (res.Headers.ResponseStatus === "0") {
             const get = await getPrices();
             setPriceIsAdd(true);
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "price_update",
                 duration: 2,
             });
@@ -570,7 +570,7 @@ function NewProduct() {
         setPriceModal(true);
     };
     const handleDeletePrice = async (id) => {
-        message.loading({ content: "Loading...", key: "price_del" });
+        message.loading({ content: "Yüklənir...", key: "price_del" });
         const del = await delPrice(id);
         if (del.Headers.ResponseStatus === "0") {
             const get = await getPrices();

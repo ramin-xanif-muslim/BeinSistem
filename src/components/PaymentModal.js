@@ -37,27 +37,33 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const {
-		departments,
-		owners,
+        departments,
+        owners,
         customers,
         setCustomers,
         spenditems,
         setSpendItems,
         setSpendsLocalStorage,
     } = useTableCustom();
-    const { paymentModal, setPaymentModal, isPayment, setIsPayment, setCustomerDrawer } =
-        useCustomForm();
+    const {
+        paymentModal,
+        setPaymentModal,
+        isPayment,
+        setIsPayment,
+        setCustomerDrawer,
+    } = useCustomForm();
     const [docname, setDocName] = useState(null);
     const [spends, setSpends] = useState(false);
     const [newStocksLoad, setNewStocksLoad] = useState(null);
-	const [expenditure, setExpenditure] = useState(false);
+    const [expenditure, setExpenditure] = useState(false);
     const [status, setStatus] = useState(false);
     const [amount, setAmount] = useState(false);
 
-    const {debt, setDebt, setCustomerId, customerId, fetchDebt} = useFetchDebt()
+    const { debt, setDebt, setCustomerId, customerId, fetchDebt } =
+        useFetchDebt();
 
     useEffect(() => {
-        setCustomerId(datas.CustomerId)
+        setCustomerId(datas.CustomerId);
         setStatus(datas.Status);
     }, []);
     useEffect(() => {
@@ -80,48 +86,48 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
         setCustomers(customerResponse.Body.List);
     };
 
-	var objCustomers;
-	customers
-		? (objCustomers = customers)
-		: (objCustomers = JSON.parse(localStorage.getItem("customers")));
-	const customerOptions = Object.values(objCustomers).map((c) => (
-		<Option key={c.Id} value={c.Id}>
-			{c.Name}
-		</Option>
-	));
-	var ownerList;
-	owners
-		? (ownerList = owners)
-		: (ownerList = JSON.parse(localStorage.getItem("owners")));
+    var objCustomers;
+    customers
+        ? (objCustomers = customers)
+        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
+    const customerOptions = Object.values(objCustomers).map((c) => (
+        <Option key={c.Id} value={c.Id}>
+            {c.Name}
+        </Option>
+    ));
+    var ownerList;
+    owners
+        ? (ownerList = owners)
+        : (ownerList = JSON.parse(localStorage.getItem("owners")));
 
-	var departmentList;
-	departments
-		? (departmentList = departments)
-		: (departmentList = JSON.parse(localStorage.getItem("departments")));
-	const ownerOption = Object.values(ownerList).map((c) => (
-		<Option key={c.Id}>{c.Name}</Option>
-	));
-	const departmentOption = Object.values(departmentList).map((c) => (
-		<Option key={c.Id}>{c.Name}</Option>
-	));
+    var departmentList;
+    departments
+        ? (departmentList = departments)
+        : (departmentList = JSON.parse(localStorage.getItem("departments")));
+    const ownerOption = Object.values(ownerList).map((c) => (
+        <Option key={c.Id}>{c.Name}</Option>
+    ));
+    const departmentOption = Object.values(departmentList).map((c) => (
+        <Option key={c.Id}>{c.Name}</Option>
+    ));
 
-	const onChangeSpendItem = (value, option) => {
-		console.log(value, option);
-		if (option.staticname != "buyproduct") {
-			form.setFieldsValue({
-				customerid: "00000000-0000-0000-0000-000000000000",
-			});
-		} else {
-			if (
-				form.getFieldsValue().customerid ===
-				"00000000-0000-0000-0000-000000000000"
-			) {
-				form.setFieldsValue({
-					customerid: "",
-				});
-			}
-		}
-	};
+    const onChangeSpendItem = (value, option) => {
+        console.log(value, option);
+        if (option.staticname != "buyproduct") {
+            form.setFieldsValue({
+                customerid: "00000000-0000-0000-0000-000000000000",
+            });
+        } else {
+            if (
+                form.getFieldsValue().customerid ===
+                "00000000-0000-0000-0000-000000000000"
+            ) {
+                form.setFieldsValue({
+                    customerid: "",
+                });
+            }
+        }
+    };
 
     //#region OwDep
 
@@ -130,32 +136,32 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
         return attrResponse;
     };
     const onClose = () => {
-        console.log("aaaa")
-        fetchDebt()
-        setDebt(debt + amount)
+        console.log("aaaa");
+        fetchDebt();
+        setDebt(debt + amount);
         message.destroy();
     };
     //#endregion OwDep
     const handleGancel = () => {
-        updateDebt()
+        updateDebt();
         setPaymentModal(false);
         setIsPayment(false);
     };
 
     const handleFinish = async (values) => {
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.customerid = customerId;
         if (!values.status) {
             values.status = status;
         }
-        message.loading({ content: "Loading...", key: "payment_update" });
+        message.loading({ content: "Yüklənir...", key: "payment_update" });
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
         const res = await saveDoc(values, endPoint);
-        fetchDebt()
+        fetchDebt();
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: `${title} saxlanildi`,
+                content: `${title} Saxlanıldı`,
                 key: "payment_update",
                 duration: 2,
             });
@@ -265,7 +271,7 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
                     <Col xs={24} md={24} xl={11}>
                         <Button className="add-stock-btn">
                             <PlusOutlined
-                            onClick={() => setCustomerDrawer(true)}
+                                onClick={() => setCustomerDrawer(true)}
                             />
                         </Button>
                         <Form.Item
@@ -318,7 +324,7 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
                     <Col xs={24} md={24} xl={11}>
                         <Button className="add-stock-btn">
                             <PlusOutlined
-                            onClick={() => setExpenditure(true)}
+                                onClick={() => setExpenditure(true)}
                             />
                         </Button>
                         <Form.Item
@@ -401,9 +407,9 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
                                         name="status"
                                         valuePropName="checked"
                                         style={{ width: "100%" }}
-                                            onChange={(e) =>
-                                                setStatus(e.target.checked)
-                                            }
+                                        onChange={(e) =>
+                                            setStatus(e.target.checked)
+                                        }
                                     >
                                         <Checkbox name="status"></Checkbox>
                                     </Form.Item>
@@ -453,9 +459,9 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
                     </Collapse>
                 </Row>
             </Form>
-            
+
             <CustomerDrawer />
-			<Expenditure show={expenditure} setShow={setExpenditure} />
+            <Expenditure show={expenditure} setShow={setExpenditure} />
         </Modal>
     );
 }

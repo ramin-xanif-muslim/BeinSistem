@@ -1,26 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
 import { Table } from "antd";
-import {
-    updateTaxes,
-} from "../api";
+import { updateTaxes } from "../api";
 import { ConvertDecimal } from "../config/function/findadditionals";
 import moment from "moment";
 
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import {
-    Col,
-    Row,
-    Input,
-    Button,
-    Switch,
-    message,
-    Spin,
-    Progress,
-} from "antd";
-import {
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { Col, Row, Input, Button, Switch, message, Spin, Progress } from "antd";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { fetchCompany, fetchTaxes, updateCompany } from "../api";
 moment.locale("az");
 
@@ -204,7 +191,7 @@ function Taxes() {
                         );
                         return (
                             <Switch
-                                style={{width: "71px"}}
+                                style={{ width: "71px" }}
                                 checkedChildren="Aktiv"
                                 unCheckedChildren="Deaktiv"
                                 defaultChecked={
@@ -231,14 +218,14 @@ function Taxes() {
     };
 
     const handleSaveTaxes = async () => {
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { filter: sendObject },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -263,7 +250,7 @@ function Taxes() {
         );
     };
 
-    if (isLoading) return "Loading...";
+    if (isLoading) return "Yüklənir...";
 
     if (error) return "An error has occurred: " + error.message;
 
@@ -291,11 +278,22 @@ function Taxes() {
                                 padding: "1rem",
                             }}
                         >
-                            <span style={{fontWeight: "600"}}>Məlumat :</span>
+                            <span style={{ fontWeight: "600" }}>Məlumat :</span>
                             <p className="settings-prices-text">
-                                Balansınız <span>{data.Body.AccountBalance}<sup>₼</sup></span>.
-                                Hal-hazırki tarifinizin aylıq abunə haqqı{" "}
-                                <span>{totalMonthPrice}<sup>₼</sup></span> . Bitmə tarixi <span>{expireddate} ({expired} gün)</span>
+                                Balansınız{" "}
+                                <span>
+                                    {data.Body.AccountBalance}
+                                    <sup>₼</sup>
+                                </span>
+                                . Hal-hazırki tarifinizin aylıq abunə haqqı{" "}
+                                <span>
+                                    {totalMonthPrice}
+                                    <sup>₼</sup>
+                                </span>{" "}
+                                . Bitmə tarixi{" "}
+                                <span>
+                                    {expireddate} ({expired} gün)
+                                </span>
                             </p>
                         </p>
                     </div>

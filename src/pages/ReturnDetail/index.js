@@ -12,9 +12,7 @@ import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
-import {
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import {
     Form,
     Alert,
@@ -44,7 +42,11 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
+import {
+    useFetchDebt,
+    useGetDocItems,
+    useSearchSelectInput,
+} from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
@@ -100,15 +102,15 @@ function ReturnDetail() {
     const [consumption, setConsumption] = useState(0);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { debt, setCustomerId } = useFetchDebt();
 
-    const { allsum, allQuantity } = useGetDocItems()
+    const { allsum, allQuantity } = useGetDocItems();
 
-	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
-	const onChangeSelectInput = (e) => {
-		// handleChanged();
-		setCustomerId(e);
-	};
+    const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+    const onChangeSelectInput = (e) => {
+        // handleChanged();
+        setCustomerId(e);
+    };
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["return", doc_id],
@@ -401,20 +403,20 @@ function ReturnDetail() {
 
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;
         console.log(values);
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "returns", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -526,25 +528,25 @@ function ReturnDetail() {
                                 name="customername"
                                 className="form-item-customer"
                             >
-								<Select
-									lazyLoad
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect detail-select"
-									allowClear={true}
-									onSearch={(e) => onSearchSelectInput(e)}
-									onChange={(e) => onChangeSelectInput(e)}
-								>
-									{customersForSelet[0] &&
-										customersForSelet.map((c) => {
-											return (
-												<Option key={c.Id} value={c.Id}>
-													{c.Name}
-												</Option>
-											);
-										})}
-								</Select>
+                                <Select
+                                    lazyLoad
+                                    showSearch
+                                    showArrow={false}
+                                    filterOption={false}
+                                    className="customSelect detail-select"
+                                    allowClear={true}
+                                    onSearch={(e) => onSearchSelectInput(e)}
+                                    onChange={(e) => onChangeSelectInput(e)}
+                                >
+                                    {customersForSelet[0] &&
+                                        customersForSelet.map((c) => {
+                                            return (
+                                                <Option key={c.Id} value={c.Id}>
+                                                    {c.Name}
+                                                </Option>
+                                            );
+                                        })}
+                                </Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"
@@ -677,15 +679,16 @@ function ReturnDetail() {
                 </Form>
 
                 <Row>
-                    { isFetching ? <Spin />
-                        :
+                    {isFetching ? (
+                        <Spin />
+                    ) : (
                         <Col xs={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
-                    }
+                    )}
                     <Col xs={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={24} md={24} xl={9}>
@@ -732,7 +735,11 @@ function ReturnDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentModal datas={data.Body.List[0]} title="Məxaric" endPoint="paymentouts"/>
+            <PaymentModal
+                datas={data.Body.List[0]}
+                title="Məxaric"
+                endPoint="paymentouts"
+            />
         </div>
     );
 }

@@ -200,11 +200,11 @@ function NewCustomer() {
     const handleFinish = async (values) => {
         setDisable(true);
 
-        message.loading({ content: "Loading...", key: "pro_update" });
+        message.loading({ content: "Yüklənir...", key: "pro_update" });
         const res = await saveDoc(values, "customers");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "pro_update",
                 duration: 2,
             });
@@ -256,7 +256,10 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24} sm={24} md={24} xl={24}
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
                                 >
                                     <Form.Item
                                         label="Tərəf-müqabil adı"
@@ -277,7 +280,10 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24} sm={24} md={24} xl={24}
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
                                 >
                                     <Button
                                         className="add-stock-btn"
@@ -311,7 +317,10 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24} sm={24} md={24} xl={24}
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
                                 >
                                     <Form.Item label="Telefon" name="phone">
                                         <Input className="detail-input" />
@@ -319,7 +328,10 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24} sm={24} md={24} xl={24}
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
                                 >
                                     <Form.Item label="Email" name="email">
                                         <Input
@@ -330,7 +342,10 @@ function NewCustomer() {
                                 </Col>
                                 <Col
                                     className="left_wrapper"
-                                    xs={24} sm={24} md={24} xl={24}
+                                    xs={24}
+                                    sm={24}
+                                    md={24}
+                                    xl={24}
                                 >
                                     <Form.Item label="Kart nömrəsi" name="card">
                                         <Input
@@ -354,7 +369,10 @@ function NewCustomer() {
                         </Col>
                         <Col
                             style={{ paddingLeft: "5rem" }}
-                            xs={10} sm={10} md={10} xl={10}
+                            xs={10}
+                            sm={10}
+                            md={10}
+                            xl={10}
                         >
                             <div className="tab_wrapper">
                                 <Tab

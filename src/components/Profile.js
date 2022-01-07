@@ -3,16 +3,8 @@ import { Divider } from "antd";
 import MaskedInput from "antd-mask-input";
 
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import {
-    Form,
-    Input,
-    Button,
-    message,
-} from "antd";
-import {
-    UserOutlined,
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { Form, Input, Button, message } from "antd";
+import { UserOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { fetchCompany, updateCompany } from "../api";
 var pat = /^[a-zA-Z0-9]+$/;
 const deviderStyle = {
@@ -37,14 +29,14 @@ function Profile() {
     };
 
     const onFinish = async (values) => {
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -78,7 +70,7 @@ function Profile() {
             range: "${label} must be between ${min} and ${max}",
         },
     };
-    if (isLoading) return "Loading...";
+    if (isLoading) return "Yüklənir...";
 
     if (error) return "An error has occurred: " + error.message;
 

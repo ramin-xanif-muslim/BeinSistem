@@ -83,7 +83,7 @@ function StatusSelect({ defaultvalue }) {
         e.preventDefault();
         e.stopPropagation();
 
-        message.loading({ content: "Loading...", key: "doc_delete" });
+        message.loading({ content: "Yüklənir...", key: "doc_delete" });
         const res = await delMarks(id);
 
         if (res.Body.ResponseStatus && res.Body.ResponseStatus === "0") {
@@ -114,7 +114,7 @@ function StatusSelect({ defaultvalue }) {
     };
 
     const onFinish = async (values) => {
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         setMarkLoading(true);
         const markResponse = await editMarks(values);
         if (
@@ -130,7 +130,7 @@ function StatusSelect({ defaultvalue }) {
 
             setShow(false);
             message.success({
-                content: "Updated",
+                content: "Dəyişildi",
                 key: "doc_update",
                 duration: 2,
             });
@@ -160,7 +160,7 @@ function StatusSelect({ defaultvalue }) {
 
             setShow(false);
             message.success({
-                content: "Updated",
+                content: "Dəyişildi",
                 key: "doc_update",
                 duration: 2,
             });

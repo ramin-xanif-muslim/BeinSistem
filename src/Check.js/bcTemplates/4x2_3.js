@@ -1,7 +1,9 @@
 const fourtwothird = {
   mainWrapper: {
-    transform: "rotate(90deg)",
-    "margin-left": "10rem",
+    transform:" rotate(90deg)",
+    position: "absolute",
+    top: "-369px",
+    left: "120px",
   },
   main: {
     width: "213px",

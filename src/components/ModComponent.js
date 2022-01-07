@@ -94,12 +94,12 @@ export default function ModComponent() {
     const delSpendItem = (id, e) => {
         e.preventDefault();
         e.stopPropagation();
-        message.loading({ content: "Loading...", key: "doc_del" });
+        message.loading({ content: "Yüklənir...", key: "doc_del" });
         deleteMutation.mutate(id, {
             onSuccess: (res) => {
                 if (res.Headers.ResponseStatus === "0") {
                     message.success({
-                        content: "Updated",
+                        content: "Dəyişildi",
                         key: "doc_del",
                         duration: 2,
                     });
@@ -241,14 +241,14 @@ export default function ModComponent() {
         : null;
 
     const onFinish = async (values) => {
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: edit ? edit.Id : null, filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -274,7 +274,7 @@ export default function ModComponent() {
             }
         );
     };
-    if (isLoading) return "Loading...";
+    if (isLoading) return "Yüklənir...";
 
     if (error) return "An error has occurred: " + error.message;
 

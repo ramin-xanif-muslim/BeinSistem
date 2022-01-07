@@ -151,11 +151,11 @@ function NewSalePoint() {
     const handleFinish = async (values) => {
         setDisable(true);
 
-        message.loading({ content: "Loading...", key: "pro_update" });
+        message.loading({ content: "Yüklənir...", key: "pro_update" });
         const res = await saveDoc(values, "salepoints");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "pro_update",
                 duration: 2,
             });

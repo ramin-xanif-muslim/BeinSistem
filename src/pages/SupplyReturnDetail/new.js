@@ -58,7 +58,11 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
+import {
+    useFetchDebt,
+    useGetDocItems,
+    useSearchSelectInput,
+} from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -118,15 +122,15 @@ function NewSupplyReturn() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const { allsum, allQuantity } = useGetDocItems()
+    const { allsum, allQuantity } = useGetDocItems();
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { debt, setCustomerId } = useFetchDebt();
 
-	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
-	const onChangeSelectInput = (e) => {
-		handleChanged();
-		setCustomerId(e);
-	};
+    const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+    const onChangeSelectInput = (e) => {
+        handleChanged();
+        setCustomerId(e);
+    };
 
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -390,19 +394,19 @@ function NewSupplyReturn() {
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
         // values.mark = docmark;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;
 
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
 
         const res = await saveDoc(values, "supplyreturns");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "doc_update",
                 duration: 2,
             });
@@ -482,7 +486,10 @@ function NewSupplyReturn() {
                 <Tab.Pane attached={false}>
                     <Row style={{ justifyContent: "space-between" }}>
                         <Col
-                            xs={9} sm={9} md={9} xl={9}
+                            xs={9}
+                            sm={9}
+                            md={9}
+                            xl={9}
                             style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
                         >
                             <div className="addProductInputIcon">
@@ -504,7 +511,10 @@ function NewSupplyReturn() {
                             </Button>
                         </Dropdown>
                         <Col
-                            xs={24} sm={24} md={24} xl={24}
+                            xs={24}
+                            sm={24}
+                            md={24}
+                            xl={24}
                             style={{ paddingTop: "1rem", zIndex: "0" }}
                         >
                             <DocTable
@@ -583,25 +593,25 @@ function NewSupplyReturn() {
                                     },
                                 ]}
                             >
-								<Select
-									lazyLoad
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect detail-select"
-									allowClear={true}
-									onSearch={(e) => onSearchSelectInput(e)}
-									onChange={(e) => onChangeSelectInput(e)}
-								>
-									{customersForSelet[0] &&
-										customersForSelet.map((c) => {
-											return (
-												<Option key={c.Id} value={c.Id}>
-													{c.Name}
-												</Option>
-											);
-										})}
-								</Select>
+                                <Select
+                                    lazyLoad
+                                    showSearch
+                                    showArrow={false}
+                                    filterOption={false}
+                                    className="customSelect detail-select"
+                                    allowClear={true}
+                                    onSearch={(e) => onSearchSelectInput(e)}
+                                    onChange={(e) => onChangeSelectInput(e)}
+                                >
+                                    {customersForSelet[0] &&
+                                        customersForSelet.map((c) => {
+                                            return (
+                                                <Option key={c.Id} value={c.Id}>
+                                                    {c.Name}
+                                                </Option>
+                                            );
+                                        })}
+                                </Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"
@@ -770,9 +780,7 @@ function NewSupplyReturn() {
                         <Row className="bottom_tab">
                             <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
-                                    <Form
-                                        onFieldsChange={handleChanged}
-                                    >
+                                    <Form onFieldsChange={handleChanged}>
                                         <Form.Item name="description">
                                             <TextArea
                                                 ref={myRefDescription}

@@ -2,10 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useState } from "react";
-import {
-    fetchSalePointId,
-    updateSalePoint,
-} from "../../api";
+import { fetchSalePointId, updateSalePoint } from "../../api";
 import DocButtons from "../../components/DocButtons";
 
 import {
@@ -23,10 +20,7 @@ import {
 import "antd/dist/antd.css";
 import { message } from "antd";
 import { fetchCard } from "../../api";
-import {
-    PlusOutlined,
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { useTableCustom } from "../../contexts/TableContext";
 const { Option } = Select;
 const { TextArea } = Input;
@@ -146,14 +140,14 @@ function SalePointDetail() {
     const handleFinish = async (values) => {
         setDisable(true);
 
-        message.loading({ content: "Loading...", key: "pro_update" });
+        message.loading({ content: "Yüklənir...", key: "pro_update" });
         updateMutation.mutate(
             { id: slpnt_id, controller: "salepoints", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "pro_update",
                             duration: 2,
                         });
@@ -203,7 +197,10 @@ function SalePointDetail() {
                 >
                     <Row>
                         <Col
-                            xs={8} sm={8} md={8} xl={8}
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            xl={8}
                             className="left_form_wrapper"
                         >
                             <Form.Item

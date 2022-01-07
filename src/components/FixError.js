@@ -51,7 +51,7 @@ function FixError() {
         fetchErrors()
     );
 
-    if (isLoading) return "Loading...";
+    if (isLoading) return "Yüklənir...";
 
     if (error) return "An error has occurred: " + error.message;
 

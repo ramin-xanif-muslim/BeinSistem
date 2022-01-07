@@ -59,7 +59,11 @@ import {
     ConvertFixedTable,
     ConvertFixedPosition,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
+import {
+    useFetchDebt,
+    useGetDocItems,
+    useSearchSelectInput,
+} from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
@@ -117,15 +121,15 @@ function DemandReturnDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { debt, setCustomerId } = useFetchDebt();
 
-    const { allsum, allQuantity } = useGetDocItems()
+    const { allsum, allQuantity } = useGetDocItems();
 
-	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
-	const onChangeSelectInput = (e) => {
-		handleChanged();
-		setCustomerId(e);
-	};
+    const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+    const onChangeSelectInput = (e) => {
+        handleChanged();
+        setCustomerId(e);
+    };
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["demandreturn", doc_id],
@@ -413,14 +417,14 @@ function DemandReturnDetail() {
             values.status = status;
         }
         console.log(values);
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "demandreturns", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -460,12 +464,18 @@ function DemandReturnDetail() {
                     <Row>
                         <Col xs={9} sm={9} md={9} xl={9}>
                             <div className="addProductInputIcon">
-                                <AddProductInput from="demands" className="newProInputWrapper" />
+                                <AddProductInput
+                                    from="demands"
+                                    className="newProInputWrapper"
+                                />
                                 <PlusOutlined className="addNewProductIcon" />
                             </div>
                         </Col>
                         <Col
-                            xs={24} sm={24} md={24} xl={24}
+                            xs={24}
+                            sm={24}
+                            md={24}
+                            xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
                             <DocTable headers={columns} datas={positions} />
@@ -546,31 +556,35 @@ function DemandReturnDetail() {
                                 ]}
                                 className="form-item-customer"
                             >
-								<Select
-									lazyLoad
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect detail-select"
-									allowClear={true}
-									onSearch={(e) => onSearchSelectInput(e)}
-									onChange={(e) => onChangeSelectInput(e)}
-								>
-									{customersForSelet[0] &&
-										customersForSelet.map((c) => {
-											return (
-												<Option key={c.Id} value={c.Id}>
-													{c.Name}
-												</Option>
-											);
-										})}
-								</Select>
+                                <Select
+                                    lazyLoad
+                                    showSearch
+                                    showArrow={false}
+                                    filterOption={false}
+                                    className="customSelect detail-select"
+                                    allowClear={true}
+                                    onSearch={(e) => onSearchSelectInput(e)}
+                                    onChange={(e) => onChangeSelectInput(e)}
+                                >
+                                    {customersForSelet[0] &&
+                                        customersForSelet.map((c) => {
+                                            return (
+                                                <Option key={c.Id} value={c.Id}>
+                                                    {c.Name}
+                                                </Option>
+                                            );
+                                        })}
+                                </Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"
                                 style={debt < 0 ? { color: "red" } : {}}
                             >
-                                <span style={{ color: "red" }}>
+                                <span
+                                    style={{
+                                        color: "red",
+                                    }}
+                                >
                                     Qalıq borc:
                                 </span>
                                 {debt} ₼
@@ -731,33 +745,35 @@ function DemandReturnDetail() {
                 </Form>
 
                 <Row>
-                    { isFetching ? <Spin />
-                        :
+                    {isFetching ? (
+                        <Spin />
+                    ) : (
                         <Col xs={24} sm={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
-                    }
+                    )}
                     <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
-									<Form
-										initialValues={{
-											description: data.Body.List[0].Description,
-										}}
+                                    <Form
+                                        initialValues={{
+                                            description:
+                                                data.Body.List[0].Description,
+                                        }}
                                         onFieldsChange={handleChanged}
-									>
-										<Form.Item name="description">
-											<TextArea
-												ref={myRefDescription}
-												placeholder={"Şərh..."}
-												rows={3}
-											/>
-										</Form.Item>
-									</Form>
+                                    >
+                                        <Form.Item name="description">
+                                            <TextArea
+                                                ref={myRefDescription}
+                                                placeholder={"Şərh..."}
+                                                rows={3}
+                                            />
+                                        </Form.Item>
+                                    </Form>
                                 </div>
                             </Col>
                             <Col xs={12} sm={12} md={12} xl={12}>
@@ -816,7 +832,11 @@ function DemandReturnDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentModal datas={data.Body.List[0]} title="Məxaric" endPoint="paymentouts"/>
+            <PaymentModal
+                datas={data.Body.List[0]}
+                title="Məxaric"
+                endPoint="paymentouts"
+            />
         </div>
     );
 }

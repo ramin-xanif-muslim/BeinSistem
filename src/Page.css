@@ -729,9 +729,14 @@ tbody .ant-table-cell {
     margin-bottom: 0;
 }
 .customer-debt {
+    font-family: "Calibri" !important;
     display: flex;
     justify-content: end;
     margin-bottom: 18px !important;
+}
+
+.customer-debt span {
+    margin-right: 0.5rem;
 }
 
 .filter-input .ant-col-24.ant-form-item-label {
@@ -751,12 +756,16 @@ tbody .ant-table-cell {
 }
 
 .settings-prices-text {
-    font-family: 'Calibri' !important;
+    font-family: "Calibri" !important;
     letter-spacing: 1px;
 }
 
 .settings-prices-text span {
     color: #d40000;
+}
+
+#dashboard .ant-picker-suffix {
+    color: #1164b1;
 }
 
 @media screen and (max-width: 1200px) {

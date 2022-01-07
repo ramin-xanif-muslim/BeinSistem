@@ -97,7 +97,7 @@ function CustomerGroupDetail() {
         // if (values.parentid === "Ana Qrup") {
         //   values.parentid = "00000000-0000-0000-0000-000000000000";
         // }
-        message.loading({ content: "Loading...", key: "progr_update" });
+        message.loading({ content: "Yüklənir...", key: "progr_update" });
 
         updateMutation.mutate(
             { id: cusgr_id, controller: "customergroups", filter: values },
@@ -105,7 +105,7 @@ function CustomerGroupDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "progr_update",
                             duration: 2,
                         });

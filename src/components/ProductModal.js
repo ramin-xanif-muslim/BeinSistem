@@ -4,24 +4,24 @@ import { fetchRefList } from "../api";
 import { fetchProductFolders } from "../api";
 import { useCustomForm } from "../contexts/FormContext";
 import {
-  Form,
-  Input,
-  Button,
-  InputNumber,
-  Checkbox,
-  Select,
-  Spin,
-  Row,
-  Col,
-  Collapse,
+    Form,
+    Input,
+    Button,
+    InputNumber,
+    Checkbox,
+    Select,
+    Spin,
+    Row,
+    Col,
+    Collapse,
 } from "antd";
 import "antd/dist/antd.css";
 import { message } from "antd";
 import { saveDoc, fetchBarcode } from "../api";
 import {
-  SyncOutlined,
-  PlusOutlined,
-  CloseCircleOutlined,
+    SyncOutlined,
+    PlusOutlined,
+    CloseCircleOutlined,
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../contexts/TableContext";
@@ -174,7 +174,7 @@ function ProductModal() {
     const handleFinish = async (values) => {
         var error = false;
 
-        message.loading({ content: "Loading...", key: "pro_update" });
+        message.loading({ content: "Yüklənir...", key: "pro_update" });
         Object.assign(values, lastObject);
         var prices = [];
         Object.entries(values).map(([k, v]) => {
@@ -219,7 +219,7 @@ function ProductModal() {
             const res = await saveDoc(values, "products");
             if (res.Headers.ResponseStatus === "0") {
                 message.success({
-                    content: "Saxlanildi",
+                    content: "Saxlanıldı",
                     key: "pro_update",
                     duration: 2,
                 });
