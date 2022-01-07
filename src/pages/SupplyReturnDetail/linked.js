@@ -525,11 +525,11 @@ function SupplyReturnLinked(props) {
                                     showSearch
                                     showArrow={false}
                                     filterOption={false}
-                                    // onChange={onChange}
+                                    onChange={onChange}
                                     className="customSelect detail-select"
                                     allowClear={true}
                                 >
-                                    {/* {options} */}
+                                    {options}
                                 </Select>
                             </Form.Item>
                         </Col>

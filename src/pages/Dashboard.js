@@ -35,6 +35,17 @@ function Dashboard() {
             </Spin>
         );
 	}
+    
+    // var result = money / 100 * tallage; 
+    let percentS;
+    let percentP;
+    let percentC;
+    if(data) {
+        percentS = (data.Sales.PrevAmount / 100 *  data.Sales.CurrAmount).toFixed(2); 
+        percentP = (data.Profits.PrevAmount / 100 *  data.Profits.CurrAmount).toFixed(2); 
+        percentC = (data.Comission.PrevAmount / 100 *  data.Comission.CurrAmount).toFixed(2); 
+    }
+    console.log(data)
 
 	return (
 		<div id="dashboard" className={style.div}>
@@ -64,7 +75,7 @@ function Dashboard() {
 										style={{ color: "#ff0000" }}
 									/>
 								)}
-								<p>33.85%</p>
+								<p>{percentS}%</p>
 							</span>
 							<p className={style.ptext}>
 								<i>dünənə nisbətən</i>
@@ -108,7 +119,7 @@ function Dashboard() {
 										style={{ color: "#ff0000" }}
 									/>
 								)}
-								<p>33.85%</p>
+								<p>{percentC}%</p>
 							</span>
 							<p className={style.ptext}>
 								<i>dünənə nisbətən</i>
@@ -150,7 +161,7 @@ function Dashboard() {
 										style={{ color: "#ff0000" }}
 									/>
 								)}
-								<p>33.85%</p>
+								<p>{percentP}%</p>
 							</span>
 							<p className={style.ptext}>
 								<i>dünənə nisbətən</i>
