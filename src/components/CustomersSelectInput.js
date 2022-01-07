@@ -1,10 +1,13 @@
 import { Select } from "antd";
 import React, { useState, useEffect } from "react";
 import sendRequest from "../config/sentRequest";
+import { useFetchDebt } from "../hooks";
 
 const { Option } = Select;
 
-function CustomersSelectInput({ setCustomerId, handleChanged }) {
+function CustomersSelectInput({ handleChanged }) {
+
+	const { setCustomerId } = useFetchDebt();
 
     const [ obj, setObj ] = useState({})
     const [ inputValue, setInputValue ] = useState()
@@ -26,6 +29,7 @@ function CustomersSelectInput({ setCustomerId, handleChanged }) {
         console.log(res)
         setCustomers(res.List)
     }
+
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
             setObj({

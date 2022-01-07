@@ -58,7 +58,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems } from "../../hooks";
+import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -112,6 +112,12 @@ function SaleDetail() {
 
     const {debt, setCustomerId} = useFetchDebt()
     const { allsum, allQuantity } = useGetDocItems()
+
+	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+	const onChangeSelectInput = (e) => {
+		// handleChanged();
+		setCustomerId(e);
+	};
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["sale", doc_id],
@@ -507,21 +513,25 @@ function SaleDetail() {
                                 name="customername"
                                 className="form-item-customer"
                             >
-                                <Select
-                                    showSearch
-                                    showArrow={false}
-                                    filterOption={false}
-                                    className="customSelect detail-select"
-                                    allowClear={true}
-                                    onChange={e => setCustomerId(e)}
-                                    filterOption={(input, option) =>
-                                        option.children
-                                            .toLowerCase()
-                                            .indexOf(input.toLowerCase()) >= 0
-                                    }
-                                >
-                                    {customerOptions}
-                                </Select>
+								<Select
+									lazyLoad
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onSearch={(e) => onSearchSelectInput(e)}
+									onChange={(e) => onChangeSelectInput(e)}
+								>
+									{customersForSelet[0] &&
+										customersForSelet.map((c) => {
+											return (
+												<Option key={c.Id} value={c.Id}>
+													{c.Name}
+												</Option>
+											);
+										})}
+								</Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"

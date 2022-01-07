@@ -58,7 +58,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems } from "../../hooks";
+import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -121,6 +121,12 @@ function NewSupplyReturn() {
     const { allsum, allQuantity } = useGetDocItems()
 
     const {debt, setCustomerId} = useFetchDebt()
+
+	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+	const onChangeSelectInput = (e) => {
+		handleChanged();
+		setCustomerId(e);
+	};
 
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -577,10 +583,25 @@ function NewSupplyReturn() {
                                     },
                                 ]}
                             >
-								<CustomersSelectInput
-									handleChanged={handleChanged}
-									setCustomerId={setCustomerId}
-								/>
+								<Select
+									lazyLoad
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onSearch={(e) => onSearchSelectInput(e)}
+									onChange={(e) => onChangeSelectInput(e)}
+								>
+									{customersForSelet[0] &&
+										customersForSelet.map((c) => {
+											return (
+												<Option key={c.Id} value={c.Id}>
+													{c.Name}
+												</Option>
+											);
+										})}
+								</Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"

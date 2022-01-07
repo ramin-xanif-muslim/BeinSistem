@@ -23,9 +23,7 @@ import { message } from "antd";
 import { saveDoc, fetchSpendItems } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import CustomerDrawer from "../../components/CustomerDrawer";
-import { ConvertFixedTable } from "../../config/function/findadditionals";
-import { useFetchDebt } from "../../hooks";
-import CustomersSelectInput from "../../components/CustomersSelectInput";
+import { useFetchDebt, useSearchSelectInput } from "../../hooks";
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -59,6 +57,12 @@ function NewPaymentIn() {
     const [spends, setSpends] = useState(false);
 
     const {debt, setCustomerId} = useFetchDebt()
+
+	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+	const onChangeSelectInput = (e) => {
+		handleChanged();
+		setCustomerId(e);
+	};
 
 
     useEffect(() => {
@@ -308,10 +312,25 @@ function NewPaymentIn() {
                                         },
                                     ]}
                                 >
-								<CustomersSelectInput
-									handleChanged={handleChanged}
-									setCustomerId={setCustomerId}
-								/>
+								<Select
+									lazyLoad
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onSearch={(e) => onSearchSelectInput(e)}
+									onChange={(e) => onChangeSelectInput(e)}
+								>
+									{customersForSelet[0] &&
+										customersForSelet.map((c) => {
+											return (
+												<Option key={c.Id} value={c.Id}>
+													{c.Name}
+												</Option>
+											);
+										})}
+								</Select>
                                 </Form.Item>
                             <p
                                 className="customer-debt"

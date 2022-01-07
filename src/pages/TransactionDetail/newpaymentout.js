@@ -1,54 +1,29 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
-import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
-import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
-import StockDrawer from "../../components/StockDrawer";
-import ProductModal from "../../components/ProductModal";
-import { Tab } from "semantic-ui-react";
 import {
-    FindAdditionals,
-    FindCofficient,
-    ConvertFixedTable,
-} from "../../config/function/findadditionals";
-import {
-    DeleteOutlined,
     PlusOutlined,
-    EditOutlined,
-    SettingOutlined,
     CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
     Form,
     Input,
     Button,
-    InputNumber,
-    TreeSelect,
     Checkbox,
     Dropdown,
     DatePicker,
     Switch,
     Select,
     Spin,
-    Tag,
-    Divider,
-    Menu,
-    Drawer,
-    Typography,
-    Statistic,
-    Popconfirm,
     Row,
     Col,
     Collapse,
 } from "antd";
-import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
 import { message } from "antd";
 import {
@@ -62,7 +37,7 @@ import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import Expenditure from "../../components/Expenditure";
-import { useFetchDebt } from "../../hooks";
+import { useFetchDebt, useSearchSelectInput } from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 
 const { Option, OptGroup } = Select;
@@ -75,16 +50,8 @@ function NewPaymentOut() {
     const myRefDescription = useRef(null);
     const myRefConsumption = useRef(null);
     const {
-        docPage,
-        docCount,
-        docSum,
-        outerDataSource,
-        setOuterDataSource,
         departments,
         owners,
-        stocks,
-        setStock,
-        setStockLocalStorage,
         customers,
         setCustomers,
         spenditems,
@@ -94,29 +61,22 @@ function NewPaymentOut() {
         disable,
     } = useTableCustom();
     const {
-        docstock,
-        setDocStock,
-        docmark,
-        setDocMark,
         setLoadingForm,
         setCustomerDrawer,
     } = useCustomForm();
-    const [positions, setPositions] = useState([]);
     const [redirect, setRedirect] = useState(false);
     const [editId, setEditId] = useState(null);
-    const [docname, setDocName] = useState(null);
-    const [newStocksLoad, setNewStocksLoad] = useState(null);
-    const [hasConsumption, setHasConsumption] = useState(false);
-    const [consumption, setConsumption] = useState(0);
     const [status, setStatus] = useState(true);
-    const [initial, setInitial] = useState(null);
-    const [tablecolumns, setTableColumns] = useState([]);
-    const [columnChange, setColumnChange] = useState(false);
-    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [spends, setSpends] = useState(false);
     const [expenditure, setExpenditure] = useState(false);
 
     const {debt, setCustomerId} = useFetchDebt()
+
+	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+	const onChangeSelectInput = (e) => {
+		handleChanged();
+		setCustomerId(e);
+	};
 
     useEffect(() => {
         getSpendItems();
@@ -370,10 +330,25 @@ function NewPaymentOut() {
                                         },
                                     ]}
                                 >
-								<CustomersSelectInput
-									handleChanged={handleChanged}
-									setCustomerId={setCustomerId}
-								/>
+								<Select
+									lazyLoad
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onSearch={(e) => onSearchSelectInput(e)}
+									onChange={(e) => onChangeSelectInput(e)}
+								>
+									{customersForSelet[0] &&
+										customersForSelet.map((c) => {
+											return (
+												<Option key={c.Id} value={c.Id}>
+													{c.Name}
+												</Option>
+											);
+										})}
+								</Select>
                                 </Form.Item>
                             <p
                                 className="customer-debt"

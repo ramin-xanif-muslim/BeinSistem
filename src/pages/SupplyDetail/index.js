@@ -59,12 +59,17 @@ import {
 	FindCofficient,
 	ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems } from "../../hooks";
+import {
+	useFetchDebt,
+	useGetDocItems,
+	useSearchSelectInput,
+} from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
+
 function SupplyDetail() {
 	const [form] = Form.useForm();
 	const myRefDescription = useRef(null);
@@ -80,7 +85,7 @@ function SupplyDetail() {
 		stocks,
 		setStock,
 		setStockLocalStorage,
-		customers,
+		// customers,
 		setCustomers,
 		setOuterDataSource,
 		setDisable,
@@ -122,6 +127,12 @@ function SupplyDetail() {
 	const { debt, setCustomerId, fetchDebt } = useFetchDebt();
 
 	const { allsum, allQuantity } = useGetDocItems();
+
+	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+	const onChangeSelectInput = (e) => {
+		handleChanged();
+		setCustomerId(e);
+	};
 
 	const { isLoading, error, data, isFetching } = useQuery(
 		["supply", doc_id],
@@ -399,15 +410,15 @@ function SupplyDetail() {
 	};
 
 	//#region OwDep
-	var objCustomers;
-	customers
-		? (objCustomers = customers)
-		: (objCustomers = JSON.parse(localStorage.getItem("customers")));
-	const customerOptions = Object.values(objCustomers).map((c) => (
-		<Option key={c.Id} value={c.Id}>
-			{c.Name}
-		</Option>
-	));
+	// var objCustomers;
+	// customers
+	// 	? (objCustomers = customers)
+	// 	: (objCustomers = JSON.parse(localStorage.getItem("customers")));
+	// const customerOptions = Object.values(objCustomers).map((c) => (
+	// 	<Option key={c.Id} value={c.Id}>
+	// 		{c.Name}
+	// 	</Option>
+	// ));
 
 	var objOwner;
 	owners
@@ -691,10 +702,44 @@ function SupplyDetail() {
 								]}
 								className="form-item-customer"
 							>
-								<CustomersSelectInput
+								<Select
+									lazyLoad
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onSearch={(e) => onSearchSelectInput(e)}
+									onChange={(e) => onChangeSelectInput(e)}
+								>
+									{customersForSelet[0] &&
+										customersForSelet.map((c) => {
+											return (
+												<Option key={c.Id} value={c.Id}>
+													{c.Name}
+												</Option>
+											);
+										})}
+								</Select>
+								{/* <Select
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onChange={(e) => setCustomerId(e)}
+									filterOption={(input, option) =>
+										option.children
+											.toLowerCase()
+											.indexOf(input.toLowerCase()) >= 0
+									}
+								>
+									{customerOptions}
+								</Select> */}
+								{/* <CustomersSelectInput
 									handleChanged={handleChanged}
 									setCustomerId={setCustomerId}
-								/>
+								/> */}
 							</Form.Item>
 							<p
 								className="customer-debt"
@@ -950,7 +995,6 @@ function SupplyDetail() {
 				datas={data.Body.List[0]}
 				title="Məxaric"
 				endPoint="paymentouts"
-                fetchDebt={fetchDebt}
 			/>
 		</div>
 	);

@@ -3,27 +3,16 @@ import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { fetchDocName, fetchDocId, api } from "../../api";
 import { useEffect, useState } from "react";
-import { Redirect } from "react-router";
 import moment from "moment";
 import { updateDoc } from "../../api";
-import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
-import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
-import StockDrawer from "../../components/StockDrawer";
-import ProductModal from "../../components/ProductModal";
-import { Tab } from "semantic-ui-react";
 import {
-	FindAdditionals,
-	FindCofficient,
 	ConvertFixedTable,
 } from "../../config/function/findadditionals";
 import {
 	DeleteOutlined,
 	PlusOutlined,
-	EditOutlined,
-	SettingOutlined,
 	CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
@@ -31,21 +20,12 @@ import {
 	Alert,
 	Input,
 	Button,
-	InputNumber,
-	TreeSelect,
 	Checkbox,
 	Dropdown,
 	DatePicker,
 	Switch,
 	Select,
 	Spin,
-	Tag,
-	Divider,
-	Menu,
-	Drawer,
-	Typography,
-	Statistic,
-	Popconfirm,
 	Row,
 	Col,
 	Collapse,
@@ -64,8 +44,7 @@ import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import Expenditure from "../../components/Expenditure";
-import { useFetchDebt } from "../../hooks";
-import CustomersSelectInput from "../../components/CustomersSelectInput";
+import { useFetchDebt, useSearchSelectInput } from "../../hooks";
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -89,31 +68,24 @@ function PaymentOutDetail() {
 		disable,
 	} = useTableCustom();
 	const {
-		docstock,
-		setDocStock,
 		docmark,
 		setDocMark,
 		setLoadingForm,
 		setCustomerDrawer,
 	} = useCustomForm();
-	const [positions, setPositions] = useState([]);
-	const [redirect, setRedirect] = useState(false);
-	const [editId, setEditId] = useState(null);
-	const [docname, setDocName] = useState(null);
-	const [newStocksLoad, setNewStocksLoad] = useState(null);
-	const [hasConsumption, setHasConsumption] = useState(false);
-	const [consumption, setConsumption] = useState(0);
 	const [status, setStatus] = useState(true);
-	const [initial, setInitial] = useState(null);
-	const [tablecolumns, setTableColumns] = useState([]);
-	const [columnChange, setColumnChange] = useState(false);
-	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 	const [spends, setSpends] = useState(false);
 	const [handleMark, setHandleMark] = useState(null);
 	const [customerloading, setcustomerloading] = useState(false);
 	const [expenditure, setExpenditure] = useState(false);
 
     const {debt, setCustomerId} = useFetchDebt()
+
+	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+	const onChangeSelectInput = (e) => {
+		handleChanged();
+		setCustomerId(e);
+	};
 
 	const { doc_id } = useParams();
 	const { isLoading, error, data, isFetching } = useQuery(
@@ -388,10 +360,25 @@ function PaymentOutDetail() {
 									]}
 									className="form-item-customer"
 								>
-								<CustomersSelectInput
-									handleChanged={handleChanged}
-									setCustomerId={setCustomerId}
-								/>
+								<Select
+									lazyLoad
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onSearch={(e) => onSearchSelectInput(e)}
+									onChange={(e) => onChangeSelectInput(e)}
+								>
+									{customersForSelet[0] &&
+										customersForSelet.map((c) => {
+											return (
+												<Option key={c.Id} value={c.Id}>
+													{c.Name}
+												</Option>
+											);
+										})}
+								</Select>
 								</Form.Item>
 								<p
 									className="customer-debt"

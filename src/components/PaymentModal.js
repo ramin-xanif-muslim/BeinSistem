@@ -52,8 +52,9 @@ function PaymentOutModal({ datas, title, endPoint }) {
     const [newStocksLoad, setNewStocksLoad] = useState(null);
 	const [expenditure, setExpenditure] = useState(false);
     const [status, setStatus] = useState(false);
+    const [amount, setAmount] = useState(false);
 
-    const {debt, setCustomerId, customerId, fetchDebt} = useFetchDebt()
+    const {debt, setDebt, setCustomerId, customerId, fetchDebt} = useFetchDebt()
 
     useEffect(() => {
         setCustomerId(datas.CustomerId)
@@ -129,7 +130,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
         return attrResponse;
     };
     const onClose = () => {
-        fetchDebt()
+        setDebt(debt + amount)
         message.destroy();
     };
     //#endregion OwDep
@@ -235,6 +236,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                                 allowClear
                                 min={0}
                                 style={{ width: "100px" }}
+                                onChange={(e) => setAmount(e.target.value)}
                             />
                         </Form.Item>
                     </Col>

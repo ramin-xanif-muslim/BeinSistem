@@ -7,6 +7,13 @@ export function useNotification() {
 	const [notifications, setNotifications] = useState([]);
     const [notificationsCount, setNotificationsCount] = useState();
 
+	const fetchNotificationCount = async () => {
+		let res = await sendRequest("notifications/get.php", {});
+		if (res.Notifications[0]) {
+            setNotificationsCount(res.Notifications.length)
+        }
+	};
+
 	const getNotification = async () => {
 		let res = await sendRequest("notifications/get.php", {});
 		setNotifications(res.Notifications);
@@ -14,13 +21,40 @@ export function useNotification() {
             setNotificationsCount(notifications.length)
             for (let item of notifications) {
                 if(item.NotType === 1){
-                    toast.info(item.Message)
+                    toast.info(item.Message, {
+                        position: "top-right",
+                        autoClose: false,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: 0,
+                        })
+                        setNotificationsCount(0)
                 }
                 if(item.NotType === 2){
-                    toast.success(item.Message)
+                    toast.success(item.Message, {
+                        position: "top-right",
+                        autoClose: false,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: 0,
+                        })
+                        setNotificationsCount(0)
                 }
                 if(item.NotType === 3){
-                    toast.warn(item.Message)
+                    toast.warn(item.Message, {
+                        position: "top-right",
+                        autoClose: false,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: 0,
+                        })
+                        setNotificationsCount(0)
                 }
                 if(item.NotType === 4){
                     toast.error(item.Message, {
@@ -32,10 +66,11 @@ export function useNotification() {
                         draggable: true,
                         progress: 0,
                         });
+                        setNotificationsCount(0)
                     // toast.error(item.Message)
                 }
             }
         }
 	};
-	return { getNotification, notifications, notificationsCount };
+	return { getNotification, notifications, notificationsCount, fetchNotificationCount };
 }

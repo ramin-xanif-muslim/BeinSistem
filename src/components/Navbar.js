@@ -41,48 +41,17 @@ function Navbar() {
     } = useTableCustom();
     const { firstLogin, logout } = useAuth();
 
-    // const { getNotification, notificationsCount } = useNotification()
+    const { getNotification, notificationsCount, fetchNotificationCount } = useNotification()
 
     const [menu, setMenu] = useState("2");
     const [noBalance, setNoBalance] = useState(true);
     const [showBalance, setShowBalance] = useState(false);
     const [companyname, setCompany] = useState(null);
     const [activeItem, setActiveItem] = useState(firstLogin ? "Məhsullar" : "");
-    
 
-	const [notifications, setNotifications] = useState([]);
-    const [notificationsCount, setNotificationsCount] = useState();
-
-	const getNotification = async () => {
-		let res = await sendRequest("notifications/get.php", {});
-		setNotifications(res.Notifications);
-		if (notifications[0]) {
-            setNotificationsCount(notifications.length)
-            for (let item of notifications) {
-                if(item.NotType === 1){
-                    toast.info(item.Message)
-                }
-                if(item.NotType === 2){
-                    toast.success(item.Message)
-                }
-                if(item.NotType === 3){
-                    toast.warn(item.Message)
-                }
-                if(item.NotType === 4){
-                    toast.error(item.Message, {
-                        position: "top-right",
-                        autoClose: false,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: 0,
-                        });
-                    // toast.error(item.Message)
-                }
-            }
-        }
-	};
+    const onClickNotification = () => {
+        getNotification()
+    }
 
     const [activeSubItem, setActiveSubItem] = useState(
         firstLogin ? "Daxilolma" : ""
@@ -131,20 +100,10 @@ function Navbar() {
         setStock(stockResponse.Body.List);
         setStockLocalStorage(stockResponse.Body.List);
     };
-    const onClickNotification = () => {
-        getNotification()
-        // setIsNotificationModalVisible(true)
-    }
 
     useEffect(() => {
-        onClickNotification()
+        fetchNotificationCount()
     },[])
-    // useEffect(() => {
-    //     const intervalId = setInterval(() => { 
-    //         onClickNotification()
-    //     }, 10000)
-    //     return () => clearInterval(intervalId)
-    // },[])
 
     useEffect(() => {
         getBalance();
@@ -364,32 +323,6 @@ function Navbar() {
                 <p className="exitModalBodyText">Balans bitib</p>
             </Modal>
         </div>
-        // <nav className="ui pointing main_header menu navbar">
-        //   <div className="upper_side">
-        //     <div className="left_nav">
-        //       <a className="brand_logo">
-        //         <img src={img_brand} />
-        //       </a>
-        //       <ul className="nav_ul">
-        //         {data.Body.filter((item) => item.ParentId === "0").map((c) => (
-        //           <li onClick={() => setMenu(c.Id)} key={c.Id}>
-        //             {c.Name}
-        //           </li>
-        //         ))}
-        //       </ul>
-        //     </div>
-        //     <div className="right_nav"></div>
-        //   </div>
-        //   <div className="lower_side">
-        //     <ul className="nav_ul">
-        //       {data.Body.filter((item) => item.ParentId === menu).map((c) => (
-        //         <li key={c.Id}>
-        //           <Link to={`/${c.Url}`}>{c.Name}</Link>
-        //         </li>
-        //       ))}
-        //     </ul>
-        //   </div>
-        // </nav>
     );
 }
 

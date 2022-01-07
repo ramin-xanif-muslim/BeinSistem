@@ -48,7 +48,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems } from "../../hooks";
+import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
@@ -99,6 +99,13 @@ function CustomerOrderDetail() {
     const {debt, setCustomerId} = useFetchDebt()
 
     const { allsum, allQuantity } = useGetDocItems()
+
+	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+
+	const onChangeSelectInput = (e) => {
+		handleChanged();
+		setCustomerId(e);
+	};
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["customerorder", doc_id],
@@ -571,10 +578,25 @@ function CustomerOrderDetail() {
                                     },
                                 ]}
                             >
-								<CustomersSelectInput
-									handleChanged={handleChanged}
-									setCustomerId={setCustomerId}
-								/>
+								<Select
+									lazyLoad
+									showSearch
+									showArrow={false}
+									filterOption={false}
+									className="customSelect detail-select"
+									allowClear={true}
+									onSearch={(e) => onSearchSelectInput(e)}
+									onChange={(e) => onChangeSelectInput(e)}
+								>
+									{customersForSelet[0] &&
+										customersForSelet.map((c) => {
+											return (
+												<Option key={c.Id} value={c.Id}>
+													{c.Name}
+												</Option>
+											);
+										})}
+								</Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"
