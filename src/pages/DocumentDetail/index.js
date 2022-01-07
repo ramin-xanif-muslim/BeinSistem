@@ -439,23 +439,23 @@ function EnterDetail() {
         setDisable(true);
 
         values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.consumption =
             myRefConsumption.current.clearableInput.props.value;
-            if (!values.status) {
-                values.status = status;
-            }
-        message.loading({ content: "Loading...", key: "doc_update" });
+        if (!values.status) {
+            values.status = status;
+        }
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "documents", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "doc_update",
                             duration: 2,
                         });

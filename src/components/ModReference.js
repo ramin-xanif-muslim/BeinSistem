@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
 import { Table } from "antd";
-import {
-    fetchRefTypes,
-    updateRef,
-    delRefs,
-} from "../api";
+import { fetchRefTypes, updateRef, delRefs } from "../api";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import ModList from "./ModList";
 import {
@@ -63,12 +59,12 @@ export default function ModReference({ visible, openModal }) {
     const delRef = (id, e) => {
         e.preventDefault();
         e.stopPropagation();
-        message.loading({ content: "Loading...", key: "doc_del" });
+        message.loading({ content: "Yüklənir...", key: "doc_del" });
         deleteMutation.mutate(id, {
             onSuccess: (res) => {
                 if (res.Headers.ResponseStatus === "0") {
                     message.success({
-                        content: "Updated",
+                        content: "Dəyişildi",
                         key: "doc_del",
                         duration: 2,
                     });
@@ -150,7 +146,7 @@ export default function ModReference({ visible, openModal }) {
     });
 
     const onFinish = async (values) => {
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: edit ? edit.Id : null, filter: values },
             {
@@ -161,7 +157,7 @@ export default function ModReference({ visible, openModal }) {
                             res.Body.ResponseStatus === "0"
                         ) {
                             message.success({
-                                content: "Updated",
+                                content: "Dəyişildi",
                                 key: "doc_update",
                                 duration: 2,
                             });

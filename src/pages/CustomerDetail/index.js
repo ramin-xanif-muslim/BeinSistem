@@ -164,14 +164,14 @@ function CustomerDetail() {
 	const handleFinish = async (values) => {
 		setDisable(true);
 
-		message.loading({ content: "Loading...", key: "pro_update" });
+		message.loading({ content: "Yüklənir...", key: "pro_update" });
 		updateMutation.mutate(
 			{ id: cus_id, controller: "customers", filter: values },
 			{
 				onSuccess: (res) => {
 					if (res.Headers.ResponseStatus === "0") {
 						message.success({
-							content: "Updated",
+							content: "Dəyişildi",
 							key: "pro_update",
 							duration: 2,
 						});

@@ -93,13 +93,13 @@ function PaymentOutModal({ datas }) {
 
     const handleFinish = async (values) => {
         values.moment = values.moment._i;
-        message.loading({ content: "Loading...", key: "payment_update" });
+        message.loading({ content: "Yüklənir...", key: "payment_update" });
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
         const res = await saveDoc(values, "paymentins");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Mexaric saxlanildi",
+                content: "Mexaric Saxlanıldı",
                 key: "payment_update",
                 duration: 2,
             });

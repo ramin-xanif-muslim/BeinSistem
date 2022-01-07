@@ -45,7 +45,7 @@ import { message } from "antd";
 import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
-import {  useFetchDebt, useGetDocItems } from "../../hooks";
+import { useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
 import { Tab } from "semantic-ui-react";
 import { ConvertFixedTable } from "../../config/function/findadditionals";
@@ -95,21 +95,21 @@ function SupplyReturnLinked(props) {
     const [docname, setDocName] = useState(null);
     const [newStocksLoad, setNewStocksLoad] = useState(null);
     const [status, setStatus] = useState(false);
-    
-    const { allsum, allQuantity } = useGetDocItems()
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { allsum, allQuantity } = useGetDocItems();
+
+    const { debt, setCustomerId } = useFetchDebt();
 
     const onClose = () => {
         message.destroy();
     };
 
     useEffect(() => {
-        console.log(props.location.state.data.Positions)
-        setPositions(props.location.state.position)
-        setStatus(props.location.state.data.Status)
-        setCustomerId(props.location.state.data.CustomerId)
-    },[])
+        console.log(props.location.state.data.Positions);
+        setPositions(props.location.state.position);
+        setStatus(props.location.state.data.Status);
+        setCustomerId(props.location.state.data.CustomerId);
+    }, []);
 
     const columns = useMemo(() => {
         return [
@@ -275,7 +275,7 @@ function SupplyReturnLinked(props) {
             values.status = status;
         }
 
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         const nameres = await getDocName(values.name);
 
         values.name = nameres.Body.ResponseService;
@@ -283,7 +283,7 @@ function SupplyReturnLinked(props) {
         const res = await saveDoc(values, "supplyreturns");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "doc_update",
                 duration: 2,
             });
@@ -351,8 +351,8 @@ function SupplyReturnLinked(props) {
         setDocStock(stock);
     };
 
-    if (redirect) return <Redirect to={`/editSupply/${props.location.state.linked}`} />;
-    
+    if (redirect)
+        return <Redirect to={`/editSupply/${props.location.state.linked}`} />;
 
     const panes = [
         {
@@ -367,10 +367,16 @@ function SupplyReturnLinked(props) {
                             </div>
                         </Col>
                         <Col
-                            xs={24} sm={24} md={24} xl={24}
+                            xs={24}
+                            sm={24}
+                            md={24}
+                            xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
-                            <DocTable headers={columns} datas={props.location.state.data.Positions} />
+                            <DocTable
+                                headers={columns}
+                                datas={props.location.state.data.Positions}
+                            />
                         </Col>
                     </Row>
                 </Tab.Pane>
@@ -381,7 +387,7 @@ function SupplyReturnLinked(props) {
             render: () => <Tab.Pane attached={false}></Tab.Pane>,
         },
     ];
-    
+
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
@@ -392,7 +398,6 @@ function SupplyReturnLinked(props) {
                 linked={true}
                 closed={`/editSupply/${props.location.state.linked}`}
                 from="linked"
-
             />
             <div className="formWrapper">
                 <Form
@@ -632,19 +637,21 @@ function SupplyReturnLinked(props) {
                 </Form>
 
                 <Row>
-                        <Col xs={24} sm={24} md={24} xl={24}>
-                            <Tab
-                                className="custom_table_wrapper_tab"
-                                panes={panes}
-                            />
-                        </Col>
+                    <Col xs={24} sm={24} md={24} xl={24}>
+                        <Tab
+                            className="custom_table_wrapper_tab"
+                            panes={panes}
+                        />
+                    </Col>
                     <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
                                     <Form
                                         initialValues={{
-                                            description: props.location.state.data.Description,
+                                            description:
+                                                props.location.state.data
+                                                    .Description,
                                         }}
                                         onFieldsChange={handleChanged}
                                     >

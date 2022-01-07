@@ -85,11 +85,11 @@ function NewProductGroup() {
         // if (!values.parentid) {
         //     values.parentid = "00000000-0000-0000-0000-000000000000";
         // }
-        message.loading({ content: "Loading...", key: "progr_update" });
+        message.loading({ content: "Yüklənir...", key: "progr_update" });
         const res = await saveDoc(values, "customergroups");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "progr_update",
                 duration: 2,
             });

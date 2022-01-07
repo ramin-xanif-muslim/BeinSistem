@@ -7,13 +7,8 @@ import moment from "moment";
 import { updateDoc } from "../../api";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
-import {
-    ConvertFixedTable,
-} from "../../config/function/findadditionals";
-import {
-    PlusOutlined,
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { ConvertFixedTable } from "../../config/function/findadditionals";
+import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import {
     Form,
     Alert,
@@ -72,13 +67,13 @@ function IvoiceInDetail() {
     const [handleMark, setHandleMark] = useState(null);
     const [customerloading, setcustomerloading] = useState(false);
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { debt, setCustomerId } = useFetchDebt();
 
-	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
-	const onChangeSelectInput = (e) => {
-		handleChanged();
-		setCustomerId(e);
-	};
+    const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+    const onChangeSelectInput = (e) => {
+        handleChanged();
+        setCustomerId(e);
+    };
 
     const { doc_id } = useParams();
     const { isLoading, error, data, isFetching } = useQuery(
@@ -125,7 +120,7 @@ function IvoiceInDetail() {
         if (!isFetching) {
             setCustomerId(data.Body.List[0].CustomerId);
             setHandleMark(data.Body.List[0] ? data.Body.List[0].Mark : "");
-			setStatus(data.Body.List[0].Status);
+            setStatus(data.Body.List[0].Status);
         }
     }, [isFetching]);
 
@@ -218,20 +213,20 @@ function IvoiceInDetail() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.mark = docmark;
-		if (!values.status) {
-			values.status = status;
-		}
+        if (!values.status) {
+            values.status = status;
+        }
 
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "invoiceins", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -274,8 +269,18 @@ function IvoiceInDetail() {
         );
 
     if (error) return "An error has occurred: " + error.message;
-    if (!spends) return <div>Loading....</div>;
-    if (!customerloading) return <div>Loading....</div>;
+    if (!spends)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
+    if (!customerloading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
     if (spends && customerloading)
         return (
             <div className="doc_wrapper">
@@ -308,8 +313,8 @@ function IvoiceInDetail() {
                             mark: data.Body.List[0].Mark,
                             description: data.Body.List[0].Description,
                             linkid: data.Body.List[0].LinkId,
-							status:
-								data.Body.List[0].Status == 1 ? true : false,
+                            status:
+                                data.Body.List[0].Status == 1 ? true : false,
                             spenditem: data.Body.List[0].SpendItem,
                         }}
                         onFinish={handleFinish}
@@ -387,25 +392,28 @@ function IvoiceInDetail() {
                                     ]}
                                     className="form-item-customer"
                                 >
-								<Select
-									lazyLoad
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect detail-select"
-									allowClear={true}
-									onSearch={(e) => onSearchSelectInput(e)}
-									onChange={(e) => onChangeSelectInput(e)}
-								>
-									{customersForSelet[0] &&
-										customersForSelet.map((c) => {
-											return (
-												<Option key={c.Id} value={c.Id}>
-													{c.Name}
-												</Option>
-											);
-										})}
-								</Select>
+                                    <Select
+                                        lazyLoad
+                                        showSearch
+                                        showArrow={false}
+                                        filterOption={false}
+                                        className="customSelect detail-select"
+                                        allowClear={true}
+                                        onSearch={(e) => onSearchSelectInput(e)}
+                                        onChange={(e) => onChangeSelectInput(e)}
+                                    >
+                                        {customersForSelet[0] &&
+                                            customersForSelet.map((c) => {
+                                                return (
+                                                    <Option
+                                                        key={c.Id}
+                                                        value={c.Id}
+                                                    >
+                                                        {c.Name}
+                                                    </Option>
+                                                );
+                                            })}
+                                    </Select>
                                 </Form.Item>
                                 <p
                                     className="customer-debt"
@@ -531,9 +539,9 @@ function IvoiceInDetail() {
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
-												onChange={(e) =>
-													setStatus(e.target.checked)
-												}
+                                                onChange={(e) =>
+                                                    setStatus(e.target.checked)
+                                                }
                                                 name="status"
                                                 valuePropName="checked"
                                                 style={{ width: "100%" }}

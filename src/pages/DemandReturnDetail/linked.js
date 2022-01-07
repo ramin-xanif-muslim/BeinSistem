@@ -103,19 +103,19 @@ function DemandReturnLinked(props) {
     const [docname, setDocName] = useState(null);
     const [newStocksLoad, setNewStocksLoad] = useState(null);
     const [status, setStatus] = useState(false);
-    
-    const { allsum, allQuantity } = useGetDocItems()
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { allsum, allQuantity } = useGetDocItems();
+
+    const { debt, setCustomerId } = useFetchDebt();
 
     const onClose = () => {
         message.destroy();
     };
 
     useEffect(() => {
-        setStatus(props.location.state.data.Status)
-        setCustomerId(props.location.state.data.CustomerId)
-    },[])
+        setStatus(props.location.state.data.Status);
+        setCustomerId(props.location.state.data.CustomerId);
+    }, []);
 
     useEffect(() => {
         if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
@@ -281,7 +281,7 @@ function DemandReturnLinked(props) {
             values.status = status;
         }
 
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
         const nameres = await getDocName(values.name);
 
         values.name = nameres.Body.ResponseService;
@@ -289,7 +289,7 @@ function DemandReturnLinked(props) {
         const res = await saveDoc(values, "demandreturns");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "doc_update",
                 duration: 2,
             });
@@ -372,10 +372,16 @@ function DemandReturnLinked(props) {
                             </div>
                         </Col>
                         <Col
-                            xs={24} sm={24} md={24} xl={24}
+                            xs={24}
+                            sm={24}
+                            md={24}
+                            xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
-                            <DocTable headers={columns} datas={props.location.state.data.Positions} />
+                            <DocTable
+                                headers={columns}
+                                datas={props.location.state.data.Positions}
+                            />
                         </Col>
                     </Row>
                 </Tab.Pane>
@@ -509,7 +515,7 @@ function DemandReturnLinked(props) {
                         <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
-                                    // onClick={() => setStockDrawer(true)}
+                                // onClick={() => setStockDrawer(true)}
                                 />
                             </Button>
                             <Form.Item
@@ -644,19 +650,21 @@ function DemandReturnLinked(props) {
                     </Row>
                 </Form>
                 <Row>
-                        <Col xs={24} sm={24} md={24} xl={24}>
-                            <Tab
-                                className="custom_table_wrapper_tab"
-                                panes={panes}
-                            />
-                        </Col>
+                    <Col xs={24} sm={24} md={24} xl={24}>
+                        <Tab
+                            className="custom_table_wrapper_tab"
+                            panes={panes}
+                        />
+                    </Col>
                     <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
                             <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
                                     <Form
                                         initialValues={{
-                                            description: props.location.state.data.Description,
+                                            description:
+                                                props.location.state.data
+                                                    .Description,
                                         }}
                                         onFieldsChange={handleChanged}
                                     >

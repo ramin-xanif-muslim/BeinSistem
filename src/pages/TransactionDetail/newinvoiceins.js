@@ -6,10 +6,7 @@ import { Redirect } from "react-router";
 import moment from "moment";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
-import {
-    PlusOutlined,
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import {
     Form,
     Input,
@@ -22,6 +19,7 @@ import {
     Spin,
     Row,
     Col,
+    Alert,
     Collapse,
 } from "antd";
 import DocButtons from "../../components/DocButtons";
@@ -74,13 +72,13 @@ function NewPaymentIn() {
     const [status, setStatus] = useState(true);
     const [spends, setSpends] = useState(false);
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const { debt, setCustomerId } = useFetchDebt();
 
-	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
-	const onChangeSelectInput = (e) => {
-		handleChanged();
-		setCustomerId(e);
-	};
+    const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+    const onChangeSelectInput = (e) => {
+        handleChanged();
+        setCustomerId(e);
+    };
 
     useEffect(() => {
         setDisable(true);
@@ -194,11 +192,11 @@ function NewPaymentIn() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.status = status;
         // values.mark = docmark;
 
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
 
         try {
             const nameres = await getDocName(values.name);
@@ -219,7 +217,7 @@ function NewPaymentIn() {
         const res = await saveDoc(values, "invoiceins");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "doc_update",
                 duration: 2,
             });
@@ -249,7 +247,12 @@ function NewPaymentIn() {
     //#endregion OwDep
     if (redirect) return <Redirect to={`/editInvoiceIn/${editId}`} />;
 
-    if (!spends) return <div>Loading....</div>;
+    if (!spends)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
     if (spends)
         return (
             <div className="doc_wrapper">
@@ -353,35 +356,38 @@ function NewPaymentIn() {
                                         },
                                     ]}
                                 >
-								<Select
-									lazyLoad
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect detail-select"
-									allowClear={true}
-									onSearch={(e) => onSearchSelectInput(e)}
-									onChange={(e) => onChangeSelectInput(e)}
-								>
-									{customersForSelet[0] &&
-										customersForSelet.map((c) => {
-											return (
-												<Option key={c.Id} value={c.Id}>
-													{c.Name}
-												</Option>
-											);
-										})}
-								</Select>
+                                    <Select
+                                        lazyLoad
+                                        showSearch
+                                        showArrow={false}
+                                        filterOption={false}
+                                        className="customSelect detail-select"
+                                        allowClear={true}
+                                        onSearch={(e) => onSearchSelectInput(e)}
+                                        onChange={(e) => onChangeSelectInput(e)}
+                                    >
+                                        {customersForSelet[0] &&
+                                            customersForSelet.map((c) => {
+                                                return (
+                                                    <Option
+                                                        key={c.Id}
+                                                        value={c.Id}
+                                                    >
+                                                        {c.Name}
+                                                    </Option>
+                                                );
+                                            })}
+                                    </Select>
                                 </Form.Item>
-                            <p
-                                className="customer-debt"
-                                style={debt < 0 ? { color: "red" } : {}}
-                            >
-                                <span style={{ color: "red" }}>
-                                    Qalıq borc:
-                                </span>
-                                {debt} ₼
-                            </p>
+                                <p
+                                    className="customer-debt"
+                                    style={debt < 0 ? { color: "red" } : {}}
+                                >
+                                    <span style={{ color: "red" }}>
+                                        Qalıq borc:
+                                    </span>
+                                    {debt} ₼
+                                </p>
                             </Col>
                             <Col xs={3} sm={3} md={3} xl={3}></Col>
                             <Col xs={6} sm={6} md={6} xl={6}></Col>

@@ -814,7 +814,7 @@ function ProductDetail() {
         values.prices = prices;
         values.isarch = isArch;
 
-        message.loading({ content: "Loading...", key: "pro_update" });
+        message.loading({ content: "Yüklənir...", key: "pro_update" });
 
         updateMutation.mutate(
             { id: product_id, controller: "products", filter: values },
@@ -822,7 +822,7 @@ function ProductDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Updated",
+                            content: "Dəyişildi",
                             key: "pro_update",
                             duration: 2,
                         });
@@ -848,14 +848,14 @@ function ProductDetail() {
         var newPriceTypes = {};
         newPriceTypes = values;
         newPriceTypes.name = values.namepr;
-        message.loading({ content: "Loading...", key: "price_update" });
+        message.loading({ content: "Yüklənir...", key: "price_update" });
 
         const res = await savePrice(values);
         if (res.Headers.ResponseStatus === "0") {
             const get = await getPrices();
             setPriceIsAdd(true);
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "price_update",
                 duration: 2,
             });
@@ -872,7 +872,7 @@ function ProductDetail() {
         setPriceModal(true);
     };
     const handleDeletePrice = async (id) => {
-        message.loading({ content: "Loading...", key: "price_del" });
+        message.loading({ content: "Yüklənir...", key: "price_del" });
         const del = await delPrice(id);
         if (del.Headers.ResponseStatus === "0") {
             const get = await getPrices();

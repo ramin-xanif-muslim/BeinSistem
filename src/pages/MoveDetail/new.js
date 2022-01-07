@@ -370,7 +370,7 @@ function NewMove() {
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
         values.status = status;
-        message.loading({ content: "Loading...", key: "doc_update" });
+        message.loading({ content: "Yüklənir...", key: "doc_update" });
 
         try {
             const nameres = await getDocName(values.name);
@@ -392,7 +392,7 @@ function NewMove() {
         console.log(res);
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "doc_update",
                 duration: 2,
             });

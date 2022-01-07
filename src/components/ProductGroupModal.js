@@ -1,5 +1,5 @@
 import React from "react";
-import {  useState} from "react";
+import { useState } from "react";
 import {
     Form,
     Input,
@@ -14,9 +14,7 @@ import {
 import "antd/dist/antd.css";
 import { message } from "antd";
 import { saveDoc } from "../api";
-import {
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { useTableCustom } from "../contexts/TableContext";
 const { Option } = Select;
 const { TextArea } = Input;
@@ -61,11 +59,11 @@ function ProductGroupModal() {
         if (!values.parentid) {
             values.parentid = "00000000-0000-0000-0000-000000000000";
         }
-        message.loading({ content: "Loading...", key: "progr_update" });
+        message.loading({ content: "Yüklənir...", key: "progr_update" });
         const res = await saveDoc(values, "productfolders");
         if (res.Headers.ResponseStatus === "0") {
             message.success({
-                content: "Saxlanildi",
+                content: "Saxlanıldı",
                 key: "progr_update",
                 duration: 2,
             });

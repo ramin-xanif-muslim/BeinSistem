@@ -20,6 +20,7 @@ body{
  
 }
 .main {
+    font-family: 'Calibri' !important;
     width: 213px;
     overflow:hidden;
     height: 106px;
