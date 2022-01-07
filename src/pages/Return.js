@@ -497,7 +497,7 @@ export default function Return() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onClick: () => editPage(r.Id),
+                    onClick: (e) => editPage(r.Id),
                 })}
             />
         </div>

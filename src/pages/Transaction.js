@@ -668,7 +668,7 @@ export default function Transaction() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onClick: (e) => editClickPage(e, r.Id),
+                    onClick: (e) => editPage(r.Id),
                 })}
             />
         </div>

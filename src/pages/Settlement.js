@@ -517,7 +517,7 @@ export default function Settlement() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onClick: (e) => editClickPage(e, r.Id),
+                    onClick: (e) => editPage(r.Id),
                 })}
             />
             {visibleDrawer ? <SettlementsDrawer /> : null}

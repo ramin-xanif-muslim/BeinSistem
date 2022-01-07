@@ -711,7 +711,7 @@ export default function CustomerOrders() {
                 size="small"
                 onRow={(r) => ({
                     // onDoubleClick: () => editPage(r.Id),
-                    onClick: (e) => editClickPage(e, r.Id),
+                    onClick: (e) => editPage(r.Id),
                 })}
             />
         </div>

@@ -570,7 +570,7 @@ export default function Move() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    onClick: (e) => editPage(e, r.Id),
+                    onClick: (e) => editPage(r.Id),
                     // onDoubleClick: () => editPage(r.Id),
                 })}
             />
