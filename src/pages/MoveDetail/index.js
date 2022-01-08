@@ -337,17 +337,6 @@ function MoveDetail() {
         setCreatedStock(null);
     };
 
-    //#region OwDep
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
-
     var objOwner;
     owners
         ? (objOwner = owners)
@@ -426,7 +415,7 @@ function MoveDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Dəyişildi",
+                            content: "Dəyişikliklər yadda saxlanıldı",
                             key: "doc_update",
                             duration: 2,
                         });

@@ -1,16 +1,6 @@
 import React from "react";
-import { useParams } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useEffect, useState, useMemo, useRef } from "react";
-import ProductModal from "../../components/ProductModal";
-import {
-    fetchProductId,
-    fetchRefList,
-    savePrice,
-    fetchPriceTypes,
-    delPrice,
-    fetchProductFolders,
-} from "../../api";
+
 import DocButtons from "../../components/DocButtons";
 import { BsThreeDotsVertical } from "react-icons/bs";
 

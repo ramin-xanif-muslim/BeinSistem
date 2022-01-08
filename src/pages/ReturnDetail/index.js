@@ -102,7 +102,7 @@ function ReturnDetail() {
     const [consumption, setConsumption] = useState(0);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const { debt, setCustomerId } = useFetchDebt();
+    const { debt, setCustomerId, customerId } = useFetchDebt();
 
     const { allsum, allQuantity } = useGetDocItems();
 
@@ -335,17 +335,6 @@ function ReturnDetail() {
         setCreatedStock(null);
     };
 
-    //#region OwDep
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
-
     var objOwner;
     owners
         ? (objOwner = owners)
@@ -402,6 +391,7 @@ function ReturnDetail() {
         );
 
     const handleFinish = async (values) => {
+        setDisable(true);
         values.positions = outerDataSource;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
@@ -416,7 +406,7 @@ function ReturnDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Dəyişildi",
+                            content: "Dəyişikliklər yadda saxlanıldı",
                             key: "doc_update",
                             duration: 2,
                         });

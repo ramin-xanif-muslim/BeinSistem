@@ -463,6 +463,7 @@ function DemandDetail() {
 	};
 
 	const handleFinish = async (values) => {
+        setDisable(true);
 		values.positions = outerDataSource;
 		values.customerid = customerId;
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
@@ -479,11 +480,13 @@ function DemandDetail() {
 				onSuccess: (res) => {
 					if (res.Headers.ResponseStatus === "0") {
 						message.success({
-							content: "Dəyişildi",
+							content: "Dəyişikliklər yadda saxlanıldı",
 							key: "doc_update",
 							duration: 2,
 						});
 						queryClient.invalidateQueries("demand", doc_id);
+
+
 						if (saveFromModal) {
 							setRedirectSaveClose(true);
 						} else {

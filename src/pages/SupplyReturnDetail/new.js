@@ -430,18 +430,7 @@ function NewSupplyReturn() {
             });
         }
     };
-
-    //#region OwDep
-
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
+    
 
     var objOwner;
     owners

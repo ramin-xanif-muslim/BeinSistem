@@ -1,11 +1,10 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { Alert, Spin } from "antd";
 import { Redirect, useParams } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
-import { useNotification } from "./hooks";
 
 const Move = React.lazy(() => import("./pages/Move"));
 const Product = React.lazy(() => import("./pages/Product"));
@@ -125,7 +124,6 @@ const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 function App() {
     const { loggedIn, token, firstLogin } = useAuth();
     const { nav } = useTableCustom();
-
     return (
         <>
             <React.Suspense

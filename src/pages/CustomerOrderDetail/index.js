@@ -96,7 +96,7 @@ function CustomerOrderDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
 
-    const {debt, setCustomerId} = useFetchDebt()
+    const {debt, setCustomerId, customerId} = useFetchDebt()
 
     const { allsum, allQuantity } = useGetDocItems()
 
@@ -354,17 +354,6 @@ function CustomerOrderDetail() {
         setCreatedStock(null);
     };
 
-    //#region OwDep
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
-
     var objOwner;
     owners
         ? (objOwner = owners)
@@ -439,6 +428,7 @@ function CustomerOrderDetail() {
     const handleFinish = async (values) => {
         setDisable(true);
         values.positions = outerDataSource;
+        values.customerid = customerId;
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
@@ -454,7 +444,7 @@ function CustomerOrderDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Dəyişildi",
+                            content: "Dəyişikliklər yadda saxlanıldı",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -542,7 +532,7 @@ function CustomerOrderDetail() {
                         mark: data.Body.List[0].Mark,
                         stockid: data.Body.List[0].StockId,
                         statusorder: data.Body.List[0].StatusOrder,
-                        customerid: data.Body.List[0].CustomerId,
+                        customerid: data.Body.List[0].CustomerName,
                         status: data.Body.List[0].Status == 1 ? true : false,
                     }}
                     onFinish={handleFinish}

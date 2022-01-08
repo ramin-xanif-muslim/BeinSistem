@@ -165,6 +165,9 @@ function LossDetail() {
             setConsumption(data.Body.List[0].Consumption);
             setLoadingForm(false);
             setStatus(data.Body.List[0].Status);
+            form.setFieldsValue({
+                mark: data.Body.List[0].Mark,
+            });
         } else {
             customPositions = [];
             setPositions([]);
@@ -281,12 +284,6 @@ function LossDetail() {
     }, [consumption, outerDataSource, docSum]);
 
     useEffect(() => {
-        if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-            setDisable(false);
-        }
-    }, [outerDataSource]);
-
-    useEffect(() => {
         setInitial(columns);
     }, []);
 
@@ -304,6 +301,12 @@ function LossDetail() {
         }
     }, [createdStock]);
 
+    useEffect(() => {
+        form.setFieldsValue({
+            mark: Number(docmark),
+        });
+    }, [docmark]);
+
     const getStocksAgain = async () => {
         const stockResponse = await fetchStocks();
         setStock(stockResponse.Body.List);
@@ -313,17 +316,6 @@ function LossDetail() {
         });
         setCreatedStock(null);
     };
-
-    //#region OwDep
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
 
     var objOwner;
     owners
@@ -387,8 +379,7 @@ function LossDetail() {
     };
 
     const handleFinish = async (values) => {
-        console.log("aaaaa");
-        // setDisable(true);
+        setDisable(true);
 
         values.positions = outerDataSource;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
@@ -400,7 +391,6 @@ function LossDetail() {
         if (!values.status) {
             values.status = status;
         }
-        console.log(values);
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: doc_id, controller: "losses", filter: values },
@@ -408,7 +398,7 @@ function LossDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Dəyişildi",
+                            content: "Dəyişikliklər yadda saxlanıldı",
                             key: "doc_update",
                             duration: 2,
                         });

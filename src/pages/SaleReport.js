@@ -174,6 +174,9 @@ export default function SaleReport() {
                         : true
                     : true,
                 sorter: (a, b) => null,
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
             {
                 dataIndex: "SumCost",

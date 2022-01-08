@@ -72,7 +72,7 @@ function NewPaymentIn() {
     const [status, setStatus] = useState(true);
     const [spends, setSpends] = useState(false);
 
-    const { debt, setCustomerId } = useFetchDebt();
+    const { debt, setCustomerId, customerId } = useFetchDebt();
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
     const onChangeSelectInput = (e) => {
@@ -128,16 +128,7 @@ function NewPaymentIn() {
         const attrResponse = await fetchDocName(docname, "invoiceins");
         return attrResponse;
     };
-
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
+    
     var ownerList;
     owners
         ? (ownerList = owners)
@@ -192,6 +183,7 @@ function NewPaymentIn() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
+        values.customerid = customerId;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.status = status;
         // values.mark = docmark;

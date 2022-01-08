@@ -171,7 +171,7 @@ function CustomerDetail() {
 				onSuccess: (res) => {
 					if (res.Headers.ResponseStatus === "0") {
 						message.success({
-							content: "Dəyişildi",
+							content: "Dəyişikliklər yadda saxlanıldı",
 							key: "pro_update",
 							duration: 2,
 						});

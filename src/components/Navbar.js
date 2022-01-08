@@ -127,6 +127,7 @@ function Navbar() {
         localStorage.setItem("activemenuid", id);
     };
     const handleClickSubMenu = (id, name) => {
+        document.title = name
         setSearchGr("");
         setActiveSubItem(name);
         setAdvancedPage(0);
@@ -158,7 +159,7 @@ function Navbar() {
                                   >
                                       <img
                                           className="small_logo_pics"
-                                          src={`/images/${m.Icon}.png`}
+                                          src={`/images/${m.Icon}.png`} 
                                       />
                                       <span>{m.Name}</span>
                                   </Menu.Item>

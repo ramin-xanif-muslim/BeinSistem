@@ -8,7 +8,6 @@ import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
 import PaymentModal from "../../components/PaymentModal";
@@ -65,6 +64,7 @@ import {
     useSearchSelectInput,
 } from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
+import ProductModal from "../../components/ProductModal";
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -502,7 +502,7 @@ function SupplyDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Dəyişildi",
+                            content: "Dəyişikliklər yadda saxlanıldı",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -661,7 +661,7 @@ function SupplyDetail() {
                         modify: moment(data.Body.List[0].Modify),
                         mark: data.Body.List[0].Mark,
                         stockid: data.Body.List[0].StockId,
-                        customerid: data.Body.List[0].CustomerId,
+                        customerid: data.Body.List[0].CustomerName,
                         status: data.Body.List[0].Status === 1 ? true : false,
                     }}
                     onFinish={handleFinish}
@@ -991,6 +991,7 @@ function SupplyDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
+            <ProductModal />
             <PaymentModal
                 datas={data.Body.List[0]}
                 title="Məxaric"

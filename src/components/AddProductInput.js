@@ -273,7 +273,7 @@ function AddProductInput({ from }) {
                             ""
                         )
                     )}
-                    <p>asa</p>
+                    <p></p>
                 </Dropdown.Menu>
             </Dropdown>
         </div>

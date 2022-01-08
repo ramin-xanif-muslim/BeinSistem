@@ -650,9 +650,9 @@ export default function Transaction() {
                                         {c.dataIndex === "Name"
                                             ? "Cəm"
                                             : c.dataIndex === "PaymentIn"
-                                            ? allinsum + " ₼"
+                                            ? ConvertFixedTable(allinsum) + " ₼"
                                             : c.dataIndex === "PaymentOut"
-                                            ? alloutsum + " ₼"
+                                            ? ConvertFixedTable(alloutsum) + " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>

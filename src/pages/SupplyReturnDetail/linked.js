@@ -98,7 +98,7 @@ function SupplyReturnLinked(props) {
 
     const { allsum, allQuantity } = useGetDocItems();
 
-    const { debt, setCustomerId } = useFetchDebt();
+    const { debt, setCustomerId, customerId } = useFetchDebt();
 
     const onClose = () => {
         message.destroy();
@@ -267,6 +267,7 @@ function SupplyReturnLinked(props) {
     };
     const handleFinish = async (values) => {
         values.positions = outerDataSource;
+        values.customerid = customerId;
         values.mark = docmark;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
@@ -412,7 +413,7 @@ function SupplyReturnLinked(props) {
                         mark: props.location.state.data.Mark,
                         stockid: props.location.state.data.StockId,
                         link: props.location.state.data.Id,
-                        customerid: props.location.state.data.CustomerId,
+                        customerid: props.location.state.data.CustomerName,
                         status:
                             props.location.state.data.Status == 1
                                 ? true

@@ -105,7 +105,7 @@ function CustomerGroupDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Dəyişildi",
+                            content: "Dəyişikliklər yadda saxlanıldı",
                             key: "progr_update",
                             duration: 2,
                         });

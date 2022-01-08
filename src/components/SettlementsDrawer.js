@@ -23,6 +23,7 @@ function SettlementsDrawer() {
         setDocumentList([]);
         setcusid(null);
     };
+    console.log(data)
 
     const columns = useMemo(() => {
         return [

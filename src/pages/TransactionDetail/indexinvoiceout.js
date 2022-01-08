@@ -66,7 +66,7 @@ function PaymentOutDetail() {
     const [handleMark, setHandleMark] = useState(null);
     const [customerloading, setcustomerloading] = useState(false);
 
-    const { debt, setCustomerId } = useFetchDebt();
+    const { debt, setCustomerId, customerId } = useFetchDebt();
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
     const onChangeSelectInput = (e) => {
@@ -125,16 +125,7 @@ function PaymentOutDetail() {
         const attrResponse = await fetchDocName(docname, "invoiceouts");
         return attrResponse;
     };
-
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
+    
     var ownerList;
     owners
         ? (ownerList = owners)
@@ -186,6 +177,7 @@ function PaymentOutDetail() {
     };
     const handleFinish = async (values) => {
         setDisable(true);
+        values.customerid = customerId;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.mark = docmark;
         if (!values.status) {
@@ -200,7 +192,7 @@ function PaymentOutDetail() {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
                         message.success({
-                            content: "Dəyişildi",
+                            content: "Dəyişikliklər yadda saxlanıldı",
                             key: "doc_update",
                             duration: 2,
                         });
@@ -271,7 +263,7 @@ function PaymentOutDetail() {
                         initialValues={{
                             name: data.Body.List[0].Name,
                             moment: moment(data.Body.List[0].Moment),
-                            customerid: data.Body.List[0].CustomerId,
+                            customerid: data.Body.List[0].CustomerName,
                             id: data.Body.List[0].Id,
                             amount: ConvertFixedTable(data.Body.List[0].Amount),
                             mark: data.Body.List[0].Mark,

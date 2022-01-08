@@ -58,7 +58,7 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems } from "../../hooks";
+import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
 import CustomersSelectInput from "../../components/CustomersSelectInput";
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -122,9 +122,15 @@ function NewSupply() {
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
-    const { debt, setCustomerId } = useFetchDebt();
+    const { debt, setCustomerId, customerId } = useFetchDebt();
 
     const { allsum, allQuantity } = useGetDocItems();
+
+    const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+    const onChangeSelectInput = (e) => {
+        handleChanged();
+        setCustomerId(e);
+    };
 
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -493,18 +499,7 @@ function NewSupply() {
             });
         }
     };
-
-    //#region OwDep
-
-    var objCustomers;
-    customers
-        ? (objCustomers = customers)
-        : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
+    
 
     var objOwner;
     owners
@@ -661,10 +656,25 @@ function NewSupply() {
                                     },
                                 ]}
                             >
-                                <CustomersSelectInput
-                                    handleChanged={handleChanged}
-                                    setCustomerId={setCustomerId}
-                                />
+                                <Select
+                                    lazyLoad
+                                    showSearch
+                                    showArrow={false}
+                                    filterOption={false}
+                                    className="customSelect detail-select"
+                                    allowClear={true}
+                                    onSearch={(e) => onSearchSelectInput(e)}
+                                    onChange={(e) => onChangeSelectInput(e)}
+                                >
+                                    {customersForSelet[0] &&
+                                        customersForSelet.map((c) => {
+                                            return (
+                                                <Option key={c.Id} value={c.Id}>
+                                                    {c.Name}
+                                                </Option>
+                                            );
+                                        })}
+                                </Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"
