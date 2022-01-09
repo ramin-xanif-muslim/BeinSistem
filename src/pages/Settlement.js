@@ -135,6 +135,7 @@ export default function Settlement() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Amount > 0) {
+                        console.log("columns", row.Amount )
                         return ConvertFixedTable(row.Amount);
                     }
                 },

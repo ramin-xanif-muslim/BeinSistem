@@ -64,7 +64,9 @@ import {
     useGetDocItems,
     useSearchSelectInput,
 } from "../../hooks";
-import CustomersSelectInput from "../../components/CustomersSelectInput";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -130,6 +132,8 @@ function NewDemand() {
     const [tablecolumns, setTableColumns] = useState([]);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+    
+
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
@@ -182,7 +186,6 @@ function NewDemand() {
 
     const getPrices = async () => {
         const priceResponse = await fetchPriceTypes();
-        console.log(priceResponse)
         setPrices(priceResponse.Body.List);
         setPricesLocalStorage(priceResponse.Body.List);
     };
@@ -218,18 +221,18 @@ function NewDemand() {
         setVisibleMenuSettings(flag);
     };
 
-    var priceTypes;
-    console.log(prices)
-    console.log()
-    prices
-        ? (priceTypes = prices)
-        : (priceTypes = JSON.parse(localStorage.getItem("prices")));
-        console.log(priceTypes)
-    const priceOptions = Object.values(priceTypes).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
+    // var priceTypes;
+    // console.log(prices)
+    // console.log()
+    // prices
+    //     ? (priceTypes = prices)
+    //     : (priceTypes = JSON.parse(localStorage.getItem("prices")));
+    //     console.log(priceTypes)
+    // const priceOptions = Object.values(priceTypes).map((c) => (
+    //     <Option key={c.Id} value={c.Id}>
+    //         {c.Name}
+    //     </Option>
+    // ));
 
     const handleClearPrices = () => {
         setLoadingForm(true);
@@ -291,7 +294,17 @@ function NewDemand() {
             <Option key={"0000"} value={"0000"}>
                 Satış qiyməti
             </Option>
-            {priceOptions}
+            {
+                prices 
+            ?
+            Object.values(prices).map((c) => (
+                <Option key={c.Id} value={c.Id}>
+                    {c.Name}
+                </Option>
+            ))
+            :
+            ""
+            }
         </Select>
     );
     const columns = useMemo(() => {
@@ -644,6 +657,7 @@ function NewDemand() {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
+            audio.play();
 
             if (saveFromModal) {
                 setRedirectSaveClose(true);

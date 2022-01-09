@@ -199,7 +199,7 @@ export default function Move() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Modify"
                       ).show
-                    : true,
+                    : false,
                 defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
                 sorter: (a, b) => null,
             },

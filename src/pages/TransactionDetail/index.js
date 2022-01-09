@@ -38,6 +38,9 @@ import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import Expenditure from "../../components/Expenditure";
 import { useFetchDebt, useSearchSelectInput } from "../../hooks";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -226,6 +229,7 @@ function PaymentInDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("paymentin", doc_id);
+                        audio.play();
                         // if (saveFromModal) {
                         //     setRedirectSaveClose(true);
                         // } else {

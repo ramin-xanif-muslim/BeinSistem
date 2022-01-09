@@ -5,8 +5,6 @@ import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 import { useCustomForm } from "../contexts/FormContext";
 import {
-    CheckSquareOutlined,
-    PlusCircleOutlined,
     DeleteOutlined,
     CloseCircleOutlined,
     DownOutlined,
@@ -14,10 +12,6 @@ import {
     WarningOutlined,
 } from "@ant-design/icons";
 import { delDoc } from "../api";
-import bc from "../audio/ok.mp3";
-
-const audio = new Audio(bc);
-
 
 
 function DocButtons({
@@ -183,12 +177,6 @@ function DocButtons({
 
     if (redirectSaveClose) return <Redirect to={`/${closed}`} />;
 
-    const onClickSaveBtn = () => {
-        if(!disable) {
-            audio.play();
-        }
-    }
-
     return (
         <div className="doc_buttons_wrapper">
             <div className="left_doc_button">
@@ -203,7 +191,6 @@ function DocButtons({
                     form={"myForm"}
                     htmlType={"submit"}
                     disabled={disable}
-                    onClick={() => onClickSaveBtn()}
                 >
                     Yadda saxla
                 </Button>

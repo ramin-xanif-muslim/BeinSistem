@@ -52,6 +52,9 @@ import { useTableCustom } from "../../contexts/TableContext";
 import ProductGroupModal from "../../components/ProductGroupModal";
 import { useCustomForm } from "../../contexts/FormContext";
 import StockDrawer from "../../components/StockDrawer";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -161,6 +164,7 @@ function NewSalePoint() {
             });
             setEditId(res.Body.ResponseService);
             setRedirect(true);
+            audio.play();
         } else {
             message.error({
                 content: (

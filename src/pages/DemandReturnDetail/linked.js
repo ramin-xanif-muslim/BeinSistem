@@ -52,6 +52,9 @@ import { Tab } from "semantic-ui-react";
 import { ConvertFixedPosition } from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -294,6 +297,7 @@ function DemandReturnLinked(props) {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
+            audio.play();
             // setRedirect(true);
         } else {
             message.error({

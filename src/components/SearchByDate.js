@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./SearchByDate.module.css";
 
-function SearchByDate({ getSearchObjByDate }) {
+function SearchByDate({ getSearchObjByDate, defaultSearch }) {
     const [activId, setActivId] = useState(0);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            if(defaultSearch) {
+                onClick(defaultSearch)
+            }
+        },300)
+            return () => clearTimeout(timer)
+    },[])
 
     const [dates, setDates] = useState([
         {
@@ -33,7 +42,6 @@ function SearchByDate({ getSearchObjByDate }) {
     ]);
     const obj = {
         pg: 0,
-        lm: 25,
         dr: 1,
         momb: "",
         mome: "",

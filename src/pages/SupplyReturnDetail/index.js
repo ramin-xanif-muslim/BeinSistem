@@ -50,8 +50,10 @@ import {
     useGetDocItems,
     useSearchSelectInput,
 } from "../../hooks";
-import CustomersSelectInput from "../../components/CustomersSelectInput";
 import { ConvertFixedTable } from "../../config/function/findadditionals";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -399,6 +401,7 @@ function SupplyReturnDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("supplyreturn", doc_id);
+                        audio.play();
                         if (saveFromModal) {
                             setRedirectSaveClose(true);
                         } else {

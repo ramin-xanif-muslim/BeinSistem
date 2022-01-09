@@ -222,7 +222,7 @@ export default function StockBalance() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Amount"
                       ).show
-                    : true,
+                    : false,
                 defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
                 sorter: (a, b) => null,
                 className: initialSort === "Amount" ? "activesort" : "",
@@ -252,7 +252,7 @@ export default function StockBalance() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "SalePrice"
                       ).show
-                    : true,
+                    : false,
                 defaultSortOrder:
                     initialSort === "SalePrice" ? defaultdr : null,
                 sorter: (a, b) => null,
@@ -657,13 +657,13 @@ export default function StockBalance() {
                                     <Text type="">
                                         {c.dataIndex === "ProductName"
                                             ? "Cəm"
-                                            : c.dataIndex === "Amount"
-                                            ? ConvertFixedTable(allcost) + " ₼"
+                                            : c.dataIndex === "Price"
+                                            ? ConvertFixedTable(allsum) + " ₼"
                                             : c.dataIndex === "Quantity"
                                             ? ConvertFixedTable(allquantity) +
                                               "əd"
-                                            : c.dataIndex === "SalePrice"
-                                            ? ConvertFixedTable(allsum) + " ₼"
+                                            : c.dataIndex === "CostPrice"
+                                            ? ConvertFixedTable(allcost) + " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>

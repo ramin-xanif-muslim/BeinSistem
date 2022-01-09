@@ -141,7 +141,7 @@ export default function CashIn() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Description"
                       ).show
-                    : false,
+                    : true,
                 sorter: (a, b) => null,
             },
         ];
@@ -468,7 +468,7 @@ export default function CashIn() {
                                         {c.dataIndex === "SalePointName"
                                             ? "Cəm"
                                             : c.dataIndex === "Amount"
-                                            ? allsum + " ₼"
+                                            ? ConvertFixedTable(allsum) + " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>

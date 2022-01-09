@@ -253,7 +253,10 @@ export const fetchCustomersData = async (id) => {
     }
 };
 export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
-    console.log("adi isledi");
+    let today = new Date();
+    let y = today.getFullYear();
+    let m = today.getMonth();
+    let d = today.getDate();
 
     var navFilter = {
         dr: dr,
@@ -265,6 +268,28 @@ export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
         ar: ar,
         token: localStorage.getItem("access-token"),
     };
+    if(page === "sales" || "returns" || "salereports" || "cashouts" || "cashins") {
+            let date = y + "-" + (m + 1) + "-" + d;
+            var tarix = {
+                momb: `${date} 00:00:00`,
+                mome: `${date} 23:59:59`,
+            };
+            Object.assign(navFilter, tarix);
+    }
+    if(page === "profit") {
+        d = 1;
+        let date = y + "-" + (m + 1) + "-" + d;
+        var tarix = {
+            momb: `${date} 00:00:00`,
+        };
+        Object.assign(navFilter, tarix);
+        d = today.getDate();
+        date = y + "-" + (m + 1) + "-" + d;
+        tarix = {
+            mome: `${date} 23:59:59`,
+        };
+        Object.assign(navFilter, tarix);
+    }
     const { data } = await axios.post(
         `https://dev.bein.az/controllers/${page}/get.php`,
         navFilter

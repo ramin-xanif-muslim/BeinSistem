@@ -49,6 +49,9 @@ import { useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
 import { Tab } from "semantic-ui-react";
 import { ConvertFixedTable } from "../../config/function/findadditionals";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -289,6 +292,7 @@ function SupplyReturnLinked(props) {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
+            audio.play();
             // setRedirect(true);
         } else {
             message.error({

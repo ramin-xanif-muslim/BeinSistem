@@ -35,24 +35,33 @@ function Dashboard() {
             </Spin>
         );
     }
+    const allSum = () => {
+        let allsum = 0;
+        if(data) {
+            console.log(data.Charts.Sales)
+            data.Charts.Sales.map(s => {
+                allsum += Number(s.Amount)
+            })
+        }
+        return allsum
+    }
+    
+    function todaysPercentageOfTotalAmount (CurrAmount,PrevAmount) {
+          let result=(CurrAmount*100)/PrevAmount;
+          return result.toFixed(2);
+        }
+    function percentFun (CurrAmount,PrevAmount) {
+          let result=(PrevAmount/100) * CurrAmount;
+          return result.toFixed(2);
+        }
 
-    // var result = money / 100 * tallage;
     let percentS;
     let percentP;
     let percentC;
-    if (data) {
-        percentS = (
-            (data.Sales.PrevAmount / 100) *
-            data.Sales.CurrAmount
-        ).toFixed(2);
-        percentP = (
-            (data.Profits.PrevAmount / 100) *
-            data.Profits.CurrAmount
-        ).toFixed(2);
-        percentC = (
-            (data.Comission.PrevAmount / 100) *
-            data.Comission.CurrAmount
-        ).toFixed(2);
+    if (data) { 
+        percentS = percentFun( data.Sales.CurrAmount, data.Sales.PrevAmount )
+        percentP = percentFun( data.Profits.CurrAmount, data.Profits.PrevAmount )
+        percentC = percentFun( data.Comission.CurrAmount, data.Comission.PrevAmount )
     }
 
     return (
@@ -290,7 +299,7 @@ function Dashboard() {
                             <Switch className={style.switch} />
                             <p>12 ay</p>
                             <div className={style.profit}>
-                                {/* <p className={style.bold}>1253.56 ₼</p> */}
+                                <p className={style.bold}>{allSum()} ₼</p>
                             </div>
                         </div>
                     </div>

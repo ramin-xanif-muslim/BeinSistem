@@ -253,7 +253,7 @@ export default function Supply() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Consumption"
                       ).show
-                    : false,
+                    : true,
                 sorter: (a, b) => null,
                 className: initialSort === "Consumption" ? "activesort" : "",
                 render: (value, row, index) => {

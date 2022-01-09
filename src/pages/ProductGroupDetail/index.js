@@ -33,6 +33,9 @@ import {
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import { updateProduct } from "../../api";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 var mods = {};
 let lastObject = {};
 const { Option } = Select;
@@ -109,6 +112,7 @@ function ProductGroupDetail() {
                             "productfolders",
                             progr_id
                         );
+                        audio.play();
                     } else {
                         message.error({
                             content: (

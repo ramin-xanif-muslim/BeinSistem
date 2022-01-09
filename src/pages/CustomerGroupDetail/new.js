@@ -36,6 +36,9 @@ import {
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import { useCustomForm } from "../../contexts/FormContext";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -95,6 +98,7 @@ function NewProductGroup() {
             });
             setEditId(res.Body.ResponseService);
             setRedirect(true);
+            audio.play();
         } else {
             message.error({
                 content: (

@@ -57,6 +57,9 @@ import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { useRef } from "react";
 import { useGetDocItems } from "../../hooks";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -397,6 +400,7 @@ function NewMove() {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
+            audio.play();
 
             if (saveFromModal) {
                 setRedirectSaveClose(true);

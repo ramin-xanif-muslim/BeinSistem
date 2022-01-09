@@ -58,6 +58,7 @@ export default function Sale() {
     } = useTableCustom();
 
     const [documentList, setDocumentList] = useState([]);
+    const today = true
     const { isLoading, error, data, isFetching } = useQuery(
         ["sales", page, direction, fieldSort, doSearch, search, advanced],
         () => {
@@ -248,7 +249,8 @@ export default function Sale() {
                     : true,
                 sorter: (a, b) => null,
                 render: (value, row, index) => {
-                    return ConvertFixedTable(value);
+                    let discount = ConvertFixedTable(value) + " %"
+                    return discount;
                 },
             },
 
@@ -365,7 +367,7 @@ export default function Sale() {
                     ? Object.values(initialfilter).find(
                           (i) => i.dataIndex === "slpnt"
                       ).show
-                    : true,
+                    : false,
             },
             {
                 key: "8",

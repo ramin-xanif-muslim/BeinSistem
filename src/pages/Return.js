@@ -97,7 +97,7 @@ export default function Return() {
                 show: initial
                     ? Object.values(initial).find((i) => i.dataIndex === "Name")
                           .show
-                    : true,
+                    : false,
                 defaultSortOrder: initialSort === "Name" ? defaultdr : null,
                 sorter: (a, b) => null,
                 className: "linkedColumns",
@@ -159,7 +159,7 @@ export default function Return() {
                 show: initial
                     ? Object.values(initial).find((i) => i.dataIndex === "Bank")
                           .show
-                    : true,
+                    : false,
                 sorter: (a, b) => null,
                 render: (value, row, index) => {
                     return ConvertFixedTable(value);

@@ -107,6 +107,8 @@ export default function Transaction() {
     marks
         ? (markObject = marks)
         : (markObject = JSON.parse(localStorage.getItem("marks")));
+
+        console.log(initialSort)
     const columns = useMemo(() => {
         return [
             {
@@ -292,7 +294,7 @@ export default function Transaction() {
         return [
             {
                 key: "1",
-                label: "Alış №",
+                label: "Sənəd №",
                 name: "docNumber",
                 type: "text",
                 dataIndex: "docNumber",

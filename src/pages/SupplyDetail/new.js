@@ -59,7 +59,9 @@ import {
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
-import CustomersSelectInput from "../../components/CustomersSelectInput";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -480,6 +482,7 @@ function NewSupply() {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
+            audio.play();
 
             if (saveFromModal) {
                 setRedirectSaveClose(true);

@@ -49,7 +49,9 @@ import {
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
-import CustomersSelectInput from "../../components/CustomersSelectInput";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -449,6 +451,7 @@ function CustomerOrderDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("customerorder", doc_id);
+                        audio.play();
                         if (isReturn) {
                             setRedirect(true);
                         }

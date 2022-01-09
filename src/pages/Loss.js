@@ -204,7 +204,7 @@ export default function Loss() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Modify"
                       ).show
-                    : true,
+                    : false,
                 defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
                 sorter: (a, b) => null,
                 className: initialSort === "Modify" ? "activesort" : "",
@@ -217,7 +217,7 @@ export default function Loss() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Consumption"
                       ).show
-                    : true,
+                    : false,
                 defaultSortOrder:
                     initialSort === "Consumption" ? defaultdr : null,
                 sorter: (a, b) => null,

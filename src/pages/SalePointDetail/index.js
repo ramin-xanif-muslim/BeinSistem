@@ -22,6 +22,9 @@ import { message } from "antd";
 import { fetchCard } from "../../api";
 import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { useTableCustom } from "../../contexts/TableContext";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -152,6 +155,7 @@ function SalePointDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("salepoints", slpnt_id);
+                        audio.play();
                     } else {
                         message.error({
                             content: (

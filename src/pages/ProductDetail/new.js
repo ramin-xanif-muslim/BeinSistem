@@ -49,6 +49,9 @@ import {
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import ProductGroupModal from "../../components/ProductGroupModal";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -236,8 +239,6 @@ function NewProduct() {
         values.prices = prices;
         values.isarch = isArch;
 
-        console.log(attrs);
-
         Object.values(attrs).map((atr) => {
             Object.entries(values).findIndex(([k, v]) => console.log(k));
             if (atr.IsRequired === 1) {
@@ -265,7 +266,6 @@ function NewProduct() {
             });
         }
         if (!error) {
-            console.log(values);
             const res = await saveDoc(values, "products");
             if (res.Headers.ResponseStatus === "0") {
                 message.success({
@@ -275,6 +275,7 @@ function NewProduct() {
                 });
                 setEditId(res.Body.ResponseService);
                 setRedirect(true);
+                audio.play();
             } else {
                 message.error({
                     content: (

@@ -388,7 +388,7 @@ export default function Product() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Description"
                       ).show
-                    : true,
+                    : false,
                 sorter: (a, b) => null,
                 className: initialSort === "Description" ? "activesort" : "",
             },

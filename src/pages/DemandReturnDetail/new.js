@@ -64,7 +64,9 @@ import {
     useGetDocItems,
     useSearchSelectInput,
 } from "../../hooks";
-import CustomersSelectInput from "../../components/CustomersSelectInput";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
@@ -413,6 +415,7 @@ function NewDemandReturn() {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
+            audio.play();
 
             if (saveFromModal) {
                 setRedirectSaveClose(true);

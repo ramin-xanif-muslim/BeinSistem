@@ -141,7 +141,7 @@ export default function CashOut() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Description"
                       ).show
-                    : false,
+                    : true,
                 sorter: (a, b) => null,
             },
         ];
@@ -469,7 +469,7 @@ export default function CashOut() {
                                         {c.dataIndex === "SalePointName"
                                             ? "Cəm"
                                             : c.dataIndex === "Amount"
-                                            ? allsum + " ₼"
+                                            ? ConvertFixedTable(allsum) + " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>

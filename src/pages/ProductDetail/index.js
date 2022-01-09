@@ -52,6 +52,9 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 var mods = {};
 let lastObject = {};
 const { Option } = Select;
@@ -827,6 +830,7 @@ function ProductDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("products", product_id);
+                        audio.play();
                     } else {
                         message.error({
                             content: (

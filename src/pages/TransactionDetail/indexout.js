@@ -43,6 +43,9 @@ import { useRef } from "react";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import Expenditure from "../../components/Expenditure";
 import { useFetchDebt, useSearchSelectInput } from "../../hooks";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 
 const { Option, OptGroup } = Select;
 let customPositions = [];
@@ -205,6 +208,7 @@ function PaymentOutDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("paymentout", doc_id);
+                        audio.play();
                     } else {
                         message.error({
                             content: (

@@ -50,6 +50,9 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -458,6 +461,7 @@ function EnterDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("document", doc_id);
+                        audio.play();
                         if (saveFromModal) {
                             setRedirectSaveClose(true);
                         } else {

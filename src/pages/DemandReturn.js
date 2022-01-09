@@ -187,7 +187,7 @@ export default function DemandReturn() {
                     ? Object.values(initial).find(
                           (i) => i.dataIndex === "Profit"
                       ).show
-                    : true,
+                    : false,
                 sorter: (a, b) => null,
                 className: initialSort === "Profit" ? "activesort" : "",
                 render: (value, row, index) => {

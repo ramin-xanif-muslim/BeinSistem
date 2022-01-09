@@ -112,7 +112,7 @@ export default function CreditTransaction() {
                 show: initial
                     ? Object.values(initial).find((i) => i.dataIndex === "Name")
                           .show
-                    : true,
+                    : false,
                 defaultSortOrder: initialSort === "Name" ? defaultdr : null,
                 sorter: (a, b) => null,
                 className: "linkedColumns",
@@ -127,6 +127,17 @@ export default function CreditTransaction() {
                     : true,
                 defaultSortOrder:
                     initialSort === "SalePoint" ? defaultdr : null,
+                sorter: (a, b) => null,
+            },
+            {
+                dataIndex: "Moment",
+                title: "Tarix",
+                defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
+                show: initial
+                    ? Object.values(initial).find(
+                          (i) => i.dataIndex === "Moment"
+                      ).show
+                    : true,
                 sorter: (a, b) => null,
             },
             {
@@ -189,17 +200,6 @@ export default function CreditTransaction() {
                         return "";
                     }
                 },
-            },
-            {
-                dataIndex: "Moment",
-                title: "Tarix",
-                defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Moment"
-                      ).show
-                    : true,
-                sorter: (a, b) => null,
             },
             {
                 dataIndex: "Description",

@@ -63,6 +63,9 @@ import {
     useGetDocItems,
     useSearchSelectInput,
 } from "../../hooks";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
@@ -400,6 +403,7 @@ function SaleDetail() {
                             duration: 2,
                         });
                         queryClient.invalidateQueries("sale", doc_id);
+                        audio.play();
                         if (isReturn) {
                             setRedirect(true);
                         }
@@ -717,7 +721,7 @@ function SaleDetail() {
                                         groupSeparator=" "
                                         className="doc_info_text total"
                                         title=""
-                                        value={allsum}
+                                        value={ConvertFixedTable(allsum)}
                                         prefix={"Yekun məbləğ: "}
                                         suffix={"₼"}
                                     />

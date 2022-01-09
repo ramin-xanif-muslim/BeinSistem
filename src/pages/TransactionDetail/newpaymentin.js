@@ -25,6 +25,9 @@ import { saveDoc, fetchSpendItems } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { useFetchDebt, useSearchSelectInput } from "../../hooks";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 
 const { Option } = Select;
 const { Panel } = Collapse;
@@ -178,6 +181,7 @@ function NewPaymentIn() {
                 duration: 2,
             });
             setEditId(res.Body.ResponseService);
+            audio.play();
 
             if (saveFromModal) {
                 setRedirectSaveClose(true);

@@ -208,6 +208,7 @@ function FilterComponent({ from, settings, cols }) {
                                     <Option
                                         key={r.Id}
                                         nm={cols[i].name}
+                                        // value={cols[i].name === "productName" ? r.name : r.id}
                                         value={r.Id}
                                     >
                                         {r.Name}
@@ -529,6 +530,7 @@ function FilterComponent({ from, settings, cols }) {
     };
 
     const onFinish = (values) => {
+        console.log(values)
         const rangeCreateValue = values["createdDate"];
         const rangeModifyValue = values["modifedDate"];
         const moment = values["moment"];

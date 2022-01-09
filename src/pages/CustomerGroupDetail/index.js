@@ -10,11 +10,6 @@ import DocButtons from "../../components/DocButtons";
 import {
     Form,
     Input,
-    Button,
-    InputNumber,
-    TreeSelect,
-    Checkbox,
-    Dropdown,
     message,
     Card,
     Select,
@@ -37,6 +32,9 @@ import {
 import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import { updateCustomer } from "../../api";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 var mods = {};
 let lastObject = {};
 const { Option } = Select;
@@ -113,6 +111,7 @@ function CustomerGroupDetail() {
                             "customergroups",
                             cusgr_id
                         );
+                        audio.play();
                     } else {
                         message.error({
                             content: (

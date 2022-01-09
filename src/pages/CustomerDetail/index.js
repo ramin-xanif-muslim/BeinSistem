@@ -30,6 +30,9 @@ import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import ProductGroupModal from "../../components/ProductGroupModal";
 import { useCustomForm } from "../../contexts/FormContext";
+import ok from "../../audio/ok.mp3";
+
+const audio = new Audio(ok);
 const { Option } = Select;
 const { TextArea } = Input;
 const { Panel } = Collapse;
@@ -176,6 +179,7 @@ function CustomerDetail() {
 							duration: 2,
 						});
 						queryClient.invalidateQueries("customers", cus_id);
+                        audio.play();
 					} else {
 						message.error({
 							content: (
