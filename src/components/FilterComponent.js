@@ -466,6 +466,7 @@ function FilterComponent({ from, settings, cols }) {
                             <Select
                                 className="deteail-select"
                                 showSearch
+                                defaultValue = {3}
                                 placeholder={cols[i].label}
                                 allowClear
                                 id={cols[i].controller}

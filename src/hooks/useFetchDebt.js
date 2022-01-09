@@ -10,6 +10,7 @@ export function useFetchDebt() {
         console.log(customerId)
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
+        console.log(debt)
     };
     useEffect(() => {
         if(customerId) {

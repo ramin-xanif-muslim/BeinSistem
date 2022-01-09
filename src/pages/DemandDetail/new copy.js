@@ -450,7 +450,7 @@ function NewDemand() {
             },
             {
                 title: "Maya",
-                dataIndex: "CostPrice",
+                dataIndex: "CostPr",
                 className: "max_width_field",
                 isVisible: true,
                 editable: false,
@@ -481,7 +481,7 @@ function NewDemand() {
             },
             {
                 title: "Cəm Maya",
-                dataIndex: "CostPriceTotal",
+                dataIndex: "CostTotalPr",
                 className: "max_width_field",
                 isVisible: true,
                 editable: false,
@@ -490,7 +490,7 @@ function NewDemand() {
                     let defaultCostArray = [];
                     let consumtionPriceArray = [];
                     outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.CostPriceTotal));
+                        defaultCostArray.push(Number(p.TotalPrice));
                     });
                     if (hasConsumption) {
                         consumtionPriceArray = [];
@@ -499,7 +499,7 @@ function NewDemand() {
                                 FindAdditionals(
                                     consumption,
                                     docSum,
-                                    Number(p.CostPriceTotal)
+                                    Number(p.TotalPrice)
                                 )
                             );
                         });

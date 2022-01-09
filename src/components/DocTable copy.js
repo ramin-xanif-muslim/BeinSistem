@@ -397,8 +397,6 @@ function DocTable({ headers, datas, from }) {
                   } else {
                       n.TotalPrice =
                           parseFloat(n.Price) * parseFloat(n.Quantity);
-                      n.CostPriceTotal =
-                          parseFloat(n.CostPrice) * parseFloat(n.Quantity);
                   }
                   n.ChangePackQuantity =
                       parseFloat(n.PackQuantity) * parseFloat(n.Quantity);

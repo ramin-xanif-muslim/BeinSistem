@@ -521,6 +521,9 @@ function SupplyDetail() {
                                 setPaymentModal(true);
                             }
                         }
+                        // setCustomerId, customerId
+                        console.log(customerId)
+                        setCustomerId(customerId)
                     } else {
                         message.error({
                             content: (
