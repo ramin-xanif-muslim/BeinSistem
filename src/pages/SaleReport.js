@@ -711,7 +711,7 @@ export default function SaleReport() {
                 </Col>
             </Row>
             <Row>
-                <Col xs={24} md={24} xl={24}>
+                <Col xs={24} sm={24} md={24} xl={24}>
                     <FilterComponent cols={filters} />
                 </Col>
             </Row>
@@ -726,13 +726,31 @@ export default function SaleReport() {
                 dataSource={documentList}
                 title={(pageData) => (
                     <Row>
-                        <Col xs={24} md={24} xl={10} className="table-headers">
+                        <Col
+                            xs={11}
+                            sm={11}
+                            md={11}
+                            xl={11}
+                            className="table-headers"
+                        >
                             <h3>Satışlar</h3>
                         </Col>
-                        <Col xs={24} md={24} xl={9} className="table-headers">
+                        <Col
+                            xs={8}
+                            sm={8}
+                            md={8}
+                            xl={8}
+                            className="table-headers"
+                        >
                             <h3>Qaytarmalar</h3>
                         </Col>
-                        <Col xs={24} md={24} xl={5} className="table-headers">
+                        <Col
+                            xs={5}
+                            sm={5}
+                            md={5}
+                            xl={5}
+                            className="table-headers"
+                        >
                             <h3>Mənfəət</h3>
                         </Col>
                     </Row>

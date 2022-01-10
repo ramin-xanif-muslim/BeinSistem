@@ -14,10 +14,7 @@ import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
-import {
-    PlusOutlined,
-    CloseCircleOutlined,
-} from "@ant-design/icons";
+import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import {
     Form,
     Alert,
@@ -48,7 +45,11 @@ import {
     FindCofficient,
     ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
+import {
+    useFetchDebt,
+    useGetDocItems,
+    useSearchSelectInput,
+} from "../../hooks";
 import ok from "../../audio/ok.mp3";
 
 const audio = new Audio(ok);
@@ -98,16 +99,16 @@ function CustomerOrderDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
 
-    const {debt, setCustomerId, customerId} = useFetchDebt()
+    const { debt, setCustomerId, customerId } = useFetchDebt();
 
-    const { allsum, allQuantity } = useGetDocItems()
+    const { allsum, allQuantity } = useGetDocItems();
 
-	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
+    const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
 
-	const onChangeSelectInput = (e) => {
-		handleChanged();
-		setCustomerId(e);
-	};
+    const onChangeSelectInput = (e) => {
+        handleChanged();
+        setCustomerId(e);
+    };
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["customerorder", doc_id],
@@ -431,13 +432,13 @@ function CustomerOrderDetail() {
         setDisable(true);
         values.positions = outerDataSource;
         values.customerid = customerId;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+        values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-            if (!values.status) {
-                values.status = status;
-            }
+        if (!values.status) {
+            values.status = status;
+        }
         console.log(values);
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
@@ -481,16 +482,17 @@ function CustomerOrderDetail() {
             render: () => (
                 <Tab.Pane attached={false}>
                     <Row>
-                        <Col xs={24} md={24} xl={9}>
+                        <Col xs={9} sm={9} md={9} xl={9}>
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
                                 <PlusOutlined className="addNewProductIcon" />
                             </div>
                         </Col>
                         <Col
-                            xs={24}
-                            md={24}
-                            xl={24}
+                            xs={9}
+                            sm={9}
+                            md={9}
+                            xl={9}
                             style={{ paddingTop: "1rem" }}
                         >
                             <DocTable headers={columns} datas={positions} />
@@ -523,10 +525,10 @@ function CustomerOrderDetail() {
                     className="doc_forms"
                     name="basic"
                     labelCol={{
-                        span: 5,
+                        span: 8,
                     }}
                     wrapperCol={{
-                        span: 14,
+                        span: 16,
                     }}
                     initialValues={{
                         name: data.Body.List[0].Name,
@@ -543,7 +545,7 @@ function CustomerOrderDetail() {
                     onFieldsChange={handleChanged}
                 >
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Sifariş №"
                                 name="name"
@@ -553,8 +555,8 @@ function CustomerOrderDetail() {
                                 <Input className="detail-input" allowClear />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     onClick={() => setCustomerDrawer(true)}
@@ -571,25 +573,25 @@ function CustomerOrderDetail() {
                                     },
                                 ]}
                             >
-								<Select
-									lazyLoad
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect detail-select"
-									allowClear={true}
-									onSearch={(e) => onSearchSelectInput(e)}
-									onChange={(e) => onChangeSelectInput(e)}
-								>
-									{customersForSelet[0] &&
-										customersForSelet.map((c) => {
-											return (
-												<Option key={c.Id} value={c.Id}>
-													{c.Name}
-												</Option>
-											);
-										})}
-								</Select>
+                                <Select
+                                    lazyLoad
+                                    showSearch
+                                    showArrow={false}
+                                    filterOption={false}
+                                    className="customSelect detail-select"
+                                    allowClear={true}
+                                    onSearch={(e) => onSearchSelectInput(e)}
+                                    onChange={(e) => onChangeSelectInput(e)}
+                                >
+                                    {customersForSelet[0] &&
+                                        customersForSelet.map((c) => {
+                                            return (
+                                                <Option key={c.Id} value={c.Id}>
+                                                    {c.Name}
+                                                </Option>
+                                            );
+                                        })}
+                                </Select>
                             </Form.Item>
                             <p
                                 className="customer-debt"
@@ -601,12 +603,12 @@ function CustomerOrderDetail() {
                                 {debt} ₼
                             </p>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Form.Item
                                 label="Tarix"
                                 name="moment"
@@ -619,8 +621,8 @@ function CustomerOrderDetail() {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}>
                             <Button className="add-stock-btn">
                                 <PlusOutlined
                                     onClick={() => setStockDrawer(true)}
@@ -653,8 +655,8 @@ function CustomerOrderDetail() {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col xs={24} md={24} xl={3}></Col>
-                        <Col xs={24} md={24} xl={6}></Col>
+                        <Col xs={3} sm={3} md={3} xl={3}></Col>
+                        <Col xs={6} sm={6} md={6} xl={6}></Col>
                     </Row>
 
                     <Row>
@@ -665,7 +667,7 @@ function CustomerOrderDetail() {
                                 key="1"
                             >
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Status"
                                             name="mark"
@@ -677,8 +679,8 @@ function CustomerOrderDetail() {
                                             <StatusSelect />
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
@@ -703,12 +705,14 @@ function CustomerOrderDetail() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
-                                            onChange={(e) => setStatus(e.target.checked)}
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
@@ -718,7 +722,7 @@ function CustomerOrderDetail() {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={24} md={24} xl={6}>
+                                    <Col xs={6} sm={6} md={6} xl={6}>
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
@@ -743,10 +747,10 @@ function CustomerOrderDetail() {
                                             </Select>
                                         </Form.Item>
                                     </Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
-                                    <Col xs={24} md={24} xl={3}></Col>
-                                    <Col xs={24} md={24} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
+                                    <Col xs={3} sm={3} md={3} xl={3}></Col>
+                                    <Col xs={6} sm={6} md={6} xl={6}></Col>
                                 </Row>
                             </Panel>
                         </Collapse>
@@ -754,33 +758,35 @@ function CustomerOrderDetail() {
                 </Form>
 
                 <Row>
-                    { isFetching ? <Spin />
-                        :
-                        <Col xs={24} md={24} xl={24}>
+                    {isFetching ? (
+                        <Spin />
+                    ) : (
+                        <Col xs={24} sm={24} md={24} xl={24}>
                             <Tab
                                 className="custom_table_wrapper_tab"
                                 panes={panes}
                             />
                         </Col>
-                    }
-                    <Col xs={24} md={24} xl={24}>
+                    )}
+                    <Col xs={24} sm={24} md={24} xl={24}>
                         <Row className="bottom_tab">
-                            <Col xs={24} md={24} xl={9}>
+                            <Col xs={9} sm={9} md={9} xl={9}>
                                 <div>
-									<Form
-										initialValues={{
-											description: data.Body.List[0].Description,
-										}}
+                                    <Form
+                                        initialValues={{
+                                            description:
+                                                data.Body.List[0].Description,
+                                        }}
                                         onFieldsChange={handleChanged}
-									>
-										<Form.Item name="description">
-											<TextArea
-												ref={myRefDescription}
-												placeholder={"Şərh..."}
-												rows={3}
-											/>
-										</Form.Item>
-									</Form>
+                                    >
+                                        <Form.Item name="description">
+                                            <TextArea
+                                                ref={myRefDescription}
+                                                placeholder={"Şərh..."}
+                                                rows={3}
+                                            />
+                                        </Form.Item>
+                                    </Form>
                                 </div>
                             </Col>
                             <Col xs={24} md={24} xl={12}>
@@ -813,7 +819,11 @@ function CustomerOrderDetail() {
             </div>
             <StockDrawer />
             <CustomerDrawer />
-            <PaymentModal datas={data.Body.List[0]} title="Məxaric" endPoint="paymentouts"/>
+            <PaymentModal
+                datas={data.Body.List[0]}
+                title="Məxaric"
+                endPoint="paymentouts"
+            />
         </div>
     );
 }

@@ -169,7 +169,7 @@ function FilterComponent({ from, settings, cols }) {
 
         for (let i = 0; i < cols.length; i++) {
             children.push(
-                <Col xs={8} sm={8} md={5} xl={5} key={i}>
+                <Col xs={8} sm={8} md={8} xl={6} key={i}>
                     <Form.Item
                         className="filter-input"
                         name={cols[i].name}
@@ -466,7 +466,7 @@ function FilterComponent({ from, settings, cols }) {
                             <Select
                                 className="deteail-select"
                                 showSearch
-                                defaultValue = {3}
+                                defaultValue={3}
                                 placeholder={cols[i].label}
                                 allowClear
                                 id={cols[i].controller}
@@ -531,7 +531,7 @@ function FilterComponent({ from, settings, cols }) {
     };
 
     const onFinish = (values) => {
-        console.log(values)
+        console.log(values);
         const rangeCreateValue = values["createdDate"];
         const rangeModifyValue = values["modifedDate"];
         const moment = values["moment"];
