@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocId } from "../../api";
+import { api, fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
@@ -112,8 +112,7 @@ function SupplyReturnDetail() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [columnChange, setColumnChange] = useState(false);
     const [initial, setInitial] = useState(null);
-
-    const { debt, setCustomerId, customerId } = useFetchDebt();
+    
     const { allsum, allQuantity } = useGetDocItems();
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
@@ -131,6 +130,20 @@ function SupplyReturnDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+
+	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    const [debt, setDebt] = useState(0);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id ? id : customerId);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        if(customerId) {
+            fetchDebt(customerId);
+        }
+    }, [customerId]);
+
     useEffect(() => {
         setDisable(true);
         setPositions([]);
@@ -412,6 +425,7 @@ function SupplyReturnDetail() {
                                 setPaymentModal(true);
                             }
                         }
+                        fetchDebt()
                     } else {
                         message.error({
                             content: (

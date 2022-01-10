@@ -433,6 +433,8 @@ function FilterComponent({ from, settings, cols }) {
                                 className="detail-input"
                                 showTime={{ format: "HH:mm:ss" }}
                                 locale={locale}
+                                onChange={(date, dateString) => console.log(date)}
+                                // onPanelChange={(value, mode) => console.log('dsdf')}
                                 {...rangeConfig}
                                 format="DD-MM-YYYY HH:mm:ss"
                                 ranges={{

@@ -117,9 +117,8 @@ function DemandDetail() {
 	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
 
-	const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
-
 	const { allsum, allQuantity } = useGetDocItems();
+    
 
 	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
 	const onChangeSelectInput = (e) => {
@@ -136,6 +135,21 @@ function DemandDetail() {
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
+
+
+	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    const [debt, setDebt] = useState(0);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id ? id : customerId);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        if(customerId) {
+            fetchDebt(customerId);
+        }
+    }, [customerId]);
+    
 	useEffect(() => {
 		setDisable(true);
 		setPositions([]);
@@ -498,6 +512,7 @@ function DemandDetail() {
 								setPaymentModal(true);
 							}
 						}
+                        fetchDebt()
 					} else {
 						message.error({
 							content: (

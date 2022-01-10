@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import style from "./SearchByDate.module.css";
 
@@ -54,6 +55,8 @@ function SearchByDate({ getSearchObjByDate, defaultSearch }) {
         if (i === 1) {
             let date = y + "-" + (m + 1) + "-" + d;
             var tarix = {
+                // momb: moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
+                // mome: moment().endOf("day").format("YYYY-MM-DD HH:mm:ss"),
                 momb: `${date} 00:00:00`,
                 mome: `${date} 23:59:59`,
             };
@@ -65,6 +68,8 @@ function SearchByDate({ getSearchObjByDate, defaultSearch }) {
             d = d - 1;
             let date = y + "-" + (m + 1) + "-" + d;
             var tarix = {
+                // momb: moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss"),
+                // mome: moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
                 momb: `${date} 00:00:00`,
                 mome: `${date} 23:59:59`,
             };
@@ -76,6 +81,8 @@ function SearchByDate({ getSearchObjByDate, defaultSearch }) {
             d = 1;
             let date = y + "-" + (m + 1) + "-" + d;
             var tarix = {
+            //     momb: moment().startOf("month").format("YYYY-MM-DD HH:mm:ss"),
+                //     momb: moment().endOf("month").format("YYYY-MM-DD HH:mm:ss"),
                 momb: `${date} 00:00:00`,
             };
             Object.assign(obj, tarix);
