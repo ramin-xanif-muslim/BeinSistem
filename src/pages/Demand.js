@@ -6,8 +6,6 @@ import {
     fetchFilterPage,
     fetchCustomers,
 } from "../api";
-
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import {
@@ -20,14 +18,11 @@ import {
     Typography,
     Alert,
 } from "antd";
-
 import Buttons from "../components/Button";
-import { Button, Icon } from "semantic-ui-react";
+import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-import enters from "../ButtonsNames/Enters/buttonsNames";
-
 import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
@@ -41,12 +36,11 @@ export default function Demand() {
     const [defaultdr, setDefaultDr] = useState("descend");
     const [initialSort, setInitialSort] = useState("Moment");
     const [fieldSort, setFieldSort] = useState("Moment");
-    const [allsum, setallsum] = useState(0);
     const [allprofit, setallprofit] = useState(0);
+    const [allsum, setallsum] = useState(0);
     const [editId, setEditId] = useState("");
     const [page, setPage] = useState(0);
     const [filtered, setFiltered] = useState(false);
-
     const [filterChanged, setFilterChanged] = useState(false);
     const [columnChange, setColumnChange] = useState(false);
     const [initial, setInitial] = useState(null);
@@ -88,7 +82,6 @@ export default function Demand() {
                 : null;
         }
     );
-
     useEffect(() => {
         setRedirectSaveClose(false);
         setSaveFromModal(false);
@@ -300,11 +293,6 @@ export default function Demand() {
         ];
     }, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-    const getCustomers = async () => {
-        const customerResponse = await fetchCustomers();
-        setCustomers(customerResponse.Body.List);
-        setCustomersLocalStorage(customerResponse.Body.List);
-    };
     const filters = useMemo(() => {
         return [
             {
@@ -419,6 +407,11 @@ export default function Demand() {
 
         getCustomers();
     }, []);
+    const getCustomers = async () => {
+        const customerResponse = await fetchCustomers();
+        setCustomers(customerResponse.Body.List);
+        setCustomersLocalStorage(customerResponse.Body.List);
+    };
     useEffect(() => {
         if (!isFetching) {
             setDocumentList(data.Body.List);
@@ -496,7 +489,6 @@ export default function Demand() {
             ...findelement,
             ...replacedElement,
         });
-        console.log(initialCols);
         setFilterChanged(true);
     };
     const menu = (
@@ -669,7 +661,6 @@ export default function Demand() {
                 }}
                 size="small"
                 onRow={(r) => ({
-                    // onDoubleClick: () => editPage(r.Id),
                     onClick: (e) => editPage(r.Id),
                 })}
             />

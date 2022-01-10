@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -101,11 +101,22 @@ function SupplyReturnLinked(props) {
 
     const { allsum, allQuantity } = useGetDocItems();
 
-    const { debt, setCustomerId, customerId } = useFetchDebt();
-
     const onClose = () => {
         message.destroy();
     };
+
+	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    const [debt, setDebt] = useState(0);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id ? id : customerId);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        if(customerId) {
+            fetchDebt(customerId);
+        }
+    }, [customerId]);
 
     useEffect(() => {
         console.log(props.location.state.data.Positions);
@@ -293,6 +304,7 @@ function SupplyReturnLinked(props) {
             });
             setEditId(res.Body.ResponseService);
             audio.play();
+            fetchDebt()
             // setRedirect(true);
         } else {
             message.error({

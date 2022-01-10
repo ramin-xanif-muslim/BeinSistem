@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -49,7 +49,7 @@ import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { Tab } from "semantic-ui-react";
-import { ConvertFixedPosition } from "../../config/function/findadditionals";
+import { ConvertFixedPosition, ConvertFixedTable } from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
 import ok from "../../audio/ok.mp3";
@@ -109,11 +109,22 @@ function DemandReturnLinked(props) {
 
     const { allsum, allQuantity } = useGetDocItems();
 
-    const { debt, setCustomerId } = useFetchDebt();
-
     const onClose = () => {
         message.destroy();
     };
+
+	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    const [debt, setDebt] = useState(0);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id ? id : customerId);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        if(customerId) {
+            fetchDebt(customerId);
+        }
+    }, [customerId]);
 
     useEffect(() => {
         setStatus(props.location.state.data.Status);
@@ -298,6 +309,7 @@ function DemandReturnLinked(props) {
             });
             setEditId(res.Body.ResponseService);
             audio.play();
+            fetchDebt()
             // setRedirect(true);
         } else {
             message.error({

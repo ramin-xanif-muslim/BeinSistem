@@ -278,7 +278,7 @@ export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
     let y = today.getFullYear();
     let m = today.getMonth();
     let d = today.getDate();
-    if(page === "sales" || "returns" || "salereports" || "cashouts" || "cashins") {
+    if(page === "sales" || page === "returns" || page === "salereports" || page === "cashouts" || page ==="cashins") {
             let date = y + "-" + (m + 1) + "-" + d;
             var tarix = {
                 momb: `${date} 00:00:00`,
@@ -287,18 +287,17 @@ export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
             Object.assign(navFilter, tarix);
     }
     if(page === "profit") {
-        d = 1;
-        let date = y + "-" + (m + 1) + "-" + d;
-        var tarix = {
-            momb: `${date} 00:00:00`,
-        };
-        Object.assign(navFilter, tarix);
-        d = today.getDate();
-        date = y + "-" + (m + 1) + "-" + d;
-        tarix = {
-            mome: `${date} 23:59:59`,
-        };
-        Object.assign(navFilter, tarix);
+            let date = (y-1) + "-" + 12 + "-" + d;
+            var tarix = {
+                momb: `${date} 00:00:00`,
+            };
+            Object.assign(navFilter, tarix);
+            
+            date = y + "-" + (m + 1) + "-" + d;
+            var tarix = {
+                mome: `${date} 23:59:59`,
+            };
+            Object.assign(navFilter, tarix);
     }
     const { data } = await axios.post(
         API_BASE+`/controllers/${page}/get.php`,

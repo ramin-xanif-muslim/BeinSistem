@@ -72,8 +72,7 @@ function PaymentInDetail() {
     const [handleMark, setHandleMark] = useState(null);
     const [customerloading, setcustomerloading] = useState(false);
     const [expenditure, setExpenditure] = useState(false);
-
-    const { debt, setCustomerId, customerId } = useFetchDebt();
+    
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
     const onChangeSelectInput = (e) => {
@@ -91,6 +90,20 @@ function PaymentInDetail() {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+
+	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    const [debt, setDebt] = useState(0);
+    const [ customerId, setCustomerId] = useState()
+    const fetchDebt = async (id) => {
+        let res = await api.fetchDebt(id ? id : customerId);
+        setDebt(ConvertFixedTable(res));
+    };
+    useEffect(() => {
+        if(customerId) {
+            fetchDebt(customerId);
+        }
+    }, [customerId]);
+
     useEffect(() => {
         setDisable(true);
         setPositions([]);
@@ -230,6 +243,7 @@ function PaymentInDetail() {
                         });
                         queryClient.invalidateQueries("paymentin", doc_id);
                         audio.play();
+                        fetchDebt()
                         // if (saveFromModal) {
                         //     setRedirectSaveClose(true);
                         // } else {

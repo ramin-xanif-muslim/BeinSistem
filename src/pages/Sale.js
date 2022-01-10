@@ -7,7 +7,6 @@ import {
     fetchCustomers,
 } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography, Alert } from "antd";
@@ -614,6 +613,7 @@ export default function Sale() {
             </Spin>
         );
 
+    if (error) return "An error has occurred: " + error.message;
     if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
     return (
         <div className="custom_display">

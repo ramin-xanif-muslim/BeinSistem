@@ -125,7 +125,6 @@ function DocTable({ headers, datas, from }) {
 
     useEffect(() => {
         if (isAdd) {
-            console.log("isAdd",newPro)
             var duplicateData = false;
             var index;
             var newData = {
@@ -220,7 +219,6 @@ function DocTable({ headers, datas, from }) {
     }, [isAdd]);
 
     useEffect(() => {
-        console.log("isNew",newPro)
         if (isNew) {
             var duplicateData = false;
             var index;
@@ -449,10 +447,6 @@ function DocTable({ headers, datas, from }) {
             }),
         };
     });
-    console.log("components",components)
-    console.log("dataSource",dataSource)
-    console.log("loadingForm",loadingForm)
-    console.log("columns",columns)
 
     return (
         <Table
