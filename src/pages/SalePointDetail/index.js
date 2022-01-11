@@ -141,6 +141,7 @@ function SalePointDetail() {
     if (error) return "An error has occurred: " + error.message;
 
     const handleFinish = async (values) => {
+        console.log(values)
         setDisable(true);
 
         message.loading({ content: "Yüklənir...", key: "pro_update" });

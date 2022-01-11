@@ -188,7 +188,9 @@ function NewPaymentIn() {
         setDisable(true);
         values.customerid = customerId;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-        values.status = status;
+        if (!values.status) {
+            values.status = status;
+        }
         // values.mark = docmark;
 
         message.loading({ content: "Yüklənir...", key: "doc_update" });
@@ -499,6 +501,9 @@ function NewPaymentIn() {
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                                 name="status"
                                                 valuePropName="checked"
                                                 style={{ width: "100%" }}

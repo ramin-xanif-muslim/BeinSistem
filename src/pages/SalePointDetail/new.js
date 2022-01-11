@@ -258,7 +258,7 @@ function NewSalePoint() {
                                     {groupOption}
                                 </Select>
                             </Form.Item>
-                            <Form.Item>
+                            <Form.Item name="status" valuePropName="checked">
                                 <Switch
                                     checkedChildren="Aktiv"
                                     unCheckedChildren="Deaktiv"

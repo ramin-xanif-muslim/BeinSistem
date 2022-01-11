@@ -277,6 +277,10 @@ export default function Owners() {
         }
     };
     const onFinish = async (values) => {
+        if(!values.status) {
+            console.log("1")
+            values.status = "1"
+        }
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { id: edit ? edit.Id : null, filter: values },
@@ -418,7 +422,7 @@ export default function Owners() {
                         label="Şifrə"
                         rules={[
                             {
-                                required: edit ? false : true,
+                                required: true,
                                 message: "Zəhmət olmasa, şifrənizi daxil edin",
                             },
                             ({ getFieldValue }) => ({
@@ -445,7 +449,7 @@ export default function Owners() {
                         hasFeedback
                         rules={[
                             {
-                                required: edit ? false : true,
+                                required: true,
                                 message: "Şifrəni təkrarla",
                             },
                             ({ getFieldValue }) => ({

@@ -233,7 +233,7 @@ export default function CreditTransaction() {
             {
                 key: "2",
                 label: "Xərc maddələri",
-                name: "productName",
+                name: "spenditems",
                 type: "select",
                 controller: "spenditems",
                 dataIndex: "spendItems",
