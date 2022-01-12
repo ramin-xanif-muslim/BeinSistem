@@ -135,7 +135,7 @@ export default function Settlement() {
                     : true,
                 render: (value, row, index) => {
                     if (row.Amount > 0) {
-                        console.log("columns", row.Amount )
+                        console.log("columns", row.Amount);
                         return ConvertFixedTable(row.Amount);
                     }
                 },
@@ -483,7 +483,7 @@ export default function Settlement() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "CustomerName" ? (
                                             <span>Cəm</span>

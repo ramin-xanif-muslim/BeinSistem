@@ -475,7 +475,7 @@ export default function Return() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "Name"
                                             ? "Cəm"
@@ -492,7 +492,7 @@ export default function Return() {
                     current: advancedPage + 1,
                     total: data.Body.Count,
                     onChange: handlePagination,
-                            defaultPageSize: data.Body.Limit,
+                    defaultPageSize: data.Body.Limit,
                     showSizeChanger: false,
                 }}
                 size="small"

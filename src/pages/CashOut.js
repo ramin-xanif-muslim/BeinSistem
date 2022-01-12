@@ -464,7 +464,7 @@ export default function CashOut() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "SalePointName"
                                             ? "Cəm"

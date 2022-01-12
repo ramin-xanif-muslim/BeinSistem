@@ -108,7 +108,7 @@ export default function Transaction() {
         ? (markObject = marks)
         : (markObject = JSON.parse(localStorage.getItem("marks")));
 
-        console.log(initialSort)
+    console.log(initialSort);
     const columns = useMemo(() => {
         return [
             {
@@ -415,7 +415,7 @@ export default function Transaction() {
     }, [isFetching]);
 
     const editPage = (id, row) => {
-        console.log(row)
+        console.log(row);
         if (row.Type === "p" && row.Direct === "i") {
             setRedirectPaymentIn(true);
         }
@@ -647,14 +647,15 @@ export default function Transaction() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "Name"
                                             ? "Cəm"
                                             : c.dataIndex === "PaymentIn"
                                             ? ConvertFixedTable(allinsum) + " ₼"
                                             : c.dataIndex === "PaymentOut"
-                                            ? ConvertFixedTable(alloutsum) + " ₼"
+                                            ? ConvertFixedTable(alloutsum) +
+                                              " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>

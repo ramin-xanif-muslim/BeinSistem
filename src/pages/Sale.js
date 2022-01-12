@@ -9,7 +9,16 @@ import {
 
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography, Alert } from "antd";
+import {
+    Spin,
+    Row,
+    Col,
+    Menu,
+    Checkbox,
+    Dropdown,
+    Typography,
+    Alert,
+} from "antd";
 
 import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
@@ -57,7 +66,7 @@ export default function Sale() {
     } = useTableCustom();
 
     const [documentList, setDocumentList] = useState([]);
-    const today = true
+    const today = true;
     const { isLoading, error, data, isFetching } = useQuery(
         ["sales", page, direction, fieldSort, doSearch, search, advanced],
         () => {
@@ -248,7 +257,7 @@ export default function Sale() {
                     : true,
                 sorter: (a, b) => null,
                 render: (value, row, index) => {
-                    let discount = ConvertFixedTable(value) + " %"
+                    let discount = ConvertFixedTable(value) + " %";
                     return discount;
                 },
             },
@@ -665,7 +674,7 @@ export default function Sale() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "Name"
                                             ? "Cəm"

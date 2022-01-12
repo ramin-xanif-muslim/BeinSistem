@@ -488,7 +488,7 @@ export default function CreditTransaction() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "Name"
                                             ? "Cəm"

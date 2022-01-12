@@ -18,7 +18,7 @@ import {
     Dropdown,
     Typography,
     Tag,
-    Alert
+    Alert,
 } from "antd";
 
 import Buttons from "../components/Button";
@@ -617,9 +617,12 @@ export default function CustomerOrders() {
         setallsum(res.AllSum);
         setFetchSearchByDate(false);
     };
-    if (isLoading) return <Spin className="fetchSpinner" tip="Yüklənir...">
-                        <Alert />
-                    </Spin>;
+    if (isLoading)
+        return (
+            <Spin className="fetchSpinner" tip="Yüklənir...">
+                <Alert />
+            </Spin>
+        );
 
     if (error) return "An error has occurred: " + error.message;
 
@@ -688,7 +691,7 @@ export default function CustomerOrders() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "Amount"
                                             ? allsum + " ₼"

@@ -69,7 +69,7 @@ export default function StockBalance() {
         setallsum(res.SaleSum);
         setallcost(res.CostSum);
         setallquantity(res.QuantitySum);
-        setCount(res.Count)
+        setCount(res.Count);
     };
 
     const [documentList, setDocumentList] = useState([]);
@@ -596,6 +596,12 @@ export default function StockBalance() {
 
     if (error) return "An error has occurred: " + error.message;
 
+    function numberWithSpaces(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        return parts.join(".");
+    }
+
     return (
         <div className="custom_display">
             <Row className="header_row">
@@ -653,7 +659,7 @@ export default function StockBalance() {
                         {columns
                             .filter((c) => c.show === true)
                             .map((c) => (
-                                <Table.Summary.Cell>
+                                <Table.Summary.Cell className="table-summary">
                                     <Text type="">
                                         {c.dataIndex === "ProductName"
                                             ? "Cəm"
@@ -663,7 +669,9 @@ export default function StockBalance() {
                                             ? ConvertFixedTable(allquantity) +
                                               "əd"
                                             : c.dataIndex === "CostPrice"
-                                            ? ConvertFixedTable(allcost) + " ₼"
+                                            ? ConvertFixedTable(
+                                                  numberWithSpaces(allcost)
+                                              ) + " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>

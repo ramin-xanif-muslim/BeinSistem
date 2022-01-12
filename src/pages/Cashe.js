@@ -112,10 +112,10 @@ export default function Cashe() {
                 columns={columns}
                 summary={() => (
                     <Table.Summary.Row>
-                        <Table.Summary.Cell>
+                        <Table.Summary.Cell className="table-summary">
                             <Text type="">Cəm</Text>
                         </Table.Summary.Cell>
-                        <Table.Summary.Cell>
+                        <Table.Summary.Cell className="table-summary">
                             <Text type="">
                                 {" "}
                                 {allsum}
