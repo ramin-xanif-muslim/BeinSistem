@@ -141,6 +141,7 @@ function SalePointDetail() {
     if (error) return "An error has occurred: " + error.message;
 
     const handleFinish = async (values) => {
+        console.log(values)
         setDisable(true);
 
         message.loading({ content: "Yüklənir...", key: "pro_update" });
@@ -178,6 +179,7 @@ function SalePointDetail() {
                 <h2>Satış nöqtəsi</h2>
             </div>
             <DocButtons
+                editid={slpnt_id}
                 controller={"salepoints"}
                 closed={"p=salepoints"}
                 additional={"none"}

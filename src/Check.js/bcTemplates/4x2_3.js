@@ -2,14 +2,16 @@ const fourtwothird = {
   mainWrapper: {
     transform:" rotate(90deg)",
     position: "absolute",
-    top: "-369px",
-    left: "120px",
+    top: "-395px",
+    left: "140px",
+    background: "#fff"
   },
   main: {
     width: "213px",
     overflow: "hidden",
     height: "106px",
     position: "relative",
+    marginTop: "13px",
   },
 
   price: {
@@ -29,9 +31,8 @@ const fourtwothird = {
   },
 
   name: {
-    height: "55px",
     display: "flex",
-    "font-size": " 1.2em",
+    "font-size": "90%",
     "justify-content": "center",
     width: "145px",
     "font-family": "sans-serif",

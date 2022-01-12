@@ -296,6 +296,7 @@ function IvoiceInDetail() {
                     <h2>Mədaxil (nağdsız)</h2>
                 </div>
                 <DocButtons
+                    controller={"invoiceins"}
                     additional={"none"}
                     editid={null}
                     closed={"p=transactions"}

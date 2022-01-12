@@ -301,6 +301,7 @@ function PaymentInDetail() {
                     <h2>Mədaxil (nağd)</h2>
                 </div>
                 <DocButtons
+                    controller={"paymentins"}
                     additional={"none"}
                     editid={null}
                     closed={"p=transactions"}

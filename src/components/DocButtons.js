@@ -77,7 +77,7 @@ function DocButtons({
     const deleteDoc = async () => {
         message.loading({ content: "Yüklənir...", key: "doc_delete" });
         const res = await delDoc(editid, controller);
-        if (res.Body.ResponseStatus === "0") {
+        if (res.Body && res.Body.ResponseStatus && res.Body.ResponseStatus === "0") {
             message.success({
                 content: "Silindi",
                 key: "doc_delete",

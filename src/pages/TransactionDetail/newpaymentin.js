@@ -459,6 +459,9 @@ function NewPaymentIn() {
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                                 name="status"
                                                 valuePropName="checked"
                                                 style={{ width: "100%" }}

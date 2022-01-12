@@ -260,6 +260,7 @@ function PaymentOutDetail() {
                     <h2>Məxaric (nağdsız)</h2>
                 </div>
                 <DocButtons
+                    controller={"invoiceouts"}
                     additional={"none"}
                     editid={null}
                     closed={"p=transactions"}

@@ -307,7 +307,7 @@ export default function Transaction() {
             {
                 key: "2",
                 label: "Xərc maddələri",
-                name: "productName",
+                name: "spendItem",
                 type: "select",
                 controller: "spenditems",
                 dataIndex: "spendItems",

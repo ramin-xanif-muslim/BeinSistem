@@ -268,6 +268,7 @@ function PaymentOutDetail() {
                     <h2>Məxaric (nağd)</h2>
                 </div>
                 <DocButtons
+                    controller={"paymentouts"}
                     editid={doc_id}
                     additional={"none"}
                     closed={"p=transactions"}

@@ -1,3 +1,4 @@
 {
-   "API_BASE": "https://dev.bein.az"
- }
+	"API_BASE": "https://dev.bein.az",
+	"NEW_VERSION": "5"
+}

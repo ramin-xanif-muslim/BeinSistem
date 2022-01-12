@@ -41,6 +41,7 @@ export default function StockBalance() {
     const [initial, setInitial] = useState(null);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [initialfilter, setInitialFilter] = useState(null);
+    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
         useState(false);
     const {
@@ -59,6 +60,7 @@ export default function StockBalance() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
+        setIsLoadingSearch(true)
         setStockbalanceSearchTerm(value);
         let obj = {
             nm: value,
@@ -69,7 +71,8 @@ export default function StockBalance() {
         setallsum(res.SaleSum);
         setallcost(res.CostSum);
         setallquantity(res.QuantitySum);
-        setCount(res.Count);
+        setCount(res.Count)
+        setIsLoadingSearch(false)
     };
 
     const [documentList, setDocumentList] = useState([]);
@@ -629,6 +632,7 @@ export default function StockBalance() {
                                 searchTerm={stockbalanceSearchTerm}
                                 className="search_header"
                             />
+                            { isLoadingSearch && <Spin/>}
                         </div>
 
                         <div>{tableSettings}</div>

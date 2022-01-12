@@ -368,7 +368,9 @@ function NewLoss() {
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         const nameres = await getDocName(values.name);
         console.log("nameres", nameres);
@@ -644,6 +646,9 @@ function NewLoss() {
                                             label="Keçirilib"
                                             className="docComponentStatus"
                                             name="status"
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
                                         >

@@ -446,7 +446,9 @@ function NewEnter() {
             myRefDescription.current.resizableTextArea.props.value;
         values.consumption =
             myRefConsumption.current.clearableInput.props.value;
-        values.status = status;
+            if (!values.status) {
+                values.status = status;
+            }
         message.loading({ content: "Yüklənir...", key: "doc_update" });
 
         try {
@@ -740,6 +742,9 @@ function NewEnter() {
                                         <Form.Item
                                             label="Keçirilib"
                                             className="docComponentStatus"
+                                            onChange={(e) =>
+                                                setStatus(e.target.checked)
+                                            }
                                             name="status"
                                             valuePropName="checked"
                                             style={{ width: "100%" }}
