@@ -9,6 +9,7 @@ export const useSearchSelectInput = () => {
 	const [customersForSelet, setCustomersForSelet] = useState([]);
 
     const onSearchSelectInput = (e) => {
+        console.log("onSearchSelectInput",e)
         setInputValue(e)
         setObj({
             fast: inputValue,

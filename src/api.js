@@ -1,5 +1,5 @@
 import axios from "axios";
-import sendRequest from "./config/sentRequest";
+// import sendRequest from "./config/sentRequest";
 
 export var API_BASE = "";
 export var NEW_VERSON = "";
@@ -28,6 +28,29 @@ const checkVersion = (en) => {
 		localStorage.setItem("VERSION", en);
 	}
 };
+
+export async function sendRequest(url, obj) {
+
+	obj.token = localStorage.getItem("access-token");
+
+	// let res = await instace.post(url, obj)
+	const res = await axios.post(API_BASE + `/controllers/` + url, obj);
+
+	if (
+		obj.token === "" ||
+		res.data.Headers.ResponseStatus === "104" ||
+		res.data.Headers.ResponseStatus === "103"
+	) {
+		localStorage.removeItem("Token");
+		alert(res.data.Body);
+		return null;
+	}
+	if (res.data.Headers.ResponseStatus !== "0") {
+		alert(res.data.Body);
+		return null;
+	}
+	return res.data.Body;
+}
 
 export const api = Object.freeze({
 	async fetchDebt(CustomerId) {
