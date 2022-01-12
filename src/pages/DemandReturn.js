@@ -411,6 +411,20 @@ export default function DemandReturn() {
                       ).show
                     : true,
             },
+
+            {
+                key: "9",
+                label: "Qarşı-tərəf",
+                name: "customerName",
+                type: "select",
+                controller: "customers",
+                dataIndex: "customerName",
+                show: initialfilter
+                    ? Object.values(initialfilter).find(
+                          (i) => i.dataIndex === "customerName"
+                      ).show
+                    : true,
+            },
         ];
     }, [filterChanged]);
 

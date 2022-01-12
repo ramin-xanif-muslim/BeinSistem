@@ -165,6 +165,7 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
                 key: "payment_update",
                 duration: 2,
             });
+            setPaymentModal(false)
         } else {
             message.error({
                 content: (
@@ -183,7 +184,7 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
             className="payment-out-modal"
             title={title}
             visible={paymentModal}
-            // onCancel={handleGancel}
+            onCancel={handleGancel}
             footer={[
                 <Button danger key="back" onClick={handleGancel}>
                     Bağla

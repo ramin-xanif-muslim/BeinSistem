@@ -102,6 +102,21 @@ function Navbar() {
     };
 
     useEffect(() => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    if (urlParams.get("token") && urlParams.get("login")) {
+      localStorage.removeItem("user");
+      let user = {};
+      if (urlParams.get("token") && urlParams.get("login")) {
+        user.Token = urlParams.get("token");
+        user.Login = urlParams.get("login");
+        localStorage.setItem("user", JSON.stringify(user));
+        // setRedirect(true);
+      }
+    }
+    },[])
+
+    useEffect(() => {
         fetchNotificationCount()
     },[])
 
