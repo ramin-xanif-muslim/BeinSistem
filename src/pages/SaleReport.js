@@ -66,6 +66,7 @@ export default function SaleReport() {
     const [allCost, setAllCost] = useState(0);
     const [retAllAmount, setRetAllAmount] = useState(0);
     const [retAllCost, setRetAllCost] = useState(0);
+    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
     const {
         salereportsSearchTerm,
@@ -86,11 +87,12 @@ export default function SaleReport() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
-        console.log("aaa");
+        setIsLoadingSearch(true)
         setSalereportsSearchTerm(value);
         let obj = {
             nm: value,
             lm: 25,
+            sr: "ProductName",
         };
         let res = await sendRequest("salereports/get.php", obj);
         setDocumentList(res.List);
@@ -100,6 +102,7 @@ export default function SaleReport() {
         setRetAllAmount(res.RetAllAmount);
         setRetAllCost(res.RetAllCost);
         setCount(res.Count);
+        setIsLoadingSearch(false)
     };
 
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
@@ -690,8 +693,10 @@ export default function SaleReport() {
                                 searchTerm={salereportsSearchTerm}
                                 className="search_header"
                             />
+                            { isLoadingSearch && <Spin/>}
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
+                                defaultSort={"ProductName"}
                             />
                         </div>
                     </div>

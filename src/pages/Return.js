@@ -187,7 +187,7 @@ export default function Return() {
         return [
             {
                 key: "1",
-                label: "Daxilolma №",
+                label: "Qaytarma №",
                 name: "docNumber",
                 type: "text",
                 dataIndex: "docNumber",
@@ -252,18 +252,6 @@ export default function Return() {
             },
             {
                 key: "6",
-                label: "Dəyişmə tarixi",
-                name: "modifedDate",
-                type: "date",
-                dataIndex: "modifedDate",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "modifedDate"
-                      ).show
-                    : true,
-            },
-            {
-                key: "7",
                 label: "Məbləğ",
                 name: "docPrice",
                 start: "amb",
@@ -274,10 +262,10 @@ export default function Return() {
                     ? Object.values(initialfilter).find(
                           (i) => i.dataIndex === "docPrice"
                       ).show
-                    : true,
+                    : false,
             },
             {
-                key: "8",
+                key: "7",
                 label: "Tarixi",
                 name: "createdDate",
                 type: "date",
@@ -285,35 +273,6 @@ export default function Return() {
                 show: initialfilter
                     ? Object.values(initialfilter).find(
                           (i) => i.dataIndex === "createdDate"
-                      ).show
-                    : true,
-            },
-            {
-                key: "9",
-                label: "Mənfəət",
-                name: "profit",
-                start: "prfb",
-                end: "prfe",
-                type: "range",
-                dataIndex: "profit",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "profit"
-                      ).show
-                    : true,
-            },
-            {
-                key: "10",
-                label: "Ödəniş növü",
-                name: "paytype",
-                controller: "yesno",
-                default: "",
-                type: "selectDefaultPayType",
-                hidden: false,
-                dataIndex: "paytype",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "paytype"
                       ).show
                     : true,
             },

@@ -2,17 +2,8 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import style from "./SearchByDate.module.css";
 
-function SearchByDate({ getSearchObjByDate, defaultSearch }) {
+function SearchByDate({ getSearchObjByDate, defaultSort }) {
     const [activId, setActivId] = useState(0);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if(defaultSearch) {
-                onClick(defaultSearch)
-            }
-        },300)
-            return () => clearTimeout(timer)
-    },[])
 
     const [dates, setDates] = useState([
         {
@@ -43,9 +34,10 @@ function SearchByDate({ getSearchObjByDate, defaultSearch }) {
     ]);
     const obj = {
         pg: 0,
-        dr: 1,
+        dr: 0,
         momb: "",
         mome: "",
+        sr: defaultSort ? defaultSort : "Moment",
     };
     const select = (i) => {
         let today = new Date();

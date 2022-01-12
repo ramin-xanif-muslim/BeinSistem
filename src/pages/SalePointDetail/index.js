@@ -179,6 +179,7 @@ function SalePointDetail() {
                 <h2>Satış nöqtəsi</h2>
             </div>
             <DocButtons
+                editid={slpnt_id}
                 controller={"salepoints"}
                 closed={"p=salepoints"}
                 additional={"none"}

@@ -220,7 +220,7 @@ export default function CreditTransaction() {
         return [
             {
                 key: "1",
-                label: "Alış №",
+                label: "Ödəniş №",
                 name: "docNumber",
                 type: "text",
                 dataIndex: "docNumber",

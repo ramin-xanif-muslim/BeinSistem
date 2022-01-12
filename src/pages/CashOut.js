@@ -151,32 +151,6 @@ export default function CashOut() {
         return [
             {
                 key: "1",
-                label: "Adı",
-                name: "nm",
-                type: "text",
-                dataIndex: "nm",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "nm"
-                      ).show
-                    : true,
-            },
-
-            {
-                key: "2",
-                label: "Anbar",
-                name: "stockName",
-                type: "select",
-                controller: "stocks",
-                dataIndex: "stockName",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "stockName"
-                      ).show
-                    : true,
-            },
-            {
-                key: "3",
                 label: "Satış nöqtəsi",
                 name: "slpnt",
                 type: "select",
@@ -189,7 +163,7 @@ export default function CashOut() {
                     : true,
             },
             {
-                key: "4",
+                key: "2",
                 label: "Şöbə",
                 name: "departmentName",
                 controller: "departments",
@@ -202,7 +176,7 @@ export default function CashOut() {
                     : true,
             },
             {
-                key: "5",
+                key: "3",
                 label: "Cavabdeh",
                 name: "ownerName",
                 controller: "owners",
@@ -216,7 +190,7 @@ export default function CashOut() {
             },
 
             {
-                key: "6",
+                key: "4",
                 label: "Məbləğ",
                 name: "docPrice",
                 start: "amb",
@@ -231,7 +205,7 @@ export default function CashOut() {
             },
 
             {
-                key: "7",
+                key: "5",
                 label: "Tarixi",
                 name: "createdDate",
                 type: "date",

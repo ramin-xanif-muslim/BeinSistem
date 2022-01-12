@@ -43,6 +43,7 @@ export default function Product() {
     const [initialSort, setInitialSort] = useState("Name");
     const [fieldSort, setFieldSort] = useState("Name");
     const [columnChange, setColumnChange] = useState(false);
+    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
     const [initial, setInitial] = useState(
         localStorage.getItem("procolumns")
             ? JSON.parse(localStorage.getItem("procolumns"))
@@ -70,6 +71,7 @@ export default function Product() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
+        setIsLoadingSearch(true)
         setProductSearchTerm(value);
         let obj = {
             ar: 0,
@@ -82,6 +84,7 @@ export default function Product() {
         let res = await sendRequest("products/getfast.php", obj);
         setCount(res.Count);
         setProdutcList(res.List);
+        setIsLoadingSearch(false)
     };
 
     const filters = useMemo(() => {
@@ -730,6 +733,7 @@ export default function Product() {
                                 searchTerm={productSearchTerm}
                                 className="search_header"
                             />
+                            { isLoadingSearch && <Spin/>}
                         </div>
                         {tableSettings}
                     </div>
