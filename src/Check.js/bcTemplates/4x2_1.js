@@ -4,10 +4,9 @@ const  fourtwofirst = {
         "overflow": "hidden",
         "height": "106px",
         "position": "relative",
-        "font-family": "Times",
+        "font-family": "Montserrat",
     },
     "price" :{
-        "position":"fixed",
         "display": "flex",
         "align-items": "center",
         "left": "145px",
@@ -20,6 +19,7 @@ const  fourtwofirst = {
         "padding-top":"0px",
         "overflow":"hidden",
         "font-weight":"700",
+        "font-family": "Montserrat"
     },
     "name" :{
         "line-height": "1em",
@@ -27,7 +27,6 @@ const  fourtwofirst = {
         "text-align": "center",
         "align-items": "center",
         "justify-content": "center",
-        "position":"fixed",
         "height": "35px",
         "padding-top": "0",
         "width": "145px",
@@ -37,6 +36,7 @@ const  fourtwofirst = {
         "font-weight":"700",
         "top": "71px",
         "left": "0px",
+        "font-family": "Montserrat"
     },
     "img" :{
             "width": "260px",

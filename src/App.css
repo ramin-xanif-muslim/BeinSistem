@@ -1,4 +1,8 @@
 * {
+    /* font-family: "Blinker"; */
+}
+
+button, .main_header.menu span, .custom_li_segment a {
     font-family: "Blinker";
 }
 

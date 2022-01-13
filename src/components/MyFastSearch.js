@@ -26,6 +26,7 @@ function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
 	return (
 		<div>
 			<Search
+				allowClear
 				className="search_header"
 				onChange={onChange}
 				onPressEnter={handleSearch}
