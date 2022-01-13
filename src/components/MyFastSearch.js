@@ -11,7 +11,12 @@ function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
         }, 500);
         return () => clearTimeout(timer);
     }
-  }, []);
+  }, [searchTerm]);
+  useEffect(() => {
+      if(searchTerm === ''){
+        searchFunc(searchTerm)
+    }
+  }, [searchTerm]);
 
 	const handleSearch = () => {
 		searchFunc(searchTerm);
@@ -26,12 +31,13 @@ function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
 	return (
 		<div>
 			<Search
+                allowClear
 				className="search_header"
 				onChange={onChange}
-				onPressEnter={handleSearch}
+				// onPressEnter={handleSearch}
 				style={{ width: 200 }}
 				defaultValue={searchTerm}
-				onSearch={onSearch}
+				// onSearch={onSearch}
 			/>
 		</div>
 	);
