@@ -25,12 +25,13 @@ function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
 	};
 	return (
 		<div>
-			<Search
+			<Input
 				allowClear
+				placeholder="Axtarış..."
 				className="search_header"
 				onChange={onChange}
 				onPressEnter={handleSearch}
-				style={{ width: 200 }}
+				style={{ width: 200, height: "27.19px" }}
 				defaultValue={searchTerm}
 				onSearch={onSearch}
 			/>
