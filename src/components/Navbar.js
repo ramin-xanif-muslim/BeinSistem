@@ -282,7 +282,7 @@ function Navbar() {
                                     <span>Xəbərlər</span>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
-                                    <span>Balans: {balance} ₼</span>
+                                    <span>Balans: <span style={{fontFamily: "Calibri"}}>{balance} ₼</span></span>
                                 </Dropdown.Item>
                                 <Dropdown.Divider />
                                 <Dropdown.Item

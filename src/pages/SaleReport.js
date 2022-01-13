@@ -693,11 +693,10 @@ export default function SaleReport() {
                                 searchTerm={salereportsSearchTerm}
                                 className="search_header"
                             />
-                            { isLoadingSearch && <Spin/>}
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
                                 defaultSort={"ProductName"}
-                            />
+                                />
                         </div>
                     </div>
                 </Col>
@@ -707,7 +706,7 @@ export default function SaleReport() {
                         overlay={menu}
                         onVisibleChange={handleVisibleChange}
                         visible={visibleMenuSettings}
-                    >
+                        >
                         <Button className="flex_directon_col_center">
                             {" "}
                             <SettingOutlined />
@@ -715,6 +714,7 @@ export default function SaleReport() {
                     </Dropdown>
                 </Col>
             </Row>
+                        { isLoadingSearch && <Spin/>}
             <Row>
                 <Col xs={24} sm={24} md={24} xl={24}>
                     <FilterComponent cols={filters} />
