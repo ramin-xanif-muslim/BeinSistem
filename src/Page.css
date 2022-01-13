@@ -35,10 +35,9 @@
     justify-content: space-between;
     position: sticky;
     top: 0;
-    background-color: #fff;
+    background-color: #f6f6f6;
     z-index: 2;
     padding: 10px 20px;
-    box-shadow: 2px 2px 3px 0px #b2afaf;
 }
 .customsavebtn {
     background: #21ba45;
@@ -115,7 +114,7 @@
 .ui.menu .active.item {
     color: #0288d1 !important;
 }
-.formWrapper {
+.formWrapper, .doc_wrapper, .doc_name_wrapper {
     background: #f6f6f6;
 }
 .ui.segment.active.tab {
@@ -499,6 +498,9 @@ tbody > tr:hover td {
     line-height: unset;
     padding: 0 0.5rem;
 }
+
+.customsavebtn.ant-btn[disabled] { color: #000 !important }
+.customsavebtn.ant-btn[disabled]:hover { color: #fff !important }
 
 .drawertable th {
     color: #1164b1 !important;
