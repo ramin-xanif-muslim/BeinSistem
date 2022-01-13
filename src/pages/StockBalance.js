@@ -632,13 +632,13 @@ export default function StockBalance() {
                                 searchTerm={stockbalanceSearchTerm}
                                 className="search_header"
                             />
-                            { isLoadingSearch && <Spin/>}
                         </div>
 
                         <div>{tableSettings}</div>
                     </div>
                 </Col>
             </Row>
+                            { isLoadingSearch && <Spin/>}
             <Row>
                 <Col xs={24} md={24} xl={24}>
                     <FilterComponent

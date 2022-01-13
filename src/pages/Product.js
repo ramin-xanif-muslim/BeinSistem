@@ -733,12 +733,12 @@ export default function Product() {
                                 searchTerm={productSearchTerm}
                                 className="search_header"
                             />
-                            { isLoadingSearch && <Spin/>}
                         </div>
                         {tableSettings}
                     </div>
                 </Col>
             </Row>
+                            { isLoadingSearch && <Spin/>}
             <Row>
                 <Col xs={24} md={24} xl={24}>
                     <FilterComponent
