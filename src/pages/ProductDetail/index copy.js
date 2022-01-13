@@ -928,11 +928,10 @@ function ProductDetail() {
                 proinfo={{
                     id: data.Body.List[0].Id,
                     bc: data.Body.List[0].BarCode,
-                    price: data.Body.List[0].Price,
-                    packPrice: 
+                    price:
                         data.Body.List[0].IsPack === 1
                             ? data.Body.List[0].PackPrice
-                            : null,
+                            : data.Body.List[0].Price,
                     nm: data.Body.List[0].Name,
                 }}
             />
