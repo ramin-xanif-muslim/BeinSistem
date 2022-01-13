@@ -1,22 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "antd";
-const { Search } = Input;
 
 function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
-  
-  useEffect(() => {
-      if(searchTerm !== ''){
-        const timer = setTimeout(() => {
-            searchFunc(searchTerm)
-        }, 500);
-        return () => clearTimeout(timer);
-    }
-  }, [searchTerm]);
-  useEffect(() => {
-      if(searchTerm === ''){
-        searchFunc(searchTerm)
-    }
-  }, [searchTerm]);
+	const [isPut, setIsPut] = useState(false);
+
+	useEffect(() => {
+		if (searchTerm !== "") {
+			const timer = setTimeout(() => {
+				searchFunc(searchTerm);
+			}, 500);
+			return () => clearTimeout(timer);
+		}
+		if (searchTerm === "" && isPut) {
+			searchFunc(searchTerm);
+		}
+	}, [searchTerm]);
 
 	const handleSearch = () => {
 		searchFunc(searchTerm);
@@ -27,16 +25,18 @@ function MyFastSearch({ searchTerm, setSearchTerm, searchFunc }) {
 	};
 	const onChange = (e) => {
 		setSearchTerm(e.target.value);
+		setIsPut(true);
 	};
 	return (
 		<div>
-			<Search
+			<Input
 				allowClear
+				placeholder="Axtarış..."
 				className="search_header"
 				onChange={onChange}
-				// onPressEnter={handleSearch}
-				style={{ width: 200 }}
+				style={{ width: 200, height: "27.19px" }}
 				defaultValue={searchTerm}
+				// onPressEnter={handleSearch}
 				// onSearch={onSearch}
 			/>
 		</div>

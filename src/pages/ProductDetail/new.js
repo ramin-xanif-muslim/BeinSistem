@@ -107,6 +107,7 @@ function NewProduct() {
     const [listLength, setListLength] = useState(0);
     const [linked, setLinked] = useState(null);
     const [isArch, setIsArch] = useState(0);
+    const [isCheck, setIsCheck] = useState(false);
 
     const [required, setRequired] = useState(false);
 
@@ -677,7 +678,7 @@ function NewProduct() {
                                                 <SyncOutlined
                                                     style={{ color: "#0288d1" }}
                                                     className="suffixed"
-                                                    // onClick={this.onGetBarcode}
+                                                    // onClick={getBarcode}
                                                 />
                                             }
                                         />

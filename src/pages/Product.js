@@ -79,7 +79,7 @@ export default function Product() {
             fast: value,
             gp: "",
             pg: 0,
-            lm: 25,
+            lm: 100,
         };
         let res = await sendRequest("products/getfast.php", obj);
         setCount(res.Count);
