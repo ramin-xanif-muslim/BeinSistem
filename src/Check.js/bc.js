@@ -14,7 +14,7 @@ import {
     ConvertFixedPosition,
     ConvertFixedBarcode,
 } from "../config/function/findadditionals";
-import { getBcTemplate, getBcTemplateMain } from "../api";
+import { API_BASE, getBcTemplate, getBcTemplateMain } from "../api";
 export default function Bc(props) {
     const { nav, setNav } = useTableCustom();
     const [print, setPrint] = useState(false);
@@ -100,7 +100,7 @@ export default function Bc(props) {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+                    src={`https${API_BASE}/controllers/products/print.php?bc=${props.location.search.substring(
                         1
                     )}`}
                 />
@@ -124,7 +124,7 @@ export default function Bc(props) {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+                    src={`${API_BASE}/controllers/products/print.php?bc=${props.location.search.substring(
                         1
                     )}`}
                 />
@@ -147,7 +147,7 @@ export default function Bc(props) {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+                    src={`${API_BASE}/controllers/products/print.php?bc=${props.location.search.substring(
                         1
                     )}`}
                 />
@@ -170,7 +170,7 @@ export default function Bc(props) {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+                    src={`${API_BASE}/controllers/products/print.php?bc=${props.location.search.substring(
                         1
                     )}`}
                 />
@@ -198,7 +198,7 @@ export default function Bc(props) {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=${props.location.search.substring(
+                    src={`${API_BASE}/controllers/products/print.php?bc=${props.location.search.substring(
                         1
                     )}`}
                 />

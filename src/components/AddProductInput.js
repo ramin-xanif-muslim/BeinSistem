@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Dropdown } from "semantic-ui-react";
 import axios from "axios";
 import { useTableCustom } from "../contexts/TableContext";
+import { API_BASE } from "../api";
 
 function AddProductInput({ from }) {
     const [searchTerm, setSearchTerm] = useState("");
@@ -105,7 +106,7 @@ function AddProductInput({ from }) {
     }, [list]);
     async function getProduct(obj) {
         const data = await axios.post(
-            `https://dev.bein.az/controllers/products/getfast.php`,
+            `${API_BASE}/controllers/products/getfast.php`,
             obj
         );
         setList(data);
@@ -113,7 +114,7 @@ function AddProductInput({ from }) {
 
     async function getBarcode(obj) {
         const res = await axios.post(
-            `https://dev.bein.az/controllers/products/getfast.php`,
+            `${API_BASE}/controllers/products/getfast.php`,
             obj
         );
         var datas = {};

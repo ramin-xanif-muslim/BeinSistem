@@ -779,6 +779,7 @@ function ProductDetail() {
         }
     };
     const handleFinish = async (values) => {
+        console.log(values)
         setDisable(true);
 
         var valueMods = {};
@@ -802,19 +803,19 @@ function ProductDetail() {
                 }
             });
         });
-        var prices = [];
-        Object.entries(values).map(([k, v]) => {
-            if (k.indexOf("PriceType_") != -1) {
-                if (v) {
-                    prices.push({
-                        PriceType: k.slice(k.indexOf("_") + 1),
-                        Price: v,
-                    });
-                }
-            }
-        });
-        Object.assign(values, initialValues, lastObject);
-        values.prices = prices;
+        // var prices = [];
+        // Object.entries(values).map(([k, v]) => {
+        //     if (k.indexOf("PriceType_") != -1) {
+        //         if (v) {
+        //             prices.push({
+        //                 PriceType: k.slice(k.indexOf("_") + 1),
+        //                 Price: v,
+        //             });
+        //         }
+        //     }
+        // });
+        // Object.assign(values, initialValues, lastObject);
+        // values.prices = prices;
         values.isarch = isArch;
 
         message.loading({ content: "Yüklənir...", key: "pro_update" });

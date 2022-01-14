@@ -49,7 +49,6 @@ import {
 } from "../../config/function/findadditionals";
 import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
-import SelectProductCatalog from "../../components/SelectProductCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
@@ -99,7 +98,6 @@ function EnterDetail() {
 	const [initial, setInitial] = useState(null);
 	const [columnChange, setColumnChange] = useState(false);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-	const [isSelectProductCatalog, setIsSelectProductCatalog] = useState(false);
 
 	const { isLoading, error, data, isFetching } = useQuery(
 		["enter", doc_id],
@@ -550,18 +548,6 @@ function EnterDetail() {
 									onClick={() => setProductModal(true)}
 									className="addNewProductIcon"
 								/>
-                                    {/* <Button
-                                        type="primary"
-                                        // icon={<CheckSquareOutlined />}
-                                        onClick={() =>
-                                            setIsSelectProductCatalog(true)
-                                        }
-                                    >
-                                        Kataloq
-                                    </Button>
-									<SelectProductCatalog 
-                                    setIsSelectProductCatalog={setIsSelectProductCatalog}
-                                    isSelectProductCatalog={isSelectProductCatalog} /> */}
 							</div>
 						</Col>
 						<Dropdown

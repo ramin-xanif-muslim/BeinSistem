@@ -9,7 +9,8 @@ import threetwosecond from "../Check.js/bcTemplates/3x2_2";
 import threetwothird from "../Check.js/bcTemplates/3x2_3";
 import sixtwofirst from "../Check.js/bcTemplates/6x4_1";
 import { FaTruckLoading } from "react-icons/fa";
-var searchBarcode = `https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`;
+import { API_BASE } from "../api";
+var searchBarcode = `${API_BASE}/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`;
 export const TemplateExample = (props) => {
     const { isTemp } = useCustomForm();
     var mainWrapperStyle;
@@ -73,7 +74,7 @@ export const TemplateExample = (props) => {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+                    src={`${API_BASE}/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
                 />
                 <div style={{ display: "flex" }}>
                     <div className="namepro" style={nameStyle}>
@@ -91,7 +92,7 @@ export const TemplateExample = (props) => {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+                    src={`${API_BASE}/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
                 />
                 <div style={{ display: "flex" }}>
                     <div className="namepro" style={nameStyle}>
@@ -108,7 +109,7 @@ export const TemplateExample = (props) => {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+                    src={`${API_BASE}/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
                 />
                 <div style={{ display: "flex" }}>
                     <div className="namepro" style={nameStyle}>
@@ -125,7 +126,7 @@ export const TemplateExample = (props) => {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+                    src={`${API_BASE}/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
                 />
                 <div style={{ display: "flex" }}>
                     <div className="namepro" style={nameStyle}>
@@ -146,7 +147,7 @@ export const TemplateExample = (props) => {
             <div className="main" style={mainStyle}>
                 <img
                     style={imgStyle}
-                    src={`https://dev.bein.az/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
+                    src={`${API_BASE}/controllers/products/print.php?bc=2000000011462&pr=10.2&nm=Şablon`}
                 />
                 <div style={{ display: "flex" }}>
                     <div className="namepro" style={nameStyle}>

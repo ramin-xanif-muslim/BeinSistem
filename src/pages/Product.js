@@ -564,8 +564,10 @@ export default function Product() {
 
     const getAttributes = async () => {
         const attrResponse = await fetchAttributes();
-        setAttributes(attrResponse.Body.List);
-        setAttrLocalStorage(attrResponse.Body.List);
+        if(attrResponse) {
+            setAttributes(attrResponse.Body.List);
+            setAttrLocalStorage(attrResponse.Body.List);
+        }
     };
     const getPrices = async () => {
         const priceResponse = await fetchPriceTypes();

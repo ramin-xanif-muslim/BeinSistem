@@ -166,7 +166,8 @@ export const fetchAttributes = async () => {
 	if (data.Headers.ResponseStatus === "0") {
 		return data;
 	} else {
-		return data.Body;
+		alert(data.Body);
+		return null
 	}
 };
 

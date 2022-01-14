@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useReducer } from "react";
 import axios from "axios";
 import reducer from "./reducer";
+import { API_BASE } from "../api";
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
@@ -19,7 +20,7 @@ export const AppProvider = ({ children }) => {
       token: "17196e9b2a5024b4be4d646ef2b59b4e1",
     };
     const { data } = await axios.post(
-      `https://dev.bein.az/controllers/productfolders/get.php`,
+      `${API_BASE}/controllers/productfolders/get.php`,
       filter
     );
 
@@ -36,7 +37,7 @@ export const AppProvider = ({ children }) => {
       token: "17196e9b2a5024b4be4d646ef2b59b4e1",
     };
     const { data } = await axios.post(
-      `https://dev.bein.az/controllers/pricetypes/get.php`,
+      `${API_BASE}/controllers/pricetypes/get.php`,
       filter
     );
 
@@ -53,7 +54,7 @@ export const AppProvider = ({ children }) => {
       entitytype: "product",
     };
     const { data } = await axios.post(
-      `https://dev.bein.az/controllers/attributes/get.php`,
+      `${API_BASE}/controllers/attributes/get.php`,
       filter
     );
 

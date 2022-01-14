@@ -4,7 +4,7 @@ import { Spin } from "antd";
 import axios from "axios";
 import moment from "moment";
 import { DownOutlined, UpOutlined } from "@ant-design/icons";
-import { fetchRefList } from "../api";
+import { API_BASE, fetchRefList } from "../api";
 import {
     Form,
     Row,
@@ -99,7 +99,7 @@ function FilterComponent({ from, settings, cols }) {
             dataFilter.fast = fast;
         }
         const { data } = await axios.post(
-            `https://dev.bein.az/controllers/${id}/get.php`,
+            `${API_BASE}/controllers/${id}/get.php`,
             dataFilter
         );
 
@@ -111,7 +111,7 @@ function FilterComponent({ from, settings, cols }) {
             fast: fast,
         };
         const { data } = await axios.post(
-            `https://dev.bein.az/controllers/${id}/getfast.php`,
+            `${API_BASE}/controllers/${id}/getfast.php`,
             dataFilter
         );
 
