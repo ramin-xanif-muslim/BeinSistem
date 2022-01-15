@@ -2,8 +2,19 @@
     /* font-family: "Blinker"; */
 }
 
-button, .main_header.menu span, .custom_li_segment a {
+button,
+.main_header.menu span,
+.custom_li_segment a {
     font-family: "Blinker";
+}
+.catalog_modal {
+    width: 100% !important;
+    top: 100vh !important;
+    top: 2px !important;
+}
+
+.catalog_modal .ant-modal-body {
+    min-height: 80vh;
 }
 
 .App {
