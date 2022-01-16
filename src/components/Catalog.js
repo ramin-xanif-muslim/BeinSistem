@@ -145,12 +145,20 @@ const Catalog = ({ onClose, isCatalogVisible, positions }) => {
   };
 
   const onCloseModal = () => {
-    onClose(selectedRows);
     setCatalog(true);
+    onClose(selectedRows);
   };
-  const onSelectChange = (selectedRowKeys, selectedRows) => {
-    setSelectedRowKeys(selectedRowKeys);
-    setSelectedRows(selectedRows);
+  const onSelectChange = (selectedRowKey, selectedRow) => {
+    var ids = new Set(selectedRows.map((d) => d.Id));
+    console.log(selectedRowKey);
+
+    var mergedKeys = [...selectedRowKeys, ...selectedRowKey];
+    var merged = [
+      ...selectedRows,
+      ...selectedRow.filter((d) => !ids.has(d.Id)),
+    ];
+    setSelectedRows(merged);
+    setSelectedRowKeys([...new Set(mergedKeys)]);
   };
 
   useEffect(() => {
