@@ -20,6 +20,7 @@ const TableProvider = ({ children }) => {
   const [docCount, setDocCount] = useState(0);
   const [newPro, setNewPro] = useState([]);
   const [isAdd, setAdd] = useState(false);
+  const [isCatalog, setCatalog] = useState(false);
   const [isNew, setNew] = useState(false);
   const [outerDataSource, setOuterDataSource] = useState([]);
   const [refList, setRefList] = useState([]);
@@ -39,9 +40,9 @@ const TableProvider = ({ children }) => {
   const [orderStatusArr, setOrderStatusArr] = useState(null);
   const [changedInnerTable, setChangedInnerTable] = useState(false);
   const [pricechanged, setPriceChanged] = useState(false);
-  const [productSearchTerm, setProductSearchTerm] = useState('');
-  const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState('');
-  const [salereportsSearchTerm, setSalereportsSearchTerm] = useState('');
+  const [productSearchTerm, setProductSearchTerm] = useState("");
+  const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState("");
+  const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
 
   const [balance, setBalance] = useState(0);
   const [nav, setNav] = useState("block");
@@ -179,6 +180,8 @@ const TableProvider = ({ children }) => {
     changedInnerTable,
     pricechanged,
     setPriceChanged,
+    isCatalog,
+    setCatalog,
   };
 
   return (
