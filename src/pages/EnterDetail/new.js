@@ -580,6 +580,7 @@ function NewEnter() {
                 headers={columns.filter((c) => c.isVisible == true)}
                 datas={positions}
                 selectList={selectList}
+                catalogVisible={catalogVisible}
               />
             </Col>
           </Row>
@@ -842,7 +843,11 @@ function NewEnter() {
       <StockDrawer />
       <ProductModal />
 
-      <Catalog onClose={handleOpenCatalog} isCatalogVisible={catalogVisible} />
+      <Catalog
+        onClose={handleOpenCatalog}
+        positions={outerDataSource}
+        isCatalogVisible={catalogVisible}
+      />
     </div>
   );
 }

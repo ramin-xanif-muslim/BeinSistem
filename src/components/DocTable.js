@@ -97,7 +97,7 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-function DocTable({ headers, datas, from, selectList }) {
+function DocTable({ headers, datas, from, selectList, catalogVisible }) {
   const {
     setdocPage,
     setDocSum,
@@ -378,7 +378,12 @@ function DocTable({ headers, datas, from, selectList }) {
           CostPriceTotal: `${parseFloat(s.CostPrice) * parseFloat(1)}`,
         })
       );
-      var list = [...dataSource, ...datas];
+
+      let clearedList = datas.filter(
+        (s) => s.Id != dataSource.find((d) => d.Id === s.Id)?.Id
+      );
+
+      var list = [...dataSource, ...clearedList];
       setdataSource(list);
       setOuterDataSource(list);
       setIsChanged(true);

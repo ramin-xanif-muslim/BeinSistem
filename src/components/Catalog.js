@@ -22,7 +22,7 @@ import {
   ConvertFixedTable,
   isObject,
 } from "../config/function/findadditionals";
-const Catalog = ({ onClose, isCatalogVisible }) => {
+const Catalog = ({ onClose, isCatalogVisible, positions }) => {
   const [count, setCount] = useState(1);
   const [redirect, setRedirect] = useState(false);
   const [editId, setEditId] = useState("");
@@ -86,15 +86,30 @@ const Catalog = ({ onClose, isCatalogVisible }) => {
       searchGr,
     ],
     () => {
-      return fetchPage(
-        "products",
-        advancedPage,
-        direction,
-        fieldSort,
-        searchGr,
-        null,
-        0
-      );
+      return isFilter === true
+        ? fetchFilterPage(
+            "products",
+            advancedPage,
+            advanced,
+            direction,
+            fieldSort,
+            searchGr,
+            null,
+            0
+          )
+        : doSearch
+        ? fecthFastPage("products", advancedPage, search, searchGr)
+        : !isFilter && !doSearch
+        ? fetchPage(
+            "products",
+            advancedPage,
+            direction,
+            fieldSort,
+            searchGr,
+            null,
+            0
+          )
+        : null;
     }
   );
 
@@ -115,7 +130,7 @@ const Catalog = ({ onClose, isCatalogVisible }) => {
     setIsLoadingSearch(false);
   };
   useEffect(() => {
-    if (!isFetching) {
+    if (!isFetching && isCatalogVisible) {
       if (isObject(data.Body)) {
         setProdutcList(data.Body.List);
         setCount(data.Body.Count);
@@ -137,11 +152,37 @@ const Catalog = ({ onClose, isCatalogVisible }) => {
     setSelectedRowKeys(selectedRowKeys);
     setSelectedRows(selectedRows);
   };
+
+  useEffect(() => {
+    if (isCatalogVisible) {
+      setSelectedRows(positions);
+
+      let pos = [];
+      console.log(positions);
+      positions.map((p) => {
+        pos.push(p.ProductId);
+      });
+      setSelectedRowKeys(pos);
+    }
+  }, [isCatalogVisible]);
   const rowSelection = {
     selectedRowKeys,
     selectedRows,
     onChange: onSelectChange,
   };
+
+  function onChange(pagination, filters, sorter, extra) {
+    setInitialSort(sorter.field);
+    if (sorter.order === "ascend") {
+      setDirection(0);
+      setFieldSort(sorter.field);
+      setDefaultDr("ascend");
+    } else {
+      setDirection(1);
+      setFieldSort(sorter.field);
+      setDefaultDr("descend");
+    }
+  }
 
   const columns = useMemo(() => {
     return [
@@ -304,17 +345,6 @@ const Catalog = ({ onClose, isCatalogVisible }) => {
           <Col xs={24} md={24} xl={20}>
             <div className="page_heder_right">
               <div className="buttons_wrapper">
-                <Buttons
-                  text={"Yeni Mehsul"}
-                  redirectto={"/newproduct"}
-                  animate={"Yarat"}
-                />
-                <Buttons
-                  text={"Yeni Qrup"}
-                  redirectto={"/newprogroup"}
-                  animate={"Yarat"}
-                />
-
                 <MyFastSearch
                   searchFunc={searchFunc}
                   setSearchTerm={setProductSearchTerm}
@@ -328,7 +358,7 @@ const Catalog = ({ onClose, isCatalogVisible }) => {
 
         <Row>
           <Col xs={24} md={24} xl={5}>
-            <ProductGroup />
+            <ProductGroup from="catalog" />
           </Col>
           <Col xs={24} md={24} xl={19}>
             <Table
@@ -337,6 +367,7 @@ const Catalog = ({ onClose, isCatalogVisible }) => {
               rowSelection={rowSelection}
               columns={columns}
               loading={isLoading}
+              onChange={onChange}
               dataSource={productList}
               pagination={{
                 current: advancedPage + 1,
