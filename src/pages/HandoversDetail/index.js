@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { api, fetchDocId } from "../../api";
+import { fetchDocId } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
@@ -10,15 +10,12 @@ import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
-import PaymentModal from "../../components/PaymentModal";
-import CustomerDrawer from "../../components/CustomerDrawer";
+import { ConvertFixedPosition } from "../../config/function/findadditionals";
 import { Tab } from "semantic-ui-react";
-
+import ProductModal from "../../components/ProductModal";
 import {
-	DeleteOutlined,
 	PlusOutlined,
 	SettingOutlined,
-	EditOutlined,
 	CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
@@ -26,18 +23,13 @@ import {
 	Alert,
 	Input,
 	Button,
-	InputNumber,
-	TreeSelect,
 	Checkbox,
 	Dropdown,
 	DatePicker,
-	Switch,
 	Select,
 	Spin,
-	Tag,
 	Divider,
 	Menu,
-	Drawer,
 	Typography,
 	Statistic,
 	Popconfirm,
@@ -58,60 +50,48 @@ import {
 	FindCofficient,
 	ConvertFixedTable,
 } from "../../config/function/findadditionals";
-import {
-	useFetchDebt,
-	useGetDocItems,
-	useSearchSelectInput,
-} from "../../hooks";
-import ProductModal from "../../components/ProductModal";
+import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
 import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
-
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-
-function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
+function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [form] = Form.useForm();
+	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
 	const myRefConsumption = useRef(null);
-	const queryClient = useQueryClient();
 	const {
 		docPage,
 		docCount,
 		docSum,
 		outerDataSource,
+		setOuterDataSource,
 		departments,
 		owners,
 		stocks,
 		setStock,
 		setStockLocalStorage,
-		// customers,
+		customers,
 		setCustomers,
-		setOuterDataSource,
 		setDisable,
 		disable,
 	} = useTableCustom();
 	const {
+		docstock,
+		setDocStock,
+		docmark,
+		setDocMark,
 		setLoadingForm,
-		loadingForm,
 		setStockDrawer,
-		setCustomerDrawer,
-		customerDrawer,
 		stockDrawer,
 		createdStock,
-		createdCustomer,
 		setCreatedStock,
-		setCreatedCustomer,
-		isReturn,
-		setIsReturn,
-		isPayment,
-		setIsPayment,
-		setPaymentModal,
 		setProductModal,
+
 		saveFromModal,
 		setSaveFromModal,
 
@@ -126,50 +106,20 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [consumption, setConsumption] = useState(0);
 	const [initial, setInitial] = useState(null);
 	const [columnChange, setColumnChange] = useState(false);
+	const [direct, setDirect] = useState("");
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
 	const { allsum, allQuantity } = useGetDocItems();
 
-	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
-	const onChangeSelectInput = (e) => {
-		handleChanged();
-		setCustomerId(e);
-	};
-
 	const { isLoading, error, data, isFetching } = useQuery(
-		["supply", doc_id],
-		() => fetchDocId(doc_id, "supplies")
+		["handovers", doc_id],
+		() => fetchDocId(doc_id, "handovers")
 	);
 	const handleDelete = (key) => {
 		const dataSource = [...outerDataSource];
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
-
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
-	const [debt, setDebt] = useState(0);
-	const [customerId, setCustomerId] = useState();
-	const fetchDebt = async (id) => {
-		let res = await api.fetchDebt(id ? id : customerId);
-		setDebt(ConvertFixedTable(res));
-	};
-	useEffect(() => {
-		if (customerId) {
-			fetchDebt(customerId);
-		}
-	}, [customerId]);
-
-	useEffect(() => {
-		setDisable(true);
-		setPositions([]);
-		setOuterDataSource([]);
-
-		return () => {
-			setDisable(true);
-			setPositions([]);
-			setOuterDataSource([]);
-		};
-	}, []);
 
 	useEffect(() => {
 		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
@@ -178,7 +128,6 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	}, [outerDataSource]);
 	useEffect(() => {
 		if (!isFetching) {
-			setCustomerId(data.Body.List[0].CustomerId);
 			customPositions = [];
 			Object.values(data.Body.List[0].Positions).map((d) =>
 				customPositions.push(d)
@@ -207,12 +156,28 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			setConsumption(data.Body.List[0].Consumption);
 			setLoadingForm(false);
 			setStatus(data.Body.List[0].Status);
+			form.setFieldsValue({
+				mark: data.Body.List[0].Mark,
+			});
 		} else {
 			customPositions = [];
 			setPositions([]);
 			setLoadingForm(true);
 		}
 	}, [isFetching]);
+
+	useEffect(() => {
+		setDisable(true);
+
+		return () => {
+			setDisable(true);
+		};
+	}, []);
+
+	const openDrawer = (bool, direct) => {
+		setStockDrawer(bool);
+		setDirect(direct);
+	};
 
 	const onClose = () => {
 		message.destroy();
@@ -224,163 +189,128 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		setHasConsumption(true);
 		setConsumption(e.target.value);
 	};
-	const columns = useMemo(() => {
-		return [
-			{
-				title: "№",
-				dataIndex: "Order",
-				className: "orderField",
-				editable: false,
-				isVisible: true,
-				render: (text, record, index) => index + 1 + 100 * docPage,
-			},
-			{
-				title: "Adı",
-				dataIndex: "Name",
-				className: "max_width_field_length",
-				editable: false,
-				isVisible: true,
-				sorter: (a, b) => a.Name.localeCompare(b.Name),
-			},
-			{
-				title: "Barkodu",
-				dataIndex: "BarCode",
-				isVisible: true,
-				className: "max_width_field_length",
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				sorter: (a, b) => a.BarCode - b.BarCode,
-			},
-			{
-				title: "Miqdar",
-				dataIndex: "Quantity",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Qiyməti",
-				dataIndex: "Price",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Məbləğ",
-				dataIndex: "TotalPrice",
-				isVisible: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Qalıq",
-				dataIndex: "StockQuantity",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-			{
-				title: "Maya",
-				dataIndex: "CostPr",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					let defaultCostArray = [];
-					let consumtionPriceArray = [];
-					outerDataSource.forEach((p) => {
-						defaultCostArray.push(Number(p.CostPrice));
-					});
-					if (hasConsumption) {
-						consumtionPriceArray = [];
-						outerDataSource.forEach((p) => {
-							consumtionPriceArray.push(
-								FindAdditionals(
-									consumption,
-									docSum,
-									Number(p.CostPrice)
-								)
-							);
-						});
-						return ConvertFixedTable(consumtionPriceArray[index]);
-					} else {
-						return ConvertFixedTable(defaultCostArray[index]);
-					}
-				},
-			},
-			{
-				title: "Cəm Maya",
-				dataIndex: "CostTotalPr",
-				className: "max_width_field",
-				isVisible: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					let defaultCostArray = [];
-					let consumtionPriceArray = [];
-					outerDataSource.forEach((p) => {
-						defaultCostArray.push(Number(p.TotalPrice));
-					});
-					if (hasConsumption) {
-						consumtionPriceArray = [];
-						outerDataSource.forEach((p) => {
-							consumtionPriceArray.push(
-								FindAdditionals(
-									consumption,
-									docSum,
-									Number(p.TotalPrice)
-								)
-							);
-						});
-
-						return ConvertFixedTable(consumtionPriceArray[index]);
-					} else {
-						return ConvertFixedTable(defaultCostArray[index]);
-					}
-				},
-			},
-			{
-				title: "Sil",
-				className: "orderField printField",
-				dataIndex: "operation",
-				isVisible: true,
-				editable: false,
-				render: (_, record) => (
-					<Typography.Link>
-						<Popconfirm
-							title="Silməyə əminsinizmi?"
-							okText="Bəli"
-							cancelText="Xeyr"
-							onConfirm={() => handleDelete(record.key)}
-						>
-							<a className="deletePosition">Sil</a>
-						</Popconfirm>
-					</Typography.Link>
-				),
-			},
-		];
-	}, [consumption, outerDataSource, docSum]);
+    const columns = useMemo(() => {
+      return [
+        {
+          title: "№",
+          dataIndex: "Order",
+          className: "orderField",
+          editable: false,
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Order")
+                .isVisible
+            : true,
+          render: (text, record, index) => index + 1 + 100 * docPage,
+        },
+        {
+          title: "Adı",
+          dataIndex: "Name",
+          className: "max_width_field_length",
+          editable: false,
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Name").isVisible
+            : true,
+  
+          sorter: (a, b) => a.Name.localeCompare(b.Name),
+        },
+        {
+          title: "Barkodu",
+          dataIndex: "BarCode",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "BarCode")
+                .isVisible
+            : true,
+          className: "max_width_field_length",
+          editable: false,
+          sortDirections: ["descend", "ascend"],
+          sorter: (a, b) => a.BarCode - b.BarCode,
+        },
+        {
+          title: "Miqdar",
+          dataIndex: "Quantity",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Quantity")
+                .isVisible
+            : true,
+          className: "max_width_field",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          sorter: (a, b) => a.Quantity - b.Quantity,
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Qiyməti",
+          dataIndex: "Price",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Price")
+                .isVisible
+            : true,
+  
+          className: "max_width_field",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Məbləğ",
+          dataIndex: "TotalPrice",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "TotalPrice")
+                .isVisible
+            : true,
+          className: "max_width_field",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Qalıq",
+          dataIndex: "StockQuantity",
+          className: "max_width_field",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "StockQuantity")
+                .isVisible
+            : true,
+          editable: false,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Sil",
+          className: "orderField printField",
+          dataIndex: "operation",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "operation")
+                .isVisible
+            : true,
+          editable: false,
+          render: (_, record) => (
+            <Typography.Link>
+              <Popconfirm
+                title="Silməyə əminsinizmi?"
+                okText="Bəli"
+                cancelText="Xeyr"
+                onConfirm={() => handleDelete(record.key)}
+              >
+                <a className="color-red">Sil</a>
+              </Popconfirm>
+            </Typography.Link>
+          ),
+        },
+      ];
+    }, [consumption, outerDataSource, docSum, columnChange]);
 
 	useEffect(() => {
 		setInitial(columns);
@@ -391,7 +321,7 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	}, [columnChange]);
 
 	const updateMutation = useMutation(updateDoc, {
-		refetchQueris: ["supply", doc_id],
+		refetchQueris: ["handovers", doc_id],
 	});
 
 	useEffect(() => {
@@ -401,39 +331,25 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	}, [createdStock]);
 
 	useEffect(() => {
-		if (createdCustomer) {
-			getCustomersAgain();
-		}
-	}, [createdCustomer]);
-
-	const getCustomersAgain = async () => {
-		const customerResponse = await fetchCustomers();
-		setCustomers(customerResponse.Body.List);
 		form.setFieldsValue({
-			customerid: createdCustomer.id,
+			mark: Number(docmark),
 		});
-		setCreatedCustomer(null);
-	};
+	}, [docmark]);
 	const getStocksAgain = async () => {
 		const stockResponse = await fetchStocks();
 		setStock(stockResponse.Body.List);
 		setStockLocalStorage(stockResponse.Body.List);
-		form.setFieldsValue({
-			stockid: createdStock.id,
-		});
+		if (direct === "to") {
+			form.setFieldsValue({
+				stocktoid: createdStock.id,
+			});
+		} else if (direct === "from") {
+			form.setFieldsValue({
+				stockfromid: createdStock.id,
+			});
+		}
 		setCreatedStock(null);
 	};
-
-	//#region OwDep
-	// var objCustomers;
-	// customers
-	// 	? (objCustomers = customers)
-	// 	: (objCustomers = JSON.parse(localStorage.getItem("customers")));
-	// const customerOptions = Object.values(objCustomers).map((c) => (
-	// 	<Option key={c.Id} value={c.Id}>
-	// 		{c.Name}
-	// 	</Option>
-	// ));
 
 	var objOwner;
 	owners
@@ -495,24 +411,20 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			setDisable(false);
 		}
 	};
-
 	const handleFinish = async (values) => {
 		setDisable(true);
 
 		values.positions = outerDataSource;
-		values.customerid = customerId;
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		values.consumption =
-			myRefConsumption.current.clearableInput.props.value;
 		if (!values.status) {
 			values.status = status;
 		}
 		message.loading({ content: "Yüklənir...", key: "doc_update" });
 		updateMutation.mutate(
-			{ id: doc_id, controller: "supplies", filter: values },
+			{ id: doc_id, controller: "handovers", filter: values },
 			{
 				onSuccess: (res) => {
 					if (res.Headers.ResponseStatus === "0") {
@@ -521,19 +433,11 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							key: "doc_update",
 							duration: 2,
 						});
-						queryClient.invalidateQueries("supply", doc_id);
+						queryClient.invalidateQueries("handovers", doc_id);
 						audio.play();
 						if (saveFromModal) {
 							setRedirectSaveClose(true);
-						} else {
-							if (isReturn) {
-								setRedirect(true);
-							}
-							if (isPayment) {
-								setPaymentModal(true);
-							}
 						}
-						fetchDebt();
 					} else {
 						message.error({
 							content: (
@@ -547,10 +451,12 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 						});
 					}
 				},
+				onError: (e) => {
+					console.log(e);
+				},
 			}
 		);
 	};
-
 	const onChangeMenu = (e) => {
 		var initialCols = initial;
 		var findelement;
@@ -569,7 +475,6 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		});
 		setColumnChange(true);
 	};
-
 	const menu = (
 		<Menu>
 			<Menu.ItemGroup title="Sutunlar">
@@ -608,7 +513,10 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
 						>
 							<div className="addProductInputIcon">
-								<AddProductInput className="newProInputWrapper" />
+								<AddProductInput
+									from="demands"
+									className="newProInputWrapper"
+								/>
 								<PlusOutlined
 									onClick={() => setProductModal(true)}
 									className="addNewProductIcon"
@@ -638,6 +546,7 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							style={{ paddingTop: "1rem", zIndex: "0" }}
 						>
 							<DocTable
+								from="demands"
 								headers={columns.filter(
 									(c) => c.isVisible == true
 								)}
@@ -659,13 +568,14 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Alış</h2>
+				<h2>Təhvil qəbul</h2>
 			</div>
 			<DocButtons
+				additional={"none"}
 				editid={doc_id}
-				controller={"supplies"}
-				closed={"p=supply"}
-				from={"supplies"}
+				controller={"handovers"}
+				closed={"p=handover"}
+				from={"handovers"}
 			/>
 			<div className="formWrapper">
 				<Form
@@ -684,8 +594,8 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 						moment: moment(data.Body.List[0].Moment),
 						modify: moment(data.Body.List[0].Modify),
 						mark: data.Body.List[0].Mark,
-						stockid: data.Body.List[0].StockId,
-						customerid: data.Body.List[0].CustomerName,
+						stocktoid: data.Body.List[0].StockToId,
+						stockfromid: data.Body.List[0].StockFromId,
 						status: data.Body.List[0].Status === 1 ? true : false,
 					}}
 					onFinish={handleFinish}
@@ -695,7 +605,7 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 					<Row>
 						<Col xs={6} sm={6} md={6} xl={6}>
 							<Form.Item
-								label="Alış №"
+								label="Daxilolma №"
 								name="name"
 								className="doc_number_form_item"
 								style={{ width: "100%" }}
@@ -711,69 +621,34 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 						<Col xs={6} sm={6} md={6} xl={6}>
 							<Button className="add-stock-btn">
 								<PlusOutlined
-									onClick={() => setCustomerDrawer(true)}
+									onClick={() => setStockDrawer(true)}
 								/>
 							</Button>
 							<Form.Item
-								label="Qarşı-tərəf"
-								name="customerid"
+								label="Anbardan"
+								name="stockfromid"
 								rules={[
 									{
 										required: true,
-										message:
-											"Zəhmət olmasa, qarşı tərəfi seçin",
+										message: "Zəhmət olmasa, anbarı seçin",
 									},
 								]}
-								className="form-item-customer"
 							>
 								<Select
-									lazyLoad
 									showSearch
 									showArrow={false}
-									filterOption={false}
+									// onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
-									onSearch={(e) => onSearchSelectInput(e)}
-									onChange={(e) => onChangeSelectInput(e)}
-								>
-									{customersForSelet[0] &&
-										customersForSelet.map((c) => {
-											return (
-												<Option key={c.Id} value={c.Id}>
-													{c.Name}
-												</Option>
-											);
-										})}
-								</Select>
-								{/* <Select
-									showSearch
-									showArrow={false}
-									filterOption={false}
-									className="customSelect detail-select"
-									allowClear={true}
-									onChange={(e) => setCustomerId(e)}
 									filterOption={(input, option) =>
 										option.children
 											.toLowerCase()
 											.indexOf(input.toLowerCase()) >= 0
 									}
 								>
-									{customerOptions}
-								</Select> */}
-								{/* <CustomersSelectInput
-									handleChanged={handleChanged}
-									setCustomerId={setCustomerId}
-								/> */}
+									{options}
+								</Select>
 							</Form.Item>
-							<p
-								className="customer-debt"
-								style={debt < 0 ? { color: "red" } : {}}
-							>
-								<span style={{ color: "red" }}>
-									Qalıq borc:
-								</span>
-								{debt} ₼
-							</p>
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}></Col>
@@ -801,8 +676,8 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 								/>
 							</Button>
 							<Form.Item
-								label="Anbar"
-								name="stockid"
+								label="Anbara"
+								name="stocktoid"
 								rules={[
 									{
 										required: true,
@@ -813,7 +688,6 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 								<Select
 									showSearch
 									showArrow={false}
-									filterOption={false}
 									// onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
@@ -983,30 +857,6 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 									<Divider
 										style={{ backgroundColor: "grey" }}
 									/>
-									<div style={{ marginTop: "20px" }}>
-										<Form
-											initialValues={{
-												consumption: ConvertFixedTable(
-													data.Body.List[0]
-														.Consumption
-												),
-											}}
-											onFieldsChange={handleChanged}
-										>
-											<Form.Item
-												className="comsumption_input_wrapper"
-												label="Əlavə xərc"
-												onChange={onChangeConsumption}
-												name="consumption"
-											>
-												<Input
-													ref={myRefConsumption}
-													type="number"
-													step="any"
-												/>
-											</Form.Item>
-										</Form>
-									</div>
 								</div>
 							</Col>
 						</Row>
@@ -1014,16 +864,9 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 				</Row>
 			</div>
 			<StockDrawer />
-			<CustomerDrawer />
 			<ProductModal />
-			<PaymentModal
-				datas={data.Body.List[0]}
-				title="Məxaric"
-				endPoint="paymentouts"
-				updateDebt={fetchDebt}
-			/>
 		</div>
 	);
 }
 
-export default withCatalog(SupplyDetail);
+export default withCatalog(HandoversDetail);

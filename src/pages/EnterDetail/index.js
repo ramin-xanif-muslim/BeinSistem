@@ -50,13 +50,16 @@ import {
 } from "../../config/function/findadditionals";
 import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function EnterDetail() {
+
+function EnterDetail({ handleOpenCatalog, selectList, catalogVisible }) {
+
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const myRefDescription = useRef(null);
@@ -74,8 +77,6 @@ function EnterDetail() {
     setStockLocalStorage,
     setDisable,
     disable,
-    setCatalog,
-    isCatalog,
   } = useTableCustom();
   const {
     docmark,
@@ -101,9 +102,6 @@ function EnterDetail() {
   const [initial, setInitial] = useState(null);
   const [columnChange, setColumnChange] = useState(false);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-  const [selectList, setSelectList] = useState([]);
-
-  const [catalogVisible, setCatalogVisible] = useState(false);
   const { isLoading, error, data, isFetching } = useQuery(
     ["enter", doc_id],
     () => fetchDocId(doc_id, "enters")
@@ -173,11 +171,6 @@ function EnterDetail() {
 
   const onClose = () => {
     message.destroy();
-  };
-
-  const handleOpenCatalog = (selectList) => {
-    setCatalogVisible(!catalogVisible);
-    setSelectList(selectList);
   };
   const handleVisibleChange = (flag) => {
     setVisibleMenuSettings(flag);
@@ -860,13 +853,8 @@ function EnterDetail() {
       </div>
       <StockDrawer />
       <ProductModal />
-      <Catalog
-        onClose={handleOpenCatalog}
-        positions={positions}
-        isCatalogVisible={catalogVisible}
-      />
     </div>
   );
 }
 
-export default EnterDetail;
+export default withCatalog(EnterDetail);

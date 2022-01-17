@@ -61,6 +61,7 @@ import { useGetDocItems } from "../../hooks";
 import Catalog from "../../components/Catalog";
 import ok from "../../audio/ok.mp3";
 import { unstable_batchedUpdates } from "react-dom";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 
@@ -68,7 +69,9 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewEnter() {
+
+function NewEnter({ handleOpenCatalog, selectList, catalogVisible }) {
+
   const [form] = Form.useForm();
   const queryClient = useQueryClient();
   const myRefDescription = useRef(null);
@@ -88,8 +91,6 @@ function NewEnter() {
     setCustomers,
     setDisable,
     disable,
-    setCatalog,
-    isCatalog,
   } = useTableCustom();
   const {
     docstock,
@@ -122,10 +123,6 @@ function NewEnter() {
   const [tablecolumns, setTableColumns] = useState([]);
   const [columnChange, setColumnChange] = useState(false);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-
-  const [selectList, setSelectList] = useState([]);
-
-  const [catalogVisible, setCatalogVisible] = useState(false);
   const { allsum, allQuantity } = useGetDocItems();
 
   const handleDelete = (key) => {
@@ -154,11 +151,6 @@ function NewEnter() {
 
   const onClose = () => {
     message.destroy();
-  };
-
-  const handleOpenCatalog = (selectList) => {
-    setCatalogVisible(!catalogVisible);
-    setSelectList(selectList);
   };
   const onChangeConsumption = (e) => {
     setHasConsumption(true);
@@ -842,14 +834,8 @@ function NewEnter() {
 
       <StockDrawer />
       <ProductModal />
-
-      <Catalog
-        onClose={handleOpenCatalog}
-        positions={outerDataSource}
-        isCatalogVisible={catalogVisible}
-      />
     </div>
   );
 }
 
-export default NewEnter;
+export default withCatalog(NewEnter);

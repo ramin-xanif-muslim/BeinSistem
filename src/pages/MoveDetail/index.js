@@ -52,13 +52,14 @@ import {
 } from "../../config/function/findadditionals";
 import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function MoveDetail() {
+function MoveDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const myRefDescription = useRef(null);
@@ -509,6 +510,11 @@ function MoveDetail() {
                                 />
                             </div>
                         </Col>
+            <Col xs={5} sm={5} md={5} xl={5}>
+              <Button onClick={handleOpenCatalog} type="primary">
+                Kataloq
+              </Button>
+            </Col>
                         <Dropdown
                             overlay={menu}
                             onVisibleChange={handleVisibleChange}
@@ -531,6 +537,8 @@ function MoveDetail() {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
+                selectList={selectList}
+                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>
@@ -847,4 +855,4 @@ function MoveDetail() {
     );
 }
 
-export default MoveDetail;
+export default withCatalog(MoveDetail);

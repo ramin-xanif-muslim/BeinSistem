@@ -7,6 +7,7 @@ import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
 
 const Move = React.lazy(() => import("./pages/Move"));
+const Handovers = React.lazy(() => import("./pages/Handovers"));
 const Product = React.lazy(() => import("./pages/Product"));
 const Enter = React.lazy(() => import("./pages/Enter"));
 const Loss = React.lazy(() => import("./pages/Loss"));
@@ -27,7 +28,12 @@ const EnterDetail = React.lazy(() => import("./pages/EnterDetail"));
 const SupplyReturnDetail = React.lazy(() =>
     import("./pages/SupplyReturnDetail")
 );
+const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const MoveDetail = React.lazy(() => import("./pages/MoveDetail"));
+
+const NewHandovers = React.lazy(() => import("./pages/HandoversDetail/new"));
+const HandoversDetail = React.lazy(() => import("./pages/HandoversDetail"));
+
 const CustomerOrderDetail = React.lazy(() =>
     import("./pages/CustomerOrderDetail")
 );
@@ -37,7 +43,6 @@ const NewSupply = React.lazy(() => import("./pages/SupplyDetail/new"));
 const NewSupplyReturn = React.lazy(() =>
     import("./pages/SupplyReturnDetail/new")
 );
-const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const SignIn = React.lazy(() => import("./pages/Auth/Signin"));
 const Registration = React.lazy(() => import("./pages/Auth/Registration"));
 const NewProduct = React.lazy(() => import("./pages/ProductDetail/new"));
@@ -275,6 +280,10 @@ function App() {
                                 component={MoveDetail}
                             ></Route>
                             <Route
+                                path="/editHandovers/:doc_id"
+                                component={HandoversDetail}
+                            ></Route>
+                            <Route
                                 path="/editLoss/:doc_id"
                                 component={LossDetail}
                             ></Route>
@@ -347,6 +356,7 @@ function App() {
                                 component={NewDemand}
                             ></Route>
                             <Route path="/newmove" component={NewMove}></Route>
+                            <Route path="/newhandover" component={NewHandovers}></Route>
                             <Route path="/newloss" component={NewLoss}></Route>
                             <Route
                                 path="/newproduct"
@@ -378,6 +388,7 @@ function App() {
                                 component={Product}
                             ></Route>
                             <Route path="/p=move" component={Move}></Route>
+                            <Route path="/p=handover" component={Handovers}></Route>
                         </Switch>
                     </div>
 

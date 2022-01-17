@@ -64,13 +64,14 @@ import {
     useSearchSelectInput,
 } from "../../hooks";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewSupplyReturn() {
+function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const myRefDescription = useRef(null);
     const myRefConsumption = useRef(null);
@@ -494,6 +495,11 @@ function NewSupplyReturn() {
                                 />
                             </div>
                         </Col>
+            <Col xs={5} sm={5} md={5} xl={5}>
+              <Button onClick={handleOpenCatalog} type="primary">
+                Kataloq
+              </Button>
+            </Col>
                         <Dropdown
                             overlay={menu}
                             onVisibleChange={handleVisibleChange}
@@ -516,6 +522,8 @@ function NewSupplyReturn() {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
+                selectList={selectList}
+                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>
@@ -824,4 +832,4 @@ function NewSupplyReturn() {
     );
 }
 
-export default NewSupplyReturn;
+export default withCatalog(NewSupplyReturn);

@@ -53,11 +53,14 @@ import { message } from "antd";
 import { updateDoc } from "../../api";
 import { useRef } from "react";
 import { useCustomForm } from "../../contexts/FormContext";
+import { ConvertFixedTable } from "../../config/function/findadditionals";
 import {
-	ConvertFixedTable,
-} from "../../config/function/findadditionals";
-import { useFetchDebt, useGetDocItems, useSearchSelectInput } from "../../hooks";
+	useFetchDebt,
+	useGetDocItems,
+	useSearchSelectInput,
+} from "../../hooks";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
@@ -65,7 +68,7 @@ const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
 
-function DemandDetail() {
+function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [form] = Form.useForm();
 	const myRefDescription = useRef(null);
 	const myRefConsumption = useRef(null);
@@ -118,7 +121,6 @@ function DemandDetail() {
 	const [consumption, setConsumption] = useState(0);
 
 	const { allsum, allQuantity } = useGetDocItems();
-    
 
 	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
 	const onChangeSelectInput = (e) => {
@@ -136,20 +138,19 @@ function DemandDetail() {
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
 
-
 	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
-    const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
-    const fetchDebt = async (id) => {
-        let res = await api.fetchDebt(id ? id : customerId);
-        setDebt(ConvertFixedTable(res));
-    };
-    useEffect(() => {
-        if(customerId) {
-            fetchDebt(customerId);
-        }
-    }, [customerId]);
-    
+	const [debt, setDebt] = useState(0);
+	const [customerId, setCustomerId] = useState();
+	const fetchDebt = async (id) => {
+		let res = await api.fetchDebt(id ? id : customerId);
+		setDebt(ConvertFixedTable(res));
+	};
+	useEffect(() => {
+		if (customerId) {
+			fetchDebt(customerId);
+		}
+	}, [customerId]);
+
 	useEffect(() => {
 		setDisable(true);
 		setPositions([]);
@@ -248,7 +249,7 @@ function DemandDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-                    return ConvertFixedTable(value);
+					return ConvertFixedTable(value);
 				},
 			},
 			{
@@ -260,7 +261,7 @@ function DemandDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-                    return ConvertFixedTable(value);
+					return ConvertFixedTable(value);
 				},
 			},
 			{
@@ -272,7 +273,7 @@ function DemandDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-                    return ConvertFixedTable(value);
+					return ConvertFixedTable(value);
 				},
 			},
 			{
@@ -284,7 +285,7 @@ function DemandDetail() {
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-                    return ConvertFixedTable(value);
+					return ConvertFixedTable(value);
 				},
 			},
 			// {
@@ -477,7 +478,7 @@ function DemandDetail() {
 	};
 
 	const handleFinish = async (values) => {
-        setDisable(true);
+		setDisable(true);
 		values.positions = outerDataSource;
 		values.customerid = customerId;
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
@@ -499,8 +500,7 @@ function DemandDetail() {
 							duration: 2,
 						});
 						queryClient.invalidateQueries("demand", doc_id);
-                        audio.play();
-
+						audio.play();
 
 						if (saveFromModal) {
 							setRedirectSaveClose(true);
@@ -512,7 +512,7 @@ function DemandDetail() {
 								setPaymentModal(true);
 							}
 						}
-                        fetchDebt()
+						fetchDebt();
 					} else {
 						message.error({
 							content: (
@@ -545,6 +545,11 @@ function DemandDetail() {
 								<PlusOutlined className="addNewProductIcon" />
 							</div>
 						</Col>
+						<Col xs={5} sm={5} md={5} xl={5}>
+							<Button onClick={handleOpenCatalog} type="primary">
+								Kataloq
+							</Button>
+						</Col>
 						<Col
 							xs={24}
 							sm={24}
@@ -556,6 +561,8 @@ function DemandDetail() {
 								from="demands"
 								headers={columns}
 								datas={positions}
+								selectList={selectList}
+								catalogVisible={catalogVisible}
 							/>
 						</Col>
 					</Row>
@@ -910,10 +917,10 @@ function DemandDetail() {
 				datas={data.Body.List[0]}
 				title="Mədaxil"
 				endPoint="paymentins"
-                updateDebt={fetchDebt}
+				updateDebt={fetchDebt}
 			/>
 		</div>
 	);
 }
 
-export default DemandDetail;
+export default withCatalog(DemandDetail);

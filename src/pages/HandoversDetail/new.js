@@ -66,7 +66,7 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
+function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -157,118 +157,128 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 	const handleVisibleChange = (flag) => {
 		setVisibleMenuSettings(flag);
 	};
-	const columns = useMemo(() => {
-		return [
-			{
-				title: "№",
-				dataIndex: "Order",
-				className: "orderField",
-				editable: false,
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Order"
-					  ).isVisible
-					: true,
-				render: (text, record, index) => index + 1 + 100 * docPage,
-			},
-			{
-				title: "Adı",
-				dataIndex: "Name",
-				className: "max_width_field_length",
-				editable: false,
-				isVisible: initial
-					? Object.values(initial).find((i) => i.dataIndex === "Name")
-							.isVisible
-					: true,
-
-				sorter: (a, b) => a.Name.localeCompare(b.Name),
-			},
-			{
-				title: "Barkodu",
-				dataIndex: "BarCode",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "BarCode"
-					  ).isVisible
-					: true,
-				className: "max_width_field_length",
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				sorter: (a, b) => a.BarCode - b.BarCode,
-			},
-			{
-				title: "Miqdar",
-				dataIndex: "Quantity",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Quantity"
-					  ).isVisible
-					: true,
-				className: "max_width_field",
-				editable: true,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
-				},
-			},
-
-			{
-				title: "Maya",
-				dataIndex: "CostPrice",
-				className: "max_width_field",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "CostPrice"
-					  ).isVisible
-					: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					return ConvertFixedPosition(row.Quantity * value);
-				},
-			},
-			{
-				title: "Cəm Maya",
-				dataIndex: "SumCostPrice",
-				className: "max_width_field",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "SumCostPrice"
-					  ).isVisible
-					: true,
-				editable: false,
-				sortDirections: ["descend", "ascend"],
-				render: (value, row, index) => {
-					console.log(row);
-					return ConvertFixedPosition(value);
-				},
-			},
-			{
-				title: "Sil",
-				className: "orderField printField",
-				dataIndex: "operation",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "operation"
-					  ).isVisible
-					: true,
-				editable: false,
-				render: (_, record) => (
-					<Typography.Link>
-						<Popconfirm
-							title="Silməyə əminsinizmi?"
-							okText="Bəli"
-							cancelText="Xeyr"
-							onConfirm={() => handleDelete(record.key)}
-						>
-							<a className="deletePosition">Sil</a>
-						</Popconfirm>
-					</Typography.Link>
-				),
-			},
-		];
-	}, [consumption, outerDataSource, docSum, columnChange]);
+    const columns = useMemo(() => {
+      return [
+        {
+          title: "№",
+          dataIndex: "Order",
+          className: "orderField",
+          editable: false,
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Order")
+                .isVisible
+            : true,
+          render: (text, record, index) => index + 1 + 100 * docPage,
+        },
+        {
+          title: "Adı",
+          dataIndex: "Name",
+          className: "max_width_field_length",
+          editable: false,
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Name").isVisible
+            : true,
+  
+          sorter: (a, b) => a.Name.localeCompare(b.Name),
+        },
+        {
+          title: "Barkodu",
+          dataIndex: "BarCode",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "BarCode")
+                .isVisible
+            : true,
+          className: "max_width_field_length",
+          editable: false,
+          sortDirections: ["descend", "ascend"],
+          sorter: (a, b) => a.BarCode - b.BarCode,
+        },
+        {
+          title: "Miqdar",
+          dataIndex: "Quantity",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Quantity")
+                .isVisible
+            : true,
+          className: "max_width_field",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          sorter: (a, b) => a.Quantity - b.Quantity,
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Qiyməti",
+          dataIndex: "Price",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "Price")
+                .isVisible
+            : true,
+  
+          className: "max_width_field",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Məbləğ",
+          dataIndex: "TotalPrice",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "TotalPrice")
+                .isVisible
+            : true,
+          className: "max_width_field",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Qalıq",
+          dataIndex: "StockQuantity",
+          className: "max_width_field",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "StockQuantity")
+                .isVisible
+            : true,
+          editable: false,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+            // do something like adding commas to the value or prefix
+            return ConvertFixedTable(value);
+          },
+        },
+        {
+          title: "Sil",
+          className: "orderField printField",
+          dataIndex: "operation",
+          isVisible: initial
+            ? Object.values(initial).find((i) => i.dataIndex === "operation")
+                .isVisible
+            : true,
+          editable: false,
+          render: (_, record) => (
+            <Typography.Link>
+              <Popconfirm
+                title="Silməyə əminsinizmi?"
+                okText="Bəli"
+                cancelText="Xeyr"
+                onConfirm={() => handleDelete(record.key)}
+              >
+                <a className="color-red">Sil</a>
+              </Popconfirm>
+            </Typography.Link>
+          ),
+        },
+      ];
+    }, [consumption, outerDataSource, docSum, columnChange]);
 
 	useEffect(() => {
 		setInitial(columns);
@@ -356,7 +366,7 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 	}, []);
 
 	const getDocName = async (docname) => {
-		const attrResponse = await fetchDocName(docname, "moves");
+		const attrResponse = await fetchDocName(docname, "handovers");
 		return attrResponse;
 	};
 
@@ -394,7 +404,7 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 			});
 		}
 
-		const res = await saveDoc(values, "moves");
+		const res = await saveDoc(values, "handovers");
 		console.log(res);
 		if (res.Headers.ResponseStatus === "0") {
 			message.success({
@@ -479,7 +489,7 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 							style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
 						>
 							<div className="addProductInputIcon">
-								<AddProductInput className="newProInputWrapper" />
+								<AddProductInput from="demands" className="newProInputWrapper" />
 								<PlusOutlined
 									onClick={() => setProductModal(true)}
 									className="addNewProductIcon"
@@ -509,6 +519,7 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 							style={{ paddingTop: "1rem", zIndex: "0" }}
 						>
 							<DocTable
+								from="demands"
 								headers={columns.filter(
 									(c) => c.isVisible == true
 								)}
@@ -527,14 +538,14 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 		},
 	];
 
-	if (redirect) return <Redirect to={`/editMove/${editId}`} />;
+	if (redirect) return <Redirect to={`/editHandovers/${editId}`} />;
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Yerdəyişmə</h2>
+				<h2>Təhvil qəbul</h2>
 			</div>
 
-			<DocButtons additional={"none"} editid={null} closed={"p=move"} />
+			<DocButtons additional={"none"} editid={null} closed={"p=handover"} />
 			<div className="formWrapper">
 				<Form
 					form={form}
@@ -812,4 +823,4 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 	);
 }
 
-export default withCatalog(NewMove);
+export default withCatalog(NewHandovers);

@@ -86,7 +86,7 @@ function StockDrawer({ direction }) {
                 <Row className="main_form_side">
                     <Col xs={24} md={20} xl={24} className="left_form_wrapper">
                         <Form.Item
-                            label="Qrup adı"
+                            label="Ad"
                             name="name"
                             rules={[
                                 {
@@ -103,7 +103,7 @@ function StockDrawer({ direction }) {
                             <TextArea showCount maxLength={100} allowClear />
                         </Form.Item>
 
-                        <Form.Item label="Anbar qrupu" name="parentid">
+                        <Form.Item label="Yerleşdiyi anbar" name="parentid">
                             <Select
                                 showSearch
                                 className="doc_status_formitem_wrapper_col "

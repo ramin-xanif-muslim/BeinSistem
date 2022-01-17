@@ -57,11 +57,6 @@ const Catalog = ({ onClose, isCatalogVisible, positions }) => {
   const {
     productSearchTerm,
     setProductSearchTerm,
-    setAttributes,
-    setAttrLocalStorage,
-    setPrices,
-    setPricesLocalStorage,
-    setRefList,
     search,
     doSearch,
     isFilter,
@@ -150,7 +145,6 @@ const Catalog = ({ onClose, isCatalogVisible, positions }) => {
   };
   const onSelectChange = (selectedRowKey, selectedRow) => {
     var ids = new Set(selectedRows.map((d) => d.Id));
-    console.log(selectedRowKey);
 
     var mergedKeys = [...selectedRowKeys, ...selectedRowKey];
     var merged = [

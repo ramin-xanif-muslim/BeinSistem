@@ -124,17 +124,19 @@ function ProductModal() {
         }
     };
     const getlists = async () => {
-        setAttrLoading(true);
-        setLinkedList([]);
-        setOneRef([]);
-        count = 0;
-        const elements = attrs.filter((a) => a.ReferenceTypeId != "");
-        setListLength(Object.keys(elements).length);
-        for (const elem of elements) {
-            const arr = await fetchRefList(elem.ReferenceTypeId);
-            count++;
-            setLinked(elem.ReferenceTypeId);
-            setList(arr);
+        if(attrs) {
+            setAttrLoading(true);
+            setLinkedList([]);
+            setOneRef([]);
+            count = 0;
+            const elements = attrs.filter((a) => a.ReferenceTypeId != "");
+            setListLength(Object.keys(elements).length);
+            for (const elem of elements) {
+                const arr = await fetchRefList(elem.ReferenceTypeId);
+                count++;
+                setLinked(elem.ReferenceTypeId);
+                setList(arr);
+            }
         }
     };
     const handleBarcodeSelect = (event) => {
@@ -360,7 +362,7 @@ function ProductModal() {
                             />
                         </Form.Item>
                         <div className="prices_wrapper">
-                            {pricetypes.map((c) => (
+                            {pricetypes ? pricetypes.map((c) => (
                                 <div className="price_del_icons">
                                     <Form.Item
                                         label={c.Name}
@@ -375,19 +377,9 @@ function ProductModal() {
                                             min={0}
                                         />
                                     </Form.Item>
-
-                                    {/* <Dropdown
-                                        className="customnewdoc"
-                                        overlay={editDel({
-                                            namepr: c.Name,
-                                            id: c.Id,
-                                        })}
-                                        trigger={["click"]}
-                                    >
-                                        <BsThreeDotsVertical />
-                                    </Dropdown> */}
                                 </div>
-                            ))}
+                            ))
+                            : ""}
                         </div>
                         {/* <Button
                             type="dashed"

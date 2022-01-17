@@ -52,13 +52,14 @@ import {
 } from "../../hooks";
 import { ConvertFixedTable } from "../../config/function/findadditionals";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function SupplyReturnDetail() {
+function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const myRefDescription = useRef(null);
     const myRefConsumption = useRef(null);
@@ -505,6 +506,11 @@ function SupplyReturnDetail() {
                                 />
                             </div>
                         </Col>
+            <Col xs={5} sm={5} md={5} xl={5}>
+              <Button onClick={handleOpenCatalog} type="primary">
+                Kataloq
+              </Button>
+            </Col>
                         <Dropdown
                             overlay={menu}
                             onVisibleChange={handleVisibleChange}
@@ -527,6 +533,8 @@ function SupplyReturnDetail() {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
+                selectList={selectList}
+                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>
@@ -860,4 +868,4 @@ function SupplyReturnDetail() {
     );
 }
 
-export default SupplyReturnDetail;
+export default withCatalog(SupplyReturnDetail);

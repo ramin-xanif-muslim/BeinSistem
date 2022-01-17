@@ -144,6 +144,7 @@ function FilterComponent({ from, settings, cols }) {
         setChanged(true);
     }
     function handleChange(value, option) {
+        console.log(option)
         if (option) {
             Object.assign(selectFilter, {
                 [option.nm]: option.children ? option.children : null,

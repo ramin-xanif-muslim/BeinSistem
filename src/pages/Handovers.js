@@ -17,7 +17,7 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 const { Text } = Typography;
-export default function Move() {
+export default function Handovers() {
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
@@ -51,20 +51,20 @@ export default function Move() {
 
     const [documentList, setDocumentList] = useState([]);
     const { isLoading, error, data, isFetching } = useQuery(
-        ["moves", page, direction, fieldSort, doSearch, search, advanced],
+        ["handovers", page, direction, fieldSort, doSearch, search, advanced],
         () => {
             return isFilter === true
                 ? fetchFilterPage(
-                      "moves",
+                      "handovers",
                       advancedPage,
                       advanced,
                       direction,
                       fieldSort
                   )
                 : doSearch
-                ? fecthFastPage("moves", page, search)
+                ? fecthFastPage("handovers", page, search)
                 : !isFilter && !doSearch
-                ? fetchPage("moves", page, direction, fieldSort)
+                ? fetchPage("handovers", page, direction, fieldSort)
                 : null;
         }
     );
@@ -92,7 +92,7 @@ export default function Move() {
             },
             {
                 dataIndex: "Name",
-                title: "Yerdəyişmə №",
+                title: "Sənəd №",
                 className: "linkedColumns",
                 show: initial
                     ? Object.values(initial).find((i) => i.dataIndex === "Name")
@@ -136,6 +136,26 @@ export default function Move() {
                 defaultSortOrder:
                     initialSort === "StockToName" ? defaultdr : null,
                 sorter: (a, b) => null,
+            },
+
+            {
+                dataIndex: "Amount",
+                title: "Məbləğ",
+                sort: true,
+                show: JSON.parse(localStorage.getItem("entercolumns"))
+                    ? Object.values(
+                          JSON.parse(localStorage.getItem("entercolumns"))
+                      ).find((i) => i.dataIndex === "Amount").show
+                    : true,
+                showFooter: true,
+                footerName: "Amount",
+                priceFormat: true,
+                defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
+                sorter: (a, b) => null,
+                className: initialSort === "Amount" ? "activesort" : "",
+                render: (value, row, index) => {
+                    return ConvertFixedTable(value);
+                },
             },
 
             {
@@ -471,7 +491,7 @@ export default function Move() {
     );
     const getSearchObjByDate = async (ob) => {
         setFetchSearchByDate(true);
-        let res = await sendRequest("moves/get.php", ob);
+        let res = await sendRequest("handovers/get.php", ob);
         setDocumentList(res.List);
         setallsum(res.AllSum);
         setFetchSearchByDate(false);
@@ -485,21 +505,21 @@ export default function Move() {
 
     if (error) return "An error has occurred: " + error.message;
 
-    if (redirect) return <Redirect push to={`/editMove/${editId}`} />;
+    if (redirect) return <Redirect push to={`/editHandovers/${editId}`} />;
     return (
         <div className="custom_display">
             <Row className="header_row">
                 <Col xs={24} md={24} xl={4}>
                     <div className="page_heder_left">
-                        <h2>Yerdəyişmə</h2>
+                        <h2>Təhvil qəbul</h2>
                     </div>
                 </Col>
                 <Col xs={24} md={24} xl={20}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
                             <Buttons
-                                text={"Yerdəyişmə"}
-                                redirectto={"/newmove"}
+                                text={"Təhvil qəbul"}
+                                redirectto={"/newhandover"}
                                 animate={"Yarat"}
                             />
                             <Button

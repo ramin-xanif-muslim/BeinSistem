@@ -302,7 +302,7 @@ function Stock() {
                     }}
                     onFinish={onFinish}
                 >
-                    <Form.Item name="name" label="Xərc maddəsi">
+                    <Form.Item name="name" label="Adı">
                         <Input />
                     </Form.Item>
                     <Form.Item hidden={true} name="id" label="id">
