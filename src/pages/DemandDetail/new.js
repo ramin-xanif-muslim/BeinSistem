@@ -117,6 +117,9 @@ function NewDemand({ handleOpenCatalog, selectList, catalogVisible }) {
 		setCreatedCustomer,
 		setProductModal,
 		productModal,
+		isPayment,
+		isReturn,
+		setPaymentModal,
 
 		saveFromModal,
 		setRedirectSaveClose,
@@ -660,7 +663,12 @@ function NewDemand({ handleOpenCatalog, selectList, catalogVisible }) {
 			if (saveFromModal) {
 				setRedirectSaveClose(true);
 			} else {
-				setRedirect(true);
+                if (isReturn) {
+                    setRedirect(true);
+                }
+                if (isPayment) {
+                    setPaymentModal(true);
+                }
 			}
 		} else {
 			message.error({

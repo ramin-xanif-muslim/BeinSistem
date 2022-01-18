@@ -33,7 +33,7 @@ let customPositions = [];
 const { Panel } = Collapse;
 var spendOptions = null;
 
-function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
+function PaymentOutModal({ datas, title, endPoint }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const {
@@ -63,9 +63,11 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
         useFetchDebt();
 
     useEffect(() => {
-        setCustomerId(datas.CustomerId);
-        setStatus(datas.Status);
-    }, []);
+        if(paymentModal) {
+            setCustomerId(datas.CustomerId);
+            setStatus(datas.Status);
+        }
+    }, [paymentModal]);
     useEffect(() => {
         if (isPayment) getSpendItems();
     }, [isPayment]);
@@ -136,14 +138,12 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
         return attrResponse;
     };
     const onClose = () => {
-        console.log("aaaa");
         fetchDebt();
         setDebt(debt + amount);
         message.destroy();
     };
     //#endregion OwDep
     const handleGancel = () => {
-        updateDebt();
         setPaymentModal(false);
         setIsPayment(false);
     };
@@ -158,7 +158,6 @@ function PaymentOutModal({ datas, title, endPoint, updateDebt }) {
         const nameres = await getDocName(values.name);
         values.name = nameres.Body.ResponseService;
         const res = await saveDoc(values, endPoint);
-        fetchDebt();
         if (res.Headers.ResponseStatus === "0") {
             message.success({
                 content: `${title} Saxlanıldı`,

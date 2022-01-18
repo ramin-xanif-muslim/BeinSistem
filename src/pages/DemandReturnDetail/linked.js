@@ -310,7 +310,7 @@ function DemandReturnLinked(props) {
             setEditId(res.Body.ResponseService);
             audio.play();
             fetchDebt()
-            // setRedirect(true);
+            setRedirect(true);
         } else {
             message.error({
                 content: (

@@ -114,6 +114,7 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		setProductModal,
 		saveFromModal,
 		setSaveFromModal,
+        paymentModal,
 
 		redirectSaveClose,
 		setRedirectSaveClose,
@@ -158,6 +159,11 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			fetchDebt(customerId);
 		}
 	}, [customerId]);
+	useEffect(() => {
+		if (!paymentModal) {
+			fetchDebt(customerId);
+		}
+	}, [paymentModal]);
 
 	useEffect(() => {
 		setDisable(true);

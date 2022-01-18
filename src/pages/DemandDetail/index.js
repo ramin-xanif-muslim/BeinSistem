@@ -109,6 +109,7 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		isPayment,
 		setIsPayment,
 		setPaymentModal,
+        paymentModal,
 
 		saveFromModal,
 		setRedirectSaveClose,
@@ -137,8 +138,6 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
-
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
 	const [debt, setDebt] = useState(0);
 	const [customerId, setCustomerId] = useState();
 	const fetchDebt = async (id) => {
@@ -150,6 +149,11 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			fetchDebt(customerId);
 		}
 	}, [customerId]);
+	useEffect(() => {
+		if (!paymentModal) {
+			fetchDebt(customerId);
+		}
+	}, [paymentModal]);
 
 	useEffect(() => {
 		setDisable(true);
@@ -917,7 +921,6 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 				datas={data.Body.List[0]}
 				title="Mədaxil"
 				endPoint="paymentins"
-				updateDebt={fetchDebt}
 			/>
 		</div>
 	);
