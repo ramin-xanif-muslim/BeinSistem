@@ -173,7 +173,6 @@ function ProductDetail() {
     }, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
-            console.log(data);
             customPositions = [];
             if (data.Body.List[0].Positions) {
                 data.Body.List[0].Positions.map((d) => customPositions.push(d));

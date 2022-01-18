@@ -136,36 +136,36 @@ function EnterDetail() {
         if (!isFetching) {
             console.log(data.Body);
             customPositions = [];
-            Object.values(data.Body.List[0].Positions).map((d) =>
-                customPositions.push(d)
-            );
-            customPositions.map((c, index) => (c.key = index));
-            customPositions.map((c) => (c.SellPrice = c.Price));
-            customPositions.map((c) =>
-                c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
-            );
-            customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
+            if (data.Body.List[0].Positions) {
+                data.Body.List[0].Positions.map((d) => customPositions.push(d));
+                customPositions.map((c, index) => (c.key = index));
+                customPositions.map((c) => (c.SellPrice = c.Price));
+                customPositions.map((c) =>
+                    c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
+                );
+                customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
 
-            customPositions.map(
-                (c) =>
-                    (c.TotalPrice =
-                        parseFloat(c.Price) * parseFloat(c.Quantity))
-            );
-            customPositions.map(
-                (c) =>
-                    (c.CostPriceTotal =
-                        parseFloat(c.CostPrice) * parseFloat(c.Quantity))
-            );
-            setPositions(customPositions);
-            if (data.Body.List[0].Consumption) {
-                setHasConsumption(true);
+                customPositions.map(
+                    (c) =>
+                        (c.TotalPrice =
+                            parseFloat(c.Price) * parseFloat(c.Quantity))
+                );
+                customPositions.map(
+                    (c) =>
+                        (c.CostPriceTotal =
+                            parseFloat(c.CostPrice) * parseFloat(c.Quantity))
+                );
+                setPositions(customPositions);
+                if (data.Body.List[0].Consumption) {
+                    setHasConsumption(true);
+                }
+                setConsumption(data.Body.List[0].Consumption);
+                setLoadingForm(false);
+                setStatus(data.Body.List[0].Status);
+                form.setFieldsValue({
+                    mark: data.Body.List[0].Mark,
+                });
             }
-            setConsumption(data.Body.List[0].Consumption);
-            setLoadingForm(false);
-            setStatus(data.Body.List[0].Status);
-            form.setFieldsValue({
-                mark: data.Body.List[0].Mark,
-            });
         } else {
             customPositions = [];
             setPositions([]);
@@ -589,7 +589,7 @@ function EnterDetail() {
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Daxilolma</h2>
+                <h2>Sənəd</h2>
             </div>
             <DocButtons
                 additional={"none"}

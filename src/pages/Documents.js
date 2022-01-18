@@ -33,7 +33,7 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 const { Text } = Typography;
-export default function Demand() {
+export default function Documents() {
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -113,7 +113,7 @@ export default function Demand() {
             },
             {
                 dataIndex: "Name",
-                title: "Satış №",
+                title: "Sənəd №",
                 show: initial
                     ? Object.values(initial).find((i) => i.dataIndex === "Name")
                           .show
@@ -307,7 +307,7 @@ export default function Demand() {
         return [
             {
                 key: "1",
-                label: "Satış №",
+                label: "Sənəd №",
                 name: "docNumber",
                 type: "text",
                 dataIndex: "docNumber",
@@ -658,8 +658,8 @@ export default function Demand() {
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
                             <Buttons
-                                text={"Yeni satış"}
-                                redirectto={"/newdemand"}
+                                text={"Yeni sənəd"}
+                                redirectto={"/newdocument"}
                                 animate={"Yarat"}
                             />
                             <Button

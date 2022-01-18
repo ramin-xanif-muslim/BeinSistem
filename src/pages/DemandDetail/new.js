@@ -792,7 +792,7 @@ function NewDemand({ handleOpenCatalog, selectList, catalogVisible }) {
 			<div className="doc_name_wrapper">
 				<h2>Satış</h2>
 			</div>
-			<DocButtons editid={true} closed={"p=demand"} />
+			<DocButtons closed={"p=demand"} />
 			<div className="formWrapper">
 				<Form
 					form={form}
