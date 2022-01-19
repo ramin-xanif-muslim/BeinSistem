@@ -1,6 +1,6 @@
 import React from "react";
 import { useQueryClient } from "react-query";
-import { fetchDocName } from "../api";
+import { fetchDocId, fetchDocName, updateDoc } from "../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useTableCustom } from "../contexts/TableContext";
@@ -58,12 +58,16 @@ function PaymentOutModal({ datas, title, endPoint }) {
     const [expenditure, setExpenditure] = useState(false);
     const [status, setStatus] = useState(false);
     const [amount, setAmount] = useState(false);
+    const [documentName, setDocumentName] = useState();
+    const [editId, setEditId] = useState(null);
+    const [formData, setFormData] = useState();
 
     const { debt, setDebt, setCustomerId, customerId, fetchDebt } =
         useFetchDebt();
 
     useEffect(() => {
         if(paymentModal) {
+            setFormData(datas)
             setCustomerId(datas.CustomerId);
             setStatus(datas.Status);
         }
@@ -146,7 +150,21 @@ function PaymentOutModal({ datas, title, endPoint }) {
     const handleGancel = () => {
         setPaymentModal(false);
         setIsPayment(false);
+        setDocumentName()
     };
+    let funct = async (ob) => {
+        let res = await updateDoc(ob)
+        if (res.Headers.ResponseStatus === "0") {
+            message.success({
+                content: `${title} Saxlanıldı`,
+                key: "payment_update",
+                duration: 2,
+            });
+        }
+        let result = await fetchDocId(ob.id, ob.controller)
+        console.log(result)
+        fetchDebt();
+    }
 
     const handleFinish = async (values) => {
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
@@ -155,27 +173,39 @@ function PaymentOutModal({ datas, title, endPoint }) {
             values.status = status;
         }
         message.loading({ content: "Yüklənir...", key: "payment_update" });
-        const nameres = await getDocName(values.name);
-        values.name = nameres.Body.ResponseService;
-        const res = await saveDoc(values, endPoint);
-        if (res.Headers.ResponseStatus === "0") {
-            message.success({
-                content: `${title} Saxlanıldı`,
-                key: "payment_update",
-                duration: 2,
-            });
-            setPaymentModal(false)
-        } else {
-            message.error({
-                content: (
-                    <span className="error_mess_wrap">
-                        Saxlanılmadı... {res.Body}{" "}
-                        {<CloseCircleOutlined onClick={onClose} />}
-                    </span>
-                ),
-                key: "payment_update",
-                duration: 0,
-            });
+        if(!documentName) {
+            const nameres = await getDocName(values.name);
+            values.name = nameres.Body.ResponseService;
+            setDocumentName(nameres.Body.ResponseService)
+            const res = await saveDoc(values, endPoint);
+            if (res.Headers.ResponseStatus === "0") {
+                message.success({
+                    content: `${title} Saxlanıldı`,
+                    key: "payment_update",
+                    duration: 2,
+                });
+                setEditId(res.Body.ResponseService);
+                fetchDebt();
+                // setPaymentModal(false)
+            } else {
+                message.error({
+                    content: (
+                        <span className="error_mess_wrap">
+                            Saxlanılmadı... {res.Body}{" "}
+                            {<CloseCircleOutlined onClick={onClose} />}
+                        </span>
+                    ),
+                    key: "payment_update",
+                    duration: 0,
+                });
+            }
+        }else {
+            values.name = documentName
+            let obj = {filter: "", id: "", controller: ""}
+            obj.filter = values
+            obj.id = editId
+            obj.controller = endPoint
+            funct(obj)
         }
     };
     return (
@@ -206,6 +236,7 @@ function PaymentOutModal({ datas, title, endPoint }) {
                     status: true,
                     customerid: datas.CustomerName,
                     linkid: datas.Id,
+                    amount: formData ? formData.Amount : null,
                     moment: moment(),
                     spenditem: spenditems
                         ? spenditems.find((s) => s.StaticName === "buyproduct")
