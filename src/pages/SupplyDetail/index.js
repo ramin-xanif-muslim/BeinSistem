@@ -395,6 +395,9 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         if (isPayment) {
             setPaymentModal(true);
         }
+        if (isReturn) {
+            setRedirect(true);
+        }
 	}, []);
 
 	useEffect(() => {
