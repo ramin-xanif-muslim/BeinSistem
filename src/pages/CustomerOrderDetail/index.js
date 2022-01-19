@@ -98,7 +98,7 @@ function CustomerOrderDetail() {
     const [hasConsumption, setHasConsumption] = useState(false);
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
-    
+
     const { allsum, allQuantity } = useGetDocItems();
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
@@ -118,15 +118,15 @@ function CustomerOrderDetail() {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        if(customerId) {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
@@ -470,7 +470,7 @@ function CustomerOrderDetail() {
                         if (isPayment) {
                             setPaymentModal(true);
                         }
-                        fetchDebt()
+                        fetchDebt();
                     } else {
                         message.error({
                             content: (
@@ -500,11 +500,13 @@ function CustomerOrderDetail() {
                                 <PlusOutlined className="addNewProductIcon" />
                             </div>
                         </Col>
+                    </Row>
+                    <Row>
                         <Col
-                            xs={9}
-                            sm={9}
-                            md={9}
-                            xl={9}
+                            xs={24}
+                            sm={24}
+                            md={24}
+                            xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
                             <DocTable headers={columns} datas={positions} />
