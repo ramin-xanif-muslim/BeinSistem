@@ -47,6 +47,7 @@ export default function Owners() {
 	const [update, setUpdate] = useState(true);
 	const [permission, setPermission] = useState(null);
 	const [permissionload, setPermissionLoad] = useState(false);
+	const [ isUpdatePage, setIsUpdatePage ] = useState(false);
 	const queryClient = useQueryClient();
 	const { departments, setDepartments, setDepartmentsLocalStorage } =
 		useTableCustom();
@@ -54,10 +55,19 @@ export default function Owners() {
 		departments && [("owner", { departments, update })],
 		() => fetchOwners()
 	);
+    const updatePage = async () => {
+        if(isUpdatePage){
+            let res = await fetchOwners();
+            setDocumentList(res.Body.List)
+            setIsUpdatePage(false)
+        }}
 
 	useEffect(() => {
 		getDepartments();
 	}, []);
+	useEffect(async() => {
+        updatePage()
+	}, [isUpdatePage]);
 
 	const getDepartments = async () => {
 		const depResponse = await fetchDepartments();
@@ -293,6 +303,7 @@ export default function Owners() {
 						queryClient.invalidateQueries("owner");
 						setShow(false);
 						setEdit(null);
+                        setIsUpdatePage(true)
 					} else {
 						message.error({
 							content: (
@@ -315,7 +326,6 @@ export default function Owners() {
 	if (isLoading) return "Yüklənir...";
 
 	if (error) return "An error has occurred: " + error.message;
-    console.log(edit)
 
 	return (
 		<div>

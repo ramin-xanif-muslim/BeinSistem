@@ -158,6 +158,9 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		if (!paymentModal) {
 			fetchDebt(customerId);
 		}
+        if (isReturn) {
+            setRedirect(true);
+        }
 	}, [paymentModal]);
 
 	useEffect(() => {
