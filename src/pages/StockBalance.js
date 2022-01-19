@@ -64,7 +64,7 @@ export default function StockBalance() {
 		setStockbalanceSearchTerm(value);
 		let obj = {
 			nm: value,
-			lm: 25,
+			lm: 100,
 		};
 		let res = await sendRequest("stockbalance/get.php", obj);
 		setDocumentList(res.List);
@@ -460,6 +460,7 @@ export default function StockBalance() {
 	};
 
 	const handlePagination = (pg) => {
+        console.log("handlePagination",pg)
 		setPage(pg - 1);
 		setAdvancedPage(pg - 1);
 	};
@@ -643,7 +644,7 @@ export default function StockBalance() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
-						from="stockbalance"
+						// from="stockbalance"
 						settings={filterSetting}
 						cols={filters}
 					/>
@@ -684,7 +685,7 @@ export default function StockBalance() {
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
 					current: advancedPage + 1,
-					total: count,
+					total: data.Body.Count,
 					onChange: handlePagination,
 					defaultPageSize: data.Body.Limit,
 					showSizeChanger: false,

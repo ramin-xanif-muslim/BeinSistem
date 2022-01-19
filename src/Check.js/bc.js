@@ -83,7 +83,6 @@ export default function Bc(props) {
         default:
             break;
     }
-    console.log(useParams());
 
     const getBarcode = async () => {
         const res = await getBcTemplateMain(props.location.search.substring(1));

@@ -91,7 +91,7 @@ export default function SaleReport() {
         setSalereportsSearchTerm(value);
         let obj = {
             nm: value,
-            lm: 25,
+            lm: 100,
             sr: "ProductName",
         };
         let res = await sendRequest("salereports/get.php", obj);
