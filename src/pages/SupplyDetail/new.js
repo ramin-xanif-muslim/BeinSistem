@@ -619,7 +619,7 @@ function NewSupply({ handleOpenCatalog, selectList, catalogVisible }) {
 			<div className="doc_name_wrapper">
 				<h2>Alış</h2>
 			</div>
-			<DocButtons closed={"p=supply"} />
+			<DocButtons editid={true} closed={"p=supply"} />
 			<div className="formWrapper">
 				<Form
 					form={form}

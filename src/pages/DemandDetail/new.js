@@ -663,12 +663,7 @@ function NewDemand({ handleOpenCatalog, selectList, catalogVisible }) {
 			if (saveFromModal) {
 				setRedirectSaveClose(true);
 			} else {
-                if (isReturn) {
-                    setRedirect(true);
-                }
-                if (isPayment) {
-                    setPaymentModal(true);
-                }
+				setRedirect(true);
 			}
 		} else {
 			message.error({
@@ -792,7 +787,7 @@ function NewDemand({ handleOpenCatalog, selectList, catalogVisible }) {
 			<div className="doc_name_wrapper">
 				<h2>Satış</h2>
 			</div>
-			<DocButtons closed={"p=demand"} />
+			<DocButtons editid={true} closed={"p=demand"} />
 			<div className="formWrapper">
 				<Form
 					form={form}

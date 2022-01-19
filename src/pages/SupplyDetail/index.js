@@ -391,6 +391,11 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	useEffect(() => {
 		setInitial(columns);
 	}, []);
+	useEffect(() => {
+        if (isPayment) {
+            setPaymentModal(true);
+        }
+	}, []);
 
 	useEffect(() => {
 		setColumnChange(false);

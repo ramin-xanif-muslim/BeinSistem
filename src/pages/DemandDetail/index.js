@@ -150,6 +150,11 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		}
 	}, [customerId]);
 	useEffect(() => {
+        if (isPayment) {
+            setPaymentModal(true);
+        }
+	}, []);
+	useEffect(() => {
 		if (!paymentModal) {
 			fetchDebt(customerId);
 		}
