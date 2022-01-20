@@ -257,6 +257,7 @@ function MoveDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
+					console.log(value);
 					return ConvertFixedPosition(value);
 				},
 			},
@@ -272,8 +273,7 @@ function MoveDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
-					console.log(row);
-					return ConvertFixedPosition(row.Quantity * value);
+					return ConvertFixedPosition(Number(row.Quantity) * Number(row.CostPrice));
 				},
 			},
 			{

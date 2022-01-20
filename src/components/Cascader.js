@@ -60,6 +60,8 @@ export const CascaderBcTemplates = (props) => {
   }
 
   const onFinish = async (values) => {
+    console.log(values)
+    console.log(path)
     localStorage.setItem("tempdesign", values.temp[1]);
     localStorage.setItem("temppath", JSON.stringify(path));
     setIsTemp(true);

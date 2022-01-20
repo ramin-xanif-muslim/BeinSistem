@@ -473,7 +473,7 @@ export default function Product() {
     const getProductPrint = (id, br, pr, nm) => (e) => {
         e.preventDefault();
         e.stopPropagation();
-        window.open(`/bc/?bc=${br}&pr=${pr}&nm=${nm}`);
+        window.open(`/bc.php?bc=${br}&pr=${pr}&nm=${nm}`);
     };
     let newcols = [];
     useEffect(() => {
