@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { Alert, Spin } from "antd";
@@ -130,10 +130,6 @@ const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 function App() {
     const { loggedIn, token, firstLogin } = useAuth();
     const { nav } = useTableCustom();
-    useEffect(() => {
-        localStorage.setItem("tempdesign", "4x2");
-        localStorage.setItem("temppath", JSON.stringify(['4x2', '4x2_1.css']));
-    },[])
     return (
         <>
             <React.Suspense

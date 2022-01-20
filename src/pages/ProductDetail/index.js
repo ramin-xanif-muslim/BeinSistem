@@ -143,6 +143,8 @@ function ProductDetail() {
     const [initial, setInitial] = useState(null);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+    const [isOpenCallapsePaket, setIsOpenCallapsePaket] = useState(false);
+    const [isOpenCallapseTeyinat, setIsOpenCallapseTeyinat] = useState(false);
 
     const { isLoading, error, data, isFetching } = useQuery(
         ["products", product_id],
@@ -173,6 +175,7 @@ function ProductDetail() {
     }, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
+            console.log(data)
             customPositions = [];
             if (data.Body.List[0].Positions) {
                 data.Body.List[0].Positions.map((d) => customPositions.push(d));
@@ -778,7 +781,15 @@ function ProductDetail() {
         }
     };
     const handleFinish = async (values) => {
-        console.log(values)
+        if(!isOpenCallapsePaket) {
+            values.ispack = initialValues.ispack
+            values.packprice = initialValues.packprice
+            values.packquantity = initialValues.packquantity
+        }
+        if(!isOpenCallapseTeyinat) {
+            values.ownerid = initialValues.ownerid
+            values.departmentid = initialValues.departmentid
+        }
         setDisable(true);
 
         var valueMods = {};
@@ -1113,8 +1124,8 @@ function ProductDetail() {
                                     header="Əlavə parametr"
                                     key="1"
                                 >
-                                    <Collapse ghost>
-                                        <Panel header="Paket (qutu)" key="1">
+                                    <Collapse ghost onChange={()=>setIsOpenCallapsePaket(true)}>
+                                        <Panel header="Paket (qutu)" key="1"  >
                                             <Form.Item
                                                 label={"Paketli məhsul"}
                                                 valuePropName="checked"
@@ -1144,7 +1155,7 @@ function ProductDetail() {
                     </Row>
                     <Row>
                         <Col xs={8} sm={8} md={8} xl={8}>
-                            <Collapse ghost>
+                            <Collapse ghost onChange={()=>setIsOpenCallapseTeyinat(true)}>
                                 <Panel
                                     className="custom_panel_header"
                                     header="Təyinat"

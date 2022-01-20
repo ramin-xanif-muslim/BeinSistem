@@ -185,6 +185,14 @@ export default function Product() {
             },
         ];
     }, [filterChanged]);
+    
+    useEffect(() => {
+        if(!localStorage.getItem('temppath')) {
+            console.log('App.js',localStorage.getItem('temppath'))
+            localStorage.setItem("tempdesign", "4x2");
+            localStorage.setItem("temppath", JSON.stringify(['4x2', '4x2_1.css']));
+        }
+    },[])
 
     let newfilters = [];
 
