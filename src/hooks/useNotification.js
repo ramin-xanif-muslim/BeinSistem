@@ -11,12 +11,11 @@ export function useNotification() {
 		let res = await sendRequest("notifications/get.php", {});
 		if (res.Notifications[0]) {
             setNotificationsCount(res.Notifications.length)
+            setNotifications(res.Notifications);
         }
 	};
 
 	const getNotification = async () => {
-		let res = await sendRequest("notifications/get.php", {});
-		setNotifications(res.Notifications);
 		if (notifications[0]) {
             setNotificationsCount(notifications.length)
             for (let item of notifications) {

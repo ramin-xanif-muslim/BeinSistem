@@ -118,6 +118,10 @@ function Navbar() {
 
     useEffect(() => {
         fetchNotificationCount()
+        const interval  = setInterval(() => {
+            fetchNotificationCount()
+        },180000)
+        return () => clearInterval(interval)
     },[])
 
     useEffect(() => {
@@ -220,7 +224,7 @@ function Navbar() {
                         />
                     </Menu.Item>
                     <Menu.Item 
-                        onClick={() => onClickNotification()}
+                        onClick={onClickNotification}
                         className="main_header_items custom_flex_direction profile_icons_wrapper">
                         <Badge count={notificationsCount} size="small">
                             <img

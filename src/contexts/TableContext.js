@@ -43,6 +43,7 @@ const TableProvider = ({ children }) => {
   const [productSearchTerm, setProductSearchTerm] = useState("");
   const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState("");
   const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
+  const [settingsObj, setSettingsObj] = useState({token: localStorage.getItem("access-token")})
 
   const [balance, setBalance] = useState(0);
   const [nav, setNav] = useState("block");
@@ -83,6 +84,8 @@ const TableProvider = ({ children }) => {
     localStorage.setItem("cusgroups", JSON.stringify(obj));
   };
   const values = {
+    settingsObj,
+    setSettingsObj,
     salereportsSearchTerm,
     setSalereportsSearchTerm,
     stockbalanceSearchTerm,

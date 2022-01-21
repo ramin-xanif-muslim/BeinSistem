@@ -1,4 +1,5 @@
 import axios from "axios";
+import md5 from 'md5'
 // import sendRequest from "./config/sentRequest";
 
 export var API_BASE = "";
@@ -1101,4 +1102,31 @@ export const getCustomerFastFilter = async (fast) => {
 	);
 
 	return data;
+};
+export const saveSettings = async (obj) => {
+	var dataFilter = {
+		token: localStorage.getItem("access-token"),
+		tempdesign: obj.tempdesign,
+	};
+	const { data } = await axios.post(
+		API_BASE + `/controllers/settings/put.php`,
+		dataFilter
+	);
+
+	return data;
+};
+export const fetchSettings = async (obj) => {
+    let hashMD5 = md5(obj)
+    let newObj = {
+        token: localStorage.getItem("access-token"),
+        hash: hashMD5,
+    }
+    
+	const { data } = await axios.post(
+		API_BASE + `/controllers/settings/get.php`,
+		newObj
+	);
+    Object.entries(data.Body).map((item) => {
+        localStorage.setItem(item[0], item[1])
+    })
 };

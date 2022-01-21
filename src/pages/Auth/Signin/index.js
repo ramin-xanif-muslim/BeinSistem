@@ -3,7 +3,7 @@ import { Form, Input, Button, Modal } from "antd";
 import { Link, Redirect } from "react-router-dom";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useQuery } from "react-query";
-import { putLogin } from "../../../api";
+import { fetchSettings, putLogin } from "../../../api";
 import "../../Auth/Login.css";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useTableCustom } from "../../../contexts/TableContext";
@@ -14,6 +14,7 @@ var pat = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 var patName = /^([a-zA-Z]{4,})?$/;
 
 export default function SignIn() {
+	const { settingsObj } = useTableCustom();
 	const { login, setToken } = useAuth();
 	const inputMaskRef = useRef(null);
 
@@ -37,10 +38,10 @@ export default function SignIn() {
 
 	async function signin(values) {
 		const loginResponse = await putLogin(values);
-        console.log(loginResponse)
         if (loginResponse.Headers.ResponseStatus === "0") {
             login(loginResponse);
             setLoading(false);
+            fetchSettings(settingsObj)
         }
         if (loginResponse.Headers.ResponseStatus !== "0") {
             alert(loginResponse.Body)
