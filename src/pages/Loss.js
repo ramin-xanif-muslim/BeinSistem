@@ -300,7 +300,7 @@ export default function Loss() {
                 key: "6",
                 label: "Dəyişmə tarixi",
                 name: "modifedDate",
-                type: "date",
+                type: "dateOfChange",
                 dataIndex: "modifedDate",
                 show: initialfilter
                     ? Object.values(initialfilter).find(

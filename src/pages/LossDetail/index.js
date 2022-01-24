@@ -390,8 +390,6 @@ function LossDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		// values.consumption =
-		// 	myRefConsumption.current.clearableInput.props.value;
 		if (!values.status) {
 			values.status = status;
 		}
@@ -798,30 +796,6 @@ function LossDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 									<Divider
 										style={{ backgroundColor: "grey" }}
 									/>
-									<div style={{ marginTop: "20px" }}>
-										<Form
-											initialValues={{
-												consumption: ConvertFixedTable(
-													data.Body.List[0]
-														.Consumption
-												),
-											}}
-											onFieldsChange={handleChanged}
-										>
-											<Form.Item
-												className="comsumption_input_wrapper"
-												label="Əlavə xərc"
-												onChange={onChangeConsumption}
-												name="consumption"
-											>
-												<Input
-													ref={myRefConsumption}
-													type="number"
-													step="any"
-												/>
-											</Form.Item>
-										</Form>
-									</div>
 								</div>
 							</Col>
 						</Row>

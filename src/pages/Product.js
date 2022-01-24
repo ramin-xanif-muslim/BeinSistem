@@ -187,8 +187,8 @@ export default function Product() {
     }, [filterChanged]);
     
     useEffect(() => {
-        if(!localStorage.getItem('temppath')) {
-            console.log('App.js',localStorage.getItem('temppath'))
+        if(!localStorage.getItem('tempdesign')) {
+            console.log('App.js',localStorage.getItem('tempdesign'))
             localStorage.setItem("tempdesign", "4x2_1.css");
             localStorage.setItem("temppath", JSON.stringify(['4x2', '4x2_1.css']));
         }
@@ -481,7 +481,8 @@ export default function Product() {
     const getProductPrint = (id, br, pr, nm) => (e) => {
         e.preventDefault();
         e.stopPropagation();
-        window.open(`/bc.php?bc=${br}&pr=${pr}&nm=${nm}`);
+        let price = pr.toFixed(2)
+        window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
     };
     let newcols = [];
     useEffect(() => {

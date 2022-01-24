@@ -403,7 +403,7 @@ function EnterDetail({ handleOpenCatalog, selectList, catalogVisible }) {
       </Spin>
     );
 
-  if (error) return "An error has occurred: " + error.message;
+//   if (error) return "An error has occurred: " + error.message;
 
   if (redirect)
     return (

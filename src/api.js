@@ -1128,5 +1128,17 @@ export const fetchSettings = async (obj) => {
 	);
     Object.entries(data.Body).map((item) => {
         localStorage.setItem(item[0], item[1])
+        console.log(localStorage.getItem(item[0]))
     })
 };
+export  const increaseBalance = async value => {
+	var obj = {
+		token: localStorage.getItem("access-token"),
+	};
+	Object.assign(obj, value);
+    const res = await axios.post (`${API_BASE}/controllers/merch/put.php`, obj);
+    if (res.data.Body.ResponseStatus === '0') {
+      window.open (res.data.Body.ResponseService);
+    }
+  };
+

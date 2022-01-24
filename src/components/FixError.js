@@ -53,7 +53,7 @@ function FixError() {
 
     if (isLoading) return "Yüklənir...";
 
-    if (error) return "An error has occurred: " + error.message;
+    // if (error) return "An error has occurred: " + error.message;
 
     const expandedRowRender = (e, datas) => {
         const columns = [

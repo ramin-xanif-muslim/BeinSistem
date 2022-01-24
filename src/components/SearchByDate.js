@@ -1,8 +1,10 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { useTableCustom } from "../contexts/TableContext";
 import style from "./SearchByDate.module.css";
 
 function SearchByDate({ getSearchObjByDate, defaultSort }) {
+    const { setSelectedDateId } = useTableCustom()
     const [activId, setActivId] = useState(0);
 
     const [dates, setDates] = useState([
@@ -34,7 +36,7 @@ function SearchByDate({ getSearchObjByDate, defaultSort }) {
     ]);
     const obj = {
         pg: 0,
-        dr: 0,
+        dr: 1,
         momb: "",
         mome: "",
         sr: defaultSort ? defaultSort : "Moment",
@@ -117,6 +119,7 @@ function SearchByDate({ getSearchObjByDate, defaultSort }) {
     const onClick = (i) => {
         select(i);
         setActivId(i);
+        setSelectedDateId(i)
     };
 
     return (

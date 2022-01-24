@@ -183,7 +183,12 @@ export default function Owners() {
 				dataIndex: "Login",
 				title: "İstifadəçi adı",
 				render: (value, row, index) => {
-					return "admin@" + value;
+                    if(value === "kassa") {
+                        return "kassa@farid"
+                    }
+                    else {
+                        return "admin@" + value;
+                    }
 				},
 			},
 			{

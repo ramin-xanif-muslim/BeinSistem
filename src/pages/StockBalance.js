@@ -644,7 +644,7 @@ export default function StockBalance() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
-						// from="stockbalance"
+						from="stockbalance"
 						settings={filterSetting}
 						cols={filters}
 					/>

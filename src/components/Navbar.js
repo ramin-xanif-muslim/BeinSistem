@@ -22,6 +22,7 @@ import {
 import "../Navbar.css";
 import { useNotification } from "../hooks/useNotification";
 import sendRequest from "../config/sentRequest";
+import { IncreaseBalance } from "./modal/IncreaseBalance";
 function Navbar() {
     const {
         setMark,
@@ -48,6 +49,7 @@ function Navbar() {
     const [showBalance, setShowBalance] = useState(false);
     const [companyname, setCompany] = useState(null);
     const [activeItem, setActiveItem] = useState(firstLogin ? "Məhsullar" : "");
+    const [visible, setVisible] = useState(false);
 
     const onClickNotification = () => {
         getNotification()
@@ -151,6 +153,12 @@ function Navbar() {
         setActiveSubItem(name);
         setAdvancedPage(0);
         localStorage.setItem("activesubmenu", name);
+    };
+    const closeBalance = () => {
+      setVisible(false);
+    };
+    const openBalance = () => {
+      setVisible(true);
     };
     if (isLoading) return null;
 
@@ -285,7 +293,7 @@ function Navbar() {
                                 <Dropdown.Item>
                                     <span>Xəbərlər</span>
                                 </Dropdown.Item>
-                                <Dropdown.Item>
+                                <Dropdown.Item onClick={openBalance}>
                                     <span>Balans: <span style={{fontFamily: "Calibri"}}>{balance} ₼</span></span>
                                 </Dropdown.Item>
                                 <Dropdown.Divider />
@@ -342,6 +350,8 @@ function Navbar() {
             >
                 <p className="exitModalBodyText">Balans bitib</p>
             </Modal>
+            
+            <IncreaseBalance closeBalance={closeBalance} visible={visible} />
         </div>
     );
 }

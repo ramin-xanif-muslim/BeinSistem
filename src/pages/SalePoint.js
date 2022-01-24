@@ -203,7 +203,7 @@ export default function SalePoint() {
                 key: "6",
                 label: "Dəyişmə tarixi",
                 name: "modifedDate",
-                type: "date",
+                type: "dateOfChange",
                 hidden: true,
             },
             {

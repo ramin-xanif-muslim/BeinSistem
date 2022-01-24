@@ -76,7 +76,7 @@ function CustomerGroup() {
             </Spin>
         );
 
-    if (error) return "An error has occurred: " + error.message;
+    // if (error) return "An error has occurred: " + error.message;
 
     if (redirect) return <Redirect to={`/editCustomerGroup/${editId}`} />;
 
