@@ -113,7 +113,7 @@ function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [columnChange, setColumnChange] = useState(false);
     const [initial, setInitial] = useState(null);
-    
+
     const { allsum, allQuantity } = useGetDocItems();
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
@@ -132,15 +132,15 @@ function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        if(customerId) {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
@@ -338,7 +338,6 @@ function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         });
         setCreatedStock(null);
     };
-    
 
     var objOwner;
     owners
@@ -426,7 +425,7 @@ function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                                 setPaymentModal(true);
                             }
                         }
-                        fetchDebt()
+                        fetchDebt();
                     } else {
                         message.error({
                             content: (
@@ -496,7 +495,7 @@ function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             sm={9}
                             md={9}
                             xl={9}
-                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
                         >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
@@ -506,21 +505,41 @@ function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                                 />
                             </div>
                         </Col>
-            <Col xs={5} sm={5} md={5} xl={5}>
-              <Button onClick={handleOpenCatalog} type="primary">
-                Kataloq
-              </Button>
-            </Col>
-                        <Dropdown
-                            overlay={menu}
-                            onVisibleChange={handleVisibleChange}
-                            visible={visibleMenuSettings}
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
-                                <SettingOutlined />
+                            <Button onClick={handleOpenCatalog} type="primary">
+                                Məhsullar
                             </Button>
-                        </Dropdown>
+                        </Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
+                        >
+                            <Dropdown
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <Button className="flex_directon_col_center">
+                                    {" "}
+                                    <SettingOutlined />
+                                </Button>
+                            </Dropdown>
+                        </Col>
                         <Col
                             xs={24}
                             sm={24}
@@ -533,8 +552,8 @@ function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
-                selectList={selectList}
-                catalogVisible={catalogVisible}
+                                selectList={selectList}
+                                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>

@@ -13,7 +13,7 @@ import { Redirect } from "react-router";
 import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
-
+import { PrinterOutlined } from "@ant-design/icons";
 import {
     DeleteOutlined,
     PlusOutlined,
@@ -367,6 +367,32 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                 },
             },
             {
+                dataIndex: "PrintBarcode",
+                title: "Print",
+                // show: initial
+                //     ? Object.values(initial).find(
+                //           (i) => i.dataIndex === "PrintBarcode"
+                //       ).show
+                //     : true,
+                className: "activesort",
+                isVisible: true,
+                render: (value, row, index) => {
+                    return (
+                        <span
+                            style={{ color: "#1164B1" }}
+                            onClick={getProductPrint(
+                                row.ProductId,
+                                row.BarCode,
+                                row.IsPack === 1 ? row.PackPrice : row.Price,
+                                row.Name
+                            )}
+                        >
+                            <PrinterOutlined />
+                        </span>
+                    );
+                },
+            },
+            {
                 title: "Sil",
                 className: "orderField printField",
                 dataIndex: "operation",
@@ -387,6 +413,13 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
             },
         ];
     }, [consumption, outerDataSource, docSum]);
+
+    const getProductPrint = (id, br, pr, nm) => (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let price = Number(pr).toFixed(2);
+        window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
+    };
 
     useEffect(() => {
         setInitial(columns);
@@ -619,7 +652,7 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             sm={9}
                             md={9}
                             xl={9}
-                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
                         >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
@@ -629,21 +662,41 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                                 />
                             </div>
                         </Col>
-                        <Col xs={5} sm={5} md={5} xl={5}>
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
                             <Button onClick={handleOpenCatalog} type="primary">
-                                Kataloq
+                                Məhsullar
                             </Button>
                         </Col>
-                        <Dropdown
-                            overlay={menu}
-                            onVisibleChange={handleVisibleChange}
-                            visible={visibleMenuSettings}
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
-                                <SettingOutlined />
-                            </Button>
-                        </Dropdown>
+                            <Dropdown
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <Button className="flex_directon_col_center">
+                                    {" "}
+                                    <SettingOutlined />
+                                </Button>
+                            </Dropdown>
+                        </Col>
                         <Col
                             xs={24}
                             sm={24}

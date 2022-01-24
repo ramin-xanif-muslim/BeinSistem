@@ -400,9 +400,9 @@ function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-            if (!values.status) {
-                values.status = status;
-            }
+        if (!values.status) {
+            values.status = status;
+        }
 
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         const nameres = await getDocName(values.name);
@@ -436,7 +436,6 @@ function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
             });
         }
     };
-    
 
     var objOwner;
     owners
@@ -485,7 +484,7 @@ function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
                             sm={9}
                             md={9}
                             xl={9}
-                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
                         >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
@@ -495,21 +494,41 @@ function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
                                 />
                             </div>
                         </Col>
-            <Col xs={5} sm={5} md={5} xl={5}>
-              <Button onClick={handleOpenCatalog} type="primary">
-                Kataloq
-              </Button>
-            </Col>
-                        <Dropdown
-                            overlay={menu}
-                            onVisibleChange={handleVisibleChange}
-                            visible={visibleMenuSettings}
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
-                                <SettingOutlined />
+                            <Button onClick={handleOpenCatalog} type="primary">
+                                Məhsullar
                             </Button>
-                        </Dropdown>
+                        </Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
+                        >
+                            <Dropdown
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <Button className="flex_directon_col_center">
+                                    {" "}
+                                    <SettingOutlined />
+                                </Button>
+                            </Dropdown>
+                        </Col>
                         <Col
                             xs={24}
                             sm={24}
@@ -522,8 +541,8 @@ function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
-                selectList={selectList}
-                catalogVisible={catalogVisible}
+                                selectList={selectList}
+                                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>

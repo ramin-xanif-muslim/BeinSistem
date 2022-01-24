@@ -105,15 +105,15 @@ function SupplyReturnLinked(props) {
         message.destroy();
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        if(customerId) {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
@@ -304,7 +304,7 @@ function SupplyReturnLinked(props) {
             });
             setEditId(res.Body.ResponseService);
             audio.play();
-            fetchDebt()
+            fetchDebt();
             // setRedirect(true);
         } else {
             message.error({
@@ -392,7 +392,9 @@ function SupplyReturnLinked(props) {
                         >
                             <DocTable
                                 headers={columns}
-                                datas={debt && props.location.state.data.Positions}
+                                datas={
+                                    debt && props.location.state.data.Positions
+                                }
                             />
                         </Col>
                     </Row>

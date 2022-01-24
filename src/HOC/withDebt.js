@@ -18,8 +18,8 @@ function withDebt(Component, data) {
         }, []);
         useEffect(() => {
             fetchDebt(customerId);
-        }, [customerId]);
-        return (
+        }, [customerId]); 
+        return(
             <div>
                 <Component { ...props } debt={debt} />
             </div>
