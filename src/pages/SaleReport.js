@@ -778,6 +778,9 @@ export default function SaleReport() {
                                             : c.dataIndex === "RetSumCost"
                                             ? ConvertFixedTable(retAllCost) +
                                               " ₼"
+                                            : c.dataIndex === "Percent"
+                                            ? ConvertFixedTable(data.Body.Margin) +
+                                              " ₼"
                                             : c.dataIndex === "RetSumPrice"
                                             ? ConvertFixedTable(retAllAmount) +
                                               " ₼"

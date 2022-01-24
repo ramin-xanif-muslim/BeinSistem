@@ -16,7 +16,7 @@ import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
 import {
-	DeleteOutlined,
+	SettingOutlined,
 	PlusOutlined,
 	EditOutlined,
 	CloseCircleOutlined,
@@ -124,6 +124,10 @@ function DemandReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
 
+	const [initial, setInitial] = useState(null);
+	const [columnChange, setColumnChange] = useState(false);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
 	const { allsum, allQuantity } = useGetDocItems();
 
 	const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
@@ -149,6 +153,14 @@ function DemandReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		let res = await api.fetchDebt(id ? id : customerId);
 		setDebt(ConvertFixedTable(res));
 	};
+
+	useEffect(() => {
+		setColumnChange(false);
+	}, [columnChange]);
+
+	useEffect(() => {
+		setInitial(columns);
+	}, []);
 	useEffect(() => {
 		if (customerId) {
 			fetchDebt(customerId);
@@ -462,6 +474,52 @@ function DemandReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			}
 		);
 	};
+	const handleVisibleChange = (flag) => {
+		setVisibleMenuSettings(flag);
+	};
+
+	const onChangeMenu = (e) => {
+		var initialCols = initial;
+		var findelement;
+		var findelementindex;
+		var replacedElement;
+		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+		console.log(findelement);
+		findelementindex = initialCols.findIndex(
+			(c) => c.dataIndex === e.target.id
+		);
+		findelement.isVisible = e.target.checked;
+		replacedElement = findelement;
+		initialCols.splice(findelementindex, 1, {
+			...findelement,
+			...replacedElement,
+		});
+		setColumnChange(true);
+	};
+
+	const menu = (
+		<Menu>
+			<Menu.ItemGroup title="Sutunlar">
+				{Object.values(columns).map((d) => (
+					<Menu.Item key={d.dataIndex}>
+						<Checkbox
+							id={d.dataIndex}
+							disabled={
+								columns.length === 3 && d.isVisible === true
+									? true
+									: false
+							}
+							isVisible={d.isVisible}
+							onChange={(e) => onChangeMenu(e)}
+							defaultChecked={d.isVisible}
+						>
+							{d.title}
+						</Checkbox>
+					</Menu.Item>
+				))}
+			</Menu.ItemGroup>
+		</Menu>
+	);
 
 	const panes = [
 		{
@@ -482,6 +540,27 @@ function DemandReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							<Button onClick={handleOpenCatalog} type="primary">
 								Kataloq
 							</Button>
+						</Col>
+						<Col
+							style={{
+								display: "flex",
+								justifyContent: "flex-end",
+							}}
+							xs={10}
+							sm={10}
+							md={10}
+							xl={10}
+						>
+							<Dropdown
+								overlay={menu}
+								onVisibleChange={handleVisibleChange}
+								visible={visibleMenuSettings}
+							>
+								<Button className="flex_directon_col_center">
+									{" "}
+									<SettingOutlined />
+								</Button>
+							</Dropdown>
 						</Col>
 						<Col
 							xs={24}
