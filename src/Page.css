@@ -114,7 +114,9 @@
 .ui.menu .active.item {
     color: #0288d1 !important;
 }
-.formWrapper, .doc_wrapper, .doc_name_wrapper {
+.formWrapper,
+.doc_wrapper,
+.doc_name_wrapper {
     background: #f6f6f6;
 }
 .ui.segment.active.tab {
@@ -499,8 +501,12 @@ tbody > tr:hover td {
     padding: 0 0.5rem;
 }
 
-.customsavebtn.ant-btn[disabled] { color: #000 !important }
-.customsavebtn.ant-btn[disabled]:hover { color: #fff !important }
+.customsavebtn.ant-btn[disabled] {
+    color: #000 !important;
+}
+.customsavebtn.ant-btn[disabled]:hover {
+    color: #fff !important;
+}
 
 .drawertable th {
     color: #1164b1 !important;
@@ -774,8 +780,8 @@ tbody .ant-table-cell {
 
 @media screen and (max-width: 1200px) {
     .ui.menu {
-        overflow-x: scroll;
-        overflow-y: hidden !important;
+        /* overflow-x: scroll; */
+        /* overflow-y: hidden !important; */
     }
 
     .page_heder_left h2 {
@@ -785,7 +791,7 @@ tbody .ant-table-cell {
 
 @media screen and (max-width: 576px) {
     .ui.menu {
-        overflow-x: hidden;
+        /* overflow-x: hidden; */
     }
 
     body,
