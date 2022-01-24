@@ -780,8 +780,8 @@ tbody .ant-table-cell {
 
 @media screen and (max-width: 1200px) {
     .ui.menu {
-        /* overflow-x: scroll; */
-        /* overflow-y: hidden !important; */
+        overflow-x: scroll;
+        overflow-y: hidden !important;
     }
 
     .page_heder_left h2 {
@@ -791,7 +791,7 @@ tbody .ant-table-cell {
 
 @media screen and (max-width: 576px) {
     .ui.menu {
-        /* overflow-x: hidden; */
+        overflow-x: hidden;
     }
 
     body,
