@@ -36,6 +36,9 @@ export async function sendRequest(url, obj) {
 	obj.token = localStorage.getItem("access-token");
 	const res = await axios.post(API_BASE + `/controllers/` + url, obj);
 
+    if (url === "producttransactions/get.php") {
+        return res
+    }
 	if (
 		obj.token === "" ||
 		res.data.Headers.ResponseStatus === "104" ||
