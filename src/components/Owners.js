@@ -48,6 +48,7 @@ export default function Owners() {
 	const [permission, setPermission] = useState(null);
 	const [permissionload, setPermissionLoad] = useState(false);
 	const [ isUpdatePage, setIsUpdatePage ] = useState(false);
+	const [ companyName, setCompanyName ] = useState(false);
 	const queryClient = useQueryClient();
 	const { departments, setDepartments, setDepartmentsLocalStorage } =
 		useTableCustom();
@@ -63,8 +64,10 @@ export default function Owners() {
         }}
 
 	useEffect(() => {
+        setCompanyName(JSON.parse(localStorage.getItem( "user" )).Login.slice(6))
+        console.log('companyName',companyName)
 		getDepartments();
-	}, []);
+	}, [companyName]);
 	useEffect(async() => {
         updatePage()
 	}, [isUpdatePage]);
@@ -172,7 +175,7 @@ export default function Owners() {
 				title: "№",
 				dataIndex: "Order",
 				show: true,
-				render: (text, record, index) => index + 1 + 25 * 0,
+				render: (text, record, index) => index + 1 + 100 * 0,
 			},
 			{
 				dataIndex: "Name",
@@ -184,7 +187,10 @@ export default function Owners() {
 				title: "İstifadəçi adı",
 				render: (value, row, index) => {
                     if(value === "kassa") {
-                        return "kassa@farid"
+                        if(companyName) {
+                            return "kassa@" + companyName
+                        }
+                        
                     }
                     else {
                         return "admin@" + value;

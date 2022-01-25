@@ -267,7 +267,7 @@ export default function ProductTransactions() {
 				key: "4",
 				label: "Anbar",
 				name: "stockName",
-				type: "treeSelect",
+				type: "select",
 				controller: "stocks",
 				dataIndex: "stockName",
 				show: initialfilter
