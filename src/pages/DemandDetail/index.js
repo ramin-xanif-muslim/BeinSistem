@@ -98,8 +98,7 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         loadingForm,
         setStockDrawer,
         setCustomerDrawer,
-        customerDrawer,
-        stockDrawer,
+        setProductModal,
         createdStock,
         createdCustomer,
         setCreatedStock,
@@ -312,67 +311,6 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                     return ConvertFixedTable(value);
                 },
             },
-            // {
-            //     title: "Maya",
-            //     dataIndex: "CostPr",
-            //     className: "max_width_field",
-            //     isVisible: true,
-            //     editable: false,
-            //     sortDirections: ["descend", "ascend"],
-            //     render: (value, row, index) => {
-            //         let defaultCostArray = [];
-            //         let consumtionPriceArray = [];
-            //         outerDataSource.forEach((p) => {
-            //             defaultCostArray.push(Number(p.CostPrice));
-            //         });
-            //         if (hasConsumption) {
-            //             consumtionPriceArray = [];
-            //             outerDataSource.forEach((p) => {
-            //                 consumtionPriceArray.push(
-            //                     FindAdditionals(
-            //                         consumption,
-            //                         docSum,
-            //                         Number(p.CostPrice)
-            //                     )
-            //                 );
-            //             });
-            //             return ConvertFixedTable(consumtionPriceArray[index]);
-            //         } else {
-            //             return ConvertFixedTable(defaultCostArray[index]);
-            //         }
-            //     },
-            // },
-            // {
-            //     title: "Cəm Maya",
-            //     dataIndex: "CostTotalPr",
-            //     className: "max_width_field",
-            //     isVisible: true,
-            //     editable: false,
-            //     sortDirections: ["descend", "ascend"],
-            //     render: (value, row, index) => {
-            //         let defaultCostArray = [];
-            //         let consumtionPriceArray = [];
-            //         outerDataSource.forEach((p) => {
-            //             defaultCostArray.push(Number(p.TotalPrice));
-            //         });
-            //         if (hasConsumption) {
-            //             consumtionPriceArray = [];
-            //             outerDataSource.forEach((p) => {
-            //                 consumtionPriceArray.push(
-            //                     FindAdditionals(
-            //                         consumption,
-            //                         docSum,
-            //                         Number(p.TotalPrice)
-            //                     )
-            //                 );
-            //             });
-
-            //             return ConvertFixedTable(consumtionPriceArray[index]);
-            //         } else {
-            //             return ConvertFixedTable(defaultCostArray[index]);
-            //         }
-            //     },
-            // },
             {
                 title: "Sil",
                 className: "orderField printField",
@@ -616,7 +554,7 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
                                 <PlusOutlined
-                                    // onClick={() => setProductModal(true)}
+                                    onClick={() => setProductModal(true)}
                                     className="addNewProductIcon"
                                 />
                             </div>

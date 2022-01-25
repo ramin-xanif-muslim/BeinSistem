@@ -96,11 +96,14 @@ function PaymentOutModal({ datas, title, endPoint }) {
     customers
         ? (objCustomers = customers)
         : (objCustomers = JSON.parse(localStorage.getItem("customers")));
-    const customerOptions = Object.values(objCustomers).map((c) => (
-        <Option key={c.Id} value={c.Id}>
-            {c.Name}
-        </Option>
-    ));
+    let customerOptions;
+    if(objCustomers) {
+        customerOptions = Object.values(objCustomers).map((c) => (
+            <Option key={c.Id} value={c.Id}>
+                {c.Name}
+            </Option>
+        ));
+    }
     var ownerList;
     owners
         ? (ownerList = owners)

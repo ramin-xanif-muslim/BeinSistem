@@ -291,7 +291,7 @@ export default function Product() {
                 dataIndex: "Order",
                 title: "№",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "Name",
@@ -481,8 +481,12 @@ export default function Product() {
     const getProductPrint = (id, br, pr, nm) => (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let price = pr.toFixed(2)
-        window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
+        let price = Number(pr).toFixed(2)
+        if(localStorage.getItem("tempdesign") === "4x2_3.css") {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}&r=4`);
+        }else {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
+        }
     };
     let newcols = [];
     useEffect(() => {
@@ -737,7 +741,6 @@ export default function Product() {
                                 }
                                 content="Filter"
                             />
-                            {/* <FastSearch className="search_header" /> */}
                             <MyFastSearch
                                 searchFunc={searchFunc}
                                 setSearchTerm={setProductSearchTerm}

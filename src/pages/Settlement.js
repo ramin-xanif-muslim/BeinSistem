@@ -111,7 +111,7 @@ export default function Settlement() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "CustomerName",
@@ -470,7 +470,7 @@ export default function Settlement() {
             </Row>
             <Table
                 id="settlement-table"
-                className="short-table"
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show === true)}
                 onChange={onChange}
@@ -489,17 +489,17 @@ export default function Settlement() {
                                             <span>Cəm</span>
                                         ) : c.dataIndex === "PayIn" ? (
                                             <span>
-                                                {allinsum}
+                                                {ConvertFixedTable(allinsum)}
                                                 <sup>₼</sup>
                                             </span>
                                         ) : c.dataIndex === "PayOut" ? (
                                             <span>
-                                                {alloutsum}
+                                                {ConvertFixedTable(alloutsum)}
                                                 <sup>₼</sup>
                                             </span>
                                         ) : c.dataIndex === "Current" ? (
                                             <span>
-                                                {allcurrentsum}
+                                                {ConvertFixedTable(allcurrentsum)}
                                                 <sup>₼</sup>
                                             </span>
                                         ) : null}

@@ -74,7 +74,9 @@ export const CascaderBcTemplates = (props) => {
 	};
     useEffect(() => {
         let str = localStorage.getItem("tempdesign")
-        localStorage.setItem("temppath", JSON.stringify([str.slice(0,3), str]));
+        if(str) {
+            localStorage.setItem("temppath", JSON.stringify([str.slice(0,3), str]));
+        }
     },[])
 	return (
 		<div>

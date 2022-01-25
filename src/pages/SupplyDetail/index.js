@@ -369,11 +369,6 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
             {
                 dataIndex: "PrintBarcode",
                 title: "Print",
-                // show: initial
-                //     ? Object.values(initial).find(
-                //           (i) => i.dataIndex === "PrintBarcode"
-                //       ).show
-                //     : true,
                 className: "activesort",
                 isVisible: true,
                 render: (value, row, index) => {
@@ -383,7 +378,7 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             onClick={getProductPrint(
                                 row.ProductId,
                                 row.BarCode,
-                                row.IsPack === 1 ? row.PackPrice : row.Price,
+                                row.IsPack === 1 ? row.PackPrice : row.BasicPrice,
                                 row.Name
                             )}
                         >
@@ -418,7 +413,11 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         e.preventDefault();
         e.stopPropagation();
         let price = Number(pr).toFixed(2);
-        window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
+        if(localStorage.getItem("tempdesign") === "4x2_3.css") {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}&r=4`);
+        }else {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
+        }
     };
 
     useEffect(() => {

@@ -13,6 +13,7 @@ import { Redirect } from "react-router";
 import { Tab } from "semantic-ui-react";
 import Catalog from "../../components/Catalog";
 import ProductModal from "../../components/ProductModal";
+import { PrinterOutlined } from "@ant-design/icons";
 import {
     PlusOutlined,
     SettingOutlined,
@@ -318,6 +319,27 @@ function EnterDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                 },
             },
             {
+                dataIndex: "PrintBarcode",
+                title: "Print",
+                className: "activesort",
+                isVisible: true,
+                render: (value, row, index) => {
+                    return (
+                        <span
+                            style={{ color: "#1164B1" }}
+                            onClick={getProductPrint(
+                                row.ProductId,
+                                row.BarCode,
+                                row.IsPack === 1 ? row.PackPrice : row.BasicPrice,
+                                row.Name
+                            )}
+                        >
+                            <PrinterOutlined />
+                        </span>
+                    );
+                },
+            },
+            {
                 title: "Sil",
                 className: "orderField printField",
                 dataIndex: "operation",
@@ -338,6 +360,17 @@ function EnterDetail({ handleOpenCatalog, selectList, catalogVisible }) {
             },
         ];
     }, [consumption, outerDataSource, docSum]);
+
+    const getProductPrint = (id, br, pr, nm) => (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let price = Number(pr).toFixed(2);
+        if(localStorage.getItem("tempdesign") === "4x2_3.css") {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}&r=4`);
+        }else {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
+        }
+    };
 
     useEffect(() => {
         setInitial(columns);

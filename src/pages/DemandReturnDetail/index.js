@@ -102,8 +102,7 @@ function DemandReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         loadingForm,
         setStockDrawer,
         setCustomerDrawer,
-        customerDrawer,
-        stockDrawer,
+        setProductModal,
         createdStock,
         createdCustomer,
         setCreatedStock,
@@ -537,7 +536,7 @@ function DemandReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
                                 <PlusOutlined
-                                    // onClick={() => setProductModal(true)}
+                                    onClick={() => setProductModal(true)}
                                     className="addNewProductIcon"
                                 />
                             </div>

@@ -37,6 +37,8 @@ const HandoversDetail = React.lazy(() => import("./pages/HandoversDetail"));
 const CustomerOrderDetail = React.lazy(() =>
     import("./pages/CustomerOrderDetail")
 );
+const ProductTransactions = React.lazy(() => import("./pages/ProductTransactions"));
+
 const StockBalance = React.lazy(() => import("./pages/StockBalance"));
 const NewEnter = React.lazy(() => import("./pages/EnterDetail/new"));
 const NewSupply = React.lazy(() => import("./pages/SupplyDetail/new"));
@@ -387,6 +389,10 @@ function App() {
                             <Route
                                 path="/p=stockbalance"
                                 component={StockBalance}
+                            ></Route>
+                            <Route
+                                path="/p=producttransactions"
+                                component={ProductTransactions}
                             ></Route>
                             <Route
                                 path="/p=product"
