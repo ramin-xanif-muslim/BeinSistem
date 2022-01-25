@@ -23,7 +23,7 @@ import {
     DownOutlined,
     FileExcelOutlined,
     FilePdfOutlined,
-    PrinterOutlined,
+    DownloadOutlined,
 } from "@ant-design/icons";
 import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
@@ -681,9 +681,9 @@ export default function ProductTransactions() {
                                     className="buttons_click"
                                     onClick={getFilterParams}
                                 >
-                                    <PrinterOutlined />
+                                    <DownloadOutlined />
                                     <span style={{ marginLeft: "5px" }}>
-                                        Çap et
+                                        Yüklə
                                     </span>
                                 </Button>
                             </Dropdown>
