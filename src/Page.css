@@ -197,8 +197,23 @@
     color: #000 !important;
 }
 
+.buttons_click {
+    align-items: center;
+}
+.buttons_click span {
+    color: #000 !important;
+}
+.buttons_click svg {
+    color: var(--dark-blue) !important;
+}
+
 .ui.animated.button.buttons_click svg {
     color: #1164b1;
+}
+
+.download-menu {
+    display: flex;
+    flex-direction: column;
 }
 
 .status_label {
