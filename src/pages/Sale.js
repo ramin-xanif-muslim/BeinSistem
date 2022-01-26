@@ -635,15 +635,16 @@ export default function Sale() {
                 <Col xs={24} md={24} xl={20}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}

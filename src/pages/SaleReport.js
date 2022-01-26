@@ -680,15 +680,16 @@ export default function SaleReport() {
 				<Col xs={24} md={24} xl={19}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<Button
-								className="filter_button buttons_click"
-								onClick={() =>
-									display === "none"
-										? setdisplay("block")
-										: setdisplay("none")
-								}
-								content="Filter"
-							/>
+							<button
+                                className="new-button"
+                                onClick={() =>
+                                    display === "none"
+                                        ? setdisplay("block")
+                                        : setdisplay("none")
+                                }
+                            >
+                                Filter
+                            </button>
 							{/* <FastSearch className="search_header" /> */}
 							<MyFastSearch
 								searchFunc={searchFunc}

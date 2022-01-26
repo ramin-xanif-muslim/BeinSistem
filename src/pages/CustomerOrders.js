@@ -653,15 +653,16 @@ export default function CustomerOrders() {
                                 redirectto={"/newcustomerorders"}
                                 animate={"Yarat"}
                             />
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}

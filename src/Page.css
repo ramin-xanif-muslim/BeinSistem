@@ -802,6 +802,21 @@ tbody .ant-table-cell {
     margin: 0;
 }
 
+.new-button {
+    padding: 0 10px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: -webkit-linear-gradient(top, #fff, #e6e6e6);
+}
+.new-button:active {
+    background: #f2f2f2 !important;
+}
+.new-button:hover {
+    background: #fff;
+}
+
 @media screen and (max-width: 1200px) {
     .page_heder_left h2 {
         margin-bottom: 12px;
