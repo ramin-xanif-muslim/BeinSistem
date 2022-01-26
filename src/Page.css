@@ -803,21 +803,17 @@ tbody .ant-table-cell {
 }
 
 @media screen and (max-width: 1200px) {
-    .ui.menu {
-        overflow-x: scroll;
-        overflow-y: hidden !important;
-    }
-
     .page_heder_left h2 {
         margin-bottom: 12px;
+    }
+
+    body {
+        min-width: 180vw;
+        height: auto;
     }
 }
 
 @media screen and (max-width: 576px) {
-    .ui.menu {
-        overflow-x: hidden;
-    }
-
     body,
     .doc_wrapper {
         width: max-content !important;
