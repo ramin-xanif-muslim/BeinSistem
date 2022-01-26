@@ -787,6 +787,10 @@ tbody .ant-table-cell {
     letter-spacing: 1px;
 }
 
+.doc-table-inner > div > div > div {
+    z-index: 0;
+}
+
 .settings-prices-text span {
     color: #d40000;
 }
@@ -815,6 +819,11 @@ tbody .ant-table-cell {
 }
 .new-button:hover {
     background: #fff;
+}
+.new-filter-active {
+    border-radius: 3px;
+    border: solid 1px #1f75a8;
+    background-image: linear-gradient(to bottom, #82bfea, #1f75a8);
 }
 
 @media screen and (max-width: 1200px) {

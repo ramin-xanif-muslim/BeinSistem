@@ -384,7 +384,11 @@ export default function Return() {
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
                             <button
-                                className={isEnterFilterValue ? "" : "new-button"}
+                                className={
+                                    isEnterFilterValue
+                                        ? "new-button new-filter-active"
+                                        : "new-button"
+                                }
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")

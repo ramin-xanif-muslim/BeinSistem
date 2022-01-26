@@ -543,7 +543,7 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
             menuItem: "Əsas",
             render: () => (
                 <Tab.Pane attached={false}>
-                    <Row>
+                    <Row style={{ justifyContent: "space-between" }}>
                         <Col
                             xs={9}
                             sm={9}
