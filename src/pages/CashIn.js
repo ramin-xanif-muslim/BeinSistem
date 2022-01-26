@@ -411,6 +411,7 @@ export default function CashIn() {
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
+                                defaultCheckedDate={1}
                             />
                         </div>
                         <div>{tableSettings}</div>

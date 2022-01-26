@@ -43,6 +43,8 @@ function FilterComponent({ from, settings, cols }) {
 		display,
 		selectedDateId,
 		setSelectedDateId,
+        isEnterFilterValue,
+        setIsEnterFilterValue,
 	} = useTableCustom();
 	const [form] = Form.useForm();
 
@@ -128,6 +130,7 @@ function FilterComponent({ from, settings, cols }) {
 	};
 
 	function allClear() {
+        setIsEnterFilterValue(false)
 		setSelectFilter([]);
 		setChanged(true);
 		form.resetFields();
@@ -612,6 +615,7 @@ function FilterComponent({ from, settings, cols }) {
 	};
 
 	const onFinish = (values) => {
+        setIsEnterFilterValue(true)
 		console.log(values);
 		// const rangeCreateValue = values["createdDate"];
 		const rangeModifyValue = values["modifedDate"];
@@ -702,20 +706,6 @@ function FilterComponent({ from, settings, cols }) {
 			}
 		}
 	}, [advanced]);
-
-	// var defaults = {
-	//   ar: "Xeyr",
-	//   wg: "",
-	//   zeros: "0 olmayanlar",
-	// };
-
-	// var initialvalues = { ...defaults, ...selectFilter };
-	// Object.entries(initialvalues).filter(([key, value]) => {
-	//   if (key.includes("_id")) {
-	//     delete initialvalues[`${key}`];
-	//   }
-	// });
-	// console.log(initialvalues);
 
 	return (
 		<div className="filter_wrapper" style={{ display: display }}>

@@ -394,6 +394,7 @@ export default function Return() {
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
+                                defaultCheckedDate={1}
                             />
                         </div>
                     </div>

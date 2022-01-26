@@ -44,6 +44,7 @@ const TableProvider = ({ children }) => {
   const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState("");
   const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
   const [selectedDateId, setSelectedDateId] = useState(null);
+  const [isEnterFilterValue, setIsEnterFilterValue] = useState(false);
   const [settingsObj, setSettingsObj] = useState({token: localStorage.getItem("access-token")})
 
   const [balance, setBalance] = useState(0);
@@ -188,6 +189,8 @@ const TableProvider = ({ children }) => {
     setCatalog,
     selectedDateId,
     setSelectedDateId,
+    isEnterFilterValue,
+    setIsEnterFilterValue,
   };
 
   return (

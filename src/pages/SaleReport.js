@@ -699,6 +699,7 @@ export default function SaleReport() {
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
 								defaultSort={"ProductName"}
+                                defaultCheckedDate={1}
 							/>
 						</div>
 					</div>

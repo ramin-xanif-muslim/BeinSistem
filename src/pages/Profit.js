@@ -285,6 +285,7 @@ export default function Profit() {
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
+                                defaultCheckedDate={3}
                             />
                         </div>
                     </div>
