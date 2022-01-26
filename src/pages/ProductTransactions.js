@@ -490,9 +490,6 @@ export default function ProductTransactions() {
         console.log(initialCols);
         setFilterChanged(true);
     };
-    function handlePrintMenuClick(e) {
-        console.log("click", e);
-    }
     const menu = (
         <Menu>
             <Menu.ItemGroup title="Sutunlar">
@@ -514,16 +511,6 @@ export default function ProductTransactions() {
                       ))
                     : null}
             </Menu.ItemGroup>
-        </Menu>
-    );
-    const printMenu = (
-        <Menu onClick={handlePrintMenuClick}>
-            <Menu.Item key="1" icon={<FileExcelOutlined />}>
-                Excel
-            </Menu.Item>
-            <Menu.Item key="2" icon={<FilePdfOutlined />}>
-                PDF
-            </Menu.Item>
         </Menu>
     );
     const filtermenus = (
@@ -621,26 +608,29 @@ export default function ProductTransactions() {
             );
         });
     }
-    const getFilterParams = async () => {
-        console.log(advanced);
+    
+    const printMenu = (
+        <Menu>
+            <Menu.Item key="1" icon={<FileExcelOutlined />} onClick={() => downloadFile("xlsx")}>
+                Excel
+            </Menu.Item>
+            <Menu.Item key="2" icon={<FilePdfOutlined />} onClick={() => downloadFile("pdf")}>
+                PDF
+            </Menu.Item>
+        </Menu>
+    );
+    const downloadFile = async (fileIndex) => {
         Object.assign(advanced, {
             requesttype: 1,
-            printtype: "xlsx",
+            printtype: fileIndex,
         });
-        console.log(advanced);
         let res = await sendRequest("producttransactions/get.php", advanced);
-        console.log(res.data)
-
         const url = window.URL.createObjectURL(new Blob([res.data]));
         const link = document.createElement('a');
         link.href = url;
         link.setAttribute('download', `${Date.now()}.xlsx`);
         document.body.appendChild(link);
         link.click();
-
-        // const blob = new Blob([res.data]);
-        // const fileDownloadUrl = URL.createObjectURL(blob);
-        // URL.revokeObjectURL(fileDownloadUrl);
     };
     if (isLoading)
         return (
@@ -678,7 +668,6 @@ export default function ProductTransactions() {
                             <Dropdown overlay={printMenu}>
                                 <Button
                                     className="buttons_click"
-                                    onClick={getFilterParams}
                                 >
                                     <DownloadOutlined />
                                     <span style={{ marginLeft: "5px" }}>

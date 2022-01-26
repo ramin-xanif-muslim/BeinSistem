@@ -599,6 +599,7 @@ export default function StockBalance() {
 		);
 
 	if (error) return "An error has occurred: " + error.message;
+	if (!data.Body) return "An error has occurred: " + data.Body ;
 
 	function numberWithSpaces(x) {
 		var parts = x.toString().split(".");
