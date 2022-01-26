@@ -45,6 +45,7 @@ export default function Return() {
         advanced,
         setdisplay,
         display,
+        isEnterFilterValue,
     } = useTableCustom();
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -383,7 +384,7 @@ export default function Return() {
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
                             <button
-                                className="new-button"
+                                className={isEnterFilterValue ? "" : "new-button"}
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
