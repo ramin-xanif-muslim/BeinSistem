@@ -141,10 +141,10 @@ function DocButtons({
 				</Link>
 			</Menu.Item>
 			<Menu.Item key="1" onClick={() => downloadFile({id: editid}, "xlsx", from)}>
-            Yüklə xlsx
+                Yüklə xlsx
 			</Menu.Item>
 			<Menu.Item key="2" onClick={() => downloadFile({id: editid}, "pgf", from)}>
-            Yüklə pgf
+                Yüklə pgf
 			</Menu.Item>
 		</Menu>
 	);

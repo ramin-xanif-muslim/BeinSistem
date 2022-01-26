@@ -11,7 +11,10 @@ export const downloadFile = async (advanced, fileIndex, controllers) => {
 	const url = window.URL.createObjectURL(new Blob([res.data]));
 	const link = document.createElement("a");
 	link.href = url;
-	link.setAttribute("download", `${Date.now()}.xlsx`);
+	link.setAttribute("download", `${Date.now()}.${fileIndex}`);
 	document.body.appendChild(link);
 	link.click();
+    
+    // link.download = 'file.' + fileIndex;
+    // link.dispatchEvent(new MouseEvent('click'));
 };

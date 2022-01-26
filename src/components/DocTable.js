@@ -99,6 +99,7 @@ const EditableCell = ({
 
 function DocTable({ headers, datas, from, selectList, catalogVisible }) {
   const {
+    advancedPage,
     setdocPage,
     setDocSum,
     docSum,
@@ -526,6 +527,13 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
         ),
       }}
       pagination={{ defaultPageSize: 100, onChange: handlePagination }}
+                // pagination={{
+                //     current: advancedPage + 1,
+                //     total: 112,
+                //     onChange: handlePagination,
+                //     defaultPageSize: 100,
+                //     showSizeChanger: false,
+                // }}
       columns={columns}
       rowClassName={() => "editable-row"}
     />
