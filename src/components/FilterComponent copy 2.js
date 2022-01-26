@@ -612,9 +612,7 @@ function FilterComponent({ from, settings, cols }) {
 	};
 
 	const onFinish = (values) => {
-		console.log(selectDate);
-		console.log(selectDate[0].format("YYYY-MM-DD HH:mm:ss"));
-		console.log(selectDate[1].format("YYYY-MM-DD HH:mm:ss"));
+		console.log(values);
 		// const rangeCreateValue = values["createdDate"];
 		const rangeModifyValue = values["modifedDate"];
 		const moment = values["moment"];

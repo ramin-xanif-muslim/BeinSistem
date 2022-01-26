@@ -20,18 +20,19 @@ import {
 	ConfigProvider,
 } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
+import { TreeNode } from "antd/lib/tree-select";
+import MyTreeSelect from "./MyTreeSelect";
 const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
 
 moment.locale("az");
 function FilterComponent({ from, settings, cols }) {
-	const [is, setIs] = useState(false);
-	const [selectDate, setSelectDate] = useState();
 	const [loading, setLoading] = useState(false);
 	const [rangeFilter, setRangeFilter] = useState({});
 	const [normalFilter, setNormalFilter] = useState({});
 	const [dropdown, setDropdown] = useState([]);
 	const [changed, setChanged] = useState(false);
+	const [isPrint, setIsPrint] = useState(false);
 	const [initial, setinitial] = useState({});
 	const {
 		setIsFilter,
@@ -41,8 +42,9 @@ function FilterComponent({ from, settings, cols }) {
 		selectFilter,
 		setSelectFilter,
 		display,
-		selectedDateId,
-		setSelectedDateId,
+		setdisplay,
+		concat,
+		setConcat,
 	} = useTableCustom();
 	const [form] = Form.useForm();
 
@@ -163,41 +165,6 @@ function FilterComponent({ from, settings, cols }) {
 		Object.assign(selectFilter, { [n]: v });
 		setSelectFilter(selectFilter);
 	};
-    const onOpenChange = (open) => {
-    //   setIsOpen(open);
-      console.log(open);
-    };
-
-	useEffect(() => {
-		setSelectedDateId(null);
-	}, []);
-
-	useEffect(() => {
-		if (selectedDateId === 1) {
-			setSelectDate([moment().startOf("day"), moment().endOf("day")]);
-		}
-		if (selectedDateId === 2) {
-			setSelectDate([
-				moment().subtract(1, "day").startOf("day"),
-				moment().subtract(1, "day").endOf("day"),
-			]);
-		}
-		if (selectedDateId === 3) {
-			setSelectDate([moment().startOf("month"), moment().endOf("month")]);
-		}
-		if (selectedDateId === 4) {
-			setSelectDate([
-				moment().subtract(1, "month").startOf("month"),
-				moment().subtract(1, "month").endOf("month"),
-			]);
-		}
-		if (selectedDateId === 5) {
-			setSelectDate([]);
-		}
-		if (!selectedDateId) {
-			setSelectDate([]);
-		}
-	}, [selectedDateId]);
 
 	const getFields = () => {
 		const children = [];
@@ -221,6 +188,8 @@ function FilterComponent({ from, settings, cols }) {
 								name={cols[i].name}
 								placeholder={cols[i].label}
 							/>
+						) : cols[i].type === "treeSelect" ? (
+							<MyTreeSelect />
 						) : cols[i].type === "select" ? (
 							<Select
 								className="detail-select"
@@ -467,82 +436,39 @@ function FilterComponent({ from, settings, cols }) {
 								/>
 							</Input.Group>
 						) : cols[i].type === "date" ? (
-							<div>
-								<RangePicker
-									className="detail-input"
-									showTime={{ format: "HH:mm:ss" }}
-									locale={locale}
-									onChange={(date, dateString) =>
-										setSelectDate(date)
-									}
-									{...rangeConfig}
-									value={selectDate}
-									onOpenChange={onOpenChange}
-									format="DD-MM-YYYY HH:mm:ss"
-									ranges={{
-										"Bu gün": [
-											moment().startOf("day"),
-											moment().endOf("day"),
-										],
-										Dünən: [
-											moment()
-												.subtract(1, "day")
-												.startOf("day"),
-											moment()
-												.subtract(1, "day")
-												.endOf("day"),
-										],
-										"Bu ay": [
-											moment().startOf("month"),
-											moment().endOf("month"),
-										],
-										"Keçən ay": [
-											moment()
-												.subtract(1, "month")
-												.startOf("month"),
-											moment()
-												.subtract(1, "month")
-												.endOf("month"),
-										],
-									}}
-								/>
-							</div>
-						) : cols[i].type === "dateOfChange" ? (
-							<div>
-								<RangePicker
-									className="detail-input"
-									showTime={{ format: "HH:mm:ss" }}
-									locale={locale}
-									{...rangeConfig}
-									format="DD-MM-YYYY HH:mm:ss"
-									ranges={{
-										"Bu gün": [
-											moment().startOf("day"),
-											moment().endOf("day"),
-										],
-										Dünən: [
-											moment()
-												.subtract(1, "day")
-												.startOf("day"),
-											moment()
-												.subtract(1, "day")
-												.endOf("day"),
-										],
-										"Bu ay": [
-											moment().startOf("month"),
-											moment().endOf("month"),
-										],
-										"Keçən ay": [
-											moment()
-												.subtract(1, "month")
-												.startOf("month"),
-											moment()
-												.subtract(1, "month")
-												.endOf("month"),
-										],
-									}}
-								/>
-							</div>
+							<RangePicker
+								className="detail-input"
+								showTime={{ format: "HH:mm:ss" }}
+								locale={locale}
+								{...rangeConfig}
+								format="DD-MM-YYYY HH:mm:ss"
+								ranges={{
+									"Bu gün": [
+										moment().startOf("day"),
+										moment().endOf("day"),
+									],
+									Dünən: [
+										moment()
+											.subtract(1, "day")
+											.startOf("day"),
+										moment()
+											.subtract(1, "day")
+											.endOf("day"),
+									],
+									"Bu ay": [
+										moment().startOf("month"),
+										moment().endOf("month"),
+									],
+									"Keçən ay": [
+										moment()
+											.subtract(1, "month")
+											.startOf("month"),
+										moment()
+											.subtract(1, "month")
+											.endOf("month"),
+									],
+								}}
+							/>
 						) : cols[i].type === "selectDefaultZeros" ? (
 							<Select
 								className="deteail-select"
@@ -613,17 +539,17 @@ function FilterComponent({ from, settings, cols }) {
 
 	const onFinish = (values) => {
 		console.log(values);
-		// const rangeCreateValue = values["createdDate"];
+		const rangeCreateValue = values["createdDate"];
 		const rangeModifyValue = values["modifedDate"];
 		const moment = values["moment"];
 		const totalvalues = {
 			...values,
 			moment: moment ? moment.format("DD-MM-YYYY HH:mm:ss") : "",
-			momb: selectDate[0]
-				? selectDate[0].format("YYYY-MM-DD HH:mm:ss")
+			momb: rangeCreateValue
+				? rangeCreateValue[0].format("YYYY-MM-DD HH:mm:ss")
 				: "",
-			mome: selectDate[0]
-				? selectDate[1].format("YYYY-MM-DD HH:mm:ss")
+			mome: rangeCreateValue
+				? rangeCreateValue[1].format("YYYY-MM-DD HH:mm:ss")
 				: "",
 			modb: rangeModifyValue
 				? rangeModifyValue[0].format("YYYY-MM-DD HH:mm:ss")
@@ -644,7 +570,6 @@ function FilterComponent({ from, settings, cols }) {
 				delete totalvalues[`${key}`];
 			}
 		});
-
 		setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance(totalvalues);

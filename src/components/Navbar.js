@@ -121,6 +121,7 @@ function Navbar(props) {
 			}
 		}
 	}, []);
+	//online.bein.az/?token=e71fc9dfdae6e0e1a3d96f38ab9742e1&login=admin@farid
 
 	https: useEffect(() => {
 		fetchNotificationCount();

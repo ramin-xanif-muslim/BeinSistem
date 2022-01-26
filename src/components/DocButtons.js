@@ -12,6 +12,7 @@ import {
 	WarningOutlined,
 } from "@ant-design/icons";
 import { delDoc } from "../api";
+import { downloadFile } from "../config/function";
 
 function DocButtons({
 	editProduct,
@@ -138,6 +139,12 @@ function DocButtons({
 				>
 					A4
 				</Link>
+			</Menu.Item>
+			<Menu.Item key="1" onClick={() => downloadFile({id: editid}, "xlsx", from)}>
+            Yüklə xlsx
+			</Menu.Item>
+			<Menu.Item key="2" onClick={() => downloadFile({id: editid}, "pgf", from)}>
+            Yüklə pgf
 			</Menu.Item>
 		</Menu>
 	);

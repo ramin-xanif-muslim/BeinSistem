@@ -28,6 +28,7 @@ import {
 import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 import FastSearch from "../components/FastSearch";
+import { downloadFile } from "../config/function";
 
 const { Text } = Typography;
 export default function ProductTransactions() {
@@ -611,27 +612,14 @@ export default function ProductTransactions() {
     
     const printMenu = (
         <Menu>
-            <Menu.Item key="1" icon={<FileExcelOutlined />} onClick={() => downloadFile("xlsx")}>
+            <Menu.Item key="1" icon={<FileExcelOutlined />} onClick={() => downloadFile(advanced, "xlsx", "producttransactions")}>
                 Excel
             </Menu.Item>
-            <Menu.Item key="2" icon={<FilePdfOutlined />} onClick={() => downloadFile("pdf")}>
+            <Menu.Item key="2" icon={<FilePdfOutlined />} onClick={() => downloadFile(advanced, "pdf", "producttransactions")}>
                 PDF
             </Menu.Item>
         </Menu>
     );
-    const downloadFile = async (fileIndex) => {
-        Object.assign(advanced, {
-            requesttype: 1,
-            printtype: fileIndex,
-        });
-        let res = await sendRequest("producttransactions/get.php", advanced);
-        const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', `${Date.now()}.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-    };
     if (isLoading)
         return (
             <Spin className="fetchSpinner" tip="Yüklənir...">
@@ -646,7 +634,7 @@ export default function ProductTransactions() {
             <Row className="header_row">
                 <Col xs={24} md={24} xl={4}>
                     <div className="page_heder_left">
-                        <h2>Dövrüyyə</h2>
+                        <h2>Dövriyyə</h2>
                     </div>
                 </Col>
                 <Col xs={24} md={24} xl={20}>
