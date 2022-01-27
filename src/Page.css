@@ -6,7 +6,8 @@
     display: flex;
 }
 
-.ant-table-tbody tr td {
+.ant-table-tbody tr td,
+.ant-table-summary tr td {
     font-family: "Calibri" !important;
 }
 
@@ -813,6 +814,9 @@ tbody .ant-table-cell {
     border: 1px solid #ccc;
     border-radius: 3px;
     background: -webkit-linear-gradient(top, #fff, #e6e6e6);
+    align-items: center;
+    color: #000 !important;
+    height: 32px;
 }
 .new-button:active {
     background: #f2f2f2 !important;
@@ -821,9 +825,24 @@ tbody .ant-table-cell {
     background: #fff;
 }
 .new-filter-active {
+    padding: 0 10px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
     border-radius: 3px;
-    border: solid 1px #1f75a8;
-    background-image: linear-gradient(to bottom, #82bfea, #1f75a8);
+    border: solid 1px var(--dark-blue);
+    background-image: linear-gradient(to bottom, var(--blue), var(--dark-blue));
+    color: #fff;
+    align-items: center;
+}
+.new-button-open {
+    box-shadow: 0 1px 3px #333 inset;
+}
+.link {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-family: "Calibri" !important;
 }
 
 @media screen and (max-width: 1200px) {

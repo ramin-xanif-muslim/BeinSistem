@@ -505,9 +505,13 @@ function LossDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                                 justifyContent: "center",
                             }}
                         >
-                            <Button onClick={handleOpenCatalog} type="primary">
+                            <button
+                                className="new-button"
+                                onClick={handleOpenCatalog}
+                                type="primary"
+                            >
                                 Məhsullar
-                            </Button>
+                            </button>
                         </Col>
                         <Col
                             style={{
@@ -520,14 +524,15 @@ function LossDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             xl={12}
                         >
                             <Dropdown
+                                trigger={"onclick"}
                                 overlay={menu}
                                 onVisibleChange={handleVisibleChange}
                                 visible={visibleMenuSettings}
                             >
-                                <Button className="flex_directon_col_center">
+                                <button className="new-button">
                                     {" "}
                                     <SettingOutlined />
-                                </Button>
+                                </button>
                             </Dropdown>
                         </Col>
                         <Col

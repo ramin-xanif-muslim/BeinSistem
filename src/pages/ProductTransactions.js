@@ -544,10 +544,9 @@ export default function ProductTransactions() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -558,10 +557,9 @@ export default function ProductTransactions() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     let tablesComponents;
@@ -609,13 +607,25 @@ export default function ProductTransactions() {
             );
         });
     }
-    
+
     const printMenu = (
         <Menu>
-            <Menu.Item key="1" icon={<FileExcelOutlined />} onClick={() => downloadFile(advanced, "xlsx", "producttransactions")}>
+            <Menu.Item
+                key="1"
+                icon={<FileExcelOutlined />}
+                onClick={() =>
+                    downloadFile(advanced, "xlsx", "producttransactions")
+                }
+            >
                 Excel
             </Menu.Item>
-            <Menu.Item key="2" icon={<FilePdfOutlined />} onClick={() => downloadFile(advanced, "pdf", "producttransactions")}>
+            <Menu.Item
+                key="2"
+                icon={<FilePdfOutlined />}
+                onClick={() =>
+                    downloadFile(advanced, "pdf", "producttransactions")
+                }
+            >
                 PDF
             </Menu.Item>
         </Menu>
@@ -653,16 +663,14 @@ export default function ProductTransactions() {
                             <FastSearch className="search_header" />
                         </div>
 
-                        <div>
-                            <Dropdown overlay={printMenu}>
-                                <Button
-                                    className="buttons_click"
-                                >
+                        <div style={{ display: "flex" }}>
+                            <Dropdown overlay={printMenu} trigger={"onclick"}>
+                                <button className="new-button">
                                     <DownloadOutlined />
                                     <span style={{ marginLeft: "5px" }}>
                                         Yüklə
                                     </span>
-                                </Button>
+                                </button>
                             </Dropdown>
 
                             {tableSettings}

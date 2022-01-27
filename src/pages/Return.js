@@ -16,6 +16,9 @@ import { useCustomForm } from "../contexts/FormContext";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+
+import classNames from "classnames";
+
 const { Text } = Typography;
 export default function Return() {
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
@@ -362,6 +365,26 @@ export default function Return() {
         setallsum(res.AllSum);
         setFetchSearchByDate(false);
     };
+
+    const tableSettings = (
+        <Dropdown
+            trigger={["click"]}
+            overlay={menu}
+            onVisibleChange={handleVisibleChange}
+            visible={visibleMenuSettings}
+        >
+            <button className="new-button">
+                <SettingOutlined />
+            </button>
+        </Dropdown>
+    );
+
+    let filterClasses = classNames({
+        "new-filter-active": isEnterFilterValue,
+        "new-button": !isEnterFilterValue,
+        "new-button-open": display != "none",
+    });
+
     if (isLoading)
         return (
             <Spin className="fetchSpinner" tip="Yüklənir...">
@@ -384,11 +407,7 @@ export default function Return() {
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
                             <button
-                                className={
-                                    isEnterFilterValue
-                                        ? "new-button new-filter-active"
-                                        : "new-button"
-                                }
+                                className={filterClasses}
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
@@ -403,27 +422,13 @@ export default function Return() {
                                 defaultCheckedDate={1}
                             />
                         </div>
+                        {tableSettings}
                     </div>
                 </Col>
             </Row>
             <Row>
                 <Col xs={24} md={24} xl={24}>
                     <FilterComponent cols={filters} />
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={24} md={24} xl={24} className="setting_button_wrapper">
-                    <Dropdown
-                        trigger={["click"]}
-                        overlay={menu}
-                        onVisibleChange={handleVisibleChange}
-                        visible={visibleMenuSettings}
-                    >
-                        <Button className="flex_directon_col_center">
-                            {" "}
-                            <SettingOutlined />
-                        </Button>
-                    </Dropdown>
                 </Col>
             </Row>
             {isFetchSearchByDate && <Spin />}

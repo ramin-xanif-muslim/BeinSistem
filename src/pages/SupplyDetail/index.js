@@ -378,7 +378,9 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             onClick={getProductPrint(
                                 row.ProductId,
                                 row.BarCode,
-                                row.IsPack === 1 ? row.PackPrice : row.BasicPrice,
+                                row.IsPack === 1
+                                    ? row.PackPrice
+                                    : row.BasicPrice,
                                 row.Name
                             )}
                         >
@@ -413,9 +415,9 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         e.preventDefault();
         e.stopPropagation();
         let price = Number(pr).toFixed(2);
-        if(localStorage.getItem("tempdesign") === "4x2_3.css") {
+        if (localStorage.getItem("tempdesign") === "4x2_3.css") {
             window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}&r=4`);
-        }else {
+        } else {
             window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
         }
     };
@@ -671,9 +673,13 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                                 justifyContent: "center",
                             }}
                         >
-                            <Button onClick={handleOpenCatalog} type="primary">
+                            <button
+                                className="new-button"
+                                onClick={handleOpenCatalog}
+                                type="primary"
+                            >
                                 Məhsullar
-                            </Button>
+                            </button>
                         </Col>
                         <Col
                             style={{
@@ -686,14 +692,15 @@ function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             xl={12}
                         >
                             <Dropdown
+                                trigger={"onclick"}
                                 overlay={menu}
                                 onVisibleChange={handleVisibleChange}
                                 visible={visibleMenuSettings}
                             >
-                                <Button className="flex_directon_col_center">
+                                <button className="new-button">
                                     {" "}
                                     <SettingOutlined />
-                                </Button>
+                                </button>
                             </Dropdown>
                         </Col>
                         <Col

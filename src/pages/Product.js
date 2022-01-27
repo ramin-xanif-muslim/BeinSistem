@@ -71,7 +71,7 @@ export default function Product() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
-        setIsLoadingSearch(true)
+        setIsLoadingSearch(true);
         setProductSearchTerm(value);
         let obj = {
             ar: 0,
@@ -84,7 +84,7 @@ export default function Product() {
         let res = await sendRequest("products/getfast.php", obj);
         setCount(res.Count);
         setProdutcList(res.List);
-        setIsLoadingSearch(false)
+        setIsLoadingSearch(false);
     };
 
     const filters = useMemo(() => {
@@ -185,14 +185,17 @@ export default function Product() {
             },
         ];
     }, [filterChanged]);
-    
+
     useEffect(() => {
-        if(!localStorage.getItem('tempdesign')) {
-            console.log('App.js',localStorage.getItem('tempdesign'))
+        if (!localStorage.getItem("tempdesign")) {
+            console.log("App.js", localStorage.getItem("tempdesign"));
             localStorage.setItem("tempdesign", "4x2_1.css");
-            localStorage.setItem("temppath", JSON.stringify(['4x2', '4x2_1.css']));
+            localStorage.setItem(
+                "temppath",
+                JSON.stringify(["4x2", "4x2_1.css"])
+            );
         }
-    },[])
+    }, []);
 
     let newfilters = [];
 
@@ -278,10 +281,9 @@ export default function Product() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -481,10 +483,10 @@ export default function Product() {
     const getProductPrint = (id, br, pr, nm) => (e) => {
         e.preventDefault();
         e.stopPropagation();
-        let price = Number(pr).toFixed(2)
-        if(localStorage.getItem("tempdesign") === "4x2_3.css") {
+        let price = Number(pr).toFixed(2);
+        if (localStorage.getItem("tempdesign") === "4x2_3.css") {
             window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}&r=4`);
-        }else {
+        } else {
             window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
         }
     };
@@ -577,7 +579,7 @@ export default function Product() {
 
     const getAttributes = async () => {
         const attrResponse = await fetchAttributes();
-        if(attrResponse) {
+        if (attrResponse) {
             setAttributes(attrResponse.Body.List);
             setAttrLocalStorage(attrResponse.Body.List);
         }
@@ -692,10 +694,9 @@ export default function Product() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     if (isLoading)
@@ -753,7 +754,7 @@ export default function Product() {
                     </div>
                 </Col>
             </Row>
-                            { isLoadingSearch && <Spin/>}
+            {isLoadingSearch && <Spin />}
             <Row>
                 <Col xs={24} md={24} xl={24}>
                     <FilterComponent

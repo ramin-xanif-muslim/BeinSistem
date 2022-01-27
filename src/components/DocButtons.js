@@ -377,14 +377,14 @@ function DocButtons({
                     </Button>
                 </Dropdown>
                 <Dropdown overlay={dots} trigger={["click"]}>
-                    <Button
-                        className="form_setting_icon_wrapper flex_directon_col_center"
+                    <button
+                        className="new-Button"
                         onClick={(e) => e.preventDefault()}
                     >
                         <span className="dots"></span>
                         <span className="dots"></span>
                         <span className="dots"></span>
-                    </Button>
+                    </button>
                 </Dropdown>
             </div>
 

@@ -356,10 +356,9 @@ export default function Settlement() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -500,7 +499,9 @@ export default function Settlement() {
                                             </span>
                                         ) : c.dataIndex === "Current" ? (
                                             <span>
-                                                {ConvertFixedTable(allcurrentsum)}
+                                                {ConvertFixedTable(
+                                                    allcurrentsum
+                                                )}
                                                 <sup>₼</sup>
                                             </span>
                                         ) : null}

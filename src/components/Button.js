@@ -18,10 +18,7 @@ function Buttons({ text, redirectto }) {
     if (redirect) return <Redirect to={redirectto} />;
     return (
         <button className="new-button" onClick={onClick}>
-            <Button.Content
-                style={{ display: "flex", margin: "0", color: "black" }}
-                visible
-            >
+            <Button.Content style={{ display: "flex", margin: "0" }} visible>
                 <span>
                     <PlusCircleOutlined />
                 </span>
