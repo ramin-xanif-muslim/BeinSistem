@@ -39,10 +39,13 @@ const TableProvider = ({ children }) => {
   const [spenditems, setSpendItems] = useState(null);
   const [orderStatusArr, setOrderStatusArr] = useState(null);
   const [changedInnerTable, setChangedInnerTable] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [pricechanged, setPriceChanged] = useState(false);
   const [productSearchTerm, setProductSearchTerm] = useState("");
   const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState("");
   const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
+  const [selectedRowKey, setSelectedRowKeys] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
 
   const [balance, setBalance] = useState(0);
   const [nav, setNav] = useState("block");
@@ -83,6 +86,8 @@ const TableProvider = ({ children }) => {
     localStorage.setItem("cusgroups", JSON.stringify(obj));
   };
   const values = {
+    isDelete,
+    setIsDelete,
     salereportsSearchTerm,
     setSalereportsSearchTerm,
     stockbalanceSearchTerm,
@@ -182,6 +187,10 @@ const TableProvider = ({ children }) => {
     setPriceChanged,
     isCatalog,
     setCatalog,
+    selectedRowKey,
+    setSelectedRowKeys,
+    selectedRows,
+    setSelectedRows,
   };
 
   return (

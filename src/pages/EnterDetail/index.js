@@ -7,6 +7,8 @@ import moment from "moment";
 import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
+import TreeView from "../../components/TreeView";
+
 import AddProductInput from "../../components/AddProductInput";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
@@ -102,6 +104,8 @@ function EnterDetail() {
   const [columnChange, setColumnChange] = useState(false);
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
   const [selectList, setSelectList] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [stockId, setStockId] = useState([]);
 
   const [catalogVisible, setCatalogVisible] = useState(false);
   const { isLoading, error, data, isFetching } = useQuery(
@@ -364,11 +368,26 @@ function EnterDetail() {
     setStock(stockResponse.Body.List);
     setStockLocalStorage(stockResponse.Body.List);
     form.setFieldsValue({
-      stockid: createdStock.id,
+      stockid: createdStock.name,
     });
     setCreatedStock(null);
+    setStockId([
+      {
+        name: createdStock.name,
+        id: createdStock.id,
+      },
+    ]);
   };
 
+  useEffect(() => {
+    console.log("stoka girid");
+    console.log(stockId);
+    if (stockId.length > 0) {
+      form.setFieldsValue({
+        stockid: stockId[0]?.name,
+      });
+    }
+  }, [stockId]);
   //#region OwDep
 
   var objOwner;
@@ -431,6 +450,10 @@ function EnterDetail() {
       setDisable(false);
     }
   };
+
+  const handleClick = () => {
+    setModalVisible(!modalVisible);
+  };
   const handleFinish = async (values) => {
     setDisable(true);
 
@@ -439,6 +462,8 @@ function EnterDetail() {
     values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
     values.description = myRefDescription.current.resizableTextArea.props.value;
     values.consumption = myRefConsumption.current.clearableInput.props.value;
+    values.stockid = stockId[0]?.id;
+
     if (!values.status) {
       values.status = status;
     }
@@ -621,7 +646,7 @@ function EnterDetail() {
             moment: moment(data.Body.List[0].Moment),
             modify: moment(data.Body.List[0].Modify),
             mark: data.Body.List[0].Mark,
-            stockid: data.Body.List[0].StockId,
+            stockid: data.Body.List[0].StockName,
             status: data.Body.List[0].Status === 1 ? true : false,
           }}
           onFinish={handleFinish}
@@ -679,7 +704,12 @@ function EnterDetail() {
                   },
                 ]}
               >
-                <Select
+                <Input
+                  allowClear
+                  className="detail-input"
+                  onClick={handleClick}
+                />
+                {/* <Select
                   showSearch
                   showArrow={false}
                   filterOption={false}
@@ -688,7 +718,7 @@ function EnterDetail() {
                   allowClear={true}
                 >
                   {options}
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
             <Col xs={3} sm={3} md={3} xl={3}></Col>
@@ -860,6 +890,12 @@ function EnterDetail() {
       </div>
       <StockDrawer />
       <ProductModal />
+      <TreeView
+        from={"stocks"}
+        modalVisible={modalVisible}
+        setStockId={setStockId}
+        onClose={handleClick}
+      />
       <Catalog
         onClose={handleOpenCatalog}
         positions={positions}

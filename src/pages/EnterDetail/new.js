@@ -12,6 +12,7 @@ import AddProductInput from "../../components/AddProductInput";
 import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import ProductModal from "../../components/ProductModal";
+import TreeView from "../../components/TreeView";
 import { Tab } from "semantic-ui-react";
 import {
   FindAdditionals,
@@ -124,8 +125,10 @@ function NewEnter() {
   const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
   const [selectList, setSelectList] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [catalogVisible, setCatalogVisible] = useState(false);
+  const [stockId, setStockId] = useState([]);
   const { allsum, allQuantity } = useGetDocItems();
 
   const handleDelete = (key) => {
@@ -408,9 +411,15 @@ function NewEnter() {
     setStock(stockResponse.Body.List);
     setStockLocalStorage(stockResponse.Body.List);
     form.setFieldsValue({
-      stockid: createdStock.id,
+      stockid: createdStock.name,
     });
     setCreatedStock(null);
+    setStockId([
+      {
+        name: createdStock.name,
+        id: createdStock.id,
+      },
+    ]);
   };
   useEffect(() => {
     form.setFieldsValue({
@@ -419,6 +428,11 @@ function NewEnter() {
     setLoadingForm(false);
   }, []);
 
+  useEffect(() => {
+    form.setFieldsValue({
+      stockid: stockId[0]?.name,
+    });
+  }, [stockId]);
   const getDocName = async (docname) => {
     const attrResponse = await fetchDocName(docname, "enters");
     return attrResponse;
@@ -438,6 +452,7 @@ function NewEnter() {
     values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
     values.description = myRefDescription.current.resizableTextArea.props.value;
     values.consumption = myRefConsumption.current.clearableInput.props.value;
+    values.stockid = stockId[0]?.id;
     if (!values.status) {
       values.status = status;
     }
@@ -519,6 +534,9 @@ function NewEnter() {
     </Option>
   ));
 
+  const handleClick = () => {
+    setModalVisible(!modalVisible);
+  };
   //#endregion OwDep
 
   const onChange = (stock) => {
@@ -671,7 +689,12 @@ function NewEnter() {
                   },
                 ]}
               >
-                <Select
+                <Input
+                  allowClear
+                  className="detail-input"
+                  onClick={handleClick}
+                />
+                {/* <Select
                   showSearch
                   showArrow={false}
                   filterOption={false}
@@ -685,7 +708,7 @@ function NewEnter() {
                   }
                 >
                   {options}
-                </Select>
+                </Select> */}
               </Form.Item>
             </Col>
             <Col xs={3} sm={3} md={3} xl={3}></Col>
@@ -842,7 +865,12 @@ function NewEnter() {
 
       <StockDrawer />
       <ProductModal />
-
+      <TreeView
+        from={"stocks"}
+        modalVisible={modalVisible}
+        setStockId={setStockId}
+        onClose={handleClick}
+      />
       <Catalog
         onClose={handleOpenCatalog}
         positions={outerDataSource}
