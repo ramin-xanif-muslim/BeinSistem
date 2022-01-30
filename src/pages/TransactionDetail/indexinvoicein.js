@@ -298,7 +298,7 @@ function IvoiceInDetail() {
                 <DocButtons
                     controller={"invoiceins"}
                     additional={"none"}
-                    editid={null}
+                    editid={doc_id}
                     closed={"p=transactions"}
                 />
                 <div className="formWrapper">

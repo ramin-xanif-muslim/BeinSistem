@@ -85,7 +85,7 @@ export default function SalePoint() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "Name",
@@ -203,7 +203,7 @@ export default function SalePoint() {
                 key: "6",
                 label: "Dəyişmə tarixi",
                 name: "modifedDate",
-                type: "date",
+                type: "dateOfChange",
                 hidden: true,
             },
             {

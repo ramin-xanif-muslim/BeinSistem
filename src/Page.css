@@ -6,7 +6,8 @@
     display: flex;
 }
 
-.ant-table-tbody tr td {
+.ant-table-tbody tr td,
+.ant-table-summary tr td {
     font-family: "Calibri" !important;
 }
 
@@ -114,7 +115,9 @@
 .ui.menu .active.item {
     color: #0288d1 !important;
 }
-.formWrapper, .doc_wrapper, .doc_name_wrapper {
+.formWrapper,
+.doc_wrapper,
+.doc_name_wrapper {
     background: #f6f6f6;
 }
 .ui.segment.active.tab {
@@ -180,6 +183,7 @@
     font-weight: 400;
     margin-right: 1.7rem;
     height: fit-content;
+    color: #000 !important;
 }
 .ui.button.buttons_click {
     transition: all 0.2s ease-in;
@@ -191,10 +195,26 @@
     font-weight: 400;
     margin-right: 1.7rem;
     height: fit-content;
+    color: #000 !important;
+}
+
+.buttons_click {
+    align-items: center;
+}
+.buttons_click span {
+    color: #000 !important;
+}
+.buttons_click svg {
+    color: var(--dark-blue) !important;
 }
 
 .ui.animated.button.buttons_click svg {
     color: #1164b1;
+}
+
+.download-menu {
+    display: flex;
+    flex-direction: column;
 }
 
 .status_label {
@@ -499,8 +519,12 @@ tbody > tr:hover td {
     padding: 0 0.5rem;
 }
 
-.customsavebtn.ant-btn[disabled] { color: #000 !important }
-.customsavebtn.ant-btn[disabled]:hover { color: #fff !important }
+.customsavebtn.ant-btn[disabled] {
+    color: #000 !important;
+}
+.customsavebtn.ant-btn[disabled]:hover {
+    color: #fff !important;
+}
 
 .drawertable th {
     color: #1164b1 !important;
@@ -590,7 +614,8 @@ tr.ant-table-expanded-row:hover td {
 }
 .ant-progress-inner:not(.ant-progress-circle-gradient)
     .ant-progress-circle-path {
-    stroke: #fff;
+    /* stroke: #fff; */
+    stroke: yellow;
 }
 .attribute-modal {
     width: 600px !important;
@@ -763,6 +788,10 @@ tbody .ant-table-cell {
     letter-spacing: 1px;
 }
 
+.doc-table-inner > div > div > div {
+    z-index: 0;
+}
+
 .settings-prices-text span {
     color: #d40000;
 }
@@ -771,22 +800,63 @@ tbody .ant-table-cell {
     color: #1164b1;
 }
 
-@media screen and (max-width: 1200px) {
-    .ui.menu {
-        overflow-x: scroll;
-        overflow-y: hidden !important;
-    }
+.producttransactions-header {
+    background-color: var(--dark-blue);
+    color: #fff;
+    padding: 0.8rem;
+    margin: 0;
+}
 
+.new-button {
+    padding: 0 10px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: -webkit-linear-gradient(top, #fff, #e6e6e6);
+    align-items: center;
+    color: #000 !important;
+    height: 32px;
+}
+.new-button:active {
+    background: #f2f2f2 !important;
+}
+.new-button:hover {
+    background: #fff;
+}
+.new-filter-active {
+    padding: 0 10px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    border-radius: 3px;
+    border: solid 1px var(--dark-blue);
+    background-image: linear-gradient(to bottom, var(--blue), var(--dark-blue));
+    color: #fff;
+    align-items: center;
+}
+.new-button-open {
+    box-shadow: 0 1px 3px #333 inset;
+}
+.link {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-family: "Calibri" !important;
+}
+
+@media screen and (max-width: 1200px) {
     .page_heder_left h2 {
         margin-bottom: 12px;
+    }
+
+    body {
+        min-width: 180vw;
+        height: auto;
     }
 }
 
 @media screen and (max-width: 576px) {
-    .ui.menu {
-        overflow-x: hidden;
-    }
-
     body,
     .doc_wrapper {
         width: max-content !important;

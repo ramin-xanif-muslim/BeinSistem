@@ -588,10 +588,10 @@ function NewEnter() {
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Daxilolma</h2>
+                <h2>Sənəd</h2>
             </div>
 
-            <DocButtons additional={"none"} editid={null} closed={"p=enter"} />
+            <DocButtons additional={"none"} editid={null} closed={"p=documents"} />
             <div className="formWrapper">
                 <Form
                     form={form}

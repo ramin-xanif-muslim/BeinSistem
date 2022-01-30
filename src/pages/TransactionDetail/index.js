@@ -303,7 +303,7 @@ function PaymentInDetail() {
                 <DocButtons
                     controller={"paymentins"}
                     additional={"none"}
-                    editid={null}
+                    editid={doc_id}
                     closed={"p=transactions"}
                     editid={doc_id}
                 />

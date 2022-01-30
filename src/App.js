@@ -7,6 +7,7 @@ import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
 
 const Move = React.lazy(() => import("./pages/Move"));
+const Handovers = React.lazy(() => import("./pages/Handovers"));
 const Product = React.lazy(() => import("./pages/Product"));
 const Enter = React.lazy(() => import("./pages/Enter"));
 const Loss = React.lazy(() => import("./pages/Loss"));
@@ -27,17 +28,23 @@ const EnterDetail = React.lazy(() => import("./pages/EnterDetail"));
 const SupplyReturnDetail = React.lazy(() =>
     import("./pages/SupplyReturnDetail")
 );
+const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const MoveDetail = React.lazy(() => import("./pages/MoveDetail"));
+
+const NewHandovers = React.lazy(() => import("./pages/HandoversDetail/new"));
+const HandoversDetail = React.lazy(() => import("./pages/HandoversDetail"));
+
 const CustomerOrderDetail = React.lazy(() =>
     import("./pages/CustomerOrderDetail")
 );
+const ProductTransactions = React.lazy(() => import("./pages/ProductTransactions"));
+
 const StockBalance = React.lazy(() => import("./pages/StockBalance"));
 const NewEnter = React.lazy(() => import("./pages/EnterDetail/new"));
 const NewSupply = React.lazy(() => import("./pages/SupplyDetail/new"));
 const NewSupplyReturn = React.lazy(() =>
     import("./pages/SupplyReturnDetail/new")
 );
-const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const SignIn = React.lazy(() => import("./pages/Auth/Signin"));
 const Registration = React.lazy(() => import("./pages/Auth/Registration"));
 const NewProduct = React.lazy(() => import("./pages/ProductDetail/new"));
@@ -72,6 +79,7 @@ const NewSalePoint = React.lazy(() => import("./pages/SalePointDetail/new"));
 const Transaction = React.lazy(() => import("./pages/Transaction"));
 const Customer = React.lazy(() => import("./pages/Customer"));
 const NewDemand = React.lazy(() => import("./pages/DemandDetail/new"));
+const NewDocument = React.lazy(() => import("./pages/DocumentDetail/new"));
 const DemandDetail = React.lazy(() => import("./pages/DemandDetail"));
 const Bc = React.lazy(() => import("./Check.js/bc"));
 const Invoice = React.lazy(() => import("./Check.js/invoice"));
@@ -275,6 +283,10 @@ function App() {
                                 component={MoveDetail}
                             ></Route>
                             <Route
+                                path="/editHandovers/:doc_id"
+                                component={HandoversDetail}
+                            ></Route>
+                            <Route
                                 path="/editLoss/:doc_id"
                                 component={LossDetail}
                             ></Route>
@@ -346,7 +358,12 @@ function App() {
                                 path="/newdemand"
                                 component={NewDemand}
                             ></Route>
+                            <Route
+                                path="/newdocument"
+                                component={NewDocument}
+                            ></Route>
                             <Route path="/newmove" component={NewMove}></Route>
+                            <Route path="/newhandover" component={NewHandovers}></Route>
                             <Route path="/newloss" component={NewLoss}></Route>
                             <Route
                                 path="/newproduct"
@@ -374,10 +391,15 @@ function App() {
                                 component={StockBalance}
                             ></Route>
                             <Route
+                                path="/p=producttransactions"
+                                component={ProductTransactions}
+                            ></Route>
+                            <Route
                                 path="/p=product"
                                 component={Product}
                             ></Route>
                             <Route path="/p=move" component={Move}></Route>
+                            <Route path="/p=handover" component={Handovers}></Route>
                         </Switch>
                     </div>
 

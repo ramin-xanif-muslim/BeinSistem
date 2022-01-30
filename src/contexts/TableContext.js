@@ -46,6 +46,9 @@ const TableProvider = ({ children }) => {
   const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
   const [selectedRowKey, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedDateId, setSelectedDateId] = useState(null);
+  const [isEnterFilterValue, setIsEnterFilterValue] = useState(false);
+  const [settingsObj, setSettingsObj] = useState({token: localStorage.getItem("access-token")})
 
   const [balance, setBalance] = useState(0);
   const [nav, setNav] = useState("block");
@@ -88,6 +91,8 @@ const TableProvider = ({ children }) => {
   const values = {
     isDelete,
     setIsDelete,
+    settingsObj,
+    setSettingsObj,
     salereportsSearchTerm,
     setSalereportsSearchTerm,
     stockbalanceSearchTerm,
@@ -191,6 +196,10 @@ const TableProvider = ({ children }) => {
     setSelectedRowKeys,
     selectedRows,
     setSelectedRows,
+    selectedDateId,
+    setSelectedDateId,
+    isEnterFilterValue,
+    setIsEnterFilterValue,
   };
 
   return (

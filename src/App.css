@@ -327,28 +327,6 @@ body {
 .filter_button {
     color: #000 !important;
 }
-.ui.animated.button.buttons_click {
-    transition: all 0.2s ease-in;
-    border-color: #fff !important;
-    background-color: #fff !important;
-    position: relative;
-    border: 1px solid #0288d1 !important;
-    padding: 0.5rem 2rem !important;
-    background-color: #fff !important;
-    border: 1px solid #0288d1 !important;
-    color: #000 !important;
-}
-.ui.button.buttons_click {
-    transition: all 0.2s ease-in;
-    border-color: #fff !important;
-    background-color: #fff !important;
-    position: relative;
-    border: 1px solid #0288d1 !important;
-    padding: 0.5rem 2rem !important;
-    background-color: #fff !important;
-    border: 1px solid #0288d1 !important;
-    color: #000 !important;
-}
 
 .status_label {
     display: inline;

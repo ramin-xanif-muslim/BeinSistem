@@ -16,7 +16,7 @@ import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
 import {
-    DeleteOutlined,
+    SettingOutlined,
     PlusOutlined,
     EditOutlined,
     CloseCircleOutlined,
@@ -65,13 +65,14 @@ import {
     useSearchSelectInput,
 } from "../../hooks";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function DemandReturnDetail() {
+function DemandReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const myRefDescription = useRef(null);
     const myRefConsumption = useRef(null);
@@ -101,8 +102,7 @@ function DemandReturnDetail() {
         loadingForm,
         setStockDrawer,
         setCustomerDrawer,
-        customerDrawer,
-        stockDrawer,
+        setProductModal,
         createdStock,
         createdCustomer,
         setCreatedStock,
@@ -122,7 +122,10 @@ function DemandReturnDetail() {
     const [hasConsumption, setHasConsumption] = useState(false);
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
-    
+
+    const [initial, setInitial] = useState(null);
+    const [columnChange, setColumnChange] = useState(false);
+    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
     const { allsum, allQuantity } = useGetDocItems();
 
@@ -142,15 +145,23 @@ function DemandReturnDetail() {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
+
     useEffect(() => {
-        if(customerId) {
+        setColumnChange(false);
+    }, [columnChange]);
+
+    useEffect(() => {
+        setInitial(columns);
+    }, []);
+    useEffect(() => {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
@@ -445,7 +456,7 @@ function DemandReturnDetail() {
                                 setPaymentModal(true);
                             }
                         }
-                        fetchDebt()
+                        fetchDebt();
                     } else {
                         message.error({
                             content: (
@@ -462,6 +473,52 @@ function DemandReturnDetail() {
             }
         );
     };
+    const handleVisibleChange = (flag) => {
+        setVisibleMenuSettings(flag);
+    };
+
+    const onChangeMenu = (e) => {
+        var initialCols = initial;
+        var findelement;
+        var findelementindex;
+        var replacedElement;
+        findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+        console.log(findelement);
+        findelementindex = initialCols.findIndex(
+            (c) => c.dataIndex === e.target.id
+        );
+        findelement.isVisible = e.target.checked;
+        replacedElement = findelement;
+        initialCols.splice(findelementindex, 1, {
+            ...findelement,
+            ...replacedElement,
+        });
+        setColumnChange(true);
+    };
+
+    const menu = (
+        <Menu>
+            <Menu.ItemGroup title="Sutunlar">
+                {Object.values(columns).map((d) => (
+                    <Menu.Item key={d.dataIndex}>
+                        <Checkbox
+                            id={d.dataIndex}
+                            disabled={
+                                columns.length === 3 && d.isVisible === true
+                                    ? true
+                                    : false
+                            }
+                            isVisible={d.isVisible}
+                            onChange={(e) => onChangeMenu(e)}
+                            defaultChecked={d.isVisible}
+                        >
+                            {d.title}
+                        </Checkbox>
+                    </Menu.Item>
+                ))}
+            </Menu.ItemGroup>
+        </Menu>
+    );
 
     const panes = [
         {
@@ -469,14 +526,60 @@ function DemandReturnDetail() {
             render: () => (
                 <Tab.Pane attached={false}>
                     <Row>
-                        <Col xs={9} sm={9} md={9} xl={9}>
+                        <Col
+                            xs={9}
+                            sm={9}
+                            md={9}
+                            xl={9}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
+                        >
                             <div className="addProductInputIcon">
-                                <AddProductInput
-                                    from="demands"
-                                    className="newProInputWrapper"
+                                <AddProductInput className="newProInputWrapper" />
+                                <PlusOutlined
+                                    onClick={() => setProductModal(true)}
+                                    className="addNewProductIcon"
                                 />
-                                <PlusOutlined className="addNewProductIcon" />
                             </div>
+                        </Col>
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <button
+                                className="new-button"
+                                onClick={handleOpenCatalog}
+                                type="primary"
+                            >
+                                Məhsullar
+                            </button>
+                        </Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
+                        >
+                            <Dropdown
+                                trigger={"onclick"}
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <button className="new-button">
+                                    {" "}
+                                    <SettingOutlined />
+                                </button>
+                            </Dropdown>
                         </Col>
                         <Col
                             xs={24}
@@ -485,7 +588,12 @@ function DemandReturnDetail() {
                             xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
-                            <DocTable headers={columns} datas={positions} />
+                            <DocTable
+                                headers={columns}
+                                datas={positions}
+                                selectList={selectList}
+                                catalogVisible={catalogVisible}
+                            />
                         </Col>
                     </Row>
                 </Tab.Pane>
@@ -848,4 +956,4 @@ function DemandReturnDetail() {
     );
 }
 
-export default DemandReturnDetail;
+export default withCatalog(DemandReturnDetail);

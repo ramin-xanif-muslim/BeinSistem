@@ -89,7 +89,7 @@ export default function Loss() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
 
             {
@@ -300,7 +300,7 @@ export default function Loss() {
                 key: "6",
                 label: "Dəyişmə tarixi",
                 name: "modifedDate",
-                type: "date",
+                type: "dateOfChange",
                 dataIndex: "modifedDate",
                 show: initialfilter
                     ? Object.values(initialfilter).find(
@@ -475,10 +475,9 @@ export default function Loss() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -489,10 +488,9 @@ export default function Loss() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -530,15 +528,16 @@ export default function Loss() {
                                 redirectto={"/newloss"}
                                 animate={"Yarat"}
                             />
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}

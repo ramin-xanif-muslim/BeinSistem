@@ -197,6 +197,7 @@ function Taxes() {
 						);
 						return (
 							<Switch
+                                disabled={row.Id == 10001 || row.Id == 10002 || row.Id == 10003 ? true : false}
 								style={{ width: "71px" }}
 								checkedChildren="Aktiv"
 								unCheckedChildren="Deaktiv"

@@ -52,13 +52,14 @@ import {
 } from "../../config/function/findadditionals";
 import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function MoveDetail() {
+function MoveDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const myRefDescription = useRef(null);
@@ -256,7 +257,8 @@ function MoveDetail() {
                 editable: false,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    return ConvertFixedPosition(row.Quantity * value);
+                    console.log(value);
+                    return ConvertFixedPosition(value);
                 },
             },
             {
@@ -271,8 +273,9 @@ function MoveDetail() {
                 editable: false,
                 sortDirections: ["descend", "ascend"],
                 render: (value, row, index) => {
-                    console.log(row);
-                    return ConvertFixedPosition(value);
+                    return ConvertFixedPosition(
+                        Number(row.Quantity) * Number(row.CostPrice)
+                    );
                 },
             },
             {
@@ -499,7 +502,7 @@ function MoveDetail() {
                             sm={9}
                             md={9}
                             xl={9}
-                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
                         >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
@@ -509,16 +512,46 @@ function MoveDetail() {
                                 />
                             </div>
                         </Col>
-                        <Dropdown
-                            overlay={menu}
-                            onVisibleChange={handleVisibleChange}
-                            visible={visibleMenuSettings}
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
-                                <SettingOutlined />
-                            </Button>
-                        </Dropdown>
+                            <button
+                                className="new-button"
+                                onClick={handleOpenCatalog}
+                                type="primary"
+                            >
+                                Məhsullar
+                            </button>
+                        </Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
+                        >
+                            <Dropdown
+                                trigger={"onclick"}
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <button className="new-button">
+                                    {" "}
+                                    <SettingOutlined />
+                                </button>
+                            </Dropdown>
+                        </Col>
                         <Col
                             xs={24}
                             sm={24}
@@ -531,6 +564,8 @@ function MoveDetail() {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
+                                selectList={selectList}
+                                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>
@@ -847,4 +882,4 @@ function MoveDetail() {
     );
 }
 
-export default MoveDetail;
+export default withCatalog(MoveDetail);

@@ -60,19 +60,19 @@ export default function StockBalance() {
     } = useTableCustom();
 
     const searchFunc = async (value) => {
-        setIsLoadingSearch(true)
+        setIsLoadingSearch(true);
         setStockbalanceSearchTerm(value);
         let obj = {
             nm: value,
-            lm: 25,
+            lm: 100,
         };
         let res = await sendRequest("stockbalance/get.php", obj);
         setDocumentList(res.List);
         setallsum(res.SaleSum);
         setallcost(res.CostSum);
         setallquantity(res.QuantitySum);
-        setCount(res.Count)
-        setIsLoadingSearch(false)
+        setCount(res.Count);
+        setIsLoadingSearch(false);
     };
 
     const [documentList, setDocumentList] = useState([]);
@@ -106,7 +106,7 @@ export default function StockBalance() {
                       page,
                       direction,
                       fieldSort,
-                      null,
+                      advanced.gp,
                       3,
                       0
                   )
@@ -129,7 +129,7 @@ export default function StockBalance() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "ProductName",
@@ -460,6 +460,7 @@ export default function StockBalance() {
     };
 
     const handlePagination = (pg) => {
+        console.log("handlePagination", pg);
         setPage(pg - 1);
         setAdvancedPage(pg - 1);
     };
@@ -570,10 +571,9 @@ export default function StockBalance() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -584,10 +584,9 @@ export default function StockBalance() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     if (isLoading)
@@ -598,11 +597,13 @@ export default function StockBalance() {
         );
 
     if (error) return "An error has occurred: " + error.message;
+    if (!data.Body) return "An error has occurred: " + data.Body;
 
     function numberWithSpaces(x) {
         var parts = x.toString().split(".");
-        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-        return parts.join(".");
+        // parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+        // return parts.join(".");
+        return parts;
     }
 
     return (
@@ -616,15 +617,16 @@ export default function StockBalance() {
                 <Col xs={24} md={24} xl={20}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             {/* <FastSearch className="search_header" /> */}
                             <MyFastSearch
                                 searchFunc={searchFunc}
@@ -638,7 +640,7 @@ export default function StockBalance() {
                     </div>
                 </Col>
             </Row>
-                            { isLoadingSearch && <Spin/>}
+            {isLoadingSearch && <Spin />}
             <Row>
                 <Col xs={24} md={24} xl={24}>
                     <FilterComponent
@@ -673,9 +675,7 @@ export default function StockBalance() {
                                             ? ConvertFixedTable(allquantity) +
                                               "əd"
                                             : c.dataIndex === "CostPrice"
-                                            ? ConvertFixedTable(
-                                                  numberWithSpaces(allcost)
-                                              ) + " ₼"
+                                            ? ConvertFixedTable(allcost) + " ₼"
                                             : null}
                                     </Text>
                                 </Table.Summary.Cell>
@@ -685,7 +685,7 @@ export default function StockBalance() {
                 locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
                     current: advancedPage + 1,
-                    total: count,
+                    total: data.Body.Count,
                     onChange: handlePagination,
                     defaultPageSize: data.Body.Limit,
                     showSizeChanger: false,

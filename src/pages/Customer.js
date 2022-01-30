@@ -200,10 +200,9 @@ export default function Customer() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -213,7 +212,7 @@ export default function Customer() {
                 dataIndex: "Order",
                 title: "№",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "Name",
@@ -468,9 +467,9 @@ export default function Customer() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     if (isLoading)
@@ -555,7 +554,7 @@ export default function Customer() {
                         }}
                         size="small"
                         onRow={(r) => ({
-                    onClick: (e) => editPage(r.Id),
+                            onClick: (e) => editPage(r.Id),
                         })}
                     />
                 </Col>

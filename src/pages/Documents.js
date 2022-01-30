@@ -33,7 +33,7 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 const { Text } = Typography;
-export default function Demand() {
+export default function Documents() {
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -109,11 +109,11 @@ export default function Demand() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "Name",
-                title: "Satış №",
+                title: "Sənəd №",
                 show: initial
                     ? Object.values(initial).find((i) => i.dataIndex === "Name")
                           .show
@@ -307,7 +307,7 @@ export default function Demand() {
         return [
             {
                 key: "1",
-                label: "Satış №",
+                label: "Sənəd №",
                 name: "docNumber",
                 type: "text",
                 dataIndex: "docNumber",
@@ -349,7 +349,7 @@ export default function Demand() {
                 key: "4",
                 label: "Dəyişmə tarixi",
                 name: "modifedDate",
-                type: "date",
+                type: "dateOfChange",
                 dataIndex: "modifedDate",
                 show: initialfilter
                     ? Object.values(initialfilter).find(
@@ -609,10 +609,9 @@ export default function Demand() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -623,10 +622,9 @@ export default function Demand() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     const getSearcObjByDate = async (ob) => {
@@ -658,19 +656,20 @@ export default function Demand() {
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
                             <Buttons
-                                text={"Yeni satış"}
-                                redirectto={"/newdemand"}
+                                text={"Yeni sənəd"}
+                                redirectto={"/newdocument"}
                                 animate={"Yarat"}
                             />
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearcObjByDate={getSearcObjByDate}

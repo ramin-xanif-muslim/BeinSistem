@@ -191,7 +191,7 @@ export default function Departments() {
     };
     if (isLoading) return "Yüklənir...";
 
-    if (error) return "An error has occurred: " + error.message;
+    // if (error) return "An error has occurred: " + error.message;
 
     return (
         <div>

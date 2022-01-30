@@ -116,7 +116,7 @@ export default function SupplyReturn() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "Name",
@@ -368,7 +368,7 @@ export default function SupplyReturn() {
                 key: "6",
                 label: "Dəyişmə tarixi",
                 name: "modifedDate",
-                type: "date",
+                type: "dateOfChange",
                 dataIndex: "modifedDate",
                 show: initialfilter
                     ? Object.values(initialfilter).find(
@@ -562,10 +562,9 @@ export default function SupplyReturn() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -576,10 +575,9 @@ export default function SupplyReturn() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     const getSearchObjByDate = async (ob) => {

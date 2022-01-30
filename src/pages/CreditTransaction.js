@@ -104,7 +104,7 @@ export default function CreditTransaction() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "Name",
@@ -416,6 +416,20 @@ export default function CreditTransaction() {
         setalloutsum(res.OutSum);
         setFetchSearchByDate(false);
     };
+
+    const tableSettings = (
+        <Dropdown
+            trigger={["click"]}
+            overlay={menu}
+            onVisibleChange={handleVisibleChange}
+            visible={visibleMenuSettings}
+        >
+            <button className="new-button">
+                <SettingOutlined />
+            </button>
+        </Dropdown>
+    );
+
     if (isLoading)
         return (
             <Spin className="fetchSpinner" tip="Yüklənir...">
@@ -436,41 +450,28 @@ export default function CreditTransaction() {
                 <Col xs={24} md={24} xl={20}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
                             />
                         </div>
+                        {tableSettings}
                     </div>
                 </Col>
             </Row>
             <Row>
                 <Col xs={24} md={24} xl={24}>
                     <FilterComponent cols={filters} />
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={24} md={24} xl={24} className="setting_button_wrapper">
-                    <Dropdown
-                        trigger={["click"]}
-                        overlay={menu}
-                        onVisibleChange={handleVisibleChange}
-                        visible={visibleMenuSettings}
-                    >
-                        <Button className="flex_directon_col_center">
-                            {" "}
-                            <SettingOutlined />
-                        </Button>
-                    </Dropdown>
                 </Col>
             </Row>
             {isFetchSearchByDate && <Spin />}

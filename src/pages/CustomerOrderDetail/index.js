@@ -14,7 +14,7 @@ import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
-import { PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { SettingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import {
     Form,
     Alert,
@@ -31,6 +31,8 @@ import {
     Row,
     Col,
     Collapse,
+    Menu,
+    Dropdown,
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
@@ -98,7 +100,11 @@ function CustomerOrderDetail() {
     const [hasConsumption, setHasConsumption] = useState(false);
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
-    
+
+	const [initial, setInitial] = useState(null);
+	const [columnChange, setColumnChange] = useState(false);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+
     const { allsum, allQuantity } = useGetDocItems();
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
@@ -118,15 +124,23 @@ function CustomerOrderDetail() {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
+
+	useEffect(() => {
+		setColumnChange(false);
+	}, [columnChange]);
+
+	useEffect(() => {
+		setInitial(columns);
+	}, []);
     useEffect(() => {
-        if(customerId) {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
@@ -470,7 +484,7 @@ function CustomerOrderDetail() {
                         if (isPayment) {
                             setPaymentModal(true);
                         }
-                        fetchDebt()
+                        fetchDebt();
                     } else {
                         message.error({
                             content: (
@@ -487,6 +501,52 @@ function CustomerOrderDetail() {
             }
         );
     };
+	const handleVisibleChange = (flag) => {
+		setVisibleMenuSettings(flag);
+	};
+
+	const onChangeMenu = (e) => {
+		var initialCols = initial;
+		var findelement;
+		var findelementindex;
+		var replacedElement;
+		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+		console.log(findelement);
+		findelementindex = initialCols.findIndex(
+			(c) => c.dataIndex === e.target.id
+		);
+		findelement.isVisible = e.target.checked;
+		replacedElement = findelement;
+		initialCols.splice(findelementindex, 1, {
+			...findelement,
+			...replacedElement,
+		});
+		setColumnChange(true);
+	};
+
+	const menu = (
+		<Menu>
+			<Menu.ItemGroup title="Sutunlar">
+				{Object.values(columns).map((d) => (
+					<Menu.Item key={d.dataIndex}>
+						<Checkbox
+							id={d.dataIndex}
+							disabled={
+								columns.length === 3 && d.isVisible === true
+									? true
+									: false
+							}
+							isVisible={d.isVisible}
+							onChange={(e) => onChangeMenu(e)}
+							defaultChecked={d.isVisible}
+						>
+							{d.title}
+						</Checkbox>
+					</Menu.Item>
+				))}
+			</Menu.ItemGroup>
+		</Menu>
+	);
 
     const panes = [
         {
@@ -500,11 +560,32 @@ function CustomerOrderDetail() {
                                 <PlusOutlined className="addNewProductIcon" />
                             </div>
                         </Col>
+						<Col
+							style={{
+								display: "flex",
+								justifyContent: "flex-end",
+							}}
+							xs={10}
+							sm={10}
+							md={10}
+							xl={10}
+						>
+							<Dropdown
+								overlay={menu}
+								onVisibleChange={handleVisibleChange}
+								visible={visibleMenuSettings}
+							>
+								<Button className="flex_directon_col_center">
+									{" "}
+									<SettingOutlined />
+								</Button>
+							</Dropdown>
+						</Col>
                         <Col
-                            xs={9}
-                            sm={9}
-                            md={9}
-                            xl={9}
+                            xs={24}
+                            sm={24}
+                            md={24}
+                            xl={24}
                             style={{ paddingTop: "1rem" }}
                         >
                             <DocTable headers={columns} datas={positions} />

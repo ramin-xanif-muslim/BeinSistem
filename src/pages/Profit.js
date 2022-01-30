@@ -240,10 +240,9 @@ export default function Profit() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     const getSearchObjByDate = async (ob) => {
@@ -273,18 +272,20 @@ export default function Profit() {
                 <Col xs={24} md={24} xl={20}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
+                                defaultCheckedDate={3}
                             />
                         </div>
                     </div>

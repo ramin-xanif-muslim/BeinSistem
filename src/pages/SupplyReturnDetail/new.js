@@ -64,13 +64,14 @@ import {
     useSearchSelectInput,
 } from "../../hooks";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewSupplyReturn() {
+function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const myRefDescription = useRef(null);
     const myRefConsumption = useRef(null);
@@ -399,9 +400,9 @@ function NewSupplyReturn() {
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-            if (!values.status) {
-                values.status = status;
-            }
+        if (!values.status) {
+            values.status = status;
+        }
 
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         const nameres = await getDocName(values.name);
@@ -435,7 +436,6 @@ function NewSupplyReturn() {
             });
         }
     };
-    
 
     var objOwner;
     owners
@@ -484,7 +484,7 @@ function NewSupplyReturn() {
                             sm={9}
                             md={9}
                             xl={9}
-                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
                         >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
@@ -494,16 +494,46 @@ function NewSupplyReturn() {
                                 />
                             </div>
                         </Col>
-                        <Dropdown
-                            overlay={menu}
-                            onVisibleChange={handleVisibleChange}
-                            visible={visibleMenuSettings}
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
-                                <SettingOutlined />
-                            </Button>
-                        </Dropdown>
+                            <button
+                                className="new-button"
+                                onClick={handleOpenCatalog}
+                                type="primary"
+                            >
+                                Məhsullar
+                            </button>
+                        </Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
+                        >
+                            <Dropdown
+                                trigger={"onclick"}
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <button className="new-button">
+                                    {" "}
+                                    <SettingOutlined />
+                                </button>
+                            </Dropdown>
+                        </Col>
                         <Col
                             xs={24}
                             sm={24}
@@ -516,6 +546,8 @@ function NewSupplyReturn() {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
+                                selectList={selectList}
+                                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>
@@ -824,4 +856,4 @@ function NewSupplyReturn() {
     );
 }
 
-export default NewSupplyReturn;
+export default withCatalog(NewSupplyReturn);

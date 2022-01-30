@@ -88,7 +88,7 @@ export default function Move() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "Name",
@@ -150,31 +150,23 @@ export default function Move() {
                 defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
                 sorter: (a, b) => null,
                 render: (value, row, index) => {
-                    console.log(value);
                     return (
                         <span
                             className="status_label"
                             style={{
                                 backgroundColor: markObject
-                                    ? markObject.find((m) => m.id === value)
-                                        ? markObject.find((m) => m.id === value)
-                                              .Name === "-"
-                                            ? ""
-                                            : markObject.find(
-                                                  (m) => m.id === value
-                                              ).Color
-                                        : ""
+                                    ? markObject.find((m) => m.Id === value)
+                                        ? markObject.find((m) => m.Id === value)
+                                              .Color
+                                        : null
                                     : null,
                             }}
                         >
                             {markObject
-                                ? markObject.find((m) => m.id === value)
-                                    ? markObject.find((m) => m.id === value)
-                                          .Name === "-"
-                                        ? ""
-                                        : markObject.find((m) => m.id === value)
-                                              .Name
-                                    : ""
+                                ? markObject.find((m) => m.Id === value)
+                                    ? markObject.find((m) => m.Id === value)
+                                          .Name
+                                    : null
                                 : null}
                         </span>
                     );
@@ -290,7 +282,7 @@ export default function Move() {
                 key: "7",
                 label: "Dəyişmə tarixi",
                 name: "modifedDate",
-                type: "date",
+                type: "dateOfChange",
                 dataIndex: "modifedDate",
                 show: initialfilter
                     ? Object.values(initialfilter).find(
@@ -457,10 +449,9 @@ export default function Move() {
             onVisibleChange={handleVisibleChange}
             visible={visibleMenuSettings}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -471,10 +462,9 @@ export default function Move() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
     const getSearchObjByDate = async (ob) => {
@@ -510,15 +500,16 @@ export default function Move() {
                                 redirectto={"/newmove"}
                                 animate={"Yarat"}
                             />
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}

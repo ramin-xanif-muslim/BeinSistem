@@ -111,7 +111,7 @@ export default function Settlement() {
                 title: "№",
                 dataIndex: "Order",
                 show: true,
-                render: (text, record, index) => index + 1 + 25 * advancedPage,
+                render: (text, record, index) => index + 1 + 100 * advancedPage,
             },
             {
                 dataIndex: "CustomerName",
@@ -356,10 +356,9 @@ export default function Settlement() {
             onVisibleChange={handleVisibleChangeFilter}
             visible={visibleMenuSettingsFilter}
         >
-            <Button className="flex_directon_col_center">
-                {" "}
+            <button className="new-button">
                 <SettingOutlined />
-            </Button>
+            </button>
         </Dropdown>
     );
 
@@ -436,15 +435,16 @@ export default function Settlement() {
                 <Col xs={24} md={24} xl={19}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <Button
-                                className="filter_button buttons_click"
+                            <button
+                                className="new-button"
                                 onClick={() =>
                                     display === "none"
                                         ? setdisplay("block")
                                         : setdisplay("none")
                                 }
-                                content="Filter"
-                            />
+                            >
+                                Filter
+                            </button>
                             <FastSearch className="search_header" />
                         </div>
                     </div>
@@ -470,7 +470,7 @@ export default function Settlement() {
             </Row>
             <Table
                 id="settlement-table"
-                className="short-table"
+                className="main-table"
                 rowKey="Name"
                 columns={columns.filter((c) => c.show === true)}
                 onChange={onChange}
@@ -489,17 +489,19 @@ export default function Settlement() {
                                             <span>Cəm</span>
                                         ) : c.dataIndex === "PayIn" ? (
                                             <span>
-                                                {allinsum}
+                                                {ConvertFixedTable(allinsum)}
                                                 <sup>₼</sup>
                                             </span>
                                         ) : c.dataIndex === "PayOut" ? (
                                             <span>
-                                                {alloutsum}
+                                                {ConvertFixedTable(alloutsum)}
                                                 <sup>₼</sup>
                                             </span>
                                         ) : c.dataIndex === "Current" ? (
                                             <span>
-                                                {allcurrentsum}
+                                                {ConvertFixedTable(
+                                                    allcurrentsum
+                                                )}
                                                 <sup>₼</sup>
                                             </span>
                                         ) : null}

@@ -52,13 +52,14 @@ import {
 } from "../../hooks";
 import { ConvertFixedTable } from "../../config/function/findadditionals";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function SupplyReturnDetail() {
+function SupplyReturnDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const myRefDescription = useRef(null);
     const myRefConsumption = useRef(null);
@@ -112,7 +113,7 @@ function SupplyReturnDetail() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [columnChange, setColumnChange] = useState(false);
     const [initial, setInitial] = useState(null);
-    
+
     const { allsum, allQuantity } = useGetDocItems();
 
     const { onSearchSelectInput, customersForSelet } = useSearchSelectInput();
@@ -131,15 +132,15 @@ function SupplyReturnDetail() {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        if(customerId) {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
@@ -337,7 +338,6 @@ function SupplyReturnDetail() {
         });
         setCreatedStock(null);
     };
-    
 
     var objOwner;
     owners
@@ -425,7 +425,7 @@ function SupplyReturnDetail() {
                                 setPaymentModal(true);
                             }
                         }
-                        fetchDebt()
+                        fetchDebt();
                     } else {
                         message.error({
                             content: (
@@ -495,7 +495,7 @@ function SupplyReturnDetail() {
                             sm={9}
                             md={9}
                             xl={9}
-                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
                         >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
@@ -505,16 +505,46 @@ function SupplyReturnDetail() {
                                 />
                             </div>
                         </Col>
-                        <Dropdown
-                            overlay={menu}
-                            onVisibleChange={handleVisibleChange}
-                            visible={visibleMenuSettings}
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
-                                <SettingOutlined />
-                            </Button>
-                        </Dropdown>
+                            <button
+                                className="new-button"
+                                onClick={handleOpenCatalog}
+                                type="primary"
+                            >
+                                Məhsullar
+                            </button>
+                        </Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
+                        >
+                            <Dropdown
+                                trigger={"onclick"}
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <button className="new-button">
+                                    {" "}
+                                    <SettingOutlined />
+                                </button>
+                            </Dropdown>
+                        </Col>
                         <Col
                             xs={24}
                             sm={24}
@@ -527,6 +557,8 @@ function SupplyReturnDetail() {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
+                                selectList={selectList}
+                                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>
@@ -860,4 +892,4 @@ function SupplyReturnDetail() {
     );
 }
 
-export default SupplyReturnDetail;
+export default withCatalog(SupplyReturnDetail);

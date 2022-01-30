@@ -47,6 +47,8 @@ export default function Owners() {
 	const [update, setUpdate] = useState(true);
 	const [permission, setPermission] = useState(null);
 	const [permissionload, setPermissionLoad] = useState(false);
+	const [ isUpdatePage, setIsUpdatePage ] = useState(false);
+	const [ companyName, setCompanyName ] = useState(false);
 	const queryClient = useQueryClient();
 	const { departments, setDepartments, setDepartmentsLocalStorage } =
 		useTableCustom();
@@ -54,10 +56,21 @@ export default function Owners() {
 		departments && [("owner", { departments, update })],
 		() => fetchOwners()
 	);
+    const updatePage = async () => {
+        if(isUpdatePage){
+            let res = await fetchOwners();
+            setDocumentList(res.Body.List)
+            setIsUpdatePage(false)
+        }}
 
 	useEffect(() => {
+        setCompanyName(JSON.parse(localStorage.getItem( "user" )).Login.slice(6))
+        console.log('companyName',companyName)
 		getDepartments();
-	}, []);
+	}, [companyName]);
+	useEffect(async() => {
+        updatePage()
+	}, [isUpdatePage]);
 
 	const getDepartments = async () => {
 		const depResponse = await fetchDepartments();
@@ -162,7 +175,7 @@ export default function Owners() {
 				title: "№",
 				dataIndex: "Order",
 				show: true,
-				render: (text, record, index) => index + 1 + 25 * 0,
+				render: (text, record, index) => index + 1 + 100 * 0,
 			},
 			{
 				dataIndex: "Name",
@@ -173,7 +186,15 @@ export default function Owners() {
 				dataIndex: "Login",
 				title: "İstifadəçi adı",
 				render: (value, row, index) => {
-					return "admin@" + value;
+                    if(value === "kassa") {
+                        if(companyName) {
+                            return "kassa@" + companyName
+                        }
+                        
+                    }
+                    else {
+                        return "admin@" + value;
+                    }
 				},
 			},
 			{
@@ -293,6 +314,7 @@ export default function Owners() {
 						queryClient.invalidateQueries("owner");
 						setShow(false);
 						setEdit(null);
+                        setIsUpdatePage(true)
 					} else {
 						message.error({
 							content: (
@@ -315,7 +337,6 @@ export default function Owners() {
 	if (isLoading) return "Yüklənir...";
 
 	if (error) return "An error has occurred: " + error.message;
-    console.log(edit)
 
 	return (
 		<div>

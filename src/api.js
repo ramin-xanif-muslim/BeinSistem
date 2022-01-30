@@ -1,4 +1,6 @@
 import axios from "axios";
+import md5 from "md5";
+import moment from "moment";
 // import sendRequest from "./config/sentRequest";
 
 export var API_BASE = "";
@@ -30,12 +32,13 @@ const checkVersion = (en) => {
 };
 
 export async function sendRequest(url, obj) {
-
+    
 	obj.token = localStorage.getItem("access-token");
-
-	// let res = await instace.post(url, obj)
 	const res = await axios.post(API_BASE + `/controllers/` + url, obj);
 
+    if (url === "producttransactions/get.php") {
+        return res
+    }
 	if (
 		obj.token === "" ||
 		res.data.Headers.ResponseStatus === "104" ||
@@ -167,7 +170,7 @@ export const fetchAttributes = async () => {
 		return data;
 	} else {
 		alert(data.Body);
-		return null
+		return null;
 	}
 };
 
@@ -337,15 +340,9 @@ export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
 		Object.assign(navFilter, tarix);
 	}
 	if (page === "profit") {
-		let date = y - 1 + "-" + 12 + "-" + d;
 		var tarix = {
-			momb: `${date} 00:00:00`,
-		};
-		Object.assign(navFilter, tarix);
-
-		date = y + "-" + (m + 1) + "-" + d;
-		var tarix = {
-			mome: `${date} 23:59:59`,
+			momb: moment().startOf("month").format("YYYY-MM-DD HH:mm:ss"),
+			mome: moment().endOf("month").format("YYYY-MM-DD HH:mm:ss"),
 		};
 		Object.assign(navFilter, tarix);
 	}
@@ -1101,4 +1098,42 @@ export const getCustomerFastFilter = async (fast) => {
 	);
 
 	return data;
+};
+export const saveSettings = async (obj) => {
+	var dataFilter = {
+		token: localStorage.getItem("access-token"),
+		tempdesign: obj.tempdesign,
+	};
+	const { data } = await axios.post(
+		API_BASE + `/controllers/settings/put.php`,
+		dataFilter
+	);
+
+	return data;
+};
+export const fetchSettings = async (obj) => {
+	let hashMD5 = md5(obj);
+	let newObj = {
+		token: localStorage.getItem("access-token"),
+		hash: hashMD5,
+	};
+
+	const { data } = await axios.post(
+		API_BASE + `/controllers/settings/get.php`,
+		newObj
+	);
+	Object.entries(data.Body).map((item) => {
+		localStorage.setItem(item[0], item[1]);
+		console.log(localStorage.getItem(item[0]));
+	});
+};
+export const increaseBalance = async (value) => {
+	var obj = {
+		token: localStorage.getItem("access-token"),
+	};
+	Object.assign(obj, value);
+	const res = await axios.post(`${API_BASE}/controllers/merch/put.php`, obj);
+	if (res.data.Body.ResponseStatus === "0") {
+		window.open(res.data.Body.ResponseService);
+	}
 };

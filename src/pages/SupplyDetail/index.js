@@ -13,7 +13,7 @@ import { Redirect } from "react-router";
 import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
-
+import { PrinterOutlined } from "@ant-design/icons";
 import {
     DeleteOutlined,
     PlusOutlined,
@@ -65,6 +65,7 @@ import {
 } from "../../hooks";
 import ProductModal from "../../components/ProductModal";
 import ok from "../../audio/ok.mp3";
+import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
 
@@ -73,7 +74,7 @@ const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
 
-function SupplyDetail() {
+function SupplyDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const [form] = Form.useForm();
     const myRefDescription = useRef(null);
     const myRefConsumption = useRef(null);
@@ -113,6 +114,7 @@ function SupplyDetail() {
         setProductModal,
         saveFromModal,
         setSaveFromModal,
+        paymentModal,
 
         redirectSaveClose,
         setRedirectSaveClose,
@@ -145,18 +147,23 @@ function SupplyDetail() {
         setPositions(dataSource.filter((item) => item.key !== key));
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        if(customerId) {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
+    useEffect(() => {
+        if (!paymentModal) {
+            fetchDebt(customerId);
+        }
+    }, [paymentModal]);
 
     useEffect(() => {
         setDisable(true);
@@ -360,6 +367,29 @@ function SupplyDetail() {
                 },
             },
             {
+                dataIndex: "PrintBarcode",
+                title: "Print",
+                className: "activesort",
+                isVisible: true,
+                render: (value, row, index) => {
+                    return (
+                        <span
+                            style={{ color: "#1164B1" }}
+                            onClick={getProductPrint(
+                                row.ProductId,
+                                row.BarCode,
+                                row.IsPack === 1
+                                    ? row.PackPrice
+                                    : row.BasicPrice,
+                                row.Name
+                            )}
+                        >
+                            <PrinterOutlined />
+                        </span>
+                    );
+                },
+            },
+            {
                 title: "Sil",
                 className: "orderField printField",
                 dataIndex: "operation",
@@ -381,8 +411,27 @@ function SupplyDetail() {
         ];
     }, [consumption, outerDataSource, docSum]);
 
+    const getProductPrint = (id, br, pr, nm) => (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let price = Number(pr).toFixed(2);
+        if (localStorage.getItem("tempdesign") === "4x2_3.css") {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}&r=4`);
+        } else {
+            window.open(`/bc.php?bc=${br}&pr=${price}&nm=${nm}`);
+        }
+    };
+
     useEffect(() => {
         setInitial(columns);
+    }, []);
+    useEffect(() => {
+        if (isPayment) {
+            setPaymentModal(true);
+        }
+        if (isReturn) {
+            setRedirect(true);
+        }
     }, []);
 
     useEffect(() => {
@@ -532,7 +581,7 @@ function SupplyDetail() {
                                 setPaymentModal(true);
                             }
                         }
-                        fetchDebt()
+                        fetchDebt();
                     } else {
                         message.error({
                             content: (
@@ -604,7 +653,7 @@ function SupplyDetail() {
                             sm={9}
                             md={9}
                             xl={9}
-                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                            style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
                         >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
@@ -614,16 +663,46 @@ function SupplyDetail() {
                                 />
                             </div>
                         </Col>
-                        <Dropdown
-                            overlay={menu}
-                            onVisibleChange={handleVisibleChange}
-                            visible={visibleMenuSettings}
+                        <Col
+                            xs={3}
+                            sm={3}
+                            md={3}
+                            xl={3}
+                            style={{
+                                display: "flex",
+                                justifyContent: "center",
+                            }}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
-                                <SettingOutlined />
-                            </Button>
-                        </Dropdown>
+                            <button
+                                className="new-button"
+                                onClick={handleOpenCatalog}
+                                type="primary"
+                            >
+                                Məhsullar
+                            </button>
+                        </Col>
+                        <Col
+                            style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                            }}
+                            xs={12}
+                            sm={12}
+                            md={12}
+                            xl={12}
+                        >
+                            <Dropdown
+                                trigger={"onclick"}
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <button className="new-button">
+                                    {" "}
+                                    <SettingOutlined />
+                                </button>
+                            </Dropdown>
+                        </Col>
                         <Col
                             xs={24}
                             sm={24}
@@ -636,6 +715,8 @@ function SupplyDetail() {
                                     (c) => c.isVisible == true
                                 )}
                                 datas={positions}
+                                selectList={selectList}
+                                catalogVisible={catalogVisible}
                             />
                         </Col>
                     </Row>
@@ -1018,4 +1099,4 @@ function SupplyDetail() {
     );
 }
 
-export default SupplyDetail;
+export default withCatalog(SupplyDetail);
