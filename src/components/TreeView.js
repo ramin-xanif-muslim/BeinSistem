@@ -38,7 +38,7 @@ function convert(array) {
   return map["-"].children;
 }
 
-function TreeView({ from, modalVisible, setStockId, onClose }) {
+function TreeView({ from, modalVisible, setGroupId, onClose, fetchGroup }) {
   var convertedDatas = [];
   var childrenFilter = [];
 
@@ -59,8 +59,8 @@ function TreeView({ from, modalVisible, setStockId, onClose }) {
   const [convertedData, setConvertedData] = useState([]);
 
   const { isLoading, error, data, isFetching } = useQuery(
-    ["fetchstocks", modalVisible],
-    () => fetchStocks()
+    [`${from}`, modalVisible],
+    () => fetchGroup()
   );
 
   const handleEdit = (e, id) => {
@@ -71,7 +71,6 @@ function TreeView({ from, modalVisible, setStockId, onClose }) {
   useEffect(() => {
     if (search === "") {
       if (JSON.stringify(convertedDatas) != JSON.stringify(convertedData)) {
-        console.log("salam");
         setConvertedData(convertedDatas);
       }
     }
@@ -106,7 +105,7 @@ function TreeView({ from, modalVisible, setStockId, onClose }) {
 
   const onSelect = (keys, info) => {
     console.log(info);
-    setStockId([
+    setGroupId([
       {
         name: info.node.name,
         id: info.node.id,

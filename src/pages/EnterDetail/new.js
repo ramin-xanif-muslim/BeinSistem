@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocName } from "../../api";
+import { fetchDocName, fetchStocks } from "../../api";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import moment from "moment";
@@ -13,6 +13,7 @@ import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import ProductModal from "../../components/ProductModal";
 import TreeView from "../../components/TreeView";
+
 import { Tab } from "semantic-ui-react";
 import {
   FindAdditionals,
@@ -868,8 +869,9 @@ function NewEnter() {
       <TreeView
         from={"stocks"}
         modalVisible={modalVisible}
-        setStockId={setStockId}
+        setGroupId={setStockId}
         onClose={handleClick}
+        fetchGroup={fetchStocks}
       />
       <Catalog
         onClose={handleOpenCatalog}

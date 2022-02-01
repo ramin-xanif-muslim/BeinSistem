@@ -1,5 +1,5 @@
 import { useCustomForm } from "../contexts/FormContext";
-import { saveDoc } from "../api";
+import { saveDoc, fetchStocks } from "../api";
 import { useEffect, useState } from "react";
 import { useTableCustom } from "../contexts/TableContext";
 import {
@@ -135,10 +135,11 @@ function StockDrawer({ direction }) {
         </Form>
       </Drawer>
       <TreeView
-        from={"stocks"}
+        from={"fetchstocks"}
         modalVisible={modalVisible}
-        setStockId={setStockId}
+        setGroupId={setStockId}
         onClose={handleClick}
+        fetchGroup={fetchStocks}
       />
     </>
   );
