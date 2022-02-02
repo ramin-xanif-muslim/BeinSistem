@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Form, Input, Button, Modal } from "antd";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useQuery } from "react-query";
 import { fetchSettings, putLogin } from "../../../api";

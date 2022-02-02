@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { Alert, Spin } from "antd";
-import { Redirect, useParams } from "react-router";
+import { Redirect } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
 
@@ -14,19 +14,19 @@ const Loss = React.lazy(() => import("./pages/Loss"));
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail/index"));
 const CustomerDetail = React.lazy(() => import("./pages/CustomerDetail/index"));
 const SalePointDetail = React.lazy(() =>
-    import("./pages/SalePointDetail/index")
+	import("./pages/SalePointDetail/index")
 );
 const ProductGroupDetail = React.lazy(() =>
-    import("./pages/ProductGroupDetail/index")
+	import("./pages/ProductGroupDetail/index")
 );
 const CustomerGroupDetail = React.lazy(() =>
-    import("./pages/CustomerGroupDetail/index")
+	import("./pages/CustomerGroupDetail/index")
 );
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Documents = React.lazy(() => import("./pages/Documents"));
 const EnterDetail = React.lazy(() => import("./pages/EnterDetail"));
 const SupplyReturnDetail = React.lazy(() =>
-    import("./pages/SupplyReturnDetail")
+	import("./pages/SupplyReturnDetail")
 );
 const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const MoveDetail = React.lazy(() => import("./pages/MoveDetail"));
@@ -35,28 +35,30 @@ const NewHandovers = React.lazy(() => import("./pages/HandoversDetail/new"));
 const HandoversDetail = React.lazy(() => import("./pages/HandoversDetail"));
 
 const CustomerOrderDetail = React.lazy(() =>
-    import("./pages/CustomerOrderDetail")
+	import("./pages/CustomerOrderDetail")
 );
-const ProductTransactions = React.lazy(() => import("./pages/ProductTransactions"));
+const ProductTransactions = React.lazy(() =>
+	import("./pages/ProductTransactions")
+);
 
 const StockBalance = React.lazy(() => import("./pages/StockBalance"));
 const NewEnter = React.lazy(() => import("./pages/EnterDetail/new"));
 const NewSupply = React.lazy(() => import("./pages/SupplyDetail/new"));
 const NewSupplyReturn = React.lazy(() =>
-    import("./pages/SupplyReturnDetail/new")
+	import("./pages/SupplyReturnDetail/new")
 );
 const SignIn = React.lazy(() => import("./pages/Auth/Signin"));
 const Registration = React.lazy(() => import("./pages/Auth/Registration"));
 const NewProduct = React.lazy(() => import("./pages/ProductDetail/new"));
 const NewCustomer = React.lazy(() => import("./pages/CustomerDetail/new"));
 const SupplyReturnLinked = React.lazy(() =>
-    import("./pages/SupplyReturnDetail/linked")
+	import("./pages/SupplyReturnDetail/linked")
 );
 const NewProductGroup = React.lazy(() =>
-    import("./pages/ProductGroupDetail/new")
+	import("./pages/ProductGroupDetail/new")
 );
 const NewCustomerGroup = React.lazy(() =>
-    import("./pages/CustomerGroupDetail/new")
+	import("./pages/CustomerGroupDetail/new")
 );
 const LossDetail = React.lazy(() => import("./pages/LossDetail"));
 const NewLoss = React.lazy(() => import("./pages/LossDetail/new"));
@@ -84,42 +86,42 @@ const DemandDetail = React.lazy(() => import("./pages/DemandDetail"));
 const Bc = React.lazy(() => import("./Check.js/bc"));
 const Invoice = React.lazy(() => import("./Check.js/invoice"));
 const NewDemandReturn = React.lazy(() =>
-    import("./pages/DemandReturnDetail/new")
+	import("./pages/DemandReturnDetail/new")
 );
 const NewPaymentIn = React.lazy(() =>
-    import("./pages/TransactionDetail/newpaymentin")
+	import("./pages/TransactionDetail/newpaymentin")
 );
 const NewInvoiceIns = React.lazy(() =>
-    import("./pages/TransactionDetail/newinvoiceins")
+	import("./pages/TransactionDetail/newinvoiceins")
 );
 const NewInvoiceOuts = React.lazy(() =>
-    import("./pages/TransactionDetail/newinvoiceouts")
+	import("./pages/TransactionDetail/newinvoiceouts")
 );
 const NewPaymentOut = React.lazy(() =>
-    import("./pages/TransactionDetail/newpaymentout")
+	import("./pages/TransactionDetail/newpaymentout")
 );
 const InvoiceInDetail = React.lazy(() =>
-    import("./pages/TransactionDetail/indexinvoicein")
+	import("./pages/TransactionDetail/indexinvoicein")
 );
 const InvoiceOutDetail = React.lazy(() =>
-    import("./pages/TransactionDetail/indexinvoiceout")
+	import("./pages/TransactionDetail/indexinvoiceout")
 );
 
 const PaymentInDetail = React.lazy(() => import("./pages/TransactionDetail"));
 const PaymentOutDetail = React.lazy(() =>
-    import("./pages/TransactionDetail/indexout")
+	import("./pages/TransactionDetail/indexout")
 );
 
 const DemandReturnDetail = React.lazy(() =>
-    import("./pages/DemandReturnDetail")
+	import("./pages/DemandReturnDetail")
 );
 const DemandReturnLinked = React.lazy(() =>
-    import("./pages/DemandReturnDetail/linked")
+	import("./pages/DemandReturnDetail/linked")
 );
 const CustomerOrders = React.lazy(() => import("./pages/CustomerOrders"));
 
 const NewCustomerOrder = React.lazy(() =>
-    import("./pages/CustomerOrderDetail/new")
+	import("./pages/CustomerOrderDetail/new")
 );
 const DocumentDetail = React.lazy(() => import("./pages/DocumentDetail"));
 const SaleDetail = React.lazy(() => import("./pages/SaleDetail"));
@@ -127,293 +129,308 @@ const Settings = React.lazy(() => import("./pages/Settings"));
 const Download = React.lazy(() => import("./pages/Download"));
 const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 
-
-
 function App() {
-    const { loggedIn, token, firstLogin } = useAuth();
-    const { nav } = useTableCustom();
-    return (
-        <>
-            <React.Suspense
-                fallback={
-                    <Spin className="fetchSpinner" tip="Yüklənir...">
-                        <Alert />
-                    </Spin>
-                }
-            >
-                <Router>
-                    {loggedIn && nav != "none" ? <Navbar /> : ""}
+	const { loggedIn, token, firstLogin, isControlUrlParams } = useAuth();
+	const { nav } = useTableCustom();
 
-                    <div>
-                        <Switch>
-                            <Route exact path="/">
-                                <Redirect to="/p=product" />
-                            </Route>
-                            <Route path="/signin" component={SignIn}></Route>
-                            <Route
-                                path="/registration"
-                                component={Registration}
-                            ></Route>
-                            <Route path="/p=enter" component={Enter}></Route>
-                            <Route path="/p=supply" component={Supply}></Route>
-                            <Route
-                                path="/p=supplyreturns"
-                                component={SupplyReturn}
-                            ></Route>
-                            <Route
-                                path="/p=demandreturns"
-                                component={DemandReturn}
-                            ></Route>
-                            <Route path="/p=demand" component={Demand}></Route>
-                            <Route
-                                path="/p=customerorders"
-                                component={CustomerOrders}
-                            ></Route>
-                            <Route path="/p=sales" component={Sale}></Route>
-                            <Route path="/p=profit" component={Profit}></Route>
-                            <Route
-                                path="/p=settlements"
-                                component={Settlement}
-                            ></Route>
-                            <Route
-                                path="/p=salereports"
-                                component={SaleReport}
-                            ></Route>
-                            <Route
-                                path="/p=salepoints"
-                                component={SalePoint}
-                            ></Route>
-                            <Route
-                                path="/p=customer"
-                                component={Customer}
-                            ></Route>
-                            <Route
-                                path="/p=transactions"
-                                component={Transaction}
-                            ></Route>
-                            <Route path="/p=cashins" component={CashIn}></Route>
-                            <Route exact path="/bc" component={Bc} />
-                            <Route exact path="/invoice" component={Invoice} />
-                            <Route
-                                path="/settings"
-                                component={Settings}
-                            ></Route>
-                            <Route path="/p=cashes" component={Cashe}></Route>
-                            <Route
-                                path="/p=cashouts"
-                                component={CashOut}
-                            ></Route>
-                            <Route path="/p=returns" component={Return}></Route>
-                            <Route
-                                path="/p=credittransaction"
-                                component={CreditTransaction}
-                            ></Route>
-                            <Route path="/p=loss" component={Loss}></Route>
-                            <Route
-                                path="/editEnter/:doc_id"
-                                component={EnterDetail}
-                            ></Route>
-                            <Route
-                                path="/editSale/:doc_id"
-                                component={SaleDetail}
-                            ></Route>
-                            <Route
-                                path="/editDocument/:doc_id"
-                                component={DocumentDetail}
-                            ></Route>
-                            <Route
-                                path="/editReturn/:doc_id"
-                                component={ReturnDetail}
-                            ></Route>
-                            <Route
-                                path="/editSupply/:doc_id"
-                                component={SupplyDetail}
-                            ></Route>
-                            <Route
-                                path="/editCustomerOrder/:doc_id"
-                                component={CustomerOrderDetail}
-                            ></Route>
-                            <Route
-                                path="/p=download"
-                                component={Download}
-                            ></Route>
+	return (
+		<>
+			<React.Suspense
+				fallback={
+					<Spin className="fetchSpinner" tip="Yüklənir...">
+						<Alert />
+					</Spin>
+				}
+			>
+				<Router>
+					{loggedIn && nav != "none" ? <Navbar /> : ""}
 
-                            <Route
-                                path="/editDemand/:doc_id"
-                                component={DemandDetail}
-                            ></Route>
-                            <Route
-                                path="/editInvoiceIn/:doc_id"
-                                component={InvoiceInDetail}
-                            ></Route>
-                            <Route
-                                path="/editInvoiceOut/:doc_id"
-                                component={InvoiceOutDetail}
-                            ></Route>
-                            <Route
-                                path="/editPaymentIn/:doc_id"
-                                component={PaymentInDetail}
-                            ></Route>
-                            <Route
-                                path="/editPaymentOut/:doc_id"
-                                component={PaymentOutDetail}
-                            ></Route>
-                            <Route
-                                path="/editSupplyReturn/:doc_id"
-                                component={SupplyReturnDetail}
-                            ></Route>
-                            <Route
-                                path="/editDemandReturn/:doc_id"
-                                component={DemandReturnDetail}
-                            ></Route>
-                            <Route
-                                path="/editSupplyReturnLinked"
-                                render={(props) => (
-                                    <SupplyReturnLinked {...props} />
-                                )}
-                            />
-                            <Route
-                                path="/editDemandReturnLinked"
-                                render={(props) => (
-                                    <DemandReturnLinked {...props} />
-                                )}
-                            />
-                            <Route
-                                path="/editMove/:doc_id"
-                                component={MoveDetail}
-                            ></Route>
-                            <Route
-                                path="/editHandovers/:doc_id"
-                                component={HandoversDetail}
-                            ></Route>
-                            <Route
-                                path="/editLoss/:doc_id"
-                                component={LossDetail}
-                            ></Route>
-                            <Route
-                                path="/editProduct/:product_id"
-                                component={ProductDetail}
-                            ></Route>
-                            <Route
-                                path="/editCustomer/:cus_id"
-                                component={CustomerDetail}
-                            ></Route>
-                            <Route
-                                path="/editSalePoint/:slpnt_id"
-                                component={SalePointDetail}
-                            ></Route>
-                            <Route
-                                path="/editProductGroup/:progr_id"
-                                component={ProductGroupDetail}
-                            ></Route>
-                            <Route
-                                path="/editCustomerGroup/:cusgr_id"
-                                component={CustomerGroupDetail}
-                            ></Route>
-                            <Route
-                                path="/p=dashboard"
-                                component={Dashboard}
-                            ></Route>
-                            <Route
-                                path="/p=documents"
-                                component={Documents}
-                            ></Route>
-                            <Route
-                                path="/newenter"
-                                component={NewEnter}
-                            ></Route>
-                            <Route
-                                path="/newsupplyreturn"
-                                component={NewSupplyReturn}
-                            ></Route>
-                            <Route
-                                path="/newdemandreturn"
-                                component={NewDemandReturn}
-                            ></Route>
-                            <Route
-                                path="/newsupply"
-                                component={NewSupply}
-                            ></Route>
-                            <Route
-                                path="/newpaymentin"
-                                component={NewPaymentIn}
-                            ></Route>
-                            <Route
-                                path="/newinvoicein"
-                                component={NewInvoiceIns}
-                            ></Route>
-                            <Route
-                                path="/newinvoiceout"
-                                component={NewInvoiceOuts}
-                            ></Route>
-                            <Route
-                                path="/newsalepoint"
-                                component={NewSalePoint}
-                            ></Route>
-                            <Route
-                                path="/newpaymentout"
-                                component={NewPaymentOut}
-                            ></Route>
-                            <Route
-                                path="/newdemand"
-                                component={NewDemand}
-                            ></Route>
-                            <Route
-                                path="/newdocument"
-                                component={NewDocument}
-                            ></Route>
-                            <Route path="/newmove" component={NewMove}></Route>
-                            <Route path="/newhandover" component={NewHandovers}></Route>
-                            <Route path="/newloss" component={NewLoss}></Route>
-                            <Route
-                                path="/newproduct"
-                                component={NewProduct}
-                            ></Route>
-                            <Route
-                                path="/newcustomer"
-                                component={NewCustomer}
-                            ></Route>
-                            <Route
-                                path="/newcustomerorders"
-                                component={NewCustomerOrder}
-                            ></Route>
-                            <Route
-                                path="/newprogroup"
-                                component={NewProductGroup}
-                            ></Route>
-                            <Route
-                                path="/newcusgroup"
-                                component={NewCustomerGroup}
-                            ></Route>
-                            <Route path="/p=loss" component={Loss}></Route>
-                            <Route
-                                path="/p=stockbalance"
-                                component={StockBalance}
-                            ></Route>
-                            <Route
-                                path="/p=producttransactions"
-                                component={ProductTransactions}
-                            ></Route>
-                            <Route
-                                path="/p=product"
-                                component={Product}
-                            ></Route>
-                            <Route path="/p=move" component={Move}></Route>
-                            <Route path="/p=handover" component={Handovers}></Route>
-                        </Switch>
-                    </div>
+					<div>
+						<Switch>
+							<Route exact path="/">
+								<Redirect to="/p=product" />
+							</Route>
+							<Route path="/signin" component={SignIn}></Route>
+							<Route
+								path="/registration"
+								component={Registration}
+							></Route>
+							<Route path="/p=enter" component={Enter}></Route>
+							<Route path="/p=supply" component={Supply}></Route>
+							<Route
+								path="/p=supplyreturns"
+								component={SupplyReturn}
+							></Route>
+							<Route
+								path="/p=demandreturns"
+								component={DemandReturn}
+							></Route>
+							<Route path="/p=demand" component={Demand}></Route>
+							<Route
+								path="/p=customerorders"
+								component={CustomerOrders}
+							></Route>
+							<Route path="/p=sales" component={Sale}></Route>
+							<Route path="/p=profit" component={Profit}></Route>
+							<Route
+								path="/p=settlements"
+								component={Settlement}
+							></Route>
+							<Route
+								path="/p=salereports"
+								component={SaleReport}
+							></Route>
+							<Route
+								path="/p=salepoints"
+								component={SalePoint}
+							></Route>
+							<Route
+								path="/p=customer"
+								component={Customer}
+							></Route>
+							<Route
+								path="/p=transactions"
+								component={Transaction}
+							></Route>
+							<Route path="/p=cashins" component={CashIn}></Route>
+							<Route exact path="/bc" component={Bc} />
+							<Route exact path="/invoice" component={Invoice} />
+							<Route
+								path="/settings"
+								component={Settings}
+							></Route>
+							<Route path="/p=cashes" component={Cashe}></Route>
+							<Route
+								path="/p=cashouts"
+								component={CashOut}
+							></Route>
+							<Route path="/p=returns" component={Return}></Route>
+							<Route
+								path="/p=credittransaction"
+								component={CreditTransaction}
+							></Route>
+							<Route path="/p=loss" component={Loss}></Route>
+							<Route
+								path="/editEnter/:doc_id"
+								component={EnterDetail}
+							></Route>
+							<Route
+								path="/editSale/:doc_id"
+								component={SaleDetail}
+							></Route>
+							<Route
+								path="/editDocument/:doc_id"
+								component={DocumentDetail}
+							></Route>
+							<Route
+								path="/editReturn/:doc_id"
+								component={ReturnDetail}
+							></Route>
+							<Route
+								path="/editSupply/:doc_id"
+								component={SupplyDetail}
+							></Route>
+							<Route
+								path="/editCustomerOrder/:doc_id"
+								component={CustomerOrderDetail}
+							></Route>
+							<Route
+								path="/p=download"
+								component={Download}
+							></Route>
 
-                    {loggedIn && token && firstLogin ? (
-                        <Redirect to={"/p=enter"} />
-                    ) : loggedIn && token && !firstLogin ? (
-                        ""
-                    ) : (
-                        <Redirect to={"/signin"} />
-                    )}
-                </Router>
-            </React.Suspense>
-        </>
-    );
+							<Route
+								path="/editDemand/:doc_id"
+								component={DemandDetail}
+							></Route>
+							<Route
+								path="/editInvoiceIn/:doc_id"
+								component={InvoiceInDetail}
+							></Route>
+							<Route
+								path="/editInvoiceOut/:doc_id"
+								component={InvoiceOutDetail}
+							></Route>
+							<Route
+								path="/editPaymentIn/:doc_id"
+								component={PaymentInDetail}
+							></Route>
+							<Route
+								path="/editPaymentOut/:doc_id"
+								component={PaymentOutDetail}
+							></Route>
+							<Route
+								path="/editSupplyReturn/:doc_id"
+								component={SupplyReturnDetail}
+							></Route>
+							<Route
+								path="/editDemandReturn/:doc_id"
+								component={DemandReturnDetail}
+							></Route>
+							<Route
+								path="/editSupplyReturnLinked"
+								render={(props) => (
+									<SupplyReturnLinked {...props} />
+								)}
+							/>
+							<Route
+								path="/editDemandReturnLinked"
+								render={(props) => (
+									<DemandReturnLinked {...props} />
+								)}
+							/>
+							<Route
+								path="/editMove/:doc_id"
+								component={MoveDetail}
+							></Route>
+							<Route
+								path="/editHandovers/:doc_id"
+								component={HandoversDetail}
+							></Route>
+							<Route
+								path="/editLoss/:doc_id"
+								component={LossDetail}
+							></Route>
+							<Route
+								path="/editProduct/:product_id"
+								component={ProductDetail}
+							></Route>
+							<Route
+								path="/editCustomer/:cus_id"
+								component={CustomerDetail}
+							></Route>
+							<Route
+								path="/editSalePoint/:slpnt_id"
+								component={SalePointDetail}
+							></Route>
+							<Route
+								path="/editProductGroup/:progr_id"
+								component={ProductGroupDetail}
+							></Route>
+							<Route
+								path="/editCustomerGroup/:cusgr_id"
+								component={CustomerGroupDetail}
+							></Route>
+							<Route
+								path="/p=dashboard"
+								component={Dashboard}
+							></Route>
+							<Route
+								path="/p=documents"
+								component={Documents}
+							></Route>
+							<Route
+								path="/newenter"
+								component={NewEnter}
+							></Route>
+							<Route
+								path="/newsupplyreturn"
+								component={NewSupplyReturn}
+							></Route>
+							<Route
+								path="/newdemandreturn"
+								component={NewDemandReturn}
+							></Route>
+							<Route
+								path="/newsupply"
+								component={NewSupply}
+							></Route>
+							<Route
+								path="/newpaymentin"
+								component={NewPaymentIn}
+							></Route>
+							<Route
+								path="/newinvoicein"
+								component={NewInvoiceIns}
+							></Route>
+							<Route
+								path="/newinvoiceout"
+								component={NewInvoiceOuts}
+							></Route>
+							<Route
+								path="/newsalepoint"
+								component={NewSalePoint}
+							></Route>
+							<Route
+								path="/newpaymentout"
+								component={NewPaymentOut}
+							></Route>
+							<Route
+								path="/newdemand"
+								component={NewDemand}
+							></Route>
+							<Route
+								path="/newdocument"
+								component={NewDocument}
+							></Route>
+							<Route path="/newmove" component={NewMove}></Route>
+							<Route
+								path="/newhandover"
+								component={NewHandovers}
+							></Route>
+							<Route path="/newloss" component={NewLoss}></Route>
+							<Route
+								path="/newproduct"
+								component={NewProduct}
+							></Route>
+							<Route
+								path="/newcustomer"
+								component={NewCustomer}
+							></Route>
+							<Route
+								path="/newcustomerorders"
+								component={NewCustomerOrder}
+							></Route>
+							<Route
+								path="/newprogroup"
+								component={NewProductGroup}
+							></Route>
+							<Route
+								path="/newcusgroup"
+								component={NewCustomerGroup}
+							></Route>
+							<Route path="/p=loss" component={Loss}></Route>
+							<Route
+								path="/p=stockbalance"
+								component={StockBalance}
+							></Route>
+							<Route
+								path="/p=producttransactions"
+								component={ProductTransactions}
+							></Route>
+							<Route
+								path="/p=product"
+								component={Product}
+							></Route>
+							<Route path="/p=move" component={Move}></Route>
+							<Route
+								path="/p=handover"
+								component={Handovers}
+							></Route>
+						</Switch>
+					</div>
+
+					{/* {isControlUrlParams ? (
+						loggedIn && token && firstLogin ? (
+							<Redirect to={"/p=enter"} />
+						) : loggedIn && token && !firstLogin ? (
+							""
+						) : (
+							<Redirect to={"/signin"} />
+						)
+					) : null} */}
+
+					{loggedIn && token && firstLogin ? (
+						<Redirect to={"/p=enter"} />
+					) : loggedIn && token && !firstLogin ? (
+						""
+					) : (
+						<Redirect to={"/signin"} />
+					)}
+				</Router>
+			</React.Suspense>
+		</>
+	);
 }
 
 export default App;

@@ -159,6 +159,7 @@ function FilterComponent({ from, settings, cols }) {
 	}
 
 	const onChange = (e) => {
+		console.log("onChange",e.target);
 		var n = e.target.name;
 		var v = e.target.value;
 		Object.assign(rangeFilter, { [n]: v });

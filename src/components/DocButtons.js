@@ -68,7 +68,6 @@ function DocButtons({
 
     const handleSaveOrNot = (e) => {
         if (!disable) {
-            console.log("if");
             e.preventDefault();
             e.stopPropagation();
             setShowModal(true);

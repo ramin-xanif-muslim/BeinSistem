@@ -438,6 +438,10 @@ export default function SupplyReturn() {
         }
     }, [isFetching]);
 
+    useEffect(() => {
+        setdisplay("none")
+    },[])
+
     const editPage = (id) => {
         setRedirect(true);
         setEditId(id);

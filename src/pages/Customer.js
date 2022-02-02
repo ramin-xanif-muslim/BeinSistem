@@ -332,6 +332,10 @@ export default function Customer() {
         setColumnChange(false);
         if (filtered) setFiltered(false);
     }, [columnChange, filtered]);
+    
+    useEffect(() => {
+        setdisplay("none")
+    },[])
 
     useEffect(() => {
         setInitial(columns);

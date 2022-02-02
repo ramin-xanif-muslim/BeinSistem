@@ -10,8 +10,7 @@ import { List } from "semantic-ui-react";
 import { Segment } from "semantic-ui-react";
 import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
-import { Button, Modal, Badge, Spin, Alert } from "antd";
-import { toast } from "react-toastify";
+import { Button, Modal, Badge } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 import {
@@ -22,9 +21,7 @@ import {
 } from "../api";
 import "../Navbar.css";
 import { useNotification } from "../hooks/useNotification";
-import sendRequest from "../config/sentRequest";
 import { IncreaseBalance } from "./modal/IncreaseBalance";
-import { useParams } from "react-router-dom";
 
 function Navbar(props) {
 	const {
@@ -43,7 +40,7 @@ function Navbar(props) {
 		balance,
 		setBalance,
 	} = useTableCustom();
-	const { firstLogin, logout } = useAuth();
+	const { firstLogin, logout, loginFromUrlParams } = useAuth();
 
 	const { getNotification, notificationsCount, fetchNotificationCount } =
 		useNotification();
@@ -113,15 +110,27 @@ function Navbar(props) {
 		const login = query.get("login");
 		if (token && login) {
 			localStorage.removeItem("user");
+            console.log(token)
+            console.log(login)
+            alert(token)
 			let user = {};
-			if ( token && login ) {
+			if (token && login) {
 				user.Token = token;
-				user.Login = login
+				user.Login = login;
 				localStorage.setItem("user", JSON.stringify(user));
+				localStorage.setItem("Token", token);
+				localStorage.setItem("access-token", token);
+				getCompany();
+                loginFromUrlParams(user)
 			}
 		}
 	}, []);
 	//online.bein.az/?token=e71fc9dfdae6e0e1a3d96f38ab9742e1&login=admin@farid
+	useEffect(() => {
+		if (!companyname) {
+			getCompany();
+		}
+	}, [companyname]);
 
 	https: useEffect(() => {
 		fetchNotificationCount();

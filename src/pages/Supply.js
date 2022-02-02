@@ -429,6 +429,10 @@ export default function Supply() {
         setRedirect(true);
         setEditId(id);
     };
+
+    useEffect(() => {
+        setdisplay("none")
+    },[])
     const editClickPage = (e, id) => {
         if (e.target.className.includes("linkedColumns")) {
             setRedirect(true);
