@@ -119,7 +119,7 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
             setActivId(defaultCheckedDate);
             setSelectedDateId(defaultCheckedDate)
         }
-    },[])
+    },[defaultCheckedDate])
 
 	return (
 		<div className={style.div}>

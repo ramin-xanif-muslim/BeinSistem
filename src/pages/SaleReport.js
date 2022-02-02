@@ -32,6 +32,7 @@ import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import style from "./SaleReport.module.css";
 import MyFastSearch from "../components/MyFastSearch";
+import FilterButton from "../components/FilterButton";
 
 const { Text } = Typography;
 
@@ -553,12 +554,16 @@ export default function SaleReport() {
 				setRetAllAmount(data.Body.RetAllAmount);
 				setRetAllCost(data.Body.RetAllCost);
 				setCount(data.Body.Count);
-                setMarja(data.Body.Margin)
+				setMarja(data.Body.Margin);
 			}
 		} else {
 			setDocumentList([]);
 		}
 	}, [isFetching]);
+
+	useEffect(() => {
+		setdisplay("none");
+	}, []);
 
 	const editPage = (id) => {
 		setRedirect(true);
@@ -646,7 +651,7 @@ export default function SaleReport() {
 		setAllProfit(res.AllProfit);
 		setRetAllAmount(res.RetAllAmount);
 		setRetAllCost(res.RetAllCost);
-        setMarja(res.Margin)
+		setMarja(res.Margin);
 		setFetchSearchByDate(false);
 	};
 	if (isLoading)
@@ -680,17 +685,7 @@ export default function SaleReport() {
 				<Col xs={24} md={24} xl={19}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<button
-                                className="new-button"
-                                onClick={() =>
-                                    display === "none"
-                                        ? setdisplay("block")
-                                        : setdisplay("none")
-                                }
-                            >
-                                Filter
-                            </button>
-							{/* <FastSearch className="search_header" /> */}
+							<FilterButton />
 							<MyFastSearch
 								searchFunc={searchFunc}
 								setSearchTerm={setSalereportsSearchTerm}
@@ -700,7 +695,7 @@ export default function SaleReport() {
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
 								defaultSort={"ProductName"}
-                                defaultCheckedDate={1}
+								defaultCheckedDate={1}
 							/>
 						</div>
 					</div>
@@ -787,9 +782,8 @@ export default function SaleReport() {
 													color: "var(--dark-blue)",
 												}}
 											>
-												{ConvertFixedTable(
-													marja
-												) + " %"}
+												{ConvertFixedTable(marja) +
+													" %"}
 											</div>
 										) : c.dataIndex === "RetSumPrice" ? (
 											ConvertFixedTable(retAllAmount) +

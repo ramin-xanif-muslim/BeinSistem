@@ -258,6 +258,10 @@ export default function SalePoint() {
         setVisibleMenuSettings(flag);
     };
 
+    useEffect(() => {
+        setdisplay("none")
+    },[])
+
     const onChangeMenu = (e) => {
         var initialCols = initial;
         var findelement;

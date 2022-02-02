@@ -1,8 +1,10 @@
 import { useState, createContext, useEffect, useContext } from "react";
 import { Redirect, useParams } from "react-router";
+import { useLocation } from "react-router-dom";
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
+  const [isControlUrlParams, setIsControlUrlParams] = useState(false);
   const [user, setUser] = useState(null);
   const [firstLogin, setFirstLogin] = useState(false);
   const [token, setToken] = useState(
@@ -22,6 +24,17 @@ const AuthProvider = ({ children }) => {
     setToken(data.Body.Token);
     setFirstLogin(true);
   };
+  const loginFromUrlParams = (obj) => {
+      if(obj.Token) {
+        localStorage.setItem("access-token", obj.Token);
+        localStorage.setItem("user", JSON.stringify(obj));
+        setUser(obj);
+        setLoggedIn(true);
+        setToken(obj.Token);
+        setFirstLogin(true);
+      }
+      setIsControlUrlParams(true)
+  };
 
   const logout = (data) => {
     localStorage.clear()
@@ -38,6 +51,8 @@ const AuthProvider = ({ children }) => {
     setToken,
     firstLogin,
     logout,
+    loginFromUrlParams,
+    isControlUrlParams,
   };
 
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

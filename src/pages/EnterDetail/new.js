@@ -61,7 +61,6 @@ import { useRef } from "react";
 import { useGetDocItems } from "../../hooks";
 import Catalog from "../../components/Catalog";
 import ok from "../../audio/ok.mp3";
-import { unstable_batchedUpdates } from "react-dom";
 
 const audio = new Audio(ok);
 
