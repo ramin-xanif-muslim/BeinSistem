@@ -217,32 +217,6 @@ export default function Settlement() {
 			},
 			{
 				key: "4",
-				label: "Şöbə",
-				name: "departmentName",
-				controller: "departments",
-				type: "select",
-				dataIndex: "departmentName",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "departmentName"
-					  ).show
-					: true,
-			},
-			{
-				key: "5",
-				label: "Cavabdeh",
-				name: "ownerName",
-				controller: "owners",
-				type: "select",
-				dataIndex: "ownerName",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "ownerName"
-					  ).show
-					: true,
-			},
-			{
-				key: "6",
 				label: "Siyahı",
 				name: "zeros",
 				controller: "yesno",

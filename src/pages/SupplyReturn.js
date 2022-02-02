@@ -261,23 +261,6 @@ export default function SupplyReturn() {
                     return ConvertFixedTable(value);
                 },
             },
-
-            {
-                dataIndex: "Consumption",
-                title: "Əlavə xərc",
-                className: initialSort === "Consumption" ? "activesort" : "",
-                defaultSortOrder:
-                    initialSort === "Consumption" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Consumption"
-                      ).show
-                    : false,
-                sorter: (a, b) => null,
-                render: (value, row, index) => {
-                    return ConvertFixedTable(value);
-                },
-            },
             {
                 dataIndex: "Discount",
                 title: "Endirim",

@@ -210,23 +210,6 @@ export default function Loss() {
 				sorter: (a, b) => null,
 				className: initialSort === "Modify" ? "activesort" : "",
 			},
-
-			{
-				dataIndex: "Consumption",
-				title: "Əlavə xərc",
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Consumption"
-					  ).show
-					: false,
-				defaultSortOrder:
-					initialSort === "Consumption" ? defaultdr : null,
-				sorter: (a, b) => null,
-				className: initialSort === "Consumption" ? "activesort" : "",
-				render: (value, row, index) => {
-					return ConvertFixedTable(value);
-				},
-			},
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
