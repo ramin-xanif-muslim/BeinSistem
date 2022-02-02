@@ -259,8 +259,8 @@ export default function SalePoint() {
     };
 
     useEffect(() => {
-        setdisplay("none")
-    },[])
+        setdisplay("none");
+    }, []);
 
     const onChangeMenu = (e) => {
         var initialCols = initial;

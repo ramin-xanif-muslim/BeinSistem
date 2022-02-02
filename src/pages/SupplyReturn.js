@@ -24,6 +24,7 @@ import Buttons from "../components/Button";
 import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
+import FilterButton from "../components/FilterButton";
 import { useTableCustom } from "../contexts/TableContext";
 
 import { SettingOutlined } from "@ant-design/icons";
@@ -422,8 +423,8 @@ export default function SupplyReturn() {
     }, [isFetching]);
 
     useEffect(() => {
-        setdisplay("none")
-    },[])
+        setdisplay("none");
+    }, []);
 
     const editPage = (id) => {
         setRedirect(true);
@@ -589,7 +590,7 @@ export default function SupplyReturn() {
             <Row className="header_row">
                 <Col xs={24} md={24} xl={4}>
                     <div className="page_heder_left">
-                        <h2>Təchizatçılara qaytarmalar</h2>
+                        <h2>Alışların geriqaytarmaları</h2>
                     </div>
                 </Col>
                 <Col xs={24} md={24} xl={20}>
@@ -600,15 +601,7 @@ export default function SupplyReturn() {
                                 redirectto={"/newSupplyReturn"}
                                 animate={"Yarat"}
                             />
-                            <Button
-                                className="filter_button buttons_click"
-                                onClick={() =>
-                                    display === "none"
-                                        ? setdisplay("block")
-                                        : setdisplay("none")
-                                }
-                                content="Filter"
-                            />
+                            <FilterButton />
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}

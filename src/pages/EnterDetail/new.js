@@ -83,8 +83,6 @@ function NewEnter() {
 		stocks,
 		setStock,
 		setStockLocalStorage,
-		customers,
-		setCustomers,
 		setDisable,
 		disable,
 		setCatalog,

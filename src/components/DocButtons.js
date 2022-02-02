@@ -107,26 +107,24 @@ function DocButtons({
     const dots = (
         <Menu>
             <Menu.Item key="0">
-                <Button
-                    danger
+                <button
                     icon={<DeleteOutlined />}
-                    className="align_center del"
+                    className="new-button new-danger-button w-100"
                     onClick={handleDelete}
                     disabled={editid ? false : true}
                 >
                     {closed === "p=product" ? "Silin" : "Sənədi silin"}
-                </Button>
+                </button>
                 {editProduct && (
-                    <Button
-                        className="align_center del"
+                    <button
+                        className="new-button w-100"
                         onClick={onChangeArch}
                         disabled={editid ? false : true}
                     >
                         {isArch === 0 ? "Arxiva yerləşdir" : "Arxivden çıxart"}
-                    </Button>
+                    </button>
                 )}
             </Menu.Item>
-            <Menu.Divider />
         </Menu>
     );
     const downloadMenu = (
@@ -179,12 +177,22 @@ function DocButtons({
     );
     const check = (
         <Menu className="download-menu">
-            <Dropdown overlay={printMenu} trigger={["click"]}>
-                <Button className="buttons_click">
-                    <PrinterOutlined />
-                    <span style={{ marginLeft: "5px" }}>Çap et</span>
-                </Button>
-            </Dropdown>
+            <Menu.Item>
+                <Dropdown overlay={printMenu}>
+                    <button className="new-button w-100">
+                        <PrinterOutlined />
+                        <span style={{ marginLeft: "5px" }}>Çap et</span>
+                    </button>
+                </Dropdown>
+            </Menu.Item>
+            <Menu.Item>
+                <Dropdown overlay={downloadMenu}>
+                    <button className="new-button w-100">
+                        <DownloadOutlined />
+                        <span style={{ marginLeft: "5px" }}>Yüklə</span>
+                    </button>
+                </Dropdown>
+            </Menu.Item>
             {/* <Link
                     to={{
                         pathname: "/invoice",
@@ -196,12 +204,6 @@ function DocButtons({
                 >
                     A4
                 </Link> */}
-            <Dropdown overlay={downloadMenu} trigger={["click"]}>
-                <Button className="buttons_click">
-                    <DownloadOutlined />
-                    <span style={{ marginLeft: "5px" }}>Yüklə</span>
-                </Button>
-            </Dropdown>
             {/* <Menu.Item
                 key="1"
                 onClick={() => downloadFile({ id: editid }, "xlsx", from)}
@@ -219,8 +221,8 @@ function DocButtons({
     const menu = (
         <Menu>
             <Menu.Item key="0">
-                <Button
-                    style={{ width: "100%" }}
+                <button
+                    className="new-button w-100"
                     disabled={editid ? false : true}
                     onClick={() => setIsPayment(true)}
                     id={"saveTrans"}
@@ -228,17 +230,17 @@ function DocButtons({
                     htmlType={"submit"}
                 >
                     Ödəmə
-                </Button>
+                </button>
             </Menu.Item>
             <Menu.Item key="1" disabled={editid ? false : true}>
-                <Button
-                    style={{ width: "100%" }}
+                <button
+                    className="new-button w-100"
                     onClick={() => setIsReturn(true)}
                     form={"myForm"}
                     htmlType={"submit"}
                 >
                     Qaytarma
-                </Button>
+                </button>
             </Menu.Item>
         </Menu>
     );
@@ -296,34 +298,36 @@ function DocButtons({
     return (
         <div className="doc_buttons_wrapper">
             <div className="left_doc_button">
-                <Button
+                <button
                     style={{
                         display:
                             controller === "sales" || controller === "returns"
                                 ? "none"
                                 : "block",
                     }}
-                    className="customsavebtn"
+                    className={
+                        disable ? "new-button" : "new-button new-success-button"
+                    }
                     form={"myForm"}
                     htmlType={"submit"}
                     disabled={disable}
                 >
                     Yadda saxla
-                </Button>
+                </button>
                 {linked ? (
-                    <Button
-                        className="customclosebtn"
+                    <button
+                        className="new-button new-danger-button"
                         onClick={() => handleRedirectDoc()}
                     >
                         Bağla
-                    </Button>
+                    </button>
                 ) : (
-                    <Button
+                    <button
+                        className="new-button new-danger-button"
                         onClick={(e) => handleSaveOrNot(e)}
-                        className="customclosebtn"
                     >
                         Bağla
-                    </Button>
+                    </button>
                 )}
 
                 {from === "linked" ? null : (
@@ -332,13 +336,14 @@ function DocButtons({
                         overlay={menu}
                         trigger={["click"]}
                     >
-                        <Button
+                        <button
                             style={{ display: additional }}
                             icon={<DownOutlined />}
                             onClick={(e) => e.preventDefault()}
+                            className="new-button"
                         >
                             Yeni sənəd
-                        </Button>
+                        </button>
                     </Dropdown>
                 )}
             </div>
@@ -362,9 +367,9 @@ function DocButtons({
                     overlay={check}
                     trigger={["click"]}
                 >
-                    <Button
+                    <button
                         style={{ display: additional }}
-                        className="flex_directon_col_center d-flex-row"
+                        className="new-button"
                     >
                         <FaFileInvoice
                             style={{
@@ -373,11 +378,11 @@ function DocButtons({
                             }}
                         />
                         Qaimə
-                    </Button>
+                    </button>
                 </Dropdown>
                 <Dropdown overlay={dots} trigger={["click"]}>
                     <button
-                        className="new-Button"
+                        className="new-button"
                         onClick={(e) => e.preventDefault()}
                     >
                         <span className="dots"></span>
@@ -403,28 +408,30 @@ function DocButtons({
                             justifyContent: "space-between",
                         }}
                     >
-                        <Button
+                        <button
+                            className="new-button"
                             form={"myForm"}
                             htmlType={"submit"}
                             onClick={(e) => handleSaveDocModal(e)}
                         >
                             Yadda saxla
-                        </Button>
+                        </button>
                         <div className="close_doc_modal_right_side">
-                            <Button
+                            <button
+                                className="new-button"
                                 key="back"
                                 onClick={() => setShowModal(false)}
                             >
                                 Geri qayıt
-                            </Button>
-                            <Button
-                                danger
+                            </button>
+                            <button
+                                className="new-button new-danger-button"
                                 key="link"
                                 href="#"
                                 onClick={() => setRedirectClose(true)}
                             >
                                 Ok
-                            </Button>
+                            </button>
                         </div>
                     </div>,
                 ]}

@@ -45,6 +45,7 @@
     border-radius: 3px;
     color: #fff !important;
     font-weight: 400;
+    margin-right: 10px;
 }
 .customsavebtn:hover {
     border-color: #21ba45;
@@ -77,13 +78,6 @@
 
 .customnewdoc {
     margin-left: 50px;
-    border-radius: 3px;
-    background: #f9f9f9 !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row-reverse;
-    color: #0288d1;
 }
 
 .customnewdoc span.anticon-down {
@@ -705,6 +699,10 @@ tr.ant-table-expanded-row:hover td {
     margin: auto;
 }
 
+.w-100 {
+    width: 100%;
+}
+
 /* tbody tr td {
     border-right: none !important;
 }
@@ -809,7 +807,6 @@ tbody .ant-table-cell {
 
 .new-button {
     padding: 0 10px;
-    margin: 0 10px 0 0;
     cursor: pointer;
     border: 1px solid #ccc;
     border-radius: 3px;
@@ -817,12 +814,16 @@ tbody .ant-table-cell {
     align-items: center;
     color: #000 !important;
     height: 32px;
+    margin-right: 0.5rem;
 }
 .new-button:active {
     background: #f2f2f2 !important;
 }
 .new-button:hover {
     background: #fff;
+}
+.new-button:disabled {
+    cursor: not-allowed;
 }
 .new-filter-active {
     padding: 0 10px;
@@ -837,6 +838,55 @@ tbody .ant-table-cell {
 .new-button-open {
     box-shadow: 0 1px 3px #333 inset;
 }
+.new-save-button {
+    padding: 0 10px;
+    margin: 0 10px 0 0;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background: -webkit-linear-gradient(top, #fff, #e6e6e6);
+    align-items: center;
+    color: #000 !important;
+    height: 32px;
+}
+.new-primary-button {
+    background: -webkit-linear-gradient(top, var(--blue), var(--dark-blue));
+    color: #fff !important;
+    border-color: var(--dark-blue);
+}
+.new-primary-button:active {
+    background: var(--dark-blue) !important;
+}
+.new-primary-button:hover {
+    background: var(--blue);
+}
+.new-danger-button {
+    background: -webkit-linear-gradient(top, #ffc2c2, #ff5353);
+    color: #fff !important;
+    border-color: red;
+}
+.new-danger-button:hover {
+    background: #ff6363 !important;
+    color: #fff !important;
+}
+.new-danger-button:active {
+    background: #ff4b4b !important;
+    color: #fff !important;
+}
+.new-success-button {
+    border-color: #00a800;
+    background: -webkit-linear-gradient(top, #94f194, #00af00);
+    color: #fff !important;
+}
+.new-success-button:hover {
+    background: #41be41;
+    color: #fff !important;
+}
+.new-success-button:active {
+    background: #00af00 !important;
+    color: #fff !important;
+}
+
 .link {
     display: flex;
     width: 100%;

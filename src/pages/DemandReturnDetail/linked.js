@@ -49,7 +49,10 @@ import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
 import { fetchStocks } from "../../api";
 import { Tab } from "semantic-ui-react";
-import { ConvertFixedPosition, ConvertFixedTable } from "../../config/function/findadditionals";
+import {
+    ConvertFixedPosition,
+    ConvertFixedTable,
+} from "../../config/function/findadditionals";
 import { useFetchDebt, useGetDocItems } from "../../hooks";
 import TextArea from "antd/lib/input/TextArea";
 import ok from "../../audio/ok.mp3";
@@ -113,15 +116,15 @@ function DemandReturnLinked(props) {
         message.destroy();
     };
 
-	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
+    // const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();
     const [debt, setDebt] = useState(0);
-    const [ customerId, setCustomerId] = useState()
+    const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
         let res = await api.fetchDebt(id ? id : customerId);
         setDebt(ConvertFixedTable(res));
     };
     useEffect(() => {
-        if(customerId) {
+        if (customerId) {
             fetchDebt(customerId);
         }
     }, [customerId]);
@@ -309,7 +312,7 @@ function DemandReturnLinked(props) {
             });
             setEditId(res.Body.ResponseService);
             audio.play();
-            fetchDebt()
+            fetchDebt();
             setRedirect(true);
         } else {
             message.error({
@@ -375,7 +378,7 @@ function DemandReturnLinked(props) {
 
     if (redirect) return <Redirect to={`/editDemandReturn/${editId}`} />;
 
-    console.log(props.location.state.data.Positions)
+    console.log(props.location.state.data.Positions);
 
     const panes = [
         {
@@ -398,7 +401,9 @@ function DemandReturnLinked(props) {
                         >
                             <DocTable
                                 headers={columns}
-                                datas={debt && props.location.state.data.Positions}
+                                datas={
+                                    debt && props.location.state.data.Positions
+                                }
                             />
                         </Col>
                     </Row>
@@ -413,7 +418,7 @@ function DemandReturnLinked(props) {
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Alıcıdan qaytarma</h2>
+                <h2>Satışın geriqaytarması</h2>
             </div>
             <DocButtons
                 editid={props.location.state.linked}
@@ -458,9 +463,10 @@ function DemandReturnLinked(props) {
                                 style={{ width: "100%" }}
                             >
                                 <Input
-                                    disabled
                                     className="detail-input"
                                     allowClear
+                                    disabled
+                                    style={{ width: "100px" }}
                                 />
                             </Form.Item>
                         </Col>

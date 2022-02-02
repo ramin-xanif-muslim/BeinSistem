@@ -28,6 +28,7 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import FilterButton from "../components/FilterButton";
 const { Text } = Typography;
 export default function Supply() {
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
@@ -431,8 +432,8 @@ export default function Supply() {
     };
 
     useEffect(() => {
-        setdisplay("none")
-    },[])
+        setdisplay("none");
+    }, []);
     const editClickPage = (e, id) => {
         if (e.target.className.includes("linkedColumns")) {
             setRedirect(true);
@@ -601,15 +602,7 @@ export default function Supply() {
                                 redirectto={"/newSupply"}
                                 animate={"Yarat"}
                             />
-                            <Button
-                                className="filter_button buttons_click"
-                                onClick={() =>
-                                    display === "none"
-                                        ? setdisplay("block")
-                                        : setdisplay("none")
-                                }
-                                content="Filter"
-                            />
+                            <FilterButton />
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
