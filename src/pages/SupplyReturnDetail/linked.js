@@ -410,7 +410,7 @@ function SupplyReturnLinked(props) {
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Təchizatçıya qaytarma</h2>
+                <h2>Alışın geriqaytarması</h2>
             </div>
             <DocButtons
                 editid={props.location.state.linked}
@@ -456,9 +456,10 @@ function SupplyReturnLinked(props) {
                                 style={{ width: "100%" }}
                             >
                                 <Input
-                                    disabled
                                     className="detail-input"
                                     allowClear
+                                    style={{ width: "100px" }}
+                                    disabled
                                 />
                             </Form.Item>
                         </Col>

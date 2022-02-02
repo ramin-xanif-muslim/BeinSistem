@@ -564,7 +564,7 @@ function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
-                <h2>Təchizatçıya qaytarma</h2>
+                <h2>Alışın geriqaytarması</h2>
             </div>
             <DocButtons
                 additional={"none"}
@@ -598,7 +598,11 @@ function NewSupplyReturn({ handleOpenCatalog, selectList, catalogVisible }) {
                                 className="doc_number_form_item"
                                 style={{ width: "100%" }}
                             >
-                                <Input className="detail-input" allowClear />
+                                <Input
+                                    className="detail-input"
+                                    allowClear
+                                    style={{ width: "100px" }}
+                                />
                             </Form.Item>
                         </Col>
                         <Col xs={3} sm={3} md={3} xl={3}></Col>

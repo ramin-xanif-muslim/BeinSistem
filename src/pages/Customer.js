@@ -14,6 +14,7 @@ import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import FilterButton from "../components/FilterButton";
 export default function Customer() {
     const [initialfilter, setInitialFilter] = useState(null);
     const [filterChanged, setFilterChanged] = useState(false);
@@ -332,10 +333,10 @@ export default function Customer() {
         setColumnChange(false);
         if (filtered) setFiltered(false);
     }, [columnChange, filtered]);
-    
+
     useEffect(() => {
-        setdisplay("none")
-    },[])
+        setdisplay("none");
+    }, []);
 
     useEffect(() => {
         setInitial(columns);
@@ -507,16 +508,7 @@ export default function Customer() {
                                 redirectto={"/newcusgroup"}
                                 animate={"Yarat"}
                             />
-                            <Button
-                                className="filter_button buttons_click"
-                                onClick={() =>
-                                    display === "none"
-                                        ? setdisplay("block")
-                                        : setdisplay("none")
-                                }
-                                content="Filter"
-                                content="Filter"
-                            />
+                            <FilterButton />
                             <FastSearch className="search_header" />
                         </div>
                         {tableSettings}
