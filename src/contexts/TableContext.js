@@ -39,10 +39,13 @@ const TableProvider = ({ children }) => {
   const [spenditems, setSpendItems] = useState(null);
   const [orderStatusArr, setOrderStatusArr] = useState(null);
   const [changedInnerTable, setChangedInnerTable] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const [pricechanged, setPriceChanged] = useState(false);
   const [productSearchTerm, setProductSearchTerm] = useState("");
   const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState("");
   const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
+  const [selectedRowKey, setSelectedRowKeys] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([]);
   const [selectedDateId, setSelectedDateId] = useState(null);
   const [isEnterFilterValue, setIsEnterFilterValue] = useState(false);
   const [settingsObj, setSettingsObj] = useState({token: localStorage.getItem("access-token")})
@@ -86,6 +89,8 @@ const TableProvider = ({ children }) => {
     localStorage.setItem("cusgroups", JSON.stringify(obj));
   };
   const values = {
+    isDelete,
+    setIsDelete,
     settingsObj,
     setSettingsObj,
     salereportsSearchTerm,
@@ -187,6 +192,10 @@ const TableProvider = ({ children }) => {
     setPriceChanged,
     isCatalog,
     setCatalog,
+    selectedRowKey,
+    setSelectedRowKeys,
+    selectedRows,
+    setSelectedRows,
     selectedDateId,
     setSelectedDateId,
     isEnterFilterValue,
