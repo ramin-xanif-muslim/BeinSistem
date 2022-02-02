@@ -616,8 +616,6 @@ function FilterComponent({ from, settings, cols }) {
 	};
 
 	const onFinish = (values) => {
-        setIsEnterFilterValue(true)
-		console.log(values);
 		// const rangeCreateValue = values["createdDate"];
 		const rangeModifyValue = values["modifedDate"];
 		const moment = values["moment"];
@@ -653,6 +651,7 @@ function FilterComponent({ from, settings, cols }) {
 		setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance(totalvalues);
+        setIsEnterFilterValue(true)
 	};
 
 	useEffect(() => {
@@ -692,7 +691,7 @@ function FilterComponent({ from, settings, cols }) {
 				setSelectFilter(selectFilter);
 				setinitial(initial);
 			}
-			form.setFieldsValue(selectFilter);
+			form.setFieldsValue();
 		}
 
 		setChanged(false);

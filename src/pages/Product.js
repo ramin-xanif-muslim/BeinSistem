@@ -14,7 +14,12 @@ import { fetchAttributes, fetchPriceTypes } from "../api";
 import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
-import { SettingOutlined, DownloadOutlined, FileExcelOutlined, FilePdfOutlined } from "@ant-design/icons";
+import {
+	SettingOutlined,
+	DownloadOutlined,
+	FileExcelOutlined,
+	FilePdfOutlined,
+} from "@ant-design/icons";
 import {
 	ConvertFixedTable,
 	isObject,
@@ -22,6 +27,7 @@ import {
 import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 import { downloadFile } from "../config/function";
+import FilterButton from "../components/FilterButton";
 
 export default function Product() {
 	const [count, setCount] = useState(1);
@@ -561,9 +567,9 @@ export default function Product() {
 		}
 	);
 
-    useEffect(() => {
-        setdisplay("none")
-    },[])
+	useEffect(() => {
+		setdisplay("none");
+	}, []);
 
 	useEffect(() => {
 		if (!isFetching) {
@@ -705,28 +711,24 @@ export default function Product() {
 			</button>
 		</Dropdown>
 	);
-    const printMenu = (
-        <Menu>
-            <Menu.Item
-                key="1"
-                icon={<FileExcelOutlined />}
-                onClick={() =>
-                    downloadFile(advanced, "xlsx", "products")
-                }
-            >
-                Excel
-            </Menu.Item>
-            <Menu.Item
-                key="2"
-                icon={<FilePdfOutlined />}
-                onClick={() =>
-                    downloadFile(advanced, "pdf", "products")
-                }
-            >
-                PDF
-            </Menu.Item>
-        </Menu>
-    );
+	const printMenu = (
+		<Menu>
+			<Menu.Item
+				key="1"
+				icon={<FileExcelOutlined />}
+				onClick={() => downloadFile(advanced, "xlsx", "products")}
+			>
+				Excel
+			</Menu.Item>
+			<Menu.Item
+				key="2"
+				icon={<FilePdfOutlined />}
+				onClick={() => downloadFile(advanced, "pdf", "products")}
+			>
+				PDF
+			</Menu.Item>
+		</Menu>
+	);
 	if (isLoading)
 		return (
 			<Spin className="fetchSpinner" tip="Yüklənir...">
@@ -761,16 +763,7 @@ export default function Product() {
 								redirectto={"/newprogroup"}
 								animate={"Yarat"}
 							/>
-							<button
-								className="new-button"
-								onClick={() =>
-									display === "none"
-										? setdisplay("block")
-										: setdisplay("none")
-								}
-							>
-								Filter
-							</button>
+							<FilterButton from="product" />
 							<MyFastSearch
 								searchFunc={searchFunc}
 								setSearchTerm={setProductSearchTerm}
