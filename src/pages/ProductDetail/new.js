@@ -40,6 +40,7 @@ import { message } from "antd";
 import { Redirect } from "react-router";
 import { saveDoc, fetchBarcode } from "../../api";
 import {
+    CaretDownOutlined,
 	SyncOutlined,
 	PlusOutlined,
 	MinusCircleOutlined,
@@ -711,6 +712,12 @@ function NewProduct() {
 										>
 											<PlusOutlined />
 										</Button>
+                                        {/* <Button
+                                            className="add-stock-btn"
+                                            onClick={handleClick}
+                                        >
+                                            <CaretDownOutlined />
+                                        </Button> */}
 										<Form.Item
 											label="Qrup"
 											name="groupid"
@@ -910,7 +917,7 @@ function NewProduct() {
 			<TreeView
 				from={"stocks"}
 				modalVisible={modalVisible}
-				setStockId={setStockId}
+				setGroupId={setStockId}
 				onClose={handleClick}
 				fetchGroup={fetchProductFolders}
 			/>
