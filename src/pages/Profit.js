@@ -14,6 +14,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
+import { isObject } from "../config/function/findadditionals";
 const { Text } = Typography;
 
 export default function Profit() {
@@ -84,7 +85,9 @@ export default function Profit() {
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 	useEffect(() => {
 		if (!isFetching) {
-			setDocument(data.Body);
+			if (isObject(data.Body)) {
+                setDocument(data.Body);
+			}
 		} else {
 			setDocument([]);
 		}
@@ -264,6 +267,16 @@ export default function Profit() {
 		);
 
 	if (error) return "An error has occurred: " + error.message;
+
+	if (!isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>
+					{data}
+				</span>
+			</>
+		);
 
 	return (
 		<div className="custom_display">

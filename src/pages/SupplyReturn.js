@@ -26,6 +26,7 @@ import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import FilterButton from "../components/FilterButton";
 import { useTableCustom } from "../contexts/TableContext";
+import { isObject } from "../config/function/findadditionals";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
@@ -415,8 +416,10 @@ export default function SupplyReturn() {
     };
     useEffect(() => {
         if (!isFetching) {
-            setDocumentList(data.Body.List);
-            setallsum(data.Body.AllSum);
+			if (isObject(data.Body)) {
+				setDocumentList(data.Body.List);
+				setallsum(data.Body.AllSum);
+			}
         } else {
             setDocumentList([]);
         }
@@ -585,6 +588,16 @@ export default function SupplyReturn() {
     if (error) return "An error has occurred: " + error.message;
 
     if (redirect) return <Redirect push to={`/editSupplyReturn/${editId}`} />;
+
+	if (!isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>
+					{data}
+				</span>
+			</>
+		);
     return (
         <div className="custom_display">
             <Row className="header_row">

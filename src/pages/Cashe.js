@@ -23,7 +23,7 @@ import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";
 import { ConvertFixedTable } from "../config/function/findadditionals";
-import { SettingOutlined } from "@ant-design/icons";
+import { isObject } from "../config/function/findadditionals";
 const { Text } = Typography;
 
 export default function Cashe() {
@@ -73,8 +73,10 @@ export default function Cashe() {
 
     useEffect(() => {
         if (!isFetching) {
-            setDocumentList(data.Body.List);
-            setallsum(data.Body.AllSum);
+			if (isObject(data.Body)) {
+				setDocumentList(data.Body.List);
+				setallsum(data.Body.AllSum);
+			}
         } else {
             setDocumentList([]);
         }
@@ -87,6 +89,16 @@ export default function Cashe() {
         );
 
     if (error) return "An error has occurred: " + error.message;
+
+	if (!isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>
+					{data}
+				</span>
+			</>
+		);
 
     return (
         <div className="custom_display">

@@ -11,6 +11,7 @@ import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
+import { isObject } from "../config/function/findadditionals";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
@@ -326,8 +327,10 @@ export default function Move() {
 	}, []);
 	useEffect(() => {
 		if (!isFetching) {
-			setDocumentList(data.Body.List);
-			setallsum(data.Body.AllSum);
+			if (isObject(data.Body)) {
+				setDocumentList(data.Body.List);
+				setallsum(data.Body.AllSum);
+			}
 		} else {
 			setDocumentList([]);
 		}
@@ -489,6 +492,16 @@ export default function Move() {
 	if (error) return "An error has occurred: " + error.message;
 
 	if (redirect) return <Redirect push to={`/editMove/${editId}`} />;
+
+	if (!isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>
+					{data}
+				</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">

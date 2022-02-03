@@ -29,6 +29,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import { isObject } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 const { Text } = Typography;
 export default function Transaction() {
@@ -407,9 +408,11 @@ export default function Transaction() {
 
 	useEffect(() => {
 		if (!isFetching) {
-			setDocumentList(data.Body.List);
-			setallinsum(data.Body.InSum);
-			setalloutsum(data.Body.OutSum);
+			if (isObject(data.Body)) {
+				setDocumentList(data.Body.List);
+				setallinsum(data.Body.InSum);
+				setalloutsum(data.Body.OutSum);
+			}
 		} else {
 			setDocumentList([]);
 		}
@@ -600,6 +603,14 @@ export default function Transaction() {
 		return <Redirect push to={`/editInvoiceIn/${editId}`} />;
 	if (redirectInvoiceOut)
 		return <Redirect push to={`/editInvoiceOut/${editId}`} />;
+
+	if (!isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">

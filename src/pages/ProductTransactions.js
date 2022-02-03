@@ -18,6 +18,7 @@ import { Button, Icon } from "semantic-ui-react";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import { isObject } from "../config/function/findadditionals";
 import {
 	SettingOutlined,
 	FileExcelOutlined,
@@ -78,14 +79,15 @@ export default function ProductTransactions() {
 		"Satışlar",
 	];
 
-	const [documentList1, setDocumentList1] = useState([]);
-	const [documentList2, setDocumentList2] = useState([]);
-	const [documentList3, setDocumentList3] = useState([]);
-	const [documentList4, setDocumentList4] = useState([]);
-	const [documentList5, setDocumentList5] = useState([]);
-	const [documentList6, setDocumentList6] = useState([]);
-	const [documentList7, setDocumentList7] = useState([]);
-	const [documentList8, setDocumentList8] = useState([]);
+	const [demandreturns, setDemandreturns] = useState([]);
+	const [demands, setDemands] = useState([]);
+	const [enters, setEnters] = useState([]);
+	const [losses, setLosses] = useState([]);
+	const [moves, setMoves] = useState([]);
+	const [returns, setReturns] = useState([]);
+	const [sales, setSales] = useState([]);
+	const [supplies, setSupplies] = useState([]);
+	const [supplyreturns, setSupplyreturns] = useState([]);
 	const { isLoading, error, data, isFetching } = useQuery(
 		[
 			"producttransactions",
@@ -330,46 +332,51 @@ export default function ProductTransactions() {
 		setTables([
 			{
 				title: "Daxilolma",
-				documentList: documentList1[0],
-				allSum: documentList1[1],
+				documentList: enters[0],
+				allSum: enters[1],
 			},
 			{
 				title: "Silinmə",
-				documentList: documentList2[0],
-				allSum: documentList2[1],
+				documentList: losses[0],
+				allSum: losses[1],
 			},
 			{
 				title: "Yerdəyişmə",
-				documentList: documentList3[0],
-				allSum: documentList3[1],
+				documentList: moves[0],
+				allSum: moves[1],
 			},
 			{
 				title: "Alış",
-				documentList: documentList4[0],
-				allSum: documentList4[1],
-			},
-			{
-				title: "Təchizatçılara qaytarmalar",
-				documentList: documentList5[0],
-				allSum: documentList5[1],
-			},
-			{
-				title: "Satışlar",
-				documentList: documentList6[0],
-				allSum: documentList6[1],
+				documentList: supplies[0],
+				allSum: supplies[1],
 			},
 			{
 				title: "Alıcıların qaytarmaları",
-				documentList: documentList7[0],
-				allSum: documentList7[1],
+				documentList: supplyreturns[0],
+				allSum: supplyreturns[1],
 			},
 			{
 				title: "Satışlar",
-				documentList: documentList8[0],
-				allSum: documentList8[1],
+				documentList: demands[0],
+				allSum: demands[1],
+			},
+			{
+				title: "Satışların geriqaytarmaları",
+				documentList: demandreturns[0],
+				allSum: demandreturns[1],
+			},
+			{
+				title: "Qaytarmalar",
+				documentList: returns[0],
+				allSum: returns[1],
+			},
+			{
+				title: "Satışlar",
+				documentList: sales[0],
+				allSum: sales[1],
 			},
 		]);
-	}, [documentList1[0]]);
+	}, [demandreturns[0],demands[0],enters[0],losses[0],moves[0],supplies[0],supplyreturns[0],returns[0],sales[0]]);
 	useEffect(() => {
 		setInitial(columns);
 		setInitialFilter(filters);
@@ -377,21 +384,42 @@ export default function ProductTransactions() {
 
 	useEffect(() => {
 		if (!isFetching) {
-			setDocumentList1([
-				data.Body.demandreturns,
-				data.Body.demandreturnsSum,
-			]);
-			setDocumentList2([data.Body.demands, data.Body.demandsSum]);
-			setDocumentList3([data.Body.enters, data.Body.entersSum]);
-			setDocumentList4([data.Body.losses, data.Body.lossesSum]);
-			setDocumentList5([data.Body.moves, data.Body.movesSum]);
-			setDocumentList6([data.Body.sales, data.Body.salesSum]);
-			setDocumentList7([data.Body.supplies, data.Body.suppliesSum]);
-			setDocumentList8([
-				data.Body.supplyreturns,
-				data.Body.supplyreturnsSum,
-			]);
-			setIsFilter(false);
+			if (isObject(data.Body)) {
+				if (!!data.Body.demandreturns) {
+					setDemandreturns([
+						data.Body.demandreturns,
+						data.Body.demandreturnsSum,
+					]);
+				}
+				if (!!data.Body.demands) {
+					setDemands([data.Body.demands, data.Body.demandsSum]);
+				}
+				if (!!data.Body.enters) {
+					setEnters([data.Body.enters, data.Body.entersSum]);
+				}
+				if (!!data.Body.losses) {
+					setLosses([data.Body.losses, data.Body.lossesSum]);
+				}
+				if (!!data.Body.moves) {
+					setMoves([data.Body.moves, data.Body.movesSum]);
+				}
+				if (!!data.Body.returns) {
+					setReturns([data.Body.returns, data.Body.returnsSum]);
+				}
+				if (!!data.Body.sales) {
+					setSales([data.Body.sales, data.Body.salesSum]);
+				}
+				if (!!data.Body.supplies) {
+					setSupplies([data.Body.supplies, data.Body.suppliesSum]);
+				}
+				if (!!data.Body.supplyreturns) {
+					setSupplyreturns([
+						data.Body.supplyreturns,
+						data.Body.supplyreturnsSum,
+					]);
+				}
+				setIsFilter(false);
+			}
 		}
 	}, [isFetching]);
 
@@ -401,7 +429,6 @@ export default function ProductTransactions() {
 	};
 
 	const handlePagination = (pg) => {
-		console.log("handlePagination", pg);
 		setPage(pg - 1);
 		setAdvancedPage(pg - 1);
 	};
@@ -456,7 +483,6 @@ export default function ProductTransactions() {
 			...findelement,
 			...replacedElement,
 		});
-		console.log(initialCols);
 		setFilterChanged(true);
 	};
 	const menu = (
@@ -616,6 +642,14 @@ export default function ProductTransactions() {
 		);
 
 	if (error) return "An error has occurred: " + error.message;
+
+	if (!isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	return (
 		<div className="custom_display">

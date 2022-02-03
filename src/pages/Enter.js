@@ -533,7 +533,7 @@ export default function Enter() {
 			<>
 				Xəta:
 				<span style={{ color: "red" }}>
-					Serverdə xəta baş verdi : {data}
+					{data}
 				</span>
 			</>
 		);
