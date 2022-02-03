@@ -12,7 +12,6 @@ import { Redirect } from "react-router";
 import { useAuth } from "../contexts/AuthContext";
 import { Button, Modal, Badge } from "antd";
 import { WarningOutlined } from "@ant-design/icons";
-import { useLocation } from "react-router-dom";
 import {
 	fetchStocks,
 	fetchMarks,
@@ -103,29 +102,6 @@ function Navbar(props) {
 		setStock(stockResponse.Body.List);
 		setStockLocalStorage(stockResponse.Body.List);
 	};
-	let search = useLocation().search;
-	useEffect(() => {
-		const query = new URLSearchParams(search);
-		const token = query.get("token");
-		const login = query.get("login");
-		if (token && login) {
-			localStorage.removeItem("user");
-            console.log(token)
-            console.log(login)
-            alert(token)
-			let user = {};
-			if (token && login) {
-				user.Token = token;
-				user.Login = login;
-				localStorage.setItem("user", JSON.stringify(user));
-				localStorage.setItem("Token", token);
-				localStorage.setItem("access-token", token);
-				getCompany();
-                loginFromUrlParams(user)
-			}
-		}
-	}, []);
-	//online.bein.az/?token=e71fc9dfdae6e0e1a3d96f38ab9742e1&login=admin@farid
 	useEffect(() => {
 		if (!companyname) {
 			getCompany();

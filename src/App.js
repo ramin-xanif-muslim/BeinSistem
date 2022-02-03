@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { Alert, Spin } from "antd";
 import { Redirect } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
+import { useParams } from "react-router-dom";
 
 const Move = React.lazy(() => import("./pages/Move"));
 const Handovers = React.lazy(() => import("./pages/Handovers"));
@@ -130,8 +131,29 @@ const Download = React.lazy(() => import("./pages/Download"));
 const ReturnDetail = React.lazy(() => import("./pages/ReturnDetail"));
 
 function App() {
-	const { loggedIn, token, firstLogin, isControlUrlParams } = useAuth();
+	const {
+		loggedIn,
+		handleToken,
+		firstLogin,
+		loginFromUrlParams,
+	} = useAuth();
 	const { nav } = useTableCustom();
+
+	const [hasToken, setHasToken] = useState(null);
+
+	let search = window.location.search;
+	let params = new URLSearchParams(search);
+	let token = params.get("token");
+	let login = params.get("login");
+
+	useEffect(() => {
+		setHasToken(token);
+		let obj = {
+			Token: token,
+			Login: login,
+		};
+		loginFromUrlParams(obj);
+	}, [token]);
 
 	return (
 		<>
@@ -150,7 +172,7 @@ function App() {
 							<Route exact path="/">
 								<Redirect to="/p=product" />
 							</Route>
-							<Route path="/signin" component={SignIn}></Route>
+							<Route path="/signin/" component={SignIn}></Route>
 							<Route
 								path="/registration"
 								component={Registration}
@@ -410,22 +432,12 @@ function App() {
 						</Switch>
 					</div>
 
-					{/* {isControlUrlParams ? (
-						loggedIn && token && firstLogin ? (
-							<Redirect to={"/p=enter"} />
-						) : loggedIn && token && !firstLogin ? (
-							""
-						) : (
-							<Redirect to={"/signin"} />
-						)
-					) : null} */}
-
-					{loggedIn && token && firstLogin ? (
+					{loggedIn && handleToken && firstLogin ? (
 						<Redirect to={"/p=enter"} />
-					) : loggedIn && token && !firstLogin ? (
+					) : loggedIn && handleToken && !firstLogin ? (
 						""
 					) : (
-						<Redirect to={"/signin"} />
+						<Redirect to={`/signin`} />
 					)}
 				</Router>
 			</React.Suspense>

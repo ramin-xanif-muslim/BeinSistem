@@ -571,7 +571,14 @@ export default function ProductTransactions() {
                         locale={{
                             emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
                         }}
-                        pagination={{ position: ["none", "none"] }}
+                        // pagination={{ position: ["none", "none"] }}
+                        pagination={{
+                            current: advancedPage + 1,
+                            total: 100,
+                            onChange: handlePagination,
+                            defaultPageSize: 100,
+                            showSizeChanger: false,
+                        }}
                         size="small"
                     />
                 </div>
@@ -624,7 +631,6 @@ export default function ProductTransactions() {
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
                             <FilterButton />
-                            <FastSearch className="search_header" />
                         </div>
 
                         <div style={{ display: "flex" }}>

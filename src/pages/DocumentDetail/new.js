@@ -65,7 +65,7 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewEnter() {
+function NewDocument() {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const myRefDescription = useRef(null);
@@ -424,7 +424,7 @@ function NewEnter() {
     }, []);
 
     const getDocName = async (docname) => {
-        const attrResponse = await fetchDocName(docname, "enters");
+        const attrResponse = await fetchDocName(docname, "documents");
         return attrResponse;
     };
 
@@ -465,7 +465,7 @@ function NewEnter() {
             });
         }
 
-        const res = await saveDoc(values, "enters");
+        const res = await saveDoc(values, "documents");
         console.log(res);
         if (res.Headers.ResponseStatus === "0") {
             message.success({
@@ -584,7 +584,7 @@ function NewEnter() {
         },
     ];
 
-    if (redirect) return <Redirect to={`/editEnter/${editId}`} />;
+    if (redirect) return <Redirect to={`/editDocument/${editId}`} />;
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">
@@ -845,4 +845,4 @@ function NewEnter() {
     );
 }
 
-export default NewEnter;
+export default NewDocument;
