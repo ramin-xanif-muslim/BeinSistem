@@ -67,6 +67,7 @@ import {
 import ok from "../../audio/ok.mp3";
 import withCatalog from "../../HOC/withCatalog";
 import withTreeViewModal from "../../HOC/withTreeViewModal";
+import ProductModal from "../../components/ProductModal";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
@@ -452,7 +453,9 @@ function DemandReturnDetail({
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		values.stockid = stockId[0]?.id;
+		if (stockId[0]?.id) {
+			values.stockid = stockId[0]?.id;
+		}
 		if (!values.status) {
 			values.status = status;
 		}
@@ -628,6 +631,16 @@ function DemandReturnDetail({
 		},
 	];
 
+	const onChange = (stock) => {
+		setDocStock(stock);
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
+	};
+
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
@@ -772,7 +785,7 @@ function DemandReturnDetail({
 									showSearch
 									showArrow={false}
 									filterOption={false}
-									// onChange={onChange}
+									onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>
@@ -975,6 +988,7 @@ function DemandReturnDetail({
 			</div>
 			<StockDrawer />
 			<CustomerDrawer />
+            <ProductModal />
 			<PaymentModal
 				datas={data.Body.List[0]}
 				title="Məxaric"

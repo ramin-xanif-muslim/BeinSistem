@@ -576,7 +576,9 @@ function SupplyDetail({
 			myRefDescription.current.resizableTextArea.props.value;
 		values.consumption =
 			myRefConsumption.current.clearableInput.props.value;
-		values.stockid = stockId[0]?.id;
+		if (stockId[0]?.id) {
+			values.stockid = stockId[0]?.id;
+		}
 		if (!values.status) {
 			values.status = status;
 		}
@@ -751,6 +753,15 @@ function SupplyDetail({
 		},
 	];
 
+	const onChange = (stock) => {
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
+	};
+
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
@@ -910,7 +921,7 @@ function SupplyDetail({
 									showSearch
 									showArrow={false}
 									filterOption={false}
-									// onChange={onChange}
+									onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>

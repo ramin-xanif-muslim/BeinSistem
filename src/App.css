@@ -1,20 +1,26 @@
 * {
-    /* font-family: "Blinker"; */
+    font-family: "Calibri";
 }
 
-button,
-.main_header.menu span,
-.custom_li_segment a {
-    font-family: "Blinker";
-}
 .catalog_modal {
     width: 100% !important;
-    top: 100vh !important;
-    top: 2px !important;
+    top: 15px !important;
+}
+.catalog-table-col {
+    overflow: auto;
+    height: 70vh;
+}
+.catalog-table thead {
+    position: sticky !important;
+    top: 0px !important;
+    z-index: 1 !important;
+}
+.catalog_modal .header_row {
+    padding: 1rem 0 1rem 340px;
 }
 
 .catalog_modal .ant-modal-body {
-    min-height: 80vh;
+    max-height: 83vh;
 }
 
 .App {
@@ -88,7 +94,7 @@ button,
 
 #advanced_search {
     padding-bottom: 0 !important;
-    background: #d9eefc;
+    background: #83a0b42b;
 }
 .ant-dropdown-trigger {
     height: 32px !important;

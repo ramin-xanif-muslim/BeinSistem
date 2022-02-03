@@ -412,7 +412,9 @@ function LossDetail({
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		values.stockid = stockId[0]?.id;
+		if (stockId[0]?.id) {
+			values.stockid = stockId[0]?.id;
+		}
 		if (!values.status) {
 			values.status = status;
 		}
@@ -584,6 +586,16 @@ function LossDetail({
 		},
 	];
 
+	const onChange = (stock) => {
+		setDocStock(stock);
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
+	};
+
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
@@ -676,7 +688,7 @@ function LossDetail({
 									showSearch
 									showArrow={false}
 									filterOption={false}
-									// onChange={onChange}
+									onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>

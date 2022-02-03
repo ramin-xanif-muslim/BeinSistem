@@ -12,6 +12,8 @@ export function useGetDocItems() {
     const [allsum, setAllsum] = useState(0);
     const [allQuantity, setAllQuantity] = useState(0);
     useEffect(() => {
+        setAllsum(0)
+        setAllQuantity(0)
         if(docSum != 0) {
             setAllsum(ConvertFixedTable(docSum))
         }

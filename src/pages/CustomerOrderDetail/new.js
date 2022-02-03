@@ -413,7 +413,9 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		values.stockid = stockId[0]?.id;
+		if (stockId[0]?.id) {
+			values.stockid = stockId[0]?.id;
+		}
 		if (!values.status) {
 			values.status = status;
 		}
@@ -487,10 +489,14 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
 		</Option>
 	));
 
-	//#endregion OwDep
-
 	const onChange = (stock) => {
 		setDocStock(stock);
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
 	};
 
 	const panes = [
@@ -498,7 +504,7 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
 			menuItem: "Əsas",
 			render: () => (
 				<Tab.Pane attached={false}>
-					<Row style={{ justifyContent: "space-between" }}>
+					<Row>
 						<Col
 							xs={9}
 							sm={9}
@@ -514,29 +520,25 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
 								/>
 							</div>
 						</Col>
-						<Dropdown
-							overlay={menu}
-							onVisibleChange={handleVisibleChange}
-							visible={visibleMenuSettings}
-						>
-							<Button className="flex_directon_col_center">
-								{" "}
-								<SettingOutlined />
-							</Button>
-						</Dropdown>
+                            <Dropdown
+                                trigger={"onclick"}
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <button className="new-button">
+                                    {" "}
+                                    <SettingOutlined />
+                                </button>
+                            </Dropdown>
 						<Col
 							xs={24}
 							sm={24}
 							md={24}
 							xl={24}
-							style={{ paddingTop: "1rem", zIndex: "0" }}
+							style={{ paddingTop: "1rem" }}
 						>
-							<DocTable
-								headers={columns.filter(
-									(c) => c.isVisible == true
-								)}
-								datas={positions}
-							/>
+							<DocTable headers={columns} datas={positions} />
 						</Col>
 					</Row>
 				</Tab.Pane>
@@ -554,7 +556,7 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
 			<div className="doc_name_wrapper">
 				<h2>Sifariş</h2>
 			</div>
-			<DocButtons editid={null} closed={"p=customerorders"} />
+			<DocButtons additional={"none"} editid={null} closed={"p=customerorders"} />
 			<div className="formWrapper">
 				<Form
 					form={form}

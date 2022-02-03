@@ -491,12 +491,15 @@ function NewDemandReturn({
 		</Option>
 	));
 
-	//#endregion OwDep
-
 	const onChange = (stock) => {
-		setDocStock(stock);
+        setDocStock(stock);
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
 	};
-
 	const panes = [
 		{
 			menuItem: "Əsas",

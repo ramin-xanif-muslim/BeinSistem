@@ -58,6 +58,7 @@ import {
 } from "../../hooks";
 import ok from "../../audio/ok.mp3";
 import withTreeViewModal from "../../HOC/withTreeViewModal";
+import ProductModal from "../../components/ProductModal";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
@@ -99,6 +100,7 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 		isReturn,
 		isPayment,
 		setPaymentModal,
+		setProductModal,
 	} = useCustomForm();
 	const [positions, setPositions] = useState([]);
 	const [redirect, setRedirect] = useState(false);
@@ -107,9 +109,9 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
 
-    const [initial, setInitial] = useState(null);
-    const [columnChange, setColumnChange] = useState(false);
-    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+	const [initial, setInitial] = useState(null);
+	const [columnChange, setColumnChange] = useState(false);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
 	const { allsum, allQuantity } = useGetDocItems();
 
@@ -138,9 +140,9 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 		setDebt(ConvertFixedTable(res));
 	};
 
-    useEffect(() => {
-        setColumnChange(false);
-    }, [columnChange]);
+	useEffect(() => {
+		setColumnChange(false);
+	}, [columnChange]);
 	useEffect(() => {
 		setInitial(columns);
 	}, []);
@@ -479,7 +481,9 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-            values.stockid = stockId[0]?.id;
+		if (stockId[0]?.id) {
+			values.stockid = stockId[0]?.id;
+		}
 		if (!values.status) {
 			values.status = status;
 		}
@@ -573,33 +577,32 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 			render: () => (
 				<Tab.Pane attached={false}>
 					<Row>
-						<Col xs={9} sm={9} md={9} xl={9}>
+						<Col
+							xs={9}
+							sm={9}
+							md={9}
+							xl={9}
+							style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+						>
 							<div className="addProductInputIcon">
 								<AddProductInput className="newProInputWrapper" />
-								<PlusOutlined className="addNewProductIcon" />
+								<PlusOutlined
+									onClick={() => setProductModal(true)}
+									className="addNewProductIcon"
+								/>
 							</div>
 						</Col>
-						<Col
-							style={{
-								display: "flex",
-								justifyContent: "flex-end",
-							}}
-							xs={10}
-							sm={10}
-							md={10}
-							xl={10}
-						>
-							<Dropdown
-								overlay={menu}
-								onVisibleChange={handleVisibleChange}
-								visible={visibleMenuSettings}
-							>
-								<Button className="flex_directon_col_center">
-									{" "}
-									<SettingOutlined />
-								</Button>
-							</Dropdown>
-						</Col>
+                            <Dropdown
+                                trigger={"onclick"}
+                                overlay={menu}
+                                onVisibleChange={handleVisibleChange}
+                                visible={visibleMenuSettings}
+                            >
+                                <button className="new-button">
+                                    {" "}
+                                    <SettingOutlined />
+                                </button>
+                            </Dropdown>
 						<Col
 							xs={24}
 							sm={24}
@@ -618,6 +621,15 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 			render: () => <Tab.Pane attached={false}></Tab.Pane>,
 		},
 	];
+
+	const onChange = (stock) => {
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
+	};
 
 	return (
 		<div className="doc_wrapper">
@@ -755,7 +767,7 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 									showSearch
 									showArrow={false}
 									filterOption={false}
-									// onChange={onChange}
+									onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>
@@ -932,6 +944,7 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 			</div>
 			<StockDrawer />
 			<CustomerDrawer />
+            <ProductModal />
 			<PaymentModal
 				datas={data.Body.List[0]}
 				title="Məxaric"

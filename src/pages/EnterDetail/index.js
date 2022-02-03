@@ -16,7 +16,7 @@ import { Redirect } from "react-router";
 import { Tab } from "semantic-ui-react";
 import ProductModal from "../../components/ProductModal";
 import {
-    CaretDownOutlined,
+	CaretDownOutlined,
 	PlusOutlined,
 	SettingOutlined,
 	CloseCircleOutlined,
@@ -49,9 +49,9 @@ import { updateDoc } from "../../api";
 import { useRef } from "react";
 import { useCustomForm } from "../../contexts/FormContext";
 import {
-    FindAdditionals,
-    FindCofficient,
-    ConvertFixedTable,
+	FindAdditionals,
+	FindCofficient,
+	ConvertFixedTable,
 } from "../../config/function/findadditionals";
 import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
@@ -419,7 +419,9 @@ function EnterDetail() {
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		values.stockid = stockId[0]?.id;
+		if (stockId[0]?.id) {
+			values.stockid = stockId[0]?.id;
+		}
 
 		if (!values.status) {
 			values.status = status;
@@ -507,6 +509,12 @@ function EnterDetail() {
 
 	const onChange = (stock) => {
 		setDocStock(stock);
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
 	};
 	const panes = [
 		{
@@ -542,7 +550,6 @@ function EnterDetail() {
 							<button
 								className="new-button"
 								onClick={handleOpenCatalog}
-								type="primary"
 							>
 								Məhsullar
 							</button>

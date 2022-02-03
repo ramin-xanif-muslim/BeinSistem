@@ -643,6 +643,7 @@ function NewDemand({
 			stockid: createdStock.id,
 		});
 		setCreatedStock(null);
+        console.log("getStocksAgain", stockId)
 		setStockId([
 			{
 				name: createdStock.name,
@@ -652,6 +653,7 @@ function NewDemand({
 	};
 
 	useEffect(() => {
+        console.log("stockId", stockId)
 		form.setFieldsValue({
 			stockid: stockId[0]?.name,
 		});
@@ -681,6 +683,8 @@ function NewDemand({
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
+            console.log(stockId[0]?.id)
+            console.log(stockId)
 		values.stockid = stockId[0]?.id;
 		if (!values.status) {
 			values.status = status;
@@ -758,6 +762,12 @@ function NewDemand({
 
 	const onChange = (stock) => {
 		setDocStock(stock);
+		setStockId([
+			{
+				name: stock,
+				id: stock,
+			},
+		]);
 	};
 
 	const panes = [
