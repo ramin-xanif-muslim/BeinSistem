@@ -400,9 +400,9 @@ function NewCustomerOrder() {
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-            if (!values.status) {
-                values.status = status;
-            }
+        if (!values.status) {
+            values.status = status;
+        }
 
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         const nameres = await getDocName(values.name);
@@ -442,7 +442,6 @@ function NewCustomerOrder() {
             {c.Name}
         </Option>
     ));
-    
 
     var objOwner;
     owners
@@ -506,10 +505,9 @@ function NewCustomerOrder() {
                             onVisibleChange={handleVisibleChange}
                             visible={visibleMenuSettings}
                         >
-                            <Button className="flex_directon_col_center">
-                                {" "}
+                            <button className="new-button">
                                 <SettingOutlined />
-                            </Button>
+                            </button>
                         </Dropdown>
                         <Col
                             xs={24}

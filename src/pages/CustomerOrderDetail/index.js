@@ -14,7 +14,11 @@ import PaymentModal from "../../components/PaymentModal";
 import CustomerDrawer from "../../components/CustomerDrawer";
 import { Tab } from "semantic-ui-react";
 
-import { SettingOutlined, PlusOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import {
+    SettingOutlined,
+    PlusOutlined,
+    CloseCircleOutlined,
+} from "@ant-design/icons";
 import {
     Form,
     Alert,
@@ -101,9 +105,9 @@ function CustomerOrderDetail() {
     const [status, setStatus] = useState(false);
     const [consumption, setConsumption] = useState(0);
 
-	const [initial, setInitial] = useState(null);
-	const [columnChange, setColumnChange] = useState(false);
-	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+    const [initial, setInitial] = useState(null);
+    const [columnChange, setColumnChange] = useState(false);
+    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
     const { allsum, allQuantity } = useGetDocItems();
 
@@ -132,13 +136,13 @@ function CustomerOrderDetail() {
         setDebt(ConvertFixedTable(res));
     };
 
-	useEffect(() => {
-		setColumnChange(false);
-	}, [columnChange]);
+    useEffect(() => {
+        setColumnChange(false);
+    }, [columnChange]);
 
-	useEffect(() => {
-		setInitial(columns);
-	}, []);
+    useEffect(() => {
+        setInitial(columns);
+    }, []);
     useEffect(() => {
         if (customerId) {
             fetchDebt(customerId);
@@ -501,94 +505,96 @@ function CustomerOrderDetail() {
             }
         );
     };
-	const handleVisibleChange = (flag) => {
-		setVisibleMenuSettings(flag);
-	};
+    const handleVisibleChange = (flag) => {
+        setVisibleMenuSettings(flag);
+    };
 
-	const onChangeMenu = (e) => {
-		var initialCols = initial;
-		var findelement;
-		var findelementindex;
-		var replacedElement;
-		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-		console.log(findelement);
-		findelementindex = initialCols.findIndex(
-			(c) => c.dataIndex === e.target.id
-		);
-		findelement.isVisible = e.target.checked;
-		replacedElement = findelement;
-		initialCols.splice(findelementindex, 1, {
-			...findelement,
-			...replacedElement,
-		});
-		setColumnChange(true);
-	};
+    const onChangeMenu = (e) => {
+        var initialCols = initial;
+        var findelement;
+        var findelementindex;
+        var replacedElement;
+        findelement = initialCols.find((c) => c.dataIndex === e.target.id);
+        console.log(findelement);
+        findelementindex = initialCols.findIndex(
+            (c) => c.dataIndex === e.target.id
+        );
+        findelement.isVisible = e.target.checked;
+        replacedElement = findelement;
+        initialCols.splice(findelementindex, 1, {
+            ...findelement,
+            ...replacedElement,
+        });
+        setColumnChange(true);
+    };
 
-	const menu = (
-		<Menu>
-			<Menu.ItemGroup title="Sutunlar">
-				{Object.values(columns).map((d) => (
-					<Menu.Item key={d.dataIndex}>
-						<Checkbox
-							id={d.dataIndex}
-							disabled={
-								columns.length === 3 && d.isVisible === true
-									? true
-									: false
-							}
-							isVisible={d.isVisible}
-							onChange={(e) => onChangeMenu(e)}
-							defaultChecked={d.isVisible}
-						>
-							{d.title}
-						</Checkbox>
-					</Menu.Item>
-				))}
-			</Menu.ItemGroup>
-		</Menu>
-	);
+    const menu = (
+        <Menu>
+            <Menu.ItemGroup title="Sutunlar">
+                {Object.values(columns).map((d) => (
+                    <Menu.Item key={d.dataIndex}>
+                        <Checkbox
+                            id={d.dataIndex}
+                            disabled={
+                                columns.length === 3 && d.isVisible === true
+                                    ? true
+                                    : false
+                            }
+                            isVisible={d.isVisible}
+                            onChange={(e) => onChangeMenu(e)}
+                            defaultChecked={d.isVisible}
+                        >
+                            {d.title}
+                        </Checkbox>
+                    </Menu.Item>
+                ))}
+            </Menu.ItemGroup>
+        </Menu>
+    );
 
     const panes = [
         {
             menuItem: "Əsas",
             render: () => (
                 <Tab.Pane attached={false}>
-                    <Row>
-                        <Col xs={9} sm={9} md={9} xl={9}>
+                    <Row style={{ justifyContent: "space-between" }}>
+                        <Col
+                            xs={9}
+                            sm={9}
+                            md={9}
+                            xl={9}
+                            style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+                        >
                             <div className="addProductInputIcon">
                                 <AddProductInput className="newProInputWrapper" />
-                                <PlusOutlined className="addNewProductIcon" />
+                                <PlusOutlined
+                                    // onClick={() => setProductModal(true)}
+                                    className="addNewProductIcon"
+                                />
                             </div>
                         </Col>
-						<Col
-							style={{
-								display: "flex",
-								justifyContent: "flex-end",
-							}}
-							xs={10}
-							sm={10}
-							md={10}
-							xl={10}
-						>
-							<Dropdown
-								overlay={menu}
-								onVisibleChange={handleVisibleChange}
-								visible={visibleMenuSettings}
-							>
-								<Button className="flex_directon_col_center">
-									{" "}
-									<SettingOutlined />
-								</Button>
-							</Dropdown>
-						</Col>
+                        <Dropdown
+                            overlay={menu}
+                            onVisibleChange={handleVisibleChange}
+                            visible={visibleMenuSettings}
+                        >
+                            <button className="new-button">
+                                <SettingOutlined />
+                            </button>
+                        </Dropdown>
                         <Col
                             xs={24}
                             sm={24}
                             md={24}
                             xl={24}
-                            style={{ paddingTop: "1rem" }}
+                            style={{ paddingTop: "1rem", zIndex: "0" }}
                         >
-                            <DocTable headers={columns} datas={positions} />
+                            <DocTable
+                                headers={columns.filter(
+                                    (c) => c.isVisible == true
+                                )}
+                                datas={positions}
+                            />
                         </Col>
                     </Row>
                 </Tab.Pane>
