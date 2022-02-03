@@ -850,7 +850,7 @@ tbody .ant-table-cell {
     height: 32px;
 }
 .new-primary-button {
-    background: -webkit-linear-gradient(top, var(--blue), var(--dark-blue));
+    background: -webkit-linear-gradient(top, #add3ff, var(--dark-blue));
     color: #fff !important;
     border-color: var(--dark-blue);
 }
@@ -890,6 +890,22 @@ tbody .ant-table-cell {
     align-items: center;
     justify-content: center;
     font-family: "Calibri" !important;
+}
+
+.icon-excel svg {
+    color: green;
+}
+.icon-pdf svg {
+    color: red;
+}
+
+/* .rc-virtual-list-holder-inner div:hover {
+    background-color: #d9eefc !important;
+} */
+
+.active-search-item {
+    background-color: #b2ddfa;
+    padding: 4px 0;
 }
 
 @media screen and (max-width: 1200px) {

@@ -130,6 +130,7 @@ function DocButtons({
     const downloadMenu = (
         <Menu>
             <Menu.Item
+                className="icon-excel"
                 key="1"
                 icon={<FileExcelOutlined />}
                 onClick={() => downloadFile({ id: editid }, "xlsx", from)}
@@ -137,6 +138,7 @@ function DocButtons({
                 Excel
             </Menu.Item>
             <Menu.Item
+                className="icon-pdf"
                 key="2"
                 icon={<FilePdfOutlined />}
                 onClick={() => downloadFile({ id: editid }, "pgf", from)}

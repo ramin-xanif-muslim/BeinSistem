@@ -148,7 +148,7 @@ function FilterComponent({ from, settings, cols }) {
         setChanged(true);
     }
     function handleChange(value, option) {
-        console.log(option);
+        console.log(option.key);
         if (option) {
             Object.assign(selectFilter, {
                 [option.nm]: option.children ? option.children : null,
@@ -169,7 +169,6 @@ function FilterComponent({ from, settings, cols }) {
     };
     const onOpenChange = (open) => {
         //   setIsOpen(open);
-        console.log(open);
     };
 
     useEffect(() => {
@@ -210,7 +209,14 @@ function FilterComponent({ from, settings, cols }) {
 
         for (let i = 0; i < cols.length; i++) {
             children.push(
-                <Col xs={8} sm={8} md={8} xl={6} key={i}>
+                <Col
+                    xs={8}
+                    sm={8}
+                    md={8}
+                    xl={6}
+                    key={i}
+                    // className="active-search-item"
+                >
                     <Form.Item
                         className="filter-input"
                         name={cols[i].name}
@@ -646,11 +652,11 @@ function FilterComponent({ from, settings, cols }) {
                 delete totalvalues[`${key}`];
             }
         });
-		setIsFilter(true);
-		setAdvancedPage(0);
-		setAdvance(totalvalues);
-        setIsEnterFilterValue(true)
-	};
+        setIsFilter(true);
+        setAdvancedPage(0);
+        setAdvance(totalvalues);
+        setIsEnterFilterValue(true);
+    };
     useEffect(() => {
         if (from === "stockbalance") {
             Object.assign(selectFilter, {
@@ -672,23 +678,23 @@ function FilterComponent({ from, settings, cols }) {
             });
 
             form.setFieldsValue(selectFilter);
-			// if (selectFilter.wg === "" || selectFilter.wg === undefined) {
-			// 	form.setFieldsValue({
-			// 		wg: "",
-			// 	});
-			// }
-			if (selectFilter.ar === "" || selectFilter.ar === undefined) {
-				form.setFieldsValue({
-					ar: 0,
-				});
-			}
-		} else {
-			if (Object.keys(selectFilter).length === 0) {
-				setSelectFilter(selectFilter);
-				setinitial(initial);
-			}
-			form.setFieldsValue();
-		}
+            // if (selectFilter.wg === "" || selectFilter.wg === undefined) {
+            // 	form.setFieldsValue({
+            // 		wg: "",
+            // 	});
+            // }
+            if (selectFilter.ar === "" || selectFilter.ar === undefined) {
+                form.setFieldsValue({
+                    ar: 0,
+                });
+            }
+        } else {
+            if (Object.keys(selectFilter).length === 0) {
+                setSelectFilter(selectFilter);
+                setinitial(initial);
+            }
+            form.setFieldsValue();
+        }
         setChanged(false);
     }, [changed]);
 
@@ -711,14 +717,16 @@ function FilterComponent({ from, settings, cols }) {
                 onFinish={onFinish}
                 // initialValues={initialvalues}
             >
-                <Row gutter={24}>{getFields()}</Row>
+                <Row gutter={24} style={{ padding: "0.5rem 1rem 0" }}>
+                    {getFields()}
+                </Row>
                 <Row>
                     <Col
                         span={24}
                         style={{
                             textAlign: "left",
                             display: "flex",
-                            marginBottom: "22px",
+                            margin: "22px 0",
                             alignItems: "center",
                         }}
                     >
