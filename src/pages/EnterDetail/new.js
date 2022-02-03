@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { fetchDocName, fetchStocks } from "../../api";
 import { useEffect, useState } from "react";
@@ -11,7 +10,6 @@ import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
 import StockDrawer from "../../components/StockDrawer";
 import ProductModal from "../../components/ProductModal";
-import TreeView from "../../components/TreeView";
 
 import { Tab } from "semantic-ui-react";
 import {
@@ -21,9 +19,7 @@ import {
 	ConvertFixedPosition,
 } from "../../config/function/findadditionals";
 import {
-    CaretDownOutlined,
 	PlusOutlined,
-	EditOutlined,
 	SettingOutlined,
 	CloseCircleOutlined,
 } from "@ant-design/icons";
@@ -60,6 +56,7 @@ import { useRef } from "react";
 import { useGetDocItems } from "../../hooks";
 import Catalog from "../../components/Catalog";
 import ok from "../../audio/ok.mp3";
+import withTreeViewModal from "../../HOC/withTreeViewModal";
 
 const audio = new Audio(ok);
 
@@ -67,7 +64,11 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewEnter() {
+function NewEnter({
+	bntOpenTreeViewModal,
+    stockId,
+    setStockId,
+}) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -124,7 +125,6 @@ function NewEnter() {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const [catalogVisible, setCatalogVisible] = useState(false);
-	const [stockId, setStockId] = useState([]);
 	const { allsum, allQuantity } = useGetDocItems();
 
 	const handleDelete = (key) => {
@@ -707,14 +707,8 @@ function NewEnter() {
 							>
 								<PlusOutlined />
 							</Button>
-							<Button
-								className="add-stock-btn"
-								onClick={handleClick}
-							>
-								<CaretDownOutlined />
-							</Button>
+                            {bntOpenTreeViewModal}
 							<Form.Item
-                                
 								label="Anbar"
 								name="stockid"
 								rules={[
@@ -740,7 +734,6 @@ function NewEnter() {
 									{options}
 								</Select>
 							</Form.Item>
-
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}></Col>
@@ -918,13 +911,6 @@ function NewEnter() {
 
 			<StockDrawer />
 			<ProductModal />
-			<TreeView
-				from={"stocks"}
-				modalVisible={modalVisible}
-				setGroupId={setStockId}
-				onClose={handleClick}
-				fetchGroup={fetchStocks}
-			/>
 			<Catalog
 				onClose={handleOpenCatalog}
 				positions={outerDataSource}
@@ -933,5 +919,4 @@ function NewEnter() {
 		</div>
 	);
 }
-
-export default NewEnter;
+export default withTreeViewModal(NewEnter);

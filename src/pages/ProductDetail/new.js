@@ -40,7 +40,7 @@ import { message } from "antd";
 import { Redirect } from "react-router";
 import { saveDoc, fetchBarcode } from "../../api";
 import {
-    CaretDownOutlined,
+	CaretDownOutlined,
 	SyncOutlined,
 	PlusOutlined,
 	MinusCircleOutlined,
@@ -52,6 +52,9 @@ import { Tab } from "semantic-ui-react";
 import { useTableCustom } from "../../contexts/TableContext";
 import ProductGroupModal from "../../components/ProductGroupModal";
 import ok from "../../audio/ok.mp3";
+import withTreeViewModal from "../../HOC/withTreeViewModal";
+
+const from = "products"
 
 const audio = new Audio(ok);
 const { Option } = Select;
@@ -110,6 +113,7 @@ function NewProduct() {
 	const [barcode, setBarcode] = useState(null);
 	const [listLength, setListLength] = useState(0);
 	const [linked, setLinked] = useState(null);
+	const [treeVisible, setTreeVisible] = useState(false);
 	const [isArch, setIsArch] = useState(0);
 	const [isCheck, setIsCheck] = useState(false);
 
@@ -295,14 +299,14 @@ function NewProduct() {
 			}
 		}
 	};
-	  var obj;
-	  productGroups
-	    ? (obj = productGroups)
-	    : (obj = JSON.parse(localStorage.getItem("progroups")));
+	var obj;
+	productGroups
+		? (obj = productGroups)
+		: (obj = JSON.parse(localStorage.getItem("progroups")));
 
-	  const groupOption = Object.values(obj).map((c) => (
-	    <Option key={c.Id}>{c.Name}</Option>
-	  ));
+	const groupOption = Object.values(obj).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
 
 	var ownerList;
 	owners
@@ -398,7 +402,7 @@ function NewProduct() {
 		</Menu>
 	);
 	const handleClick = () => {
-		setModalVisible(!modalVisible);
+		
 	};
 	const panes = [
 		{
@@ -603,6 +607,9 @@ function NewProduct() {
 		}
 	};
 
+	const handleOpenTreeModal = () => {
+		setTreeVisible(!treeVisible);
+	};
 	const getPrices = async () => {
 		const priceResponse = await fetchPriceTypes();
 		setPrices(priceResponse.Body.List);
@@ -712,12 +719,12 @@ function NewProduct() {
 										>
 											<PlusOutlined />
 										</Button>
-                                        {/* <Button
+										<Button
                                             className="add-stock-btn"
                                             onClick={handleClick}
                                         >
                                             <CaretDownOutlined />
-                                        </Button> */}
+                                        </Button>
 										<Form.Item
 											label="Qrup"
 											name="groupid"
@@ -730,6 +737,10 @@ function NewProduct() {
 												},
 											]}
 										>
+											{/* <Input
+												name="test"
+												onFocus={handleOpenTreeModal}
+											/> */}
 											<Select
 												showSearch
 												className="doc_status_formitem_wrapper_col"
@@ -915,14 +926,14 @@ function NewProduct() {
 				</div>
 			</div>
 			<TreeView
-				from={"stocks"}
-				modalVisible={modalVisible}
+				from={"products"}
+				modalVisible={treeVisible}
 				setGroupId={setStockId}
-				onClose={handleClick}
+				onClose={handleOpenTreeModal}
 				fetchGroup={fetchProductFolders}
 			/>
 		</>
 	);
 }
 
-export default NewProduct;
+export default withTreeViewModal(NewProduct, from );

@@ -9,13 +9,14 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useTableCustom } from "../../../contexts/TableContext";
 import { fetchMarks, fetchStocks, sendRegisterPhp } from "../../../api";
 import { MaskedInput } from "antd-mask-input";
+import { useParams } from "react-router-dom";
 
 var pat = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
 var patName = /^([a-zA-Z]{4,})?$/;
 
 export default function SignIn() {
 	const { settingsObj } = useTableCustom();
-	const { login, setToken } = useAuth();
+	const { login, setToken, setParamsToken } = useAuth();
 	const inputMaskRef = useRef(null);
 
 	const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ export default function SignIn() {
 	const [value, setValue] = useState("");
 	const [objectReg, setobjectReg] = useState(null);
 	const [loadingfirst, setLoadingfirst] = useState(false);
-    const [error, setError] = useState(null);
+	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		setToken(null);
@@ -38,16 +39,16 @@ export default function SignIn() {
 
 	async function signin(values) {
 		const loginResponse = await putLogin(values);
-        if (loginResponse.Headers.ResponseStatus === "0") {
-            login(loginResponse);
-            setLoading(false);
-            fetchSettings(settingsObj)
-        }
-        if (loginResponse.Headers.ResponseStatus !== "0") {
-            alert(loginResponse.Body)
-            setLoading(false);
-        }
-    }
+		if (loginResponse.Headers.ResponseStatus === "0") {
+			login(loginResponse);
+			setLoading(false);
+			fetchSettings(settingsObj);
+		}
+		if (loginResponse.Headers.ResponseStatus !== "0") {
+			alert(loginResponse.Body);
+			setLoading(false);
+		}
+	}
 	const onFinish = (values) => {
 		setLoading(true);
 		signin(values);

@@ -439,9 +439,23 @@ function ProductDetail({
         form.setFieldsValue({
             groupid: newGroup,
         });
+		setGroupId([
+			{
+				name: newGroup,
+				id: newGroup,
+			},
+		]);
         setNewGroup(null);
         setGroupVisible(false);
     };
+	useEffect(() => {
+        console.log(groupId)
+		if (groupId[0]) {
+			form.setFieldsValue({
+				groupid: groupId[0]?.name,
+			});
+		}
+	}, [groupId]);
     const getlists = async () => {
         setAttrLoading(true);
         setLinkedList([]);
@@ -797,6 +811,7 @@ function ProductDetail({
             values.ownerid = initialValues.ownerid
             values.departmentid = initialValues.departmentid
         }
+		values.groupid = groupId[0]?.id;
         setDisable(true);
 
         var valueMods = {};
@@ -1032,13 +1047,13 @@ function ProductDetail({
                                     >
                                         <PlusOutlined />
                                     </Button>
-										<Button
+										{/* <Button
                                             className="add-stock-btn"
                                             // onClick={handleClick}
                                         >
                                             <CaretDownOutlined />
-                                        </Button>
-                                    {/* {bntOpenTreeViewModal} */}
+                                        </Button> */}
+                                    {bntOpenTreeViewModal}
                                     <Form.Item
                                         label="Qrup"
                                         name="groupid"
