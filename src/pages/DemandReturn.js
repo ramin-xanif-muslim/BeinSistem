@@ -97,7 +97,6 @@ export default function DemandReturn() {
         if (filtered) setFiltered(false);
         if (filterChanged) setFilterChanged(false);
     }, [columnChange, filtered, filterChanged]);
-
     var markObject;
     marks
         ? (markObject = marks)
@@ -267,23 +266,6 @@ export default function DemandReturn() {
                     return ConvertFixedTable(value);
                 },
             },
-
-            {
-                dataIndex: "Consumption",
-                title: "Əlavə xərc",
-                className: initialSort === "Consumption" ? "activesort" : "",
-                defaultSortOrder:
-                    initialSort === "Consumption" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Consumption"
-                      ).show
-                    : false,
-                sorter: (a, b) => null,
-                render: (value, row, index) => {
-                    return ConvertFixedTable(value);
-                },
-            },
             {
                 dataIndex: "Discount",
                 title: "Endirim",
@@ -301,7 +283,6 @@ export default function DemandReturn() {
             },
         ];
     }, [defaultdr, initialSort, filtered, marks, advancedPage]);
-
     const getCustomers = async () => {
         const customerResponse = await fetchCustomers();
         setCustomers(customerResponse.Body.List);

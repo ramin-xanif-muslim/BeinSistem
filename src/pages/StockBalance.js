@@ -28,6 +28,7 @@ import { ConvertFixedTable } from "../config/function/findadditionals";
 import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 import { downloadFile } from "../config/function";
+import FilterButton from "../components/FilterButton";
 
 const { Text } = Typography;
 export default function StockBalance() {
@@ -508,9 +509,9 @@ export default function StockBalance() {
 		setFiltered(true);
 	};
 
-    useEffect(() => {
-        setdisplay("none")
-    },[])
+	useEffect(() => {
+		setdisplay("none");
+	}, []);
 	const onChangeMenuFilter = (e) => {
 		var initialCols = initialfilter;
 		var findelement;
@@ -601,28 +602,24 @@ export default function StockBalance() {
 		</Dropdown>
 	);
 
-    const printMenu = (
-        <Menu>
-            <Menu.Item
-                key="1"
-                icon={<FileExcelOutlined />}
-                onClick={() =>
-                    downloadFile(advanced, "xlsx", "stockbalance")
-                }
-            >
-                Excel
-            </Menu.Item>
-            <Menu.Item
-                key="2"
-                icon={<FilePdfOutlined />}
-                onClick={() =>
-                    downloadFile(advanced, "pdf", "stockbalance")
-                }
-            >
-                PDF
-            </Menu.Item>
-        </Menu>
-    );
+	const printMenu = (
+		<Menu>
+			<Menu.Item
+				key="1"
+				icon={<FileExcelOutlined />}
+				onClick={() => downloadFile(advanced, "xlsx", "stockbalance")}
+			>
+				Excel
+			</Menu.Item>
+			<Menu.Item
+				key="2"
+				icon={<FilePdfOutlined />}
+				onClick={() => downloadFile(advanced, "pdf", "stockbalance")}
+			>
+				PDF
+			</Menu.Item>
+		</Menu>
+	);
 	if (isLoading)
 		return (
 			<Spin className="fetchSpinner" tip="Yüklənir...">
@@ -651,16 +648,7 @@ export default function StockBalance() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<button
-								className="new-button"
-								onClick={() =>
-									display === "none"
-										? setdisplay("block")
-										: setdisplay("none")
-								}
-							>
-								Filter
-							</button>
+							<FilterButton from="stockbalance" />
 							<MyFastSearch
 								searchFunc={searchFunc}
 								setSearchTerm={setStockbalanceSearchTerm}

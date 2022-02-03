@@ -613,10 +613,8 @@ function FilterComponent({ from, settings, cols }) {
 
         return children;
     };
-
     const onFinish = (values) => {
         setIsEnterFilterValue(true);
-        console.log(values);
         // const rangeCreateValue = values["createdDate"];
         const rangeModifyValue = values["modifedDate"];
         const moment = values["moment"];
@@ -648,12 +646,11 @@ function FilterComponent({ from, settings, cols }) {
                 delete totalvalues[`${key}`];
             }
         });
-
-        setIsFilter(true);
-        setAdvancedPage(0);
-        setAdvance(totalvalues);
-    };
-
+		setIsFilter(true);
+		setAdvancedPage(0);
+		setAdvance(totalvalues);
+        setIsEnterFilterValue(true)
+	};
     useEffect(() => {
         if (from === "stockbalance") {
             Object.assign(selectFilter, {
@@ -675,25 +672,23 @@ function FilterComponent({ from, settings, cols }) {
             });
 
             form.setFieldsValue(selectFilter);
-
-            // if (selectFilter.wg === "" || selectFilter.wg === undefined) {
-            // 	form.setFieldsValue({
-            // 		wg: "",
-            // 	});
-            // }
-            if (selectFilter.ar === "" || selectFilter.ar === undefined) {
-                form.setFieldsValue({
-                    ar: 0,
-                });
-            }
-        } else {
-            if (Object.keys(selectFilter).length === 0) {
-                setSelectFilter(selectFilter);
-                setinitial(initial);
-            }
-            form.setFieldsValue(selectFilter);
-        }
-
+			// if (selectFilter.wg === "" || selectFilter.wg === undefined) {
+			// 	form.setFieldsValue({
+			// 		wg: "",
+			// 	});
+			// }
+			if (selectFilter.ar === "" || selectFilter.ar === undefined) {
+				form.setFieldsValue({
+					ar: 0,
+				});
+			}
+		} else {
+			if (Object.keys(selectFilter).length === 0) {
+				setSelectFilter(selectFilter);
+				setinitial(initial);
+			}
+			form.setFieldsValue();
+		}
         setChanged(false);
     }, [changed]);
 

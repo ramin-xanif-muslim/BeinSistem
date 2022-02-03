@@ -142,6 +142,10 @@ function NewDemand({ handleOpenCatalog, selectList, catalogVisible }) {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+    const handleCopy = (record, key) => {
+        setOuterDataSource([...outerDataSource, record])
+        setPositions([...outerDataSource, record])
+    };
 
     const { debt, setCustomerId } = useFetchDebt();
 
@@ -508,6 +512,24 @@ function NewDemand({ handleOpenCatalog, selectList, catalogVisible }) {
                         return ConvertFixedTable(defaultCostArray[index]);
                     }
                 },
+            },
+            {
+              title: "Dublikat",
+              dataIndex: "addSame",
+              className: "printField",
+              isVisible: true,
+              editable: false,
+              render: (_, record) =>
+                  <Typography.Link>
+                    <Popconfirm
+                      title="Dublikat?"
+                      okText="Bəli"
+                      cancelText="Xeyr"
+                      onConfirm={() => handleCopy(record, record.key)}
+                    >
+                      <a className="addPosition">Dublikat</a>
+                    </Popconfirm>
+                  </Typography.Link>
             },
             {
                 title: "Sil",

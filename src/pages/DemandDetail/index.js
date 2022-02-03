@@ -141,6 +141,10 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         setOuterDataSource(dataSource.filter((item) => item.key !== key));
         setPositions(dataSource.filter((item) => item.key !== key));
     };
+    const handleCopy = (record, key) => {
+        setOuterDataSource([...outerDataSource, record])
+        setPositions([...outerDataSource, record])
+    };
     const [debt, setDebt] = useState(0);
     const [customerId, setCustomerId] = useState();
     const fetchDebt = async (id) => {
@@ -310,6 +314,24 @@ function DemandDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                     // do something like adding commas to the value or prefix
                     return ConvertFixedTable(value);
                 },
+            },
+            {
+              title: "Dublikat",
+              dataIndex: "addSame",
+              className: "printField",
+              isVisible: true,
+              editable: false,
+              render: (_, record) =>
+                  <Typography.Link>
+                    <Popconfirm
+                      title="Dublikat?"
+                      okText="Bəli"
+                      cancelText="Xeyr"
+                      onConfirm={() => handleCopy(record, record.key)}
+                    >
+                      <a className="addPosition">Dublikat</a>
+                    </Popconfirm>
+                  </Typography.Link>
             },
             {
                 title: "Sil",

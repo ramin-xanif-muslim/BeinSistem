@@ -212,42 +212,6 @@ export default function Documents() {
 				sorter: (a, b) => null,
 			},
 			{
-				dataIndex: "UseBonus",
-				title: "Bonus",
-				defaultSortOrder: initialSort === "UseBonus" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "UseBonus"
-					  ).show
-					: true,
-				sorter: (a, b) => null,
-			},
-			{
-				dataIndex: "Credit",
-				title: "Borca",
-				defaultSortOrder: initialSort === "Credit" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Credit"
-					  ).show
-					: true,
-				sorter: (a, b) => null,
-			},
-			{
-				dataIndex: "SumMoney",
-				title: "Yekun məbləğ",
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "SumMoney"
-					  ).show
-					: true,
-				render: (value, row, index) => {
-					return parseFloat(
-						row.Amount + row.Bank + row.Credit + row.UseBonus
-					);
-				},
-			},
-			{
 				dataIndex: "StockName",
 				title: "Anbar adı",
 				defaultSortOrder:
@@ -255,29 +219,6 @@ export default function Documents() {
 				show: initial
 					? Object.values(initial).find(
 							(i) => i.dataIndex === "StockName"
-					  ).show
-					: true,
-				sorter: (a, b) => null,
-			},
-			{
-				dataIndex: "Profit",
-				title: "Qazanc",
-				defaultSortOrder: initialSort === "Profit" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Profit"
-					  ).show
-					: true,
-				sorter: (a, b) => null,
-			},
-
-			{
-				dataIndex: "Discount",
-				title: "Endirim",
-				defaultSortOrder: initialSort === "Discount" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Discount"
 					  ).show
 					: true,
 				sorter: (a, b) => null,
