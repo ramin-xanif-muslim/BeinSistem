@@ -860,17 +860,14 @@ tbody .ant-table-cell {
 .new-primary-button:hover {
     background: var(--blue);
 }
-.new-danger-button {
-    background: -webkit-linear-gradient(top, #ffc2c2, #ff5353);
-    color: #fff !important;
-    border-color: red;
-}
 .new-danger-button:hover {
-    background: #ff6363 !important;
+    background: -webkit-linear-gradient(top, #ffc2c2, #ff5353);
+    border-color: red;
     color: #fff !important;
 }
 .new-danger-button:active {
-    background: #ff4b4b !important;
+    background: #ff6363 !important;
+    border-color: red;
     color: #fff !important;
 }
 .new-success-button {
@@ -879,7 +876,7 @@ tbody .ant-table-cell {
     color: #fff !important;
 }
 .new-success-button:hover {
-    background: #41be41;
+    background: -webkit-linear-gradient(top, #7fd47f, #009b00);
     color: #fff !important;
 }
 .new-success-button:active {

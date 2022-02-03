@@ -107,9 +107,9 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
 
-	const [initial, setInitial] = useState(null);
-	const [columnChange, setColumnChange] = useState(false);
-	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+    const [initial, setInitial] = useState(null);
+    const [columnChange, setColumnChange] = useState(false);
+    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
 	const { allsum, allQuantity } = useGetDocItems();
 
@@ -138,10 +138,9 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 		setDebt(ConvertFixedTable(res));
 	};
 
-	useEffect(() => {
-		setColumnChange(false);
-	}, [columnChange]);
-
+    useEffect(() => {
+        setColumnChange(false);
+    }, [columnChange]);
 	useEffect(() => {
 		setInitial(columns);
 	}, []);

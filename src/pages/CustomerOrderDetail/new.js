@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import { api, fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
