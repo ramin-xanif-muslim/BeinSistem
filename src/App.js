@@ -55,6 +55,9 @@ const NewCustomer = React.lazy(() => import("./pages/CustomerDetail/new"));
 const SupplyReturnLinked = React.lazy(() =>
 	import("./pages/SupplyReturnDetail/linked")
 );
+const DemandLinked = React.lazy(() =>
+	import("./pages/DemandDetail/linked")
+);
 const NewProductGroup = React.lazy(() =>
 	import("./pages/ProductGroupDetail/new")
 );
@@ -289,6 +292,12 @@ function App() {
 								path="/editDemandReturn/:doc_id"
 								component={DemandReturnDetail}
 							></Route>
+							<Route
+								path="/editDemandLinked"
+								render={(props) => (
+									<DemandLinked {...props} />
+								)}
+							/>
 							<Route
 								path="/editSupplyReturnLinked"
 								render={(props) => (

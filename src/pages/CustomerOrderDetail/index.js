@@ -457,7 +457,7 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 		return (
 			<Redirect
 				to={{
-					pathname: "/editDemandReturnLinked",
+					pathname: "/editDemandLinked",
 					state: {
 						data: data.Body.List[0],
 						position: positions,

@@ -220,32 +220,50 @@ function DocButtons({
             </Menu.Item> */}
         </Menu>
     );
-    const menu = (
-        <Menu>
-            <Menu.Item key="0">
-                <button
-                    className="new-button w-100"
-                    disabled={editid ? false : true}
-                    onClick={() => setIsPayment(true)}
-                    id={"saveTrans"}
-                    form={"myForm"}
-                    htmlType={"submit"}
-                >
-                    Ödəmə
-                </button>
-            </Menu.Item>
-            <Menu.Item key="1" disabled={editid ? false : true}>
-                <button
-                    className="new-button w-100"
-                    onClick={() => setIsReturn(true)}
-                    form={"myForm"}
-                    htmlType={"submit"}
-                >
-                    Qaytarma
-                </button>
-            </Menu.Item>
-        </Menu>
-    );
+    let menu = "";
+    if(from === "customerorders") {
+        menu = (
+            <Menu>
+                <Menu.Item key="0" disabled={editid ? false : true}>
+                    <button
+                        className="new-button w-100"
+                        onClick={() => setIsReturn(true)}
+                        form={"myForm"}
+                        htmlType={"submit"}
+                    >
+                        xxx
+                    </button>
+                </Menu.Item>
+            </Menu>
+            )
+    }else {
+        menu = (
+            <Menu>
+                <Menu.Item key="0">
+                    <button
+                        className="new-button w-100"
+                        disabled={editid ? false : true}
+                        onClick={() => setIsPayment(true)}
+                        id={"saveTrans"}
+                        form={"myForm"}
+                        htmlType={"submit"}
+                    >
+                        Ödəmə
+                    </button>
+                </Menu.Item>
+                <Menu.Item key="1" disabled={editid ? false : true}>
+                    <button
+                        className="new-button w-100"
+                        onClick={() => setIsReturn(true)}
+                        form={"myForm"}
+                        htmlType={"submit"}
+                    >
+                        Qaytarma
+                    </button>
+                </Menu.Item>
+            </Menu>
+            )
+    }
     const getProductPrint = (id, br, pr, nm) => (e) => {
         e.preventDefault();
         e.stopPropagation();

@@ -104,7 +104,6 @@ function TreeView({ from, modalVisible, setGroupId, onClose, fetchGroup }) {
   }
 
   const onSelect = (keys, info) => {
-    console.log(info);
     setGroupId([
       {
         name: info.node.name,
