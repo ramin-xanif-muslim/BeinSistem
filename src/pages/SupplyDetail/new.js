@@ -458,13 +458,13 @@ function NewSupply({
 		form.setFieldsValue({
 			stockid: createdStock.id,
 		});
-		setCreatedStock(null);
 		setStockId([
 			{
 				name: createdStock.name,
 				id: createdStock.id,
 			},
 		]);
+		setCreatedStock(null);
 	};
 
 	useEffect(() => {

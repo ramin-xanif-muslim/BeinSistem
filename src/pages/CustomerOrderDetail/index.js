@@ -203,7 +203,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 				dataIndex: "Order",
 				className: "orderField",
 				editable: false,
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Order"
+					  ).isVisible
+					: true,
 				render: (text, record, index) => index + 1 + 100 * docPage,
 			},
 			{
@@ -211,13 +215,21 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 				dataIndex: "Name",
 				className: "max_width_field_length",
 				editable: false,
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Name"
+					  ).isVisible
+					: true,
 				sorter: (a, b) => a.Name.localeCompare(b.Name),
 			},
 			{
 				title: "Barkodu",
 				dataIndex: "BarCode",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "BarCode"
+					  ).isVisible
+					: true,
 				className: "max_width_field_length",
 				editable: false,
 				sortDirections: ["descend", "ascend"],
@@ -226,7 +238,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 			{
 				title: "Miqdar",
 				dataIndex: "Quantity",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Quantity"
+					  ).isVisible
+					: true,
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
@@ -238,7 +254,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 			{
 				title: "Qiyməti",
 				dataIndex: "Price",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Price"
+					  ).isVisible
+					: true,
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
@@ -250,7 +270,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 			{
 				title: "Məbləğ",
 				dataIndex: "TotalPrice",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "TotalPrice"
+					  ).isVisible
+					: true,
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
@@ -263,7 +287,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 				title: "Qalıq",
 				dataIndex: "StockQuantity",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "StockQuantity"
+					  ).isVisible
+					: true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -275,7 +303,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 				title: "Maya",
 				dataIndex: "CostPr",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "CostPr"
+					  ).isVisible
+					: true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -284,7 +316,6 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 					outerDataSource.forEach((p) => {
 						defaultCostArray.push(Number(p.Price));
 					});
-					console.log("defaultCostArray", defaultCostArray);
 					if (hasConsumption) {
 						consumtionPriceArray = [];
 						outerDataSource.forEach((p) => {
@@ -306,7 +337,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 				title: "Cəm Maya",
 				dataIndex: "CostTotalPr",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "CostTotalPr"
+					  ).isVisible
+					: true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -337,7 +372,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 				title: "Sil",
 				className: "orderField printField",
 				dataIndex: "operation",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "operation"
+					  ).isVisible
+					: true,
 				editable: false,
 				render: (_, record) => (
 					<Typography.Link>
@@ -386,13 +425,13 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 		form.setFieldsValue({
 			stockid: createdStock.id,
 		});
-		setCreatedStock(null);
 		setStockId([
 			{
 				name: createdStock.name,
 				id: createdStock.id,
 			},
 		]);
+		setCreatedStock(null);
 	};
 	useEffect(() => {
 		if (stockId[0]) {
@@ -610,7 +649,11 @@ function CustomerOrderDetail({ bntOpenTreeViewModal, stockId, setStockId }) {
 							xl={24}
 							style={{ paddingTop: "1rem" }}
 						>
-							<DocTable headers={columns} datas={positions} />
+							<DocTable
+								headers={columns.filter(
+									(c) => c.isVisible == true
+								)}
+                              datas={positions} />
 						</Col>
 					</Row>
 				</Tab.Pane>

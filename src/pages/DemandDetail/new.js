@@ -392,7 +392,11 @@ function NewDemand({
 				title: "Vahid",
 				dataIndex: "vahid",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "vahid"
+					  ).isVisible
+					: false,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -432,7 +436,11 @@ function NewDemand({
 				title: "Minimal qiymət",
 				dataIndex: "MinPrice",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "MinPrice"
+					  ).isVisible
+					: false,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -493,7 +501,11 @@ function NewDemand({
 				title: "Maya",
 				dataIndex: "CostPrice",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "CostPrice"
+					  ).isVisible
+					: true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -502,7 +514,6 @@ function NewDemand({
 					outerDataSource.forEach((p) => {
 						defaultCostArray.push(Number(p.CostPrice));
 					});
-					console.log("defaultCostArray", defaultCostArray);
 					if (hasConsumption) {
 						consumtionPriceArray = [];
 						outerDataSource.forEach((p) => {
@@ -524,7 +535,11 @@ function NewDemand({
 				title: "Cəm Maya",
 				dataIndex: "CostPriceTotal",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "CostPriceTotal"
+					  ).isVisible
+					: true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -555,7 +570,11 @@ function NewDemand({
 				title: "Dublikat",
 				dataIndex: "addSame",
 				className: "printField",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "addSame"
+					  ).isVisible
+					: false,
 				editable: false,
 				render: (_, record) => (
 					<Typography.Link>
@@ -671,14 +690,13 @@ function NewDemand({
 		form.setFieldsValue({
 			stockid: createdStock.id,
 		});
-		setCreatedStock(null);
-        console.log("getStocksAgain", stockId)
 		setStockId([
 			{
 				name: createdStock.name,
 				id: createdStock.id,
 			},
 		]);
+		setCreatedStock(null);
 	};
 
 	useEffect(() => {

@@ -43,6 +43,7 @@ import {
     EditOutlined,
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
+import { convert, convertDataToTree } from "../../config/function/convert";
 import { useTableCustom } from "../../contexts/TableContext";
 import { updateProduct } from "../../api";
 import ProductGroupModal from "../../components/ProductGroupModal";
@@ -439,23 +440,9 @@ function ProductDetail({
         form.setFieldsValue({
             groupid: newGroup,
         });
-		setGroupId([
-			{
-				name: newGroup,
-				id: newGroup,
-			},
-		]);
         setNewGroup(null);
         setGroupVisible(false);
     };
-	useEffect(() => {
-        console.log(groupId)
-		if (groupId[0]) {
-			form.setFieldsValue({
-				groupid: groupId[0]?.name,
-			});
-		}
-	}, [groupId]);
     const getlists = async () => {
         setAttrLoading(true);
         setLinkedList([]);
@@ -501,7 +488,8 @@ function ProductDetail({
     productGroups
         ? (obj = productGroups)
         : (obj = JSON.parse(localStorage.getItem("progroups")));
-
+      
+    
     const groupOption = Object.values(obj).map((c) => (
         <Option key={c.Id}>{c.Name}</Option>
     ));
@@ -811,7 +799,6 @@ function ProductDetail({
             values.ownerid = initialValues.ownerid
             values.departmentid = initialValues.departmentid
         }
-		values.groupid = groupId[0]?.id;
         setDisable(true);
 
         var valueMods = {};
@@ -1047,13 +1034,13 @@ function ProductDetail({
                                     >
                                         <PlusOutlined />
                                     </Button>
-										{/* <Button
+										<Button
                                             className="add-stock-btn"
                                             // onClick={handleClick}
                                         >
                                             <CaretDownOutlined />
-                                        </Button> */}
-                                    {bntOpenTreeViewModal}
+                                        </Button>
+                                    {/* {bntOpenTreeViewModal} */}
                                     <Form.Item
                                         label="Qrup"
                                         name="groupid"

@@ -107,14 +107,10 @@ function NewEnter({ bntOpenTreeViewModal, stockId, setStockId }) {
     const [positions, setPositions] = useState([]);
     const [redirect, setRedirect] = useState(false);
     const [editId, setEditId] = useState(null);
-    const [error, setError] = useState(null);
-    const [docname, setDocName] = useState(null);
-    const [newStocksLoad, setNewStocksLoad] = useState(null);
     const [hasConsumption, setHasConsumption] = useState(false);
     const [consumption, setConsumption] = useState(0);
     const [status, setStatus] = useState(true);
     const [initial, setInitial] = useState(null);
-    const [tablecolumns, setTableColumns] = useState([]);
     const [columnChange, setColumnChange] = useState(false);
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 

@@ -205,7 +205,11 @@ function LossDetail({
 				dataIndex: "Order",
 				className: "orderField",
 				editable: false,
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Order"
+					  ).isVisible
+					: true,
 				render: (text, record, index) => index + 1 + 100 * docPage,
 			},
 			{
@@ -213,13 +217,20 @@ function LossDetail({
 				dataIndex: "Name",
 				className: "max_width_field_length",
 				editable: false,
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find((i) => i.dataIndex === "Name")
+							.isVisible
+					: true,
 				sorter: (a, b) => a.Name.localeCompare(b.Name),
 			},
 			{
 				title: "Barkodu",
 				dataIndex: "BarCode",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "BarCode"
+					  ).isVisible
+					: true,
 				className: "max_width_field_length",
 				editable: false,
 				sortDirections: ["descend", "ascend"],
@@ -228,7 +239,11 @@ function LossDetail({
 			{
 				title: "Miqdar",
 				dataIndex: "Quantity",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Quantity"
+					  ).isVisible
+					: true,
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
@@ -240,7 +255,12 @@ function LossDetail({
 			{
 				title: "Qiyməti",
 				dataIndex: "Price",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Price"
+					  ).isVisible
+					: true,
+
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
@@ -252,20 +272,28 @@ function LossDetail({
 			{
 				title: "Məbləğ",
 				dataIndex: "TotalPrice",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "TotalPrice"
+					  ).isVisible
+					: true,
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return ConvertFixedTable(value);
+					return value;
 				},
 			},
 			{
 				title: "Qalıq",
 				dataIndex: "StockQuantity",
 				className: "max_width_field",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "StockQuantity"
+					  ).isVisible
+					: true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -273,12 +301,15 @@ function LossDetail({
 					return ConvertFixedTable(value);
 				},
 			},
-
 			{
 				title: "Sil",
 				className: "orderField printField",
 				dataIndex: "operation",
-				isVisible: true,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "operation"
+					  ).isVisible
+					: true,
 				editable: false,
 				render: (_, record) => (
 					<Typography.Link>
@@ -294,7 +325,7 @@ function LossDetail({
 				),
 			},
 		];
-	}, [consumption, outerDataSource, docSum]);
+	}, [consumption, outerDataSource, docSum, columnChange]);
 
 	useEffect(() => {
 		setInitial(columns);
@@ -327,13 +358,13 @@ function LossDetail({
 		form.setFieldsValue({
 			stockid: createdStock.id,
 		});
-		setCreatedStock(null);
 		setStockId([
 			{
 				name: createdStock.name,
 				id: createdStock.id,
 			},
 		]);
+		setCreatedStock(null);
 	};
 	useEffect(() => {
 		if (stockId[0]) {

@@ -322,7 +322,6 @@ function NewSupplyReturn({
 		var findelementindex;
 		var replacedElement;
 		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-		console.log(findelement);
 		findelementindex = initialCols.findIndex(
 			(c) => c.dataIndex === e.target.id
 		);
@@ -384,13 +383,13 @@ function NewSupplyReturn({
 		form.setFieldsValue({
 			stockid: createdStock.id,
 		});
-		setCreatedStock(null);
 		setStockId([
 			{
 				name: createdStock.name,
 				id: createdStock.id,
 			},
 		]);
+		setCreatedStock(null);
 	};
 
 	useEffect(() => {

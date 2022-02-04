@@ -374,13 +374,13 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
 		form.setFieldsValue({
 			stockid: createdStock.id,
 		});
-		setCreatedStock(null);
 		setStockId([
 			{
 				name: createdStock.name,
 				id: createdStock.id,
 			},
 		]);
+		setCreatedStock(null);
 	};
 	useEffect(() => {
 		if (stockId[0]) {
@@ -538,7 +538,11 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
 							xl={24}
 							style={{ paddingTop: "1rem" }}
 						>
-							<DocTable headers={columns} datas={positions} />
+							<DocTable
+								headers={columns.filter(
+									(c) => c.isVisible == true
+								)}
+                              datas={positions} />
 						</Col>
 					</Row>
 				</Tab.Pane>
