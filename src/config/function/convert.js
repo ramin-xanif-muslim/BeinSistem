@@ -25,3 +25,20 @@ export function convert(array) {
   }
   return map["-"];
 }
+export const convertDataToTree = (obj) => {
+    let pid;
+    var datas = [];
+    Object.values(obj).map((d) => {
+      d.ParentId === "00000000-0000-0000-0000-000000000000"
+        ? (pid = "")
+        : (pid = d.ParentId);
+      datas.push({
+        id: d.Id,
+        name: d.Name,
+        parent: pid,
+        title: d.Name,
+        key: d.Id,
+      });
+    });
+    return convert(datas)
+}

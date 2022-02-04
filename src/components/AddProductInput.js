@@ -77,6 +77,7 @@ function AddProductInput({ from }) {
 					packprice: r.PackPrice,
 					packquantity: r.PackQuantity,
 					ispack: r.IsPack,
+					minprice: r.MinPrice,
 					totalprice: `${parseFloat(r.Price) * parseFloat(1)}`,
 					name: r.Name,
 					costprice: r.CostPrice,

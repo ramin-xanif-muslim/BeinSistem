@@ -380,6 +380,24 @@ function NewDemand({
 										row.ChangePackQuantity
 								  )})`
 								: ConvertFixedPosition(row.Quantity)}
+						</div>
+					) : (
+						<div className="packOrQuantityWrapper">
+							{ConvertFixedPosition(row.Quantity)}{" "}
+						</div>
+					);
+				},
+			},
+			{
+				title: "Vahid",
+				dataIndex: "vahid",
+				className: "max_width_field",
+				isVisible: true,
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					return row.IsPack === 1 || row.IsPack === true ? (
+						<div className="packOrQuantityWrapper">
 							<Select
 								showArrow={false}
 								className="packOrQuantitySelect"
@@ -397,7 +415,6 @@ function NewDemand({
 						</div>
 					) : (
 						<div className="packOrQuantityWrapper">
-							{ConvertFixedPosition(row.Quantity)}{" "}
 							<Select
 								showArrow={false}
 								className="disabledPacket"
@@ -409,6 +426,18 @@ function NewDemand({
 							</Select>
 						</div>
 					);
+				},
+			},
+			{
+				title: "Minimal qiymət",
+				dataIndex: "MinPrice",
+				className: "max_width_field",
+				isVisible: true,
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return ConvertFixedTable(value);
 				},
 			},
 			{

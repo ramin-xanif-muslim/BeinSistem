@@ -231,7 +231,7 @@ function DocButtons({
                         form={"myForm"}
                         htmlType={"submit"}
                     >
-                        xxx
+                        Satış
                     </button>
                 </Menu.Item>
             </Menu>
@@ -362,7 +362,7 @@ function DocButtons({
                             onClick={(e) => e.preventDefault()}
                             className="new-button"
                         >
-                            Yeni sənəd
+                             Sənəd yarat
                         </button>
                     </Dropdown>
                 )}

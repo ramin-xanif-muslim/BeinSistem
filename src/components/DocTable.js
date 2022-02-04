@@ -154,6 +154,8 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
                 PrintPrice: newPro.price,
                 Price:
                     from && from === "demands" ? newPro.price : newPro.buyprice,
+                    MinPrice:
+                    from && from === "demands" ? newPro.minprice : newPro.minprice,
                 CostPr: from
                     ? from === "demands"
                         ? newPro.price
@@ -223,6 +225,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
 
     useEffect(() => {
         if (isNew) {
+            console.log(newPro)
             var duplicateData = false;
             var index;
             var newData = {
@@ -246,6 +249,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
                         : newPro.buyprice
                     : newPro.buyprice,
                 PrintPrice: newPro.price,
+                MinPrice: newPro.minprice,
                 // Price: from
                 // 	? from === "demands"
                 // 		? newPro.price
@@ -332,6 +336,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
                     ArtCode: s.ArtCode,
                     Name: s.Name,
                     BarCode: s.BarCode,
+                    MinPrice: s.MinPrice,
                     Quantity: 1,
                     ShowPacket: from
                         ? from === "demands"

@@ -289,6 +289,18 @@ function DemandDetail({
 				},
 			},
 			{
+				title: "Minimal qiymət",
+				dataIndex: "MinPrice",
+				className: "max_width_field",
+				isVisible: true,
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return ConvertFixedTable(value);
+				},
+			},
+			{
 				title: "Qiyməti",
 				dataIndex: "Price",
 				isVisible: true,

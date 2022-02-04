@@ -43,6 +43,7 @@ import {
     EditOutlined,
 } from "@ant-design/icons";
 import { Tab } from "semantic-ui-react";
+import { convert, convertDataToTree } from "../../config/function/convert";
 import { useTableCustom } from "../../contexts/TableContext";
 import { updateProduct } from "../../api";
 import ProductGroupModal from "../../components/ProductGroupModal";
@@ -487,7 +488,8 @@ function ProductDetail({
     productGroups
         ? (obj = productGroups)
         : (obj = JSON.parse(localStorage.getItem("progroups")));
-
+      
+    
     const groupOption = Object.values(obj).map((c) => (
         <Option key={c.Id}>{c.Name}</Option>
     ));
