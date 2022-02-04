@@ -277,17 +277,17 @@ function NewDemand({
 			getAllPricesFilter.pricetype = e;
 			Object.values(datas).map((d) => productsId.push(d.ProductId));
 			getAllPricesFilter.products = productsId;
-
-			const res = await fetchPriceTypesRate(getAllPricesFilter);
-			res.Body.List.map((i) => {
-				Object.values(datas).map((item) => {
-					if (item.ProductId === i.ProductId) {
-						item.Price = i.Price;
-						item.TotalPrice = i.Price * item.Quantity;
-					}
-				});
-			});
-
+            if(productsId[0]) {
+                const res = await fetchPriceTypesRate(getAllPricesFilter);
+                res.Body.List.map((i) => {
+                    Object.values(datas).map((item) => {
+                        if (item.ProductId === i.ProductId) {
+                            item.Price = i.Price;
+                            item.TotalPrice = i.Price * item.Quantity;
+                        }
+                    });
+                });
+            }
 			var newdatas = datas;
 			setOuterDataSource(newdatas);
 			setPriceChanged(true);

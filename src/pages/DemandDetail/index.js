@@ -379,7 +379,7 @@ function DemandDetail({
 				},
 			},
 			{
-				title: "Maya",
+				title: "Qiymət",
 				dataIndex: "Price",
 				isVisible: initial
 					? Object.values(initial).find(
@@ -435,7 +435,7 @@ function DemandDetail({
 					? Object.values(initial).find(
 							(i) => i.dataIndex === "CostPrice"
 					  ).isVisible
-					: true,
+					: false,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -469,7 +469,7 @@ function DemandDetail({
 					? Object.values(initial).find(
 							(i) => i.dataIndex === "CostPriceTotal"
 					  ).isVisible
-					: true,
+					: false,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {

@@ -130,6 +130,7 @@ function ProductDetail({
     const [attrs, setAttrs] = useState(
         attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
     );
+    console.log(localStorage.getItem("attr"));
     const [pricetypes, setPriceTypes] = useState(
         prices ? prices : JSON.parse(localStorage.getItem("prices"))
     );
@@ -439,30 +440,9 @@ function ProductDetail({
         form.setFieldsValue({
             groupid: newGroup,
         });
-        setGroupId([{
-            name: newGroup,
-            id: newGroup,
-        }])
-        console.log("newGroup",newGroup)
         setNewGroup(null);
         setGroupVisible(false);
     };
-	useEffect(() => {
-		if (groupId[0]) {
-			form.setFieldsValue({
-				stockid: groupId[0]?.name,
-			});
-		}
-	}, [groupId]);
-
-	const onChange = (groupid) => {
-		setGroupId([
-			{
-				name: groupid,
-				id: groupid,
-			},
-		]);
-	};
     const getlists = async () => {
         setAttrLoading(true);
         setLinkedList([]);
@@ -819,9 +799,6 @@ function ProductDetail({
             values.ownerid = initialValues.ownerid
             values.departmentid = initialValues.departmentid
         }
-		if (groupId[0]?.id) {
-			values.stockid = groupId[0]?.id;
-		}
         setDisable(true);
 
         var valueMods = {};
@@ -1057,13 +1034,13 @@ function ProductDetail({
                                     >
                                         <PlusOutlined />
                                     </Button>
-										{/* <Button
+										<Button
                                             className="add-stock-btn"
                                             // onClick={handleClick}
                                         >
                                             <CaretDownOutlined />
-                                        </Button> */}
-                                    {bntOpenTreeViewModal}
+                                        </Button>
+                                    {/* {bntOpenTreeViewModal} */}
                                     <Form.Item
                                         label="Qrup"
                                         name="groupid"
@@ -1081,7 +1058,6 @@ function ProductDetail({
                                             className="doc_status_formitem_wrapper_col"
                                             className="detail-select"
                                             filterOption={false}
-									        onChange={onChange}
                                             notFoundContent={
                                                 <Spin size="small" />
                                             }
