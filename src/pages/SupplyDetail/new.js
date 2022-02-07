@@ -713,6 +713,7 @@ function NewSupply({
 								/>
 							</Button>
 							<Form.Item
+                                style={{ margin: "0" }}
 								label="Qarşı-tərəf"
 								name="customerid"
 								rules={[
