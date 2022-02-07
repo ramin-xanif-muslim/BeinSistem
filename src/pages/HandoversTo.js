@@ -1,47 +1,36 @@
 import { useState, useMemo, useEffect } from "react";
-import { useQuery } from "react-query";
-import {
-	fetchPage,
-	fecthFastPage,
-	fetchFilterPage,
-	fetchCustomers,
-} from "../api";
-import { Table } from "antd";
-import { Redirect } from "react-router-dom";
-import {
-	Spin,
-	Row,
-	Col,
-	Menu,
-	Checkbox,
-	Dropdown,
-	Typography,
-	Alert,
-} from "antd";
-import Buttons from "../components/Button";
 import { isObject } from "../config/function/findadditionals";
+import { useQuery } from "react-query";
+import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
+
+import { Alert, Table } from "antd";
+import { Redirect } from "react-router-dom";
+import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
+import { ConvertFixedTable } from "../config/function/findadditionals";
+import Buttons from "../components/Button";
+import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
+
 import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
-import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 const { Text } = Typography;
-export default function Demand() {
+export default function HandoversTo() {
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
 	const [defaultdr, setDefaultDr] = useState("descend");
 	const [initialSort, setInitialSort] = useState("Moment");
 	const [fieldSort, setFieldSort] = useState("Moment");
-	const [allprofit, setallprofit] = useState(0);
 	const [allsum, setallsum] = useState(0);
 	const [editId, setEditId] = useState("");
 	const [page, setPage] = useState(0);
 	const [filtered, setFiltered] = useState(false);
+
 	const [filterChanged, setFilterChanged] = useState(false);
 	const [columnChange, setColumnChange] = useState(false);
 	const [initial, setInitial] = useState(null);
@@ -59,8 +48,6 @@ export default function Demand() {
 		advanced,
 		setdisplay,
 		display,
-		setCustomersLocalStorage,
-		setCustomers,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -68,23 +55,24 @@ export default function Demand() {
     const [pageCount, setPageCount] = useState(null);
     const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["demands", page, direction, fieldSort, doSearch, search, advanced],
+		["handovers", page, direction, fieldSort, doSearch, search, advanced],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
-						"demands",
+						"handovers",
 						advancedPage,
 						advanced,
 						direction,
 						fieldSort
 				  )
 				: doSearch
-				? fecthFastPage("demands", page, search)
+				? fecthFastPage("handovers", page, search)
 				: !isFilter && !doSearch
-				? fetchPage("demands", page, direction, fieldSort)
+				? fetchPage("handovers", page, direction, fieldSort)
 				: null;
 		}
 	);
+
 	useEffect(() => {
 		setRedirectSaveClose(false);
 		setSaveFromModal(false);
@@ -92,8 +80,7 @@ export default function Demand() {
 	useEffect(() => {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
-		if (filterChanged) setFilterChanged(false);
-	}, [columnChange, filtered, filterChanged]);
+	}, [columnChange, filtered]);
 
 	var markObject;
 	marks
@@ -109,114 +96,101 @@ export default function Demand() {
 			},
 			{
 				dataIndex: "Name",
-				title: "Satış №",
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find((i) => i.dataIndex === "Name")
+				title: "Sənəd №",
+				className: "linkedColumns",
+				show: initial
+					? Object.values(initial).find((i) => i.dataIndex === "Name")
 							.show
 					: true,
 				defaultSortOrder: initialSort === "Name" ? defaultdr : null,
 				sorter: (a, b) => null,
-				className:
-					initialSort === "Name"
-						? "linkedColumns activesort"
-						: "linkedColumns",
 			},
 			{
 				dataIndex: "Moment",
 				title: "Tarix",
 				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
+				show: initial
+					? Object.values(initial).find(
 							(i) => i.dataIndex === "Moment"
 					  ).show
 					: true,
 				sorter: (a, b) => null,
-				className: initialSort === "Moment" ? "activesort" : "",
 			},
 			{
-				dataIndex: "StockName",
-				title: "Anbar",
+				dataIndex: "StockFromName",
+				title: "Anbardan",
 				defaultSortOrder:
-					initialSort === "StockName" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "StockName"
+					initialSort === "StockFromName" ? defaultdr : null,
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "StockFromName"
 					  ).show
 					: true,
 				sorter: (a, b) => null,
-				className: initialSort === "StockName" ? "activesort" : "",
 			},
+
 			{
-				dataIndex: "CustomerName",
-				title: "Tərəf-müqabil",
-				defaultSortOrder:
-					initialSort === "CustomerName" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "CustomerName"
+				dataIndex: "StockToName",
+				title: "Anbara",
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "StockToName"
 					  ).show
 					: true,
+				defaultSortOrder:
+					initialSort === "StockToName" ? defaultdr : null,
 				sorter: (a, b) => null,
-				className:
-					initialSort === "CustomerName"
-						? "linkedColumns activesort"
-						: "linkedColumns",
 			},
+
 			{
 				dataIndex: "Amount",
 				title: "Məbləğ",
+				sort: true,
+				show: JSON.parse(localStorage.getItem("entercolumns"))
+					? Object.values(
+							JSON.parse(localStorage.getItem("entercolumns"))
+					  ).find((i) => i.dataIndex === "Amount").show
+					: true,
+				showFooter: true,
+				footerName: "Amount",
+				priceFormat: true,
 				defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Amount"
-					  ).show
-					: true,
+				sorter: (a, b) => null,
 				className: initialSort === "Amount" ? "activesort" : "",
-				sorter: (a, b) => null,
 				render: (value, row, index) => {
 					return ConvertFixedTable(value);
 				},
 			},
-			{
-				dataIndex: "Profit",
-				title: "Qazanc",
-				defaultSortOrder: initialSort === "Profit" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Profit"
-					  ).show
-					: true,
-				sorter: (a, b) => null,
-				className: initialSort === "Profit" ? "activesort" : "",
-				render: (value, row, index) => {
-					return ConvertFixedTable(value);
-				},
-			},
+
 			{
 				dataIndex: "Mark",
 				title: "Status",
-				defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
-				className: initialSort === "Mark" ? "activesort" : "",
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find((i) => i.dataIndex === "Mark")
+				sort: true,
+				show: initial
+					? Object.values(initial).find((i) => i.dataIndex === "Mark")
 							.show
 					: true,
+				showCustomFormatter: true,
+				defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
 					return (
 						<span
 							className="status_label"
 							style={{
-								backgroundColor: markObject.find(
-									(m) => m.Id === value
-								)
+								backgroundColor: markObject
 									? markObject.find((m) => m.Id === value)
-											.Color
+										? markObject.find((m) => m.Id === value)
+												.Color
+										: null
 									: null,
 							}}
 						>
-							{markObject.find((m) => m.Id === value)
-								? markObject.find((m) => m.Id === value).Name
+							{markObject
+								? markObject.find((m) => m.Id === value)
+									? markObject.find((m) => m.Id === value)
+											.Name
+									: null
 								: null}
 						</span>
 					);
@@ -225,73 +199,38 @@ export default function Demand() {
 			{
 				dataIndex: "Description",
 				title: "Şərh",
-				className: initialSort === "Description" ? "activesort" : "",
-				defaultSortOrder:
-					initialSort === "Description" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
+				show: initial
+					? Object.values(initial).find(
 							(i) => i.dataIndex === "Description"
 					  ).show
 					: true,
+				defaultSortOrder:
+					initialSort === "Description" ? defaultdr : null,
 				sorter: (a, b) => null,
 			},
 			{
 				dataIndex: "Modify",
-				className: initialSort === "Modify" ? "activesort" : "",
 				title: "Dəyişmə tarixi",
-				defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
+				show: initial
+					? Object.values(initial).find(
 							(i) => i.dataIndex === "Modify"
 					  ).show
 					: false,
+				defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
 				sorter: (a, b) => null,
-			},
-			{
-				dataIndex: "CustomerDiscount",
-				className:
-					initialSort === "CustomerDiscount" ? "activesort" : "",
-				title: "Müştəri Endirim",
-				defaultSortOrder:
-					initialSort === "CustomerDiscount" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "CustomerDiscount"
-					  ).show
-					: false,
-				sorter: (a, b) => null,
-			},
-			{
-				dataIndex: "Discount",
-				title: "Endirim",
-				className: initialSort === "Discount" ? "activesort" : "",
-				defaultSortOrder: initialSort === "Discount" ? defaultdr : null,
-				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Discount"
-					  ).show
-					: false,
-				sorter: (a, b) => null,
-				render: (value, row, index) => {
-					return ConvertFixedTable(value);
-				},
 			},
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-    useEffect(() => {
-      setInitial(columns);
-      setInitialFilter(filters);
-      if (!localStorage.getItem("demandcolumns")) {
-        localStorage.setItem("demandcolumns", JSON.stringify(columns));
-      }
-    }, []);
+	useEffect(() => {
+		setdisplay("none");
+	}, []);
 
 	const filters = useMemo(() => {
 		return [
 			{
 				key: "1",
-				label: "Alış №",
+				label: "Yerdəyişmə №",
 				name: "docNumber",
 				type: "text",
 				dataIndex: "docNumber",
@@ -317,19 +256,32 @@ export default function Demand() {
 
 			{
 				key: "3",
-				label: "Anbar",
-				name: "stockName",
+				label: "Anbardan",
+				name: "stockNameFrom",
 				type: "select",
 				controller: "stocks",
-				dataIndex: "stockName",
+				dataIndex: "stockNameFrom",
 				show: initialfilter
 					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "stockName"
+							(i) => i.dataIndex === "stockNameFrom"
 					  ).show
 					: true,
 			},
 			{
 				key: "4",
+				label: "Anbara",
+				name: "stockNameTo",
+				type: "select",
+				controller: "stocks",
+				dataIndex: "stockNameTo",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "stockNameTo"
+					  ).show
+					: true,
+			},
+			{
+				key: "5",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -342,7 +294,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -355,10 +307,10 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
-				type: "dateOfChange",
+				type: "date",
 				dataIndex: "modifedDate",
 				show: initialfilter
 					? Object.values(initialfilter).find(
@@ -367,7 +319,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -381,7 +333,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "9",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -392,42 +344,17 @@ export default function Demand() {
 					  ).show
 					: true,
 			},
-
-			{
-				key: "9",
-				label: "Qarşı-tərəf",
-				name: "customerName",
-				type: "select",
-				controller: "customers",
-				dataIndex: "customerName",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "customerName"
-					  ).show
-					: true,
-			},
 		];
 	}, [filterChanged]);
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	useEffect(() => {
 		setInitial(columns);
 		setInitialFilter(filters);
-
-		getCustomers();
 	}, []);
-	const getCustomers = async () => {
-		const customerResponse = await fetchCustomers();
-		setCustomers(customerResponse.Body.List);
-		setCustomersLocalStorage(customerResponse.Body.List);
-	};
 	useEffect(() => {
 		if (!isFetching) {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
-			setallprofit(data.Body.AllProfit);
             setPageCount(data.Body.Count);
             setLimitCount(data.Body.Limit);
 		} else {
@@ -440,12 +367,6 @@ export default function Demand() {
 	const editPage = (id) => {
 		setRedirect(true);
 		setEditId(id);
-	};
-	const editClickPage = (e, id) => {
-		if (e.target.className.includes("linkedColumns")) {
-			setRedirect(true);
-			setEditId(id);
-		}
 	};
 
 	const handlePagination = (pg) => {
@@ -471,9 +392,8 @@ export default function Demand() {
 	const handleVisibleChangeFilter = (flag) => {
 		setVisibleMenuSettingsFilter(flag);
 	};
-
 	const onChangeMenu = (e) => {
-		var initialCols = JSON.parse(localStorage.getItem("demandcolumns"));
+		var initialCols = initial;
 		var findelement;
 		var findelementindex;
 		var replacedElement;
@@ -487,7 +407,6 @@ export default function Demand() {
 			...findelement,
 			...replacedElement,
 		});
-        localStorage.setItem("demandcolumns", JSON.stringify(initialCols));
 		setFiltered(true);
 	};
 	const onChangeMenuFilter = (e) => {
@@ -505,6 +424,7 @@ export default function Demand() {
 			...findelement,
 			...replacedElement,
 		});
+		console.log(initialCols);
 		setFilterChanged(true);
 	};
 	const menu = (
@@ -581,15 +501,11 @@ export default function Demand() {
 	);
 	const getSearchObjByDate = async (ob) => {
 		setFetchSearchByDate(true);
-		let res = await sendRequest("demands/get.php", ob);
+		let res = await sendRequest("handovers/get.php", ob);
 		setDocumentList(res.List);
 		setallsum(res.AllSum);
-		setallprofit(res.AllProfit);
 		setFetchSearchByDate(false);
 	};
-
-	if (error) return "An error has occurred: " + error.message;
-	if (redirect) return <Redirect push to={`/editDemand/${editId}`} />;
 
     if (!isLoading && !isObject(data.Body))
       return (
@@ -598,20 +514,24 @@ export default function Demand() {
           <span style={{ color: "red" }}>{data}</span>
         </>
       );
+
+	if (error) return "An error has occurred: " + error.message;
+
+	if (redirect) return <Redirect push to={`/editHandoversTo/${editId}`} />;
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
 				<Col xs={24} md={24} xl={4}>
 					<div className="page_heder_left">
-						<h2>Satışlar</h2>
+						<h2>Təhvil</h2>
 					</div>
 				</Col>
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
 							<Buttons
-								text={"Yeni satış"}
-								redirectto={"/newdemand"}
+								text={"Təhvil"}
+								redirectto={"/newhandover"}
 								animate={"Yarat"}
 							/>
 							<FilterButton />
@@ -632,7 +552,7 @@ export default function Demand() {
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-				loading={isLoading || isFetchSearchByDate}
+        loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -651,9 +571,6 @@ export default function Demand() {
 											? "Cəm"
 											: c.dataIndex === "Amount"
 											? ConvertFixedTable(allsum) + " ₼"
-											: c.dataIndex === "Profit"
-											? ConvertFixedTable(allprofit) +
-											  " ₼"
 											: null}
 									</Text>
 								</Table.Summary.Cell>
@@ -671,6 +588,7 @@ export default function Demand() {
 				size="small"
 				onRow={(r) => ({
 					onClick: (e) => editPage(r.Id),
+					// onDoubleClick: () => editPage(r.Id),
 				})}
 			/>
 		</div>

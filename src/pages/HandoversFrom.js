@@ -19,7 +19,7 @@ import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
 const { Text } = Typography;
-export default function Handovers() {
+export default function HandoversFrom() {
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -517,20 +517,20 @@ export default function Handovers() {
 
 	if (error) return "An error has occurred: " + error.message;
 
-	if (redirect) return <Redirect push to={`/editHandovers/${editId}`} />;
+	if (redirect) return <Redirect push to={`/editHandoversFrom/${editId}`} />;
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
 				<Col xs={24} md={24} xl={4}>
 					<div className="page_heder_left">
-						<h2>Təhvil qəbul</h2>
+						<h2>Qəbul</h2>
 					</div>
 				</Col>
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
 							<Buttons
-								text={"Təhvil qəbul"}
+								text={"Qəbul"}
 								redirectto={"/newhandover"}
 								animate={"Yarat"}
 							/>

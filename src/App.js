@@ -8,7 +8,8 @@ import { useTableCustom } from "./contexts/TableContext";
 import { useParams } from "react-router-dom";
 
 const Move = React.lazy(() => import("./pages/Move"));
-const Handovers = React.lazy(() => import("./pages/Handovers"));
+const HandoversTo = React.lazy(() => import("./pages/HandoversTo"));
+const HandoversFrom = React.lazy(() => import("./pages/HandoversFrom"));
 const Product = React.lazy(() => import("./pages/Product"));
 const Enter = React.lazy(() => import("./pages/Enter"));
 const Loss = React.lazy(() => import("./pages/Loss"));
@@ -32,8 +33,10 @@ const SupplyReturnDetail = React.lazy(() =>
 const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const MoveDetail = React.lazy(() => import("./pages/MoveDetail"));
 
-const NewHandovers = React.lazy(() => import("./pages/HandoversDetail/new"));
-const HandoversDetail = React.lazy(() => import("./pages/HandoversDetail"));
+const NewHandoversTo = React.lazy(() => import("./pages/HandoversToDetail/new"));
+const HandoversDetailTo = React.lazy(() => import("./pages/HandoversToDetail"));
+const NewHandoversFrom = React.lazy(() => import("./pages/HandoversFromDetail/new"));
+const HandoversDetailFrom = React.lazy(() => import("./pages/HandoversFromDetail"));
 
 const CustomerOrderDetail = React.lazy(() =>
 	import("./pages/CustomerOrderDetail")
@@ -315,8 +318,12 @@ function App() {
 								component={MoveDetail}
 							></Route>
 							<Route
-								path="/editHandovers/:doc_id"
-								component={HandoversDetail}
+								path="/editHandoversTo/:doc_id"
+								component={HandoversDetailTo}
+							></Route>
+							<Route
+								path="/editHandoversFrom/:doc_id"
+								component={HandoversDetailFrom}
 							></Route>
 							<Route
 								path="/editLoss/:doc_id"
@@ -397,7 +404,11 @@ function App() {
 							<Route path="/newmove" component={NewMove}></Route>
 							<Route
 								path="/newhandover"
-								component={NewHandovers}
+								component={NewHandoversTo}
+							></Route>
+							<Route
+								path="/newhandover"
+								component={NewHandoversTo}
 							></Route>
 							<Route path="/newloss" component={NewLoss}></Route>
 							<Route
@@ -435,8 +446,12 @@ function App() {
 							></Route>
 							<Route path="/p=move" component={Move}></Route>
 							<Route
-								path="/p=handover"
-								component={Handovers}
+								path="/p=handoverto"
+								component={HandoversTo}
+							></Route>
+							<Route
+								path="/p=handoverfrom"
+								component={HandoversFrom}
 							></Route>
 						</Switch>
 					</div>

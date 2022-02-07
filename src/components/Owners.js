@@ -9,6 +9,7 @@ import {
 	fetchDepartments,
 	fetchPermissionId,
 	updatePermission,
+	fetchStocks,
 } from "../api";
 import { Redirect } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
@@ -47,8 +48,10 @@ export default function Owners() {
 	const [update, setUpdate] = useState(true);
 	const [permission, setPermission] = useState(null);
 	const [permissionload, setPermissionLoad] = useState(false);
-	const [ isUpdatePage, setIsUpdatePage ] = useState(false);
-	const [ companyName, setCompanyName ] = useState(false);
+	const [isUpdatePage, setIsUpdatePage] = useState(false);
+	const [companyName, setCompanyName] = useState(false);
+	const [saler, setSaler] = useState();
+	const [stocks, setStocks] = useState();
 	const queryClient = useQueryClient();
 	const { departments, setDepartments, setDepartmentsLocalStorage } =
 		useTableCustom();
@@ -56,20 +59,21 @@ export default function Owners() {
 		departments && [("owner", { departments, update })],
 		() => fetchOwners()
 	);
-    const updatePage = async () => {
-        if(isUpdatePage){
-            let res = await fetchOwners();
-            setDocumentList(res.Body.List)
-            setIsUpdatePage(false)
-        }}
+	const updatePage = async () => {
+		if (isUpdatePage) {
+			let res = await fetchOwners();
+			setDocumentList(res.Body.List);
+			setIsUpdatePage(false);
+		}
+	};
 
 	useEffect(() => {
-        setCompanyName(JSON.parse(localStorage.getItem( "user" )).Login.slice(6))
-        console.log('companyName',companyName)
+		setCompanyName(JSON.parse(localStorage.getItem("user")).Login.slice(6));
+		console.log("companyName", companyName);
 		getDepartments();
 	}, [companyName]);
-	useEffect(async() => {
-        updatePage()
+	useEffect(async () => {
+		updatePage();
 	}, [isUpdatePage]);
 
 	const getDepartments = async () => {
@@ -114,6 +118,7 @@ export default function Owners() {
 	};
 
 	const handleOpenPermission = (row) => {
+		setSaler(row.Saler);
 		setUpdate(false);
 		setPermissionLoad(true);
 		setEditPermission(row);
@@ -169,6 +174,16 @@ export default function Owners() {
 		  ))
 		: null;
 
+	useEffect(async() => {
+		let res = await fetchStocks();
+		setStocks(res.Body.List);
+	}, []);
+    const stockoptions = stocks 
+    ? Object.values(stocks).map((c) => (
+            <Option key={c.Id}>{c.Name}</Option>
+      ))
+    : null;
+
 	const columns = useMemo(() => {
 		return [
 			{
@@ -186,15 +201,13 @@ export default function Owners() {
 				dataIndex: "Login",
 				title: "İstifadəçi adı",
 				render: (value, row, index) => {
-                    if(value === "kassa") {
-                        if(companyName) {
-                            return "kassa@" + companyName
-                        }
-                        
-                    }
-                    else {
-                        return "admin@" + value;
-                    }
+					if (value === "kassa") {
+						if (companyName) {
+							return "kassa@" + companyName;
+						}
+					} else {
+						return "admin@" + value;
+					}
 				},
 			},
 			{
@@ -272,7 +285,7 @@ export default function Owners() {
 
 	const onFinishPermission = async (values) => {
 		message.loading({ content: "Yüklənir...", key: "doc_update" });
-		values.saler = "1";
+		values.saler = saler;
 		const response = await updatePermission(values);
 		if (response.Headers.ResponseStatus === "0") {
 			message.success({
@@ -299,7 +312,6 @@ export default function Owners() {
 	};
 
 	const onFinish = async (values) => {
-        console.log(values)
 		message.loading({ content: "Yüklənir...", key: "doc_update" });
 		updateMutation.mutate(
 			{ id: edit ? edit.Id : null, filter: values },
@@ -314,7 +326,7 @@ export default function Owners() {
 						queryClient.invalidateQueries("owner");
 						setShow(false);
 						setEdit(null);
-                        setIsUpdatePage(true)
+						setIsUpdatePage(true);
 					} else {
 						message.error({
 							content: (
@@ -400,7 +412,11 @@ export default function Owners() {
 						departmentid: edit ? edit.DepartmentId : "",
 						description: edit ? edit.Description : "",
 						id: edit ? edit.Id : "",
-						status: edit ? edit.Status === 1 ? true : false : true,
+						status: edit
+							? edit.Status === 1
+								? true
+								: false
+							: true,
 					}}
 					onFinish={onFinish}
 				>
@@ -416,6 +432,27 @@ export default function Owners() {
 					>
 						<Input />
 					</Form.Item>
+					{/* <Form.Item
+						label="İcraçı"
+						name="saler"
+						rules={[
+							{
+								required: true,
+								message: "Zəhmət olmasa, anbarı seçin",
+							},
+						]}
+					>
+						<Select
+							showSearch
+							showArrow={false}
+							filterOption={false}
+							className="customSelect detail-select"
+							allowClear={true}
+						>
+							<Option value={1}>kassir</Option>
+							<Option value={2}>komissionçu</Option>
+						</Select>
+					</Form.Item> */}
 					<Form.Item
 						name="login"
 						label="Istifadəçi adı"
@@ -518,16 +555,13 @@ export default function Owners() {
 						<Input />
 					</Form.Item>
 					{/* {edit && edit.Name !== "Administrator" && ( */}
-						<Form.Item
-							name="status"
-							valuePropName="checked"
-						>
-							<Switch
-								checkedChildren="Aktiv"
-								unCheckedChildren="Deaktiv"
-								defaultChecked
-							/>
-						</Form.Item>
+					<Form.Item name="status" valuePropName="checked">
+						<Switch
+							checkedChildren="Aktiv"
+							unCheckedChildren="Deaktiv"
+							defaultChecked
+						/>
+					</Form.Item>
 					{/* )} */}
 					<Form.Item hidden={true} name="id" label="id">
 						<Input />
@@ -576,8 +610,16 @@ export default function Owners() {
 						}}
 						onFinish={onFinishPermission}
 					>
+                    <Button type="dashed" style={saler == 2 ? null : {background: 'blue'}} onClick={(e) => {
+                        e.preventDefault()
+                        setSaler(1)
+                    }}>Kassir</Button>
+                    <Button type="dashed" style={saler == 2 ? {background: 'blue'} : null} onClick={(e) => {
+                        e.preventDefault()
+                        setSaler(2)
+                    }}>Komissionçu</Button>
 						<Form.Item
-							label="Bağlı olduğu satış nöqtəsinin adı"
+							label="Bağlılıq"
 							name="salepointid"
 							style={{ margin: "0" }}
 						>
@@ -592,7 +634,7 @@ export default function Owners() {
 										.indexOf(input.toLowerCase()) >= 0
 								}
 							>
-								{slpntOptions}
+								{saler == 2 ? stockoptions : slpntOptions}
 							</Select>
 						</Form.Item>
 

@@ -567,7 +567,7 @@ export default function Enter() {
       <Table
         className="main-table"
         loading={isLoading || isFetchSearchByDate}
-        // loadin
+        loadin
         rowKey="Name"
         columns={columns.filter((c) => c.show == true)}
         rowClassName={(record, index) =>

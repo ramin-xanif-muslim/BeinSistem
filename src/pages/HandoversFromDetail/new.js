@@ -542,7 +542,7 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Təhvil qəbul</h2>
+				<h2>Qəbul</h2>
 			</div>
 
 			<DocButtons additional={"none"} editid={null} closed={"p=handover"} />

@@ -97,6 +97,14 @@ export default function Supply() {
         if (filterChanged) setFilterChanged(false);
     }, [columnChange, filtered, filterChanged]);
 
+    useEffect(() => {
+      setInitial(columns);
+      setInitialFilter(filters);
+      if (!localStorage.getItem("supplycolumns")) {
+        localStorage.setItem("supplycolumns", JSON.stringify(columns));
+      }
+    }, []);
+
     var markObject;
     marks
         ? (markObject = marks)
@@ -112,8 +120,8 @@ export default function Supply() {
             {
                 dataIndex: "Name",
                 title: "Alış №",
-                show: initial
-                    ? Object.values(initial).find((i) => i.dataIndex === "Name")
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find((i) => i.dataIndex === "Name")
                           .show
                     : true,
                 defaultSortOrder: initialSort === "Name" ? defaultdr : null,
@@ -127,8 +135,8 @@ export default function Supply() {
                 dataIndex: "Moment",
                 title: "Tarix",
                 defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "Moment"
                       ).show
                     : true,
@@ -140,8 +148,8 @@ export default function Supply() {
                 title: "Anbar",
                 defaultSortOrder:
                     initialSort === "StockName" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "StockName"
                       ).show
                     : true,
@@ -153,8 +161,8 @@ export default function Supply() {
                 title: "Tərəf-müqabil",
                 defaultSortOrder:
                     initialSort === "CustomerName" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "CustomerName"
                       ).show
                     : true,
@@ -168,8 +176,8 @@ export default function Supply() {
                 dataIndex: "Amount",
                 title: "Məbləğ",
                 defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "Amount"
                       ).show
                     : true,
@@ -184,8 +192,8 @@ export default function Supply() {
                 dataIndex: "Mark",
                 title: "Status",
                 defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find((i) => i.dataIndex === "Mark")
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find((i) => i.dataIndex === "Mark")
                           .show
                     : true,
                 sorter: (a, b) => null,
@@ -216,8 +224,8 @@ export default function Supply() {
                 title: "Şərh",
                 defaultSortOrder:
                     initialSort === "Description" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "Description"
                       ).show
                     : true,
@@ -228,8 +236,8 @@ export default function Supply() {
                 dataIndex: "Modify",
                 title: "Dəyişmə tarixi",
                 defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "Modify"
                       ).show
                     : false,
@@ -241,8 +249,8 @@ export default function Supply() {
                 title: "Müştəri Endirim",
                 defaultSortOrder:
                     initialSort === "CustomerDiscount" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "CustomerDiscount"
                       ).show
                     : false,
@@ -259,8 +267,8 @@ export default function Supply() {
                 title: "Əlavə xərc",
                 defaultSortOrder:
                     initialSort === "Consumption" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "Consumption"
                       ).show
                     : true,
@@ -274,8 +282,8 @@ export default function Supply() {
                 dataIndex: "Discount",
                 title: "Endirim",
                 defaultSortOrder: initialSort === "Discount" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
+                show: JSON.parse(localStorage.getItem("supplycolumns"))
+                    ? Object.values(JSON.parse(localStorage.getItem("supplycolumns"))).find(
                           (i) => i.dataIndex === "Discount"
                       ).show
                     : false,
@@ -475,7 +483,7 @@ export default function Supply() {
     };
 
     const onChangeMenu = (e) => {
-        var initialCols = initial;
+        var initialCols = JSON.parse(localStorage.getItem("supplycolumns"));
         var findelement;
         var findelementindex;
         var replacedElement;
@@ -489,6 +497,7 @@ export default function Supply() {
             ...findelement,
             ...replacedElement,
         });
+        localStorage.setItem("supplycolumns", JSON.stringify(initialCols));
         setFiltered(true);
     };
     const onChangeMenuFilter = (e) => {

@@ -1,35 +1,47 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocId } from "../../api";
+import { fetchDocName } from "../../api";
 import { useEffect, useState } from "react";
+import { Redirect } from "react-router";
 import moment from "moment";
 import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
+import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
-import { Redirect } from "react-router";
-import { ConvertFixedPosition } from "../../config/function/findadditionals";
-import { Tab } from "semantic-ui-react";
 import ProductModal from "../../components/ProductModal";
+import { Tab } from "semantic-ui-react";
 import {
+	FindAdditionals,
+	FindCofficient,
+	ConvertFixedTable,
+	ConvertFixedPosition,
+} from "../../config/function/findadditionals";
+import {
+	DeleteOutlined,
 	PlusOutlined,
+	EditOutlined,
 	SettingOutlined,
 	CloseCircleOutlined,
 } from "@ant-design/icons";
 import {
 	Form,
-	Alert,
 	Input,
 	Button,
+	InputNumber,
+	TreeSelect,
 	Checkbox,
 	Dropdown,
 	DatePicker,
+	Switch,
 	Select,
 	Spin,
+	Tag,
 	Divider,
 	Menu,
+	Drawer,
 	Typography,
 	Statistic,
 	Popconfirm,
@@ -39,27 +51,22 @@ import {
 } from "antd";
 import DocTable from "../../components/DocTable";
 import DocButtons from "../../components/DocButtons";
-import { fetchCustomers } from "../../api";
-import { fetchStocks } from "../../api";
 import { message } from "antd";
-import { updateDoc } from "../../api";
-import { useRef } from "react";
+import { saveDoc } from "../../api";
 import { useCustomForm } from "../../contexts/FormContext";
-import {
-	FindAdditionals,
-	FindCofficient,
-	ConvertFixedTable,
-} from "../../config/function/findadditionals";
+import { fetchStocks } from "../../api";
+import { useRef } from "react";
 import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
 import withCatalog from "../../HOC/withCatalog";
 
 const audio = new Audio(ok);
+
 const { Option, OptGroup } = Select;
-const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
+const { TextArea } = Input;
+function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -100,21 +107,21 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	} = useCustomForm();
 	const [positions, setPositions] = useState([]);
 	const [redirect, setRedirect] = useState(false);
-	const { doc_id } = useParams();
+	const [editId, setEditId] = useState(null);
+	const [error, setError] = useState(null);
+	const [docname, setDocName] = useState(null);
+	const [newStocksLoad, setNewStocksLoad] = useState(null);
 	const [hasConsumption, setHasConsumption] = useState(false);
-	const [status, setStatus] = useState(false);
 	const [consumption, setConsumption] = useState(0);
+	const [status, setStatus] = useState(true);
 	const [initial, setInitial] = useState(null);
-	const [columnChange, setColumnChange] = useState(false);
 	const [direct, setDirect] = useState("");
+	const [tablecolumns, setTableColumns] = useState([]);
+	const [columnChange, setColumnChange] = useState(false);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
 	const { allsum, allQuantity } = useGetDocItems();
 
-	const { isLoading, error, data, isFetching } = useQuery(
-		["handovers", doc_id],
-		() => fetchDocId(doc_id, "handovers")
-	);
 	const handleDelete = (key) => {
 		const dataSource = [...outerDataSource];
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
@@ -122,72 +129,33 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	};
 
 	useEffect(() => {
-		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
-			setDisable(false);
-		}
-	}, [outerDataSource]);
-	useEffect(() => {
-		if (!isFetching) {
-			customPositions = [];
-			Object.values(data.Body.List[0].Positions).map((d) =>
-				customPositions.push(d)
-			);
-			customPositions.map((c, index) => (c.key = index));
-			customPositions.map((c) => (c.SellPrice = c.Price));
-			customPositions.map((c) =>
-				c.BasicPrice ? (c.PrintPrice = c.BasicPrice) : ""
-			);
-			customPositions.map((c) => (c.DefaultQuantity = c.Quantity));
+		setDisable(true);
+		setPositions([]);
+		setOuterDataSource([]);
 
-			customPositions.map(
-				(c) =>
-					(c.TotalPrice =
-						parseFloat(c.Price) * parseFloat(c.Quantity))
-			);
-			customPositions.map(
-				(c) =>
-					(c.CostPriceTotal =
-						parseFloat(c.CostPrice) * parseFloat(c.Quantity))
-			);
-			setPositions(customPositions);
-			if (data.Body.List[0].Consumption) {
-				setHasConsumption(true);
-			}
-			setConsumption(data.Body.List[0].Consumption);
-			setLoadingForm(false);
-			setStatus(data.Body.List[0].Status);
-			form.setFieldsValue({
-				mark: data.Body.List[0].Mark,
-			});
-		} else {
-			customPositions = [];
+		return () => {
+			setDisable(true);
 			setPositions([]);
-			setLoadingForm(true);
-		}
-	}, [isFetching]);
+			setOuterDataSource([]);
+		};
+	}, []);
 
 	useEffect(() => {
 		setDisable(true);
-
 		return () => {
 			setDisable(true);
 		};
 	}, []);
-
-	const openDrawer = (bool, direct) => {
-		setStockDrawer(bool);
-		setDirect(direct);
-	};
-
 	const onClose = () => {
 		message.destroy();
-	};
-	const handleVisibleChange = (flag) => {
-		setVisibleMenuSettings(flag);
 	};
 	const onChangeConsumption = (e) => {
 		setHasConsumption(true);
 		setConsumption(e.target.value);
+	};
+
+	const handleVisibleChange = (flag) => {
+		setVisibleMenuSettings(flag);
 	};
     const columns = useMemo(() => {
       return [
@@ -320,143 +288,6 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		setColumnChange(false);
 	}, [columnChange]);
 
-	const updateMutation = useMutation(updateDoc, {
-		refetchQueris: ["handovers", doc_id],
-	});
-
-	useEffect(() => {
-		if (createdStock) {
-			getStocksAgain();
-		}
-	}, [createdStock]);
-
-	useEffect(() => {
-		form.setFieldsValue({
-			mark: Number(docmark),
-		});
-	}, [docmark]);
-	const getStocksAgain = async () => {
-		const stockResponse = await fetchStocks();
-		setStock(stockResponse.Body.List);
-		setStockLocalStorage(stockResponse.Body.List);
-		if (direct === "to") {
-			form.setFieldsValue({
-				stocktoid: createdStock.id,
-			});
-		} else if (direct === "from") {
-			form.setFieldsValue({
-				stockfromid: createdStock.id,
-			});
-		}
-		setCreatedStock(null);
-	};
-
-	var objOwner;
-	owners
-		? (objOwner = owners)
-		: (objOwner = JSON.parse(localStorage.getItem("owners")));
-	const ownersOptions = Object.values(objOwner).map((c) => (
-		<Option key={c.Id} value={c.Id}>
-			{c.Name}
-		</Option>
-	));
-
-	var objDep;
-	departments
-		? (objDep = departments)
-		: (objDep = JSON.parse(localStorage.getItem("departments")));
-
-	const depOptions = Object.values(objDep).map((c) => (
-		<Option key={c.Id}>{c.Name}</Option>
-	));
-
-	var objStock;
-	stocks
-		? (objStock = stocks)
-		: (objStock = JSON.parse(localStorage.getItem("stocks")));
-
-	const options = objStock.map((m) => (
-		<Option key={m.Id} value={m.Id}>
-			{m.Name}
-		</Option>
-	));
-
-	//#endregion OwDep
-
-	if (isLoading)
-		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
-		);
-
-	if (error) return "An error has occurred: " + error.message;
-
-	if (redirect)
-		return (
-			<Redirect
-				to={{
-					pathname: "/editSupplyReturnLinked",
-					state: {
-						data: data.Body.List[0],
-						position: positions,
-						linked: doc_id,
-					},
-				}}
-			/>
-		);
-
-	const handleChanged = () => {
-		if (disable) {
-			setDisable(false);
-		}
-	};
-	const handleFinish = async (values) => {
-		setDisable(true);
-
-		values.positions = outerDataSource;
-		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
-		values.description =
-			myRefDescription.current.resizableTextArea.props.value;
-		if (!values.status) {
-			values.status = status;
-		}
-		message.loading({ content: "Yüklənir...", key: "doc_update" });
-		updateMutation.mutate(
-			{ id: doc_id, controller: "handovers", filter: values },
-			{
-				onSuccess: (res) => {
-					if (res.Headers.ResponseStatus === "0") {
-						message.success({
-							content: "Dəyişikliklər yadda saxlanıldı",
-							key: "doc_update",
-							duration: 2,
-						});
-						queryClient.invalidateQueries("handovers", doc_id);
-						audio.play();
-						if (saveFromModal) {
-							setRedirectSaveClose(true);
-						}
-					} else {
-						message.error({
-							content: (
-								<span className="error_mess_wrap">
-									Saxlanılmadı... {res.Body}{" "}
-									{<CloseCircleOutlined onClick={onClose} />}
-								</span>
-							),
-							key: "doc_update",
-							duration: 0,
-						});
-					}
-				},
-				onError: (e) => {
-					console.log(e);
-				},
-			}
-		);
-	};
 	const onChangeMenu = (e) => {
 		var initialCols = initial;
 		var findelement;
@@ -498,7 +329,152 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			</Menu.ItemGroup>
 		</Menu>
 	);
+	useEffect(() => {
+		if (createdStock) {
+			getStocksAgain();
+		}
+	}, [createdStock]);
 
+	const getStocksAgain = async () => {
+		const stockResponse = await fetchStocks();
+		setStock(stockResponse.Body.List);
+		setStockLocalStorage(stockResponse.Body.List);
+
+		if (direct === "to") {
+			form.setFieldsValue({
+				stocktoid: createdStock.id,
+			});
+		} else if (direct === "from") {
+			form.setFieldsValue({
+				stockfromid: createdStock.id,
+			});
+		}
+
+		setCreatedStock(null);
+	};
+
+	useEffect(() => {
+		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
+			setDisable(false);
+		}
+	}, [outerDataSource]);
+	useEffect(() => {
+		form.setFieldsValue({
+			moment: moment(),
+		});
+		setLoadingForm(false);
+	}, []);
+
+	const getDocName = async (docname) => {
+		const attrResponse = await fetchDocName(docname, "handovers");
+		return attrResponse;
+	};
+
+	const handleChanged = () => {
+		if (disable) {
+			setDisable(false);
+		}
+	};
+	const handleFinish = async (values) => {
+		setDisable(true);
+
+		values.positions = outerDataSource;
+		// values.mark = docmark;
+		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
+		values.description =
+			myRefDescription.current.resizableTextArea.props.value;
+		if (!values.status) {
+			values.status = status;
+		}
+		message.loading({ content: "Yüklənir...", key: "doc_update" });
+
+		try {
+			const nameres = await getDocName(values.name);
+			values.name = nameres.Body.ResponseService;
+		} catch (error) {
+			message.error({
+				content: (
+					<span className="error_mess_wrap">
+						Saxlanılmadı... {error.message}{" "}
+						{<CloseCircleOutlined onClick={onClose} />}
+					</span>
+				),
+				key: "doc_update",
+				duration: 0,
+			});
+		}
+
+		const res = await saveDoc(values, "handovers");
+		console.log(res);
+		if (res.Headers.ResponseStatus === "0") {
+			message.success({
+				content: "Saxlanıldı",
+				key: "doc_update",
+				duration: 2,
+			});
+			setEditId(res.Body.ResponseService);
+			audio.play();
+
+			if (saveFromModal) {
+				setRedirectSaveClose(true);
+			} else {
+				setRedirect(true);
+			}
+		} else {
+			message.error({
+				content: (
+					<span className="error_mess_wrap">
+						Saxlanılmadı... {res.Body}{" "}
+						{<CloseCircleOutlined onClick={onClose} />}
+					</span>
+				),
+				key: "doc_update",
+				duration: 0,
+			});
+		}
+	};
+
+	const openDrawer = (bool, direct) => {
+		setStockDrawer(bool);
+		setDirect(direct);
+	};
+
+	//#region OwDep
+	var objOwner;
+	owners
+		? (objOwner = owners)
+		: (objOwner = JSON.parse(localStorage.getItem("owners")));
+	const ownersOptions = Object.values(objOwner).map((c) => (
+		<Option key={c.Id} value={c.Id}>
+			{c.Name}
+		</Option>
+	));
+
+	var objDep;
+	departments
+		? (objDep = departments)
+		: (objDep = JSON.parse(localStorage.getItem("departments")));
+
+	const depOptions = Object.values(objDep).map((c) => (
+		<Option key={c.Id}>{c.Name}</Option>
+	));
+
+	var objStock;
+	stocks
+		? (objStock = stocks)
+		: (objStock = JSON.parse(localStorage.getItem("stocks")));
+
+	const options = objStock.map((m) => (
+		<Option key={m.Id} value={m.Id}>
+			{m.Name}
+		</Option>
+	));
+
+	//#endregion OwDep
+
+	const onChange = (stock) => {
+		setDocStock(stock);
+	};
 	const panes = [
 		{
 			menuItem: "Əsas",
@@ -513,10 +489,7 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
 						>
 							<div className="addProductInputIcon">
-								<AddProductInput
-									from="demands"
-									className="newProInputWrapper"
-								/>
+								<AddProductInput from="demands" className="newProInputWrapper" />
 								<PlusOutlined
 									onClick={() => setProductModal(true)}
 									className="addNewProductIcon"
@@ -565,38 +538,28 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		},
 	];
 
+	if (redirect) return <Redirect to={`/editHandovers/${editId}`} />;
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Təhvil qəbul</h2>
+				<h2>Təhvil</h2>
 			</div>
-			<DocButtons
-				additional={"none"}
-				editid={doc_id}
-				controller={"handovers"}
-				closed={"p=handover"}
-				from={"handovers"}
-			/>
+
+			<DocButtons additional={"none"} editid={null} closed={"p=handover"} />
 			<div className="formWrapper">
 				<Form
-					id="myForm"
 					form={form}
+					id="myForm"
 					className="doc_forms"
 					name="basic"
+					initialValues={{
+						status: true,
+					}}
 					labelCol={{
 						span: 8,
 					}}
 					wrapperCol={{
 						span: 16,
-					}}
-					initialValues={{
-						name: data.Body.List[0].Name,
-						moment: moment(data.Body.List[0].Moment),
-						modify: moment(data.Body.List[0].Modify),
-						mark: data.Body.List[0].Mark,
-						stocktoid: data.Body.List[0].StockToId,
-						stockfromid: data.Body.List[0].StockFromId,
-						status: data.Body.List[0].Status === 1 ? true : false,
 					}}
 					onFinish={handleFinish}
 					onFieldsChange={handleChanged}
@@ -637,7 +600,7 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 								<Select
 									showSearch
 									showArrow={false}
-									// onChange={onChange}
+									onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>
@@ -688,7 +651,7 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 								<Select
 									showSearch
 									showArrow={false}
-									// onChange={onChange}
+									onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>
@@ -804,27 +767,17 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 				</Form>
 
 				<Row>
-					{isFetching ? (
-						<Spin />
-					) : (
-						<Col xs={24} sm={24} md={24} xl={24}>
-							<Tab
-								className="custom_table_wrapper_tab"
-								panes={panes}
-							/>
-						</Col>
-					)}
+					<Col xs={24} sm={24} md={24} xl={24}>
+						<Tab
+							className="custom_table_wrapper_tab"
+							panes={panes}
+						/>
+					</Col>
 					<Col xs={24} sm={24} md={24} xl={24}>
 						<Row className="bottom_tab">
 							<Col xs={9} sm={9} md={9} xl={9}>
 								<div>
-									<Form
-										initialValues={{
-											description:
-												data.Body.List[0].Description,
-										}}
-										onFieldsChange={handleChanged}
-									>
+									<Form onFieldsChange={handleChanged}>
 										<Form.Item name="description">
 											<TextArea
 												ref={myRefDescription}
@@ -863,10 +816,11 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 					</Col>
 				</Row>
 			</div>
-			<StockDrawer />
+
+			<StockDrawer direction={direct} />
 			<ProductModal />
 		</div>
 	);
 }
 
-export default withCatalog(HandoversDetail);
+export default withCatalog(NewHandovers);
