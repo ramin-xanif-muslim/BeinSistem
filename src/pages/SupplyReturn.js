@@ -70,6 +70,8 @@ export default function SupplyReturn() {
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
     const [documentList, setDocumentList] = useState([]);
+    const [pageCount, setPageCount] = useState(null);
+    const [limitCount, setLimitCount] = useState(null);
     const { isLoading, error, data, isFetching } = useQuery(
         [
             "supplyreturns",
@@ -419,9 +421,13 @@ export default function SupplyReturn() {
 			if (isObject(data.Body)) {
 				setDocumentList(data.Body.List);
 				setallsum(data.Body.AllSum);
+                setPageCount(data.Body.Count);
+                setLimitCount(data.Body.Limit);
 			}
         } else {
             setDocumentList([]);
+            setPageCount(null);
+            setLimitCount(null);
         }
     }, [isFetching]);
 
@@ -578,26 +584,18 @@ export default function SupplyReturn() {
         setallsum(res.AllSum);
         setFetchSearchByDate(false);
     };
-    if (isLoading)
-        return (
-            <Spin className="fetchSpinner" tip="Yüklənir...">
-                <Alert />
-            </Spin>
-        );
 
     if (error) return "An error has occurred: " + error.message;
 
     if (redirect) return <Redirect push to={`/editSupplyReturn/${editId}`} />;
 
-	if (!isObject(data.Body))
-		return (
-			<>
-				Xəta:
-				<span style={{ color: "red" }}>
-					{data}
-				</span>
-			</>
-		);
+    if (!isLoading && !isObject(data.Body))
+      return (
+        <>
+          Xəta:
+          <span style={{ color: "red" }}>{data}</span>
+        </>
+      );
     return (
         <div className="custom_display">
             <Row className="header_row">
@@ -632,6 +630,7 @@ export default function SupplyReturn() {
             {isFetchSearchByDate && <Spin />}
             <Table
                 className="main-table"
+        loading={isLoading || isFetchSearchByDate}
                 rowKey="Name"
                 columns={columns.filter((c) => c.show == true)}
                 onChange={onChange}
@@ -658,11 +657,11 @@ export default function SupplyReturn() {
                 )}
                 locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
                 pagination={{
-                    current: advancedPage + 1,
-                    total: data.Body.Count,
-                    onChange: handlePagination,
-                    defaultPageSize: data.Body.Limit,
-                    showSizeChanger: false,
+          current: advancedPage + 1,
+          total: pageCount,
+          onChange: handlePagination,
+          defaultPageSize: 100,
+          showSizeChanger: false,
                 }}
                 size="small"
                 onRow={(r) => ({

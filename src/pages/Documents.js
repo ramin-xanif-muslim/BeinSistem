@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { isObject } from "../config/function/findadditionals";
 import { useQuery } from "react-query";
 import {
 	fetchPage,
@@ -68,9 +69,12 @@ export default function Documents() {
 		setCustomersLocalStorage,
 		setCustomers,
 	} = useTableCustom();
-	const { setSaveFromModal, setRedirectSaveClose, setDocType } = useCustomForm();
+	const { setSaveFromModal, setRedirectSaveClose, setDocType } =
+		useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		["documents", page, direction, fieldSort, doSearch, search, advanced],
 		() => {
@@ -427,13 +431,17 @@ export default function Documents() {
 			setallprofit(data.Body.AllProfit);
 			setallbonus(data.Body.BonusSum);
 			setallbank(data.Body.BankSum);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
 	const editPage = (r) => {
-        setDocType(r.DocType.toLowerCase() + "s")
+		setDocType(r.DocType.toLowerCase() + "s");
 		setRedirect(true);
 		setEditId(r.Id);
 	};
@@ -582,11 +590,13 @@ export default function Documents() {
 		setallbonus(res.BonusSum);
 		setallbank(res.BankSum);
 	};
-	if (isLoading)
+
+	if (!isLoading && !isObject(data.Body))
 		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
 		);
 
 	if (error) return "An error has occurred: " + error.message;
@@ -620,6 +630,7 @@ export default function Documents() {
 
 			<Table
 				rowKey="Name"
+				loading={isLoading}
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
 				dataSource={documentList}
@@ -653,9 +664,9 @@ export default function Documents() {
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
 					current: advancedPage + 1,
-					total: data.Body.Count,
+					total: pageCount,
 					onChange: handlePagination,
-					defaultPageSize: data.Body.Limit,
+					defaultPageSize: 100,
 					showSizeChanger: false,
 				}}
 				size="small"

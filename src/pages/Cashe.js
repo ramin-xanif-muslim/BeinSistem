@@ -90,15 +90,13 @@ export default function Cashe() {
 
     if (error) return "An error has occurred: " + error.message;
 
-	if (!isObject(data.Body))
-		return (
-			<>
-				Xəta:
-				<span style={{ color: "red" }}>
-					{data}
-				</span>
-			</>
-		);
+    if (!isLoading && !isObject(data.Body))
+      return (
+        <>
+          Xəta:
+          <span style={{ color: "red" }}>{data}</span>
+        </>
+      );
 
     return (
         <div className="custom_display">

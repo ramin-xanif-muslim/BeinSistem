@@ -4,14 +4,14 @@ import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
 
 import { Table } from "antd";
 import {
-    Spin,
-    Row,
-    Col,
-    Menu,
-    Checkbox,
-    Dropdown,
-    Typography,
-    Alert,
+	Spin,
+	Row,
+	Col,
+	Menu,
+	Checkbox,
+	Dropdown,
+	Typography,
+	Alert,
 } from "antd";
 
 import { Button, Icon } from "semantic-ui-react";
@@ -20,10 +20,10 @@ import { useTableCustom } from "../contexts/TableContext";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import {
-    SettingOutlined,
-    FileExcelOutlined,
-    FilePdfOutlined,
-    DownloadOutlined,
+	SettingOutlined,
+	FileExcelOutlined,
+	FilePdfOutlined,
+	DownloadOutlined,
 } from "@ant-design/icons";
 import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
@@ -33,42 +33,42 @@ import FilterButton from "../components/FilterButton";
 
 const { Text } = Typography;
 export default function ProductTransactions() {
-    const [count, setCount] = useState(1);
-    const [redirect, setRedirect] = useState(false);
-    const [direction, setDirection] = useState(0);
-    const [defaultdr, setDefaultDr] = useState("ascend");
-    const [filterChanged, setFilterChanged] = useState(false);
-    const [initialSort, setInitialSort] = useState("Quantity");
-    const [fieldSort, setFieldSort] = useState("Quantity");
-    const [allquantity, setallquantity] = useState(0);
-    const [allcost, setallcost] = useState(0);
-    const [editId, setEditId] = useState("");
-    const [page, setPage] = useState(0);
-    const [filtered, setFiltered] = useState(false);
-    const [columnChange, setColumnChange] = useState(false);
-    const [initial, setInitial] = useState(null);
-    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-    const [initialfilter, setInitialFilter] = useState(null);
-    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
-    const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
-        useState(false);
-    const {
-        stockbalanceSearchTerm,
-        setStockbalanceSearchTerm,
-        marks,
-        isFilter,
-        setIsFilter,
-        advancedPage,
-        setAdvancedPage,
-        doSearch,
-        search,
-        advanced,
-        setdisplay,
-        display,
-    } = useTableCustom();
+	const [count, setCount] = useState(1);
+	const [redirect, setRedirect] = useState(false);
+	const [direction, setDirection] = useState(0);
+	const [defaultdr, setDefaultDr] = useState("ascend");
+	const [filterChanged, setFilterChanged] = useState(false);
+	const [initialSort, setInitialSort] = useState("Quantity");
+	const [fieldSort, setFieldSort] = useState("Quantity");
+	const [allquantity, setallquantity] = useState(0);
+	const [allcost, setallcost] = useState(0);
+	const [editId, setEditId] = useState("");
+	const [page, setPage] = useState(0);
+	const [filtered, setFiltered] = useState(false);
+	const [columnChange, setColumnChange] = useState(false);
+	const [initial, setInitial] = useState(null);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+	const [initialfilter, setInitialFilter] = useState(null);
+	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+	const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
+		useState(false);
+	const {
+		stockbalanceSearchTerm,
+		setStockbalanceSearchTerm,
+		marks,
+		isFilter,
+		setIsFilter,
+		advancedPage,
+		setAdvancedPage,
+		doSearch,
+		search,
+		advanced,
+		setdisplay,
+		display,
+	} = useTableCustom();
 
-    const [tabls, setTables] = useState(null);
-    
+	const [tabls, setTables] = useState(null);
+
 	const [demandreturns, setDemandreturns] = useState([]);
 	const [demands, setDemands] = useState([]);
 	const [enters, setEnters] = useState([]);
@@ -109,214 +109,214 @@ export default function ProductTransactions() {
 		if (filterChanged) setFilterChanged(false);
 	}, [columnChange, filtered, filterChanged]);
 
-    var markObject;
-    marks
-        ? (markObject = marks)
-        : (markObject = JSON.parse(localStorage.getItem("marks")));
-    const columns = useMemo(() => {
-        return [
-            {
-                title: "№",
-                dataIndex: "Order",
-                show: true,
-                render: (text, record, index) => index + 1 + 100 * advancedPage,
-            },
-            {
-                dataIndex: "Name",
-                title: "Məhsulun adı",
-                show: initial
-                    ? Object.values(initial).find((i) => i.dataIndex === "Name")
-                          .show
-                    : true,
-                defaultSortOrder: initialSort === "Name" ? defaultdr : null,
-                sorter: (a, b) => null,
-                className:
-                    initialSort === "Name"
-                        ? "linkedColumns activesort"
-                        : "linkedColumns",
-            },
-            {
-                dataIndex: "Barcode",
-                title: "Barkodu",
-                defaultSortOrder: initialSort === "Barcode" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Barcode"
-                      ).show
-                    : true,
-                sorter: (a, b) => null,
-                className: initialSort === "Barcode" ? "activesort" : "",
-            },
-            {
-                dataIndex: "Moment",
-                title: "Tarix",
-                defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
-                show: JSON.parse(localStorage.getItem("entercolumns"))
-                    ? Object.values(
-                          JSON.parse(localStorage.getItem("entercolumns"))
-                      ).find((i) => i.dataIndex === "Moment").show
-                    : true,
-                sorter: (a, b) => null,
-                className: initialSort === "Moment" ? "activesort" : "",
-            },
+	var markObject;
+	marks
+		? (markObject = marks)
+		: (markObject = JSON.parse(localStorage.getItem("marks")));
+	const columns = useMemo(() => {
+		return [
+			{
+				title: "№",
+				dataIndex: "Order",
+				show: true,
+				render: (text, record, index) => index + 1 + 100 * advancedPage,
+			},
+			{
+				dataIndex: "Name",
+				title: "Məhsulun adı",
+				show: initial
+					? Object.values(initial).find((i) => i.dataIndex === "Name")
+							.show
+					: true,
+				defaultSortOrder: initialSort === "Name" ? defaultdr : null,
+				sorter: (a, b) => null,
+				className:
+					initialSort === "Name"
+						? "linkedColumns activesort"
+						: "linkedColumns",
+			},
+			{
+				dataIndex: "Barcode",
+				title: "Barkodu",
+				defaultSortOrder: initialSort === "Barcode" ? defaultdr : null,
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Barcode"
+					  ).show
+					: true,
+				sorter: (a, b) => null,
+				className: initialSort === "Barcode" ? "activesort" : "",
+			},
+			{
+				dataIndex: "Moment",
+				title: "Tarix",
+				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
+				show: JSON.parse(localStorage.getItem("entercolumns"))
+					? Object.values(
+							JSON.parse(localStorage.getItem("entercolumns"))
+					  ).find((i) => i.dataIndex === "Moment").show
+					: true,
+				sorter: (a, b) => null,
+				className: initialSort === "Moment" ? "activesort" : "",
+			},
 
-            {
-                dataIndex: "sQuantity",
-                title: "Miqdar",
-                defaultSortOrder:
-                    initialSort === "sQuantity" ? defaultdr : null,
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "sQuantity"
-                      ).show
-                    : true,
-                className: initialSort === "sQuantity" ? "activesort" : "",
-                sorter: (a, b) => null,
-                render: (value, row, index) => {
-                    return ConvertFixedTable(value);
-                },
-            },
+			{
+				dataIndex: "sQuantity",
+				title: "Miqdar",
+				defaultSortOrder:
+					initialSort === "sQuantity" ? defaultdr : null,
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "sQuantity"
+					  ).show
+					: true,
+				className: initialSort === "sQuantity" ? "activesort" : "",
+				sorter: (a, b) => null,
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
+			},
 
-            {
-                dataIndex: "Price",
-                title: "Qiyməti",
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Price"
-                      ).show
-                    : true,
-                defaultSortOrder: initialSort === "Price" ? defaultdr : null,
-                sorter: (a, b) => null,
-                className: initialSort === "Price" ? "activesort" : "",
-                render: (value, row, index) => {
-                    return ConvertFixedTable(value);
-                },
-            },
-            {
-                dataIndex: "sPrice",
-                title: "Məbləg",
-                show: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "sPrice"
-                      ).show
-                    : true,
-                defaultSortOrder: initialSort === "sPrice" ? defaultdr : null,
-                sorter: (a, b) => null,
-                className: initialSort === "sPrice" ? "activesort" : "",
-                render: (value, row, index) => {
-                    return ConvertFixedTable(value);
-                },
-            },
-        ];
-    }, [defaultdr, initialSort, filtered, marks, advancedPage]);
+			{
+				dataIndex: "Price",
+				title: "Qiyməti",
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Price"
+					  ).show
+					: true,
+				defaultSortOrder: initialSort === "Price" ? defaultdr : null,
+				sorter: (a, b) => null,
+				className: initialSort === "Price" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
+			},
+			{
+				dataIndex: "sPrice",
+				title: "Məbləg",
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "sPrice"
+					  ).show
+					: true,
+				defaultSortOrder: initialSort === "sPrice" ? defaultdr : null,
+				sorter: (a, b) => null,
+				className: initialSort === "sPrice" ? "activesort" : "",
+				render: (value, row, index) => {
+					return ConvertFixedTable(value);
+				},
+			},
+		];
+	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-    const filters = useMemo(() => {
-        return [
-            {
-                key: "1",
-                label: "Məhsul Qrupu",
-                name: "gp",
-                controller: "productfolders",
-                type: "select",
-                dataIndex: "gp",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "gp"
-                      ).show
-                    : true,
-            },
-            {
-                key: "2",
-                label: "Məhsul adı",
-                name: "productName",
-                type: "text",
-                dataIndex: "productName",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "productName"
-                      ).show
-                    : true,
-            },
-            {
-                key: "3",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
-            {
-                key: "4",
-                label: "Anbar",
-                name: "stockName",
-                type: "select",
-                controller: "stocks",
-                dataIndex: "stockName",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "stockName"
-                      ).show
-                    : true,
-            },
-            {
-                key: "5",
-                label: "Çəkili",
-                name: "wg",
-                controller: "yesno",
-                default: "",
-                type: "selectDefaultYesNo",
-                dataIndex: "wg",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "wg"
-                      ).show
-                    : true,
-            },
-            {
-                key: "6",
-                label: "Arxivli",
-                name: "ar",
-                controller: "yesno",
-                default: 0,
-                type: "selectDefaultYesNo",
-                dataIndex: "ar",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "ar"
-                      ).show
-                    : true,
-            },
-            {
-                key: "7",
-                label: "Tarixi",
-                name: "createdDate",
-                type: "date",
-                dataIndex: "createdDate",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "createdDate"
-                      ).show
-                    : true,
-            },
-            {
-                key: "8",
-                label: "Qarşı-tərəf",
-                name: "customerName",
-                type: "select",
-                controller: "customers",
-                dataIndex: "customerName",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "customerName"
-                      ).show
-                    : true,
-            },
-        ];
-    }, [filterChanged]);
+	const filters = useMemo(() => {
+		return [
+			{
+				key: "1",
+				label: "Məhsul Qrupu",
+				name: "gp",
+				controller: "productfolders",
+				type: "select",
+				dataIndex: "gp",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "gp"
+					  ).show
+					: true,
+			},
+			{
+				key: "2",
+				label: "Məhsul adı",
+				name: "productName",
+				type: "text",
+				dataIndex: "productName",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "productName"
+					  ).show
+					: true,
+			},
+			{
+				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
+			{
+				key: "4",
+				label: "Anbar",
+				name: "stockName",
+				type: "select",
+				controller: "stocks",
+				dataIndex: "stockName",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "stockName"
+					  ).show
+					: true,
+			},
+			{
+				key: "5",
+				label: "Çəkili",
+				name: "wg",
+				controller: "yesno",
+				default: "",
+				type: "selectDefaultYesNo",
+				dataIndex: "wg",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "wg"
+					  ).show
+					: true,
+			},
+			{
+				key: "6",
+				label: "Arxivli",
+				name: "ar",
+				controller: "yesno",
+				default: 0,
+				type: "selectDefaultYesNo",
+				dataIndex: "ar",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "ar"
+					  ).show
+					: true,
+			},
+			{
+				key: "7",
+				label: "Tarixi",
+				name: "createdDate",
+				type: "date",
+				dataIndex: "createdDate",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "createdDate"
+					  ).show
+					: true,
+			},
+			{
+				key: "8",
+				label: "Qarşı-tərəf",
+				name: "customerName",
+				type: "select",
+				controller: "customers",
+				dataIndex: "customerName",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "customerName"
+					  ).show
+					: true,
+			},
+		];
+	}, [filterChanged]);
 
 	useEffect(() => {
 		setTables([
@@ -366,7 +366,17 @@ export default function ProductTransactions() {
 				allSum: sales[1],
 			},
 		]);
-	}, [demandreturns[0],demands[0],enters[0],losses[0],moves[0],supplies[0],supplyreturns[0],returns[0],sales[0]]);
+	}, [
+		demandreturns[0],
+		demands[0],
+		enters[0],
+		losses[0],
+		moves[0],
+		supplies[0],
+		supplyreturns[0],
+		returns[0],
+		sales[0],
+	]);
 	useEffect(() => {
 		setInitial(columns);
 		setInitialFilter(filters);
@@ -413,10 +423,10 @@ export default function ProductTransactions() {
 		}
 	}, [isFetching]);
 
-    const editPage = (id) => {
-        setRedirect(true);
-        setEditId(id);
-    };
+	const editPage = (id) => {
+		setRedirect(true);
+		setEditId(id);
+	};
 
 	const handlePagination = (pg) => {
 		setPage(pg - 1);
@@ -534,114 +544,109 @@ export default function ProductTransactions() {
 		</Dropdown>
 	);
 
-    const filterSetting = (
-        <Dropdown
-            trigger={["click"]}
-            overlay={filtermenus}
-            onVisibleChange={handleVisibleChangeFilter}
-            visible={visibleMenuSettingsFilter}
-        >
-            <button className="new-button">
-                <SettingOutlined />
-            </button>
-        </Dropdown>
-    );
-    useEffect(() => {
-        setdisplay("block");
-    }, []);
-    let tablesComponents;
-    if (tabls) {
-        tablesComponents = tabls.map((table) => {
-            const { title, documentList, allSum } = table;
-            return (
-                <div>
-                    <h4 className="producttransactions-header">{title}</h4>
-                    <Table
-                        className="main-table"
-                        rowKey="Name"
-                        columns={columns.filter((c) => c.show === true)}
-                        onChange={onChange}
-                        dataSource={documentList}
-                        rowClassName={(record, index) =>
-                            record.Status === 0 ? "unchecked" : ""
-                        }
-                        summary={() => (
-                            <Table.Summary.Row>
-                                {columns
-                                    .filter((c) => c.show === true)
-                                    .map((c) => (
-                                        <Table.Summary.Cell className="table-summary">
-                                            <Text type="">
-                                                {c.dataIndex === "ProductName"
-                                                    ? "Cəm"
-                                                    : c.dataIndex === "sPrice"
-                                                    ? ConvertFixedTable(
-                                                          allSum
-                                                      ) + " ₼"
-                                                    : null}
-                                            </Text>
-                                        </Table.Summary.Cell>
-                                    ))}
-                            </Table.Summary.Row>
-                        )}
-                        locale={{
-                            emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
-                        }}
-                        // pagination={{ position: ["none", "none"] }}
-                        pagination={{
-                            current: advancedPage + 1,
-                            total: 100,
-                            onChange: handlePagination,
-                            defaultPageSize: 500,
-                            showSizeChanger: false,
-                        }}
-                        size="small"
-                    />
-                </div>
-            );
-        });
-    }
+	const filterSetting = (
+		<Dropdown
+			trigger={["click"]}
+			overlay={filtermenus}
+			onVisibleChange={handleVisibleChangeFilter}
+			visible={visibleMenuSettingsFilter}
+		>
+			<button className="new-button">
+				<SettingOutlined />
+			</button>
+		</Dropdown>
+	);
+	useEffect(() => {
+		setdisplay("block");
+	}, []);
+	let tablesComponents;
+	if (tabls) {
+		tablesComponents = tabls.map((table) => {
+			const { title, documentList, allSum } = table;
+			return (
+				<div>
+					<h4 className="producttransactions-header">{title}</h4>
+					<Table
+						className="main-table"
+						rowKey="Name"
+						loading={isLoading}
+						columns={columns.filter((c) => c.show === true)}
+						onChange={onChange}
+						dataSource={documentList}
+						rowClassName={(record, index) =>
+							record.Status === 0 ? "unchecked" : ""
+						}
+						summary={() => (
+							<Table.Summary.Row>
+								{columns
+									.filter((c) => c.show === true)
+									.map((c) => (
+										<Table.Summary.Cell className="table-summary">
+											<Text type="">
+												{c.dataIndex === "ProductName"
+													? "Cəm"
+													: c.dataIndex === "sPrice"
+													? ConvertFixedTable(
+															allSum
+													  ) + " ₼"
+													: null}
+											</Text>
+										</Table.Summary.Cell>
+									))}
+							</Table.Summary.Row>
+						)}
+						locale={{
+							emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
+						}}
+						// pagination={{ position: ["none", "none"] }}
+						pagination={{
+							current: advancedPage + 1,
+							total: 100,
+							onChange: handlePagination,
+							defaultPageSize: 1000,
+							showSizeChanger: false,
+						}}
+						size="small"
+					/>
+				</div>
+			);
+		});
+	}
 
-    const printMenu = (
-        <Menu>
-            <Menu.Item
-                className="icon-excel"
-                key="1"
-                icon={<FileExcelOutlined />}
-                onClick={() =>
-                    downloadFile(advanced, "xlsx", "producttransactions")
-                }
-            >
-                Excel
-            </Menu.Item>
-            <Menu.Item
-                className="icon-pdf"
-                key="2"
-                icon={<FilePdfOutlined />}
-                onClick={() =>
-                    downloadFile(advanced, "pdf", "producttransactions")
-                }
-            >
-                PDF
-            </Menu.Item>
-        </Menu>
-    );
-    if (isLoading)
-        return (
-            <Spin className="fetchSpinner" tip="Yüklənir...">
-                <Alert />
-            </Spin>
-        );
+	const printMenu = (
+		<Menu>
+			<Menu.Item
+				className="icon-excel"
+				key="1"
+				icon={<FileExcelOutlined />}
+				onClick={() =>
+					downloadFile(advanced, "xlsx", "producttransactions")
+				}
+			>
+				Excel
+			</Menu.Item>
+			<Menu.Item
+				className="icon-pdf"
+				key="2"
+				icon={<FilePdfOutlined />}
+				onClick={() =>
+					downloadFile(advanced, "pdf", "producttransactions")
+				}
+			>
+				PDF
+			</Menu.Item>
+		</Menu>
+	);
 
-    if (error) return "An error has occurred: " + error.message;
+    if (!isLoading && !isObject(data.Body))
+      return (
+        <>
+          Xəta:
+          <span style={{ color: "red" }}>{data}</span>
+        </>
+      );
 
-	if (!isObject(data.Body))
-		return (
-			<>
-				Xəta:
-				<span style={{ color: "red" }}>{data}</span>
-			</>
-		);
+	if (error) return "An error has occurred: " + error.message;
 
 	return (
 		<div className="custom_display">
@@ -657,33 +662,33 @@ export default function ProductTransactions() {
 							<FilterButton />
 						</div>
 
-                        <div style={{ display: "flex" }}>
-                            <Dropdown overlay={printMenu} trigger={"onclick"}>
-                                <button className="new-button">
-                                    <DownloadOutlined />
-                                    <span style={{ marginLeft: "5px" }}>
-                                        Yüklə
-                                    </span>
-                                </button>
-                            </Dropdown>
+						<div style={{ display: "flex" }}>
+							<Dropdown overlay={printMenu} trigger={"onclick"}>
+								<button className="new-button">
+									<DownloadOutlined />
+									<span style={{ marginLeft: "5px" }}>
+										Yüklə
+									</span>
+								</button>
+							</Dropdown>
 
-                            {tableSettings}
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-            {isLoadingSearch && <Spin />}
-            <Row>
-                <Col xs={24} md={24} xl={24}>
-                    <FilterComponent
-                        from="producttransactions"
-                        settings={filterSetting}
-                        cols={filters}
-                    />
-                </Col>
-            </Row>
+							{tableSettings}
+						</div>
+					</div>
+				</Col>
+			</Row>
+			{isLoadingSearch && <Spin />}
+			<Row>
+				<Col xs={24} md={24} xl={24}>
+					<FilterComponent
+						from="producttransactions"
+						settings={filterSetting}
+						cols={filters}
+					/>
+				</Col>
+			</Row>
 
-            {tablesComponents && tablesComponents}
-        </div>
-    );
+			{tablesComponents && tablesComponents}
+		</div>
+	);
 }

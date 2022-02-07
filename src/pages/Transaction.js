@@ -73,6 +73,8 @@ export default function Transaction() {
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
+    const [pageCount, setPageCount] = useState(null);
+    const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		[
 			"transactions",
@@ -412,9 +414,13 @@ export default function Transaction() {
 				setDocumentList(data.Body.List);
 				setallinsum(data.Body.InSum);
 				setalloutsum(data.Body.OutSum);
+                setPageCount(data.Body.Count);
+                setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setDocumentList([]);
+            setPageCount(null);
+            setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -587,12 +593,6 @@ export default function Transaction() {
 		setalloutsum(res.OutSum);
 		setFetchSearchByDate(false);
 	};
-	if (isLoading)
-		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
-		);
 
 	if (error) return "An error has occurred: " + error.message;
 	if (redirectPaymentIn)
@@ -604,13 +604,13 @@ export default function Transaction() {
 	if (redirectInvoiceOut)
 		return <Redirect push to={`/editInvoiceOut/${editId}`} />;
 
-	if (!isObject(data.Body))
-		return (
-			<>
-				Xəta:
-				<span style={{ color: "red" }}>{data}</span>
-			</>
-		);
+        if (!isLoading && !isObject(data.Body))
+          return (
+            <>
+              Xəta:
+              <span style={{ color: "red" }}>{data}</span>
+            </>
+          );
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -641,6 +641,7 @@ export default function Transaction() {
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
+        loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -670,11 +671,11 @@ export default function Transaction() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-					current: advancedPage + 1,
-					total: data.Body.Count,
-					onChange: handlePagination,
-					defaultPageSize: data.Body.Limit,
-					showSizeChanger: false,
+          current: advancedPage + 1,
+          total: pageCount,
+          onChange: handlePagination,
+          defaultPageSize: 100,
+          showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

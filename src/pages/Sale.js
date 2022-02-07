@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
+import { isObject } from "../config/function/findadditionals";
 import {
 	fetchPage,
 	fecthFastPage,
@@ -67,6 +68,8 @@ export default function Sale() {
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
+    const [pageCount, setPageCount] = useState(null);
+    const [limitCount, setLimitCount] = useState(null);
 	const today = true;
 	const { isLoading, error, data, isFetching } = useQuery(
 		["sales", page, direction, fieldSort, doSearch, search, advanced],
@@ -462,8 +465,12 @@ export default function Sale() {
 			setallprofit(data.Body.AllProfit);
 			setallbonus(data.Body.BonusSum);
 			setallbank(data.Body.BankSum);
+            setPageCount(data.Body.Count);
+            setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
+            setPageCount(null);
+            setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -618,12 +625,14 @@ export default function Sale() {
 		setallbank(res.BankSum);
 		setFetchSearchByDate(false);
 	};
-	if (isLoading)
-		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
-		);
+
+    if (!isLoading && !isObject(data.Body))
+      return (
+        <>
+          Xəta:
+          <span style={{ color: "red" }}>{data}</span>
+        </>
+      );
 
 	if (error) return "An error has occurred: " + error.message;
 	if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
@@ -658,6 +667,7 @@ export default function Sale() {
 
 			<Table
 				className="main-table"
+        loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show === true)}
 				onChange={onChange}
@@ -695,11 +705,11 @@ export default function Sale() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-					current: advancedPage + 1,
-					total: data.Body.Count,
-					onChange: handlePagination,
-					defaultPageSize: data.Body.Limit,
-					showSizeChanger: false,
+          current: advancedPage + 1,
+          total: pageCount,
+          onChange: handlePagination,
+          defaultPageSize: 100,
+          showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

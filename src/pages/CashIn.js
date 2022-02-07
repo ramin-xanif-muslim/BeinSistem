@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
+import { isObject } from "../config/function/findadditionals";
 
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
@@ -58,6 +59,8 @@ export default function CashIn() {
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
+    const [pageCount, setPageCount] = useState(null);
+    const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		["cashins", page, direction, fieldSort, doSearch, search, advanced],
 		() => {
@@ -231,8 +234,12 @@ export default function CashIn() {
 		if (!isFetching) {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
+            setPageCount(data.Body.Count);
+            setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
+            setPageCount(null);
+            setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -380,16 +387,24 @@ export default function CashIn() {
 		setallsum(res.AllSum);
 		setFetchSearchByDate(false);
 	};
-	if (isLoading)
-		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
-		);
+	// if (isLoading)
+	// 	return (
+	// 		<Spin className="fetchSpinner" tip="Yüklənir...">
+	// 			<Alert />
+	// 		</Spin>
+	// 	);
 
 	if (error) return "An error has occurred: " + error.message;
 
 	if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
+
+    if (!isLoading && !isObject(data.Body))
+      return (
+        <>
+          Xəta:
+          <span style={{ color: "red" }}>{data}</span>
+        </>
+      );
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -420,6 +435,7 @@ export default function CashIn() {
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
+        loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -446,11 +462,11 @@ export default function CashIn() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-					current: advancedPage + 1,
-					total: data.Body.Count,
-					onChange: handlePagination,
-					defaultPageSize: data.Body.Limit,
-					showSizeChanger: false,
+          current: advancedPage + 1,
+          total: pageCount,
+          onChange: handlePagination,
+          defaultPageSize: 100,
+          showSizeChanger: false,
 				}}
 				size="small"
 			/>

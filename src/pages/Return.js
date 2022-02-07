@@ -1,12 +1,12 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
+import { isObject } from "../config/function/findadditionals";
 
 import { Alert, Table } from "antd";
 import { Redirect } from "react-router-dom";
 import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
 
-import { Button } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import FilterButton from "../components/FilterButton";
@@ -50,6 +50,8 @@ export default function Return() {
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
+    const [pageCount, setPageCount] = useState(null);
+    const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		["returns", page, direction, fieldSort, doSearch, search, advanced],
 		() => {
@@ -283,8 +285,12 @@ export default function Return() {
 		if (!isFetching) {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
+            setPageCount(data.Body.Count);
+            setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
+            setPageCount(null);
+            setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -380,12 +386,13 @@ export default function Return() {
 		</Dropdown>
 	);
 
-	if (isLoading)
-		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
-		);
+    if (!isLoading && !isObject(data.Body))
+      return (
+        <>
+          Xəta:
+          <span style={{ color: "red" }}>{data}</span>
+        </>
+      );
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -420,6 +427,7 @@ export default function Return() {
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
+        loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -446,11 +454,11 @@ export default function Return() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-					current: advancedPage + 1,
-					total: data.Body.Count,
-					onChange: handlePagination,
-					defaultPageSize: data.Body.Limit,
-					showSizeChanger: false,
+          current: advancedPage + 1,
+          total: pageCount,
+          onChange: handlePagination,
+          defaultPageSize: 100,
+          showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

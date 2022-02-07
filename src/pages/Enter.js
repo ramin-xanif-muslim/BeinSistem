@@ -433,7 +433,6 @@ export default function Enter() {
       ...findelement,
       ...replacedElement,
     });
-    console.log(initialCols);
     setFilterChanged(true);
   };
   const menu = (
@@ -537,8 +536,6 @@ export default function Enter() {
 
   return (
     <div className="custom_display">
-      {console.log(pageCount)}
-      {console.log(limitCount)}
       <Row className="header_row">
         <Col xs={24} md={24} xl={4}>
           <div className="page_heder_left">
@@ -570,7 +567,7 @@ export default function Enter() {
       <Table
         className="main-table"
         loading={isLoading || isFetchSearchByDate}
-        loadin
+        // loadin
         rowKey="Name"
         columns={columns.filter((c) => c.show == true)}
         rowClassName={(record, index) =>

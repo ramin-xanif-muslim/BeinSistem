@@ -52,6 +52,8 @@ export default function Loss() {
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		["losses", page, direction, fieldSort, doSearch, search, advanced],
 		() => {
@@ -329,10 +331,14 @@ export default function Loss() {
 		if (!isFetching) {
 			if (isObject(data.Body)) {
 				setDocumentList(data.Body.List);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 				setallsum(data.Body.AllSum);
 			}
 		} else {
 			setDocumentList([]);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -493,24 +499,15 @@ export default function Loss() {
 		setFetchSearchByDate(false);
 	};
 
-	if (isLoading)
-		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
-		);
-
 	if (error) return "An error has occurred: " + error.message;
 
 	if (redirect) return <Redirect push to={`/editLoss/${editId}`} />;
 
-	if (!isObject(data.Body))
+	if (!isLoading && !isObject(data.Body))
 		return (
 			<>
 				Xəta:
-				<span style={{ color: "red" }}>
-					{data}
-				</span>
+				<span style={{ color: "red" }}>{data}</span>
 			</>
 		);
 	return (
@@ -547,6 +544,7 @@ export default function Loss() {
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -573,15 +571,14 @@ export default function Loss() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-					current: advancedPage + 1,
-					total: data.Body.Count,
-					onChange: handlePagination,
-					defaultPageSize: data.Body.Limit,
-					showSizeChanger: false,
+          current: advancedPage + 1,
+          total: pageCount,
+          onChange: handlePagination,
+          defaultPageSize: 100,
+          showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({
-					// onDoubleClick: () => editPage(r.Id),
 					onClick: (e) => editPage(r.Id),
 				})}
 			/>
