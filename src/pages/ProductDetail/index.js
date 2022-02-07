@@ -56,7 +56,7 @@ import {
 import ok from "../../audio/ok.mp3";
 import withTreeViewModal from "../../HOC/withTreeViewModal";
 
-const from = "products"
+const from = "products";
 
 const audio = new Audio(ok);
 var mods = {};
@@ -70,11 +70,7 @@ let count = 0;
 let oneRefArray = [];
 var guid =
     /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-function ProductDetail({
-    groupId,
-    setGroupId,
-    bntOpenTreeViewModal,
-}) {
+function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
     const [form] = Form.useForm();
     const queryClient = useQueryClient();
     const [priceModal, setPriceModal] = useState(false);
@@ -183,7 +179,7 @@ function ProductDetail({
     }, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
-            console.log(data)
+            console.log(data);
             customPositions = [];
             if (data.Body.List[0].Positions) {
                 data.Body.List[0].Positions.map((d) => customPositions.push(d));
@@ -488,8 +484,7 @@ function ProductDetail({
     productGroups
         ? (obj = productGroups)
         : (obj = JSON.parse(localStorage.getItem("progroups")));
-      
-    
+
     const groupOption = Object.values(obj).map((c) => (
         <Option key={c.Id}>{c.Name}</Option>
     ));
@@ -790,14 +785,14 @@ function ProductDetail({
         }
     };
     const handleFinish = async (values) => {
-        if(!isOpenCallapsePaket) {
-            values.ispack = initialValues.ispack
-            values.packprice = initialValues.packprice
-            values.packquantity = initialValues.packquantity
+        if (!isOpenCallapsePaket) {
+            values.ispack = initialValues.ispack;
+            values.packprice = initialValues.packprice;
+            values.packquantity = initialValues.packquantity;
         }
-        if(!isOpenCallapseTeyinat) {
-            values.ownerid = initialValues.ownerid
-            values.departmentid = initialValues.departmentid
+        if (!isOpenCallapseTeyinat) {
+            values.ownerid = initialValues.ownerid;
+            values.departmentid = initialValues.departmentid;
         }
         setDisable(true);
 
@@ -949,7 +944,7 @@ function ProductDetail({
                     id: data.Body.List[0].Id,
                     bc: data.Body.List[0].BarCode,
                     price: data.Body.List[0].Price,
-                    packPrice: 
+                    packPrice:
                         data.Body.List[0].IsPack === 1
                             ? data.Body.List[0].PackPrice
                             : null,
@@ -1034,12 +1029,12 @@ function ProductDetail({
                                     >
                                         <PlusOutlined />
                                     </Button>
-										<Button
-                                            className="add-stock-btn"
-                                            // onClick={handleClick}
-                                        >
-                                            <CaretDownOutlined />
-                                        </Button>
+                                    <Button
+                                        className="add-stock-btn"
+                                        // onClick={handleClick}
+                                    >
+                                        <CaretDownOutlined />
+                                    </Button>
                                     {/* {bntOpenTreeViewModal} */}
                                     <Form.Item
                                         label="Qrup"
@@ -1140,8 +1135,13 @@ function ProductDetail({
                                     header="Əlavə parametr"
                                     key="1"
                                 >
-                                    <Collapse ghost onChange={()=>setIsOpenCallapsePaket(true)}>
-                                        <Panel header="Paket (qutu)" key="1"  >
+                                    <Collapse
+                                        ghost
+                                        onChange={() =>
+                                            setIsOpenCallapsePaket(true)
+                                        }
+                                    >
+                                        <Panel header="Paket (qutu)" key="1">
                                             <Form.Item
                                                 label={"Paketli məhsul"}
                                                 valuePropName="checked"
@@ -1171,7 +1171,10 @@ function ProductDetail({
                     </Row>
                     <Row>
                         <Col xs={8} sm={8} md={8} xl={8}>
-                            <Collapse ghost onChange={()=>setIsOpenCallapseTeyinat(true)}>
+                            <Collapse
+                                ghost
+                                onChange={() => setIsOpenCallapseTeyinat(true)}
+                            >
                                 <Panel
                                     className="custom_panel_header"
                                     header="Təyinat"
@@ -1231,5 +1234,4 @@ function ProductDetail({
     );
 }
 
-
-export default withTreeViewModal(ProductDetail, from );
+export default withTreeViewModal(ProductDetail, from);
