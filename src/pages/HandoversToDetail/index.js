@@ -59,7 +59,7 @@ const { Option, OptGroup } = Select;
 const { TextArea } = Input;
 let customPositions = [];
 const { Panel } = Collapse;
-function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
+function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -577,8 +577,8 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 				additional={"none"}
 				editid={doc_id}
 				controller={"handovers"}
-				closed={"p=handover"}
-				from={"handovers"}
+                closed={"p=handoverto"}
+				from={"handoverto"}
 			/>
 			<div className="formWrapper">
 				<Form
@@ -901,4 +901,4 @@ function HandoversDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	);
 }
 
-export default withCatalog(HandoversDetail);
+export default withCatalog(HandoverToDetail);

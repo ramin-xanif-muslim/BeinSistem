@@ -66,7 +66,7 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
+function NewHandoverFrom({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -545,7 +545,7 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 				<h2>Qəbul</h2>
 			</div>
 
-			<DocButtons additional={"none"} editid={null} closed={"p=handover"} />
+			<DocButtons additional={"none"} editid={null} closed={"p=handoverform"} />
 			<div className="formWrapper">
 				<Form
 					form={form}
@@ -823,4 +823,4 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 	);
 }
 
-export default withCatalog(NewHandovers);
+export default withCatalog(NewHandoverFrom);

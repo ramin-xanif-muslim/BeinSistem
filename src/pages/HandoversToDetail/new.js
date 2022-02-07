@@ -66,7 +66,7 @@ const { Option, OptGroup } = Select;
 let customPositions = [];
 const { Panel } = Collapse;
 const { TextArea } = Input;
-function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
+function NewHandoverTo({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const myRefDescription = useRef(null);
@@ -364,6 +364,7 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 		});
 		setLoadingForm(false);
 	}, []);
+    const expeditorsOptions = []
 
 	const getDocName = async (docname) => {
 		const attrResponse = await fetchDocName(docname, "handovers");
@@ -545,7 +546,7 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 				<h2>Təhvil</h2>
 			</div>
 
-			<DocButtons additional={"none"} editid={null} closed={"p=handover"} />
+			<DocButtons additional={"none"} editid={null} closed={"p=handoverto"} />
 			<div className="formWrapper">
 				<Form
 					form={form}
@@ -582,25 +583,21 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}>
-							<Button className="add-stock-btn">
-								<PlusOutlined
-									onClick={() => setStockDrawer(true)}
-								/>
-							</Button>
 							<Form.Item
-								label="Anbardan"
-								name="stockfromid"
+								label="Komisyonçu"
+								name="expeditor"
+                                // {...ownersInput}
 								rules={[
 									{
 										required: true,
-										message: "Zəhmət olmasa, anbarı seçin",
+										message: "Zəhmət olmasa, Komisyonçu seçin",
 									},
 								]}
 							>
 								<Select
 									showSearch
 									showArrow={false}
-									onChange={onChange}
+									// onChange={onChange}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>
@@ -609,7 +606,7 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 											.indexOf(input.toLowerCase()) >= 0
 									}
 								>
-									{options}
+                                    {expeditorsOptions}
 								</Select>
 							</Form.Item>
 						</Col>
@@ -632,7 +629,7 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 							</Form.Item>
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
-						<Col xs={6} sm={6} md={6} xl={6}>
+						{/* <Col xs={6} sm={6} md={6} xl={6}>
 							<Button className="add-stock-btn">
 								<PlusOutlined
 									onClick={() => setStockDrawer(true)}
@@ -663,7 +660,7 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 									{options}
 								</Select>
 							</Form.Item>
-						</Col>
+						</Col> */}
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}></Col>
 					</Row>
@@ -823,4 +820,4 @@ function NewHandovers({ handleOpenCatalog, selectList, catalogVisible }) {
 	);
 }
 
-export default withCatalog(NewHandovers);
+export default withCatalog(NewHandoverTo);

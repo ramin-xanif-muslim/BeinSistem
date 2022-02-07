@@ -403,11 +403,11 @@ function App() {
 							></Route>
 							<Route path="/newmove" component={NewMove}></Route>
 							<Route
-								path="/newhandover"
+								path="/newhandoverto"
 								component={NewHandoversTo}
 							></Route>
 							<Route
-								path="/newhandover"
+								path="/newhandoverfrom"
 								component={NewHandoversTo}
 							></Route>
 							<Route path="/newloss" component={NewLoss}></Route>

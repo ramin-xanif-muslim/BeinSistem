@@ -531,7 +531,7 @@ export default function HandoversFrom() {
 						<div className="buttons_wrapper">
 							<Buttons
 								text={"Qəbul"}
-								redirectto={"/newhandover"}
+								redirectto={"/newhandoverfrom"}
 								animate={"Yarat"}
 							/>
 							<FilterButton />
