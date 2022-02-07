@@ -272,6 +272,75 @@ function NewCustomerOrder({ bntOpenTreeViewModal, stockId, setStockId }) {
                     return ConvertFixedTable(value);
                 },
             },
+			{
+				title: "Maya",
+				dataIndex: "CostPrice",
+				className: "max_width_field",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "CostPrice"
+					  ).isVisible
+					: true,
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					let defaultCostArray = [];
+					let consumtionPriceArray = [];
+					outerDataSource.forEach((p) => {
+						defaultCostArray.push(Number(p.CostPrice));
+					});
+					if (hasConsumption) {
+						consumtionPriceArray = [];
+						outerDataSource.forEach((p) => {
+							consumtionPriceArray.push(
+								FindAdditionals(
+									consumption,
+									docSum,
+									Number(p.CostPrice)
+								)
+							);
+						});
+						return ConvertFixedTable(consumtionPriceArray[index]);
+					} else {
+						return ConvertFixedTable(defaultCostArray[index]);
+					}
+				},
+			},
+			{
+				title: "Cəm Maya",
+				dataIndex: "CostPriceTotal",
+				className: "max_width_field",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "CostPriceTotal"
+					  ).isVisible
+					: true,
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					let defaultCostArray = [];
+					let consumtionPriceArray = [];
+					outerDataSource.forEach((p) => {
+						defaultCostArray.push(Number(p.CostPriceTotal));
+					});
+					if (hasConsumption) {
+						consumtionPriceArray = [];
+						outerDataSource.forEach((p) => {
+							consumtionPriceArray.push(
+								FindAdditionals(
+									consumption,
+									docSum,
+									Number(p.CostPriceTotal)
+								)
+							);
+						});
+
+						return ConvertFixedTable(consumtionPriceArray[index]);
+					} else {
+						return ConvertFixedTable(defaultCostArray[index]);
+					}
+				},
+			},
 
             {
                 title: "Sil",

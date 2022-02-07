@@ -21,6 +21,7 @@ const MyFormProvider = ({ children }) => {
   const [createdCustomer, setCreatedCustomer] = useState(null);
   const [createdCustomerGroup, setCreatedCustomerGroup] = useState(null);
   const [visibleDrawer, setVisibleDrawer] = useState(false);
+  const [docType, setDocType] = useState();
   const [cusid, setcusid] = useState(null);
   const values = {
     isReturn,
@@ -63,6 +64,8 @@ const MyFormProvider = ({ children }) => {
 
     redirectSaveClose,
     setRedirectSaveClose,
+    docType,
+    setDocType,
   };
 
   return <FormContext.Provider value={values}>{children}</FormContext.Provider>;

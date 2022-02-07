@@ -94,6 +94,7 @@ function EnterDetail() {
 
         saveFromModal,
         setRedirectSaveClose,
+        docType,
     } = useCustomForm();
     const [positions, setPositions] = useState([]);
     const [prevpositions, setPrevPositions] = useState([]);
@@ -107,8 +108,8 @@ function EnterDetail() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
     const { isLoading, error, data, isFetching } = useQuery(
-        ["document", doc_id],
-        () => fetchDocId(doc_id, "documents")
+        [docType, doc_id],
+        () => fetchDocId(doc_id, docType)
     );
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];

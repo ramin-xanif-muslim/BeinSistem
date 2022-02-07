@@ -68,7 +68,7 @@ export default function Documents() {
 		setCustomersLocalStorage,
 		setCustomers,
 	} = useTableCustom();
-	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
+	const { setSaveFromModal, setRedirectSaveClose, setDocType } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
 	const { isLoading, error, data, isFetching } = useQuery(
@@ -432,9 +432,10 @@ export default function Documents() {
 		}
 	}, [isFetching]);
 
-	const editPage = (id) => {
+	const editPage = (r) => {
+        setDocType(r.DocType.toLowerCase() + "s")
 		setRedirect(true);
-		setEditId(id);
+		setEditId(r.Id);
 	};
 	const editClickPage = (e, id) => {
 		if (e.target.className.includes("linkedColumns")) {
@@ -601,11 +602,6 @@ export default function Documents() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<Buttons
-								text={"Yeni sənəd"}
-								redirectto={"/newdocument"}
-								animate={"Yarat"}
-							/>
 							<FilterButton />
 							<FastSearch className="search_header" />
 							<SearchByDate
@@ -664,8 +660,7 @@ export default function Documents() {
 				}}
 				size="small"
 				onRow={(r) => ({
-					// onDoubleClick: () => editPage(r.Id),
-					onClick: (e) => editPage(r.Id),
+					onClick: (e) => editPage(r),
 				})}
 			/>
 		</div>
