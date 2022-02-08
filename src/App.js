@@ -408,7 +408,7 @@ function App() {
 							></Route>
 							<Route
 								path="/newhandoverfrom"
-								component={NewHandoversTo}
+								component={NewHandoversFrom}
 							></Route>
 							<Route path="/newloss" component={NewLoss}></Route>
 							<Route

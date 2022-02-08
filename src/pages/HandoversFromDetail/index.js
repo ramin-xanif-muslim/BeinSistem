@@ -1,7 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { fetchDocId } from "../../api";
+import { fetchDocId, sendRequest } from "../../api";
 import { useEffect, useState } from "react";
 import moment from "moment";
 import { useMemo } from "react";
@@ -108,8 +108,8 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [columnChange, setColumnChange] = useState(false);
 	const [direct, setDirect] = useState("");
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-
-    const ownersInput = useInput()
+	const [expeditors, setExpeditors] = useState([]);
+	const [expeditor, setExpeditor] = useState([]);
 
 	const { allsum, allQuantity } = useGetDocItems();
 
@@ -122,6 +122,9 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
+    useEffect(() => {
+        console.log(expeditor)
+    },[expeditor])
 
 	useEffect(() => {
 		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
@@ -191,128 +194,136 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		setHasConsumption(true);
 		setConsumption(e.target.value);
 	};
-    const columns = useMemo(() => {
-      return [
-        {
-          title: "№",
-          dataIndex: "Order",
-          className: "orderField",
-          editable: false,
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "Order")
-                .isVisible
-            : true,
-          render: (text, record, index) => index + 1 + 100 * docPage,
-        },
-        {
-          title: "Adı",
-          dataIndex: "Name",
-          className: "max_width_field_length",
-          editable: false,
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "Name").isVisible
-            : true,
-  
-          sorter: (a, b) => a.Name.localeCompare(b.Name),
-        },
-        {
-          title: "Barkodu",
-          dataIndex: "BarCode",
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "BarCode")
-                .isVisible
-            : true,
-          className: "max_width_field_length",
-          editable: false,
-          sortDirections: ["descend", "ascend"],
-          sorter: (a, b) => a.BarCode - b.BarCode,
-        },
-        {
-          title: "Miqdar",
-          dataIndex: "Quantity",
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "Quantity")
-                .isVisible
-            : true,
-          className: "max_width_field",
-          editable: true,
-          sortDirections: ["descend", "ascend"],
-          sorter: (a, b) => a.Quantity - b.Quantity,
-          render: (value, row, index) => {
-            // do something like adding commas to the value or prefix
-            return ConvertFixedTable(value);
-          },
-        },
-        {
-          title: "Qiyməti",
-          dataIndex: "Price",
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "Price")
-                .isVisible
-            : true,
-  
-          className: "max_width_field",
-          editable: true,
-          sortDirections: ["descend", "ascend"],
-          render: (value, row, index) => {
-            // do something like adding commas to the value or prefix
-            return ConvertFixedTable(value);
-          },
-        },
-        {
-          title: "Məbləğ",
-          dataIndex: "TotalPrice",
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "TotalPrice")
-                .isVisible
-            : true,
-          className: "max_width_field",
-          editable: true,
-          sortDirections: ["descend", "ascend"],
-          render: (value, row, index) => {
-            // do something like adding commas to the value or prefix
-            return ConvertFixedTable(value);
-          },
-        },
-        {
-          title: "Qalıq",
-          dataIndex: "StockQuantity",
-          className: "max_width_field",
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "StockQuantity")
-                .isVisible
-            : true,
-          editable: false,
-          sortDirections: ["descend", "ascend"],
-          render: (value, row, index) => {
-            // do something like adding commas to the value or prefix
-            return ConvertFixedTable(value);
-          },
-        },
-        {
-          title: "Sil",
-          className: "orderField printField",
-          dataIndex: "operation",
-          isVisible: initial
-            ? Object.values(initial).find((i) => i.dataIndex === "operation")
-                .isVisible
-            : true,
-          editable: false,
-          render: (_, record) => (
-            <Typography.Link>
-              <Popconfirm
-                title="Silməyə əminsinizmi?"
-                okText="Bəli"
-                cancelText="Xeyr"
-                onConfirm={() => handleDelete(record.key)}
-              >
-                <a className="color-red">Sil</a>
-              </Popconfirm>
-            </Typography.Link>
-          ),
-        },
-      ];
-    }, [consumption, outerDataSource, docSum, columnChange]);
+	const columns = useMemo(() => {
+		return [
+			{
+				title: "№",
+				dataIndex: "Order",
+				className: "orderField",
+				editable: false,
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Order"
+					  ).isVisible
+					: true,
+				render: (text, record, index) => index + 1 + 100 * docPage,
+			},
+			{
+				title: "Adı",
+				dataIndex: "Name",
+				className: "max_width_field_length",
+				editable: false,
+				isVisible: initial
+					? Object.values(initial).find((i) => i.dataIndex === "Name")
+							.isVisible
+					: true,
+
+				sorter: (a, b) => a.Name.localeCompare(b.Name),
+			},
+			{
+				title: "Barkodu",
+				dataIndex: "BarCode",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "BarCode"
+					  ).isVisible
+					: true,
+				className: "max_width_field_length",
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				sorter: (a, b) => a.BarCode - b.BarCode,
+			},
+			{
+				title: "Miqdar",
+				dataIndex: "Quantity",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Quantity"
+					  ).isVisible
+					: true,
+				className: "max_width_field",
+				editable: true,
+				sortDirections: ["descend", "ascend"],
+				sorter: (a, b) => a.Quantity - b.Quantity,
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return ConvertFixedTable(value);
+				},
+			},
+			{
+				title: "Qiyməti",
+				dataIndex: "Price",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Price"
+					  ).isVisible
+					: true,
+
+				className: "max_width_field",
+				editable: true,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return ConvertFixedTable(value);
+				},
+			},
+			{
+				title: "Məbləğ",
+				dataIndex: "TotalPrice",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "TotalPrice"
+					  ).isVisible
+					: true,
+				className: "max_width_field",
+				editable: true,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return ConvertFixedTable(value);
+				},
+			},
+			{
+				title: "Qalıq",
+				dataIndex: "StockQuantity",
+				className: "max_width_field",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "StockQuantity"
+					  ).isVisible
+					: true,
+				editable: false,
+				sortDirections: ["descend", "ascend"],
+				render: (value, row, index) => {
+					// do something like adding commas to the value or prefix
+					return ConvertFixedTable(value);
+				},
+			},
+			{
+				title: "Sil",
+				className: "orderField printField",
+				dataIndex: "operation",
+				isVisible: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "operation"
+					  ).isVisible
+					: true,
+				editable: false,
+				render: (_, record) => (
+					<Typography.Link>
+						<Popconfirm
+							title="Silməyə əminsinizmi?"
+							okText="Bəli"
+							cancelText="Xeyr"
+							onConfirm={() => handleDelete(record.key)}
+						>
+							<a className="color-red">Sil</a>
+						</Popconfirm>
+					</Typography.Link>
+				),
+			},
+		];
+	}, [consumption, outerDataSource, docSum, columnChange]);
 
 	useEffect(() => {
 		setInitial(columns);
@@ -362,7 +373,17 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			{c.Name}
 		</Option>
 	));
-    const expeditorsOptions = []
+	useEffect(async () => {
+		let res = await sendRequest("expeditors/get.php", {});
+		setExpeditors(res.List);
+	}, []);
+	const expeditorsOptions = Object.values(expeditors).map((c) => {
+        return (
+            <Option key={c.Id} value={JSON.stringify(c)}>
+                {c.Name}
+            </Option>
+            )
+    });
 
 	var objDep;
 	departments
@@ -507,49 +528,70 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			menuItem: "Əsas",
 			render: () => (
 				<Tab.Pane attached={false}>
-					<Row style={{ justifyContent: "space-between" }}>
+					<Row>
 						<Col
 							xs={9}
 							sm={9}
 							md={9}
 							xl={9}
-							style={{ maxWidth: "none", flex: "0.5", zIndex: 1 }}
+							style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
 						>
 							<div className="addProductInputIcon">
-								<AddProductInput
-									from="demands"
-									className="newProInputWrapper"
-								/>
+								<AddProductInput className="newProInputWrapper" />
 								<PlusOutlined
 									onClick={() => setProductModal(true)}
 									className="addNewProductIcon"
 								/>
 							</div>
 						</Col>
-						<Col xs={5} sm={5} md={5} xl={5}>
-							<Button onClick={handleOpenCatalog} type="primary">
-								Kataloq
-							</Button>
-						</Col>
-						<Dropdown
-							overlay={menu}
-							onVisibleChange={handleVisibleChange}
-							visible={visibleMenuSettings}
+						<Col
+							xs={3}
+							sm={3}
+							md={3}
+							xl={3}
+							style={{
+								display: "flex",
+								justifyContent: "center",
+							}}
 						>
-							<Button className="flex_directon_col_center">
-								{" "}
-								<SettingOutlined />
-							</Button>
-						</Dropdown>
+							<button
+								className="new-button"
+								onClick={handleOpenCatalog}
+								type="primary"
+							>
+								Məhsullar
+							</button>
+						</Col>
+						<Col
+							style={{
+								display: "flex",
+								justifyContent: "flex-end",
+							}}
+							xs={12}
+							sm={12}
+							md={12}
+							xl={12}
+						>
+							<Dropdown
+								trigger={"onclick"}
+								overlay={menu}
+								onVisibleChange={handleVisibleChange}
+								visible={visibleMenuSettings}
+							>
+								<button className="new-button">
+									{" "}
+									<SettingOutlined />
+								</button>
+							</Dropdown>
+						</Col>
 						<Col
 							xs={24}
 							sm={24}
 							md={24}
 							xl={24}
-							style={{ paddingTop: "1rem", zIndex: "0" }}
+							style={{ paddingTop: "1rem" }}
 						>
 							<DocTable
-								from="demands"
 								headers={columns.filter(
 									(c) => c.isVisible == true
 								)}
@@ -571,7 +613,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Qəbul</h2>
+				<h2>Qabul</h2>
 			</div>
 			<DocButtons
 				additional={"none"}
@@ -625,18 +667,18 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							<Form.Item
 								label="Komisyonçu"
 								name="expeditor"
-                                {...ownersInput}
 								rules={[
 									{
 										required: true,
-										message: "Zəhmət olmasa, Komisyonçu seçin",
+										message:
+											"Zəhmət olmasa, Komisyonçu seçin",
 									},
 								]}
 							>
 								<Select
 									showSearch
 									showArrow={false}
-									// onChange={onChange}
+									onChange={(e) => setExpeditor(JSON.parse(e))}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>
@@ -645,7 +687,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 											.indexOf(input.toLowerCase()) >= 0
 									}
 								>
-                                    {expeditorsOptions}
+									{expeditorsOptions}
 								</Select>
 							</Form.Item>
 						</Col>
@@ -701,7 +743,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							</Form.Item>
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
-						<Col xs={6} sm={6} md={6} xl={6}>
+						{/* <Col xs={6} sm={6} md={6} xl={6}>
 							<Button className="add-stock-btn">
 								<PlusOutlined
 									onClick={() => setStockDrawer(true)}
@@ -732,7 +774,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 									{options}
 								</Select>
 							</Form.Item>
-						</Col>
+						</Col> */}
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}></Col>
 					</Row>

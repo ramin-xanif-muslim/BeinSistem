@@ -114,12 +114,12 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 		setActivId(i);
 		setSelectedDateId(i);
 	};
-    useEffect(() => {
-        if(defaultCheckedDate) {
-            setActivId(defaultCheckedDate);
-            setSelectedDateId(defaultCheckedDate)
-        }
-    },[defaultCheckedDate])
+	useEffect(() => {
+		if (defaultCheckedDate) {
+			setActivId(defaultCheckedDate);
+			setSelectedDateId(defaultCheckedDate);
+		}
+	}, [defaultCheckedDate]);
 
 	return (
 		<div className={style.div}>
@@ -127,6 +127,7 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 				{dates.map((m) => {
 					return (
 						<li
+							key={m.id}
 							onClick={() => onClick(m.id)}
 							className={m.id === activId ? style.active : ""}
 						>

@@ -115,6 +115,8 @@ function DocButtons({
                 >
                     {closed === "p=product" ? "Silin" : "Sənədi silin"}
                 </button>
+            </Menu.Item>
+            <Menu.Item>
                 {editProduct && (
                     <button
                         className="new-button w-100"
@@ -221,7 +223,7 @@ function DocButtons({
         </Menu>
     );
     let menu = "";
-    if(from === "customerorders") {
+    if (from === "customerorders") {
         menu = (
             <Menu>
                 <Menu.Item key="0" disabled={editid ? false : true}>
@@ -235,8 +237,8 @@ function DocButtons({
                     </button>
                 </Menu.Item>
             </Menu>
-            )
-    }else {
+        );
+    } else {
         menu = (
             <Menu>
                 <Menu.Item key="0">
@@ -262,7 +264,7 @@ function DocButtons({
                     </button>
                 </Menu.Item>
             </Menu>
-            )
+        );
     }
     const getProductPrint = (id, br, pr, nm) => (e) => {
         e.preventDefault();
@@ -272,11 +274,11 @@ function DocButtons({
     const checkBarkodePrint = proinfo ? (
         <Menu>
             <Menu.Item key="0">
-                <Button
+                <button
                     style={{
                         display: from === "products" ? "block" : "none",
                     }}
-                    className="flex_directon_col_center d-flex-row"
+                    className="new-button w-100"
                     onClick={getProductPrint(
                         proinfo.id,
                         proinfo.bc,
@@ -285,15 +287,15 @@ function DocButtons({
                     )}
                 >
                     Ədəd
-                </Button>
+                </button>
             </Menu.Item>
             {proinfo.packPrice && (
                 <Menu.Item key="1">
-                    <Button
+                    <button
                         style={{
                             display: from === "products" ? "block" : "none",
                         }}
-                        className="flex_directon_col_center d-flex-row"
+                        className="new-button w-100"
                         onClick={getProductPrint(
                             proinfo.id,
                             proinfo.bc,
@@ -302,7 +304,7 @@ function DocButtons({
                         )}
                     >
                         Paket
-                    </Button>
+                    </button>
                 </Menu.Item>
             )}
         </Menu>
@@ -362,7 +364,7 @@ function DocButtons({
                             onClick={(e) => e.preventDefault()}
                             className="new-button"
                         >
-                             Sənəd yarat
+                            Sənəd yarat
                         </button>
                     </Dropdown>
                 )}
@@ -370,15 +372,15 @@ function DocButtons({
             <div className="right_doc_button">
                 {proinfo ? (
                     <Dropdown overlay={checkBarkodePrint} trigger={["click"]}>
-                        <Button
+                        <button
                             style={{
                                 display: from === "products" ? "block" : "none",
                             }}
-                            className="flex_directon_col_center d-flex-row"
+                            className="new-button"
                         >
-                            Barkod
                             <PrinterOutlined />
-                        </Button>
+                            <span style={{ marginLeft: "5px" }}>Barkod</span>
+                        </button>
                     </Dropdown>
                 ) : null}
                 <Dropdown
