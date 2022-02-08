@@ -137,7 +137,7 @@ function NewInvoiceOuts() {
         const attrResponse = await fetchDocName(docname, "invoiceouts");
         return attrResponse;
     };
-    
+
     var ownerList;
     owners
         ? (ownerList = owners)
@@ -349,6 +349,7 @@ function NewInvoiceOuts() {
                                     />
                                 </Button>
                                 <Form.Item
+                                    style={{ margin: "0" }}
                                     label="Qarşı-tərəf"
                                     name="customerid"
                                     rules={[
@@ -505,9 +506,9 @@ function NewInvoiceOuts() {
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
-                                            onChange={(e) =>
-                                                setStatus(e.target.checked)
-                                            }
+                                                onChange={(e) =>
+                                                    setStatus(e.target.checked)
+                                                }
                                                 name="status"
                                                 valuePropName="checked"
                                                 style={{ width: "100%" }}

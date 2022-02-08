@@ -108,7 +108,7 @@ function NewPaymentIn() {
         const attrResponse = await fetchDocName(docname, "paymentins");
         return attrResponse;
     };
-    
+
     var ownerList;
     owners
         ? (ownerList = owners)
@@ -302,6 +302,7 @@ function NewPaymentIn() {
                                     />
                                 </Button>
                                 <Form.Item
+                                    style={{ margin: "0" }}
                                     label="Qarşı-tərəf"
                                     name="customerid"
                                     rules={[
@@ -459,9 +460,9 @@ function NewPaymentIn() {
                                             <Form.Item
                                                 label="Keçirilib"
                                                 className="docComponentStatus"
-                                            onChange={(e) =>
-                                                setStatus(e.target.checked)
-                                            }
+                                                onChange={(e) =>
+                                                    setStatus(e.target.checked)
+                                                }
                                                 name="status"
                                                 valuePropName="checked"
                                                 style={{ width: "100%" }}
