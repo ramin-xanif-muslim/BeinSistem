@@ -116,8 +116,8 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     const { allsum, allQuantity } = useGetDocItems();
 
     const { isLoading, error, data, isFetching } = useQuery(
-        ["handovers", doc_id],
-        () => fetchDocId(doc_id, "handovers")
+        ["handoversto", doc_id],
+        () => fetchDocId(doc_id, "handoversto")
     );
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
@@ -157,6 +157,11 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
             if (data.Body.List[0].Consumption) {
                 setHasConsumption(true);
             }
+            setExpeditor({
+                Name: data.Body.List[0].ExpeditorName, 
+                Id: data.Body.List[0].ExpeditorId, 
+                StockId: data.Body.List[0].StockToId
+              })
             setConsumption(data.Body.List[0].Consumption);
             setLoadingForm(false);
             setStatus(data.Body.List[0].Status);
@@ -333,7 +338,7 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
     }, [columnChange]);
 
     const updateMutation = useMutation(updateDoc, {
-        refetchQueris: ["handovers", doc_id],
+        refetchQueris: ["handoversto", doc_id],
     });
 
     useEffect(() => {
@@ -435,19 +440,26 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
         }
     };
     const handleFinish = async (values) => {
+
         setDisable(true);
+
+        if(expeditor) {
+            values.expeditor = null
+            values.expeditorname = expeditor.Name
+            values.expeditorid = expeditor.Id
+            values.stocktoid = expeditor.StockId
+        }
 
         values.positions = outerDataSource;
         values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
         values.description =
             myRefDescription.current.resizableTextArea.props.value;
-        if (!values.status) {
-            values.status = status;
-        }
+        values.status = status;
+        
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
-            { id: doc_id, controller: "handovers", filter: values },
+            { id: doc_id, controller: "handoversto", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
@@ -456,7 +468,7 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             key: "doc_update",
                             duration: 2,
                         });
-                        queryClient.invalidateQueries("handovers", doc_id);
+                        queryClient.invalidateQueries("handoversto", doc_id);
                         audio.play();
                         if (saveFromModal) {
                             setRedirectSaveClose(true);
@@ -617,9 +629,9 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
             <DocButtons
                 additional={"none"}
                 editid={doc_id}
-                controller={"handovers"}
+                controller={"handoversto"}
                 closed={"p=handoverto"}
-                from={"handovers"}
+                from={"handoversto"}
             />
             <div className="formWrapper">
                 <Form
@@ -639,6 +651,7 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                         modify: moment(data.Body.List[0].Modify),
                         mark: data.Body.List[0].Mark,
                         stocktoid: data.Body.List[0].StockToId,
+                        expeditor: data.Body.List[0].ExpeditorName,
                         stockfromid: data.Body.List[0].StockFromId,
                         status: data.Body.List[0].Status === 1 ? true : false,
                     }}
@@ -666,7 +679,6 @@ function HandoverToDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                             <Form.Item
                                 label="Komisyonçu"
                                 name="expeditor"
-                                {...ownersInput}
                                 rules={[
                                     {
                                         required: true,

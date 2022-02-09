@@ -114,17 +114,14 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const { allsum, allQuantity } = useGetDocItems();
 
 	const { isLoading, error, data, isFetching } = useQuery(
-		["handovers", doc_id],
-		() => fetchDocId(doc_id, "handovers")
+		["handoversfrom", doc_id],
+		() => fetchDocId(doc_id, "handoversfrom")
 	);
 	const handleDelete = (key) => {
 		const dataSource = [...outerDataSource];
 		setOuterDataSource(dataSource.filter((item) => item.key !== key));
 		setPositions(dataSource.filter((item) => item.key !== key));
 	};
-    useEffect(() => {
-        console.log(expeditor)
-    },[expeditor])
 
 	useEffect(() => {
 		if (JSON.stringify(positions) !== JSON.stringify(outerDataSource)) {
@@ -158,6 +155,11 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			if (data.Body.List[0].Consumption) {
 				setHasConsumption(true);
 			}
+            setExpeditor({
+                Name: data.Body.List[0].ExpeditorName, 
+                Id: data.Body.List[0].ExpeditorId, 
+                StockId: data.Body.List[0].StockFromId
+              })
 			setConsumption(data.Body.List[0].Consumption);
 			setLoadingForm(false);
 			setStatus(data.Body.List[0].Status);
@@ -334,7 +336,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	}, [columnChange]);
 
 	const updateMutation = useMutation(updateDoc, {
-		refetchQueris: ["handovers", doc_id],
+		refetchQueris: ["handoversfrom", doc_id],
 	});
 
 	useEffect(() => {
@@ -438,17 +440,22 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const handleFinish = async (values) => {
 		setDisable(true);
 
+        if(expeditor) {
+            values.expeditor = null
+            values.expeditorname = expeditor.Name
+            values.expeditorid = expeditor.Id
+            values.stockfromid = expeditor.StockId
+        }
+
 		values.positions = outerDataSource;
 		values.moment = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
-		if (!values.status) {
-			values.status = status;
-		}
+		values.status = status;
 		message.loading({ content: "Yüklənir...", key: "doc_update" });
 		updateMutation.mutate(
-			{ id: doc_id, controller: "handovers", filter: values },
+			{ id: doc_id, controller: "handoversfrom", filter: values },
 			{
 				onSuccess: (res) => {
 					if (res.Headers.ResponseStatus === "0") {
@@ -457,7 +464,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							key: "doc_update",
 							duration: 2,
 						});
-						queryClient.invalidateQueries("handovers", doc_id);
+						queryClient.invalidateQueries("handoversfrom", doc_id);
 						audio.play();
 						if (saveFromModal) {
 							setRedirectSaveClose(true);
@@ -618,9 +625,9 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 			<DocButtons
 				additional={"none"}
 				editid={doc_id}
-				controller={"handovers"}
+				controller={"handoversfrom"}
 				closed={"p=handoverfrom"}
-				from={"handovers"}
+				from={"handoversfrom"}
 			/>
 			<div className="formWrapper">
 				<Form
@@ -640,6 +647,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 						modify: moment(data.Body.List[0].Modify),
 						mark: data.Body.List[0].Mark,
 						stocktoid: data.Body.List[0].StockToId,
+                        expeditor: data.Body.List[0].ExpeditorName,
 						stockfromid: data.Body.List[0].StockFromId,
 						status: data.Body.List[0].Status === 1 ? true : false,
 					}}
@@ -692,38 +700,6 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							</Form.Item>
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
-						<Col xs={6} sm={6} md={6} xl={6}>
-							<Button className="add-stock-btn">
-								<PlusOutlined
-									onClick={() => setStockDrawer(true)}
-								/>
-							</Button>
-							<Form.Item
-								label="Anbardan"
-								name="stockfromid"
-								rules={[
-									{
-										required: true,
-										message: "Zəhmət olmasa, anbarı seçin",
-									},
-								]}
-							>
-								<Select
-									showSearch
-									showArrow={false}
-									// onChange={onChange}
-									className="customSelect detail-select"
-									allowClear={true}
-									filterOption={(input, option) =>
-										option.children
-											.toLowerCase()
-											.indexOf(input.toLowerCase()) >= 0
-									}
-								>
-									{options}
-								</Select>
-							</Form.Item>
-						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}></Col>
 					</Row>
@@ -743,7 +719,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 							</Form.Item>
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
-						{/* <Col xs={6} sm={6} md={6} xl={6}>
+						<Col xs={6} sm={6} md={6} xl={6}>
 							<Button className="add-stock-btn">
 								<PlusOutlined
 									onClick={() => setStockDrawer(true)}
@@ -774,7 +750,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 									{options}
 								</Select>
 							</Form.Item>
-						</Col> */}
+						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}></Col>
 					</Row>

@@ -8,6 +8,7 @@ import { useTableCustom } from "./contexts/TableContext";
 import { useParams } from "react-router-dom";
 
 const Move = React.lazy(() => import("./pages/Move"));
+const Moneytransfer = React.lazy(() => import("./pages/Moneytransfer"));
 const HandoversTo = React.lazy(() => import("./pages/HandoversTo"));
 const HandoversFrom = React.lazy(() => import("./pages/HandoversFrom"));
 const Product = React.lazy(() => import("./pages/Product"));
@@ -32,6 +33,10 @@ const SupplyReturnDetail = React.lazy(() =>
 );
 const NewMove = React.lazy(() => import("./pages/MoveDetail/new"));
 const MoveDetail = React.lazy(() => import("./pages/MoveDetail"));
+
+const NewMoneytransferIn = React.lazy(() => import("./pages/MoneytransferDetail/newmoneytransferin"));
+const NewMoneytransferOuts = React.lazy(() => import("./pages/MoneytransferDetail/newmoneytransferuts"));
+const MoneytransferDetail = React.lazy(() => import("./pages/MoneytransferDetail"));
 
 const NewHandoversTo = React.lazy(() => import("./pages/HandoversToDetail/new"));
 const HandoversDetailTo = React.lazy(() => import("./pages/HandoversToDetail"));
@@ -318,6 +323,10 @@ function App() {
 								component={MoveDetail}
 							></Route>
 							<Route
+								path="/editMoneytransfer/:doc_id"
+								component={MoneytransferDetail}
+							></Route>
+							<Route
 								path="/editHandoversTo/:doc_id"
 								component={HandoversDetailTo}
 							></Route>
@@ -402,6 +411,8 @@ function App() {
 								component={NewDocument}
 							></Route>
 							<Route path="/newmove" component={NewMove}></Route>
+							<Route path="/newmoneytransferin" component={NewMoneytransferIn}></Route>
+							<Route path="/newmoneytransferouts" component={NewMoneytransferOuts}></Route>
 							<Route
 								path="/newhandoverto"
 								component={NewHandoversTo}
@@ -445,6 +456,7 @@ function App() {
 								component={Product}
 							></Route>
 							<Route path="/p=move" component={Move}></Route>
+							<Route path="/p=moneytransfer" component={Moneytransfer}></Route>
 							<Route
 								path="/p=handoverto"
 								component={HandoversTo}

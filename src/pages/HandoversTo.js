@@ -55,20 +55,20 @@ export default function HandoversTo() {
     const [pageCount, setPageCount] = useState(null);
     const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["handovers", page, direction, fieldSort, doSearch, search, advanced],
+		["handoversto", page, direction, fieldSort, doSearch, search, advanced],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
-						"handovers",
+						"handoversto",
 						advancedPage,
 						advanced,
 						direction,
 						fieldSort
 				  )
 				: doSearch
-				? fecthFastPage("handovers", page, search)
+				? fecthFastPage("handoversto", page, search)
 				: !isFilter && !doSearch
-				? fetchPage("handovers", page, direction, fieldSort)
+				? fetchPage("handoversto", page, direction, fieldSort)
 				: null;
 		}
 	);
@@ -501,7 +501,7 @@ export default function HandoversTo() {
 	);
 	const getSearchObjByDate = async (ob) => {
 		setFetchSearchByDate(true);
-		let res = await sendRequest("handovers/get.php", ob);
+		let res = await sendRequest("handoversto/get.php", ob);
 		setDocumentList(res.List);
 		setallsum(res.AllSum);
 		setFetchSearchByDate(false);

@@ -376,7 +376,7 @@ function NewHandoverTo({ handleOpenCatalog, selectList, catalogVisible }) {
     }, []);
 
     const getDocName = async (docname) => {
-        const attrResponse = await fetchDocName(docname, "handovers");
+        const attrResponse = await fetchDocName(docname, "handoversto");
         return attrResponse;
     };
 
@@ -387,6 +387,13 @@ function NewHandoverTo({ handleOpenCatalog, selectList, catalogVisible }) {
     };
     const handleFinish = async (values) => {
         setDisable(true);
+
+        if(expeditor) {
+            values.expeditor = null
+            values.expeditorname = expeditor.Name
+            values.expeditorid = expeditor.Id
+            values.stocktoid = expeditor.StockId
+        }
 
         values.positions = outerDataSource;
         // values.mark = docmark;
@@ -414,7 +421,7 @@ function NewHandoverTo({ handleOpenCatalog, selectList, catalogVisible }) {
             });
         }
 
-        const res = await saveDoc(values, "handovers");
+        const res = await saveDoc(values, "handoversto");
         console.log(res);
         if (res.Headers.ResponseStatus === "0") {
             message.success({
@@ -583,7 +590,7 @@ function NewHandoverTo({ handleOpenCatalog, selectList, catalogVisible }) {
         },
     ];
 
-    if (redirect) return <Redirect to={`/editHandovers/${editId}`} />;
+    if (redirect) return <Redirect to={`/editHandoversTo/${editId}`} />;
     return (
         <div className="doc_wrapper">
             <div className="doc_name_wrapper">

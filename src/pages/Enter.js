@@ -217,7 +217,9 @@ export default function Enter() {
       {
         dataIndex: "Consumption",
         title: "Əlavə xərc",
-        show: JSON.parse(localStorage.getItem("entercolumns"))
+        show: JSON.parse(localStorage.getItem("entercolumns")) && Object.values(
+            JSON.parse(localStorage.getItem("entercolumns"))
+          ).find((i) => i.dataIndex === "Consumption")
           ? Object.values(
               JSON.parse(localStorage.getItem("entercolumns"))
             ).find((i) => i.dataIndex === "Consumption").show

@@ -1,32 +1,45 @@
 import { useState, useMemo, useEffect } from "react";
-import { isObject } from "../config/function/findadditionals";
 import { useQuery } from "react-query";
-import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
+import {
+	fetchPage,
+	fecthFastPage,
+	fetchFilterPage,
+	fetchCustomers,
+} from "../api";
 
-import { Alert, Table } from "antd";
-import { Redirect } from "react-router-dom";
-import { Spin, Row, Col, Menu, Checkbox, Dropdown, Typography } from "antd";
-import { ConvertFixedTable } from "../config/function/findadditionals";
-import Buttons from "../components/Button";
-import { Button } from "semantic-ui-react";
+import { Table } from "antd";
+import { Link, Redirect } from "react-router-dom";
+import {
+	Spin,
+	Row,
+	Col,
+	Menu,
+	Checkbox,
+	Dropdown,
+	Typography,
+	Alert,
+} from "antd";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
-
 import { SettingOutlined } from "@ant-design/icons";
-import { useCustomForm } from "../contexts/FormContext";
-import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
+import sendRequest from "../config/sentRequest";
+import { ConvertFixedTable } from "../config/function/findadditionals";
+import { isObject } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
+import MoneytransferButton from "../components/MoneytransferButton";
 const { Text } = Typography;
-export default function HandoversFrom() {
+export default function Moneytransfer() {
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
-	const [redirect, setRedirect] = useState(false);
+	const [redirectMoneytransferIn, setRedirectMoneytransferIn] = useState(false);
+	const [redirectMoneytransferOut, setRedirectMoneytransferOut] = useState(false);
 	const [direction, setDirection] = useState(1);
 	const [defaultdr, setDefaultDr] = useState("descend");
 	const [initialSort, setInitialSort] = useState("Moment");
 	const [fieldSort, setFieldSort] = useState("Moment");
-	const [allsum, setallsum] = useState(0);
+	const [allinsum, setallinsum] = useState(0);
+	const [alloutsum, setalloutsum] = useState(0);
 	const [editId, setEditId] = useState("");
 	const [page, setPage] = useState(0);
 	const [filtered, setFiltered] = useState(false);
@@ -40,7 +53,11 @@ export default function HandoversFrom() {
 		useState(false);
 	const {
 		marks,
+		setMarkLocalStorage,
+		setMark,
 		isFilter,
+		setCustomersLocalStorage,
+		setCustomers,
 		advancedPage,
 		setAdvancedPage,
 		doSearch,
@@ -49,43 +66,48 @@ export default function HandoversFrom() {
 		setdisplay,
 		display,
 	} = useTableCustom();
-	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["handoversfrom", page, direction, fieldSort, doSearch, search, advanced],
+		[
+			"moneytransfers",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advanced,
+		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
-						"handoversfrom",
+						"moneytransfers",
 						advancedPage,
 						advanced,
 						direction,
 						fieldSort
 				  )
 				: doSearch
-				? fecthFastPage("handoversfrom", page, search)
+				? fecthFastPage("moneytransfers", page, search)
 				: !isFilter && !doSearch
-				? fetchPage("handoversfrom", page, direction, fieldSort)
+				? fetchPage("moneytransfers", page, direction, fieldSort)
 				: null;
 		}
 	);
-
-	useEffect(() => {
-		setRedirectSaveClose(false);
-		setSaveFromModal(false);
-	}, []);
 	useEffect(() => {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
-	}, [columnChange, filtered]);
+		if (filterChanged) setFilterChanged(false);
+	}, [columnChange, filtered, filterChanged]);
 
 	var markObject;
 	marks
 		? (markObject = marks)
 		: (markObject = JSON.parse(localStorage.getItem("marks")));
+
+	console.log(initialSort);
 	const columns = useMemo(() => {
 		return [
 			{
@@ -96,117 +118,155 @@ export default function HandoversFrom() {
 			},
 			{
 				dataIndex: "Name",
-				title: "Sənəd №",
-				className: "linkedColumns",
+				title: "Adı",
 				show: initial
 					? Object.values(initial).find((i) => i.dataIndex === "Name")
 							.show
 					: true,
 				defaultSortOrder: initialSort === "Name" ? defaultdr : null,
 				sorter: (a, b) => null,
+				className:
+					initialSort === "Name"
+						? "linkedColumns activesort"
+						: "linkedColumns",
 			},
 			{
 				dataIndex: "Moment",
 				title: "Tarix",
-				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
 				show: initial
 					? Object.values(initial).find(
 							(i) => i.dataIndex === "Moment"
 					  ).show
 					: true,
+				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
 				sorter: (a, b) => null,
-			},
-			{
-				dataIndex: "StockFromName",
-				title: "Anbardan",
-				defaultSortOrder:
-					initialSort === "StockFromName" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "StockFromName"
-					  ).show
-					: true,
-				sorter: (a, b) => null,
+				className: initialSort === "Moment" ? "activesort" : "",
 			},
 
 			{
-				dataIndex: "StockToName",
-				title: "Anbara",
+				dataIndex: "CustomerName",
+				title: "Tərəf-müqabil",
+				defaultSortOrder:
+					initialSort === "CustomerName" ? defaultdr : null,
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "StockToName"
+							(i) => i.dataIndex === "CustomerName"
 					  ).show
 					: true,
-				defaultSortOrder:
-					initialSort === "StockToName" ? defaultdr : null,
 				sorter: (a, b) => null,
+				className:
+					initialSort === "CustomerName"
+						? "linkedColumns activesort"
+						: "linkedColumns",
 			},
 
 			{
-				dataIndex: "Amount",
-				title: "Məbləğ",
-				sort: true,
-				show: JSON.parse(localStorage.getItem("entercolumns"))
-					? Object.values(
-							JSON.parse(localStorage.getItem("entercolumns"))
-					  ).find((i) => i.dataIndex === "Amount").show
+				dataIndex: "SpendName",
+				title: "	Xərc maddəsi",
+				defaultSortOrder:
+					initialSort === "SpendName" ? defaultdr : null,
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "SpendName"
+					  ).show
 					: true,
-				showFooter: true,
-				footerName: "Amount",
-				priceFormat: true,
-				defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
 				sorter: (a, b) => null,
-				className: initialSort === "Amount" ? "activesort" : "",
+				className: initialSort === "SpendName" ? "activesort" : "",
+			},
+
+			{
+				dataIndex: "CashInvoice",
+				title: "Nağd/Köçürmə",
+
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "CashInvoice"
+					  ).show
+					: true,
 				render: (value, row, index) => {
-					return ConvertFixedTable(value);
+					if (row.Type === "p") {
+						return "Nağd";
+					} else {
+						return "Köçürmə";
+					}
+				},
+			},
+			{
+				dataIndex: "PaymentIn",
+				title: "Mədaxil",
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "PaymentIn"
+					  ).show
+					: true,
+				render: (value, row, index) => {
+					if (row.Direct === "i") {
+						return ConvertFixedTable(row.Amount);
+						// return row.Amount;
+					} else {
+						return "";
+					}
+				},
+			},
+			{
+				dataIndex: "PaymentOut",
+				title: "Məxaric",
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "PaymentOut"
+					  ).show
+					: true,
+				render: (value, row, index) => {
+					if (row.Direct === "o") {
+						return ConvertFixedTable(row.Amount);
+					} else {
+						return "";
+					}
 				},
 			},
 
 			{
+				dataIndex: "Description",
+				title: "Şərh",
+				defaultSortOrder:
+					initialSort === "Description" ? defaultdr : null,
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "Description"
+					  ).show
+					: true,
+				sorter: (a, b) => null,
+				className: initialSort === "Description" ? "activesort" : "",
+			},
+			{
 				dataIndex: "Mark",
 				title: "Status",
-				sort: true,
+				className: initialSort === "Mark" ? "activesort" : "",
+				defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
 				show: initial
 					? Object.values(initial).find((i) => i.dataIndex === "Mark")
 							.show
 					: true,
-				showCustomFormatter: true,
-				defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
 					return (
 						<span
 							className="status_label"
 							style={{
-								backgroundColor: markObject
+								backgroundColor: markObject.find(
+									(m) => m.Id === value
+								)
 									? markObject.find((m) => m.Id === value)
-										? markObject.find((m) => m.Id === value)
-												.Color
-										: null
+											.Color
 									: null,
 							}}
 						>
-							{markObject
-								? markObject.find((m) => m.Id === value)
-									? markObject.find((m) => m.Id === value)
-											.Name
-									: null
+							{markObject.find((m) => m.Id === value)
+								? markObject.find((m) => m.Id === value).Name
 								: null}
 						</span>
 					);
 				},
-			},
-			{
-				dataIndex: "Description",
-				title: "Şərh",
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Description"
-					  ).show
-					: true,
-				defaultSortOrder:
-					initialSort === "Description" ? defaultdr : null,
-				sorter: (a, b) => null,
 			},
 			{
 				dataIndex: "Modify",
@@ -216,21 +276,24 @@ export default function HandoversFrom() {
 							(i) => i.dataIndex === "Modify"
 					  ).show
 					: false,
-				defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
+				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
 				sorter: (a, b) => null,
+				className: initialSort === "Modify" ? "activesort" : "",
 			},
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
+	const getCustomers = async () => {
+		const customerResponse = await fetchCustomers();
+		setCustomers(customerResponse.Body.List);
+		setCustomersLocalStorage(customerResponse.Body.List);
+	};
 
 	const filters = useMemo(() => {
 		return [
 			{
 				key: "1",
-				label: "Yerdəyişmə №",
+				label: "Sənəd №",
 				name: "docNumber",
 				type: "text",
 				dataIndex: "docNumber",
@@ -242,46 +305,70 @@ export default function HandoversFrom() {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı",
-				name: "productName",
+				label: "Xərc maddələri",
+				name: "spendItem",
 				type: "select",
-				controller: "products",
-				dataIndex: "productName",
+				controller: "spenditems",
+				dataIndex: "spendItems",
 				show: initialfilter
 					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "productName"
+							(i) => i.dataIndex === "spendItems"
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
-				label: "Anbardan",
-				name: "stockNameFrom",
+				label: "Qarşı-tərəf",
+				name: "customerName",
 				type: "select",
-				controller: "stocks",
-				dataIndex: "stockNameFrom",
+				controller: "customers",
+				dataIndex: "customerName",
 				show: initialfilter
 					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "stockNameFrom"
+							(i) => i.dataIndex === "customerName"
 					  ).show
 					: true,
 			},
 			{
 				key: "4",
-				label: "Anbara",
-				name: "stockNameTo",
-				type: "select",
-				controller: "stocks",
-				dataIndex: "stockNameTo",
+				label: "Ödəniş növü",
+				name: "paytype",
+				controller: "departments",
+				type: "selectPayType",
+				dataIndex: "paytype",
 				show: initialfilter
 					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "stockNameTo"
+							(i) => i.dataIndex === "paytype"
 					  ).show
 					: true,
 			},
 			{
 				key: "5",
+				label: "Əməliyyat",
+				name: "paydir",
+				controller: "transactions",
+				type: "selectPayDir",
+				dataIndex: "paydir",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "paydir"
+					  ).show
+					: true,
+			},
+			{
+				key: "6",
+				label: "Tarixi",
+				name: "createdDate",
+				type: "date",
+				dataIndex: "createdDate",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "createdDate"
+					  ).show
+					: true,
+			},
+			{
+				key: "7",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -294,7 +381,7 @@ export default function HandoversFrom() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "8",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -306,66 +393,39 @@ export default function HandoversFrom() {
 					  ).show
 					: true,
 			},
-			{
-				key: "7",
-				label: "Dəyişmə tarixi",
-				name: "modifedDate",
-				type: "date",
-				dataIndex: "modifedDate",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "modifedDate"
-					  ).show
-					: true,
-			},
-			{
-				key: "8",
-				label: "Məbləğ",
-				name: "docPrice",
-				start: "amb",
-				end: "ame",
-				type: "range",
-				dataIndex: "docPrice",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "docPrice"
-					  ).show
-					: true,
-			},
-			{
-				key: "9",
-				label: "Tarixi",
-				name: "createdDate",
-				type: "date",
-				dataIndex: "createdDate",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "createdDate"
-					  ).show
-					: true,
-			},
 		];
 	}, [filterChanged]);
 
 	useEffect(() => {
 		setInitial(columns);
 		setInitialFilter(filters);
+
+		getCustomers();
 	}, []);
+
 	useEffect(() => {
 		if (!isFetching) {
-			setDocumentList(data.Body.List);
-			setallsum(data.Body.AllSum);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			if (isObject(data.Body)) {
+				setDocumentList(data.Body.List);
+				setallinsum(data.Body.InSum);
+				setalloutsum(data.Body.OutSum);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
+			}
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
-	const editPage = (id) => {
-		setRedirect(true);
+	const editPage = (id, row) => {
+		if (row.Type === 1) {
+			setRedirectMoneytransferIn(true);
+		}
+		if (row.Type === 2) {
+			setRedirectMoneytransferOut(true);
+		}
 		setEditId(id);
 	};
 
@@ -392,6 +452,11 @@ export default function HandoversFrom() {
 	const handleVisibleChangeFilter = (flag) => {
 		setVisibleMenuSettingsFilter(flag);
 	};
+
+	useEffect(() => {
+		setdisplay("none");
+	}, []);
+
 	const onChangeMenu = (e) => {
 		var initialCols = initial;
 		var findelement;
@@ -409,6 +474,7 @@ export default function HandoversFrom() {
 		});
 		setFiltered(true);
 	};
+
 	const onChangeMenuFilter = (e) => {
 		var initialCols = initialfilter;
 		var findelement;
@@ -427,6 +493,7 @@ export default function HandoversFrom() {
 		console.log(initialCols);
 		setFilterChanged(true);
 	};
+
 	const menu = (
 		<Menu>
 			<Menu.ItemGroup title="Sutunlar">
@@ -501,39 +568,38 @@ export default function HandoversFrom() {
 	);
 	const getSearchObjByDate = async (ob) => {
 		setFetchSearchByDate(true);
-		let res = await sendRequest("handoversfrom/get.php", ob);
+		let res = await sendRequest("moneytransfers/get.php", ob);
 		setDocumentList(res.List);
-		setallsum(res.AllSum);
+		setallinsum(res.InSum);
+		setalloutsum(res.OutSum);
 		setFetchSearchByDate(false);
 	};
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
-
 	if (error) return "An error has occurred: " + error.message;
+	if (redirectMoneytransferIn)
+		return <Redirect push to={`/editMoneytransfer/${editId}`} />;
+	if (redirectMoneytransferOut)
+		return <Redirect push to={`/editMoneytransfer/${editId}`} />;
 
-	if (redirect) return <Redirect push to={`/editHandoversFrom/${editId}`} />;
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
 				<Col xs={24} md={24} xl={4}>
 					<div className="page_heder_left">
-						<h2>Qəbul</h2>
+						<h2>Pul transferi</h2>
 					</div>
 				</Col>
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<Buttons
-								text={"Qəbul"}
-								redirectto={"/newhandoverfrom"}
-								animate={"Yarat"}
-							/>
+							<MoneytransferButton />
 							<FilterButton />
 							<FastSearch className="search_header" />
 							<SearchByDate
@@ -552,7 +618,7 @@ export default function HandoversFrom() {
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -569,8 +635,11 @@ export default function HandoversFrom() {
 									<Text type="">
 										{c.dataIndex === "Name"
 											? "Cəm"
-											: c.dataIndex === "Amount"
-											? ConvertFixedTable(allsum) + " ₼"
+											: c.dataIndex === "PaymentIn"
+											? ConvertFixedTable(allinsum) + " ₼"
+											: c.dataIndex === "PaymentOut"
+											? ConvertFixedTable(alloutsum) +
+											  " ₼"
 											: null}
 									</Text>
 								</Table.Summary.Cell>
@@ -579,16 +648,15 @@ export default function HandoversFrom() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({
-					onClick: (e) => editPage(r.Id),
-					// onDoubleClick: () => editPage(r.Id),
+					onClick: (e) => editPage(r.Id, r),
 				})}
 			/>
 		</div>
