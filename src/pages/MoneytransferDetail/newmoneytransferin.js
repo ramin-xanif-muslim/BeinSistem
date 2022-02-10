@@ -127,7 +127,7 @@ function NewMoneytransfersIn() {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Pul transferi</h2>
+				<h2>Pul mədaxil</h2>
 			</div>
 			<DocButtons
 				additional={"none"}

@@ -52,6 +52,7 @@ export default function Owners() {
 	const [companyName, setCompanyName] = useState(false);
 	const [saler, setSaler] = useState();
 	const [stocks, setStocks] = useState();
+	const [activeBtn, setActiveBtn] = useState();
 	const queryClient = useQueryClient();
 	const { departments, setDepartments, setDepartmentsLocalStorage } =
 		useTableCustom();
@@ -119,6 +120,7 @@ export default function Owners() {
 
 	const handleOpenPermission = (row) => {
 		setSaler(row.Saler);
+		setActiveBtn(Number(row.Saler));
 		setUpdate(false);
 		setPermissionLoad(true);
 		setEditPermission(row);
@@ -227,6 +229,9 @@ export default function Owners() {
 				dataIndex: "PermissionIcon",
 				title: "İcazələr",
 				render: (value, row, index) => {
+                    if(row.Name === 'Administrator') {
+                        return null
+                    }
 					return (
 						<SafetyOutlined
 							style={{ color: "green" }}
@@ -610,14 +615,21 @@ export default function Owners() {
 						}}
 						onFinish={onFinishPermission}
 					>
-                    <Button type="dashed" style={saler == 2 ? null : {background: 'blue'}} onClick={(e) => {
+                    <Button type="dashed" style={activeBtn === 1 ? {background: 'blue'} : null } onClick={(e) => {
                         e.preventDefault()
                         setSaler(1)
+                        setActiveBtn(1)
                     }}>Kassir</Button>
-                    <Button type="dashed" style={saler == 2 ? {background: 'blue'} : null} onClick={(e) => {
+                    <Button type="dashed" style={activeBtn === 2 ? {background: 'blue'} : null} onClick={(e) => {
                         e.preventDefault()
                         setSaler(2)
+                        setActiveBtn(2)
                     }}>Komissionçu</Button>
+                    <Button type="dashed" style={activeBtn === 0 ? {background: 'blue'} : null} onClick={(e) => {
+                        e.preventDefault()
+                        setSaler(null)
+                        setActiveBtn(0)
+                    }}>Istifadəçi</Button>
 						<Form.Item
 							label="Bağlılıq"
 							name="salepointid"

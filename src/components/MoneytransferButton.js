@@ -13,7 +13,7 @@ function MoneytransferButton() {
 						<span>
 							<PlusCircleOutlined />
 						</span>
-						<span style={{ marginLeft: "4px" }}>Mədaxil</span>
+						<span style={{ marginLeft: "4px" }}>Pul mədaxil</span>
 					</Link>
 				</Button.Content>
 			</button>
@@ -23,7 +23,7 @@ function MoneytransferButton() {
 						<span>
 							<MinusCircleOutlined />
 						</span>
-						<span style={{ marginLeft: "4px" }}>Məxaric</span>
+						<span style={{ marginLeft: "4px" }}>Pul məxaric</span>
 					</Link>
 				</Button.Content>
 			</button>

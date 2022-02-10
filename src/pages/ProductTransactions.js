@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
-import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
+import { fetchPage, fecthFastPage, fetchFilterPage, sendRequest } from "../api";
 
 import { Table } from "antd";
 import {
@@ -25,11 +25,9 @@ import {
 	FilePdfOutlined,
 	DownloadOutlined,
 } from "@ant-design/icons";
-import MyFastSearch from "../components/MyFastSearch";
-import sendRequest from "../config/sentRequest";
-import FastSearch from "../components/FastSearch";
 import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
+import SearchByDate from "../components/SearchByDate";
 
 const { Text } = Typography;
 export default function ProductTransactions() {
@@ -78,6 +76,7 @@ export default function ProductTransactions() {
 	const [sales, setSales] = useState([]);
 	const [supplies, setSupplies] = useState([]);
 	const [supplyreturns, setSupplyreturns] = useState([]);
+	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const { isLoading, error, data, isFetching } = useQuery(
 		[
 			"producttransactions",
@@ -103,6 +102,44 @@ export default function ProductTransactions() {
 				: null;
 		}
 	);
+    const getSearchObjByDate = async (ob) => {
+      setFetchSearchByDate(true);
+      let res = await sendRequest("producttransactions/get.php", ob);
+      if (!!res.demandreturns) {
+          setDemandreturns([
+              res.demandreturns,
+              res.demandreturnsSum,
+          ]);
+      }
+      if (!!res.demands) {
+          setDemands([res.demands, res.demandsSum]);
+      }
+      if (!!res.enters) {
+          setEnters([res.enters, res.entersSum]);
+      }
+      if (!!res.losses) {
+          setLosses([res.losses, res.lossesSum]);
+      }
+      if (!!res.moves) {
+          setMoves([res.moves, res.movesSum]);
+      }
+      if (!!res.returns) {
+          setReturns([res.returns, res.returnsSum]);
+      }
+      if (!!res.sales) {
+          setSales([res.sales, res.salesSum]);
+      }
+      if (!!res.supplies) {
+          setSupplies([res.supplies, res.suppliesSum]);
+      }
+      if (!!res.supplyreturns) {
+          setSupplyreturns([
+              res.supplyreturns,
+              res.supplyreturnsSum,
+          ]);
+      }
+      setFetchSearchByDate(false);
+    };
 	useEffect(() => {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
@@ -113,6 +150,7 @@ export default function ProductTransactions() {
 	marks
 		? (markObject = marks)
 		: (markObject = JSON.parse(localStorage.getItem("marks")));
+
 	const columns = useMemo(() => {
 		return [
 			{
@@ -315,6 +353,18 @@ export default function ProductTransactions() {
 					  ).show
 					: true,
 			},
+			{
+				key: "9",
+				label: "Sənəd tipi",
+				name: "documentType",
+				type: "selectDocumentType",
+				dataIndex: "documentType",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "documentType"
+					  ).show
+					: true,
+			},
 		];
 	}, [filterChanged]);
 
@@ -355,15 +405,15 @@ export default function ProductTransactions() {
 				documentList: demandreturns[0],
 				allSum: demandreturns[1],
 			},
+            {
+                title: "Pərakəndə satışlar",
+                documentList: sales[0],
+                allSum: sales[1],
+            },
 			{
 				title: "Qaytarmalar",
 				documentList: returns[0],
 				allSum: returns[1],
-			},
-			{
-				title: "Pərakəndə satışlar",
-				documentList: sales[0],
-				allSum: sales[1],
 			},
 		]);
 	}, [
@@ -385,6 +435,16 @@ export default function ProductTransactions() {
 	useEffect(() => {
 		if (!isFetching) {
 			if (isObject(data.Body)) {
+                setDemandreturns([])
+                setDemands([])
+                setEnters([])
+                setLosses([])
+                setMoves([])
+                setReturns([])
+                setSales([])
+                setSupplies([])
+                setSupplyreturns([])
+
 				if (!!data.Body.demandreturns) {
 					setDemandreturns([
 						data.Body.demandreturns,
@@ -563,53 +623,60 @@ export default function ProductTransactions() {
 	if (tabls) {
 		tablesComponents = tabls.map((table) => {
 			const { title, documentList, allSum } = table;
-			return (
-				<div>
-					<h4 className="producttransactions-header">{title}</h4>
-					<Table
-						className="main-table"
-						rowKey="Name"
-						loading={isLoading}
-						columns={columns.filter((c) => c.show === true)}
-						onChange={onChange}
-						dataSource={documentList}
-						rowClassName={(record, index) =>
-							record.Status === 0 ? "unchecked" : ""
-						}
-						summary={() => (
-							<Table.Summary.Row>
-								{columns
-									.filter((c) => c.show === true)
-									.map((c) => (
-										<Table.Summary.Cell className="table-summary">
-											<Text type="">
-												{c.dataIndex === "ProductName"
-													? "Cəm"
-													: c.dataIndex === "sPrice"
-													? ConvertFixedTable(
-															allSum
-													  ) + " ₼"
-													: null}
-											</Text>
-										</Table.Summary.Cell>
-									))}
-							</Table.Summary.Row>
-						)}
-						locale={{
-							emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
-						}}
-						// pagination={{ position: ["none", "none"] }}
-						pagination={{
-							current: advancedPage + 1,
-							total: 100,
-							onChange: handlePagination,
-							defaultPageSize: 1000,
-							showSizeChanger: false,
-						}}
-						size="small"
-					/>
-				</div>
-			);
+			if (documentList && documentList[0]) {
+				return (
+					<div>
+						<h4 className="producttransactions-header">{title}</h4>
+						<Table
+				            loading={isLoading || isFetchSearchByDate}
+							className="main-table"
+							rowKey="Name"
+							columns={columns.filter((c) => c.show === true)}
+							onChange={onChange}
+							dataSource={documentList}
+							rowClassName={(record, index) =>
+								record.Status === 0 ? "unchecked" : ""
+							}
+							summary={() => (
+								<Table.Summary.Row>
+									{columns
+										.filter((c) => c.show === true)
+										.map((c) => (
+											<Table.Summary.Cell className="table-summary">
+												<Text type="">
+													{c.dataIndex ===
+													"ProductName"
+														? "Cəm"
+														: c.dataIndex ===
+														  "sPrice"
+														? ConvertFixedTable(
+																allSum
+														  ) + " ₼"
+														: null}
+												</Text>
+											</Table.Summary.Cell>
+										))}
+								</Table.Summary.Row>
+							)}
+							locale={{
+								emptyText: isFetching ? (
+									<Spin />
+								) : (
+									"Cədvəl boşdur"
+								),
+							}}
+							pagination={{
+								current: advancedPage + 1,
+								total: 100,
+								onChange: handlePagination,
+								defaultPageSize: 1000,
+								showSizeChanger: false,
+							}}
+							size="small"
+						/>
+					</div>
+				);
+			} else return null;
 		});
 	}
 
@@ -638,13 +705,13 @@ export default function ProductTransactions() {
 		</Menu>
 	);
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -660,6 +727,10 @@ export default function ProductTransactions() {
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
 							<FilterButton />
+							<SearchByDate
+								getSearchObjByDate={getSearchObjByDate}
+                                defaultCheckedDate={1}
+							/>
 						</div>
 
 						<div style={{ display: "flex" }}>

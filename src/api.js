@@ -327,7 +327,8 @@ export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
         page === "returns" ||
         page === "salereports" ||
         page === "cashouts" ||
-        page === "cashins"
+        page === "producttransactions" ||
+        page === "cashins" 
     ) {
         let date = y + "-" + (m + 1) + "-" + d;
         var tarix = {
@@ -779,6 +780,7 @@ export const fetchTaxes = async () => {
 export const fetchProductFolders = async () => {
     var progr = {
         token: localStorage.getItem("access-token"),
+        sr: "Name",
     };
     const { data } = await axios.post(
         API_BASE + `/controllers/productfolders/get.php`,

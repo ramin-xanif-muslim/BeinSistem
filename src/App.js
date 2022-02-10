@@ -16,6 +16,9 @@ const Enter = React.lazy(() => import("./pages/Enter"));
 const Loss = React.lazy(() => import("./pages/Loss"));
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail/index"));
 const CustomerDetail = React.lazy(() => import("./pages/CustomerDetail/index"));
+const Approve = React.lazy(() => import("./pages/Approve"));
+const Cancel = React.lazy(() => import("./pages/Cancel"));
+const Decline = React.lazy(() => import("./pages/Decline"));
 const SalePointDetail = React.lazy(() =>
 	import("./pages/SalePointDetail/index")
 );
@@ -183,6 +186,9 @@ function App() {
 							<Route exact path="/">
 								<Redirect to="/p=product" />
 							</Route>
+							<Route path="/approve/" component={Approve}></Route>
+							<Route path="/cancel/" component={Cancel}></Route>
+							<Route path="/decline/" component={Decline}></Route>
 							<Route path="/signin/" component={SignIn}></Route>
 							<Route
 								path="/registration"

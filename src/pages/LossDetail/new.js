@@ -228,7 +228,7 @@ function NewLoss({
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
 					// do something like adding commas to the value or prefix
-					return value;
+					return ConvertFixedTable(value);
 				},
 			},
 			{
@@ -796,22 +796,6 @@ function NewLoss({
 									<Divider
 										style={{ backgroundColor: "grey" }}
 									/>
-									<div style={{ marginTop: "20px" }}>
-										<Form onFieldsChange={handleChanged}>
-											<Form.Item
-												className="comsumption_input_wrapper"
-												label="Əlavə xərc"
-												onChange={onChangeConsumption}
-												name="consumption"
-											>
-												<Input
-													ref={myRefConsumption}
-													type="number"
-													step="any"
-												/>
-											</Form.Item>
-										</Form>
-									</div>
 								</div>
 							</Col>
 						</Row>

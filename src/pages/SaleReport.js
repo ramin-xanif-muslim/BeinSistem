@@ -15,10 +15,6 @@ import {
     Typography,
     Alert,
 } from "antd";
-
-import Buttons from "../components/Button";
-import { Button, Icon } from "semantic-ui-react";
-import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
 import enters from "../ButtonsNames/Enters/buttonsNames";

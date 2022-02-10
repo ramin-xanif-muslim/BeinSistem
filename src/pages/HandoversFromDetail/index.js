@@ -53,6 +53,7 @@ import {
 import { useGetDocItems, useInput } from "../../hooks";
 import ok from "../../audio/ok.mp3";
 import withCatalog from "../../HOC/withCatalog";
+import { useBalance } from "../../hooks/useBalance";
 
 const audio = new Audio(ok);
 const { Option, OptGroup } = Select;
@@ -110,6 +111,14 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 	const [expeditors, setExpeditors] = useState([]);
 	const [expeditor, setExpeditor] = useState([]);
+    
+    const [ balanceComponent, fetchBalance, setBalance ] = useBalance()
+    
+    const onSelectExpeditor = (e) => {
+        setExpeditor(JSON.parse(e))
+        fetchBalance(JSON.parse(e).Id)
+    }
+
 
 	const { allsum, allQuantity } = useGetDocItems();
 
@@ -161,6 +170,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                 StockId: data.Body.List[0].StockFromId
               })
 			setConsumption(data.Body.List[0].Consumption);
+			fetchBalance(data.Body.List[0].ExpeditorId);
 			setLoadingForm(false);
 			setStatus(data.Body.List[0].Status);
 			form.setFieldsValue({
@@ -441,7 +451,6 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		setDisable(true);
 
         if(expeditor) {
-            values.expeditor = null
             values.expeditorname = expeditor.Name
             values.expeditorid = expeditor.Id
             values.stockfromid = expeditor.StockId
@@ -620,7 +629,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Qabul</h2>
+				<h2>Qəbul</h2>
 			</div>
 			<DocButtons
 				additional={"none"}
@@ -673,20 +682,21 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={6} sm={6} md={6} xl={6}>
 							<Form.Item
-								label="Komisyonçu"
+								label="Qarşı-tərəf"
 								name="expeditor"
 								rules={[
 									{
 										required: true,
 										message:
-											"Zəhmət olmasa, Komisyonçu seçin",
+											"Zəhmət olmasa, Qarşı-tərəfi seçin",
 									},
 								]}
 							>
 								<Select
 									showSearch
 									showArrow={false}
-									onChange={(e) => setExpeditor(JSON.parse(e))}
+                                    onClear={() => setBalance(null)}
+                                    onChange={onSelectExpeditor}
 									className="customSelect detail-select"
 									allowClear={true}
 									filterOption={(input, option) =>
@@ -698,6 +708,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 									{expeditorsOptions}
 								</Select>
 							</Form.Item>
+                            { balanceComponent }
 						</Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>
 						<Col xs={3} sm={3} md={3} xl={3}></Col>

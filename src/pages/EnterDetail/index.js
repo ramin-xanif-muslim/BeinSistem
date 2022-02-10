@@ -662,7 +662,7 @@ function EnterDetail() {
 						moment: moment(data.Body.List[0].Moment),
 						modify: moment(data.Body.List[0].Modify),
 						mark: data.Body.List[0].Mark,
-						stockid: data.Body.List[0].StockName,
+						stockid: data.Body.List[0].StockId,
 						status: data.Body.List[0].Status === 1 ? true : false,
 					}}
 					onFinish={handleFinish}

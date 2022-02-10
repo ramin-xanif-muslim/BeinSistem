@@ -117,20 +117,6 @@ export default function Moneytransfer() {
 				render: (text, record, index) => index + 1 + 100 * advancedPage,
 			},
 			{
-				dataIndex: "Name",
-				title: "Adı",
-				show: initial
-					? Object.values(initial).find((i) => i.dataIndex === "Name")
-							.show
-					: true,
-				defaultSortOrder: initialSort === "Name" ? defaultdr : null,
-				sorter: (a, b) => null,
-				className:
-					initialSort === "Name"
-						? "linkedColumns activesort"
-						: "linkedColumns",
-			},
-			{
 				dataIndex: "Moment",
 				title: "Tarix",
 				show: initial
@@ -159,21 +145,6 @@ export default function Moneytransfer() {
 						? "linkedColumns activesort"
 						: "linkedColumns",
 			},
-
-			{
-				dataIndex: "SpendName",
-				title: "	Xərc maddəsi",
-				defaultSortOrder:
-					initialSort === "SpendName" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "SpendName"
-					  ).show
-					: true,
-				sorter: (a, b) => null,
-				className: initialSort === "SpendName" ? "activesort" : "",
-			},
-
 			{
 				dataIndex: "CashInvoice",
 				title: "Nağd/Köçürmə",
@@ -285,8 +256,10 @@ export default function Moneytransfer() {
 
 	const getCustomers = async () => {
 		const customerResponse = await fetchCustomers();
-		setCustomers(customerResponse.Body.List);
-		setCustomersLocalStorage(customerResponse.Body.List);
+        if(!customerResponse.Body === "İcazə yoxdur") {
+            setCustomers(customerResponse.Body.List);
+            setCustomersLocalStorage(customerResponse.Body.List);
+        }
 	};
 
 	const filters = useMemo(() => {
@@ -593,7 +566,7 @@ export default function Moneytransfer() {
 			<Row className="header_row">
 				<Col xs={24} md={24} xl={4}>
 					<div className="page_heder_left">
-						<h2>Pul transferi</h2>
+						<h2>Pul transfer</h2>
 					</div>
 				</Col>
 				<Col xs={24} md={24} xl={20}>
