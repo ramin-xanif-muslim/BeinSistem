@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import { Result } from "antd";
 
 function Cancel() {
-  return (
-    <div>Cancel</div>
-  )
+    return <Result status="error" title="Ödəniş ləğv olundu"></Result>;
 }
 
-export default Cancel
+export default Cancel;

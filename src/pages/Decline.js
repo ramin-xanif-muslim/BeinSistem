@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import { Result } from "antd";
 
 function Decline() {
-  return (
-    <div>Decline</div>
-  )
+    return <Result status="error" title="Ödəniş imtina olundu"></Result>;
 }
 
-export default Decline
+export default Decline;
