@@ -413,6 +413,29 @@ function SupplyDetail({
 				},
 			},
 			{
+				dataIndex: "PrintBarcode",
+				title: "Print",
+				className: "activesort",
+				isVisible: true,
+				render: (value, row, index) => {
+					return (
+						<span
+							style={{ color: "#1164B1" }}
+							onClick={getProductPrint(
+								row.ProductId,
+								row.BarCode,
+								row.IsPack === 1
+									? row.PackPrice
+									: row.BasicPrice,
+								row.Name
+							)}
+						>
+							<PrinterOutlined />
+						</span>
+					);
+				},
+			},
+			{
 				title: "Sil",
 				className: "orderField printField",
 				dataIndex: "operation",

@@ -47,8 +47,8 @@ export default function Profit() {
 	};
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const [document, setDocument] = useState({});
 	const { isLoading, error, data, isFetching } = useQuery(
 		["profits", page, direction, fieldSort, doSearch, search, advanced],
@@ -88,14 +88,14 @@ export default function Profit() {
 	useEffect(() => {
 		if (!isFetching) {
 			if (isObject(data.Body)) {
-                setDocument(data.Body);
-                setPageCount(data.Body.Count);
-                setLimitCount(data.Body.Limit);
+				setDocument(data.Body);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setDocument([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -267,13 +267,13 @@ export default function Profit() {
 
 	if (error) return "An error has occurred: " + error.message;
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	return (
 		<div className="custom_display">
@@ -304,7 +304,7 @@ export default function Profit() {
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				id="profit-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				className="short-table"
 				columns={columns}
 				pagination={false}
