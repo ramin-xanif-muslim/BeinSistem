@@ -141,10 +141,11 @@ export default function CustomerOrders() {
 			{
 				dataIndex: "Name",
 				title: "Satış №",
-				show: initial
-					? Object.values(initial).find((i) => i.dataIndex === "Name")
-							.show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "Name").show
+                : true,
 				defaultSortOrder: initialSort === "Name" ? defaultdr : null,
 				sorter: (a, b) => null,
 				className:
@@ -156,11 +157,11 @@ export default function CustomerOrders() {
 				dataIndex: "Moment",
 				title: "Tarix",
 				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Moment"
-					  ).show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "Moment").show
+                : true,
 				sorter: (a, b) => null,
 				className: initialSort === "Moment" ? "activesort" : "",
 			},
@@ -169,11 +170,11 @@ export default function CustomerOrders() {
 				title: "Anbar",
 				defaultSortOrder:
 					initialSort === "StockName" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "StockName"
-					  ).show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "StockName").show
+                : true,
 				sorter: (a, b) => null,
 				className: initialSort === "StockName" ? "activesort" : "",
 			},
@@ -182,11 +183,11 @@ export default function CustomerOrders() {
 				title: "Tərəf-müqabil",
 				defaultSortOrder:
 					initialSort === "CustomerName" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "CustomerName"
-					  ).show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "CustomerName").show
+                : true,
 				sorter: (a, b) => null,
 				className:
 					initialSort === "CustomerName"
@@ -197,11 +198,11 @@ export default function CustomerOrders() {
 				dataIndex: "Amount",
 				title: "Məbləğ",
 				defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Amount"
-					  ).show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "Amount").show
+                : true,
 				className: initialSort === "Amount" ? "activesort" : "",
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
@@ -213,11 +214,11 @@ export default function CustomerOrders() {
 				title: "Sifariş növü",
 				defaultSortOrder:
 					initialSort === "OrderStatus" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "OrderStatus"
-					  ).show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "OrderStatus").show
+                : true,
 				sorter: (a, b) => null,
 				className: initialSort === "OrderStatus" ? "activesort" : "",
 				render: (value, row, index) => {
@@ -239,10 +240,11 @@ export default function CustomerOrders() {
 				title: "Status",
 				defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
 				className: initialSort === "Mark" ? "activesort" : "",
-				show: initial
-					? Object.values(initial).find((i) => i.dataIndex === "Mark")
-							.show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "Mark").show
+                : true,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
 					return (
@@ -270,11 +272,11 @@ export default function CustomerOrders() {
 				className: initialSort === "Description" ? "activesort" : "",
 				defaultSortOrder:
 					initialSort === "Description" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Description"
-					  ).show
-					: true,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "Description").show
+                : true,
 				sorter: (a, b) => null,
 			},
 			{
@@ -282,11 +284,11 @@ export default function CustomerOrders() {
 				className: initialSort === "Modify" ? "activesort" : "",
 				title: "Dəyişmə tarixi",
 				defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Modify"
-					  ).show
-					: false,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "Modify").show
+                : false,
 				sorter: (a, b) => null,
 			},
 			{
@@ -296,11 +298,11 @@ export default function CustomerOrders() {
 				title: "Müştəri Endirim",
 				defaultSortOrder:
 					initialSort === "CustomerDiscount" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "CustomerDiscount"
-					  ).show
-					: false,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "CustomerDiscount").show
+                : false,
 				sorter: (a, b) => null,
 			},
 			{
@@ -308,11 +310,11 @@ export default function CustomerOrders() {
 				title: "Endirim",
 				className: initialSort === "Discount" ? "activesort" : "",
 				defaultSortOrder: initialSort === "Discount" ? defaultdr : null,
-				show: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Discount"
-					  ).show
-					: false,
+				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("customerOrderColumns"))
+                  ).find((i) => i.dataIndex === "Discount").show
+                : true,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
 					return ConvertFixedTable(value);
@@ -441,6 +443,9 @@ export default function CustomerOrders() {
 	useEffect(() => {
 		setInitial(columns);
 		setInitialFilter(filters);
+		if (!localStorage.getItem("customerOrderColumns")) {
+			localStorage.setItem("customerOrderColumns", JSON.stringify(columns));
+		}
 
 		getCustomers();
 	}, []);
@@ -496,7 +501,7 @@ export default function CustomerOrders() {
 	};
 
 	const onChangeMenu = (e) => {
-		var initialCols = initial;
+		var initialCols = JSON.parse(localStorage.getItem("customerOrderColumns"));
 		var findelement;
 		var findelementindex;
 		var replacedElement;
@@ -510,6 +515,7 @@ export default function CustomerOrders() {
 			...findelement,
 			...replacedElement,
 		});
+		localStorage.setItem("customerOrderColumns", JSON.stringify(initialCols));
 		setFiltered(true);
 	};
 	const onChangeMenuFilter = (e) => {

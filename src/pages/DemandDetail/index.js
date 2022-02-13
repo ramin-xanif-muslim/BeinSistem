@@ -169,9 +169,12 @@ function DemandDetail({
         setColumnChange(false);
     }, [columnChange]);
 
-    useEffect(() => {
-        setInitial(columns);
-    }, []);
+	useEffect(() => {
+		setInitial(columns);
+		if (!localStorage.getItem("demandindexcolumns")) {
+			localStorage.setItem("demandindexcolumns", JSON.stringify(columns));
+		}
+	}, []);
     useEffect(() => {
         if (customerId) {
             fetchDebt(customerId);
@@ -255,297 +258,298 @@ function DemandDetail({
     };
     const columns = useMemo(() => {
         return [
-            {
-                title: "№",
-                dataIndex: "Order",
-                className: "orderField",
-                editable: false,
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Order"
-                      ).isVisible
+                {
+                    title: "№",
+                    dataIndex: "Order",
+                    className: "orderField",
+                    editable: false,
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "Order").isVisible
                     : true,
-                render: (text, record, index) => index + 1 + 100 * docPage,
-            },
-            {
-                title: "Adı",
-                dataIndex: "Name",
-                className: "tableCellName",
-                editable: false,
-                isVisible: initial
-                    ? Object.values(initial).find((i) => i.dataIndex === "Name")
-                          .isVisible
-                    : true,
-
-                sorter: (a, b) => a.Name.localeCompare(b.Name),
-            },
-            {
-                title: "Barkodu",
-                dataIndex: "BarCode",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "BarCode"
-                      ).isVisible
-                    : true,
-                className: "tableCellBarcode",
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                sorter: (a, b) => a.BarCode - b.BarCode,
-            },
-            {
-                title: "Miqdar",
-                dataIndex: "Quantity",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Quantity"
-                      ).isVisible
-                    : true,
-                className: "tableCellAmount",
-                editable: true,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return row.IsPack === 1 || row.IsPack === true ? (
-                        <div className="packOrQuantityWrapper">
-                            {row.ShowPacket
-                                ? `${ConvertFixedPosition(
-                                      row.Quantity
-                                  )}  (${ConvertFixedPosition(
-                                      row.ChangePackQuantity
-                                  )})`
-                                : ConvertFixedPosition(row.Quantity)}
-                        </div>
-                    ) : (
-                        <div className="packOrQuantityWrapper">
-                            {ConvertFixedPosition(row.Quantity)}{" "}
-                        </div>
-                    );
+                    render: (text, record, index) => index + 1 + 100 * docPage,
                 },
-            },
-            {
-                title: "Vahid",
-                dataIndex: "vahid",
-                className: "max_width_field",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "vahid"
-                      ).isVisible
+                {
+                    title: "Adı",
+                    dataIndex: "Name",
+                    className: "tableCellName",
+                    editable: false,
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "Name").isVisible
+                    : true,
+    
+                    sorter: (a, b) => a.Name.localeCompare(b.Name),
+                },
+                {
+                    title: "Barkodu",
+                    dataIndex: "BarCode",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "BarCode").isVisible
+                    : true,
+                    className: "tableCellBarcode",
+                    editable: false,
+                    sortDirections: ["descend", "ascend"],
+                    sorter: (a, b) => a.BarCode - b.BarCode,
+                },
+                {
+                    title: "Miqdar",
+                    dataIndex: "Quantity",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "Quantity").isVisible
+                    : true,
+                    className: "tableCellAmount",
+                    editable: true,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        // do something like adding commas to the value or prefix
+                        return row.IsPack === 1 || row.IsPack === true ? (
+                            <div className="packOrQuantityWrapper">
+                                {row.ShowPacket
+                                    ? `${ConvertFixedPosition(
+                                            row.Quantity
+                                      )}  (${ConvertFixedPosition(
+                                            row.ChangePackQuantity
+                                      )})`
+                                    : ConvertFixedPosition(row.Quantity)}
+                            </div>
+                        ) : (
+                            <div className="packOrQuantityWrapper">
+                                {ConvertFixedPosition(row.Quantity)}{" "}
+                            </div>
+                        );
+                    },
+                },
+                {
+                    title: "Vahid",
+                    dataIndex: "vahid",
+                    className: "max_width_field",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "vahid").isVisible
                     : false,
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    return row.IsPack === 1 || row.IsPack === true ? (
-                        <div className="packOrQuantityWrapper">
-                            <Select
-                                showArrow={false}
-                                className="packOrQuantitySelect"
-                                labelInValue
-                                value={{
-                                    value: row.ShowPacket ? "pack" : "pc",
-                                }}
-                                defaultValue={{ value: "pc" }}
-                                // onSelect={(e) => onSelect(e, row)}
-                                // onClick={handleClick}
-                            >
-                                <Option value="pc">Əd</Option>
-                                <Option value="pack">Pk</Option>
-                            </Select>
-                        </div>
-                    ) : (
-                        <div className="packOrQuantityWrapper">
-                            <Select
-                                showArrow={false}
-                                className="disabledPacket"
-                                labelInValue
-                                defaultValue={{ value: "pc" }}
-                                disabled={true}
-                            >
-                                <Option value="pc">Əd</Option>
-                            </Select>
-                        </div>
-                    );
+                    editable: false,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        return row.IsPack === 1 || row.IsPack === true ? (
+                            <div className="packOrQuantityWrapper">
+                                <Select
+                                    showArrow={false}
+                                    className="packOrQuantitySelect"
+                                    labelInValue
+                                    value={{
+                                        value: row.ShowPacket ? "pack" : "pc",
+                                    }}
+                                    defaultValue={{ value: "pc" }}
+                                    // onSelect={(e) => onSelect(e, row)}
+                                    // onClick={handleClick}
+                                >
+                                    <Option value="pc">Əd</Option>
+                                    <Option value="pack">Pk</Option>
+                                </Select>
+                            </div>
+                        ) : (
+                            <div className="packOrQuantityWrapper">
+                                <Select
+                                    showArrow={false}
+                                    className="disabledPacket"
+                                    labelInValue
+                                    defaultValue={{ value: "pc" }}
+                                    disabled={true}
+                                >
+                                    <Option value="pc">Əd</Option>
+                                </Select>
+                            </div>
+                        );
+                    },
                 },
-            },
-            {
-                title: "Minimal qiymət",
-                dataIndex: "MinPrice",
-                className: "max_width_field",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "MinPrice"
-                      ).isVisible
+                {
+                    title: "Minimal qiymət",
+                    dataIndex: "MinPrice",
+                    className: "max_width_field",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "MinPrice").isVisible
                     : false,
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return ConvertFixedTable(value);
+                    editable: false,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        // do something like adding commas to the value or prefix
+                        return ConvertFixedTable(value);
+                    },
                 },
-            },
-            {
-                title: "Qiymət",
-                dataIndex: "Price",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "Price"
-                      ).isVisible
+                {
+                    title: 'Qiymət',
+                    dataIndex: "Price",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "Price").isVisible
                     : true,
-
-                className: "tableCellPrice",
-                editable: true,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return ConvertFixedPosition(value);
+    
+                    className: "tableCellPrice",
+                    editable: true,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        // do something like adding commas to the value or prefix
+                        return ConvertFixedPosition(value);
+                    },
                 },
-            },
-            {
-                title: "Məbləğ",
-                dataIndex: "TotalPrice",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "TotalPrice"
-                      ).isVisible
+                {
+                    title: "Məbləğ",
+                    dataIndex: "TotalPrice",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "TotalPrice").isVisible
                     : true,
-                className: "tableCellAmount",
-                editable: true,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return ConvertFixedPosition(value);
+                    className: "tableCellAmount",
+                    editable: true,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        // do something like adding commas to the value or prefix
+                        return ConvertFixedPosition(value);
+                    },
                 },
-            },
-            {
-                title: "Qalıq",
-                dataIndex: "StockQuantity",
-                className: "tableCellStockBalance",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "StockQuantity"
-                      ).isVisible
+                {
+                    title: "Qalıq",
+                    dataIndex: "StockQuantity",
+                    className: "tableCellStockBalance",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "StockQuantity").isVisible
                     : true,
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    // do something like adding commas to the value or prefix
-                    return ConvertFixedPosition(value);
+                    editable: false,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        // do something like adding commas to the value or prefix
+                        return ConvertFixedPosition(value);
+                    },
                 },
-            },
-            {
-                title: "Maya",
-                dataIndex: "CostPrice",
-                className: "max_width_field",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "CostPrice"
-                      ).isVisible
+                {
+                    title: "Maya",
+                    dataIndex: "CostPrice",
+                    className: "max_width_field",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "CostPrice").isVisible
                     : false,
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    let defaultCostArray = [];
-                    let consumtionPriceArray = [];
-                    outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.CostPrice));
-                    });
-                    if (hasConsumption) {
-                        consumtionPriceArray = [];
+                    editable: false,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        let defaultCostArray = [];
+                        let consumtionPriceArray = [];
                         outerDataSource.forEach((p) => {
-                            consumtionPriceArray.push(
-                                FindAdditionals(
-                                    consumption,
-                                    docSum,
-                                    Number(p.CostPrice)
-                                )
-                            );
+                            defaultCostArray.push(Number(p.CostPrice));
                         });
-                        return ConvertFixedTable(consumtionPriceArray[index]);
-                    } else {
-                        return ConvertFixedTable(defaultCostArray[index]);
-                    }
+                        if (hasConsumption) {
+                            consumtionPriceArray = [];
+                            outerDataSource.forEach((p) => {
+                                consumtionPriceArray.push(
+                                    FindAdditionals(
+                                        consumption,
+                                        docSum,
+                                        Number(p.CostPrice)
+                                    )
+                                );
+                            });
+                            return ConvertFixedTable(consumtionPriceArray[index]);
+                        } else {
+                            return ConvertFixedTable(defaultCostArray[index]);
+                        }
+                    },
                 },
-            },
-            {
-                title: "Cəm Maya",
-                dataIndex: "CostPriceTotal",
-                className: "max_width_field",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "CostPriceTotal"
-                      ).isVisible
+                {
+                    title: "Cəm Maya",
+                    dataIndex: "CostPriceTotal",
+                    className: "max_width_field",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "CostPriceTotal").isVisible
                     : false,
-                editable: false,
-                sortDirections: ["descend", "ascend"],
-                render: (value, row, index) => {
-                    let defaultCostArray = [];
-                    let consumtionPriceArray = [];
-                    outerDataSource.forEach((p) => {
-                        defaultCostArray.push(Number(p.CostPriceTotal));
-                    });
-                    if (hasConsumption) {
-                        consumtionPriceArray = [];
+                    editable: false,
+                    sortDirections: ["descend", "ascend"],
+                    render: (value, row, index) => {
+                        let defaultCostArray = [];
+                        let consumtionPriceArray = [];
                         outerDataSource.forEach((p) => {
-                            consumtionPriceArray.push(
-                                FindAdditionals(
-                                    consumption,
-                                    docSum,
-                                    Number(p.CostPriceTotal)
-                                )
-                            );
+                            defaultCostArray.push(Number(p.CostPriceTotal));
                         });
-
-                        return ConvertFixedTable(consumtionPriceArray[index]);
-                    } else {
-                        return ConvertFixedTable(defaultCostArray[index]);
-                    }
+                        if (hasConsumption) {
+                            consumtionPriceArray = [];
+                            outerDataSource.forEach((p) => {
+                                consumtionPriceArray.push(
+                                    FindAdditionals(
+                                        consumption,
+                                        docSum,
+                                        Number(p.CostPriceTotal)
+                                    )
+                                );
+                            });
+    
+                            return ConvertFixedTable(consumtionPriceArray[index]);
+                        } else {
+                            return ConvertFixedTable(defaultCostArray[index]);
+                        }
+                    },
                 },
-            },
-            {
-                title: "Dublikat",
-                dataIndex: "addSame",
-                className: "printField",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "addSame"
-                      ).isVisible
+                {
+                    title: "Dublikat",
+                    dataIndex: "addSame",
+                    className: "printField",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "addSame").isVisible
                     : false,
-                editable: false,
-                render: (_, record) => (
-                    <Typography.Link>
-                        <Popconfirm
-                            title="Dublikat?"
-                            okText="Bəli"
-                            cancelText="Xeyr"
-                            onConfirm={() => handleCopy(record, record.key)}
-                        >
-                            <a className="addPosition">Dublikat</a>
-                        </Popconfirm>
-                    </Typography.Link>
-                ),
-            },
-            {
-                title: "Sil",
-                className: "orderField printField",
-                dataIndex: "operation",
-                isVisible: initial
-                    ? Object.values(initial).find(
-                          (i) => i.dataIndex === "operation"
-                      ).isVisible
+                    editable: false,
+                    render: (_, record) => (
+                        <Typography.Link>
+                            <Popconfirm
+                                title="Dublikat?"
+                                okText="Bəli"
+                                cancelText="Xeyr"
+                                onConfirm={() => handleCopy(record, record.key)}
+                            >
+                                <a className="addPosition">Dublikat</a>
+                            </Popconfirm>
+                        </Typography.Link>
+                    ),
+                },
+                {
+                    title: "Sil",
+                    className: "orderField printField",
+                    dataIndex: "operation",
+                    isVisible: JSON.parse(localStorage.getItem("demandindexcolumns"))
+                    ? Object.values(
+                            JSON.parse(localStorage.getItem("demandindexcolumns"))
+                      ).find((i) => i.dataIndex === "operation").isVisible
                     : true,
-                editable: false,
-                render: (_, record) => (
-                    <Typography.Link>
-                        <Popconfirm
-                            title="Silməyə əminsinizmi?"
-                            okText="Bəli"
-                            cancelText="Xeyr"
-                            onConfirm={() => handleDelete(record.key)}
-                        >
-                            <a className="deletePosition">Sil</a>
-                        </Popconfirm>
-                    </Typography.Link>
-                ),
-            },
+                    editable: false,
+                    render: (_, record) => (
+                        <Typography.Link>
+                            <Popconfirm
+                                title="Silməyə əminsinizmi?"
+                                okText="Bəli"
+                                cancelText="Xeyr"
+                                onConfirm={() => handleDelete(record.key)}
+                            >
+                                <a className="deletePosition">Sil</a>
+                            </Popconfirm>
+                        </Typography.Link>
+                    ),
+                },
         ];
     }, [consumption, outerDataSource, docSum, columnChange]);
 
@@ -728,8 +732,8 @@ function DemandDetail({
     };
 
     const onChangeMenu = (e) => {
-        var initialCols = initial;
-        var findelement;
+		var initialCols = JSON.parse(localStorage.getItem("demandindexcolumns"));
+		var findelement;
         var findelementindex;
         var replacedElement;
         findelement = initialCols.find((c) => c.dataIndex === e.target.id);
@@ -743,7 +747,8 @@ function DemandDetail({
             ...findelement,
             ...replacedElement,
         });
-        setColumnChange(true);
+		localStorage.setItem("demandindexcolumns", JSON.stringify(initialCols));
+		setColumnChange(true);
     };
 
     const menu = (
