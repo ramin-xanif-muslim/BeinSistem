@@ -89,6 +89,7 @@ const SalePoint = React.lazy(() => import("./pages/SalePoint"));
 const CashOut = React.lazy(() => import("./pages/CashOut"));
 const CashIn = React.lazy(() => import("./pages/CashIn"));
 const SaleReport = React.lazy(() => import("./pages/SaleReport"));
+const Expeditors = React.lazy(() => import("./pages/Expeditors"));
 const Profit = React.lazy(() => import("./pages/Profit"));
 const Cashe = React.lazy(() => import("./pages/Cashe"));
 const Settlement = React.lazy(() => import("./pages/Settlement"));
@@ -210,6 +211,7 @@ function App() {
 								component={CustomerOrders}
 							></Route>
 							<Route path="/p=sales" component={Sale}></Route>
+							<Route path="/p=expeditors" component={Expeditors}></Route>
 							<Route path="/p=profit" component={Profit}></Route>
 							<Route
 								path="/p=settlements"

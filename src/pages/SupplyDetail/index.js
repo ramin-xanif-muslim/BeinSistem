@@ -245,11 +245,11 @@ function SupplyDetail({
 				dataIndex: "Order",
 				className: "orderField",
 				editable: false,
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Order"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "Order").isVisible
+                : true,
 				render: (text, record, index) => index + 1 + 100 * docPage,
 			},
 			{
@@ -257,21 +257,22 @@ function SupplyDetail({
 				dataIndex: "Name",
 				className: "max_width_field_length",
 				editable: false,
-				isVisible: initial
-					? Object.values(initial).find((i) => i.dataIndex === "Name")
-							.isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "Name").isVisible
+                : true,
 
 				sorter: (a, b) => a.Name.localeCompare(b.Name),
 			},
 			{
 				title: "Barkodu",
 				dataIndex: "BarCode",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "BarCode"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "BarCode").isVisible
+                : true,
 				className: "max_width_field_length",
 				editable: false,
 				sortDirections: ["descend", "ascend"],
@@ -280,11 +281,11 @@ function SupplyDetail({
 			{
 				title: "Miqdar",
 				dataIndex: "Quantity",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Quantity"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "Quantity").isVisible
+                : true,
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
@@ -296,11 +297,11 @@ function SupplyDetail({
 			{
 				title: "Qiyməti",
 				dataIndex: "Price",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "Price"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "Price").isVisible
+                : true,
 
 				className: "max_width_field",
 				editable: true,
@@ -313,11 +314,11 @@ function SupplyDetail({
 			{
 				title: "Məbləğ",
 				dataIndex: "TotalPrice",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "TotalPrice"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "TotalPrice").isVisible
+                : true,
 				className: "max_width_field",
 				editable: true,
 				sortDirections: ["descend", "ascend"],
@@ -330,11 +331,11 @@ function SupplyDetail({
 				title: "Qalıq",
 				dataIndex: "StockQuantity",
 				className: "max_width_field",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "StockQuantity"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "StockQuantity").isVisible
+                : true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -346,11 +347,11 @@ function SupplyDetail({
 				title: "Maya",
 				dataIndex: "CostPr",
 				className: "max_width_field",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "CostPr"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "CostPr").isVisible
+                : true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -381,11 +382,11 @@ function SupplyDetail({
 				title: "Cəm Maya",
 				dataIndex: "CostTotalPr",
 				className: "max_width_field",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "CostTotalPr"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "CostTotalPr").isVisible
+                : true,
 				editable: false,
 				sortDirections: ["descend", "ascend"],
 				render: (value, row, index) => {
@@ -413,14 +414,41 @@ function SupplyDetail({
 				},
 			},
 			{
+				dataIndex: "PrintBarcode",
+				title: "Print",
+				className: "activesort",
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "PrintBarcode").isVisible
+                : true,
+				render: (value, row, index) => {
+					return (
+						<span
+							style={{ color: "#1164B1" }}
+							onClick={getProductPrint(
+								row.ProductId,
+								row.BarCode,
+								row.IsPack === 1
+									? row.PackPrice
+									: row.BasicPrice,
+								row.Name
+							)}
+						>
+							<PrinterOutlined />
+						</span>
+					);
+				},
+			},
+			{
 				title: "Sil",
 				className: "orderField printField",
 				dataIndex: "operation",
-				isVisible: initial
-					? Object.values(initial).find(
-							(i) => i.dataIndex === "operation"
-					  ).isVisible
-					: true,
+				isVisible: JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                ? Object.values(
+                        JSON.parse(localStorage.getItem("supplyindexcolumns"))
+                  ).find((i) => i.dataIndex === "operation").isVisible
+                : true,
 				editable: false,
 				render: (_, record) => (
 					<Typography.Link>
@@ -451,6 +479,9 @@ function SupplyDetail({
 
 	useEffect(() => {
 		setInitial(columns);
+		if (!localStorage.getItem("supplyindexcolumns")) {
+			localStorage.setItem("supplyindexcolumns", JSON.stringify(columns));
+		}
 	}, []);
 	useEffect(() => {
 		if (isPayment) {
@@ -643,7 +674,7 @@ function SupplyDetail({
 	};
 
 	const onChangeMenu = (e) => {
-		var initialCols = initial;
+		var initialCols = JSON.parse(localStorage.getItem("supplyindexcolumns"));
 		var findelement;
 		var findelementindex;
 		var replacedElement;
@@ -658,6 +689,7 @@ function SupplyDetail({
 			...findelement,
 			...replacedElement,
 		});
+		localStorage.setItem("supplyindexcolumns", JSON.stringify(initialCols));
 		setColumnChange(true);
 	};
 

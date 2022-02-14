@@ -3,6 +3,7 @@ import { Dropdown } from "semantic-ui-react";
 import axios from "axios";
 import { useTableCustom } from "../contexts/TableContext";
 import { API_BASE } from "../api";
+import { FaRegClosedCaptioning } from "react-icons/fa";
 
 function AddProductInput({ from }) {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -25,6 +26,7 @@ function AddProductInput({ from }) {
 						(p) => p.BarCode === searchTerm
 					);
 					if (repeatedProduct) {
+						console.log("repeatedProduct", repeatedProduct);
 						let result = Object.keys(repeatedProduct).reduce(
 							(prev, current) => ({
 								...prev,
@@ -48,6 +50,18 @@ function AddProductInput({ from }) {
 						setValue("");
 					} else {
 						getBarcode(filter);
+						let datas = [];
+						datas.push({
+							key: "1",
+							value: "0",
+							id: "0",
+							name: "Mehsul tapilmadi",
+							barcode: "",
+							quantity: "",
+						});
+						setBarcodeScan(false);
+						setProductList(datas);
+						setOpenDropDown(true);
 					}
 				} else {
 					getProduct(filter);
@@ -143,11 +157,10 @@ function AddProductInput({ from }) {
 					parseFloat(res.data.Body.List[0].CostPrice) * parseFloat(1)
 				}`,
 			});
-            setNewPro(datas);
-            setAdd(true);
-            setValue("");
+			setNewPro(datas);
+			setAdd(true);
+			setValue("");
 		}
-
 	}
 
 	const handleSearch = (value) => {
