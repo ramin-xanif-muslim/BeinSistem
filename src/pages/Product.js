@@ -93,7 +93,9 @@ export default function Product() {
 		};
 		let res = await sendRequest("products/getfast.php", obj);
 		setCount(res.Count);
+		setPageCount(res.Count);
 		setProdutcList(res.List);
+        setLimitCount(res.Limit);
 		setIsLoadingSearch(false);
 	};
 

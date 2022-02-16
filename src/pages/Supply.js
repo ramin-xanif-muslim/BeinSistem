@@ -30,6 +30,7 @@ import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import { isObject } from "../config/function/findadditionals";
+import { useDownload } from "../hooks/useDownload";
 
 const { Text } = Typography;
 export default function Supply() {
@@ -51,6 +52,7 @@ export default function Supply() {
     const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
     const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
         useState(false);
+
     const {
         marks,
         isFilter,
@@ -64,6 +66,8 @@ export default function Supply() {
         setCustomersLocalStorage,
         setCustomers,
     } = useTableCustom();
+        
+    const [ downloadButton ] = useDownload(advanced, 'supplies')
     const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
     const [documentList, setDocumentList] = useState([]);
@@ -629,6 +633,7 @@ export default function Supply() {
                                 getSearchObjByDate={getSearchObjByDate}
                             />
                         </div>
+                        <div>{downloadButton}</div>
                         <div>{tableSettings}</div>
                     </div>
                 </Col>

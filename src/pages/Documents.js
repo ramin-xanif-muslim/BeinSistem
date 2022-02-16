@@ -411,6 +411,18 @@ export default function Documents() {
 					  ).show
 					: true,
 			},
+			{
+				key: "13",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
 		];
 	}, [filterChanged]);
 

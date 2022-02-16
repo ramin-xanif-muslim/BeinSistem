@@ -29,6 +29,7 @@ import sendRequest from "../config/sentRequest";
 import style from "./SaleReport.module.css";
 import MyFastSearch from "../components/MyFastSearch";
 import FilterButton from "../components/FilterButton";
+import { useDownload } from "../hooks/useDownload";
 
 const { Text } = Typography;
 
@@ -83,6 +84,8 @@ export default function SaleReport() {
         setCustomersLocalStorage,
         setCustomers,
     } = useTableCustom();
+        
+    const [ downloadButton ] = useDownload(advanced, 'salereports')
 
     const searchFunc = async (value) => {
         setIsLoadingSearch(true);
@@ -100,6 +103,7 @@ export default function SaleReport() {
         setRetAllAmount(res.RetAllAmount);
         setRetAllCost(res.RetAllCost);
         setCount(res.Count);
+		setPageCount(res.Count);
         setIsLoadingSearch(false);
     };
 
@@ -691,6 +695,7 @@ export default function SaleReport() {
                                 defaultSort={"ProductName"}
                                 defaultCheckedDate={1}
                             />
+                        <div>{downloadButton}</div>
                         </div>
                     </div>
                 </Col>

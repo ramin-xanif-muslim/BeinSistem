@@ -8,6 +8,7 @@ import { Table } from "antd";
 import { Button, Spin, Drawer } from "antd";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import MyReactDate from "./MyReactDate";
+import { useDownload } from "../hooks/useDownload";
 function SettlementsDrawer() {
     const { visibleDrawer, setVisibleDrawer, cusid, setcusid } =
         useCustomForm();
@@ -100,6 +101,7 @@ function SettlementsDrawer() {
             ) : (
                 <div>
                     <RowAnderTable
+                        cusid={cusid}
                         document={documentList ? documentList : ""}
                     />
                     <Table
@@ -127,6 +129,12 @@ export default SettlementsDrawer;
 
 const RowAnderTable = (props) => {
     const [debt, setDebt] = useState();
+    const advanced = {
+        token: localStorage.getItem("access-token"),
+        cus: props.cusid,
+    }
+
+    const [ downloadButton ] = useDownload(advanced,'documents')
 
     if (props.document[0]) {
         const fetchDebtCustomer = async () => {
@@ -148,6 +156,7 @@ const RowAnderTable = (props) => {
                     <h1 style={{ fontWeight: "600", color: "#041A3A" }}>
                         {props.document[0].CustomerName}
                     </h1>
+                    {downloadButton}
                     <Button type="primary">Çap et</Button>
                 </div>
                 <div style={{ display: "flex", alignItems: "center" }}>

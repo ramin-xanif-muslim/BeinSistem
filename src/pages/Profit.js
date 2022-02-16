@@ -15,6 +15,7 @@ import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
 import { isObject } from "../config/function/findadditionals";
+import { useDownload } from "../hooks/useDownload";
 const { Text } = Typography;
 
 export default function Profit() {
@@ -41,6 +42,8 @@ export default function Profit() {
 		setdisplay,
 		display,
 	} = useTableCustom();
+        
+    const [ downloadButton ] = useDownload(advanced, 'profit')
 
 	const handleVisibleChangeFilter = (flag) => {
 		setVisibleMenuSettingsFilter(flag);
@@ -292,6 +295,7 @@ export default function Profit() {
 								getSearchObjByDate={getSearchObjByDate}
 								defaultCheckedDate={3}
 							/>
+                        <div>{downloadButton}</div>
 						</div>
 					</div>
 				</Col>
