@@ -14,7 +14,6 @@ import {
 	Typography,
 	Alert,
 } from "antd";
-import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
@@ -25,11 +24,7 @@ import {
 } from "../config/function/findadditionals";
 import {
 	SettingOutlined,
-	FileExcelOutlined,
-	FilePdfOutlined,
-	DownloadOutlined,
 } from "@ant-design/icons";
-import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
 
@@ -146,7 +141,6 @@ export default function Settlement() {
 					: true,
 				render: (value, row, index) => {
 					if (row.Amount > 0) {
-						console.log("columns", row.Amount);
 						return ConvertFixedTable(row.Amount);
 					}
 				},
@@ -311,7 +305,6 @@ export default function Settlement() {
 			...findelement,
 			...replacedElement,
 		});
-		console.log(initialCols);
 		setFilterChanged(true);
 	};
 	const filtermenus = (

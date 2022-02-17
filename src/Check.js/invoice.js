@@ -95,8 +95,10 @@ export default function Invoice(props) {
                     setCusInfo(cus.Body);
                     setDatas(res.Body.List[0]);
                     setInfo(res.Body);
-                    const result = Object.values(res.Body.List[0].Positions);
-                    setDocumentList(result);
+                    if(res.Body.List[0]?.Positions) {
+                        const result = Object.values(res.Body.List[0].Positions);
+                        setDocumentList(result);
+                    }
                     setLoading(false);
                     setTimeout(() => {
                         window.print();

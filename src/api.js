@@ -509,13 +509,12 @@ export const fetchDebt = async (id) => {
 };
 
 export const fetchLinkedDoc = async (cus, pg, moment, lm) => {
-    console.log(cus);
     var editFilter = {
         token: localStorage.getItem("access-token"),
         cus: cus,
         pg: pg ? pg : 0,
         moment: moment ? moment : "",
-        lm: lm ? lm : 15,
+        // lm: lm ? lm : 15,
     };
     const { data } = await axios.post(
         API_BASE + `/controllers/documents/get.php`,

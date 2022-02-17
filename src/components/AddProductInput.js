@@ -26,7 +26,6 @@ function AddProductInput({ from }) {
 						(p) => p.BarCode === searchTerm
 					);
 					if (repeatedProduct) {
-						console.log("repeatedProduct", repeatedProduct);
 						let result = Object.keys(repeatedProduct).reduce(
 							(prev, current) => ({
 								...prev,
@@ -84,7 +83,8 @@ function AddProductInput({ from }) {
 					id: r.Id,
 					barcode: r.BarCode,
 					artcode: r.ArtCode,
-					stockquantity: r.Quantity,
+					stockquantity: r.StockBalance,
+					// stockquantity: r.Quantity,
 					amount: 1,
 					price: r.Price,
 					buyprice: r.BuyPrice,

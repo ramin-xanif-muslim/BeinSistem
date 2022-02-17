@@ -72,7 +72,6 @@ function DocButtons({
             e.stopPropagation();
             setShowModal(true);
         } else {
-            console.log("else");
             setRedirectClose(true);
         }
     };

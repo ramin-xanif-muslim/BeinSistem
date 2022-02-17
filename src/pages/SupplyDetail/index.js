@@ -679,7 +679,6 @@ function SupplyDetail({
 		var findelementindex;
 		var replacedElement;
 		findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-		console.log(findelement);
 		findelementindex = initialCols.findIndex(
 			(c) => c.dataIndex === e.target.id
 		);

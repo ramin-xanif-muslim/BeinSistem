@@ -225,7 +225,6 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
 
     useEffect(() => {
         if (isNew) {
-            console.log(newPro)
             var duplicateData = false;
             var index;
             var newData = {
