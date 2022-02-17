@@ -831,7 +831,7 @@ function NewDemand({
 							style={{ maxWidth: "none", zIndex: 1, padding: 0 }}
 						>
 							<div className="addProductInputIcon">
-								<AddProductInput className="newProInputWrapper" />
+								<AddProductInput className="newProInputWrapper" from={'demands'} />
 								<PlusOutlined
 									onClick={() => setProductModal(true)}
 									className="addNewProductIcon"

@@ -123,10 +123,6 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
     const { loadingForm } = useCustomForm();
     const [dataSource, setdataSource] = useState([]);
     const [isChanged, setIsChanged] = useState(false);
-    console.log('newPro',newPro)
-    console.log('outerDataSource',outerDataSource)
-    // console.log(datas)
-    // console.log(datas)
 
     const [showpacket, setShowPacket] = useState(false);
 
@@ -163,19 +159,19 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
                 CostPr: from
                     ? from === "demands"
                         ? newPro.price
-                        : newPro.buyprice
-                    : newPro.buyprice,
+                        : newPro.costprice
+                    : newPro.costprice,
                 BuyPrice: newPro.buyprice,
                 TotalPrice: from
                     ? from === "demands"
                         ? newPro.price
-                        : newPro.buyprice
-                    : newPro.buyprice,
+                        : newPro.costpricetotal
+                    : newPro.costpricetotal,
                 CostTotalPr: from
                     ? from === "demands"
                         ? newPro.price
-                        : newPro.buyprice
-                    : newPro.buyprice,
+                        : newPro.costpricetotal
+                    : newPro.costpricetotal,
                 PackPrice: from
                     ? from === "demands"
                         ? newPro.ispack === 1
@@ -263,19 +259,19 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
                 CostPr: from
                     ? from === "demands"
                         ? newPro.price
-                        : newPro.buyprice
-                    : newPro.buyprice,
+                        : newPro.costprice
+                    : newPro.costprice,
                 BuyPrice: newPro.buyprice,
                 TotalPrice: from
                     ? from === "demands"
                         ? newPro.price
-                        : newPro.buyprice
-                    : newPro.buyprice,
+                        : newPro.costpricetotal
+                    : newPro.costpricetotal,
                 CostTotalPr: from
                     ? from === "demands"
                         ? newPro.price
-                        : newPro.buyprice
-                    : newPro.buyprice,
+                        : newPro.costpricetotal
+                    : newPro.costpricetotal,
                 PackPrice: from
                     ? from === "demands"
                         ? newPro.ispack === true || newPro.ispack === 1
@@ -481,6 +477,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
     };
 
     const handleSave = (row) => {
+        console.log('save',row)
         const newData = [...dataSource];
         const index = newData.findIndex((item) => row.key === item.key);
         const item = newData[index];

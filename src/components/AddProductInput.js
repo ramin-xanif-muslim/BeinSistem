@@ -4,6 +4,7 @@ import axios from "axios";
 import { useTableCustom } from "../contexts/TableContext";
 import { API_BASE } from "../api";
 import { FaRegClosedCaptioning } from "react-icons/fa";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 
 function AddProductInput({ from }) {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -244,12 +245,7 @@ function AddProductInput({ from }) {
 														</p>
 													) : (
 														<p>
-															{(
-																Math.round(
-																	option.buyprice *
-																		100
-																) / 100
-															).toFixed(2)}
+                                                        {from === 'demads' ? ConvertFixedTable(option.costprice) : ConvertFixedTable(option.buyprice)}
 															<sup>₼</sup>
 														</p>
 													)}
