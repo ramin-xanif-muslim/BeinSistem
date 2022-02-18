@@ -8,7 +8,6 @@ import { useMemo } from "react";
 import { useTableCustom } from "../../contexts/TableContext";
 import StatusSelect from "../../components/StatusSelect";
 import AddProductInput from "../../components/AddProductInput";
-import StockSelect from "../../components/StockSelect";
 import StockDrawer from "../../components/StockDrawer";
 import { Redirect } from "react-router";
 import PaymentModal from "../../components/PaymentModal";

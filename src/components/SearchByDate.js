@@ -83,20 +83,20 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 			return;
 		}
 		if (i === 4) {
-			if (m === 0) {
-				let date = y - 1 + "-" + 12 + "-" + d;
-				var tarix = {
-					momb: `${date} 00:00:00`,
-				};
-				Object.assign(obj, tarix);
-			}
-			let date = y + "-" + (m + 1) + "-" + d;
-			var tarix = {
-				mome: `${date} 23:59:59`,
-			};
-			Object.assign(obj, tarix);
-			getSearchObjByDate(obj);
-			return;
+            if (i === 4) {
+                let date = y + "/" + m + "/" + d;
+                var tarix = {
+                    momb: `${date} 00:00`,
+                };
+                Object.assign(obj, tarix);
+                date = y + "/" + (m + 1) + "/" + d;
+                var tarix = {
+                    mome: `${date} 23:59`,
+                };
+                Object.assign(obj, tarix);
+                getSearchObjByDate(obj);
+                return;
+            }
 		}
 		if (i === 5) {
 			var tarix = {

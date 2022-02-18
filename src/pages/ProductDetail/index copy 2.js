@@ -126,7 +126,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
     const [attrs, setAttrs] = useState(
         attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
     );
-    console.log(localStorage.getItem("attr"));
     const [pricetypes, setPriceTypes] = useState(
         prices ? prices : JSON.parse(localStorage.getItem("prices"))
     );
@@ -179,7 +178,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
     }, [outerDataSource]);
     useEffect(() => {
         if (!isFetching) {
-            console.log(data);
             customPositions = [];
             if (data.Body.List[0].Positions) {
                 data.Body.List[0].Positions.map((d) => customPositions.push(d));
@@ -400,7 +398,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
     useEffect(() => {
         if (data) {
             setIsArch(data.Body.List[0].IsArch);
-            console.log(data.Body.List[0].IsArch);
         }
     }, []);
 
@@ -476,7 +473,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
     if (Array.isArray(selectedProduct.Prices)) {
         selectedProduct.Prices.map((p) => {
             var name = "PriceType_" + p.PriceType;
-            pricelist[name] = p ? p.Price : "";
+            pricelist[name] = p ? ConvertFixedTable(p.Price) : "";
         });
     }
     Object.assign(initialValues, pricelist);
@@ -817,19 +814,19 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
                 }
             });
         });
-        // var prices = [];
-        // Object.entries(values).map(([k, v]) => {
-        //     if (k.indexOf("PriceType_") != -1) {
-        //         if (v) {
-        //             prices.push({
-        //                 PriceType: k.slice(k.indexOf("_") + 1),
-        //                 Price: v,
-        //             });
-        //         }
-        //     }
-        // });
-        // Object.assign(values, initialValues, lastObject);
-        // values.prices = prices;
+        var prices = [];
+        Object.entries(values).map(([k, v]) => {
+            if (k.indexOf("PriceType_") != -1) {
+                if (v) {
+                    prices.push({
+                        PriceType: k.slice(k.indexOf("_") + 1),
+                        Price: v,
+                    });
+                }
+            }
+        });
+        Object.assign(values, initialValues, lastObject);
+        values.prices = prices;
         values.isarch = isArch;
 
         message.loading({ content: "Yüklənir...", key: "pro_update" });
@@ -923,7 +920,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
     const onChangeArch = () => {
         isArch === 0 ? setIsArch(1) : setIsArch(0);
         setDisable(false);
-        console.log(isArch);
     };
     return (
         <div className="doc_wrapper product_wrapper">

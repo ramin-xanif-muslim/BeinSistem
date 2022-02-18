@@ -212,10 +212,11 @@ function FilterComponent({ from, settings, cols }) {
 			setSelectDate([moment().startOf("month"), moment().endOf("month")]);
 		}
 		if (selectedDateId === 4) {
-			setSelectDate([
-				moment().subtract(1, "month").startOf("month"),
-				moment().subtract(1, "month").endOf("month"),
-			]);
+			// setSelectDate([
+			// 	moment().subtract(1, "month").startOf("month"),
+			// 	moment().subtract(1, "month").endOf("month"),
+			// ]);
+			setSelectDate([]);
 		}
 		if (selectedDateId === 5) {
 			setSelectDate([]);
