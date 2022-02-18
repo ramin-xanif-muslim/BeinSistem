@@ -80,22 +80,24 @@ export default function Product() {
         display,
     } = useTableCustom();
 
-    const searchFunc = async (value) => {
-        setIsLoadingSearch(true);
-        setProductSearchTerm(value);
-        let obj = {
-            ar: 0,
-            dr: 1,
-            fast: value,
-            gp: "",
-            pg: 0,
-            lm: 100,
-        };
-        let res = await sendRequest("products/getfast.php", obj);
-        setCount(res.Count);
-        setProdutcList(res.List);
-        setIsLoadingSearch(false);
-    };
+	const searchFunc = async (value) => {
+		setIsLoadingSearch(true);
+		setProductSearchTerm(value);
+		let obj = {
+			ar: 0,
+			dr: 1,
+			fast: value,
+			gp: "",
+			pg: 0,
+			lm: 100,
+		};
+		let res = await sendRequest("products/getfast.php", obj);
+		setCount(res.Count);
+		setPageCount(res.Count);
+		setProdutcList(res.List);
+        setLimitCount(res.Limit);
+		setIsLoadingSearch(false);
+	};
 
     const filters = useMemo(() => {
         return [

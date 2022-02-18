@@ -31,6 +31,7 @@ import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
+import { useDownload } from "../hooks/useDownload";
 const { Text } = Typography;
 export default function Transaction() {
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
@@ -71,6 +72,8 @@ export default function Transaction() {
 		setdisplay,
 		display,
 	} = useTableCustom();
+        
+    const [ downloadButton ] = useDownload(advanced, 'transactions')
 
 	const [documentList, setDocumentList] = useState([]);
     const [pageCount, setPageCount] = useState(null);
@@ -629,6 +632,7 @@ export default function Transaction() {
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
+						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>
 					</div>
 				</Col>

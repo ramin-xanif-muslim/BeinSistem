@@ -33,6 +33,8 @@ function FilterComponent({ from, settings, cols }) {
 	const [dropdown, setDropdown] = useState([]);
 	const [changed, setChanged] = useState(false);
 	const [initial, setinitial] = useState({});
+	const [doSearchId, setdoSearchId] = useState();
+	const [doSearchFast, setdoSearchFast] = useState();
 	const {
 		setIsFilter,
 		advanced,
@@ -122,12 +124,18 @@ function FilterComponent({ from, settings, cols }) {
 	};
 	const doSearch = async (val, key) => {
 		if (key === "products" || key === "customers") {
-			setLoading(true);
-			const res = await getDataFastFilter(key, val);
-			setDropdown(res.Body.List);
-			setLoading(false);
+			setdoSearchId(key)
+			setdoSearchFast(val)
 		}
 	};
+	useEffect(() => {
+		if (doSearchFast !== "") {
+			const timer = setTimeout(() => {
+				getDataFastFilter(doSearchId, doSearchFast)
+			}, 500);
+			return () => clearTimeout(timer);
+		}
+	}, [doSearchFast]);
 
 	function allClear() {
 		setIsEnterFilterValue(false);
@@ -184,6 +192,10 @@ function FilterComponent({ from, settings, cols }) {
 
 	useEffect(() => {
 		setSelectedDateId(null);
+	}, []);
+	useEffect(() => {
+		setAdvance({});
+		setSelectFilter([]);
 	}, []);
 
 	useEffect(() => {
@@ -596,7 +608,7 @@ function FilterComponent({ from, settings, cols }) {
 							<Select
 								className="deteail-select"
 								showSearch
-								defaultValue={3}
+								// defaultValue={3}
 								placeholder={cols[i].label}
 								allowClear
 								id={cols[i].controller}

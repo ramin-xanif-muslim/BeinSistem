@@ -71,7 +71,7 @@ export default function StockBalance() {
 		setIsLoadingSearch(true);
 		setStockbalanceSearchTerm(value);
 		let obj = {
-			nm: value,
+			quick: value,
 			lm: 100,
 		};
 		let res = await sendRequest("stockbalance/get.php", obj);
@@ -80,12 +80,14 @@ export default function StockBalance() {
 		setallcost(res.CostSum);
 		setallquantity(res.QuantitySum);
 		setCount(res.Count);
+		setPageCount(res.Count);
+        setLimitCount(res.Limit);
 		setIsLoadingSearch(false);
 	};
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		[
 			"stockbalance",
@@ -459,12 +461,12 @@ export default function StockBalance() {
 			setallquantity(data.Body.QuantitySum);
 			setIsFilter(false);
 			setCount(data.Body.Count);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -474,7 +476,6 @@ export default function StockBalance() {
 	};
 
 	const handlePagination = (pg) => {
-		console.log("handlePagination", pg);
 		setPage(pg - 1);
 		setAdvancedPage(pg - 1);
 	};
@@ -629,13 +630,13 @@ export default function StockBalance() {
 		</Menu>
 	);
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 	// if (!data.Body) return "An error has occurred: " + data.Body;
@@ -727,11 +728,11 @@ export default function StockBalance() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 			/>

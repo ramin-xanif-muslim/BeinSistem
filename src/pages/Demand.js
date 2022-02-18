@@ -29,6 +29,7 @@ import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
+import { useDownload } from "../hooks/useDownload";
 const { Text } = Typography;
 export default function Demand() {
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
@@ -62,6 +63,8 @@ export default function Demand() {
 		setCustomersLocalStorage,
 		setCustomers,
 	} = useTableCustom();
+        
+    const [ downloadButton ] = useDownload(advanced, 'demands')
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
@@ -206,18 +209,18 @@ export default function Demand() {
 					return (
 						<span
 							className="status_label"
-							style={{
-								backgroundColor: markObject.find(
-									(m) => m.Id === value
-								)
-									? markObject.find((m) => m.Id === value)
-											.Color
-									: null,
-							}}
+							// style={{
+							// 	backgroundColor: markObject.find(
+							// 		(m) => m.Id === value
+							// 	)
+							// 		? markObject.find((m) => m.Id === value)
+							// 				.Color
+							// 		: null,
+							// }}
 						>
-							{markObject.find((m) => m.Id === value)
+							{/* {markObject.find((m) => m.Id === value)
 								? markObject.find((m) => m.Id === value).Name
-								: null}
+								: null} */}
 						</span>
 					);
 				},
@@ -620,6 +623,7 @@ export default function Demand() {
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
+						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>
 					</div>
 				</Col>

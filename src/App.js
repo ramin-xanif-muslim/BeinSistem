@@ -5,7 +5,6 @@ import { Alert, Spin } from "antd";
 import { Redirect } from "react-router";
 import { useAuth } from "./contexts/AuthContext";
 import { useTableCustom } from "./contexts/TableContext";
-import { useParams } from "react-router-dom";
 
 const Move = React.lazy(() => import("./pages/Move"));
 const Moneytransfer = React.lazy(() => import("./pages/Moneytransfer"));

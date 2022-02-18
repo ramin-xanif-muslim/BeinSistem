@@ -14,7 +14,6 @@ import {
 	Typography,
 	Alert,
 } from "antd";
-import { Button, Icon } from "semantic-ui-react";
 import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import { useTableCustom } from "../contexts/TableContext";
@@ -25,12 +24,9 @@ import {
 } from "../config/function/findadditionals";
 import {
 	SettingOutlined,
-	FileExcelOutlined,
-	FilePdfOutlined,
-	DownloadOutlined,
 } from "@ant-design/icons";
-import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
+import { useDownload } from "../hooks/useDownload";
 
 const { Text } = Typography;
 
@@ -76,6 +72,8 @@ export default function Settlement() {
 		setSaveFromModal,
 		setRedirectSaveClose,
 	} = useCustomForm();
+        
+    const [ downloadButton ] = useDownload(advanced, 'settlements')
 	const [documentList, setDocumentList] = useState([]);
     const [pageCount, setPageCount] = useState(null);
     const [limitCount, setLimitCount] = useState(null);
@@ -143,7 +141,6 @@ export default function Settlement() {
 					: true,
 				render: (value, row, index) => {
 					if (row.Amount > 0) {
-						console.log("columns", row.Amount);
 						return ConvertFixedTable(row.Amount);
 					}
 				},
@@ -308,7 +305,6 @@ export default function Settlement() {
 			...findelement,
 			...replacedElement,
 		});
-		console.log(initialCols);
 		setFilterChanged(true);
 	};
 	const filtermenus = (
@@ -405,27 +401,6 @@ export default function Settlement() {
 		</Dropdown>
 	);
 
-	const printMenu = (
-		<Menu>
-			<Menu.Item
-				className="icon-excel"
-				key="1"
-				icon={<FileExcelOutlined />}
-				onClick={() => downloadFile(advanced, "xlsx", "settlements")}
-			>
-				Excel
-			</Menu.Item>
-			<Menu.Item
-				className="icon-pdf"
-				key="2"
-				icon={<FilePdfOutlined />}
-				onClick={() => downloadFile(advanced, "pdf", "settlements")}
-			>
-				PDF
-			</Menu.Item>
-		</Menu>
-	);
-
     if (!isLoading && !isObject(data.Body))
       return (
         <>
@@ -452,19 +427,8 @@ export default function Settlement() {
 							<FilterButton />
 							<FastSearch className="search_header" />
 						</div>
-
-						<div style={{ display: "flex" }}>
-							<Dropdown overlay={printMenu} trigger={"onclick"}>
-								<button className="new-button">
-									<DownloadOutlined />
-									<span style={{ marginLeft: "5px" }}>
-										Yüklə
-									</span>
-								</button>
-							</Dropdown>
-
-							{tableSettings}
-						</div>
+                        <div>{downloadButton}</div>
+                        <div>{tableSettings}</div>
 					</div>
 				</Col>
 			</Row>

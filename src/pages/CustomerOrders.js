@@ -34,6 +34,7 @@ import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
+import { useDownload } from "../hooks/useDownload";
 const { Text } = Typography;
 export default function CustomerOrders() {
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
@@ -69,6 +70,8 @@ export default function CustomerOrders() {
 		setCustomers,
 		setOrderStatusArr,
 	} = useTableCustom();
+        
+    const [ downloadButton ] = useDownload(advanced, 'customerorders')
 
 	const [documentList, setDocumentList] = useState([]);
     const [pageCount, setPageCount] = useState(null);
@@ -649,6 +652,7 @@ export default function CustomerOrders() {
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
+						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>
 					</div>
 				</Col>

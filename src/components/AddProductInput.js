@@ -4,6 +4,7 @@ import axios from "axios";
 import { useTableCustom } from "../contexts/TableContext";
 import { API_BASE } from "../api";
 import { FaRegClosedCaptioning } from "react-icons/fa";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 
 function AddProductInput({ from }) {
 	const [searchTerm, setSearchTerm] = useState("");
@@ -26,7 +27,6 @@ function AddProductInput({ from }) {
 						(p) => p.BarCode === searchTerm
 					);
 					if (repeatedProduct) {
-						console.log("repeatedProduct", repeatedProduct);
 						let result = Object.keys(repeatedProduct).reduce(
 							(prev, current) => ({
 								...prev,
@@ -84,7 +84,8 @@ function AddProductInput({ from }) {
 					id: r.Id,
 					barcode: r.BarCode,
 					artcode: r.ArtCode,
-					stockquantity: r.Quantity,
+					stockquantity: r.StockBalance,
+					// stockquantity: r.Quantity,
 					amount: 1,
 					price: r.Price,
 					buyprice: r.BuyPrice,
@@ -244,12 +245,7 @@ function AddProductInput({ from }) {
 														</p>
 													) : (
 														<p>
-															{(
-																Math.round(
-																	option.buyprice *
-																		100
-																) / 100
-															).toFixed(2)}
+                                                        {from === 'demads' ? ConvertFixedTable(option.costprice) : ConvertFixedTable(option.buyprice)}
 															<sup>₼</sup>
 														</p>
 													)}

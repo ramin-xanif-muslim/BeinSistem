@@ -348,6 +348,18 @@ export default function Enter() {
 					  ).show
 					: true,
 			},
+            {
+                key: "9",
+                label: "Barkodu",
+                name: "bc",
+                type: "text",
+                dataIndex: "bc",
+                show: initialfilter
+                    ? Object.values(initialfilter).find(
+                          (i) => i.dataIndex === "bc"
+                      ).show
+                    : true,
+            },
 		];
 	}, [filterChanged]);
 

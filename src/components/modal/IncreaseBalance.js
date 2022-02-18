@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Modal, Button, Form, Input, Spin} from 'antd';
-import axios from 'axios';
-import { API_BASE, increaseBalance } from '../../api';
+import { increaseBalance } from '../../api';
 
 export const IncreaseBalance = props => {
 
@@ -17,6 +16,7 @@ export const IncreaseBalance = props => {
     setLoading(true)
     await increaseBalance(values);
     setLoading(false)
+    handleCancel()
   };
 
   return (
