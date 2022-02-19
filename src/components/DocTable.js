@@ -98,6 +98,8 @@ const EditableCell = ({
 };
 
 function DocTable({ headers, datas, from, selectList, catalogVisible }) {
+    console.log('datas',datas)
+    console.log('selectList',selectList)
     const {
         advancedPage,
         setdocPage,
@@ -120,15 +122,10 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
         pricechanged,
         setPriceChanged,
     } = useTableCustom();
+
     const { loadingForm } = useCustomForm();
     const [dataSource, setdataSource] = useState([]);
     const [isChanged, setIsChanged] = useState(false);
-    console.log('newPro',newPro)
-    console.log('outerDataSource',outerDataSource)
-    // console.log(datas)
-    // console.log(datas)
-
-    const [showpacket, setShowPacket] = useState(false);
 
     useEffect(() => {
         if (isAdd) {
