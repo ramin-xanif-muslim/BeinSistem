@@ -551,7 +551,7 @@ function DemandDetail({
                     ),
                 },
         ];
-    }, [consumption, outerDataSource, docSum, columnChange]);
+    }, [consumption, outerDataSource, docSum, columnChange,docPage]);
 
     const updateMutation = useMutation(updateDoc, {
         refetchQueris: ["demand", doc_id],
