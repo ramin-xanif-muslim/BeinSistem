@@ -443,22 +443,7 @@ function DemandDetail({
         editable: false,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
-          let defaultCostArray = [];
-          let consumtionPriceArray = [];
-          outerDataSource.forEach((p) => {
-            defaultCostArray.push(Number(p.CostPrice));
-          });
-          if (hasConsumption) {
-            consumtionPriceArray = [];
-            outerDataSource.forEach((p) => {
-              consumtionPriceArray.push(
-                FindAdditionals(consumption, docSum, Number(p.CostPrice))
-              );
-            });
-            return ConvertFixedTable(consumtionPriceArray[index]);
-          } else {
-            return ConvertFixedTable(defaultCostArray[index]);
-          }
+          return ConvertFixedTable(value);
         },
       },
       {
@@ -473,23 +458,7 @@ function DemandDetail({
         editable: false,
         sortDirections: ["descend", "ascend"],
         render: (value, row, index) => {
-          let defaultCostArray = [];
-          let consumtionPriceArray = [];
-          outerDataSource.forEach((p) => {
-            defaultCostArray.push(Number(p.CostPriceTotal));
-          });
-          if (hasConsumption) {
-            consumtionPriceArray = [];
-            outerDataSource.forEach((p) => {
-              consumtionPriceArray.push(
-                FindAdditionals(consumption, docSum, Number(p.CostPriceTotal))
-              );
-            });
-
-            return ConvertFixedTable(consumtionPriceArray[index]);
-          } else {
-            return ConvertFixedTable(defaultCostArray[index]);
-          }
+          return ConvertFixedTable(value);
         },
       },
       {
