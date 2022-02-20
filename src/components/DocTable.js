@@ -129,11 +129,10 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
 
   useEffect(() => {
     if (isAdd) {
-      var duplicateData = false;
-      var index;
+      let duplicateData = false;
+      let index;
       console.log(newPro);
-      var newData = {
-        key: newPro.value,
+      let newData = {
         Id: newPro.value,
         DefaultId: newPro.value,
         ProductId: newPro.value,
@@ -190,21 +189,21 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
         CostPrice: newPro.costprice,
         CostPriceTotal: newPro.costpricetotal,
       };
-      dataSource.find((pd) => String(pd.BarCode) === String(newData.BarCode))
+      dataSource.find((pd) => pd.BarCode === newData.BarCode)
         ? (duplicateData = true)
         : (duplicateData = false);
-      index = dataSource.findIndex(
-        (pd) => String(pd.BarCode) === String(newData.BarCode)
-      );
+      index = dataSource.findIndex((pd) => pd.BarCode === newData.BarCode);
       console.log(dataSource);
+      console.log(duplicateData);
       if (duplicateData === false) {
-        var datas = [...dataSource];
+        let datas = [...dataSource];
         datas.unshift(newData);
+        console.log("datas", datas);
         setdataSource(datas);
         setOuterDataSource(datas);
         setIsChanged(true);
       } else {
-        var datas = [...dataSource];
+        let datas = [...dataSource];
         IsRepeat(datas, index, newData);
       }
       audio.play();
@@ -219,7 +218,6 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
       var duplicateData = false;
       var index;
       var newData = {
-        key: newPro.id,
         Id: newPro.id,
         DefaultId: newPro.id,
         ProductId: newPro.id,
@@ -309,7 +307,6 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
       selectList.map((s) => {
         if (s !== undefined) {
           datas.push({
-            key: s.Id,
             Id: s.Id,
             DefaultId: s.Id,
             ProductId: s.Id,
@@ -360,11 +357,11 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
             PackQuantity: from
               ? from === "demands"
                 ? s.IsPack === true || s.ispack === 1
-                  ? s.packquantity
+                  ? s.PackQuantity
                   : ""
                 : ""
               : "",
-            StockQuantity: s.Quantity ? s.Quantity : "0.00",
+            StockQuantity: s.StockBalance ? s.StockBalance : "0.00",
             CostPrice: s.CostPrice,
             CostPriceTotal: `${parseFloat(s.CostPrice) * parseFloat(1)}`,
           });
