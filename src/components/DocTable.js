@@ -49,6 +49,7 @@ const EditableCell = ({
   };
 
   const save = async () => {
+      console.log('save')
     try {
       const values = await form.validateFields();
       toggleEdit();
@@ -458,7 +459,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
 
   const handleSave = (row) => {
     const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
+    const index = newData.findIndex((item) => row.BarCode === item.BarCode);
     const item = newData[index];
     newData.splice(index, 1, { ...item, ...row });
     item.Quantity != newData[index].Quantity
@@ -493,6 +494,8 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
               parseFloat(n.Price) *
               parseFloat(n.ShowPacket ? n.ChangePackQuantity : n.Quantity))
         );
+        console.log('dataSource',dataSource)
+        console.log('newData',newData)
     setdataSource(newData);
     setOuterDataSource(newData);
     setIsChanged(true);
