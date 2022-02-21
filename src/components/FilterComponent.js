@@ -34,7 +34,7 @@ function FilterComponent({ from, settings, cols }) {
 	const [changed, setChanged] = useState(false);
 	const [initial, setinitial] = useState({});
 	const [doSearchId, setdoSearchId] = useState();
-	const [doSearchFast, setdoSearchFast] = useState();
+	const [doSearchFast, setdoSearchFast] = useState("");
 	const {
 		setIsFilter,
 		advanced,
@@ -112,6 +112,7 @@ function FilterComponent({ from, settings, cols }) {
 	};
 	const getDataFastFilter = async (id, fast) => {
 		var dataFilter = {
+            lm: 100,
 			token: localStorage.getItem("access-token"),
 			fast: fast,
 		};
@@ -119,6 +120,7 @@ function FilterComponent({ from, settings, cols }) {
 			`${API_BASE}/controllers/${id}/getfast.php`,
 			dataFilter
 		);
+        setDropdown(data.Body.List)
 
 		return data;
 	};
@@ -129,8 +131,8 @@ function FilterComponent({ from, settings, cols }) {
 		}
 	};
 	useEffect(() => {
-		if (doSearchFast !== "") {
-			const timer = setTimeout(() => {
+		if (doSearchFast) {
+			const timer = setTimeout( () => {
 				getDataFastFilter(doSearchId, doSearchFast)
 			}, 500);
 			return () => clearTimeout(timer);
