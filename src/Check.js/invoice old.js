@@ -203,8 +203,7 @@ export default function Invoice(props) {
             />
             <Divider className="total_price_divider">
                 {String(datas.Amount).split(".")[0]} manat{" "}
-                {String(datas.Amount).split(".")[1].slice(0,2)} qəp.
-                {console.log((datas.Amount).split(".")[1].slice(0,2))}
+                {String(datas.Amount).split(".")[1]} qəp.
             </Divider>
             <div className="invoice_buyer_part">
                 {props.location.hash.slice(1) != "enters" ? (

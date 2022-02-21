@@ -175,7 +175,7 @@ function NewDocument() {
                           .isVisible
                     : true,
 
-                sorter: (a, b) => a.Name.localeCompare(b.Name),
+                // sorter: (a, b) => a.Name.localeCompare(b.Name),
             },
             {
                 title: "Barkodu",
@@ -188,7 +188,7 @@ function NewDocument() {
                 className: "max_width_field_length",
                 editable: false,
                 sortDirections: ["descend", "ascend"],
-                sorter: (a, b) => a.BarCode - b.BarCode,
+                // sorter: (a, b) => a.BarCode - b.BarCode,
             },
             {
                 title: "Miqdar",
@@ -201,7 +201,7 @@ function NewDocument() {
                 className: "max_width_field",
                 editable: true,
                 sortDirections: ["descend", "ascend"],
-                sorter: (a, b) => a.Quantity - b.Quantity,
+                // sorter: (a, b) => a.Quantity - b.Quantity,
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
                     return ConvertFixedTable(value);

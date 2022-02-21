@@ -7,20 +7,13 @@ import { Tree } from "antd";
 import { Redirect, Link } from "react-router-dom";
 import TableLoader from "../components/TableLoader";
 import LoaderHOC from "../components/LoaderHOC";
-
-import { Skeleton } from "antd";
-import { Button, Tooltip } from "antd";
 import Trans from "../usetranslation/Trans";
 import { API_BASE } from "../config/env";
 import { getToken } from "../config/token";
 import putData from "../actions/putAactions/putData-action";
 import axios from "axios";
 import {
-  PrinterOutlined,
   EditOutlined,
-  PlusOutlined,
-  LoadingOutlined,
-  HomeOutlined,
 } from "@ant-design/icons";
 
 import { docFilter } from "../config/filter";

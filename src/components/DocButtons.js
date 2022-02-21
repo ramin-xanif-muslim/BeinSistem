@@ -75,7 +75,6 @@ function DocButtons({
             setRedirectClose(true);
         }
     };
-    const goCheckPage = () => {};
     const deleteDoc = async () => {
         message.loading({ content: "Yüklənir...", key: "doc_delete" });
         const res = await delDoc(editid, controller);
@@ -196,29 +195,6 @@ function DocButtons({
                     </button>
                 </Dropdown>
             </Menu.Item>
-            {/* <Link
-                    to={{
-                        pathname: "/invoice",
-                        search: `${editid}`,
-                        hash: from,
-                    }}
-                    target={"_blank"}
-                    className="buttons_click"
-                >
-                    A4
-                </Link> */}
-            {/* <Menu.Item
-                key="1"
-                onClick={() => downloadFile({ id: editid }, "xlsx", from)}
-            >
-                Yüklə xlsx
-            </Menu.Item>
-            <Menu.Item
-                key="2"
-                onClick={() => downloadFile({ id: editid }, "pgf", from)}
-            >
-                Yüklə pgf
-            </Menu.Item> */}
         </Menu>
     );
     let menu = "";

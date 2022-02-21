@@ -249,7 +249,7 @@ function SupplyReturnDetail({
 							.isVisible
 					: true,
 
-				sorter: (a, b) => a.Name.localeCompare(b.Name),
+				// sorter: (a, b) => a.Name.localeCompare(b.Name),
 			},
 			{
 				title: "Barkodu",
@@ -262,7 +262,7 @@ function SupplyReturnDetail({
 				className: "max_width_field_length",
 				editable: false,
 				sortDirections: ["descend", "ascend"],
-				sorter: (a, b) => a.BarCode - b.BarCode,
+				// sorter: (a, b) => a.BarCode - b.BarCode,
 			},
 			{
 				title: "Miqdar",
