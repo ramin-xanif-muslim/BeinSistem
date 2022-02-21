@@ -60,6 +60,7 @@ export default function Invoice(props) {
                 dataIndex: "Quantity",
                 title: "Miqdar",
                 render: (value, row, index) => {
+                    return ConvertFixedPositionInvoice(value)
                 },
             },
             {
