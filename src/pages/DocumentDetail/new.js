@@ -201,7 +201,7 @@ function NewDocument() {
                 className: "max_width_field",
                 editable: true,
                 sortDirections: ["descend", "ascend"],
-                sorter: (a, b) => a.Quantity - b.Quantity,
+                // sorter: (a, b) => a.Quantity - b.Quantity,
                 render: (value, row, index) => {
                     // do something like adding commas to the value or prefix
                     return ConvertFixedTable(value);
