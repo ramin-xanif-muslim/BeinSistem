@@ -124,8 +124,8 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
 
   const handleDelete = (key) => {
     const dataSource = [...outerDataSource];
-    setOuterDataSource(dataSource.filter((item) => item.key !== key));
-    setPositions(dataSource.filter((item) => item.key !== key));
+    setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
+    setPositions(dataSource.filter((item) => item.BarCode !== key));
   };
 
   useEffect(() => {
@@ -253,7 +253,7 @@ function NewMove({ handleOpenCatalog, selectList, catalogVisible }) {
               title="Silməyə əminsinizmi?"
               okText="Bəli"
               cancelText="Xeyr"
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => handleDelete(record.BarCode)}
             >
               <a className="deletePosition">Sil</a>
             </Popconfirm>

@@ -122,8 +122,8 @@ function NewEnter({ bntOpenTreeViewModal, stockId, setStockId }) {
   const { allsum, allQuantity } = useGetDocItems();
   const handleDelete = (key) => {
     const dataSource = [...outerDataSource];
-    setOuterDataSource(dataSource.filter((item) => item.key !== key));
-    setPositions(dataSource.filter((item) => item.key !== key));
+    setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
+    setPositions(dataSource.filter((item) => item.BarCode !== key));
   };
 
   useEffect(() => {
@@ -360,7 +360,7 @@ function NewEnter({ bntOpenTreeViewModal, stockId, setStockId }) {
               title="Silməyə əminsinizmi?"
               okText="Bəli"
               cancelText="Xeyr"
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => handleDelete(record.BarCode)}
             >
               <a className="color-red">Sil</a>
             </Popconfirm>

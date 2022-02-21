@@ -148,8 +148,8 @@ function NewDemand({
 
   const handleDelete = (key) => {
     const dataSource = [...outerDataSource];
-    setOuterDataSource(dataSource.filter((item) => item.key !== key));
-    setPositions(dataSource.filter((item) => item.key !== key));
+    setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
+    setPositions(dataSource.filter((item) => item.BarCode !== key));
   };
   const handleCopy = (record, key) => {
     setOuterDataSource([...outerDataSource, record]);
@@ -564,7 +564,7 @@ function NewDemand({
               title="Silməyə əminsinizmi?"
               okText="Bəli"
               cancelText="Xeyr"
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => handleDelete(record.BarCode)}
             >
               <a className="deletePosition">Sil</a>
             </Popconfirm>
