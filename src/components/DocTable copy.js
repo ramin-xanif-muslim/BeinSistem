@@ -369,14 +369,14 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
       });
 
       let clearedList = datas.filter(
-        (s) => s.BarCode != dataSource.find((d) => d.BarCode === s.BarCode)?.BarCode
+        (s) => s.Id != dataSource.find((d) => d.Id === s.Id)?.Id
       );
 
       var list = [...dataSource, ...clearedList];
 
       //   datas.forEach((d) => (deletedDatas = list.filter((t) => t.Id !== d.Id)));
-      const results = list.filter(({ BarCode: id1 }) =>
-        datas.some(({ BarCode: id2 }) => id2 === id1)
+      const results = list.filter(({ ProductId: id1 }) =>
+        datas.some(({ ProductId: id2 }) => id2 === id1)
       );
 
       console.log(results);
