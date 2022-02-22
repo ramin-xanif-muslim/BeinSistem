@@ -18,8 +18,10 @@ import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function Loss() {
+    const { isOpenLossFilter, setIsOpenLossFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -46,8 +48,7 @@ export default function Loss() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
+        
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -352,10 +353,7 @@ export default function Loss() {
 			setEditId(id);
 		}
 	};
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
+    
 
 	const handlePagination = (pg) => {
 		setPage(pg - 1);
@@ -526,7 +524,7 @@ export default function Loss() {
 								redirectto={"/newloss"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton display={isOpenLossFilter} setdisplay={setIsOpenLossFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -538,7 +536,7 @@ export default function Loss() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenLossFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

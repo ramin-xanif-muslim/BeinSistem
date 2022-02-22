@@ -17,9 +17,11 @@ import { useCustomForm } from "../contexts/FormContext";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function Return() {
+    const { isOpenReturnFilter, setIsOpenReturnFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -45,7 +47,6 @@ export default function Return() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -338,10 +339,6 @@ export default function Return() {
 		setFiltered(true);
 	};
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
 	const menu = (
 		<Menu>
 			<Menu.ItemGroup title="Sutunlar">
@@ -408,7 +405,7 @@ export default function Return() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton display={isOpenReturnFilter} setdisplay={setIsOpenReturnFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -421,7 +418,7 @@ export default function Return() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent cols={filters} />
+					<FilterComponent cols={filters} display={isOpenReturnFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

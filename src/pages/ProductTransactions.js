@@ -28,9 +28,11 @@ import {
 import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
 import SearchByDate from "../components/SearchByDate";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function ProductTransactions() {
+    const { isOpenProductTransactionFilter, setIsOpenProductTransactionFilter } = useFilterContext() 
 	const [count, setCount] = useState(1);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(0);
@@ -726,7 +728,7 @@ export default function ProductTransactions() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton display={isOpenProductTransactionFilter} setdisplay={setIsOpenProductTransactionFilter} />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
                                 defaultCheckedDate={1}
@@ -755,6 +757,7 @@ export default function ProductTransactions() {
 						from="producttransactions"
 						settings={filterSetting}
 						cols={filters}
+                        display={isOpenProductTransactionFilter}
 					/>
 				</Col>
 			</Row>

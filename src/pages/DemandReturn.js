@@ -32,8 +32,12 @@ import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
+
 const { Text } = Typography;
+
 export default function DemandReturn() {
+    const { isOpenDemandReturnFilter, setIsOpenDemandReturnFilter } = useFilterContext() 
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
@@ -60,8 +64,6 @@ export default function DemandReturn() {
         doSearch,
         search,
         advanced,
-        setdisplay,
-        display,
         setCustomersLocalStorage,
         setCustomers,
     } = useTableCustom();
@@ -412,10 +414,7 @@ export default function DemandReturn() {
             },
         ];
     }, [filterChanged]);
-
-    useEffect(() => {
-        setdisplay("none");
-    }, []);
+    
     useEffect(() => {
         setInitial(columns);
         setInitialFilter(filters);
@@ -615,8 +614,8 @@ export default function DemandReturn() {
                                 redirectto={"/newDemandReturn"}
                                 animate={"Yarat"}
                             />
-                            <FilterButton />
-                            <FastSearch className="search_header" />
+							<FilterButton display={isOpenDemandReturnFilter} setdisplay={setIsOpenDemandReturnFilter} />
+							<FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
                             />
@@ -627,7 +626,7 @@ export default function DemandReturn() {
             </Row>
             <Row>
                 <Col xs={24} md={24} xl={24}>
-                    <FilterComponent settings={filterSetting} cols={filters} />
+                    <FilterComponent settings={filterSetting} cols={filters} display={isOpenDemandReturnFilter} />
                 </Col>
             </Row>
             {isFetchSearchByDate && <Spin />}

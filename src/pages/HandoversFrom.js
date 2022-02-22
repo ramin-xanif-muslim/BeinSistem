@@ -18,8 +18,10 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function HandoversFrom() {
+    const { isOpenHandoverFromFilter, setIsOpenHandoverFromFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -46,8 +48,6 @@ export default function HandoversFrom() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -221,10 +221,6 @@ export default function HandoversFrom() {
 			},
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	const filters = useMemo(() => {
 		return [
@@ -534,7 +530,8 @@ export default function HandoversFrom() {
 								redirectto={"/newhandoverfrom"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton display={isOpenHandoverFromFilter} setdisplay={setIsOpenHandoverFromFilter} />
+							<FastSearch className="search_header" />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -546,7 +543,7 @@ export default function HandoversFrom() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenHandoverFromFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

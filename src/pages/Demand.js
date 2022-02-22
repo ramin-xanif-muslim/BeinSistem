@@ -30,8 +30,10 @@ import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function Demand() {
+    const { isOpenDemandFilter, setIsOpenDemandFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -58,8 +60,6 @@ export default function Demand() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 		setCustomersLocalStorage,
 		setCustomers,
 	} = useTableCustom();
@@ -411,9 +411,6 @@ export default function Demand() {
 			},
 		];
 	}, [filterChanged]);
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	useEffect(() => {
 		setInitial(columns);
@@ -617,7 +614,7 @@ export default function Demand() {
 								redirectto={"/newdemand"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton display={isOpenDemandFilter} setdisplay={setIsOpenDemandFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -630,7 +627,7 @@ export default function Demand() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenDemandFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

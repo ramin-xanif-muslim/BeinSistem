@@ -31,9 +31,11 @@ import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import { isObject } from "../config/function/findadditionals";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function Supply() {
+    const { isOpenSupplyFilter, setIsOpenSupplyFilter } = useFilterContext() 
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
@@ -61,8 +63,6 @@ export default function Supply() {
         doSearch,
         search,
         advanced,
-        setdisplay,
-        display,
         setCustomersLocalStorage,
         setCustomers,
     } = useTableCustom();
@@ -452,10 +452,6 @@ export default function Supply() {
         setRedirect(true);
         setEditId(id);
     };
-
-    useEffect(() => {
-        setdisplay("none");
-    }, []);
     const editClickPage = (e, id) => {
         if (e.target.className.includes("linkedColumns")) {
             setRedirect(true);
@@ -627,7 +623,7 @@ export default function Supply() {
                                 redirectto={"/newSupply"}
                                 animate={"Yarat"}
                             />
-                            <FilterButton />
+                            <FilterButton display={isOpenSupplyFilter} setdisplay={setIsOpenSupplyFilter} />
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
@@ -640,7 +636,7 @@ export default function Supply() {
             </Row>
             <Row>
                 <Col xs={24} md={24} xl={24}>
-                    <FilterComponent settings={filterSetting} cols={filters} />
+                    <FilterComponent settings={filterSetting} cols={filters} display={isOpenSupplyFilter} />
                 </Col>
             </Row>
             {isFetchSearchByDate && <Spin />}

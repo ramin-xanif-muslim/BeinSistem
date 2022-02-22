@@ -31,8 +31,11 @@ import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function CreditTransaction() {
+    const { isOpenCreditTransactionFilter, setIsOpenCreditTransactionFilter } = useFilterContext() 
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [direction, setDirection] = useState(1);
     const [defaultdr, setDefaultDr] = useState("descend");
@@ -58,8 +61,6 @@ export default function CreditTransaction() {
         doSearch,
         search,
         advanced,
-        setdisplay,
-        display,
     } = useTableCustom();
 
     const [documentList, setDocumentList] = useState([]);
@@ -451,8 +452,8 @@ export default function CreditTransaction() {
                 <Col xs={24} md={24} xl={20}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <FilterButton />
-                            <FastSearch className="search_header" />
+							<FilterButton display={isOpenCreditTransactionFilter} setdisplay={setIsOpenCreditTransactionFilter} />
+							<FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
                             />
@@ -463,7 +464,7 @@ export default function CreditTransaction() {
             </Row>
             <Row>
                 <Col xs={24} md={24} xl={24}>
-                    <FilterComponent cols={filters} />
+                    <FilterComponent cols={filters} display={isOpenCreditTransactionFilter} />
                 </Col>
             </Row>
             {isFetchSearchByDate && <Spin />}

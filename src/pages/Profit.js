@@ -16,9 +16,11 @@ import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
 import { isObject } from "../config/function/findadditionals";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 
 export default function Profit() {
+    const { isOpenProfitFilter, setIsOpenProfitFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [direction, setDirection] = useState(1);
 	const [defaultdr, setDefaultDr] = useState("");
@@ -39,8 +41,6 @@ export default function Profit() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
         
     const [ downloadButton ] = useDownload(advanced, 'profit')
@@ -204,9 +204,6 @@ export default function Profit() {
 		});
 		setFilterChanged(true);
 	};
-	useEffect(() => {
-		setdisplay("block");
-	}, []);
 
 	const filters = useMemo(() => {
 		return [
@@ -289,7 +286,7 @@ export default function Profit() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton display={isOpenProfitFilter} setdisplay={setIsOpenProfitFilter } />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -302,7 +299,7 @@ export default function Profit() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenProfitFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

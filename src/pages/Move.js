@@ -18,8 +18,10 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function Move() {
+    const { isOpenMoveFilter, setIsOpenMoveFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -46,8 +48,6 @@ export default function Move() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -452,10 +452,6 @@ export default function Move() {
 		</Menu>
 	);
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
 	const tableSettings = (
 		<Dropdown
 			trigger={["click"]}
@@ -517,7 +513,7 @@ export default function Move() {
 								redirectto={"/newmove"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton  display={isOpenMoveFilter} setdisplay={setIsOpenMoveFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -529,7 +525,7 @@ export default function Move() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenMoveFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

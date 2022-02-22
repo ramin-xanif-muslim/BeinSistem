@@ -26,8 +26,11 @@ import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function CashIn() {
+    const { isOpenCashInFilter, setIsOpenCashInFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -54,8 +57,6 @@ export default function CashIn() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
@@ -83,9 +84,6 @@ export default function CashIn() {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
 	}, [columnChange, filtered]);
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	var markObject;
 	marks
@@ -416,7 +414,7 @@ export default function CashIn() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton display={isOpenCashInFilter} setdisplay={setIsOpenCashInFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -429,7 +427,7 @@ export default function CashIn() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenCashInFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

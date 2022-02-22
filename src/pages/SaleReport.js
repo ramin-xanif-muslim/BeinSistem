@@ -30,10 +30,12 @@ import style from "./SaleReport.module.css";
 import MyFastSearch from "../components/MyFastSearch";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 
 export default function SaleReport() {
+    const { isOpenSaleReportFilter, setIsOpenSaleReportFilter } = useFilterContext() 
     const [count, setCount] = useState(1);
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
@@ -79,8 +81,6 @@ export default function SaleReport() {
         doSearch,
         search,
         advanced,
-        setdisplay,
-        display,
         setCustomersLocalStorage,
         setCustomers,
     } = useTableCustom();
@@ -567,10 +567,6 @@ export default function SaleReport() {
         }
     }, [isFetching]);
 
-    useEffect(() => {
-        setdisplay("none");
-    }, []);
-
     const editPage = (id) => {
         setRedirect(true);
         setEditId(id);
@@ -683,7 +679,7 @@ export default function SaleReport() {
                 <Col xs={24} md={24} xl={19}>
                     <div className="page_heder_right">
                         <div className="buttons_wrapper">
-                            <FilterButton />
+							<FilterButton display={isOpenSaleReportFilter} setdisplay={setIsOpenSaleReportFilter} />
                             <MyFastSearch
                                 searchFunc={searchFunc}
                                 setSearchTerm={setSalereportsSearchTerm}
@@ -715,7 +711,7 @@ export default function SaleReport() {
             {isLoadingSearch && <Spin />}
             <Row>
                 <Col xs={24} sm={24} md={24} xl={24}>
-                    <FilterComponent cols={filters} />
+                    <FilterComponent cols={filters} display={isOpenSaleReportFilter} />
                 </Col>
             </Row>
             {isFetchSearchByDate && <Spin />}

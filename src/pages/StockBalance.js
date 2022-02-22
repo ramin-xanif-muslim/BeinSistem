@@ -29,9 +29,11 @@ import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function StockBalance() {
+    const { isOpenStockBalanceFilter, setIsOpenStockBalanceFilter } = useFilterContext() 
 	const [count, setCount] = useState(1);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(0);
@@ -63,8 +65,6 @@ export default function StockBalance() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 
 	const searchFunc = async (value) => {
@@ -515,10 +515,6 @@ export default function StockBalance() {
 		});
 		setFiltered(true);
 	};
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 	const onChangeMenuFilter = (e) => {
 		var initialCols = initialfilter;
 		var findelement;
@@ -659,7 +655,7 @@ export default function StockBalance() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton from="stockbalance" />
+							<FilterButton from="stockbalance" display={isOpenStockBalanceFilter} setdisplay={setIsOpenStockBalanceFilter} />
 							<MyFastSearch
 								searchFunc={searchFunc}
 								setSearchTerm={setStockbalanceSearchTerm}
@@ -690,6 +686,7 @@ export default function StockBalance() {
 						from="stockbalance"
 						settings={filterSetting}
 						cols={filters}
+                        display={isOpenStockBalanceFilter}
 					/>
 				</Col>
 			</Row>

@@ -35,8 +35,11 @@ import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function CustomerOrders() {
+    const { isOpenCustomerOrderFilter, setIsOpenCustomerOrderFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -64,8 +67,6 @@ export default function CustomerOrders() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 		setCustomersLocalStorage,
 		setCustomers,
 		setOrderStatusArr,
@@ -331,10 +332,6 @@ export default function CustomerOrders() {
 		setCustomers(customerResponse.Body.List);
 		setCustomersLocalStorage(customerResponse.Body.List);
 	};
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 	const filters = useMemo(() => {
 		return [
 			{
@@ -646,7 +643,7 @@ export default function CustomerOrders() {
 								redirectto={"/newcustomerorders"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton display={isOpenCustomerOrderFilter} setdisplay={setIsOpenCustomerOrderFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -659,7 +656,7 @@ export default function CustomerOrders() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenCustomerOrderFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

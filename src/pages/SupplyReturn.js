@@ -33,8 +33,10 @@ import { useCustomForm } from "../contexts/FormContext";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function SupplyReturn() {
+    const { isOpenSupplyReturnFilter, setIsOpenSupplyReturnFilter } = useFilterContext() 
     const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
@@ -61,8 +63,6 @@ export default function SupplyReturn() {
         doSearch,
         search,
         advanced,
-        setdisplay,
-        display,
         setCustomersLocalStorage,
         setCustomers,
         setAdvance,
@@ -431,10 +431,6 @@ export default function SupplyReturn() {
         }
     }, [isFetching]);
 
-    useEffect(() => {
-        setdisplay("none");
-    }, []);
-
     const editPage = (id) => {
         setRedirect(true);
         setEditId(id);
@@ -612,7 +608,7 @@ export default function SupplyReturn() {
                                 redirectto={"/newSupplyReturn"}
                                 animate={"Yarat"}
                             />
-                            <FilterButton />
+                            <FilterButton display={isOpenSupplyReturnFilter} setdisplay={setIsOpenSupplyReturnFilter} />
                             <FastSearch className="search_header" />
                             <SearchByDate
                                 getSearchObjByDate={getSearchObjByDate}
@@ -624,7 +620,7 @@ export default function SupplyReturn() {
             </Row>
             <Row>
                 <Col xs={24} md={24} xl={24}>
-                    <FilterComponent settings={filterSetting} cols={filters} />
+                    <FilterComponent settings={filterSetting} cols={filters} display={isOpenSupplyReturnFilter} />
                 </Col>
             </Row>
             {isFetchSearchByDate && <Spin />}

@@ -28,8 +28,10 @@ import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 
 export default function Product() {
+    const { isOpenProductFilter, setIsOpenProductFilter } = useFilterContext() 
 	const [count, setCount] = useState(1);
 	const [redirect, setRedirect] = useState(false);
 	const [editId, setEditId] = useState("");
@@ -76,8 +78,6 @@ export default function Product() {
 		setAdvancedPage,
 		searchGr,
 		attributes,
-		setdisplay,
-		display,
 	} = useTableCustom();
 
 	const searchFunc = async (value) => {
@@ -573,10 +573,6 @@ export default function Product() {
 	);
 
 	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
-	useEffect(() => {
 		if (!isFetching) {
 			if (isObject(data.Body)) {
 				setProdutcList(data.Body.List);
@@ -775,7 +771,7 @@ export default function Product() {
 								redirectto={"/newprogroup"}
 								animate={"Yarat"}
 							/>
-							<FilterButton from="product" />
+							<FilterButton display={isOpenProductFilter} setdisplay={setIsOpenProductFilter} />
 							<MyFastSearch
 								searchFunc={searchFunc}
 								setSearchTerm={setProductSearchTerm}
@@ -806,6 +802,7 @@ export default function Product() {
 						from={"products"}
 						settings={filterSetting}
 						cols={filtersnew}
+                        display={isOpenProductFilter}
 					/>
 				</Col>
 			</Row>{" "}

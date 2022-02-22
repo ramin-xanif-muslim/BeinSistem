@@ -6,8 +6,8 @@ import { useTableCustom } from "../contexts/TableContext";
 function FilterButton(props) {
 
 	const {
-		// setdisplay,
-		// display,
+		setdisplay,
+		display,
 		isEnterFilterValue,
         setIsEnterFilterValue,
 	} = useTableCustom();
@@ -16,7 +16,7 @@ function FilterButton(props) {
 	let filterClasses = classNames({
 		"new-filter-active": isEnterFilterValue,
 		"new-button": !isEnterFilterValue,
-		"new-button-open": props.display !== "none",
+		"new-button-open": display !== "none",
 	});
 
     useEffect(() => {
@@ -30,7 +30,7 @@ function FilterButton(props) {
 		<button
 			className={filterClasses}
 			onClick={() =>
-				props.display === "none" ? props.setdisplay("block") : props.setdisplay("none")
+				display === "none" ? setdisplay("block") : setdisplay("none")
 			}
 		>
 			Filter

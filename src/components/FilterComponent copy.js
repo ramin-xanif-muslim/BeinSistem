@@ -24,7 +24,7 @@ const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
 
 moment.locale("az");
-function FilterComponent({ from, settings, cols, display }) {
+function FilterComponent({ from, settings, cols }) {
 	const [is, setIs] = useState(false);
 	const [selectDate, setSelectDate] = useState();
 	const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ function FilterComponent({ from, settings, cols, display }) {
 		setAdvancedPage,
 		selectFilter,
 		setSelectFilter,
-		// display,
+		display,
 		selectedDateId,
 		setSelectedDateId,
 		isEnterFilterValue,

@@ -32,8 +32,11 @@ import { ConvertFixedTable } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function Transaction() {
+    const { isOpenTransactionFilter, setIsOpenTransactionFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [redirectPaymentIn, setRedirectPaymentIn] = useState(false);
@@ -69,8 +72,6 @@ export default function Transaction() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
         
     const [ downloadButton ] = useDownload(advanced, 'transactions')
@@ -475,10 +476,6 @@ export default function Transaction() {
 		setVisibleMenuSettingsFilter(flag);
 	};
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
 	const onChangeMenu = (e) => {
 		var initialCols = initial;
 		var findelement;
@@ -626,7 +623,7 @@ export default function Transaction() {
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
 							<TransactionButtons />
-							<FilterButton />
+							<FilterButton display={isOpenTransactionFilter} setdisplay={setIsOpenTransactionFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -639,7 +636,7 @@ export default function Transaction() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenTransactionFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

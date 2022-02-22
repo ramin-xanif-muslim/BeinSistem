@@ -15,7 +15,10 @@ import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
+
 export default function Customer() {
+    const { isOpenCustomerFilter, setIsOpenCustomerFilter } = useFilterContext() 
     const [initialfilter, setInitialFilter] = useState(null);
     const [filterChanged, setFilterChanged] = useState(false);
     const [redirect, setRedirect] = useState(false);
@@ -42,8 +45,6 @@ export default function Customer() {
         advancedPage,
         setAdvancedPage,
         searchGr,
-        setdisplay,
-        display,
     } = useTableCustom();
 
     const filters = useMemo(() => {
@@ -335,10 +336,6 @@ export default function Customer() {
     }, [columnChange, filtered]);
 
     useEffect(() => {
-        setdisplay("none");
-    }, []);
-
-    useEffect(() => {
         setInitial(columns);
         setInitialFilter(filters);
         if (!localStorage.getItem("customercolumns")) {
@@ -508,8 +505,8 @@ export default function Customer() {
                                 redirectto={"/newcusgroup"}
                                 animate={"Yarat"}
                             />
-                            <FilterButton />
-                            <FastSearch className="search_header" />
+							<FilterButton display={isOpenCustomerFilter} setdisplay={setIsOpenCustomerFilter} />
+							<FastSearch className="search_header" />
                         </div>
                         {tableSettings}
                     </div>
@@ -521,6 +518,7 @@ export default function Customer() {
                         from={"products"}
                         settings={filterSetting}
                         cols={filters}
+                        display={isOpenCustomerFilter}
                     />
                 </Col>
             </Row>{" "}

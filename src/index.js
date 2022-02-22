@@ -16,30 +16,33 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { TableProvider } from "./contexts/TableContext";
 import { MyFormProvider } from "./contexts/FormContext";
 import Notification from "./components/Notification";
+import { FilterProvider } from "./contexts/FilterContext";
 
 const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            refetchOnMount: true,
-            refetchOnWindowFocus: false,
-        },
-    },
+	defaultOptions: {
+		queries: {
+			refetchOnMount: true,
+			refetchOnWindowFocus: false,
+		},
+	},
 });
 ReactDOM.render(
-    <React.StrictMode>
-        <QueryClientProvider client={queryClient}>
-            <AuthProvider>
-                <TableProvider>
-                    <MyFormProvider>
-                        <Notification />
-                        <App />
-                    </MyFormProvider>
-                </TableProvider>
-            </AuthProvider>
-            {/* <ReactQueryDevtools initialIsOpen={false} /> */}
-        </QueryClientProvider>
-    </React.StrictMode>,
-    document.getElementById("root")
+	<React.StrictMode>
+		<QueryClientProvider client={queryClient}>
+			<AuthProvider>
+				<TableProvider>
+					<MyFormProvider>
+						<FilterProvider>
+							<Notification />
+							<App />
+						</FilterProvider>
+					</MyFormProvider>
+				</TableProvider>
+			</AuthProvider>
+			{/* <ReactQueryDevtools initialIsOpen={false} /> */}
+		</QueryClientProvider>
+	</React.StrictMode>,
+	document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -18,9 +18,11 @@ import { isObject } from "../config/function/findadditionals";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function Enter() {
+    const { isOpenEnterFilter, setIsOpenEnterFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -47,8 +49,6 @@ export default function Enter() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -414,10 +414,6 @@ export default function Enter() {
 		}
 	}
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
 	const handleVisibleChange = (flag) => {
 		setVisibleMenuSettings(flag);
 	};
@@ -565,7 +561,7 @@ export default function Enter() {
 								text={"Yeni daxilolma"}
 								redirectto={"/newenter"}
 							/>
-							<FilterButton />
+							<FilterButton display={isOpenEnterFilter} setdisplay={setIsOpenEnterFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -578,7 +574,7 @@ export default function Enter() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenEnterFilter} />
 				</Col>
 			</Row>
 			<Row>

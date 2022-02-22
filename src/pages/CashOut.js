@@ -26,8 +26,11 @@ import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function CashOut() {
+    const { isOpenCashOutFilter, setIsOpenCashOutFilter } = useFilterContext() 
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -55,8 +58,6 @@ export default function CashOut() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
@@ -150,10 +151,6 @@ export default function CashOut() {
 			},
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	const filters = useMemo(() => {
 		return [
@@ -418,7 +415,7 @@ export default function CashOut() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton display={isOpenCashOutFilter} setdisplay={setIsOpenCashOutFilter} />
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -431,7 +428,7 @@ export default function CashOut() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent settings={filterSetting} cols={filters} display={isOpenCashOutFilter} />
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

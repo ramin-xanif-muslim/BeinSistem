@@ -27,6 +27,7 @@ import {
 } from "@ant-design/icons";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 
@@ -34,6 +35,7 @@ const SettlementsDrawer = React.lazy(() =>
 	import("../components/SettlementsDrawer")
 );
 export default function Settlement() {
+    const { isOpenSettlementFilter, setIsOpenSettlementFilter } = useFilterContext() 
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(0);
 	const [defaultdr, setDefaultDr] = useState("ascend");
@@ -61,8 +63,6 @@ export default function Settlement() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 	const {
 		visibleDrawer,
@@ -361,9 +361,6 @@ export default function Settlement() {
 		});
 		setFiltered(true);
 	};
-	useEffect(() => {
-		setdisplay("block");
-	}, []);
 
 	const menu = (
 		<Menu>
@@ -424,7 +421,7 @@ export default function Settlement() {
 				<Col xs={24} md={24} xl={19}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton display={isOpenSettlementFilter} setdisplay={setIsOpenSettlementFilter} />
 							<FastSearch className="search_header" />
 						</div>
                         <div>{downloadButton}</div>
@@ -434,7 +431,7 @@ export default function Settlement() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent cols={filters} />
+					<FilterComponent cols={filters} display={isOpenSettlementFilter} />
 				</Col>
 			</Row>
 			<Table
