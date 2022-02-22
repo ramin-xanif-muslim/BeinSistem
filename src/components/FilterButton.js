@@ -6,8 +6,6 @@ import { useTableCustom } from "../contexts/TableContext";
 function FilterButton(props) {
 
 	const {
-		// setdisplay,
-		// display,
 		isEnterFilterValue,
         setIsEnterFilterValue,
 	} = useTableCustom();

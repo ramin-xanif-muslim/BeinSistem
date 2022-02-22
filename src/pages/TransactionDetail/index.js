@@ -87,8 +87,8 @@ function PaymentInDetail() {
     );
     const handleDelete = (key) => {
         const dataSource = [...outerDataSource];
-        setOuterDataSource(dataSource.filter((item) => item.key !== key));
-        setPositions(dataSource.filter((item) => item.key !== key));
+        setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
+        setPositions(dataSource.filter((item) => item.BarCode !== key));
     };
 
 	// const { debt, setCustomerId, customerId, fetchDebt } = useFetchDebt();

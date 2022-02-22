@@ -129,10 +129,6 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
   const [showpacket, setShowPacket] = useState(false);
 
   useEffect(() => {
-      console.log('dataSource',dataSource)
-  },[dataSource])
-
-  useEffect(() => {
     if (isAdd) {
         console.log('isAdd',newPro)
       let duplicateData = false;

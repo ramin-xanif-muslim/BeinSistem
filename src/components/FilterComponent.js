@@ -3,21 +3,14 @@ import locale from "antd/es/date-picker/locale/az_AZ";
 import { Spin } from "antd";
 import axios from "axios";
 import moment from "moment";
-import { DownOutlined, UpOutlined } from "@ant-design/icons";
 import { API_BASE, fetchRefList } from "../api";
 import {
 	Form,
 	Row,
 	Col,
 	Input,
-	Button,
 	Select,
 	DatePicker,
-	Checkbox,
-	TreeSelect,
-	Dropdown,
-	Menu,
-	ConfigProvider,
 } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 const { Option, OptGroup } = Select;
@@ -42,7 +35,6 @@ function FilterComponent({ from, settings, cols, display }) {
 		setAdvancedPage,
 		selectFilter,
 		setSelectFilter,
-		// display,
 		selectedDateId,
 		setSelectedDateId,
 		isEnterFilterValue,
