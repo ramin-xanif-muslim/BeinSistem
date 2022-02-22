@@ -214,9 +214,21 @@ export default function Return() {
 					  ).show
 					: true,
 			},
+            {
+                key: "3",
+                label: "Barkodu",
+                name: "bc",
+                type: "text",
+                dataIndex: "bc",
+                show: initialfilter
+                    ? Object.values(initialfilter).find(
+                          (i) => i.dataIndex === "bc"
+                      ).show
+                    : true,
+            },
 
 			{
-				key: "3",
+				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -229,7 +241,7 @@ export default function Return() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				label: "Satış nöqtəsi",
 				name: "slpnt",
 				type: "select",
@@ -242,7 +254,7 @@ export default function Return() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Qarşı-tərəf",
 				name: "customerName",
 				type: "select",
@@ -255,7 +267,7 @@ export default function Return() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -269,7 +281,7 @@ export default function Return() {
 					: false,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
