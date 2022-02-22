@@ -270,9 +270,21 @@ export default function Enter() {
 					  ).show
 					: true,
 			},
+            {
+                key: "3",
+                label: "Barkodu",
+                name: "bc",
+                type: "text",
+                dataIndex: "bc",
+                show: initialfilter
+                    ? Object.values(initialfilter).find(
+                          (i) => i.dataIndex === "bc"
+                      ).show
+                    : true,
+            },
 
 			{
-				key: "3",
+				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -285,7 +297,7 @@ export default function Enter() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -298,7 +310,7 @@ export default function Enter() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -311,7 +323,7 @@ export default function Enter() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "dateOfChange",
@@ -323,7 +335,7 @@ export default function Enter() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -337,7 +349,7 @@ export default function Enter() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "9",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -348,18 +360,6 @@ export default function Enter() {
 					  ).show
 					: true,
 			},
-            {
-                key: "9",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
 		];
 	}, [filterChanged]);
 

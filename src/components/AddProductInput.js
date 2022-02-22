@@ -134,6 +134,7 @@ function AddProductInput({ from }) {
 			obj
 		);
 		var datas = {};
+        console.log(res.data.Body.List[0])
 
 		if (res.data.Body.List[0]) {
 			Object.assign(datas, {
@@ -145,6 +146,7 @@ function AddProductInput({ from }) {
 				stockquantity: res.data.Body.List[0].Quantity,
 				amount: 1,
 				price: res.data.Body.List[0].Price,
+				minprice: res.data.Body.List[0].MinPrice,
 				buyprice: res.data.Body.List[0].BuyPrice,
 				packprice: res.data.Body.List[0].PackPrice,
 				packquantity: res.data.Body.List[0].PackQuantity,

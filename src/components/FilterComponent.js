@@ -111,6 +111,8 @@ function FilterComponent({ from, settings, cols }) {
 		return data;
 	};
 	const getDataFastFilter = async (id, fast) => {
+		setLoading(true);
+		setDropdown([]);
 		var dataFilter = {
             lm: 100,
 			token: localStorage.getItem("access-token"),
@@ -121,6 +123,7 @@ function FilterComponent({ from, settings, cols }) {
 			dataFilter
 		);
         setDropdown(data.Body.List)
+		setLoading(false);
 
 		return data;
 	};
@@ -130,6 +133,10 @@ function FilterComponent({ from, settings, cols }) {
 			setdoSearchFast(val)
 		}
 	};
+
+	useEffect(() => {
+		console.log(dropdown);
+	}, [dropdown]);
 	useEffect(() => {
 		if (doSearchFast) {
 			const timer = setTimeout( () => {

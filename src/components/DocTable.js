@@ -134,6 +134,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
 
   useEffect(() => {
     if (isAdd) {
+        console.log('isAdd',newPro)
       let duplicateData = false;
       let index;
       console.log(newPro);
@@ -219,7 +220,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
 
   useEffect(() => {
     if (isNew) {
-      console.log(newPro);
+        console.log('isNew',newPro)
       var duplicateData = false;
       var index;
       var newData = {

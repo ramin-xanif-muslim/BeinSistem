@@ -276,9 +276,21 @@ export default function Documents() {
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
+
+			{
+				key: "4",
 				label: "Qarşı-tərəf",
 				name: "customerName",
 				type: "select",
@@ -292,7 +304,7 @@ export default function Documents() {
 			},
 
 			{
-				key: "4",
+				key: "5",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "dateOfChange",
@@ -304,7 +316,7 @@ export default function Documents() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Mənfəət",
 				name: "profit",
 				start: "prfb",
@@ -318,7 +330,7 @@ export default function Documents() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -331,7 +343,7 @@ export default function Documents() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Satış nöqtəsi",
 				name: "slpnt",
 				type: "select",
@@ -344,7 +356,7 @@ export default function Documents() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "9",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -357,7 +369,7 @@ export default function Documents() {
 					: true,
 			},
 			{
-				key: "9",
+				key: "10",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -371,7 +383,7 @@ export default function Documents() {
 			},
 
 			{
-				key: "10",
+				key: "11",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -385,7 +397,7 @@ export default function Documents() {
 					: true,
 			},
 			{
-				key: "11",
+				key: "12",
 				label: "Ödəniş növü",
 				name: "paytype",
 				controller: "yesno",
@@ -400,7 +412,7 @@ export default function Documents() {
 					: true,
 			},
 			{
-				key: "12",
+				key: "13",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -408,18 +420,6 @@ export default function Documents() {
 				show: initialfilter
 					? Object.values(initialfilter).find(
 							(i) => i.dataIndex === "createdDate"
-					  ).show
-					: true,
-			},
-			{
-				key: "13",
-				label: "Barkodu",
-				name: "bc",
-				type: "text",
-				dataIndex: "bc",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "bc"
 					  ).show
 					: true,
 			},

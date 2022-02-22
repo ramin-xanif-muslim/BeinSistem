@@ -339,18 +339,6 @@ export default function SaleReport() {
         return [
             {
                 key: "1",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
-            {
-                key: "2",
                 label: "Məhsul adı",
                 name: "productName",
                 type: "select",
@@ -359,6 +347,18 @@ export default function SaleReport() {
                 show: initialfilter
                     ? Object.values(initialfilter).find(
                           (i) => i.dataIndex === "productName"
+                      ).show
+                    : true,
+            },
+            {
+                key: "2",
+                label: "Barkodu",
+                name: "bc",
+                type: "text",
+                dataIndex: "bc",
+                show: initialfilter
+                    ? Object.values(initialfilter).find(
+                          (i) => i.dataIndex === "bc"
                       ).show
                     : true,
             },

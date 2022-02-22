@@ -447,21 +447,21 @@ function NewDemand({
         },
       },
       {
-        title: "Qiymət",
-        dataIndex: "Price",
-        isVisible: JSON.parse(localStorage.getItem("demandnewcolumns"))
-          ? Object.values(
-              JSON.parse(localStorage.getItem("demandnewcolumns"))
-            ).find((i) => i.dataIndex === "Price").isVisible
-          : true,
+          title: pricetypeselect,
+          dataIndex: "Price",
+          isVisible: initial
+              ? Object.values(initial).find(
+                      (i) => i.dataIndex === "Price"
+                ).isVisible
+              : true,
 
-        className: "tableCellPrice",
-        editable: true,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return ConvertFixedPosition(value);
-        },
+          className: "tableCellPrice",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+              // do something like adding commas to the value or prefix
+              return ConvertFixedPosition(value);
+          },
       },
       {
         title: "Məbləğ",
