@@ -112,6 +112,7 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 			`${API_BASE}/controllers/${id}/getfast.php`,
 			dataFilter
 		);
+        console.log(data.Body.List)
         setDropdown(data.Body.List)
 		setLoading(false);
 
@@ -158,6 +159,7 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 				[`${option.nm}_id`]: option.key,
 			});
 			setInitialFilterForm(initialFilterForm);
+            console.log('initialFilterForm',initialFilterForm);
 		}
 	}
 	const documentNames = [
@@ -172,14 +174,15 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 		{ad: "Qaytarmalar", name: "returns"},
 	];
 
-	const onChange = (e) => {
-		console.log("onChange", e.target.name);
-		var n = e.target.name;
+	const onChange = (e,name) => {
+        var n = e.target.name;
 		var v = e.target.value;
 		Object.assign(rangeFilter, { [n]: v });
 		setRangeFilter(rangeFilter);
 		Object.assign(initialFilterForm, { [n]: v });
         setInitialFilterForm(initialFilterForm);
+		console.log("onChange",name);
+		console.log("initialFilterForm",initialFilterForm[name]);
 	};
 	const onOpenChange = (open) => {
 		//   setIsOpen(open);
@@ -229,7 +232,7 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 					md={8}
 					xl={6}
 					key={i}
-					// className="active-search-item"
+					className={initialFilterForm[cols[i].name] ? "active-search-item" : null}
 				>
 					<Form.Item
 						className="filter-input"
@@ -241,12 +244,13 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 						{cols[i].type === "text" ? (
 							<Input
 								className="detail-input"
-								onChange={onChange}
+								onChange={(e) => onChange(e,cols[i].name)}
 								name={cols[i].name}
 								placeholder={cols[i].label}
 							/>
 						) : cols[i].type === "select" ? (
 							<Select
+                                style={{backgroundColor: initialFilterForm[cols[i].name] ? 'red' : 'green'}}
 								className="detail-select"
 								showSearch
 								placeholder={cols[i].label}
@@ -659,7 +663,7 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 				</Col>
 			);
 		}
-
+        console.log(children[0].props)
 		return children;
 	};
 	const onFinish = (values) => {
