@@ -62,7 +62,7 @@ export default function Return() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["returns", page, direction, fieldSort, doSearch, search, advacedReturn],
 		() => {
-			return isFilter === true
+			return advacedReturn[0]
 				? fetchFilterPage(
 						"returns",
 						advancedPage,
@@ -72,7 +72,7 @@ export default function Return() {
 				  )
 				: doSearch
 				? fecthFastPage("returns", page, search)
-				: !isFilter && !doSearch
+				: !advacedReturn[0] && !doSearch
 				? fetchPage("returns", page, direction, fieldSort)
 				: null;
 		}

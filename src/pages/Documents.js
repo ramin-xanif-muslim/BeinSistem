@@ -96,7 +96,7 @@ const {
 			advacedDocument,
 		],
 		() => {
-			return isFilter === true
+			return advacedDocument[0] 
 				? fetchFilterPage(
 						"documents",
 						advancedPage,
@@ -106,7 +106,7 @@ const {
 				  )
 				: doSearch
 				? fecthFastPage("documents", page, search)
-				: !isFilter && !doSearch
+				: !advacedDocument[0] && !doSearch
 				? fetchPage("documents", page, direction, fieldSort)
 				: null;
 		}

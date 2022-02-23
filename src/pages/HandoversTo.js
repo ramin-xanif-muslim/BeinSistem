@@ -63,7 +63,7 @@ export default function HandoversTo() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["handoversto", page, direction, fieldSort, doSearch, search, advacedHandoverTo],
 		() => {
-			return isFilter === true
+			return advacedHandoverTo[0]
 				? fetchFilterPage(
 						"handoversto",
 						advancedPage,
@@ -73,7 +73,7 @@ export default function HandoversTo() {
 				  )
 				: doSearch
 				? fecthFastPage("handoversto", page, search)
-				: !isFilter && !doSearch
+				: !advacedHandoverTo[0] && !doSearch
 				? fetchPage("handoversto", page, direction, fieldSort)
 				: null;
 		}

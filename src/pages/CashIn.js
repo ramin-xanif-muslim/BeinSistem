@@ -71,7 +71,7 @@ export default function CashIn() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["cashins", page, direction, fieldSort, doSearch, search, advacedCashIn],
 		() => {
-			return isFilter === true
+			return advacedCashIn[0]
 				? fetchFilterPage(
 						"cashins",
 						advancedPage,
@@ -81,7 +81,7 @@ export default function CashIn() {
 				  )
 				: doSearch
 				? fecthFastPage("cashins", page, search)
-				: !isFilter && !doSearch
+				: !advacedCashIn[0] && !doSearch
 				? fetchPage("cashins", page, direction, fieldSort)
 				: null;
 		}

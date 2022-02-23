@@ -105,7 +105,7 @@ export default function StockBalance() {
 			advacedStockBalance,
 		],
 		() => {
-			return isFilter === true
+			return advacedStockBalance[0]
 				? fetchFilterPage(
 						"stockbalance",
 						advancedPage,
@@ -118,7 +118,7 @@ export default function StockBalance() {
 				  )
 				: doSearch
 				? fecthFastPage("stockbalance", page, search)
-				: !isFilter && !doSearch
+				: !advacedStockBalance[0] && !doSearch
 				? fetchPage(
 						"stockbalance",
 						page,
@@ -465,7 +465,7 @@ export default function StockBalance() {
 			setallsum(data.Body.SaleSum);
 			setallcost(data.Body.CostSum);
 			setallquantity(data.Body.QuantitySum);
-			setIsFilter(false);
+			// setIsFilter(false);
 			setCount(data.Body.Count);
 			setPageCount(data.Body.Count);
 			setLimitCount(data.Body.Limit);

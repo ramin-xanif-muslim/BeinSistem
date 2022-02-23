@@ -89,7 +89,7 @@ export default function SupplyReturn() {
 			advacedSupplyReturn,
 		],
 		() => {
-			return isFilter === true
+			return advacedSupplyReturn[0]
 				? fetchFilterPage(
 						"supplyreturns",
 						advancedPage,
@@ -99,7 +99,7 @@ export default function SupplyReturn() {
 				  )
 				: doSearch
 				? fecthFastPage("supplyreturns", page, search)
-				: !isFilter && !doSearch
+				: !advacedSupplyReturn[0] && !doSearch
 				? fetchPage("supplyreturns", page, direction, fieldSort)
 				: null;
 		}

@@ -84,7 +84,7 @@ export default function Settlement() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["settlements", page, direction, fieldSort, doSearch, search, advacedSettlement],
 		() => {
-			return isFilter === true
+			return advacedSettlement[0]
 				? fetchFilterPage(
 						"settlements",
 						advancedPage,
@@ -94,7 +94,7 @@ export default function Settlement() {
 				  )
 				: doSearch
 				? fecthFastPage("settlements", page, search)
-				: !isFilter && !doSearch
+				: !advacedSettlement[0] && !doSearch
 				? fetchPage("settlements", page, direction, fieldSort)
 				: null;
 		}

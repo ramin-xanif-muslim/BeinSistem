@@ -71,7 +71,7 @@ export default function HandoversFrom() {
 			advacedHandoverFrom,
 		],
 		() => {
-			return isFilter === true
+			return advacedHandoverFrom[0]
 				? fetchFilterPage(
 						"handoversfrom",
 						advancedPage,
@@ -81,7 +81,7 @@ export default function HandoversFrom() {
 				  )
 				: doSearch
 				? fecthFastPage("handoversfrom", page, search)
-				: !isFilter && !doSearch
+				: !advacedHandoverFrom[0] && !doSearch
 				? fetchPage("handoversfrom", page, direction, fieldSort)
 				: null;
 		}

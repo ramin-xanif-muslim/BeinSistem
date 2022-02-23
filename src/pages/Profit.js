@@ -57,7 +57,7 @@ export default function Profit() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["profits", page, direction, fieldSort, doSearch, search, advacedProfit],
 		() => {
-			return isFilter === true
+			return advacedProfit[0] 
 				? fetchFilterPage(
 						"profit",
 						advancedPage,
@@ -67,7 +67,7 @@ export default function Profit() {
 				  )
 				: doSearch
 				? fecthFastPage("profit", page, search)
-				: !isFilter && !doSearch
+				: !advacedProfit[0] && !doSearch
 				? fetchPage("profit", page, direction, fieldSort)
 				: null;
 		}

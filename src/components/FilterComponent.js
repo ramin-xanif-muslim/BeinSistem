@@ -133,7 +133,6 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 	}, [doSearchFast]);
 
 	function allClear() {
-		setIsEnterFilterValue(false);
 		// setChanged(true);
 		form.resetFields();
 		form.setFieldsValue({});
@@ -142,6 +141,7 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 		setAdvancedPage(0);
 		setAdvance({});
 		setInitialFilterForm({});
+		setIsEnterFilterValue(false);
 	}
 	function handleClear(id) {
 		delete initialFilterForm[`${id}`];
@@ -468,18 +468,18 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 									className="detail-input"
 									child={cols[i].start}
 									onChange={onChange}
-									// defaultValue={
-									// 	Object.keys(initialFilterForm).length > 0
-									// 		? initialFilterForm[
-									// 				`${Object.keys(
-									// 					initialFilterForm
-									// 				).find(
-									// 					(c) =>
-									// 						c === cols[i].start
-									// 				)}`
-									// 		  ]
-									// 		: null
-									// }
+									defaultValue={
+										Object.keys(initialFilterForm).length > 0
+											? initialFilterForm[
+													`${Object.keys(
+														initialFilterForm
+													).find(
+														(c) =>
+															c === cols[i].start
+													)}`
+											  ]
+											: null
+									}
 									name={cols[i].start}
 									style={{ width: 100, textAlign: "center" }}
 									placeholder="Min"
@@ -500,17 +500,17 @@ function FilterComponent({ from, settings, cols, display, advanced, setAdvance, 
 									child={cols[i].start}
 									name={cols[i].end}
 									onChange={onChange}
-									// defaultValue={
-									// 	Object.keys(initialFilterForm).length > 0
-									// 		? initialFilterForm[
-									// 				`${Object.keys(
-									// 					initialFilterForm
-									// 				).find(
-									// 					(c) => c === cols[i].end
-									// 				)}`
-									// 		  ]
-									// 		: null
-									// }
+									defaultValue={
+										Object.keys(initialFilterForm).length > 0
+											? initialFilterForm[
+													`${Object.keys(
+														initialFilterForm
+													).find(
+														(c) => c === cols[i].end
+													)}`
+											  ]
+											: null
+									}
 									style={{
 										width: 100,
 										textAlign: "center",

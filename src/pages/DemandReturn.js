@@ -88,7 +88,7 @@ export default function DemandReturn() {
 			advacedDemandReturn,
 		],
 		() => {
-			return isFilter === true
+			return advacedDemandReturn[0]
 				? fetchFilterPage(
 						"demandreturns",
 						advancedPage,
@@ -98,7 +98,7 @@ export default function DemandReturn() {
 				  )
 				: doSearch
 				? fecthFastPage("demandreturns", page, search)
-				: !isFilter && !doSearch
+				: !advacedDemandReturn[0] && !doSearch
 				? fetchPage("demandreturns", page, direction, fieldSort)
 				: null;
 		}

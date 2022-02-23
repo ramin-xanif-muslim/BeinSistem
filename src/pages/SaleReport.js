@@ -117,7 +117,7 @@ export default function SaleReport() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["salereports", page, direction, fieldSort, doSearch, search, advacedSaleReport],
 		() => {
-			return isFilter === true
+			return advacedSaleReport[0]
 				? fetchFilterPage(
 						"salereports",
 						advancedPage,
@@ -127,7 +127,7 @@ export default function SaleReport() {
 				  )
 				: doSearch
 				? fecthFastPage("salereports", page, search)
-				: !isFilter && !doSearch
+				: !advacedSaleReport[0] && !doSearch
 				? fetchPage("salereports", page, direction, fieldSort)
 				: null;
 		}

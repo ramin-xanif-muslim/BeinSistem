@@ -80,7 +80,7 @@ export default function Sale() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["sales", page, direction, fieldSort, doSearch, search, advacedSale],
 		() => {
-			return isFilter === true
+			return advacedSale[0]
 				? fetchFilterPage(
 						"sales",
 						advancedPage,
@@ -90,7 +90,7 @@ export default function Sale() {
 				  )
 				: doSearch
 				? fecthFastPage("sales", page, search)
-				: !isFilter && !doSearch
+				: !advacedSale[0] && !doSearch
 				? fetchPage("sales", page, direction, fieldSort)
 				: null;
 		}

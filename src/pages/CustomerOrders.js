@@ -94,7 +94,7 @@ export default function CustomerOrders() {
 			advacedCustomerOrder,
 		],
 		() => {
-			return isFilter === true
+			return advacedCustomerOrder[0]
 				? fetchFilterPage(
 						"customerorders",
 						advancedPage,
@@ -104,7 +104,7 @@ export default function CustomerOrders() {
 				  )
 				: doSearch
 				? fecthFastPage("customerorders", page, search)
-				: !isFilter && !doSearch
+				: !advacedCustomerOrder[0] && !doSearch
 				? fetchPage("customerorders", page, direction, fieldSort)
 				: null;
 		}

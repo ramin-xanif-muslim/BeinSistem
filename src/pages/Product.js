@@ -552,7 +552,7 @@ export default function Product() {
 			searchGr,
 		],
 		() => {
-			return isFilter === true
+			return advacedProduct[0] 
 				? fetchFilterPage(
 						"products",
 						advancedPage,
@@ -565,7 +565,7 @@ export default function Product() {
 				  )
 				: doSearch
 				? fecthFastPage("products", advancedPage, search, searchGr)
-				: !isFilter && !doSearch
+				: !advacedProduct[0] && !doSearch
 				? fetchPage(
 						"products",
 						advancedPage,

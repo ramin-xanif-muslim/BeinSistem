@@ -81,7 +81,7 @@ export default function CreditTransaction() {
 			advacedCreditTransaction,
 		],
 		() => {
-			return isFilter === true
+			return advacedCreditTransaction[0]
 				? fetchFilterPage(
 						"credittransactions",
 						advancedPage,
@@ -91,7 +91,7 @@ export default function CreditTransaction() {
 				  )
 				: doSearch
 				? fecthFastPage("credittransactions", page, search)
-				: !isFilter && !doSearch
+				: !advacedCreditTransaction[0] && !doSearch
 				? fetchPage("credittransactions", page, direction, fieldSort)
 				: null;
 		}

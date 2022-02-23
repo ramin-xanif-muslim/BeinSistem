@@ -94,7 +94,7 @@ export default function ProductTransactions() {
 			advacedProductTransactions,
 		],
 		() => {
-			return isFilter === true
+			return advacedProductTransactions[0]
 				? fetchFilterPage(
 						"producttransactions",
 						advancedPage,
@@ -103,7 +103,7 @@ export default function ProductTransactions() {
 				  )
 				: doSearch
 				? fecthFastPage("producttransactions", page, search)
-				: !isFilter && !doSearch
+				: !advacedProductTransactions[0] && !doSearch
 				? fetchPage("producttransactions", page, direction)
 				: null;
 		}
@@ -140,6 +140,9 @@ export default function ProductTransactions() {
 		}
 		setFetchSearchByDate(false);
 	};
+	useEffect(() => {
+        console.log('advacedProductTransactions',advacedProductTransactions)
+	}, [advacedProductTransactions]);
 	useEffect(() => {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
@@ -478,7 +481,7 @@ export default function ProductTransactions() {
 						data.Body.supplyreturnsSum,
 					]);
 				}
-				setIsFilter(false);
+				// setIsFilter(false);
 			}
 		}
 	}, [isFetching]);

@@ -336,23 +336,45 @@ export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
             mome: `${date} 23:59:59`,
         };
         Object.assign(navFilter, tarix);
+        const { data } = await axios.post(
+            API_BASE + `/controllers/${page}/get.php`,
+            navFilter
+        );
+    
+        if (data.Headers.ResponseStatus === "0") {
+            return data;
+        } else {
+            return data.Body;
+        }
     }
-    if (page === "profit") {
+    else if (page === "profit") {
         var tarix = {
             momb: moment().startOf("month").format("YYYY-MM-DD HH:mm:ss"),
             mome: moment().endOf("month").format("YYYY-MM-DD HH:mm:ss"),
         };
         Object.assign(navFilter, tarix);
+        const { data } = await axios.post(
+            API_BASE + `/controllers/${page}/get.php`,
+            navFilter
+        );
+    
+        if (data.Headers.ResponseStatus === "0") {
+            return data;
+        } else {
+            return data.Body;
+        }
     }
-    const { data } = await axios.post(
-        API_BASE + `/controllers/${page}/get.php`,
-        navFilter
-    );
-
-    if (data.Headers.ResponseStatus === "0") {
-        return data;
-    } else {
-        return data.Body;
+    else {
+        const { data } = await axios.post(
+            API_BASE + `/controllers/${page}/get.php`,
+            navFilter
+        );
+    
+        if (data.Headers.ResponseStatus === "0") {
+            return data;
+        } else {
+            return data.Body;
+        }
     }
 };
 

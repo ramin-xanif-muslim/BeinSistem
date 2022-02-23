@@ -64,7 +64,7 @@ export default function Move() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["moves", page, direction, fieldSort, doSearch, search, advacedMove],
 		() => {
-			return isFilter === true
+			return advacedMove[0] 
 				? fetchFilterPage(
 						"moves",
 						advancedPage,
@@ -74,7 +74,7 @@ export default function Move() {
 				  )
 				: doSearch
 				? fecthFastPage("moves", page, search)
-				: !isFilter && !doSearch
+				: !advacedMove[0] && !doSearch
 				? fetchPage("moves", page, direction, fieldSort)
 				: null;
 		}
@@ -315,20 +315,6 @@ export default function Move() {
 			},
 			{
 				key: "9",
-				label: "Məbləğ",
-				name: "docPrice",
-				start: "amb",
-				end: "ame",
-				type: "range",
-				dataIndex: "docPrice",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "docPrice"
-					  ).show
-					: true,
-			},
-			{
-				key: "10",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",

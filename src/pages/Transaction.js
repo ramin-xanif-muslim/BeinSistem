@@ -96,7 +96,7 @@ export default function Transaction() {
 			advacedTransaction,
 		],
 		() => {
-			return isFilter === true
+			return advacedTransaction[0]
 				? fetchFilterPage(
 						"transactions",
 						advancedPage,
@@ -106,7 +106,7 @@ export default function Transaction() {
 				  )
 				: doSearch
 				? fecthFastPage("transactions", page, search)
-				: !isFilter && !doSearch
+				: !advacedTransaction[0] && !doSearch
 				? fetchPage("transactions", page, direction, fieldSort)
 				: null;
 		}

@@ -65,7 +65,7 @@ export default function Enter() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["enters", page, direction, fieldSort, doSearch, search, advacedEnter],
 		() => {
-			return isFilter === true
+			return advacedEnter[0]
 				? fetchFilterPage(
 						"enters",
 						advancedPage,
@@ -75,7 +75,7 @@ export default function Enter() {
 				  )
 				: doSearch
 				? fecthFastPage("enters", page, search)
-				: !isFilter && !doSearch
+				: !advacedEnter[0] && !doSearch
 				? fetchPage("enters", page, direction, fieldSort)
 				: null;
 		}

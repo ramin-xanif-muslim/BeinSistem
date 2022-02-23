@@ -82,7 +82,7 @@ export default function Supply() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["supplies", page, direction, fieldSort, doSearch, search, advacedSupply],
 		() => {
-			return isFilter === true
+			return advacedSupply[0]
 				? fetchFilterPage(
 						"supplies",
 						advancedPage,
@@ -92,7 +92,7 @@ export default function Supply() {
 				  )
 				: doSearch
 				? fecthFastPage("supplies", page, search)
-				: !isFilter && !doSearch
+				: !advacedSupply[0] && !doSearch
 				? fetchPage("supplies", page, direction, fieldSort)
 				: null;
 		}
