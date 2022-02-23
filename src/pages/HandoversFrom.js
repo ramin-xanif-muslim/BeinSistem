@@ -21,7 +21,14 @@ import FilterButton from "../components/FilterButton";
 import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function HandoversFrom() {
-    const { isOpenHandoverFromFilter, setIsOpenHandoverFromFilter } = useFilterContext() 
+	const {
+		isOpenHandoverFromFilter,
+		setIsOpenHandoverFromFilter,
+		advacedHandoverFrom,
+		setAdvaceHandoverFrom,
+		formHandoverFrom,
+		setFormHandoverFrom,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -47,21 +54,28 @@ export default function HandoversFrom() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["handoversfrom", page, direction, fieldSort, doSearch, search, advanced],
+		[
+			"handoversfrom",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advacedHandoverFrom,
+		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"handoversfrom",
 						advancedPage,
-						advanced,
+						advacedHandoverFrom,
 						direction,
 						fieldSort
 				  )
@@ -249,18 +263,18 @@ export default function HandoversFrom() {
 					  ).show
 					: true,
 			},
-            {
-                key: "3",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
+			{
+				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
 
 			{
 				key: "4",
@@ -363,12 +377,12 @@ export default function HandoversFrom() {
 		if (!isFetching) {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -515,13 +529,13 @@ export default function HandoversFrom() {
 		setFetchSearchByDate(false);
 	};
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -542,7 +556,10 @@ export default function HandoversFrom() {
 								redirectto={"/newhandoverfrom"}
 								animate={"Yarat"}
 							/>
-							<FilterButton display={isOpenHandoverFromFilter} setdisplay={setIsOpenHandoverFromFilter} />
+							<FilterButton
+								display={isOpenHandoverFromFilter}
+								setdisplay={setIsOpenHandoverFromFilter}
+							/>
 							<FastSearch className="search_header" />
 							<FastSearch className="search_header" />
 							<SearchByDate
@@ -555,13 +572,21 @@ export default function HandoversFrom() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} display={isOpenHandoverFromFilter} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenHandoverFromFilter}
+                        advanced={advacedHandoverFrom}
+                        setAdvance={setAdvaceHandoverFrom}
+                        initialFilterForm={formHandoverFrom}
+                        setInitialFilterForm={setFormHandoverFrom}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -588,11 +613,11 @@ export default function HandoversFrom() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

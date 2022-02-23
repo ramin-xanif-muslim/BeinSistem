@@ -30,7 +30,14 @@ import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 
 export default function CashOut() {
-    const { isOpenCashOutFilter, setIsOpenCashOutFilter } = useFilterContext() 
+	const {
+		isOpenCashOutFilter,
+		setIsOpenCashOutFilter,
+		advacedCashOut,
+		setAdvaceCashOut,
+		formCashOut,
+		setFormCashOut,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -57,20 +64,19 @@ export default function CashOut() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["cashouts", page, direction, fieldSort, doSearch, search, advanced],
+		["cashouts", page, direction, fieldSort, doSearch, search, advacedCashOut],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"cashouts",
 						advancedPage,
-						advanced,
+						advacedCashOut,
 						direction,
 						fieldSort
 				  )
@@ -232,12 +238,12 @@ export default function CashOut() {
 		if (!isFetching) {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -397,13 +403,13 @@ export default function CashOut() {
 
 	if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -415,7 +421,10 @@ export default function CashOut() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton display={isOpenCashOutFilter} setdisplay={setIsOpenCashOutFilter} />
+							<FilterButton
+								display={isOpenCashOutFilter}
+								setdisplay={setIsOpenCashOutFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -428,13 +437,21 @@ export default function CashOut() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} display={isOpenCashOutFilter} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenCashOutFilter}
+                        advanced={advacedCashOut}
+                        setAdvance={setAdvaceCashOut}
+                        initialFilterForm={formCashOut}
+                        setInitialFilterForm={setFormCashOut}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -461,11 +478,11 @@ export default function CashOut() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 			/>

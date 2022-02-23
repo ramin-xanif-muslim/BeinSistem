@@ -33,7 +33,14 @@ import FilterButton from "../components/FilterButton";
 import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function Sale() {
-    const { isOpenSaleFilter, setIsOpenSaleFilter } = useFilterContext() 
+	const {
+		isOpenSaleFilter,
+		setIsOpenSaleFilter,
+		advacedSale,
+		setAdvaceSale,
+		formSale,
+		setFormSale,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -62,23 +69,22 @@ export default function Sale() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
 		setCustomersLocalStorage,
 		setCustomers,
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const today = true;
 	const { isLoading, error, data, isFetching } = useQuery(
-		["sales", page, direction, fieldSort, doSearch, search, advanced],
+		["sales", page, direction, fieldSort, doSearch, search, advacedSale],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"sales",
 						advancedPage,
-						advanced,
+						advacedSale,
 						direction,
 						fieldSort
 				  )
@@ -314,18 +320,18 @@ export default function Sale() {
 					  ).show
 					: true,
 			},
-            {
-                key: "3",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
+			{
+				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
 
 			{
 				key: "4",
@@ -477,12 +483,12 @@ export default function Sale() {
 			setallprofit(data.Body.AllProfit);
 			setallbonus(data.Body.BonusSum);
 			setallbank(data.Body.BankSum);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -634,13 +640,13 @@ export default function Sale() {
 		setFetchSearchByDate(false);
 	};
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 	if (redirect) return <Redirect push to={`/editSale/${editId}`} />;
@@ -655,7 +661,10 @@ export default function Sale() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton display={isOpenSaleFilter} setdisplay={setIsOpenSaleFilter} />
+							<FilterButton
+								display={isOpenSaleFilter}
+								setdisplay={setIsOpenSaleFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -668,14 +677,22 @@ export default function Sale() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} display={isOpenSaleFilter} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenSaleFilter}
+                        advanced={advacedSale}
+                        setAdvance={setAdvaceSale}
+                        initialFilterForm={formSale}
+                        setInitialFilterForm={setFormSale}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show === true)}
 				onChange={onChange}
@@ -713,11 +730,11 @@ export default function Sale() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

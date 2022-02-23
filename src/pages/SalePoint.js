@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage, fetchStocks } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import {
@@ -17,12 +16,12 @@ import {
 } from "antd";
 
 import Buttons from "../components/Button";
-import { Button, Icon } from "semantic-ui-react";
 import { useTableCustom } from "../contexts/TableContext";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
+
 export default function SalePoint() {
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);

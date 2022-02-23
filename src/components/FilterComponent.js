@@ -17,7 +17,7 @@ const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
 
 moment.locale("az");
-function FilterComponent({ from, settings, cols, display }) {
+function FilterComponent({ from, settings, cols, display, advanced, setAdvance, initialFilterForm, setInitialFilterForm }) {
 	const [is, setIs] = useState(false);
 	const [selectDate, setSelectDate] = useState();
 	const [loading, setLoading] = useState(false);
@@ -30,11 +30,9 @@ function FilterComponent({ from, settings, cols, display }) {
 	const [doSearchFast, setdoSearchFast] = useState("");
 	const {
 		setIsFilter,
-		advanced,
-		setAdvance,
+		// advanced,
+		// setAdvance,
 		setAdvancedPage,
-		selectFilter,
-		setSelectFilter,
 		selectedDateId,
 		setSelectedDateId,
 		isEnterFilterValue,
@@ -136,30 +134,30 @@ function FilterComponent({ from, settings, cols, display }) {
 
 	function allClear() {
 		setIsEnterFilterValue(false);
-		setSelectFilter([]);
-		setChanged(true);
+		// setChanged(true);
 		form.resetFields();
-		form.setFieldsValue(initial);
+		form.setFieldsValue({});
 
 		setIsFilter(true);
 		setAdvancedPage(0);
-		setAdvance(initial);
+		setAdvance({});
+		setInitialFilterForm({});
 	}
 	function handleClear(id) {
-		delete selectFilter[`${id}`];
-		delete selectFilter[`${id}_id`];
+		delete initialFilterForm[`${id}`];
+		delete initialFilterForm[`${id}_id`];
 
-		setSelectFilter(selectFilter);
+        setInitialFilterForm(initialFilterForm);
 		setChanged(true);
 	}
 	function handleChange(value, option) {
-		console.log(option.key);
+		console.log(option);
 		if (option) {
-			Object.assign(selectFilter, {
+			Object.assign(initialFilterForm, {
 				[option.nm]: option.children ? option.children : null,
 				[`${option.nm}_id`]: option.key,
 			});
-			setSelectFilter(selectFilter);
+			setInitialFilterForm(initialFilterForm);
 		}
 	}
 	const documentNames = [
@@ -175,13 +173,13 @@ function FilterComponent({ from, settings, cols, display }) {
 	];
 
 	const onChange = (e) => {
-		console.log("onChange", e.target);
+		console.log("onChange", e.target.name);
 		var n = e.target.name;
 		var v = e.target.value;
 		Object.assign(rangeFilter, { [n]: v });
 		setRangeFilter(rangeFilter);
-		Object.assign(selectFilter, { [n]: v });
-		setSelectFilter(selectFilter);
+		Object.assign(initialFilterForm, { [n]: v });
+        setInitialFilterForm(initialFilterForm);
 	};
 	const onOpenChange = (open) => {
 		//   setIsOpen(open);
@@ -190,11 +188,6 @@ function FilterComponent({ from, settings, cols, display }) {
 	useEffect(() => {
 		setSelectedDateId(null);
 	}, []);
-	useEffect(() => {
-		setAdvance({});
-		setSelectFilter([]);
-	}, []);
-
 	useEffect(() => {
 		if (selectedDateId === 1) {
 			setSelectDate([moment().startOf("day"), moment().endOf("day")]);
@@ -475,18 +468,18 @@ function FilterComponent({ from, settings, cols, display }) {
 									className="detail-input"
 									child={cols[i].start}
 									onChange={onChange}
-									defaultValue={
-										Object.keys(selectFilter).length > 0
-											? selectFilter[
-													`${Object.keys(
-														selectFilter
-													).find(
-														(c) =>
-															c === cols[i].start
-													)}`
-											  ]
-											: null
-									}
+									// defaultValue={
+									// 	Object.keys(initialFilterForm).length > 0
+									// 		? initialFilterForm[
+									// 				`${Object.keys(
+									// 					initialFilterForm
+									// 				).find(
+									// 					(c) =>
+									// 						c === cols[i].start
+									// 				)}`
+									// 		  ]
+									// 		: null
+									// }
 									name={cols[i].start}
 									style={{ width: 100, textAlign: "center" }}
 									placeholder="Min"
@@ -507,17 +500,17 @@ function FilterComponent({ from, settings, cols, display }) {
 									child={cols[i].start}
 									name={cols[i].end}
 									onChange={onChange}
-									defaultValue={
-										Object.keys(selectFilter).length > 0
-											? selectFilter[
-													`${Object.keys(
-														selectFilter
-													).find(
-														(c) => c === cols[i].end
-													)}`
-											  ]
-											: null
-									}
+									// defaultValue={
+									// 	Object.keys(initialFilterForm).length > 0
+									// 		? initialFilterForm[
+									// 				`${Object.keys(
+									// 					initialFilterForm
+									// 				).find(
+									// 					(c) => c === cols[i].end
+									// 				)}`
+									// 		  ]
+									// 		: null
+									// }
 									style={{
 										width: 100,
 										textAlign: "center",
@@ -691,7 +684,7 @@ function FilterComponent({ from, settings, cols, display }) {
 				: "",
 		};
 
-		Object.assign(totalvalues, selectFilter);
+		Object.assign(totalvalues, initialFilterForm);
 		Object.entries(totalvalues).forEach(([key, value]) => {
 			if (key.includes("_id")) {
 				var index = key.slice(0, key.indexOf("_id"));
@@ -709,17 +702,16 @@ function FilterComponent({ from, settings, cols, display }) {
 	};
 	useEffect(() => {
 		if (from === "stockbalance") {
-			Object.assign(selectFilter, {
+			Object.assign(initialFilterForm, {
 				ar: 0,
 				zeros: 3,
 				// wg: "",
 			});
-
-			setSelectFilter(selectFilter);
-			setinitial(selectFilter);
-		} else if (from === "products") {
-			if (Object.keys(selectFilter).length === 0) {
-				setSelectFilter(selectFilter);
+            setInitialFilterForm(initialFilterForm)
+			setinitial(initialFilterForm);
+		} else if (from === "products" && initialFilterForm) {
+			if (Object.keys(initialFilterForm).length === 0) {
+                setInitialFilterForm(initialFilterForm)
 			}
 
 			setinitial({
@@ -727,20 +719,20 @@ function FilterComponent({ from, settings, cols, display }) {
 				ar: 0,
 			});
 
-			form.setFieldsValue(selectFilter);
+			form.setFieldsValue(initialFilterForm);
 			// if (selectFilter.wg === "" || selectFilter.wg === undefined) {
 			// 	form.setFieldsValue({
 			// 		wg: "",
 			// 	});
 			// }
-			if (selectFilter.ar === "" || selectFilter.ar === undefined) {
+			if (initialFilterForm.ar === "" || initialFilterForm.ar === undefined) {
 				form.setFieldsValue({
 					ar: 0,
 				});
 			}
 		} else {
-			if (Object.keys(selectFilter).length === 0) {
-				setSelectFilter(selectFilter);
+			if (initialFilterForm && Object.keys(initialFilterForm).length === 0) {
+                setInitialFilterForm(initialFilterForm)
 				setinitial(initial);
 			}
 			form.setFieldsValue();
@@ -765,7 +757,7 @@ function FilterComponent({ from, settings, cols, display }) {
 				name="advanced_search"
 				className="ant-advanced-search-form"
 				onFinish={onFinish}
-				// initialValues={initialvalues}
+				initialValues={initialFilterForm}
 			>
 				<Row gutter={24} style={{ padding: "0.5rem 1rem 0" }}>
 					{getFields()}

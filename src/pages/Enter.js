@@ -22,7 +22,14 @@ import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function Enter() {
-    const { isOpenEnterFilter, setIsOpenEnterFilter } = useFilterContext() 
+	const {
+		isOpenEnterFilter,
+		setIsOpenEnterFilter,
+		advacedEnter,
+		setAdvaceEnter,
+        formEnter,
+        setFormEnter,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -48,7 +55,7 @@ export default function Enter() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
+		// advanced,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -56,13 +63,13 @@ export default function Enter() {
 	const [pageCount, setPageCount] = useState(null);
 	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["enters", page, direction, fieldSort, doSearch, search, advanced],
+		["enters", page, direction, fieldSort, doSearch, search, advacedEnter],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"enters",
 						advancedPage,
-						advanced,
+						advacedEnter,
 						direction,
 						fieldSort
 				  )
@@ -270,18 +277,18 @@ export default function Enter() {
 					  ).show
 					: true,
 			},
-            {
-                key: "3",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
+			{
+				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
 
 			{
 				key: "4",
@@ -561,7 +568,10 @@ export default function Enter() {
 								text={"Yeni daxilolma"}
 								redirectto={"/newenter"}
 							/>
-							<FilterButton display={isOpenEnterFilter} setdisplay={setIsOpenEnterFilter} />
+							<FilterButton
+								display={isOpenEnterFilter}
+								setdisplay={setIsOpenEnterFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -574,7 +584,15 @@ export default function Enter() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} display={isOpenEnterFilter} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenEnterFilter}
+                        advanced={advacedEnter}
+                        setAdvance={setAdvaceEnter}
+                        initialFilterForm={formEnter}
+                        setInitialFilterForm={setFormEnter}
+					/>
 				</Col>
 			</Row>
 			<Row>

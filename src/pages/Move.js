@@ -21,7 +21,14 @@ import FilterButton from "../components/FilterButton";
 import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function Move() {
-    const { isOpenMoveFilter, setIsOpenMoveFilter } = useFilterContext() 
+	const {
+		isOpenMoveFilter,
+		setIsOpenMoveFilter,
+		advacedMove,
+		setAdvaceMove,
+		formMove,
+		setFormMove,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -52,16 +59,16 @@ export default function Move() {
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["moves", page, direction, fieldSort, doSearch, search, advanced],
+		["moves", page, direction, fieldSort, doSearch, search, advacedMove],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"moves",
 						advancedPage,
-						advanced,
+						advacedMove,
 						direction,
 						fieldSort
 				  )
@@ -229,18 +236,18 @@ export default function Move() {
 					  ).show
 					: true,
 			},
-            {
-                key: "3",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
+			{
+				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
 
 			{
 				key: "4",
@@ -344,13 +351,13 @@ export default function Move() {
 			if (isObject(data.Body)) {
 				setDocumentList(data.Body.List);
 				setallsum(data.Body.AllSum);
-                setPageCount(data.Body.Count);
-                setLimitCount(data.Body.Limit);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -501,14 +508,13 @@ export default function Move() {
 
 	if (redirect) return <Redirect push to={`/editMove/${editId}`} />;
 
-
-    if (!isLoading && !isObject(data.Body))
-    return (
-      <>
-        Xəta:
-        <span style={{ color: "red" }}>{data}</span>
-      </>
-    );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -525,7 +531,10 @@ export default function Move() {
 								redirectto={"/newmove"}
 								animate={"Yarat"}
 							/>
-							<FilterButton  display={isOpenMoveFilter} setdisplay={setIsOpenMoveFilter} />
+							<FilterButton
+								display={isOpenMoveFilter}
+								setdisplay={setIsOpenMoveFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -537,13 +546,21 @@ export default function Move() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} display={isOpenMoveFilter} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenMoveFilter}
+                        advanced={advacedMove}
+                        setAdvance={setAdvaceMove}
+                        initialFilterForm={formMove}
+                        setInitialFilterForm={setFormMove}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -570,11 +587,11 @@ export default function Move() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

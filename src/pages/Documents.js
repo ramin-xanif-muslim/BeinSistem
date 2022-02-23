@@ -34,8 +34,18 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function Documents() {
+const {
+    isOpenDocumentFilter,
+    setIsOpenDocumentFilter,
+	advacedDocument,
+	setAdvaceDocument,
+	formDocument,
+	setFormDocument,
+} = useFilterContext();
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
 	const [defaultdr, setDefaultDr] = useState("descend");
@@ -76,13 +86,21 @@ export default function Documents() {
 	const [pageCount, setPageCount] = useState(null);
 	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["documents", page, direction, fieldSort, doSearch, search, advanced],
+		[
+			"documents",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advacedDocument,
+		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"documents",
 						advancedPage,
-						advanced,
+						advacedDocument,
 						direction,
 						fieldSort
 				  )
@@ -624,7 +642,10 @@ export default function Documents() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton
+								display={isOpenDocumentFilter}
+								setdisplay={setIsOpenDocumentFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearcObjByDate={getSearcObjByDate}
@@ -636,7 +657,15 @@ export default function Documents() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenDocumentFilter}
+						advanced={advacedDocument}
+						setAdvance={setAdvaceDocument}
+						initialFilterForm={formDocument}
+						setInitialFilterForm={setFormDocument}
+					/>
 				</Col>
 			</Row>
 

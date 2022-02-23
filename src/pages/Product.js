@@ -31,7 +31,14 @@ import FilterButton from "../components/FilterButton";
 import { useFilterContext } from "../contexts/FilterContext";
 
 export default function Product() {
-    const { isOpenProductFilter, setIsOpenProductFilter } = useFilterContext() 
+	const {
+		isOpenProductFilter,
+		setIsOpenProductFilter,
+		advacedProduct,
+		setAdvaceProduct,
+		formProduct,
+		setFormProduct,
+	} = useFilterContext();
 	const [count, setCount] = useState(1);
 	const [redirect, setRedirect] = useState(false);
 	const [editId, setEditId] = useState("");
@@ -53,8 +60,8 @@ export default function Product() {
 	const [fieldSort, setFieldSort] = useState("Name");
 	const [columnChange, setColumnChange] = useState(false);
 	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 
 	const [initial, setInitial] = useState(
 		localStorage.getItem("procolumns")
@@ -95,7 +102,7 @@ export default function Product() {
 		setCount(res.Count);
 		setPageCount(res.Count);
 		setProdutcList(res.List);
-        setLimitCount(res.Limit);
+		setLimitCount(res.Limit);
 		setIsLoadingSearch(false);
 	};
 
@@ -541,7 +548,7 @@ export default function Product() {
 			fieldSort,
 			doSearch,
 			search,
-			advanced,
+			advacedProduct,
 			searchGr,
 		],
 		() => {
@@ -549,7 +556,7 @@ export default function Product() {
 				? fetchFilterPage(
 						"products",
 						advancedPage,
-						advanced,
+						advacedProduct,
 						direction,
 						fieldSort,
 						searchGr,
@@ -577,13 +584,13 @@ export default function Product() {
 			if (isObject(data.Body)) {
 				setProdutcList(data.Body.List);
 				setCount(data.Body.Count);
-        setPageCount(data.Body.Count);
-        setLimitCount(data.Body.Limit);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setProdutcList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -722,7 +729,7 @@ export default function Product() {
 				className="icon-excel"
 				key="1"
 				icon={<FileExcelOutlined />}
-				onClick={() => downloadFile(advanced, "xlsx", "products")}
+				onClick={() => downloadFile(advacedProduct, "xlsx", "products")}
 			>
 				Excel
 			</Menu.Item>
@@ -730,7 +737,7 @@ export default function Product() {
 				className="icon-pdf"
 				key="2"
 				icon={<FilePdfOutlined />}
-				onClick={() => downloadFile(advanced, "pdf", "products")}
+				onClick={() => downloadFile(advacedProduct, "pdf", "products")}
 			>
 				PDF
 			</Menu.Item>
@@ -771,7 +778,10 @@ export default function Product() {
 								redirectto={"/newprogroup"}
 								animate={"Yarat"}
 							/>
-							<FilterButton display={isOpenProductFilter} setdisplay={setIsOpenProductFilter} />
+							<FilterButton
+								display={isOpenProductFilter}
+								setdisplay={setIsOpenProductFilter}
+							/>
 							<MyFastSearch
 								searchFunc={searchFunc}
 								setSearchTerm={setProductSearchTerm}
@@ -802,7 +812,11 @@ export default function Product() {
 						from={"products"}
 						settings={filterSetting}
 						cols={filtersnew}
-                        display={isOpenProductFilter}
+						display={isOpenProductFilter}
+                        advanced={advacedProduct}
+                        setAdvance={setAdvaceProduct}
+                        initialFilterForm={formProduct}
+                        setInitialFilterForm={setFormProduct}
 					/>
 				</Col>
 			</Row>{" "}

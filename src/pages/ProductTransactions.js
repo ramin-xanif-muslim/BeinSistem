@@ -32,7 +32,14 @@ import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function ProductTransactions() {
-    const { isOpenProductTransactionFilter, setIsOpenProductTransactionFilter } = useFilterContext() 
+	const {
+		isOpenProductTransactionFilter,
+		setIsOpenProductTransactionFilter,
+		advacedProductTransactions,
+		setAdvaceProductTransactions,
+		formProductTransactions,
+		setFormProductTransactions,
+	} = useFilterContext();
 	const [count, setCount] = useState(1);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(0);
@@ -53,8 +60,6 @@ export default function ProductTransactions() {
 	const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
 		useState(false);
 	const {
-		stockbalanceSearchTerm,
-		setStockbalanceSearchTerm,
 		marks,
 		isFilter,
 		setIsFilter,
@@ -62,7 +67,6 @@ export default function ProductTransactions() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
 		setdisplay,
 		display,
 	} = useTableCustom();
@@ -87,14 +91,14 @@ export default function ProductTransactions() {
 			fieldSort,
 			doSearch,
 			search,
-			advanced,
+			advacedProductTransactions,
 		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"producttransactions",
 						advancedPage,
-						advanced,
+						advacedProductTransactions,
 						direction
 				  )
 				: doSearch
@@ -104,44 +108,38 @@ export default function ProductTransactions() {
 				: null;
 		}
 	);
-    const getSearchObjByDate = async (ob) => {
-      setFetchSearchByDate(true);
-      let res = await sendRequest("producttransactions/get.php", ob);
-      if (!!res.demandreturns) {
-          setDemandreturns([
-              res.demandreturns,
-              res.demandreturnsSum,
-          ]);
-      }
-      if (!!res.demands) {
-          setDemands([res.demands, res.demandsSum]);
-      }
-      if (!!res.enters) {
-          setEnters([res.enters, res.entersSum]);
-      }
-      if (!!res.losses) {
-          setLosses([res.losses, res.lossesSum]);
-      }
-      if (!!res.moves) {
-          setMoves([res.moves, res.movesSum]);
-      }
-      if (!!res.returns) {
-          setReturns([res.returns, res.returnsSum]);
-      }
-      if (!!res.sales) {
-          setSales([res.sales, res.salesSum]);
-      }
-      if (!!res.supplies) {
-          setSupplies([res.supplies, res.suppliesSum]);
-      }
-      if (!!res.supplyreturns) {
-          setSupplyreturns([
-              res.supplyreturns,
-              res.supplyreturnsSum,
-          ]);
-      }
-      setFetchSearchByDate(false);
-    };
+	const getSearchObjByDate = async (ob) => {
+		setFetchSearchByDate(true);
+		let res = await sendRequest("producttransactions/get.php", ob);
+		if (!!res.demandreturns) {
+			setDemandreturns([res.demandreturns, res.demandreturnsSum]);
+		}
+		if (!!res.demands) {
+			setDemands([res.demands, res.demandsSum]);
+		}
+		if (!!res.enters) {
+			setEnters([res.enters, res.entersSum]);
+		}
+		if (!!res.losses) {
+			setLosses([res.losses, res.lossesSum]);
+		}
+		if (!!res.moves) {
+			setMoves([res.moves, res.movesSum]);
+		}
+		if (!!res.returns) {
+			setReturns([res.returns, res.returnsSum]);
+		}
+		if (!!res.sales) {
+			setSales([res.sales, res.salesSum]);
+		}
+		if (!!res.supplies) {
+			setSupplies([res.supplies, res.suppliesSum]);
+		}
+		if (!!res.supplyreturns) {
+			setSupplyreturns([res.supplyreturns, res.supplyreturnsSum]);
+		}
+		setFetchSearchByDate(false);
+	};
 	useEffect(() => {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
@@ -407,11 +405,11 @@ export default function ProductTransactions() {
 				documentList: demandreturns[0],
 				allSum: demandreturns[1],
 			},
-            {
-                title: "Pərakəndə satışlar",
-                documentList: sales[0],
-                allSum: sales[1],
-            },
+			{
+				title: "Pərakəndə satışlar",
+				documentList: sales[0],
+				allSum: sales[1],
+			},
 			{
 				title: "Qaytarmalar",
 				documentList: returns[0],
@@ -437,15 +435,15 @@ export default function ProductTransactions() {
 	useEffect(() => {
 		if (!isFetching) {
 			if (isObject(data.Body)) {
-                setDemandreturns([])
-                setDemands([])
-                setEnters([])
-                setLosses([])
-                setMoves([])
-                setReturns([])
-                setSales([])
-                setSupplies([])
-                setSupplyreturns([])
+				setDemandreturns([]);
+				setDemands([]);
+				setEnters([]);
+				setLosses([]);
+				setMoves([]);
+				setReturns([]);
+				setSales([]);
+				setSupplies([]);
+				setSupplyreturns([]);
 
 				if (!!data.Body.demandreturns) {
 					setDemandreturns([
@@ -630,7 +628,7 @@ export default function ProductTransactions() {
 					<div>
 						<h4 className="producttransactions-header">{title}</h4>
 						<Table
-				            loading={isLoading || isFetchSearchByDate}
+							loading={isLoading || isFetchSearchByDate}
 							className="main-table"
 							rowKey="Name"
 							columns={columns.filter((c) => c.show === true)}
@@ -689,7 +687,7 @@ export default function ProductTransactions() {
 				key="1"
 				icon={<FileExcelOutlined />}
 				onClick={() =>
-					downloadFile(advanced, "xlsx", "producttransactions")
+					downloadFile(advacedProductTransactions, "xlsx", "producttransactions")
 				}
 			>
 				Excel
@@ -699,7 +697,7 @@ export default function ProductTransactions() {
 				key="2"
 				icon={<FilePdfOutlined />}
 				onClick={() =>
-					downloadFile(advanced, "pdf", "producttransactions")
+					downloadFile(advacedProductTransactions, "pdf", "producttransactions")
 				}
 			>
 				PDF
@@ -728,10 +726,13 @@ export default function ProductTransactions() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton display={isOpenProductTransactionFilter} setdisplay={setIsOpenProductTransactionFilter} />
+							<FilterButton
+								display={isOpenProductTransactionFilter}
+								setdisplay={setIsOpenProductTransactionFilter}
+							/>
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
-                                defaultCheckedDate={1}
+								defaultCheckedDate={1}
 							/>
 						</div>
 
@@ -757,7 +758,11 @@ export default function ProductTransactions() {
 						from="producttransactions"
 						settings={filterSetting}
 						cols={filters}
-                        display={isOpenProductTransactionFilter}
+						display={isOpenProductTransactionFilter}
+                        advanced={advacedProductTransactions}
+                        setAdvance={setAdvaceProductTransactions}
+                        initialFilterForm={formProductTransactions}
+                        setInitialFilterForm={setFormProductTransactions}
 					/>
 				</Col>
 			</Row>
