@@ -63,7 +63,7 @@ export default function Loss() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["losses", page, direction, fieldSort, doSearch, search, advacedLoss],
 		() => {
-			return advacedLoss[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"losses",
 						advancedPage,
@@ -73,7 +73,7 @@ export default function Loss() {
 				  )
 				: doSearch
 				? fecthFastPage("losses", page, search)
-				: !advacedLoss[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("losses", page, direction, fieldSort)
 				: null;
 		}

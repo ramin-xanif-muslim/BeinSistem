@@ -96,7 +96,7 @@ const {
 			advacedDocument,
 		],
 		() => {
-			return advacedDocument[0] 
+			return isFilter === true
 				? fetchFilterPage(
 						"documents",
 						advancedPage,
@@ -106,7 +106,7 @@ const {
 				  )
 				: doSearch
 				? fecthFastPage("documents", page, search)
-				: !advacedDocument[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("documents", page, direction, fieldSort)
 				: null;
 		}
@@ -310,13 +310,13 @@ const {
 			{
 				key: "4",
 				label: "Qarşı-tərəf",
-				name: "customerName",
+				name: "cus",
 				type: "select",
 				controller: "customers",
-				dataIndex: "customerName",
+				dataIndex: "cus",
 				show: initialfilter
 					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "customerName"
+							(i) => i.dataIndex === "cus"
 					  ).show
 					: true,
 			},

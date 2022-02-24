@@ -64,7 +64,7 @@ export default function Move() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["moves", page, direction, fieldSort, doSearch, search, advacedMove],
 		() => {
-			return advacedMove[0] 
+			return isFilter === true
 				? fetchFilterPage(
 						"moves",
 						advancedPage,
@@ -74,7 +74,7 @@ export default function Move() {
 				  )
 				: doSearch
 				? fecthFastPage("moves", page, search)
-				: !advacedMove[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("moves", page, direction, fieldSort)
 				: null;
 		}

@@ -72,7 +72,7 @@ export default function CashOut() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["cashouts", page, direction, fieldSort, doSearch, search, advacedCashOut],
 		() => {
-			return advacedCashOut[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"cashouts",
 						advancedPage,
@@ -82,7 +82,7 @@ export default function CashOut() {
 				  )
 				: doSearch
 				? fecthFastPage("cashouts", page, search)
-				: !advacedCashOut[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("cashouts", page, direction, fieldSort)
 				: null;
 		}
@@ -428,7 +428,6 @@ export default function CashOut() {
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
-								defaultCheckedDate={1}
 							/>
 						</div>
 						<div>{tableSettings}</div>

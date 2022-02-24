@@ -90,7 +90,7 @@ export default function Moneytransfer() {
 			advacedMoneytransfer,
 		],
 		() => {
-			return advacedMoneytransfer[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"moneytransfers",
 						advancedPage,
@@ -100,7 +100,7 @@ export default function Moneytransfer() {
 				  )
 				: doSearch
 				? fecthFastPage("moneytransfers", page, search)
-				: !advacedMoneytransfer[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("moneytransfers", page, direction, fieldSort)
 				: null;
 		}

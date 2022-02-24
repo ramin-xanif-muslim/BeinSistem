@@ -318,63 +318,15 @@ export const fetchPage = async (page, pg, dr, sr, gp, zeros, ar) => {
     };
 
     console.log("fetchPage");
-    let today = new Date();
-    let y = today.getFullYear();
-    let m = today.getMonth();
-    let d = today.getDate();
-    if (
-        page === "sales" ||
-        page === "returns" ||
-        page === "salereports" ||
-        page === "cashouts" ||
-        page === "producttransactions" ||
-        page === "cashins" 
-    ) {
-        let date = y + "-" + (m + 1) + "-" + d;
-        var tarix = {
-            momb: `${date} 00:00:00`,
-            mome: `${date} 23:59:59`,
-        };
-        Object.assign(navFilter, tarix);
-        const { data } = await axios.post(
-            API_BASE + `/controllers/${page}/get.php`,
-            navFilter
-        );
-    
-        if (data.Headers.ResponseStatus === "0") {
-            return data;
-        } else {
-            return data.Body;
-        }
-    }
-    else if (page === "profit") {
-        var tarix = {
-            momb: moment().startOf("month").format("YYYY-MM-DD HH:mm:ss"),
-            mome: moment().endOf("month").format("YYYY-MM-DD HH:mm:ss"),
-        };
-        Object.assign(navFilter, tarix);
-        const { data } = await axios.post(
-            API_BASE + `/controllers/${page}/get.php`,
-            navFilter
-        );
-    
-        if (data.Headers.ResponseStatus === "0") {
-            return data;
-        } else {
-            return data.Body;
-        }
-    }
-    else {
-        const { data } = await axios.post(
-            API_BASE + `/controllers/${page}/get.php`,
-            navFilter
-        );
-    
-        if (data.Headers.ResponseStatus === "0") {
-            return data;
-        } else {
-            return data.Body;
-        }
+    const { data } = await axios.post(
+        API_BASE + `/controllers/${page}/get.php`,
+        navFilter
+    );
+
+    if (data.Headers.ResponseStatus === "0") {
+        return data;
+    } else {
+        return data.Body;
     }
 };
 
@@ -468,6 +420,7 @@ export const fetchFilterPage = async (
         token: localStorage.getItem("access-token"),
     };
     Object.assign(navFilter, advanced);
+    console.log("fetchFilterPage", navFilter);
     const { data } = await axios.post(
         API_BASE + `/controllers/${page}/get.php`,
         navFilter

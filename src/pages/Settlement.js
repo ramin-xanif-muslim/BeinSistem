@@ -65,6 +65,7 @@ export default function Settlement() {
 		isFilter,
 		advancedPage,
 		setAdvancedPage,
+        setSelectedDateId,
 		doSearch,
 		search,
 	} = useTableCustom();
@@ -84,7 +85,7 @@ export default function Settlement() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["settlements", page, direction, fieldSort, doSearch, search, advacedSettlement],
 		() => {
-			return advacedSettlement[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"settlements",
 						advancedPage,
@@ -94,7 +95,7 @@ export default function Settlement() {
 				  )
 				: doSearch
 				? fecthFastPage("settlements", page, search)
-				: !advacedSettlement[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("settlements", page, direction, fieldSort)
 				: null;
 		}
@@ -224,7 +225,7 @@ export default function Settlement() {
 				name: "zeros",
 				controller: "yesno",
 				default: 3,
-				type: "selectDefaultZeros",
+				type: "selectDefaultList",
 				hidden: false,
 				dataIndex: "zeros",
 				show: initialfilter
@@ -239,6 +240,9 @@ export default function Settlement() {
 	useEffect(() => {
 		setInitial(columns);
 		setInitialFilter(filters);
+	}, []);
+	useEffect(() => {
+		setSelectedDateId(null)
 	}, []);
 
 	useEffect(() => {

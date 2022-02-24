@@ -361,7 +361,7 @@ export default function Customer() {
 			searchGr,
 		],
 		() => {
-			return advacedCustomer[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"customers",
 						advancedPage,
@@ -372,7 +372,7 @@ export default function Customer() {
 				  )
 				: doSearch
 				? fecthFastPage("customers", advancedPage, search, searchGr)
-				: !advacedCustomer[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage(
 						"customers",
 						advancedPage,

@@ -25,12 +25,7 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 		},
 		{
 			id: 4,
-			title: "30 gün",
-			onclick: false,
-		},
-		{
-			id: 5,
-			title: "Müddətsiz",
+			title: "Keçən ay",
 			onclick: false,
 		},
 	]);
@@ -42,38 +37,23 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 		sr: defaultSort ? defaultSort : "Moment",
 	};
 	const select = (i) => {
-		let today = new Date();
-		let y = today.getFullYear();
-		let m = today.getMonth();
-		let d = today.getDate();
 		if (i === 1) {
-			let date = y + "-" + (m + 1) + "-" + d;
 			var tarix = {
-				// momb: moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
-				// mome: moment().endOf("day").format("YYYY-MM-DD HH:mm:ss"),
-				momb: `${date} 00:00:00`,
-				mome: `${date} 23:59:59`,
+				momb: moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
+				mome: moment().endOf("day").format("YYYY-MM-DD HH:mm:ss"),
 			};
 			Object.assign(obj, tarix);
 			getSearchObjByDate(obj);
 			return;
-		}
-		if (i === 2) {
-			d = d - 1;
-			let date = y + "-" + (m + 1) + "-" + d;
+		} else if (i === 2) {
 			var tarix = {
-				// momb: moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss"),
-				// mome: moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
-				momb: `${date} 00:00:00`,
-				mome: `${date} 23:59:59`,
+				momb: moment().subtract(1, "day").format("YYYY-MM-DD HH:mm:ss"),
+				mome: moment().startOf("day").format("YYYY-MM-DD HH:mm:ss"),
 			};
 			Object.assign(obj, tarix);
 			getSearchObjByDate(obj);
 			return;
-		}
-		if (i === 3) {
-			d = 1;
-			let date = y + "-" + (m + 1) + "-" + d;
+		} else if (i === 3) {
 			var tarix = {
 				momb: moment().startOf("month").format("YYYY-MM-DD HH:mm:ss"),
 				mome: moment().endOf("month").format("YYYY-MM-DD HH:mm:ss"),
@@ -81,27 +61,10 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 			Object.assign(obj, tarix);
 			getSearchObjByDate(obj);
 			return;
-		}
-		if (i === 4) {
-            if (i === 4) {
-                let date = y + "/" + m + "/" + d;
-                var tarix = {
-                    momb: `${date} 00:00`,
-                };
-                Object.assign(obj, tarix);
-                date = y + "/" + (m + 1) + "/" + d;
-                var tarix = {
-                    mome: `${date} 23:59`,
-                };
-                Object.assign(obj, tarix);
-                getSearchObjByDate(obj);
-                return;
-            }
-		}
-		if (i === 5) {
+		} else if (i === 4) {
 			var tarix = {
-				momb: "",
-				mome: "",
+				momb: moment().subtract(1, "month").startOf("month"),
+				mome: moment().subtract(1, "month").endOf("month"),
 			};
 			Object.assign(obj, tarix);
 			getSearchObjByDate(obj);
@@ -118,7 +81,9 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 		if (defaultCheckedDate) {
 			setActivId(defaultCheckedDate);
 			setSelectedDateId(defaultCheckedDate);
-		}
+		}else {
+            setSelectedDateId(null)
+        }
 	}, [defaultCheckedDate]);
 
 	return (

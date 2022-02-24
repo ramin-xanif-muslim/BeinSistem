@@ -62,7 +62,7 @@ export default function Return() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["returns", page, direction, fieldSort, doSearch, search, advacedReturn],
 		() => {
-			return advacedReturn[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"returns",
 						advancedPage,
@@ -72,7 +72,7 @@ export default function Return() {
 				  )
 				: doSearch
 				? fecthFastPage("returns", page, search)
-				: !advacedReturn[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("returns", page, direction, fieldSort)
 				: null;
 		}
@@ -430,7 +430,6 @@ export default function Return() {
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
-								defaultCheckedDate={1}
 							/>
 						</div>
 						{tableSettings}

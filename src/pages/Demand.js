@@ -81,7 +81,7 @@ export default function Demand() {
 	const { isLoading, error, data, isFetching } = useQuery(
 		["demands", page, direction, fieldSort, doSearch, search, advacedDemand],
 		() => {
-			return advacedDemand[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"demands",
 						advancedPage,
@@ -91,7 +91,7 @@ export default function Demand() {
 				  )
 				: doSearch
 				? fecthFastPage("demands", page, search)
-				: !advacedDemand[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("demands", page, direction, fieldSort)
 				: null;
 		}

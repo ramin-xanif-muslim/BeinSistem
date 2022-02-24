@@ -105,7 +105,7 @@ export default function StockBalance() {
 			advacedStockBalance,
 		],
 		() => {
-			return advacedStockBalance[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"stockbalance",
 						advancedPage,
@@ -118,7 +118,7 @@ export default function StockBalance() {
 				  )
 				: doSearch
 				? fecthFastPage("stockbalance", page, search)
-				: !advacedStockBalance[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage(
 						"stockbalance",
 						page,

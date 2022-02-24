@@ -94,7 +94,7 @@ export default function ProductTransactions() {
 			advacedProductTransactions,
 		],
 		() => {
-			return advacedProductTransactions[0]
+			return isFilter === true
 				? fetchFilterPage(
 						"producttransactions",
 						advancedPage,
@@ -103,7 +103,7 @@ export default function ProductTransactions() {
 				  )
 				: doSearch
 				? fecthFastPage("producttransactions", page, search)
-				: !advacedProductTransactions[0] && !doSearch
+				: !isFilter && !doSearch
 				? fetchPage("producttransactions", page, direction)
 				: null;
 		}
@@ -140,9 +140,6 @@ export default function ProductTransactions() {
 		}
 		setFetchSearchByDate(false);
 	};
-	useEffect(() => {
-        console.log('advacedProductTransactions',advacedProductTransactions)
-	}, [advacedProductTransactions]);
 	useEffect(() => {
 		setColumnChange(false);
 		if (filtered) setFiltered(false);
@@ -735,7 +732,7 @@ export default function ProductTransactions() {
 							/>
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
-								defaultCheckedDate={1}
+								defaultCheckedDate={3}
 							/>
 						</div>
 
