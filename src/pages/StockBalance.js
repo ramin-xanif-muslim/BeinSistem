@@ -451,6 +451,18 @@ export default function StockBalance() {
 					  ).show
 					: true,
 			},
+			{
+				key: "10",
+				label: "Tarixi",
+				name: "createdDate",
+				type: "datePicker",
+				dataIndex: "createdDate",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "createdDate"
+					  ).show
+					: true,
+			},
 		];
 	}, [filterChanged]);
 

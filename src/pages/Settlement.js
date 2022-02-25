@@ -211,7 +211,7 @@ export default function Settlement() {
 				key: "3",
 				label: "Tarixi",
 				name: "createdDate",
-				type: "date",
+				type: "datePicker",
 				dataIndex: "createdDate",
 				show: initialfilter
 					? Object.values(initialfilter).find(

@@ -26,6 +26,7 @@ import FastSearch from "../components/FastSearch";
 import FilterComponent from "../components/FilterComponent";
 import FilterButton from "../components/FilterButton";
 import { useTableCustom } from "../contexts/TableContext";
+import { isObject } from "../config/function/findadditionals";
 
 import { SettingOutlined } from "@ant-design/icons";
 import sendRequest from "../config/sentRequest";
@@ -52,6 +53,8 @@ export default function CreditTransaction() {
 	const [alloutsum, setalloutsum] = useState(0);
 	const [page, setPage] = useState(0);
 	const [filtered, setFiltered] = useState(false);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 
 	const [filterChanged, setFilterChanged] = useState(false);
 	const [columnChange, setColumnChange] = useState(false);
@@ -166,7 +169,7 @@ export default function CreditTransaction() {
 				title: "Nağd/Köçürmə",
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "SumMoney"
+							(i) => i.dataIndex === "CashInvoice"
 					  ).show
 					: true,
 				render: (value, row, index) => {
@@ -182,7 +185,7 @@ export default function CreditTransaction() {
 				title: "Mədaxil",
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "SumMoney"
+							(i) => i.dataIndex === "PaymentIn"
 					  ).show
 					: true,
 				render: (value, row, index) => {
@@ -198,7 +201,7 @@ export default function CreditTransaction() {
 				title: "Məxaric",
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "SumMoney"
+							(i) => i.dataIndex === "PaymentOut"
 					  ).show
 					: true,
 				render: (value, row, index) => {
@@ -349,8 +352,12 @@ export default function CreditTransaction() {
 			setDocumentList(data.Body.List);
 			setallinsum(data.Body.InSum);
 			setalloutsum(data.Body.OutSum);
+            setPageCount(data.Body.Count);
+            setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -438,11 +445,12 @@ export default function CreditTransaction() {
 		</Dropdown>
 	);
 
-	if (isLoading)
+	if (!isLoading && !isObject(data.Body))
 		return (
-			<Spin className="fetchSpinner" tip="Yüklənir...">
-				<Alert />
-			</Spin>
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
 		);
 
 	if (error) return "An error has occurred: " + error.message;
@@ -487,7 +495,7 @@ export default function CreditTransaction() {
 			<Table
 				className="main-table"
 				rowKey="Name"
-				columns={columns.filter((c) => c.show == true)}
+				columns={columns.filter((c) => c.show === true)}
 				onChange={onChange}
 				dataSource={documentList}
 				rowClassName={(record, index) =>
@@ -515,9 +523,9 @@ export default function CreditTransaction() {
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
 					current: advancedPage + 1,
-					total: data.Body.Count,
+					total: pageCount,
 					onChange: handlePagination,
-					defaultPageSize: data.Body.Limit,
+					defaultPageSize: 100,
 					showSizeChanger: false,
 				}}
 				size="small"

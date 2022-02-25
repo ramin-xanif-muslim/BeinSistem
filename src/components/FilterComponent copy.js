@@ -6,8 +6,6 @@ import moment from "moment";
 import { API_BASE, fetchRefList } from "../api";
 import { Form, Row, Col, Input, Select, DatePicker } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
-import { useSelectModal } from "../hooks";
-import { convertCamelCaseTextToText } from "../config/function/convert";
 const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
 
@@ -32,7 +30,6 @@ function FilterComponent({
 	const [initial, setinitial] = useState({});
 	const [doSearchId, setdoSearchId] = useState();
 	const [doSearchFast, setdoSearchFast] = useState("");
-	const [itemInputSelectModal, setItemInputSelectModal] = useState("");
 	const {
 		setIsFilter,
 		// advanced,
@@ -140,13 +137,13 @@ function FilterComponent({
 	const allClear = () => {
 		// setChanged(true);
 		form.resetFields();
+		form.setFieldsValue({});
 
 		setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance({});
 		setInitialFilterForm({});
 		setIsEnterFilterValue(false);
-		form.setFieldsValue({});
 	};
 	function handleClear(id) {
 		delete initialFilterForm[`${id}`];
@@ -185,8 +182,8 @@ function FilterComponent({
 		setInitialFilterForm(initialFilterForm);
 	};
 	const onChangeDatePicker = (date, dateString) => {
-		setInitialFilterForm({ ...initialFilterForm, moment: dateString });
-	};
+        setInitialFilterForm({...initialFilterForm, moment: dateString})
+      }
 	const onOpenChange = (open) => {
 		//   setIsOpen(open);
 	};
@@ -213,26 +210,6 @@ function FilterComponent({
 			setSelectDate([]);
 		}
 	}, [selectedDateId]);
-
-	const {
-		selectModal,
-		selectedItem,
-		nameInput,
-        onClickSelectModal,
-	} = useSelectModal();
-    
-	useEffect(() => {
-		if (selectedItem) {
-            let convertedNameInput = convertCamelCaseTextToText(nameInput) 
-			setItemInputSelectModal(selectedItem.Name);
-			Object.assign(initialFilterForm, {
-				[nameInput]: selectedItem.Name,
-				[convertedNameInput.split(' ')[0].toLowerCase() + 'Id']: selectedItem.Id,
-			});
-			setInitialFilterForm(initialFilterForm);
-			form.setFieldsValue(initialFilterForm);
-		}
-	}, [selectedItem]);
 
 	const getFields = () => {
 		const children = [];
@@ -264,15 +241,6 @@ function FilterComponent({
 							<Input
 								className="detail-input"
 								onChange={onChange}
-								name={cols[i].name}
-								placeholder={cols[i].label}
-							/>
-						) : cols[i].type === "selectModal" ? (
-							<Input
-								autoComplete="off"
-								className="detail-input"
-								onClick={() => onClickSelectModal(cols[i])}
-								readOnly
 								name={cols[i].name}
 								placeholder={cols[i].label}
 							/>
@@ -599,7 +567,7 @@ function FilterComponent({
 									format="DD-MM-YYYY HH:mm:ss"
 									locale={locale}
 									{...rangeConfig}
-									onChange={onChangeDatePicker}
+								    onChange={onChangeDatePicker}
 								/>
 							</div>
 						) : cols[i].type === "dateOfChange" ? (
@@ -865,7 +833,6 @@ function FilterComponent({
 					</Col>
 				</Row>
 			</Form>
-			{selectModal}
 		</div>
 	);
 }
