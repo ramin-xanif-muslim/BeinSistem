@@ -2,7 +2,7 @@ import { Input, Spin, List } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useEffect, useState } from "react";
 import { sendRequest } from "../api";
-import "./useSelectModal.css";
+import "./SelectModal.css";
 
 export function useSelectModal() {
 	const [searchItem, setSearchItem] = useState("");
@@ -41,6 +41,9 @@ export function useSelectModal() {
         setIsLoading(false)
 	};
 	const onClickSelectModal = (cols) => {
+        if(controller !== cols.controller) {
+            setTodos([0])
+        }
 		showSelectModal();
 		setNameInput(cols.name);
 		setController(cols.controller);

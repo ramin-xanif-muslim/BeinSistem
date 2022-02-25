@@ -29,6 +29,7 @@ function Profile() {
     };
 
     const onFinish = async (values) => {
+        console.log(values)
         message.loading({ content: "Yüklənir...", key: "doc_update" });
         updateMutation.mutate(
             { filter: values },

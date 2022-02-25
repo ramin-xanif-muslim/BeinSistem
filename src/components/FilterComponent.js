@@ -733,7 +733,14 @@ function FilterComponent({
 	};
 	const onFinish = (values) => {
 		setIsEnterFilterValue(true);
+        if(initialFilterForm.productName) {
+            initialFilterForm.productName = initialFilterForm.productId
+        }
+        if(initialFilterForm.customerName) {
+            initialFilterForm.customerName = initialFilterForm.customerId
+        }
 		// const rangeCreateValue = values["createdDate"];
+
 		const rangeModifyValue = values["modifedDate"];
 		const moment = values["moment"];
 		const totalvalues = {
