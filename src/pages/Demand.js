@@ -219,18 +219,18 @@ export default function Demand() {
 					return (
 						<span
 							className="status_label"
-							style={{
-								backgroundColor: markObject.find(
-									(m) => m.Id === value
-								)
-									? markObject.find((m) => m.Id === value)
-											.Color
-									: null,
-							}}
+							// style={{
+							// 	backgroundColor: markObject.find(
+							// 		(m) => m.Id === value
+							// 	)
+							// 		? markObject.find((m) => m.Id === value)
+							// 				.Color
+							// 		: null,
+							// }}
 						>
-							{markObject.find((m) => m.Id === value)
+							{/* {markObject.find((m) => m.Id === value)
 								? markObject.find((m) => m.Id === value).Name
-								: null}
+								: null} */}
 						</span>
 					);
 				},

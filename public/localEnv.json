@@ -1,4 +1,4 @@
 {
-	"API_BASE": "https://dev.bein.az",
-	"NEW_VERSION": "61"
+    "API_BASE": "http://localhost/front",
+    "NEW_VERSION": "56"
 }
