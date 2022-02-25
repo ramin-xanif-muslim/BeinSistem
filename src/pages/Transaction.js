@@ -335,7 +335,7 @@ export default function Transaction() {
 				key: "3",
 				label: "Qarşı-tərəf",
 				name: "customerName",
-				type: "select",
+				type: "selectModal",
 				controller: "customers",
 				dataIndex: "customerName",
 				show: initialfilter

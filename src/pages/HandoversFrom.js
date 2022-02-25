@@ -254,7 +254,7 @@ export default function HandoversFrom() {
 				key: "2",
 				label: "Məhsul adı",
 				name: "productName",
-				type: "select",
+				type: "selectModal",
 				controller: "products",
 				dataIndex: "productName",
 				show: initialfilter

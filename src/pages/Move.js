@@ -227,7 +227,7 @@ export default function Move() {
 				key: "2",
 				label: "Məhsul adı",
 				name: "productName",
-				type: "select",
+				type: "selectModal",
 				controller: "products",
 				dataIndex: "productName",
 				show: initialfilter

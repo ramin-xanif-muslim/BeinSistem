@@ -343,7 +343,7 @@ export default function SaleReport() {
 				key: "1",
 				label: "Məhsul adı",
 				name: "productName",
-				type: "select",
+				type: "selectModal",
 				controller: "products",
 				dataIndex: "productName",
 				show: initialfilter
@@ -369,7 +369,7 @@ export default function SaleReport() {
 				key: "3",
 				label: "Qarşı-tərəf",
 				name: "customerName",
-				type: "select",
+				type: "selectModal",
 				controller: "customers",
 				dataIndex: "customerName",
 				show: initialfilter

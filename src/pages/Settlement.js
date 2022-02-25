@@ -184,7 +184,7 @@ export default function Settlement() {
 				key: "1",
 				label: "Qarşı-tərəf",
 				name: "customerName",
-				type: "select",
+				type: "selectModal",
 				controller: "customers",
 				dataIndex: "customerName",
 				show: initialfilter

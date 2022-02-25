@@ -211,7 +211,7 @@ export default function Return() {
 				key: "2",
 				label: "Məhsul adı",
 				name: "productName",
-				type: "select",
+				type: "selectModal",
 				controller: "products",
 				dataIndex: "productName",
 				show: initialfilter
@@ -263,7 +263,7 @@ export default function Return() {
 				key: "6",
 				label: "Qarşı-tərəf",
 				name: "customerName",
-				type: "select",
+				type: "selectModal",
 				controller: "customers",
 				dataIndex: "customerName",
 				show: initialfilter

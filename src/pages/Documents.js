@@ -285,7 +285,7 @@ const {
 				key: "2",
 				label: "Məhsul adı",
 				name: "productName",
-				type: "select",
+				type: "selectModal",
 				controller: "products",
 				dataIndex: "productName",
 				show: initialfilter
@@ -311,7 +311,7 @@ const {
 				key: "4",
 				label: "Qarşı-tərəf",
 				name: "cus",
-				type: "select",
+				type: "selectModal",
 				controller: "customers",
 				dataIndex: "cus",
 				show: initialfilter

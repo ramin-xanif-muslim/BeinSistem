@@ -267,7 +267,7 @@ export default function ProductTransactions() {
 				key: "2",
 				label: "Məhsul adı",
 				name: "productName",
-				type: "text",
+				type: "selectModal",
 				dataIndex: "productName",
 				show: initialfilter
 					? Object.values(initialfilter).find(
@@ -344,7 +344,7 @@ export default function ProductTransactions() {
 				key: "8",
 				label: "Qarşı-tərəf",
 				name: "customerName",
-				type: "select",
+				type: "selectModal",
 				controller: "customers",
 				dataIndex: "customerName",
 				show: initialfilter
