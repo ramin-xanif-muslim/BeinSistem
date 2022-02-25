@@ -46,7 +46,7 @@ const TableProvider = ({ children }) => {
   const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
   const [selectedRowKey, setSelectedRowKeys] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedDateId, setSelectedDateId] = useState(null);
+  const [selectedDateId, setSelectedDateId] = useState({});
   const [isEnterFilterValue, setIsEnterFilterValue] = useState(false);
   const [settingsObj, setSettingsObj] = useState({token: localStorage.getItem("access-token")})
 
