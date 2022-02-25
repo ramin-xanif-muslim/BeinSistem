@@ -909,6 +909,7 @@ tbody .ant-table-cell {
 .active-search-item {
     background-color: #002d7563;
     padding: 4px 0;
+    border-radius: 4px;
 }
 
 @media screen and (max-width: 1200px) {
