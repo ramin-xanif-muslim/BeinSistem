@@ -2,7 +2,6 @@ import { Input, Spin, List } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import React, { useEffect, useState } from "react";
 import { sendRequest } from "../api";
-import "./SelectModal.css";
 
 export function useSelectModal() {
 	const [searchItem, setSearchItem] = useState("");
@@ -71,6 +70,7 @@ export function useSelectModal() {
 
 	const selectModal = (
 		<Modal
+			className="select-modal"
 			title={title}
 			destroyOnClose={true}
 			visible={modalVisible}

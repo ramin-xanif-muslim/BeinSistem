@@ -743,6 +743,20 @@ tbody .ant-table-cell {
 .orderField {
     width: 50px;
 }
+
+
+.select-modal .ant-modal-body {
+    height: 80vh !important;
+    overflow: auto;
+}
+
+.select-modal .ant-list-item:hover {
+    background-color: #d9eefc;
+    cursor: pointer;
+}
+
+
+
 /* .tableCellBarcode,
 .tableCellQuantity,
 .tableCellAmount,
