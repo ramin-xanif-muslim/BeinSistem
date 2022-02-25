@@ -148,8 +148,8 @@ function NewDemand({
 
   const handleDelete = (key) => {
     const dataSource = [...outerDataSource];
-    setOuterDataSource(dataSource.filter((item) => item.key !== key));
-    setPositions(dataSource.filter((item) => item.key !== key));
+    setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
+    setPositions(dataSource.filter((item) => item.BarCode !== key));
   };
   const handleCopy = (record, key) => {
     setOuterDataSource([...outerDataSource, record]);
@@ -447,21 +447,21 @@ function NewDemand({
         },
       },
       {
-        title: "Qiymət",
-        dataIndex: "Price",
-        isVisible: JSON.parse(localStorage.getItem("demandnewcolumns"))
-          ? Object.values(
-              JSON.parse(localStorage.getItem("demandnewcolumns"))
-            ).find((i) => i.dataIndex === "Price").isVisible
-          : true,
+          title: pricetypeselect,
+          dataIndex: "Price",
+          isVisible: initial
+              ? Object.values(initial).find(
+                      (i) => i.dataIndex === "Price"
+                ).isVisible
+              : true,
 
-        className: "tableCellPrice",
-        editable: true,
-        sortDirections: ["descend", "ascend"],
-        render: (value, row, index) => {
-          // do something like adding commas to the value or prefix
-          return ConvertFixedPosition(value);
-        },
+          className: "tableCellPrice",
+          editable: true,
+          sortDirections: ["descend", "ascend"],
+          render: (value, row, index) => {
+              // do something like adding commas to the value or prefix
+              return ConvertFixedPosition(value);
+          },
       },
       {
         title: "Məbləğ",
@@ -564,7 +564,7 @@ function NewDemand({
               title="Silməyə əminsinizmi?"
               okText="Bəli"
               cancelText="Xeyr"
-              onConfirm={() => handleDelete(record.key)}
+              onConfirm={() => handleDelete(record.BarCode)}
             >
               <a className="deletePosition">Sil</a>
             </Popconfirm>

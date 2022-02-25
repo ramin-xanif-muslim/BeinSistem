@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
 import { fetchPage, fecthFastPage, fetchFilterPage, fetchStocks } from "../api";
 
-import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
 import {
@@ -17,12 +16,12 @@ import {
 } from "antd";
 
 import Buttons from "../components/Button";
-import { Button, Icon } from "semantic-ui-react";
 import { useTableCustom } from "../contexts/TableContext";
 
 import { SettingOutlined } from "@ant-design/icons";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 const { Text } = Typography;
+
 export default function SalePoint() {
     const [redirect, setRedirect] = useState(false);
     const [direction, setDirection] = useState(1);
@@ -157,73 +156,6 @@ export default function SalePoint() {
         getStocks();
         setInitial(columns);
     }, []);
-    const filters = useMemo(() => {
-        return [
-            {
-                key: "1",
-                label: "Alış №",
-                name: "docNumber",
-                type: "text",
-                hidden: false,
-            },
-            {
-                key: "2",
-                label: "Məhsul adı",
-                name: "productName",
-                type: "select",
-                controller: "products",
-                hidden: false,
-            },
-
-            {
-                key: "3",
-                label: "Anbar",
-                name: "stockName",
-                type: "select",
-                controller: "stocks",
-                hidden: false,
-            },
-            {
-                key: "4",
-                label: "Şöbə",
-                name: "departmentName",
-                controller: "departments",
-                type: "select",
-                hidden: true,
-            },
-            {
-                key: "5",
-                label: "Cavabdeh",
-                name: "ownerName",
-                controller: "owners",
-                type: "select",
-                hidden: true,
-            },
-            {
-                key: "6",
-                label: "Dəyişmə tarixi",
-                name: "modifedDate",
-                type: "dateOfChange",
-                hidden: true,
-            },
-            {
-                key: "7",
-                label: "Məbləğ",
-                name: "docPrice",
-                start: "amb",
-                end: "ame",
-                type: "range",
-                hidden: true,
-            },
-            {
-                key: "8",
-                label: "Tarixi",
-                name: "createdDate",
-                type: "date",
-                hidden: false,
-            },
-        ];
-    });
     useEffect(() => {
         if (!isFetching) {
             setDocumentList(data.Body.List);

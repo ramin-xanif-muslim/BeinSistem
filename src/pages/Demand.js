@@ -30,8 +30,18 @@ import SearchByDate from "../components/SearchByDate";
 import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function Demand() {
+	const {
+		isOpenDemandFilter,
+		setIsOpenDemandFilter,
+		advacedDemand,
+		setAdvaceDemand,
+		formDemand,
+		setFormDemand,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -58,26 +68,24 @@ export default function Demand() {
 		doSearch,
 		search,
 		advanced,
-		setdisplay,
-		display,
 		setCustomersLocalStorage,
 		setCustomers,
 	} = useTableCustom();
-        
-    const [ downloadButton ] = useDownload(advanced, 'demands')
+
+	const [downloadButton] = useDownload(advacedDemand, "demands");
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["demands", page, direction, fieldSort, doSearch, search, advanced],
+		["demands", page, direction, fieldSort, doSearch, search, advacedDemand],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"demands",
 						advancedPage,
-						advanced,
+						advacedDemand,
 						direction,
 						fieldSort
 				  )
@@ -114,8 +122,9 @@ export default function Demand() {
 				dataIndex: "Name",
 				title: "Satış №",
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find((i) => i.dataIndex === "Name")
-							.show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Name").show
 					: true,
 				defaultSortOrder: initialSort === "Name" ? defaultdr : null,
 				sorter: (a, b) => null,
@@ -129,9 +138,9 @@ export default function Demand() {
 				title: "Tarix",
 				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Moment"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Moment").show
 					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "Moment" ? "activesort" : "",
@@ -142,9 +151,9 @@ export default function Demand() {
 				defaultSortOrder:
 					initialSort === "StockName" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "StockName"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "StockName").show
 					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "StockName" ? "activesort" : "",
@@ -155,9 +164,9 @@ export default function Demand() {
 				defaultSortOrder:
 					initialSort === "CustomerName" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "CustomerName"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "CustomerName").show
 					: true,
 				sorter: (a, b) => null,
 				className:
@@ -170,9 +179,9 @@ export default function Demand() {
 				title: "Məbləğ",
 				defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Amount"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Amount").show
 					: true,
 				className: initialSort === "Amount" ? "activesort" : "",
 				sorter: (a, b) => null,
@@ -185,9 +194,9 @@ export default function Demand() {
 				title: "Qazanc",
 				defaultSortOrder: initialSort === "Profit" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Profit"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Profit").show
 					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "Profit" ? "activesort" : "",
@@ -201,8 +210,9 @@ export default function Demand() {
 				defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
 				className: initialSort === "Mark" ? "activesort" : "",
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find((i) => i.dataIndex === "Mark")
-							.show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Mark").show
 					: true,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
@@ -232,9 +242,9 @@ export default function Demand() {
 				defaultSortOrder:
 					initialSort === "Description" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Description"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Description").show
 					: true,
 				sorter: (a, b) => null,
 			},
@@ -244,9 +254,9 @@ export default function Demand() {
 				title: "Dəyişmə tarixi",
 				defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Modify"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Modify").show
 					: false,
 				sorter: (a, b) => null,
 			},
@@ -258,9 +268,9 @@ export default function Demand() {
 				defaultSortOrder:
 					initialSort === "CustomerDiscount" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "CustomerDiscount"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "CustomerDiscount").show
 					: false,
 				sorter: (a, b) => null,
 			},
@@ -270,9 +280,9 @@ export default function Demand() {
 				className: initialSort === "Discount" ? "activesort" : "",
 				defaultSortOrder: initialSort === "Discount" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("demandcolumns"))
-					? Object.values(JSON.parse(localStorage.getItem("demandcolumns"))).find(
-							(i) => i.dataIndex === "Discount"
-					  ).show
+					? Object.values(
+							JSON.parse(localStorage.getItem("demandcolumns"))
+					  ).find((i) => i.dataIndex === "Discount").show
 					: false,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
@@ -282,13 +292,13 @@ export default function Demand() {
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-    useEffect(() => {
-      setInitial(columns);
-      setInitialFilter(filters);
-      if (!localStorage.getItem("demandcolumns")) {
-        localStorage.setItem("demandcolumns", JSON.stringify(columns));
-      }
-    }, []);
+	useEffect(() => {
+		setInitial(columns);
+		setInitialFilter(filters);
+		if (!localStorage.getItem("demandcolumns")) {
+			localStorage.setItem("demandcolumns", JSON.stringify(columns));
+		}
+	}, []);
 
 	const filters = useMemo(() => {
 		return [
@@ -317,9 +327,21 @@ export default function Demand() {
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
+
+			{
+				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -332,7 +354,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -345,7 +367,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -358,7 +380,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "dateOfChange",
@@ -370,7 +392,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -384,7 +406,7 @@ export default function Demand() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "9",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -397,7 +419,7 @@ export default function Demand() {
 			},
 
 			{
-				key: "9",
+				key: "10",
 				label: "Qarşı-tərəf",
 				name: "customerName",
 				type: "select",
@@ -411,9 +433,6 @@ export default function Demand() {
 			},
 		];
 	}, [filterChanged]);
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	useEffect(() => {
 		setInitial(columns);
@@ -431,12 +450,12 @@ export default function Demand() {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
 			setallprofit(data.Body.AllProfit);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -490,7 +509,7 @@ export default function Demand() {
 			...findelement,
 			...replacedElement,
 		});
-        localStorage.setItem("demandcolumns", JSON.stringify(initialCols));
+		localStorage.setItem("demandcolumns", JSON.stringify(initialCols));
 		setFiltered(true);
 	};
 	const onChangeMenuFilter = (e) => {
@@ -594,13 +613,13 @@ export default function Demand() {
 	if (error) return "An error has occurred: " + error.message;
 	if (redirect) return <Redirect push to={`/editDemand/${editId}`} />;
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -617,7 +636,10 @@ export default function Demand() {
 								redirectto={"/newdemand"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton
+								display={isOpenDemandFilter}
+								setdisplay={setIsOpenDemandFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -630,7 +652,15 @@ export default function Demand() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenDemandFilter}
+                        advanced={advacedDemand}
+                        setAdvance={setAdvaceDemand}
+                        initialFilterForm={formDemand}
+                        setInitialFilterForm={setFormDemand}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
@@ -666,11 +696,11 @@ export default function Demand() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

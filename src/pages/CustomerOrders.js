@@ -35,8 +35,18 @@ import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function CustomerOrders() {
+	const {
+		isOpenCustomerOrderFilter,
+		setIsOpenCustomerOrderFilter,
+		advacedCustomerOrder,
+		setAdvaceCustomerOrder,
+		formCustomerOrder,
+		setFormCustomerOrder,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -63,19 +73,16 @@ export default function CustomerOrders() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
-		display,
 		setCustomersLocalStorage,
 		setCustomers,
 		setOrderStatusArr,
 	} = useTableCustom();
-        
-    const [ downloadButton ] = useDownload(advanced, 'customerorders')
+
+	const [downloadButton] = useDownload(advacedCustomerOrder, "customerorders");
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		[
 			"customerorders",
@@ -84,14 +91,14 @@ export default function CustomerOrders() {
 			fieldSort,
 			doSearch,
 			search,
-			advanced,
+			advacedCustomerOrder,
 		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"customerorders",
 						advancedPage,
-						advanced,
+						advacedCustomerOrder,
 						direction,
 						fieldSort
 				  )
@@ -145,10 +152,12 @@ export default function CustomerOrders() {
 				dataIndex: "Name",
 				title: "Satış №",
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "Name").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "Name").show
+					: true,
 				defaultSortOrder: initialSort === "Name" ? defaultdr : null,
 				sorter: (a, b) => null,
 				className:
@@ -161,10 +170,12 @@ export default function CustomerOrders() {
 				title: "Tarix",
 				defaultSortOrder: initialSort === "Moment" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "Moment").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "Moment").show
+					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "Moment" ? "activesort" : "",
 			},
@@ -174,10 +185,12 @@ export default function CustomerOrders() {
 				defaultSortOrder:
 					initialSort === "StockName" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "StockName").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "StockName").show
+					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "StockName" ? "activesort" : "",
 			},
@@ -187,10 +200,12 @@ export default function CustomerOrders() {
 				defaultSortOrder:
 					initialSort === "CustomerName" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "CustomerName").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "CustomerName").show
+					: true,
 				sorter: (a, b) => null,
 				className:
 					initialSort === "CustomerName"
@@ -202,10 +217,12 @@ export default function CustomerOrders() {
 				title: "Məbləğ",
 				defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "Amount").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "Amount").show
+					: true,
 				className: initialSort === "Amount" ? "activesort" : "",
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
@@ -218,10 +235,12 @@ export default function CustomerOrders() {
 				defaultSortOrder:
 					initialSort === "OrderStatus" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "OrderStatus").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "OrderStatus").show
+					: true,
 				sorter: (a, b) => null,
 				className: initialSort === "OrderStatus" ? "activesort" : "",
 				render: (value, row, index) => {
@@ -244,10 +263,12 @@ export default function CustomerOrders() {
 				defaultSortOrder: initialSort === "Mark" ? defaultdr : null,
 				className: initialSort === "Mark" ? "activesort" : "",
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "Mark").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "Mark").show
+					: true,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
 					return (
@@ -276,10 +297,12 @@ export default function CustomerOrders() {
 				defaultSortOrder:
 					initialSort === "Description" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "Description").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "Description").show
+					: true,
 				sorter: (a, b) => null,
 			},
 			{
@@ -288,10 +311,12 @@ export default function CustomerOrders() {
 				title: "Dəyişmə tarixi",
 				defaultSortOrder: initialSort === "Modify" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "Modify").show
-                : false,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "Modify").show
+					: false,
 				sorter: (a, b) => null,
 			},
 			{
@@ -302,10 +327,12 @@ export default function CustomerOrders() {
 				defaultSortOrder:
 					initialSort === "CustomerDiscount" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "CustomerDiscount").show
-                : false,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "CustomerDiscount").show
+					: false,
 				sorter: (a, b) => null,
 			},
 			{
@@ -314,10 +341,12 @@ export default function CustomerOrders() {
 				className: initialSort === "Discount" ? "activesort" : "",
 				defaultSortOrder: initialSort === "Discount" ? defaultdr : null,
 				show: JSON.parse(localStorage.getItem("customerOrderColumns"))
-                ? Object.values(
-                        JSON.parse(localStorage.getItem("customerOrderColumns"))
-                  ).find((i) => i.dataIndex === "Discount").show
-                : true,
+					? Object.values(
+							JSON.parse(
+								localStorage.getItem("customerOrderColumns")
+							)
+					  ).find((i) => i.dataIndex === "Discount").show
+					: true,
 				sorter: (a, b) => null,
 				render: (value, row, index) => {
 					return ConvertFixedTable(value);
@@ -331,10 +360,6 @@ export default function CustomerOrders() {
 		setCustomers(customerResponse.Body.List);
 		setCustomersLocalStorage(customerResponse.Body.List);
 	};
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 	const filters = useMemo(() => {
 		return [
 			{
@@ -362,9 +387,21 @@ export default function CustomerOrders() {
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
+
+			{
+				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -377,7 +414,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -390,7 +427,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -403,7 +440,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "dateOfChange",
@@ -415,7 +452,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -429,7 +466,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "9",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -447,7 +484,10 @@ export default function CustomerOrders() {
 		setInitial(columns);
 		setInitialFilter(filters);
 		if (!localStorage.getItem("customerOrderColumns")) {
-			localStorage.setItem("customerOrderColumns", JSON.stringify(columns));
+			localStorage.setItem(
+				"customerOrderColumns",
+				JSON.stringify(columns)
+			);
 		}
 
 		getCustomers();
@@ -458,13 +498,13 @@ export default function CustomerOrders() {
 				setDocumentList(data.Body.List);
 				setallsum(data.Body.AllSum);
 				setallprofit(data.Body.AllProfit);
-                setPageCount(data.Body.Count);
-                setLimitCount(data.Body.Limit);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -504,7 +544,9 @@ export default function CustomerOrders() {
 	};
 
 	const onChangeMenu = (e) => {
-		var initialCols = JSON.parse(localStorage.getItem("customerOrderColumns"));
+		var initialCols = JSON.parse(
+			localStorage.getItem("customerOrderColumns")
+		);
 		var findelement;
 		var findelementindex;
 		var replacedElement;
@@ -518,7 +560,10 @@ export default function CustomerOrders() {
 			...findelement,
 			...replacedElement,
 		});
-		localStorage.setItem("customerOrderColumns", JSON.stringify(initialCols));
+		localStorage.setItem(
+			"customerOrderColumns",
+			JSON.stringify(initialCols)
+		);
 		setFiltered(true);
 	};
 	const onChangeMenuFilter = (e) => {
@@ -623,13 +668,13 @@ export default function CustomerOrders() {
 
 	if (redirect) return <Redirect push to={`/editCustomerOrder/${editId}`} />;
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -646,7 +691,10 @@ export default function CustomerOrders() {
 								redirectto={"/newcustomerorders"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton
+								display={isOpenCustomerOrderFilter}
+								setdisplay={setIsOpenCustomerOrderFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -659,13 +707,21 @@ export default function CustomerOrders() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenCustomerOrderFilter}
+                        advanced={advacedCustomerOrder}
+                        setAdvance={setAdvaceCustomerOrder}
+                        initialFilterForm={formCustomerOrder}
+                        setInitialFilterForm={setFormCustomerOrder}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -692,11 +748,11 @@ export default function CustomerOrders() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

@@ -22,11 +22,10 @@ import {
 	ConvertFixedTable,
 	isObject,
 } from "../config/function/findadditionals";
-import {
-	SettingOutlined,
-} from "@ant-design/icons";
+import { SettingOutlined } from "@ant-design/icons";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 
@@ -34,6 +33,14 @@ const SettlementsDrawer = React.lazy(() =>
 	import("../components/SettlementsDrawer")
 );
 export default function Settlement() {
+	const {
+		isOpenSettlementFilter,
+		setIsOpenSettlementFilter,
+		advacedSettlement,
+		setAdvaceSettlement,
+		formSettlement,
+		setFormSettlement,
+	} = useFilterContext();
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(0);
 	const [defaultdr, setDefaultDr] = useState("ascend");
@@ -58,11 +65,9 @@ export default function Settlement() {
 		isFilter,
 		advancedPage,
 		setAdvancedPage,
+        setSelectedDateId,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 	const {
 		visibleDrawer,
@@ -72,19 +77,19 @@ export default function Settlement() {
 		setSaveFromModal,
 		setRedirectSaveClose,
 	} = useCustomForm();
-        
-    const [ downloadButton ] = useDownload(advanced, 'settlements')
+
+	const [downloadButton] = useDownload(advacedSettlement, "settlements");
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["settlements", page, direction, fieldSort, doSearch, search, advanced],
+		["settlements", page, direction, fieldSort, doSearch, search, advacedSettlement],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"settlements",
 						advancedPage,
-						advanced,
+						advacedSettlement,
 						direction,
 						fieldSort
 				  )
@@ -206,7 +211,7 @@ export default function Settlement() {
 				key: "3",
 				label: "Tarixi",
 				name: "createdDate",
-				type: "date",
+				type: "datePicker",
 				dataIndex: "createdDate",
 				show: initialfilter
 					? Object.values(initialfilter).find(
@@ -220,7 +225,7 @@ export default function Settlement() {
 				name: "zeros",
 				controller: "yesno",
 				default: 3,
-				type: "selectDefaultZeros",
+				type: "selectDefaultList",
 				hidden: false,
 				dataIndex: "zeros",
 				show: initialfilter
@@ -236,6 +241,9 @@ export default function Settlement() {
 		setInitial(columns);
 		setInitialFilter(filters);
 	}, []);
+	useEffect(() => {
+		setSelectedDateId(null)
+	}, []);
 
 	useEffect(() => {
 		if (!isFetching) {
@@ -246,13 +254,13 @@ export default function Settlement() {
 				setallcurrentsum(
 					parseFloat(data.Body.AllInSum + data.Body.AllOutSum)
 				);
-                setPageCount(data.Body.Count);
-                setLimitCount(data.Body.Limit);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -361,9 +369,6 @@ export default function Settlement() {
 		});
 		setFiltered(true);
 	};
-	useEffect(() => {
-		setdisplay("block");
-	}, []);
 
 	const menu = (
 		<Menu>
@@ -401,13 +406,13 @@ export default function Settlement() {
 		</Dropdown>
 	);
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -424,17 +429,27 @@ export default function Settlement() {
 				<Col xs={24} md={24} xl={19}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton
+								display={isOpenSettlementFilter}
+								setdisplay={setIsOpenSettlementFilter}
+							/>
 							<FastSearch className="search_header" />
 						</div>
-                        <div>{downloadButton}</div>
-                        <div>{tableSettings}</div>
+						<div>{downloadButton}</div>
+						<div>{tableSettings}</div>
 					</div>
 				</Col>
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent cols={filters} />
+					<FilterComponent
+						cols={filters}
+						display={isOpenSettlementFilter}
+                        advanced={advacedSettlement}
+                        setAdvance={setAdvaceSettlement}
+                        initialFilterForm={formSettlement}
+                        setInitialFilterForm={setFormSettlement}
+					/>
 				</Col>
 			</Row>
 			<Table
@@ -482,11 +497,11 @@ export default function Settlement() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

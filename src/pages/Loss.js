@@ -18,8 +18,17 @@ import { SettingOutlined } from "@ant-design/icons";
 import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function Loss() {
+	const {
+		isOpenLossFilter,
+		setIsOpenLossFilter,
+		advacedLoss,
+		setAdvaceLoss,
+		formLoss,
+		setFormLoss,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -45,9 +54,6 @@ export default function Loss() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
@@ -55,13 +61,13 @@ export default function Loss() {
 	const [pageCount, setPageCount] = useState(null);
 	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["losses", page, direction, fieldSort, doSearch, search, advanced],
+		["losses", page, direction, fieldSort, doSearch, search, advacedLoss],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"losses",
 						advancedPage,
-						advanced,
+						advacedLoss,
 						direction,
 						fieldSort
 				  )
@@ -243,9 +249,21 @@ export default function Loss() {
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
+
+			{
+				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -258,7 +276,7 @@ export default function Loss() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -271,7 +289,7 @@ export default function Loss() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -284,7 +302,7 @@ export default function Loss() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "dateOfChange",
@@ -296,7 +314,7 @@ export default function Loss() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -310,7 +328,7 @@ export default function Loss() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "9",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -352,10 +370,6 @@ export default function Loss() {
 			setEditId(id);
 		}
 	};
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	const handlePagination = (pg) => {
 		setPage(pg - 1);
@@ -526,7 +540,10 @@ export default function Loss() {
 								redirectto={"/newloss"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton
+								display={isOpenLossFilter}
+								setdisplay={setIsOpenLossFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -538,7 +555,15 @@ export default function Loss() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenLossFilter}
+                        advanced={advacedLoss}
+                        setAdvance={setAdvaceLoss}
+                        initialFilterForm={formLoss}
+                        setInitialFilterForm={setFormLoss}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
@@ -571,11 +596,11 @@ export default function Loss() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

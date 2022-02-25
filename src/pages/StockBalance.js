@@ -29,9 +29,18 @@ import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function StockBalance() {
+	const {
+		isOpenStockBalanceFilter,
+		setIsOpenStockBalanceFilter,
+		advacedStockBalance,
+		setAdvaceStockBalance,
+		formStockBalance,
+		setFormStockBalance,
+	} = useFilterContext();
 	const [count, setCount] = useState(1);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(0);
@@ -62,9 +71,6 @@ export default function StockBalance() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 
 	const searchFunc = async (value) => {
@@ -81,7 +87,7 @@ export default function StockBalance() {
 		setallquantity(res.QuantitySum);
 		setCount(res.Count);
 		setPageCount(res.Count);
-        setLimitCount(res.Limit);
+		setLimitCount(res.Limit);
 		setIsLoadingSearch(false);
 	};
 
@@ -96,14 +102,14 @@ export default function StockBalance() {
 			fieldSort,
 			doSearch,
 			search,
-			advanced,
+			advacedStockBalance,
 		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"stockbalance",
 						advancedPage,
-						advanced,
+						advacedStockBalance,
 						direction,
 						fieldSort,
 						null,
@@ -118,7 +124,7 @@ export default function StockBalance() {
 						page,
 						direction,
 						fieldSort,
-						advanced.gp,
+						advacedStockBalance.gp,
 						3,
 						0
 				  )
@@ -445,6 +451,18 @@ export default function StockBalance() {
 					  ).show
 					: true,
 			},
+			{
+				key: "10",
+				label: "Tarixi",
+				name: "createdDate",
+				type: "datePicker",
+				dataIndex: "createdDate",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "createdDate"
+					  ).show
+					: true,
+			},
 		];
 	}, [filterChanged]);
 
@@ -459,7 +477,7 @@ export default function StockBalance() {
 			setallsum(data.Body.SaleSum);
 			setallcost(data.Body.CostSum);
 			setallquantity(data.Body.QuantitySum);
-			setIsFilter(false);
+			// setIsFilter(false);
 			setCount(data.Body.Count);
 			setPageCount(data.Body.Count);
 			setLimitCount(data.Body.Limit);
@@ -515,10 +533,6 @@ export default function StockBalance() {
 		});
 		setFiltered(true);
 	};
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 	const onChangeMenuFilter = (e) => {
 		var initialCols = initialfilter;
 		var findelement;
@@ -615,7 +629,7 @@ export default function StockBalance() {
 				className="icon-excel"
 				key="1"
 				icon={<FileExcelOutlined />}
-				onClick={() => downloadFile(advanced, "xlsx", "stockbalance")}
+				onClick={() => downloadFile(advacedStockBalance, "xlsx", "stockbalance")}
 			>
 				Excel
 			</Menu.Item>
@@ -623,7 +637,7 @@ export default function StockBalance() {
 				className="icon-pdf"
 				key="2"
 				icon={<FilePdfOutlined />}
-				onClick={() => downloadFile(advanced, "pdf", "stockbalance")}
+				onClick={() => downloadFile(advacedStockBalance, "pdf", "stockbalance")}
 			>
 				PDF
 			</Menu.Item>
@@ -659,7 +673,11 @@ export default function StockBalance() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton from="stockbalance" />
+							<FilterButton
+								from="stockbalance"
+								display={isOpenStockBalanceFilter}
+								setdisplay={setIsOpenStockBalanceFilter}
+							/>
 							<MyFastSearch
 								searchFunc={searchFunc}
 								setSearchTerm={setStockbalanceSearchTerm}
@@ -690,6 +708,11 @@ export default function StockBalance() {
 						from="stockbalance"
 						settings={filterSetting}
 						cols={filters}
+						display={isOpenStockBalanceFilter}
+						advanced={advacedStockBalance}
+						setAdvance={setAdvaceStockBalance}
+						initialFilterForm={formStockBalance}
+						setInitialFilterForm={setFormStockBalance}
 					/>
 				</Col>
 			</Row>

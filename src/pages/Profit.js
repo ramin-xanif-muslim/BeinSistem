@@ -16,9 +16,18 @@ import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
 import { isObject } from "../config/function/findadditionals";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 
 export default function Profit() {
+	const {
+		isOpenProfitFilter,
+		setIsOpenProfitFilter,
+		advacedProfit,
+		setAdvaceProfit,
+		formProfit,
+		setFormProfit,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [direction, setDirection] = useState(1);
 	const [defaultdr, setDefaultDr] = useState("");
@@ -32,18 +41,10 @@ export default function Profit() {
 	const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
 		useState(false);
 
-	const {
-		marks,
-		isFilter,
-		advancedPage,
-		doSearch,
-		search,
-		advanced,
-		setdisplay,
-		display,
-	} = useTableCustom();
-        
-    const [ downloadButton ] = useDownload(advanced, 'profit')
+	const { marks, isFilter, advancedPage, doSearch, search } =
+		useTableCustom();
+
+	const [downloadButton] = useDownload(advacedProfit, "profit");
 
 	const handleVisibleChangeFilter = (flag) => {
 		setVisibleMenuSettingsFilter(flag);
@@ -54,13 +55,13 @@ export default function Profit() {
 	const [limitCount, setLimitCount] = useState(null);
 	const [document, setDocument] = useState({});
 	const { isLoading, error, data, isFetching } = useQuery(
-		["profits", page, direction, fieldSort, doSearch, search, advanced],
+		["profits", page, direction, fieldSort, doSearch, search, advacedProfit],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"profit",
 						advancedPage,
-						advanced,
+						advacedProfit,
 						direction,
 						fieldSort
 				  )
@@ -204,9 +205,6 @@ export default function Profit() {
 		});
 		setFilterChanged(true);
 	};
-	useEffect(() => {
-		setdisplay("block");
-	}, []);
 
 	const filters = useMemo(() => {
 		return [
@@ -289,20 +287,31 @@ export default function Profit() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton
+								display={isOpenProfitFilter}
+								setdisplay={setIsOpenProfitFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
 								defaultCheckedDate={3}
 							/>
-                        <div>{downloadButton}</div>
+							<div>{downloadButton}</div>
 						</div>
 					</div>
 				</Col>
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenProfitFilter}
+                        advanced={advacedProfit}
+                        setAdvance={setAdvaceProfit}
+                        initialFilterForm={formProfit}
+                        setInitialFilterForm={setFormProfit}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

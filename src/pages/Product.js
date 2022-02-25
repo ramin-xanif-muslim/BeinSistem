@@ -28,57 +28,64 @@ import MyFastSearch from "../components/MyFastSearch";
 import sendRequest from "../config/sentRequest";
 import { downloadFile } from "../config/function";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 
 export default function Product() {
-    const [count, setCount] = useState(1);
-    const [redirect, setRedirect] = useState(false);
-    const [editId, setEditId] = useState("");
-    const [page, setPage] = useState(0);
-    const [productList, setProdutcList] = useState([]);
-    const [initialfilter, setInitialFilter] = useState(null);
-    const [filterChanged, setFilterChanged] = useState(false);
-    const [filterChange, setFilterChange] = useState(false);
-    const [filterColumns, setFilterColumns] = useState([]);
+	const {
+		isOpenProductFilter,
+		setIsOpenProductFilter,
+		advacedProduct,
+		setAdvaceProduct,
+		formProduct,
+		setFormProduct,
+	} = useFilterContext();
+	const [count, setCount] = useState(1);
+	const [redirect, setRedirect] = useState(false);
+	const [editId, setEditId] = useState("");
+	const [page, setPage] = useState(0);
+	const [productList, setProdutcList] = useState([]);
+	const [initialfilter, setInitialFilter] = useState(null);
+	const [filterChanged, setFilterChanged] = useState(false);
+	const [filterChange, setFilterChange] = useState(false);
+	const [filterColumns, setFilterColumns] = useState([]);
 
     const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
         useState(false);
 
-    const [otherColumns, setOtherColumns] = useState([]);
-    const [filtered, setFiltered] = useState(false);
-    const [direction, setDirection] = useState(0);
-    const [defaultdr, setDefaultDr] = useState("ascend");
-    const [initialSort, setInitialSort] = useState("Name");
-    const [fieldSort, setFieldSort] = useState("Name");
-    const [columnChange, setColumnChange] = useState(false);
-    const [isLoadingSearch, setIsLoadingSearch] = useState(false);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [otherColumns, setOtherColumns] = useState([]);
+	const [filtered, setFiltered] = useState(false);
+	const [direction, setDirection] = useState(0);
+	const [defaultdr, setDefaultDr] = useState("ascend");
+	const [initialSort, setInitialSort] = useState("Name");
+	const [fieldSort, setFieldSort] = useState("Name");
+	const [columnChange, setColumnChange] = useState(false);
+	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 
-    const [initial, setInitial] = useState(
-        localStorage.getItem("procolumns")
-            ? JSON.parse(localStorage.getItem("procolumns"))
-            : null
-    );
-    const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-    const {
-        productSearchTerm,
-        setProductSearchTerm,
-        setAttributes,
-        setAttrLocalStorage,
-        setPrices,
-        setPricesLocalStorage,
-        setRefList,
-        search,
-        doSearch,
-        isFilter,
-        advanced,
-        advancedPage,
-        setAdvancedPage,
-        searchGr,
-        attributes,
-        setdisplay,
-        display,
-    } = useTableCustom();
+	const [initial, setInitial] = useState(
+		localStorage.getItem("procolumns")
+			? JSON.parse(localStorage.getItem("procolumns"))
+			: null
+	);
+	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
+	const {
+		productSearchTerm,
+		setProductSearchTerm,
+		setAttributes,
+		setAttrLocalStorage,
+		setPrices,
+		setPricesLocalStorage,
+		setRefList,
+		search,
+		doSearch,
+		isFilter,
+		advanced,
+		advancedPage,
+		setAdvancedPage,
+		searchGr,
+		attributes,
+	} = useTableCustom();
 
 	const searchFunc = async (value) => {
 		setIsLoadingSearch(true);
@@ -95,7 +102,7 @@ export default function Product() {
 		setCount(res.Count);
 		setPageCount(res.Count);
 		setProdutcList(res.List);
-        setLimitCount(res.Limit);
+		setLimitCount(res.Limit);
 		setIsLoadingSearch(false);
 	};
 
@@ -533,63 +540,60 @@ export default function Product() {
 
     const [cols, setCols] = useState([]);
 
-    const { isLoading, error, data, isFetching } = useQuery(
-        [
-            "products",
-            page,
-            direction,
-            fieldSort,
-            doSearch,
-            search,
-            advanced,
-            searchGr,
-        ],
-        () => {
-            return isFilter === true
-                ? fetchFilterPage(
-                      "products",
-                      advancedPage,
-                      advanced,
-                      direction,
-                      fieldSort,
-                      searchGr,
-                      null,
-                      0
-                  )
-                : doSearch
-                ? fecthFastPage("products", advancedPage, search, searchGr)
-                : !isFilter && !doSearch
-                ? fetchPage(
-                      "products",
-                      advancedPage,
-                      direction,
-                      fieldSort,
-                      searchGr,
-                      null,
-                      0
-                  )
-                : null;
-        }
-    );
 
-    useEffect(() => {
-        setdisplay("none");
-    }, []);
+	const { isLoading, error, data, isFetching } = useQuery(
+		[
+			"products",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advacedProduct,
+			searchGr,
+		],
+		() => {
+			return isFilter === true
+				? fetchFilterPage(
+						"products",
+						advancedPage,
+						advacedProduct,
+						direction,
+						fieldSort,
+						searchGr,
+						null,
+						0
+				  )
+				: doSearch
+				? fecthFastPage("products", advancedPage, search, searchGr)
+				: !isFilter && !doSearch
+				? fetchPage(
+						"products",
+						advancedPage,
+						direction,
+						fieldSort,
+						searchGr,
+						null,
+						0
+				  )
+				: null;
+		}
+	);
 
-    useEffect(() => {
-        if (!isFetching) {
-            if (isObject(data.Body)) {
-                setProdutcList(data.Body.List);
-                setCount(data.Body.Count);
-                setPageCount(data.Body.Count);
-                setLimitCount(data.Body.Limit);
-            }
-        } else {
-            setProdutcList([]);
-            setPageCount(null);
-            setLimitCount(null);
-        }
-    }, [isFetching]);
+	useEffect(() => {
+		if (!isFetching) {
+			if (isObject(data.Body)) {
+				setProdutcList(data.Body.List);
+				setCount(data.Body.Count);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
+			}
+		} else {
+			setProdutcList([]);
+			setPageCount(null);
+			setLimitCount(null);
+		}
+	}, [isFetching]);
 
     useEffect(() => {
         setRefList([]);
@@ -679,66 +683,67 @@ export default function Product() {
         [columnChange, direction, fieldSort, advancedPage, otherColumns]
     );
 
-    const menu = (
-        <Menu>
-            <Menu.ItemGroup title="Sutunlar">
-                {initial
-                    ? Object.values(initial).map((d) => (
-                          <Menu.Item key={d.dataIndex}>
-                              <Checkbox
-                                  id={d.dataIndex}
-                                  onChange={(e) => onChangeMenu(e)}
-                                  defaultChecked={
-                                      Object.values(columnsnew).find(
-                                          (e) => e.dataIndex === d.dataIndex
-                                      )
-                                          ? Object.values(columnsnew).find(
-                                                (e) =>
-                                                    e.dataIndex === d.dataIndex
-                                            ).show
-                                          : null
-                                  }
-                              >
-                                  {d.title}
-                              </Checkbox>
-                          </Menu.Item>
-                      ))
-                    : null}
-            </Menu.ItemGroup>
-        </Menu>
-    );
-    const tableSettings = (
-        <Dropdown
-            trigger={["click"]}
-            overlay={menu}
-            onVisibleChange={handleVisibleChange}
-            visible={visibleMenuSettings}
-        >
-            <button className="new-button">
-                <SettingOutlined />
-            </button>
-        </Dropdown>
-    );
-    const printMenu = (
-        <Menu>
-            <Menu.Item
-                className="icon-excel"
-                key="1"
-                icon={<FileExcelOutlined />}
-                onClick={() => downloadFile(advanced, "xlsx", "products")}
-            >
-                Excel
-            </Menu.Item>
-            <Menu.Item
-                className="icon-pdf"
-                key="2"
-                icon={<FilePdfOutlined />}
-                onClick={() => downloadFile(advanced, "pdf", "products")}
-            >
-                PDF
-            </Menu.Item>
-        </Menu>
-    );
+	const menu = (
+		<Menu>
+			<Menu.ItemGroup title="Sutunlar">
+				{initial
+					? Object.values(initial).map((d) => (
+							<Menu.Item key={d.dataIndex}>
+								<Checkbox
+									id={d.dataIndex}
+									onChange={(e) => onChangeMenu(e)}
+									defaultChecked={
+										Object.values(columnsnew).find(
+											(e) => e.dataIndex === d.dataIndex
+										)
+											? Object.values(columnsnew).find(
+													(e) =>
+														e.dataIndex ===
+														d.dataIndex
+											  ).show
+											: null
+									}
+								>
+									{d.title}
+								</Checkbox>
+							</Menu.Item>
+					  ))
+					: null}
+			</Menu.ItemGroup>
+		</Menu>
+	);
+	const tableSettings = (
+		<Dropdown
+			trigger={["click"]}
+			overlay={menu}
+			onVisibleChange={handleVisibleChange}
+			visible={visibleMenuSettings}
+		>
+			<button className="new-button">
+				<SettingOutlined />
+			</button>
+		</Dropdown>
+	);
+	const printMenu = (
+		<Menu>
+			<Menu.Item
+				className="icon-excel"
+				key="1"
+				icon={<FileExcelOutlined />}
+				onClick={() => downloadFile(advacedProduct, "xlsx", "products")}
+			>
+				Excel
+			</Menu.Item>
+			<Menu.Item
+				className="icon-pdf"
+				key="2"
+				icon={<FilePdfOutlined />}
+				onClick={() => downloadFile(advacedProduct, "pdf", "products")}
+			>
+				PDF
+			</Menu.Item>
+		</Menu>
+	);
 
     if (!isLoading && !isObject(data.Body))
         return (
@@ -753,36 +758,38 @@ export default function Product() {
 
     // if (!data.Body) return data;
 
-    return (
-        <div className="custom_display">
-            <Row className="header_row">
-                <Col xs={24} md={24} xl={4}>
-                    <div className="page_heder_left">
-                        <h2>Məhsullar</h2>
-                    </div>
-                </Col>
-                <Col xs={24} md={24} xl={20}>
-                    <div className="page_heder_right">
-                        <div className="buttons_wrapper">
-                            <Buttons
-                                text={"Yeni Mehsul"}
-                                redirectto={"/newproduct"}
-                                animate={"Yarat"}
-                            />
-                            <Buttons
-                                text={"Yeni Qrup"}
-                                redirectto={"/newprogroup"}
-                                animate={"Yarat"}
-                            />
-                            <FilterButton from="product" />
-                            <MyFastSearch
-                                searchFunc={searchFunc}
-                                setSearchTerm={setProductSearchTerm}
-                                searchTerm={productSearchTerm}
-                                className="search_header"
-                            />
-                        </div>
-
+	return (
+		<div className="custom_display">
+			<Row className="header_row">
+				<Col xs={24} md={24} xl={4}>
+					<div className="page_heder_left">
+						<h2>Məhsullar</h2>
+					</div>
+				</Col>
+				<Col xs={24} md={24} xl={20}>
+					<div className="page_heder_right">
+						<div className="buttons_wrapper">
+							<Buttons
+								text={"Yeni Mehsul"}
+								redirectto={"/newproduct"}
+								animate={"Yarat"}
+							/>
+							<Buttons
+								text={"Yeni Qrup"}
+								redirectto={"/newprogroup"}
+								animate={"Yarat"}
+							/>
+							<FilterButton
+								display={isOpenProductFilter}
+								setdisplay={setIsOpenProductFilter}
+							/>
+							<MyFastSearch
+								searchFunc={searchFunc}
+								setSearchTerm={setProductSearchTerm}
+								searchTerm={productSearchTerm}
+								className="search_header"
+							/>
+						</div>
                         <div style={{ display: "flex" }}>
                             <Dropdown overlay={printMenu} trigger={"onclick"}>
                                 <button className="new-button">
@@ -792,51 +799,55 @@ export default function Product() {
                                     </span>
                                 </button>
                             </Dropdown>
-
-                            {tableSettings}
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-            {isLoadingSearch && <Spin />}
-            <Row>
-                <Col xs={24} md={24} xl={24}>
-                    <FilterComponent
-                        from={"products"}
-                        settings={filterSetting}
-                        cols={filtersnew}
-                    />
-                </Col>
-            </Row>{" "}
-            <Row>
-                <Col xs={24} md={24} xl={5}>
-                    <ProductGroup />
-                </Col>
-                <Col xs={24} md={24} xl={19}>
-                    <Table
-                        className="main-table"
-                        loading={isLoading}
-                        rowKey="Id"
-                        columns={columnsnew.filter((c) => c.show === true)}
-                        dataSource={productList}
-                        onChange={onChange}
-                        locale={{
-                            emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
-                        }}
-                        pagination={{
-                            current: advancedPage + 1,
-                            total: pageCount,
-                            onChange: handlePagination,
-                            defaultPageSize: 100,
-                            showSizeChanger: false,
-                        }}
-                        size="small"
-                        onRow={(r) => ({
-                            onClick: () => editPage(r.Id),
-                        })}
-                    />
-                </Col>
-            </Row>
-        </div>
-    );
+							{tableSettings}
+						</div>
+					</div>
+				</Col>
+			</Row>
+			{isLoadingSearch && <Spin />}
+			<Row>
+				<Col xs={24} md={24} xl={24}>
+					<FilterComponent
+						from={"products"}
+						settings={filterSetting}
+						cols={filtersnew}
+						display={isOpenProductFilter}
+                        advanced={advacedProduct}
+                        setAdvance={setAdvaceProduct}
+                        initialFilterForm={formProduct}
+                        setInitialFilterForm={setFormProduct}
+					/>
+				</Col>
+			</Row>{" "}
+			<Row>
+				<Col xs={24} md={24} xl={5}>
+					<ProductGroup />
+				</Col>
+				<Col xs={24} md={24} xl={19}>
+					<Table
+						className="main-table"
+						loading={isLoading}
+						rowKey="Id"
+						columns={columnsnew.filter((c) => c.show === true)}
+						dataSource={productList}
+						onChange={onChange}
+						locale={{
+							emptyText: isFetching ? <Spin /> : "Cədvəl boşdur",
+						}}
+						pagination={{
+							current: advancedPage + 1,
+							total: pageCount,
+							onChange: handlePagination,
+							defaultPageSize: 100,
+							showSizeChanger: false,
+						}}
+						size="small"
+						onRow={(r) => ({
+							onClick: () => editPage(r.Id),
+						})}
+					/>
+				</Col>
+			</Row>
+		</div>
+	);
 }

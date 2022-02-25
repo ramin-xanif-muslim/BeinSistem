@@ -29,11 +29,23 @@ import { ConvertFixedTable } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import MoneytransferButton from "../components/MoneytransferButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function Moneytransfer() {
+	const {
+		isOpenMoneytransferFilter,
+		setIsOpenMoneytransferFilter,
+		advacedMoneytransfer,
+		setAdvaceMoneytransfer,
+		formMoneytransfer,
+		setFormMoneytransfer,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
-	const [redirectMoneytransferIn, setRedirectMoneytransferIn] = useState(false);
-	const [redirectMoneytransferOut, setRedirectMoneytransferOut] = useState(false);
+	const [redirectMoneytransferIn, setRedirectMoneytransferIn] =
+		useState(false);
+	const [redirectMoneytransferOut, setRedirectMoneytransferOut] =
+		useState(false);
 	const [direction, setDirection] = useState(1);
 	const [defaultdr, setDefaultDr] = useState("descend");
 	const [initialSort, setInitialSort] = useState("Moment");
@@ -62,9 +74,6 @@ export default function Moneytransfer() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 
 	const [documentList, setDocumentList] = useState([]);
@@ -78,14 +87,14 @@ export default function Moneytransfer() {
 			fieldSort,
 			doSearch,
 			search,
-			advanced,
+			advacedMoneytransfer,
 		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"moneytransfers",
 						advancedPage,
-						advanced,
+						advacedMoneytransfer,
 						direction,
 						fieldSort
 				  )
@@ -256,10 +265,10 @@ export default function Moneytransfer() {
 
 	const getCustomers = async () => {
 		const customerResponse = await fetchCustomers();
-        if(!customerResponse.Body === "İcazə yoxdur") {
-            setCustomers(customerResponse.Body.List);
-            setCustomersLocalStorage(customerResponse.Body.List);
-        }
+		if (!customerResponse.Body === "İcazə yoxdur") {
+			setCustomers(customerResponse.Body.List);
+			setCustomersLocalStorage(customerResponse.Body.List);
+		}
 	};
 
 	const filters = useMemo(() => {
@@ -426,10 +435,6 @@ export default function Moneytransfer() {
 		setVisibleMenuSettingsFilter(flag);
 	};
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
 	const onChangeMenu = (e) => {
 		var initialCols = initial;
 		var findelement;
@@ -573,7 +578,10 @@ export default function Moneytransfer() {
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
 							<MoneytransferButton />
-							<FilterButton />
+							<FilterButton
+								display={isOpenMoneytransferFilter}
+								setdisplay={setIsOpenMoneytransferFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -585,7 +593,15 @@ export default function Moneytransfer() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenMoneytransferFilter}
+                        advanced={advacedMoneytransfer}
+                        setAdvance={setAdvaceMoneytransfer}
+                        initialFilterForm={formMoneytransfer}
+                        setInitialFilterForm={setFormMoneytransfer}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}

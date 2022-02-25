@@ -17,9 +17,18 @@ import { useCustomForm } from "../contexts/FormContext";
 import SearchByDate from "../components/SearchByDate";
 import sendRequest from "../config/sentRequest";
 import { ConvertFixedTable } from "../config/function/findadditionals";
+import { useFilterContext } from "../contexts/FilterContext";
 
 const { Text } = Typography;
 export default function Return() {
+	const {
+		isOpenReturnFilter,
+		setIsOpenReturnFilter,
+		advacedReturn,
+		setAdvaceReturn,
+		formReturn,
+		setFormReturn,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -44,22 +53,20 @@ export default function Return() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["returns", page, direction, fieldSort, doSearch, search, advanced],
+		["returns", page, direction, fieldSort, doSearch, search, advacedReturn],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"returns",
 						advancedPage,
-						advanced,
+						advacedReturn,
 						direction,
 						fieldSort
 				  )
@@ -213,9 +220,21 @@ export default function Return() {
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
+
+			{
+				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -228,7 +247,7 @@ export default function Return() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				label: "Satış nöqtəsi",
 				name: "slpnt",
 				type: "select",
@@ -241,7 +260,7 @@ export default function Return() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Qarşı-tərəf",
 				name: "customerName",
 				type: "select",
@@ -254,7 +273,7 @@ export default function Return() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -268,7 +287,7 @@ export default function Return() {
 					: false,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -285,12 +304,12 @@ export default function Return() {
 		if (!isFetching) {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -338,10 +357,6 @@ export default function Return() {
 		setFiltered(true);
 	};
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
 	const menu = (
 		<Menu>
 			<Menu.ItemGroup title="Sutunlar">
@@ -386,13 +401,13 @@ export default function Return() {
 		</Dropdown>
 	);
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -408,11 +423,13 @@ export default function Return() {
 				<Col xs={24} md={24} xl={20}>
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
-							<FilterButton />
+							<FilterButton
+								display={isOpenReturnFilter}
+								setdisplay={setIsOpenReturnFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
-								defaultCheckedDate={1}
 							/>
 						</div>
 						{tableSettings}
@@ -421,13 +438,20 @@ export default function Return() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent cols={filters} />
+					<FilterComponent
+						cols={filters}
+						display={isOpenReturnFilter}
+                        advanced={advacedReturn}
+                        setAdvance={setAdvaceReturn}
+                        initialFilterForm={formReturn}
+                        setInitialFilterForm={setFormReturn}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -454,11 +478,11 @@ export default function Return() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

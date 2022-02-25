@@ -32,8 +32,18 @@ import { ConvertFixedTable } from "../config/function/findadditionals";
 import { isObject } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import { useDownload } from "../hooks/useDownload";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
+
 export default function Transaction() {
+	const {
+		isOpenTransactionFilter,
+		setIsOpenTransactionFilter,
+		advacedTransaction,
+		setAdvaceTransaction,
+		formTransaction,
+		setFormTransaction,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [redirectPaymentIn, setRedirectPaymentIn] = useState(false);
@@ -68,16 +78,13 @@ export default function Transaction() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
-        
-    const [ downloadButton ] = useDownload(advanced, 'transactions')
+
+	const [downloadButton] = useDownload(advacedTransaction, "transactions");
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
 		[
 			"transactions",
@@ -86,14 +93,14 @@ export default function Transaction() {
 			fieldSort,
 			doSearch,
 			search,
-			advanced,
+			advacedTransaction,
 		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"transactions",
 						advancedPage,
-						advanced,
+						advacedTransaction,
 						direction,
 						fieldSort
 				  )
@@ -417,13 +424,13 @@ export default function Transaction() {
 				setDocumentList(data.Body.List);
 				setallinsum(data.Body.InSum);
 				setalloutsum(data.Body.OutSum);
-                setPageCount(data.Body.Count);
-                setLimitCount(data.Body.Limit);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -474,10 +481,6 @@ export default function Transaction() {
 	const handleVisibleChangeFilter = (flag) => {
 		setVisibleMenuSettingsFilter(flag);
 	};
-
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
 
 	const onChangeMenu = (e) => {
 		var initialCols = initial;
@@ -607,13 +610,13 @@ export default function Transaction() {
 	if (redirectInvoiceOut)
 		return <Redirect push to={`/editInvoiceOut/${editId}`} />;
 
-        if (!isLoading && !isObject(data.Body))
-          return (
-            <>
-              Xəta:
-              <span style={{ color: "red" }}>{data}</span>
-            </>
-          );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 	return (
 		<div className="custom_display">
 			<Row className="header_row">
@@ -626,7 +629,10 @@ export default function Transaction() {
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
 							<TransactionButtons />
-							<FilterButton />
+							<FilterButton
+								display={isOpenTransactionFilter}
+								setdisplay={setIsOpenTransactionFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -639,13 +645,21 @@ export default function Transaction() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenTransactionFilter}
+                        advanced={advacedTransaction}
+                        setAdvance={setAdvaceTransaction}
+                        initialFilterForm={formTransaction}
+                        setInitialFilterForm={setFormTransaction}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -675,11 +689,11 @@ export default function Transaction() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

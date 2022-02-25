@@ -18,8 +18,17 @@ import { useCustomForm } from "../contexts/FormContext";
 import sendRequest from "../config/sentRequest";
 import SearchByDate from "../components/SearchByDate";
 import FilterButton from "../components/FilterButton";
+import { useFilterContext } from "../contexts/FilterContext";
 const { Text } = Typography;
 export default function HandoversTo() {
+	const {
+		isOpenHandoverToFilter,
+		setIsOpenHandoverToFilter,
+		advacedHandoverTo,
+		setAdvaceHandoverTo,
+		formHandoverTo,
+		setFormHandoverTo,
+	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(1);
@@ -45,23 +54,20 @@ export default function HandoversTo() {
 		setAdvancedPage,
 		doSearch,
 		search,
-		advanced,
-		setdisplay,
-		display,
 	} = useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["handoversto", page, direction, fieldSort, doSearch, search, advanced],
+		["handoversto", page, direction, fieldSort, doSearch, search, advacedHandoverTo],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
 						"handoversto",
 						advancedPage,
-						advanced,
+						advacedHandoverTo,
 						direction,
 						fieldSort
 				  )
@@ -222,10 +228,6 @@ export default function HandoversTo() {
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
-	useEffect(() => {
-		setdisplay("none");
-	}, []);
-
 	const filters = useMemo(() => {
 		return [
 			{
@@ -253,9 +255,21 @@ export default function HandoversTo() {
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
+				label: "Barkodu",
+				name: "bc",
+				type: "text",
+				dataIndex: "bc",
+				show: initialfilter
+					? Object.values(initialfilter).find(
+							(i) => i.dataIndex === "bc"
+					  ).show
+					: true,
+			},
+
+			{
+				key: "4",
 				label: "Anbardan",
 				name: "stockNameFrom",
 				type: "select",
@@ -268,7 +282,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "5",
 				label: "Anbara",
 				name: "stockNameTo",
 				type: "select",
@@ -281,7 +295,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "6",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -294,7 +308,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "7",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -307,7 +321,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "8",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "date",
@@ -319,7 +333,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "9",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -333,7 +347,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "9",
+				key: "10",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -355,12 +369,12 @@ export default function HandoversTo() {
 		if (!isFetching) {
 			setDocumentList(data.Body.List);
 			setallsum(data.Body.AllSum);
-            setPageCount(data.Body.Count);
-            setLimitCount(data.Body.Limit);
+			setPageCount(data.Body.Count);
+			setLimitCount(data.Body.Limit);
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
 
@@ -507,13 +521,13 @@ export default function HandoversTo() {
 		setFetchSearchByDate(false);
 	};
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -534,7 +548,10 @@ export default function HandoversTo() {
 								redirectto={"/newhandoverto"}
 								animate={"Yarat"}
 							/>
-							<FilterButton />
+							<FilterButton
+								display={isOpenHandoverToFilter}
+								setdisplay={setIsOpenHandoverToFilter}
+							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
 								getSearchObjByDate={getSearchObjByDate}
@@ -546,13 +563,21 @@ export default function HandoversTo() {
 			</Row>
 			<Row>
 				<Col xs={24} md={24} xl={24}>
-					<FilterComponent settings={filterSetting} cols={filters} />
+					<FilterComponent
+						settings={filterSetting}
+						cols={filters}
+						display={isOpenHandoverToFilter}
+                        advanced={advacedHandoverTo}
+                        setAdvance={setAdvaceHandoverTo}
+                        initialFilterForm={formHandoverTo}
+                        setInitialFilterForm={setFormHandoverTo}
+					/>
 				</Col>
 			</Row>
 			{isFetchSearchByDate && <Spin />}
 			<Table
 				className="main-table"
-        loading={isLoading || isFetchSearchByDate}
+				loading={isLoading || isFetchSearchByDate}
 				rowKey="Name"
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
@@ -579,11 +604,11 @@ export default function HandoversTo() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
 				onRow={(r) => ({

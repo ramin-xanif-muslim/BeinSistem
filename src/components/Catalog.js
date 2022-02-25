@@ -354,7 +354,7 @@ const Catalog = ({ onClose, isCatalogVisible, positions }) => {
         ];
     }, [direction, fieldSort, filtered, advancedPage]);
 
-    //   if (error) return "An error has occurred: " + error.message;
+    
     return (
         <Modal
             title="Məhsullar"
