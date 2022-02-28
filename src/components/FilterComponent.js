@@ -741,12 +741,12 @@ function FilterComponent({
         if(initialFilterForm.productName) {
             productName = initialFilterForm.productName
             initialFilterForm.productName = initialFilterForm.productId
-           delete initialFilterForm.productId
+        //    delete initialFilterForm.productId
         }
         if(initialFilterForm.customerName) {
             customerName = initialFilterForm.customerName
             initialFilterForm.customerName = initialFilterForm.customerId
-            delete initialFilterForm.customerId
+            // delete initialFilterForm.customerId
         }
 		// const rangeCreateValue = values["createdDate"];
 
@@ -828,8 +828,8 @@ function FilterComponent({
 				initialFilterForm &&
 				Object.keys(initialFilterForm).length === 0
 			) {
-				setInitialFilterForm(initialFilterForm);
-				setinitial(initial);
+				setInitialFilterForm(initialFilterForm)
+				setinitial(initial)
 			}
 			form.setFieldsValue();
 		}
@@ -845,6 +845,9 @@ function FilterComponent({
 			}
 		}
 	}, [advanced]);
+	useEffect(() => {
+        console.log(initialFilterForm)
+	}, [initialFilterForm]);
 
 	return (
 		<div className="filter_wrapper" style={{ display: display }}>

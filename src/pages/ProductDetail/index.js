@@ -105,23 +105,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
         setDisable,
     } = useTableCustom();
     const {
-        docstock,
-        setDocStock,
-        docmark,
-        setDocMark,
         setLoadingForm,
-        setStockDrawer,
-        stockDrawer,
-        createdStock,
-        setCreatedStock,
-        setProductModal,
-
-        isPayment,
-        setPaymentModal,
-        isReturn,
-
-        saveFromModal,
-        setRedirectSaveClose,
     } = useCustomForm();
     const [attrs, setAttrs] = useState(
         attributes ? attributes : JSON.parse(localStorage.getItem("attr"))
