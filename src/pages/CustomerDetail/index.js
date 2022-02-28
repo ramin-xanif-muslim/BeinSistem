@@ -76,6 +76,7 @@ function CustomerDetail() {
 	}, []);
 	useEffect(() => {
         if(!isFetching && priceTypeOption) {
+            console.log('sss')
             priceTypeOption.forEach(i => {
                 if( data.Body.List[0].PriceTypeId == i.Id ) {
                     console.log(data.Body.List[0].PriceTypeId)
@@ -83,7 +84,7 @@ function CustomerDetail() {
                 }
             })
         }
-	}, [isFetching]);
+	}, [isFetching, priceTypeOption]);
 
 	const getBarcode = async () => {
 		const res = await fetchCard();
