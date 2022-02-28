@@ -96,6 +96,7 @@ function Profile() {
                 </h3>
             </div>
             <Form
+					id="myForm"
                 name="basic"
                 labelCol={{
                     span: 8,

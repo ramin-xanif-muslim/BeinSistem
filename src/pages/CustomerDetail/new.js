@@ -27,7 +27,7 @@ import {
 import "antd/dist/antd.css";
 import { message } from "antd";
 import { Redirect } from "react-router";
-import { saveDoc, fetchBarcode, fetchCard } from "../../api";
+import { saveDoc, fetchBarcode, fetchCard, sendRequest } from "../../api";
 import {
     SyncOutlined,
     PlusOutlined,
@@ -98,6 +98,8 @@ function NewCustomer() {
     const [barcode, setBarcode] = useState(null);
     const [listLength, setListLength] = useState(0);
     const [linked, setLinked] = useState(null);
+	const [priceTypeOption, setPriceTypeOption] = useState();
+	const [priceType, setPriceType] = useState();
 
     useEffect(() => {
         getBarcode();
@@ -105,6 +107,14 @@ function NewCustomer() {
     const onClose = () => {
         message.destroy();
     };
+	const getPriceType = async () => {
+		let res = await sendRequest("pricetypes/get.php", {});
+		setPriceTypeOption(res.List);
+	};
+	useEffect(() => {
+		getPriceType();
+	}, []);
+
 
     const getBarcode = async () => {
         const res = await fetchCard();
@@ -308,6 +318,38 @@ function NewCustomer() {
                                         </Select>
                                     </Form.Item>
                                 </Col>
+								<Col
+									className="left_wrapper"
+									xs={24}
+									sm={24}
+									md={24}
+									xl={24}
+								>
+									<Form.Item
+										label="Qiymət tipi"
+										name="pricetypeid"
+										className="group_item_wrapper"
+									>
+										<Select
+											showSearch
+											className="doc_status_formitem_wrapper_col detail-select"
+											filterOption={false}
+											notFoundContent={
+												<Spin size="small" />
+											}
+										>
+											{priceTypeOption
+												? priceTypeOption.map((pt) => {
+														return (
+															<Option key={pt.Id}>
+																{pt.Name}
+															</Option>
+														);
+												  })
+												: ""}
+										</Select>
+									</Form.Item>
+								</Col>
                                 <Col
                                     className="left_wrapper"
                                     xs={24}

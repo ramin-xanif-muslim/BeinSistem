@@ -8,6 +8,9 @@ import { Form, Row, Col, Input, Select, DatePicker } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 import { useSelectModal } from "../hooks";
 import { convertCamelCaseTextToText } from "../config/function/convert";
+import '../Page.css'
+
+
 const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
 
@@ -138,7 +141,7 @@ function FilterComponent({
 	}, [doSearchFast]);
 
 	const allClear = () => {
-		// setChanged(true);
+		setChanged(true);
 		form.resetFields();
 
 		setIsFilter(true);
@@ -733,11 +736,17 @@ function FilterComponent({
 	};
 	const onFinish = (values) => {
 		setIsEnterFilterValue(true);
+        let productName = ''
+        let customerName = ''
         if(initialFilterForm.productName) {
+            productName = initialFilterForm.productName
             initialFilterForm.productName = initialFilterForm.productId
+           delete initialFilterForm.productId
         }
         if(initialFilterForm.customerName) {
+            customerName = initialFilterForm.customerName
             initialFilterForm.customerName = initialFilterForm.customerId
+            delete initialFilterForm.customerId
         }
 		// const rangeCreateValue = values["createdDate"];
 
@@ -774,6 +783,12 @@ function FilterComponent({
 		setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance(totalvalues);
+        if(productName) {
+            initialFilterForm.productName = productName
+        }
+        if(customerName) {
+            initialFilterForm.customerName = customerName
+        }
 	};
 	useEffect(() => {
 		if (from === "stockbalance") {
