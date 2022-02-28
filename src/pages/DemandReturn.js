@@ -649,14 +649,14 @@ export default function DemandReturn() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
-								from="demandreturns"
+						from="demandreturns"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenDemandReturnFilter}
-                        advanced={advacedDemandReturn}
-                        setAdvance={setAdvaceDemandReturn}
-                        initialFilterForm={formDemandReturn}
-                        setInitialFilterForm={setFormDemandReturn}
+						advanced={advacedDemandReturn}
+						setAdvance={setAdvaceDemandReturn}
+						initialFilterForm={formDemandReturn}
+						setInitialFilterForm={setFormDemandReturn}
 					/>
 				</Col>
 			</Row>

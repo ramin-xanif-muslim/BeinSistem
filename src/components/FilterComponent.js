@@ -141,7 +141,7 @@ function FilterComponent({
 	}, [doSearchFast]);
 
 	const allClear = () => {
-		setChanged(true);
+		// setChanged(true);
 		form.resetFields();
 
 		setIsFilter(true);

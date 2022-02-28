@@ -53,14 +53,12 @@ function CustomerDetail() {
 	const {
 		departments,
 		owners,
-		setCustomers,
 		customerGroups,
 		setDisable,
 		disable,
 	} = useTableCustom();
 	const [barcode, setBarcode] = useState(null);
 	const [priceTypeOption, setPriceTypeOption] = useState();
-	const [priceType, setPriceType] = useState();
 	const { isLoading, error, data, isFetching } = useQuery(
 		["customers", cus_id],
 		() => fetchCustomerId(cus_id)
@@ -74,17 +72,18 @@ function CustomerDetail() {
 		setPriceTypeOption(res.List);
 	};
 	useEffect(() => {
-		getPriceType();
+		getPriceType()
 	}, []);
 	useEffect(() => {
         if(!isFetching && priceTypeOption) {
             priceTypeOption.forEach(i => {
                 if( data.Body.List[0].PriceTypeId == i.Id ) {
-                    setPriceType(i.Name)
+                    console.log(data.Body.List[0].PriceTypeId)
+                    form.setFieldsValue({pricetypeid: i.Name})
                 }
             })
         }
-	}, [isFetching, priceTypeOption]);
+	}, [isFetching]);
 
 	const getBarcode = async () => {
 		const res = await fetchCard();
@@ -240,7 +239,6 @@ function CustomerDetail() {
 						description: data.Body.List[0].Description,
 						bonus: data.Body.List[0].Bonus,
 						discount: data.Body.List[0].Discount,
-						pricetypeid: priceType ? priceType : '',
 					}}
 					className=""
 					layout="horizontal"
