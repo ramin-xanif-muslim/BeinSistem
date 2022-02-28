@@ -642,6 +642,7 @@ export default function Demand() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="demand"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -653,6 +654,7 @@ export default function Demand() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="demand"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenDemandFilter}

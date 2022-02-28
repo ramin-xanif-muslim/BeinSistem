@@ -632,6 +632,7 @@ export default function SupplyReturn() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="supplyreturns"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -642,13 +643,14 @@ export default function SupplyReturn() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+						from="supplyreturns"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenSupplyReturnFilter}
-                        advanced={advacedSupplyReturn}
-                        setAdvance={setAdvaceSupplyReturn}
-                        initialFilterForm={formSupplyReturn}
-                        setInitialFilterForm={setFormSupplyReturn}
+						advanced={advacedSupplyReturn}
+						setAdvance={setAdvaceSupplyReturn}
+						initialFilterForm={formSupplyReturn}
+						setInitialFilterForm={setFormSupplyReturn}
 					/>
 				</Col>
 			</Row>

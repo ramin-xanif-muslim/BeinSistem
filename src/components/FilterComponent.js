@@ -194,25 +194,25 @@ function FilterComponent({
 		//   setIsOpen(open);
 	};
 	useEffect(() => {
-		if (selectedDateId === 1) {
+		if (selectedDateId[from] === 1) {
 			setSelectDate([moment().startOf("day"), moment().endOf("day")]);
 		}
-		if (selectedDateId === 2) {
+		if (selectedDateId[from] === 2) {
 			setSelectDate([
 				moment().subtract(1, "day").startOf("day"),
 				moment().subtract(1, "day").endOf("day"),
 			]);
 		}
-		if (selectedDateId === 3) {
+		if (selectedDateId[from] === 3) {
 			setSelectDate([moment().startOf("month"), moment().endOf("month")]);
 		}
-		if (selectedDateId === 4) {
+		if (selectedDateId[from] === 4) {
 			setSelectDate([
 				moment().subtract(1, "month").startOf("month"),
 				moment().subtract(1, "month").endOf("month"),
 			]);
 		}
-		if (!selectedDateId) {
+		if (!selectedDateId[from]) {
 			setSelectDate([]);
 		}
 	}, [selectedDateId]);

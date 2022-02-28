@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import { useTableCustom } from "../contexts/TableContext";
 import style from "./SearchByDate.module.css";
 
-function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate, from }) {
+function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate }) {
 	const { selectedDateId, setSelectedDateId } = useTableCustom();
+	const [activId, setActivId] = useState(0);
 
-	const dates = [
+	const [dates, setDates] = useState([
 		{
 			id: 1,
 			title: "Bu gün",
@@ -27,7 +28,7 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate, fro
 			title: "Keçən ay",
 			onclick: false,
 		},
-	]
+	]);
 	const obj = {
 		pg: 0,
 		dr: 1,
@@ -73,14 +74,17 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate, fro
 
 	const onClick = (i) => {
 		select(i);
-		setSelectedDateId({...selectedDateId, [from]: i});
-        console.log(selectedDateId)
+		setActivId(i);
+		setSelectedDateId(i);
 	};
 	useEffect(() => {
-		if (!selectedDateId[from] && defaultCheckedDate) {
-            setSelectedDateId({...selectedDateId, [from]: defaultCheckedDate});
-		}
-	}, []);
+		if (defaultCheckedDate) {
+			setActivId(defaultCheckedDate);
+			setSelectedDateId(defaultCheckedDate);
+		}else {
+            setSelectedDateId(null)
+        }
+	}, [defaultCheckedDate]);
 
 	return (
 		<div className={style.div}>
@@ -90,7 +94,7 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate, fro
 						<li
 							key={m.id}
 							onClick={() => onClick(m.id)}
-							className={selectedDateId ? m.id === selectedDateId[from] ? style.active : "" : ''}
+							className={m.id === activId ? style.active : ""}
 						>
 							<a>{m.title}</a>
 						</li>

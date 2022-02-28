@@ -635,6 +635,7 @@ export default function Transaction() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="transactions"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -646,13 +647,14 @@ export default function Transaction() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+						from="transactions"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenTransactionFilter}
-                        advanced={advacedTransaction}
-                        setAdvance={setAdvaceTransaction}
-                        initialFilterForm={formTransaction}
-                        setInitialFilterForm={setFormTransaction}
+						advanced={advacedTransaction}
+						setAdvance={setAdvaceTransaction}
+						initialFilterForm={formTransaction}
+						setInitialFilterForm={setFormTransaction}
 					/>
 				</Col>
 			</Row>

@@ -546,6 +546,7 @@ export default function Loss() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="loss"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -556,6 +557,7 @@ export default function Loss() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="loss"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenLossFilter}

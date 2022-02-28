@@ -472,6 +472,7 @@ export default function CreditTransaction() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="credittransaction"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -482,6 +483,7 @@ export default function CreditTransaction() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="credittransaction"
 						cols={filters}
 						display={isOpenCreditTransactionFilter}
                         advanced={advacedCreditTransaction}

@@ -426,6 +426,7 @@ export default function CashIn() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="cashins"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -436,6 +437,7 @@ export default function CashIn() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="cashins"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenCashInFilter}

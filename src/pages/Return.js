@@ -429,6 +429,7 @@ export default function Return() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="returns"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -439,6 +440,7 @@ export default function Return() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="returns"
 						cols={filters}
 						display={isOpenReturnFilter}
                         advanced={advacedReturn}

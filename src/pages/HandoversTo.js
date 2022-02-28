@@ -554,6 +554,7 @@ export default function HandoversTo() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="handoverto"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -564,6 +565,7 @@ export default function HandoversTo() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="handoverto"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenHandoverToFilter}

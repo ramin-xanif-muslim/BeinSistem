@@ -584,6 +584,7 @@ export default function Moneytransfer() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="moneytransfer"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -594,6 +595,7 @@ export default function Moneytransfer() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="moneytransfer"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenMoneytransferFilter}

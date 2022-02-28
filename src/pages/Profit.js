@@ -293,6 +293,7 @@ export default function Profit() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="profit"
 								getSearchObjByDate={getSearchObjByDate}
 								defaultCheckedDate={3}
 							/>
@@ -304,6 +305,7 @@ export default function Profit() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="profit"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenProfitFilter}

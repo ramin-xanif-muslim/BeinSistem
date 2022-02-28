@@ -80,7 +80,15 @@ export default function Supply() {
 	const [pageCount, setPageCount] = useState(null);
 	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["supplies", page, direction, fieldSort, doSearch, search, advacedSupply],
+		[
+			"supplies",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advacedSupply,
+		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
@@ -649,6 +657,7 @@ export default function Supply() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="supply"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -660,13 +669,14 @@ export default function Supply() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+						from="supply"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenSupplyFilter}
-                        advanced={advacedSupply}
-                        setAdvance={setAdvaceSupply}
-                        initialFilterForm={formSupply}
-                        setInitialFilterForm={setFormSupply}
+						advanced={advacedSupply}
+						setAdvance={setAdvaceSupply}
+						initialFilterForm={formSupply}
+						setInitialFilterForm={setFormSupply}
 					/>
 				</Col>
 			</Row>

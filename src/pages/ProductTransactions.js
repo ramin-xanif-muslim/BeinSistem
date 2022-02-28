@@ -731,6 +731,7 @@ export default function ProductTransactions() {
 								setdisplay={setIsOpenProductTransactionFilter}
 							/>
 							<SearchByDate
+								from="producttransactions"
 								getSearchObjByDate={getSearchObjByDate}
 								defaultCheckedDate={3}
 							/>

@@ -667,6 +667,7 @@ export default function Sale() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="sales"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -677,13 +678,14 @@ export default function Sale() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+						from="sales"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenSaleFilter}
-                        advanced={advacedSale}
-                        setAdvance={setAdvaceSale}
-                        initialFilterForm={formSale}
-                        setInitialFilterForm={setFormSale}
+						advanced={advacedSale}
+						setAdvance={setAdvaceSale}
+						initialFilterForm={formSale}
+						setInitialFilterForm={setFormSale}
 					/>
 				</Col>
 			</Row>

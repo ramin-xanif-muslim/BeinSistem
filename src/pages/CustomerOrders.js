@@ -697,6 +697,7 @@ export default function CustomerOrders() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="customerorders"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -708,6 +709,7 @@ export default function CustomerOrders() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="customerorders"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenCustomerOrderFilter}

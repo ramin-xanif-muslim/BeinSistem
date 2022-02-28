@@ -27,8 +27,8 @@ export default function Enter() {
 		setIsOpenEnterFilter,
 		advacedEnter,
 		setAdvaceEnter,
-        formEnter,
-        setFormEnter,
+		formEnter,
+		setFormEnter,
 	} = useFilterContext();
 	const [isFetchSearchByDate, setFetchSearchByDate] = useState(false);
 	const [redirect, setRedirect] = useState(false);
@@ -574,6 +574,7 @@ export default function Enter() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="enter"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -585,13 +586,14 @@ export default function Enter() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+						from="enter"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenEnterFilter}
-                        advanced={advacedEnter}
-                        setAdvance={setAdvaceEnter}
-                        initialFilterForm={formEnter}
-                        setInitialFilterForm={setFormEnter}
+						advanced={advacedEnter}
+						setAdvance={setAdvaceEnter}
+						initialFilterForm={formEnter}
+						setInitialFilterForm={setFormEnter}
 					/>
 				</Col>
 			</Row>

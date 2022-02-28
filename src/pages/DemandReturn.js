@@ -638,6 +638,7 @@ export default function DemandReturn() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="demandreturns"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -648,6 +649,7 @@ export default function DemandReturn() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="demandreturns"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenDemandReturnFilter}

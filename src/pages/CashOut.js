@@ -427,6 +427,7 @@ export default function CashOut() {
 							/>
 							<FastSearch className="search_header" />
 							<SearchByDate
+								from="cashouts"
 								getSearchObjByDate={getSearchObjByDate}
 							/>
 						</div>
@@ -437,6 +438,7 @@ export default function CashOut() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+								from="cashouts"
 						settings={filterSetting}
 						cols={filters}
 						display={isOpenCashOutFilter}

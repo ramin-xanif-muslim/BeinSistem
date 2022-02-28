@@ -115,7 +115,15 @@ export default function SaleReport() {
 	const [pageCount, setPageCount] = useState(null);
 	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["salereports", page, direction, fieldSort, doSearch, search, advacedSaleReport],
+		[
+			"salereports",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advacedSaleReport,
+		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
@@ -692,6 +700,7 @@ export default function SaleReport() {
 								className="search_header"
 							/>
 							<SearchByDate
+								from="salereports"
 								getSearchObjByDate={getSearchObjByDate}
 								defaultSort={"ProductName"}
 								defaultCheckedDate={1}
@@ -717,12 +726,13 @@ export default function SaleReport() {
 			<Row>
 				<Col xs={24} sm={24} md={24} xl={24}>
 					<FilterComponent
+						from="salereports"
 						cols={filters}
 						display={isOpenSaleReportFilter}
-                        advanced={advacedSaleReport}
-                        setAdvance={setAdvaceSaleReport}
-                        initialFilterForm={formSaleReport}
-                        setInitialFilterForm={setFormSaleReport}
+						advanced={advacedSaleReport}
+						setAdvance={setAdvaceSaleReport}
+						initialFilterForm={formSaleReport}
+						setInitialFilterForm={setFormSaleReport}
 					/>
 				</Col>
 			</Row>
