@@ -536,6 +536,7 @@ export default function Enter() {
 	);
 	const getSearchObjByDate = async (ob) => {
 		setFetchSearchByDate(true);
+        Object.assign(ob,formEnter)
 		let res = await sendRequest("enters/get.php", ob);
 		setDocumentList(res.List);
 		setallsum(res.AllSum);

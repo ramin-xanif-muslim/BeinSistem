@@ -327,16 +327,41 @@ function NewProduct() {
 		setPriceModal(false);
 		setEditPrice(null);
 	};
-	const handleTabChange = (event, data) => {
-		if (data.activeIndex === 1) {
-			mods = {};
-			Object.entries(lastObject).forEach(([key, value]) => {
-				if (key.includes("col_")) {
-					Object.assign(mods, { [key]: value });
-				}
-			});
-		}
-	};
+	// const handleTabChange = (event, data) => {
+	// 	if (data.activeIndex === 1) {
+	// 		mods = {};
+	// 		Object.entries(lastObject).forEach(([key, value]) => {
+	// 			if (key.includes("col_")) {
+	// 				Object.assign(mods, { [key]: value });
+	// 			}
+	// 		});
+	// 	}
+	// };
+
+    const handleTabChange = (event, data) => {
+        if (data.activeIndex === 1) {
+            mods = {};
+            Object.entries(lastObject).forEach(([key, value]) => {
+                if (key.includes("col_")) {
+                    Object.assign(mods, { [key]: value });
+                }
+            });
+
+            Object.values(linkedList).map((links) => {
+                Object.entries(links).forEach(([key, value]) => {
+                    Object.values(value.list).forEach((c) => {
+                        Object.entries(mods).forEach(([keyMods, valueMods]) => {
+                            if (c.Id === valueMods) {
+                                form.setFieldsValue({
+                                    [keyMods]: c.Name,
+                                });
+                            }
+                        });
+                    });
+                });
+            });
+        }
+    };
 	const modInputs = attrs
 		.filter((a) => a.ReferenceTypeId === "")
 		.map((a) => (

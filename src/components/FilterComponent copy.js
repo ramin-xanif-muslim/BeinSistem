@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import locale from "antd/es/date-picker/locale/az_AZ";
-import { List, Spin } from "antd";
+import { Spin } from "antd";
 import axios from "axios";
 import moment from "moment";
 import { API_BASE, fetchRefList } from "../api";
 import { Form, Row, Col, Input, Select, DatePicker } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
-import Modal from "antd/lib/modal/Modal";
-import { sendRequest } from "../api";
-import '../Page.css'
+import { useSelectModal } from "../hooks";
 import { convertCamelCaseTextToText } from "../config/function/convert";
+import '../Page.css'
 
 
 const { Option, OptGroup } = Select;
@@ -48,132 +47,6 @@ function FilterComponent({
 		setIsEnterFilterValue,
 	} = useTableCustom();
 	const [form] = Form.useForm();
-	const [searchItem, setSearchItem] = useState("");
-	const [isLoading, setIsLoading] = useState(false);
-	const [modalVisible, setModalVisible] = useState(false);
-	const [todos, setTodos] = useState([]);
-	const [selectedItem, setSelectedItem] = useState();
-	const [activeId, setActiveId] = useState();
-	const [nameInput, setNameInput] = useState("");
-	const [controller, setController] = useState();
-	const [title, setTitle] = useState();
-	const [isInputEnterValue, setIsInputEnterValue] = useState(false);
-
-	const handleSearch = (e) => {
-		setSearchItem(e.target.value);
-        setIsInputEnterValue(true)
-	};
-
-	const showSelectModal = () => {
-		setModalVisible(!modalVisible);
-	};
-	const fetchData = async () => {
-        setIsLoading(true)
-		let res = await sendRequest(controller + "/get.php", {});
-		setTodos(res.List);
-        setIsLoading(false)
-	};
-	const fetchSearchDataFast = async () => {
-        setIsLoading(true)
-		setTodos([]);
-		let res = await sendRequest(controller + "/getfast.php", {
-			fast: searchItem,
-            lm: 100,
-		});
-		setTodos(res.List);
-        setIsLoading(false)
-	};
-	const onClickSelectModal = (cols) => {
-        if(controller !== cols.controller) {
-            setTodos([0])
-        }
-		showSelectModal();
-		setNameInput(cols.name);
-		setController(cols.controller);
-		setTitle(cols.label);
-		console.log(cols);
-	};
-    
-	useEffect(() => {
-		if (selectedItem) {
-            let convertedNameInput = convertCamelCaseTextToText(nameInput) 
-			setItemInputSelectModal(selectedItem.Name);
-			Object.assign(initialFilterForm, {
-				[nameInput]: selectedItem.Name,
-				[convertedNameInput.split(' ')[0].toLowerCase() + 'Id']: selectedItem.Id,
-			});
-			setInitialFilterForm(initialFilterForm);
-			form.setFieldsValue(initialFilterForm);
-		}
-	}, [selectedItem]);
-
-	useEffect(() => {
-		if (searchItem) {
-			const timer = setTimeout(() => {
-                fetchSearchDataFast();
-			}, 500);
-			return () => clearTimeout(timer);
-		}
-	}, [searchItem]);
-	useEffect(() => {
-		if (modalVisible && !todos[0]) {
-			fetchData();
-		}
-	}, [modalVisible]);
-	useEffect(() => {
-	    if (isInputEnterValue && searchItem === '') {
-	        fetchData();
-	    }
-	}, [searchItem, isInputEnterValue]);
-
-	const selectModal = (
-		<Modal
-			className="select-modal"
-			title={title}
-			destroyOnClose={true}
-			visible={modalVisible}
-			onCancel={showSelectModal}
-			closable
-			footer={false}
-		>
-			<Input
-				placeholder="Axtar"
-				onChange={handleSearch}
-				allowClear
-				onClear={() => console.log("aaa")}
-			/>
-            {isLoading && <Spin/>}
-			{todos[0] ? (
-				<List size="small">
-					{todos.map((item) => {
-						const { Id, Name } = item;
-						const onClick = () => {
-							setSelectedItem(item);
-							showSelectModal();
-							setActiveId(item.Id);
-						};
-						return (
-							<>
-								<List.Item
-									key={Id}
-									onClick={onClick}
-									style={
-										activeId === Id
-											? { backgroundColor: "#d9eefc" }
-											: null
-									}
-								>
-									{Name}
-								</List.Item>
-							</>
-						);
-					})}
-				</List>
-			) :
-            !isLoading && <List.Item>{title} tapilmadi...</List.Item>
-			}
-		</Modal>
-	);
 
 	const getData = (id, ref) => async (e, key) => {
 		setDropdown([]);
@@ -270,8 +143,7 @@ function FilterComponent({
 	const allClear = () => {
 		// setChanged(true);
 		form.resetFields();
-        setSelectDate([])
-        setTodos([])
+
 		setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance({});
@@ -345,6 +217,26 @@ function FilterComponent({
 		}
 	}, [selectedDateId]);
 
+	const {
+		selectModal,
+		selectedItem,
+		nameInput,
+        onClickSelectModal,
+	} = useSelectModal();
+    
+	useEffect(() => {
+		if (selectedItem) {
+            let convertedNameInput = convertCamelCaseTextToText(nameInput) 
+			setItemInputSelectModal(selectedItem.Name);
+			Object.assign(initialFilterForm, {
+				[nameInput]: selectedItem.Name,
+				[convertedNameInput.split(' ')[0].toLowerCase() + 'Id']: selectedItem.Id,
+			});
+			setInitialFilterForm(initialFilterForm);
+			form.setFieldsValue(initialFilterForm);
+		}
+	}, [selectedItem]);
+
 	const getFields = () => {
 		const children = [];
 
@@ -382,7 +274,6 @@ function FilterComponent({
 							<Input
 								autoComplete="off"
 								className="detail-input"
-								onClick={() => console.log(cols[i])}
 								onClick={() => onClickSelectModal(cols[i])}
 								readOnly
 								name={cols[i].name}

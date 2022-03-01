@@ -463,7 +463,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
     if (Array.isArray(selectedProduct.Prices)) {
         selectedProduct.Prices.map((p) => {
             var name = "PriceType_" + p.PriceType;
-            pricelist[name] = p ? ConvertFixedTable(p.Price) : "";
+            pricelist[name] = p ? p.Price : "";
         });
     }
     Object.assign(initialValues, pricelist);
@@ -772,9 +772,40 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
         }
     };
     const handleFinish = async (values) => {
-        let sendObj = form.getFieldValue()
+        console.log(values)
+        console.log(form.getFieldValue())
+        if (!isOpenCallapsePaket) {
+            values.ispack = initialValues.ispack;
+            values.packprice = initialValues.packprice;
+            values.packquantity = initialValues.packquantity;
+        }
+        if (!isOpenCallapseTeyinat) {
+            values.ownerid = initialValues.ownerid;
+            values.departmentid = initialValues.departmentid;
+        }
         setDisable(true);
 
+        var valueMods = {};
+        Object.entries(values).forEach(([k, v]) => {
+            if (k.includes("col_")) {
+                Object.assign(valueMods, { [k]: v });
+            }
+        });
+
+        Object.entries(valueMods).forEach(([vk, vv]) => {
+            Object.entries(mods).forEach(([mk, mv]) => {
+                if (vk == mk) {
+                    if (guid.test(vv)) {
+                        console.log(guid.test(vv));
+                    } else {
+                        console.log(guid.test(vv));
+                        values[`${vk}`] = null;
+                        values[`${vk}`] = mv;
+                    }
+                    return true;
+                }
+            });
+        });
         var prices = [];
         Object.entries(values).map(([k, v]) => {
             if (k.indexOf("PriceType_") != -1) {
@@ -786,13 +817,13 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
                 }
             }
         });
-        sendObj.prices = prices;
-        sendObj.isarch = isArch;
+        values.prices = prices;
+        values.isarch = isArch;
 
         message.loading({ content: "Yüklənir...", key: "pro_update" });
 
         updateMutation.mutate(
-            { id: product_id, controller: "products", filter: sendObj },
+            { id: product_id, controller: "products", filter: values },
             {
                 onSuccess: (res) => {
                     if (res.Headers.ResponseStatus === "0") {
@@ -1186,6 +1217,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
                         </Col>
                     </Row>
                 </Form>
+                <button onClick={() => console.log(form.getFieldValue())}>click</button>
             </div>
         </div>
     );

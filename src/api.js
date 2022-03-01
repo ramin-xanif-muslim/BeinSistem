@@ -365,7 +365,16 @@ export const delDoc = async (id, page) => {
 export const fecthFastPage = async (page, pg, fast, gp) => {
     console.log("fecthFastPage");
     var navFilter = {};
-    if (page != "products") {
+    if(page === 'customers') {
+        navFilter = {
+            dr: 1,
+            pg: pg ? pg : 0,
+            lm: 100,
+            fast: fast,
+            token: localStorage.getItem("access-token"),
+        };
+    }
+    else if (page != "products") {
         navFilter = {
             dr: 1,
             pg: pg ? pg : 0,
