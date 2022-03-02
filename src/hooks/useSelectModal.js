@@ -97,7 +97,7 @@ export function useSelectModal() {
 			{todos[0] ? (
 				<List size="small">
 					{todos.map((item) => {
-						const { Id, Name } = item;
+						const { Id, Name, BarCode } = item;
 						const onClick = () => {
 							setSelectedItem(item);
 							showSelectModal();
@@ -115,6 +115,7 @@ export function useSelectModal() {
 									}
 								>
 									{Name}
+                                    {BarCode}
 								</List.Item>
 							</>
 						);
