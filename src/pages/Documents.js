@@ -283,7 +283,7 @@ const {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı (Artkod, Barkod, Şərx)",
+				label: "Məhsul (Ad, artkod, barkod, şərh)",
 				name: "productName",
 				type: "selectModal",
 				controller: "products",
@@ -531,8 +531,8 @@ const {
 		<Menu>
 			<Menu.ItemGroup title="Sutunlar">
 				{initial
-					? Object.values(initial).map((d) => (
-							<Menu.Item key={d.dataIndex}>
+					? Object.values(initial).map((d, index) => (
+							<Menu.Item key={index}>
 								<Checkbox
 									id={d.dataIndex}
 									onChange={(e) => onChangeMenu(e)}
@@ -554,8 +554,8 @@ const {
 		<Menu>
 			<Menu.ItemGroup title="Sutunlar">
 				{initialfilter
-					? Object.values(initialfilter).map((d) => (
-							<Menu.Item key={d.dataIndex}>
+					? Object.values(initialfilter).map((d, index) => (
+							<Menu.Item key={index}>
 								<Checkbox
 									id={d.dataIndex}
 									onChange={(e) => onChangeMenuFilter(e)}
@@ -636,7 +636,7 @@ const {
 							<FastSearch className="search_header" />
 							<SearchByDate
 								from="documents"
-								getSearcObjByDate={getSearcObjByDate}
+								getSearchObjByDate={getSearcObjByDate}
 							/>
 						</div>
 						<div>{tableSettings}</div>
@@ -664,33 +664,6 @@ const {
 				columns={columns.filter((c) => c.show == true)}
 				onChange={onChange}
 				dataSource={documentList}
-				summary={() => (
-					<Table.Summary.Row>
-						{columns
-							.filter((c) => c.show === true)
-							.map((c) => (
-								<Table.Summary.Cell className="table-summary">
-									<Text type="">
-										{/* {c.dataIndex === "Name"
-											? "Cəm"
-											: c.dataIndex === "Amount"
-											? allsum + " ₼"
-											: c.dataIndex === "Profit"
-											? allprofit + " ₼"
-											: c.dataIndex === "Bank"
-											? allbank + " ₼"
-											: c.dataIndex === "UseBonus"
-											? allbonus
-											: c.dataIndex === "SumMoney"
-											? parseFloat(
-													allsum + allbank + allbonus
-											  ) + " ₼"
-											: null} */}
-									</Text>
-								</Table.Summary.Cell>
-							))}
-					</Table.Summary.Row>
-				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
 					current: advancedPage + 1,

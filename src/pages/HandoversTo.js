@@ -244,7 +244,7 @@ export default function HandoversTo() {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı (Artkod, Barkod, Şərx)",
+				label: "Məhsul (Ad, artkod, barkod, şərh)",
 				name: "productName",
 				type: "selectModal",
 				controller: "products",

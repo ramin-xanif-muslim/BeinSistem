@@ -1,9 +1,10 @@
 import { Input, Spin, List } from "antd";
 import Modal from "antd/lib/modal/Modal";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { sendRequest } from "../api";
 
 export function useSelectModal() {
+    const [isEditing, setEditing] = useState(false);
 	const [searchItem, setSearchItem] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [modalVisible, setModalVisible] = useState(false);
@@ -15,44 +16,50 @@ export function useSelectModal() {
 	const [title, setTitle] = useState();
 	const [isInputEnterValue, setIsInputEnterValue] = useState(false);
 
+	const inputRef = useRef(null);
+
 	const handleSearch = (e) => {
 		setSearchItem(e.target.value);
-        setIsInputEnterValue(true)
+		setIsInputEnterValue(true);
 	};
 
 	const showSelectModal = () => {
 		setModalVisible(!modalVisible);
 	};
+
+    const focusRef = () => {
+        inputRef.current.focus()
+    }
 	const fetchData = async () => {
-        setIsLoading(true)
+		setIsLoading(true);
 		let res = await sendRequest(controller + "/get.php", {});
 		setTodos(res.List);
-        setIsLoading(false)
+        focusRef()
+		setIsLoading(false);
 	};
 	const fetchSearchDataFast = async () => {
-        setIsLoading(true)
+		setIsLoading(true);
 		setTodos([]);
 		let res = await sendRequest(controller + "/getfast.php", {
 			fast: searchItem,
-            lm: 100,
+			lm: 100,
 		});
 		setTodos(res.List);
-        setIsLoading(false)
+		setIsLoading(false);
 	};
 	const onClickSelectModal = (cols) => {
-        if(controller !== cols.controller) {
-            setTodos([0])
-        }
+		if (controller !== cols.controller) {
+			setTodos([0]);
+		}
 		showSelectModal();
 		setNameInput(cols.name);
 		setController(cols.controller);
 		setTitle(cols.label);
-		console.log(cols);
 	};
 	useEffect(() => {
 		if (searchItem) {
 			const timer = setTimeout(() => {
-                fetchSearchDataFast();
+				fetchSearchDataFast();
 			}, 500);
 			return () => clearTimeout(timer);
 		}
@@ -63,9 +70,10 @@ export function useSelectModal() {
 		}
 	}, [modalVisible]);
 	useEffect(() => {
-	    if (isInputEnterValue && searchItem === '') {
-	        fetchData();
-	    }
+		if (isInputEnterValue && searchItem === "") {
+            setEditing(true)
+			fetchData();
+		}
 	}, [searchItem, isInputEnterValue]);
 
 	const selectModal = (
@@ -79,12 +87,13 @@ export function useSelectModal() {
 			footer={false}
 		>
 			<Input
+				ref={inputRef}
 				placeholder="Axtar"
 				onChange={handleSearch}
 				allowClear
 				onClear={() => console.log("aaa")}
 			/>
-            {isLoading && <Spin/>}
+			{isLoading && <Spin />}
 			{todos[0] ? (
 				<List size="small">
 					{todos.map((item) => {
@@ -111,9 +120,9 @@ export function useSelectModal() {
 						);
 					})}
 				</List>
-			) :
-            !isLoading && <List.Item>{title} tapilmadi...</List.Item>
-			}
+			) : (
+				!isLoading && <List.Item>{title} tapilmadi...</List.Item>
+			)}
 		</Modal>
 	);
 

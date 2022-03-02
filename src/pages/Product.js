@@ -110,7 +110,7 @@ export default function Product() {
         return [
             {
                 key: "1",
-				label: "Məhsul adı (Artkod, Barkod, Şərx)",
+				label: "Məhsul (Ad, artkod, barkod, şərh)",
                 name: "productname",
                 type: "text",
                 dataIndex: "productname",

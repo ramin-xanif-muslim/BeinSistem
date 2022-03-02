@@ -330,7 +330,7 @@ export default function StockBalance() {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı (Artkod, Barkod, Şərx)",
+				label: "Məhsul (Ad, artkod, barkod, şərh)",
 				name: "productName",
 				type: "text",
 				dataIndex: "productName",

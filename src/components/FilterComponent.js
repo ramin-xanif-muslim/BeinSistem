@@ -8,8 +8,8 @@ import { Form, Row, Col, Input, Select, DatePicker } from "antd";
 import { useTableCustom } from "../contexts/TableContext";
 import { useSelectModal } from "../hooks";
 import { convertCamelCaseTextToText } from "../config/function/convert";
-import '../Page.css'
-
+import "../Page.css";
+import { CloseOutlined } from '@ant-design/icons'
 
 const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
@@ -37,7 +37,7 @@ function FilterComponent({
 		setIsFilter,
 		setAdvancedPage,
 		selectedDateId,
-        setSelectedDateId,
+		setSelectedDateId,
 		setIsEnterFilterValue,
 	} = useTableCustom();
 	const [form] = Form.useForm();
@@ -113,9 +113,9 @@ function FilterComponent({
 
 	const allClear = () => {
 		// setChanged(true);
-        setSelectedDateId({...selectedDateId, [from]: null});
+		setSelectedDateId({ ...selectedDateId, [from]: null });
 		form.resetFields();
-        setSelectDate([])
+		setSelectDate([]);
 		setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance({});
@@ -189,24 +189,29 @@ function FilterComponent({
 		}
 	}, [selectedDateId]);
 
-	const {
-		selectModal,
-		selectedItem,
-		nameInput,
-        onClickSelectModal,
-	} = useSelectModal();
-    
+	const { selectModal, selectedItem, nameInput, onClickSelectModal } =
+		useSelectModal();
+
 	useEffect(() => {
 		if (selectedItem) {
-            let convertedNameInput = convertCamelCaseTextToText(nameInput) 
+			let convertedNameInput = convertCamelCaseTextToText(nameInput);
 			Object.assign(initialFilterForm, {
 				[nameInput]: selectedItem.Name,
-				[convertedNameInput.split(' ')[0].toLowerCase() + 'Id']: selectedItem.Id,
+				[convertedNameInput.split(" ")[0].toLowerCase() + "Id"]:
+					selectedItem.Id,
 			});
 			setInitialFilterForm(initialFilterForm);
 			form.setFieldsValue(initialFilterForm);
 		}
 	}, [selectedItem]);
+    const onClearSelectModal = (e) => {
+        let convertedNameInput = convertCamelCaseTextToText(e);
+        delete initialFilterForm[e]
+        delete initialFilterForm[convertedNameInput.split(" ")[0].toLowerCase() + "Id"]
+		setInitialFilterForm(initialFilterForm)
+        form.resetFields([e])
+        form.setFieldsValue(initialFilterForm)
+    }
 
 	const getFields = () => {
 		const children = [];
@@ -240,16 +245,18 @@ function FilterComponent({
 								onChange={onChange}
 								name={cols[i].name}
 								placeholder={cols[i].label}
+								allowClear
 							/>
 						) : cols[i].type === "selectModal" ? (
-							<Input
-								autoComplete="off"
-								className="detail-input"
-								onClick={() => onClickSelectModal(cols[i])}
-								readOnly
-								name={cols[i].name}
-								placeholder={cols[i].label}
-							/>
+								<Input
+									autoComplete="off"
+									className="detail-input"
+									onClick={() => onClickSelectModal(cols[i])}
+									name={cols[i].name}
+									placeholder={cols[i].label}
+                                    readOnly
+                                    suffix={selectedItem ? <CloseOutlined onClick={() => onClearSelectModal(cols[i].dataIndex)} /> : null}
+								/>
 						) : cols[i].type === "select" ? (
 							<Select
 								className="detail-select"
@@ -270,9 +277,9 @@ function FilterComponent({
 										.indexOf(input.toLowerCase()) >= 0
 								}
 							>
-								{Object.values(dropdown).map((r) => (
+								{Object.values(dropdown).map((r, index) => (
 									<Option
-										key={r.Id}
+										key={index}
 										nm={cols[i].name}
 										// value={cols[i].name === "productName" ? r.name : r.id}
 										value={r.Id}
@@ -303,9 +310,9 @@ function FilterComponent({
 										.indexOf(input.toLowerCase()) >= 0
 								}
 							>
-								{Object.values(dropdown).map((r) => (
+								{Object.values(dropdown).map((r, index) => (
 									<Option
-										key={r.Id}
+										key={index}
 										nm={cols[i].name}
 										value={r.Id}
 									>
@@ -445,11 +452,11 @@ function FilterComponent({
 								}
 								notFoundContent={<Spin size="small" />}
 							>
-								{documentNames.map((d) => {
+								{documentNames.map((d, index) => {
 									return (
 										<Option
 											nm={cols[i].name}
-											key={d.name}
+											key={index}
 											value={d.name}
 										>
 											{d.ad}
@@ -707,18 +714,18 @@ function FilterComponent({
 	};
 	const onFinish = (values) => {
 		setIsEnterFilterValue(true);
-        let productName = ''
-        let customerName = ''
-        if(initialFilterForm.productName) {
-            productName = initialFilterForm.productName
-            initialFilterForm.productName = initialFilterForm.productId
-        //    delete initialFilterForm.productId
-        }
-        if(initialFilterForm.customerName) {
-            customerName = initialFilterForm.customerName
-            initialFilterForm.customerName = initialFilterForm.customerId
-            // delete initialFilterForm.customerId
-        }
+		let productName = "";
+		let customerName = "";
+		if (initialFilterForm.productName) {
+			productName = initialFilterForm.productName;
+			initialFilterForm.productName = initialFilterForm.productId;
+			//    delete initialFilterForm.productId
+		}
+		if (initialFilterForm.customerName) {
+			customerName = initialFilterForm.customerName;
+			initialFilterForm.customerName = initialFilterForm.customerId;
+			// delete initialFilterForm.customerId
+		}
 		// const rangeCreateValue = values["createdDate"];
 
 		const rangeModifyValue = values["modifedDate"];
@@ -754,12 +761,12 @@ function FilterComponent({
 		setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance(totalvalues);
-        if(productName) {
-            initialFilterForm.productName = productName
-        }
-        if(customerName) {
-            initialFilterForm.customerName = customerName
-        }
+		if (productName) {
+			initialFilterForm.productName = productName;
+		}
+		if (customerName) {
+			initialFilterForm.customerName = customerName;
+		}
 	};
 	useEffect(() => {
 		if (from === "stockbalance") {
@@ -799,8 +806,8 @@ function FilterComponent({
 				initialFilterForm &&
 				Object.keys(initialFilterForm).length === 0
 			) {
-				setInitialFilterForm(initialFilterForm)
-				setinitial(initial)
+				setInitialFilterForm(initialFilterForm);
+				setinitial(initial);
 			}
 			form.setFieldsValue();
 		}
@@ -816,9 +823,6 @@ function FilterComponent({
 			}
 		}
 	}, [advanced]);
-	useEffect(() => {
-        console.log(initialFilterForm)
-	}, [initialFilterForm]);
 
 	return (
 		<div className="filter_wrapper" style={{ display: display }}>

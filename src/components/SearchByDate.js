@@ -74,7 +74,6 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate, fro
 	const onClick = (i) => {
 		select(i);
 		setSelectedDateId({...selectedDateId, [from]: i});
-        console.log(selectedDateId)
 	};
 	useEffect(() => {
 		if (!selectedDateId[from] && defaultCheckedDate) {

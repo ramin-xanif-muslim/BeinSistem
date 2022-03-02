@@ -165,7 +165,7 @@ function Navbar(props) {
 				{Array.isArray(data.Body)
 					? data.Body.filter((d) => d.ParentId === "0").map((m) =>
 							m.Name == "Komisyon satış" ? (
-								<Badge.Ribbon text="Yeni" color="red">
+								<Badge.Ribbon text="Yeni" color="red" key={m.Id}>
 									<Menu.Item
 										className="main_header_items custom_flex_direction"
 										key={m.Id}
