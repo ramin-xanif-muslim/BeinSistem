@@ -265,9 +265,10 @@ export default function ProductTransactions() {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı",
+				label: "Məhsul adı (Artkod, Barkod, Şərx)",
 				name: "productName",
 				type: "selectModal",
+				controller: "products",
 				dataIndex: "productName",
 				show: initialfilter
 					? Object.values(initialfilter).find(
@@ -277,18 +278,6 @@ export default function ProductTransactions() {
 			},
 			{
 				key: "3",
-				label: "Barkodu",
-				name: "bc",
-				type: "text",
-				dataIndex: "bc",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "bc"
-					  ).show
-					: true,
-			},
-			{
-				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -301,7 +290,7 @@ export default function ProductTransactions() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "4",
 				label: "Çəkili",
 				name: "wg",
 				controller: "yesno",
@@ -315,7 +304,7 @@ export default function ProductTransactions() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "5",
 				label: "Arxivli",
 				name: "ar",
 				controller: "yesno",
@@ -329,7 +318,7 @@ export default function ProductTransactions() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "6",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -341,7 +330,7 @@ export default function ProductTransactions() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "7",
 				label: "Qarşı-tərəf",
 				name: "customerName",
 				type: "selectModal",
@@ -354,7 +343,7 @@ export default function ProductTransactions() {
 					: true,
 			},
 			{
-				key: "9",
+				key: "8",
 				label: "Sənəd tipi",
 				name: "documentType",
 				type: "selectDocumentType",

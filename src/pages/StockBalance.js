@@ -330,7 +330,7 @@ export default function StockBalance() {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı",
+				label: "Məhsul adı (Artkod, Barkod, Şərx)",
 				name: "productName",
 				type: "text",
 				dataIndex: "productName",
@@ -340,21 +340,8 @@ export default function StockBalance() {
 					  ).show
 					: true,
 			},
-
 			{
 				key: "3",
-				label: "Barkodu",
-				name: "bc",
-				type: "text",
-				dataIndex: "bc",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "bc"
-					  ).show
-					: true,
-			},
-			{
-				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -367,7 +354,7 @@ export default function StockBalance() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "4",
 				label: "Maya dəyəri",
 				name: "docPrice",
 				start: "costprb",
@@ -381,7 +368,7 @@ export default function StockBalance() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "5",
 				label: "Satış qiyməti",
 				name: "salePrice",
 				start: "prb",
@@ -395,7 +382,7 @@ export default function StockBalance() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "6",
 				label: "Anbar qalığı",
 				name: "docPriceBlnc",
 				start: "blncb",
@@ -409,7 +396,7 @@ export default function StockBalance() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "7",
 				label: "Çəkili",
 				name: "wg",
 				controller: "yesno",
@@ -423,7 +410,7 @@ export default function StockBalance() {
 					: true,
 			},
 			{
-				key: "9",
+				key: "8",
 				label: "Arxivli",
 				name: "ar",
 				controller: "yesno",

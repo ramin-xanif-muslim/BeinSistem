@@ -376,7 +376,7 @@ export default function CustomerOrders() {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı",
+				label: "Məhsul adı (Artkod, Barkod, Şərx)",
 				name: "productName",
 				type: "selectModal",
 				controller: "products",
@@ -389,19 +389,6 @@ export default function CustomerOrders() {
 			},
 			{
 				key: "3",
-				label: "Barkodu",
-				name: "bc",
-				type: "text",
-				dataIndex: "bc",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "bc"
-					  ).show
-					: true,
-			},
-
-			{
-				key: "4",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -414,7 +401,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "4",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -427,7 +414,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "5",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -440,7 +427,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "6",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "dateOfChange",
@@ -452,7 +439,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "7",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -466,7 +453,7 @@ export default function CustomerOrders() {
 					: true,
 			},
 			{
-				key: "9",
+				key: "8",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",

@@ -349,7 +349,7 @@ export default function SaleReport() {
 		return [
 			{
 				key: "1",
-				label: "Məhsul adı",
+				label: "Məhsul adı (Artkod, Barkod, Şərx)",
 				name: "productName",
 				type: "selectModal",
 				controller: "products",
@@ -362,19 +362,6 @@ export default function SaleReport() {
 			},
 			{
 				key: "2",
-				label: "Barkodu",
-				name: "bc",
-				type: "text",
-				dataIndex: "bc",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "bc"
-					  ).show
-					: true,
-			},
-
-			{
-				key: "3",
 				label: "Qarşı-tərəf",
 				name: "customerName",
 				type: "selectModal",
@@ -387,7 +374,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "4",
+				key: "3",
 				label: "Satış Qiyməti",
 				name: "salePrice",
 				start: "prb",
@@ -401,7 +388,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "4",
 				label: "Mənfəət",
 				name: "profit",
 				start: "prfb",
@@ -415,7 +402,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "5",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -428,7 +415,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "6",
 				label: "Satış nöqtəsi",
 				name: "slpnt",
 				type: "select",
@@ -441,7 +428,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "7",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -454,7 +441,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "9",
+				key: "8",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -467,7 +454,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "10",
+				key: "9",
 				label: "Arxivli",
 				name: "ar",
 				controller: "yesno",
@@ -481,7 +468,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "11",
+				key: "10",
 				label: "Çəkili",
 				name: "wg",
 				controller: "yesno",
@@ -495,7 +482,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "12",
+				key: "11",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
@@ -507,7 +494,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "13",
+				key: "12",
 				label: "Maya dəyəri",
 				name: "docPrice",
 				start: "costprb",
@@ -521,7 +508,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "14",
+				key: "13",
 				label: "Məhsul Qrupu",
 				name: "gp",
 				controller: "productfolders",
@@ -534,7 +521,7 @@ export default function SaleReport() {
 					: true,
 			},
 			{
-				key: "15",
+				key: "14",
 				label: "Topdan satiş",
 				name: "sales",
 				type: "selectSales",

@@ -9,9 +9,6 @@ function FilterButton(props) {
 		isEnterFilterValue,
         setIsEnterFilterValue,
 	} = useTableCustom();
-    useEffect(() => {
-        console.log('isEnterFilterValue',isEnterFilterValue)
-    },[isEnterFilterValue])
     
 
 	let filterClasses = classNames({

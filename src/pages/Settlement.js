@@ -65,7 +65,6 @@ export default function Settlement() {
 		isFilter,
 		advancedPage,
 		setAdvancedPage,
-        setSelectedDateId,
 		doSearch,
 		search,
 	} = useTableCustom();
@@ -83,7 +82,15 @@ export default function Settlement() {
 	const [pageCount, setPageCount] = useState(null);
 	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["settlements", page, direction, fieldSort, doSearch, search, advacedSettlement],
+		[
+			"settlements",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advacedSettlement,
+		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
@@ -240,9 +247,6 @@ export default function Settlement() {
 	useEffect(() => {
 		setInitial(columns);
 		setInitialFilter(filters);
-	}, []);
-	useEffect(() => {
-		setSelectedDateId(null)
 	}, []);
 
 	useEffect(() => {
@@ -430,6 +434,7 @@ export default function Settlement() {
 					<div className="page_heder_right">
 						<div className="buttons_wrapper">
 							<FilterButton
+								from={"settlements"}
 								display={isOpenSettlementFilter}
 								setdisplay={setIsOpenSettlementFilter}
 							/>
@@ -443,12 +448,13 @@ export default function Settlement() {
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
+						from="settlements"
 						cols={filters}
 						display={isOpenSettlementFilter}
-                        advanced={advacedSettlement}
-                        setAdvance={setAdvaceSettlement}
-                        initialFilterForm={formSettlement}
-                        setInitialFilterForm={setFormSettlement}
+						advanced={advacedSettlement}
+						setAdvance={setAdvaceSettlement}
+						initialFilterForm={formSettlement}
+						setInitialFilterForm={setFormSettlement}
 					/>
 				</Col>
 			</Row>

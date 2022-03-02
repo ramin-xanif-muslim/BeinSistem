@@ -110,7 +110,7 @@ export default function Product() {
         return [
             {
                 key: "1",
-                label: "Məhsul adı",
+				label: "Məhsul adı (Artkod, Barkod, Şərx)",
                 name: "productname",
                 type: "text",
                 dataIndex: "productname",
@@ -122,19 +122,6 @@ export default function Product() {
             },
             {
                 key: "2",
-                label: "Barkodu",
-                name: "bc",
-                type: "text",
-                dataIndex: "bc",
-                show: initialfilter
-                    ? Object.values(initialfilter).find(
-                          (i) => i.dataIndex === "bc"
-                      ).show
-                    : true,
-            },
-
-            {
-                key: "3",
                 label: "Alş qiyməti",
                 name: "buyPrice",
                 start: "bprb",
@@ -148,7 +135,7 @@ export default function Product() {
                     : true,
             },
             {
-                key: "4",
+                key: "3",
                 label: "Satış Qiyməti",
                 name: "salePrice",
                 start: "prb",
@@ -162,7 +149,7 @@ export default function Product() {
                     : true,
             },
             {
-                key: "5",
+                key: "4",
                 label: "Məhsul Qrupu",
                 name: "gp",
                 controller: "productfolders",
@@ -175,7 +162,7 @@ export default function Product() {
                     : true,
             },
             {
-                key: "6",
+                key: "5",
                 label: "Arxivli",
                 name: "ar",
                 controller: "yesno",
@@ -189,7 +176,7 @@ export default function Product() {
                     : true,
             },
             {
-                key: "7",
+                key: "6",
                 label: "Çəkili",
                 name: "wg",
                 controller: "yesno",

@@ -244,7 +244,7 @@ export default function HandoversTo() {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı",
+				label: "Məhsul adı (Artkod, Barkod, Şərx)",
 				name: "productName",
 				type: "selectModal",
 				controller: "products",
@@ -257,19 +257,6 @@ export default function HandoversTo() {
 			},
 			{
 				key: "3",
-				label: "Barkodu",
-				name: "bc",
-				type: "text",
-				dataIndex: "bc",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "bc"
-					  ).show
-					: true,
-			},
-
-			{
-				key: "4",
 				label: "Anbardan",
 				name: "stockNameFrom",
 				type: "select",
@@ -282,7 +269,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "5",
+				key: "4",
 				label: "Anbara",
 				name: "stockNameTo",
 				type: "select",
@@ -295,7 +282,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "6",
+				key: "5",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -308,7 +295,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "7",
+				key: "6",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -321,7 +308,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "8",
+				key: "7",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "date",
@@ -333,7 +320,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "9",
+				key: "8",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -347,7 +334,7 @@ export default function HandoversTo() {
 					: true,
 			},
 			{
-				key: "10",
+				key: "9",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",

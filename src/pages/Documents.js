@@ -283,7 +283,7 @@ const {
 			},
 			{
 				key: "2",
-				label: "Məhsul adı",
+				label: "Məhsul adı (Artkod, Barkod, Şərx)",
 				name: "productName",
 				type: "selectModal",
 				controller: "products",
@@ -296,19 +296,6 @@ const {
 			},
 			{
 				key: "3",
-				label: "Barkodu",
-				name: "bc",
-				type: "text",
-				dataIndex: "bc",
-				show: initialfilter
-					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "bc"
-					  ).show
-					: true,
-			},
-
-			{
-				key: "4",
 				label: "Qarşı-tərəf",
 				name: "cus",
 				type: "selectModal",
@@ -322,7 +309,7 @@ const {
 			},
 
 			{
-				key: "5",
+				key: "4",
 				label: "Dəyişmə tarixi",
 				name: "modifedDate",
 				type: "dateOfChange",
@@ -334,7 +321,7 @@ const {
 					: true,
 			},
 			{
-				key: "6",
+				key: "5",
 				label: "Mənfəət",
 				name: "profit",
 				start: "prfb",
@@ -348,7 +335,7 @@ const {
 					: true,
 			},
 			{
-				key: "7",
+				key: "6",
 				label: "Anbar",
 				name: "stockName",
 				type: "select",
@@ -361,7 +348,7 @@ const {
 					: true,
 			},
 			{
-				key: "8",
+				key: "7",
 				label: "Satış nöqtəsi",
 				name: "slpnt",
 				type: "select",
@@ -374,7 +361,7 @@ const {
 					: true,
 			},
 			{
-				key: "9",
+				key: "8",
 				label: "Şöbə",
 				name: "departmentName",
 				controller: "departments",
@@ -387,7 +374,7 @@ const {
 					: true,
 			},
 			{
-				key: "10",
+				key: "9",
 				label: "Cavabdeh",
 				name: "ownerName",
 				controller: "owners",
@@ -401,7 +388,7 @@ const {
 			},
 
 			{
-				key: "11",
+				key: "10",
 				label: "Məbləğ",
 				name: "docPrice",
 				start: "amb",
@@ -415,7 +402,7 @@ const {
 					: true,
 			},
 			{
-				key: "12",
+				key: "11",
 				label: "Ödəniş növü",
 				name: "paytype",
 				controller: "yesno",
@@ -430,7 +417,7 @@ const {
 					: true,
 			},
 			{
-				key: "13",
+				key: "12",
 				label: "Tarixi",
 				name: "createdDate",
 				type: "date",
