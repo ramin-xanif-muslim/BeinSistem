@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { sendRequest } from "../api";
 
 export function useSelectModal() {
-    const [isEditing, setEditing] = useState(false);
+	const [isEditing, setEditing] = useState(false);
 	const [searchItem, setSearchItem] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [modalVisible, setModalVisible] = useState(false);
@@ -27,14 +27,14 @@ export function useSelectModal() {
 		setModalVisible(!modalVisible);
 	};
 
-    const focusRef = () => {
-        inputRef.current.focus()
-    }
+	const focusRef = () => {
+		inputRef.current.focus();
+	};
 	const fetchData = async () => {
 		setIsLoading(true);
 		let res = await sendRequest(controller + "/get.php", {});
 		setTodos(res.List);
-        focusRef()
+		focusRef();
 		setIsLoading(false);
 	};
 	const fetchSearchDataFast = async () => {
@@ -71,7 +71,7 @@ export function useSelectModal() {
 	}, [modalVisible]);
 	useEffect(() => {
 		if (isInputEnterValue && searchItem === "") {
-            setEditing(true)
+			setEditing(true);
 			fetchData();
 		}
 	}, [searchItem, isInputEnterValue]);
@@ -114,8 +114,12 @@ export function useSelectModal() {
 											: null
 									}
 								>
-									{Name}
-                                    {BarCode}
+									<div>
+										<div>{Name}</div>
+										<div style={{ color: "#757575" }}>
+											{BarCode}
+										</div>
+									</div>
 								</List.Item>
 							</>
 						);

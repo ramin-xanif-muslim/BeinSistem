@@ -22,4 +22,7 @@ export const downloadFile = async (sendData, fileIndex, controllers) => {
         document.body.appendChild(link);
         link.click();
     });
+    delete sendData['requesttype']
+    delete sendData['printtype']
+    delete sendData['token']
 };

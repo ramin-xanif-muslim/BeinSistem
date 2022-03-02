@@ -224,11 +224,18 @@ function NewProduct() {
 		}
 	};
 	const handleFinish = async (values) => {
-		let sendObj = form.getFieldValue();
+		if (!values.isweight) {
+			values.isweight = false;
+		}
+		values.buyprice = buyprice;
+		values.minprice = minprice;
+		values.price = price;
 		setDisable(true);
-
+		var error = false;
+		message.loading({ content: "Yüklənir...", key: "pro_update" });
+		// Object.assign(values, lastObject);
 		var prices = [];
-		Object.entries(sendObj).map(([k, v]) => {
+		Object.entries(values).map(([k, v]) => {
 			if (k.indexOf("PriceType_") != -1) {
 				if (v) {
 					prices.push({
@@ -238,13 +245,8 @@ function NewProduct() {
 				}
 			}
 		});
-		sendObj.prices = prices;
-		sendObj.isarch = isArch;
-		if (!sendObj.isweight) {
-			sendObj.isweight = false;
-		}
-		var error = false;
-		message.loading({ content: "Yüklənir...", key: "pro_update" });
+		values.prices = prices;
+		values.isarch = isArch;
 
 		Object.values(attrs).map((atr) => {
 			Object.entries(values).findIndex(([k, v]) => console.log(k));
@@ -273,7 +275,7 @@ function NewProduct() {
 			});
 		}
 		if (!error) {
-			const res = await saveDoc(sendObj, "products");
+			const res = await saveDoc(values, "products");
 			if (res.Headers.ResponseStatus === "0") {
 				message.success({
 					content: "Saxlanıldı",

@@ -154,7 +154,7 @@ function NewMoneytransfersOuts() {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Pul mıxaric</h2>
+				<h2>Pul məxaric</h2>
 			</div>
 			<DocButtons
 				additional={"none"}
