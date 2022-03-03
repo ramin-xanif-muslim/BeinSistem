@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
-import { fetchPage, fecthFastPage, fetchFilterPage } from "../api";
+import { fetchPage, fecthFastPage, fetchFilterPage, fecthFastPageCustomers } from "../api";
 import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
@@ -60,7 +60,8 @@ export default function Customer() {
 				key: "1",
 				label: "Adı",
 				name: "customerName",
-				type: "text",
+				type: "selectModal",
+				controller: "customers",
 				dataIndex: "customerName",
 				show: initialfilter
 					? Object.values(initialfilter).find(
@@ -371,7 +372,7 @@ export default function Customer() {
 						searchGr
 				  )
 				: doSearch
-				? fecthFastPage("customers", advancedPage, search, searchGr)
+				? fecthFastPageCustomers("customers", advancedPage, search, searchGr)
 				: !isFilter && !doSearch
 				? fetchPage(
 						"customers",

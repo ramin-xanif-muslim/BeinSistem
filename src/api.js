@@ -370,7 +370,7 @@ export const fecthFastPage = async (page, pg, fast, gp) => {
             dr: 1,
             pg: pg ? pg : 0,
             lm: 100,
-            fast: fast,
+            name: fast,
             token: localStorage.getItem("access-token"),
         };
     }
@@ -406,6 +406,28 @@ export const fecthFastPage = async (page, pg, fast, gp) => {
         return data.Body;
     }
 };
+export const fecthFastPageCustomers = async (page, pg, fast, gp) => {
+    console.log("fecthFastPageCustomers");
+    var navFilter = {};
+        navFilter = {
+            dr: 1,
+            pg: pg ? pg : 0,
+            lm: 100,
+            fast: fast,
+            token: localStorage.getItem("access-token"),
+        };
+    const { data } = await axios.post(
+        API_BASE +
+            `/controllers/${page}/getfast.php`,
+        navFilter
+    );
+
+    if (data.Headers.ResponseStatus === "0") {
+        return data;
+    } else {
+        return data.Body;
+    }
+};
 
 export const fetchFilterPage = async (
     page,
@@ -429,7 +451,6 @@ export const fetchFilterPage = async (
         token: localStorage.getItem("access-token"),
     };
     Object.assign(navFilter, advanced);
-    console.log("fetchFilterPage", navFilter);
     const { data } = await axios.post(
         API_BASE + `/controllers/${page}/get.php`,
         navFilter
