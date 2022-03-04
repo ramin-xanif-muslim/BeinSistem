@@ -160,11 +160,9 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 		}
 	}, [outerDataSource]);
 	useEffect(() => {
-		console.log(form.getFieldValue());
-	}, [isFetching]);
-	useEffect(() => {
 		if (!isFetching) {
-			console.log(data);
+			setIsArch(data.Body.List[0].IsArch);
+
 			customPositions = [];
 			if (data.Body.List[0].Positions) {
 				data.Body.List[0].Positions.map((d) => customPositions.push(d));
@@ -380,13 +378,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 			setLinkedList([]);
 			setLinked([]);
 		};
-	}, []);
-
-	useEffect(() => {
-		if (data) {
-			setIsArch(data.Body.List[0].IsArch);
-			console.log(data.Body.List[0].IsArch);
-		}
 	}, []);
 
 	useEffect(() => {
@@ -878,7 +869,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 	const onChangeArch = () => {
 		isArch === 0 ? setIsArch(1) : setIsArch(0);
 		setDisable(false);
-		console.log(isArch);
 	};
 	return (
 		<div className="doc_wrapper product_wrapper">

@@ -331,8 +331,9 @@ export default function StockBalance() {
 			{
 				key: "2",
 				label: "Məhsul (Ad, artkod, barkod, şərh)",
-				name: "productName",
-				type: "text",
+				type: "selectModal",
+				controller: "products",
+				name: "nm",
 				dataIndex: "productName",
 				show: initialfilter
 					? Object.values(initialfilter).find(

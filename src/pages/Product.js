@@ -110,9 +110,10 @@ export default function Product() {
         return [
             {
                 key: "1",
-				label: "Məhsul adı",
+				label: "Məhsul (Ad, artkod, barkod, şərh)",
+				type: "selectModal",
+				controller: "products",
                 name: "productname",
-                type: "text",
                 dataIndex: "productname",
                 show: initialfilter
                     ? Object.values(initialfilter).find(

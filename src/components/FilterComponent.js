@@ -285,7 +285,7 @@ function FilterComponent({
 							>
 								{Object.values(dropdown).map((r, index) => (
 									<Option
-										key={index}
+										key={r.Id}
 										nm={cols[i].name}
 										// value={cols[i].name === "productName" ? r.name : r.id}
 										value={r.Id}
@@ -318,7 +318,7 @@ function FilterComponent({
 							>
 								{Object.values(dropdown).map((r, index) => (
 									<Option
-										key={index}
+										key={r.Id}
 										nm={cols[i].name}
 										value={r.Id}
 									>
@@ -462,7 +462,7 @@ function FilterComponent({
 									return (
 										<Option
 											nm={cols[i].name}
-											key={index}
+											key={d.name}
 											value={d.name}
 										>
 											{d.ad}
