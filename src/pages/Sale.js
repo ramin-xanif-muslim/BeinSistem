@@ -384,7 +384,7 @@ export default function Sale() {
 					? Object.values(initialfilter).find(
 							(i) => i.dataIndex === "slpnt"
 					  ).show
-					: false,
+					: true,
 			},
 			{
 				key: "8",

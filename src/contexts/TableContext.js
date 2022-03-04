@@ -88,11 +88,8 @@ const TableProvider = ({ children }) => {
   const setCustomerGroupsLocalStorage = (obj) => {
     localStorage.setItem("cusgroups", JSON.stringify(obj));
   };
-  const [firstOnFirstPresSearch, setFirstOnFirstPresSearch] = useState(0);
 
   const values = {
-    firstOnFirstPresSearch,
-    setFirstOnFirstPresSearch,
     isDelete,
     setIsDelete,
     settingsObj,

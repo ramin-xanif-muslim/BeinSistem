@@ -39,6 +39,8 @@ function FilterComponent({
 		selectedDateId,
 		setSelectedDateId,
 		setIsEnterFilterValue,
+        firstOnFirstPresSearch,
+        setFirstOnFirstPresSearch,
 	} = useTableCustom();
 	const [form] = Form.useForm();
 
@@ -110,6 +112,13 @@ function FilterComponent({
 			return () => clearTimeout(timer);
 		}
 	}, [doSearchFast]);
+	useEffect(() => {
+		if (firstOnFirstPresSearch === 1) {
+            // dubleClear()
+            console.log(form.getFieldValue())
+            console.log(initialFilterForm)
+		}
+	}, [firstOnFirstPresSearch]);
 
 	const allClear = () => {
 		// setChanged(true);
@@ -123,6 +132,10 @@ function FilterComponent({
 		setIsEnterFilterValue(false);
 		form.setFieldsValue({});
         onClearSelectModalInput()
+	};
+	const dubleClear = async () => {
+        await allClear()
+        allClear()
 	};
 	function handleClear(id) {
 		delete initialFilterForm[`${id}`];
@@ -718,22 +731,25 @@ function FilterComponent({
 		setIsEnterFilterValue(true);
 		let productName = "";
 		let customerName = "";
+		let cus = "";
 		if (initialFilterForm.productName) {
 			productName = initialFilterForm.productName;
 			initialFilterForm.productName = initialFilterForm.productId;
-			//    delete initialFilterForm.productId
 		}
 		if (initialFilterForm.customerName) {
 			customerName = initialFilterForm.customerName;
 			initialFilterForm.customerName = initialFilterForm.customerId;
-			// delete initialFilterForm.customerId
+		}
+		if (initialFilterForm.cus) {
+			cus = initialFilterForm.cus;
+			initialFilterForm.cus = initialFilterForm.cusId;
 		}
 		// const rangeCreateValue = values["createdDate"];
 
 		const rangeModifyValue = values["modifedDate"];
 		const moment = values["moment"];
 		const totalvalues = {
-			...values,
+			// ...values,
 			moment: moment ? moment.format("DD-MM-YYYY HH:mm:ss") : "",
 			momb: selectDate[0]
 				? selectDate[0].format("YYYY-MM-DD HH:mm:ss")
@@ -768,7 +784,11 @@ function FilterComponent({
 		if (customerName) {
             initialFilterForm.customerName = customerName;
 		}
+		if (cus) {
+            initialFilterForm.cus = cus;
+		}
         setIsFilter(true);
+        setFirstOnFirstPresSearch(firstOnFirstPresSearch + 1)
 	};
 	useEffect(() => {
 		if (from === "stockbalance") {
@@ -859,7 +879,7 @@ function FilterComponent({
 							style={{
 								margin: "0 2rem",
 							}}
-							onClick={() => allClear()}
+							onClick={() => dubleClear()}
 						>
 							Təmizlə
 						</button>

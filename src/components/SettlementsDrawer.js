@@ -56,6 +56,15 @@ function SettlementsDrawer() {
                             return "Alış";
                         case "Demand":
                             return "Satış";
+
+                        case "InvoiceIn":
+                            return "Mədaxil nağdsız";
+                        case "InvoiceOut":
+                            return "Məxaric nağdsız";
+                        case "CreditPayOut":
+                            return "Mədaxil nağd kassadan";
+                        case "CreditPayIn":
+                            return "Məxaric nağd kassadan";
                         default:
                             break;
                     }
