@@ -344,7 +344,7 @@ export default function Sale() {
 					? Object.values(initialfilter).find(
 							(i) => i.dataIndex === "modifedDate"
 					  ).show
-					: true,
+					: false,
 			},
 			{
 				key: "5",

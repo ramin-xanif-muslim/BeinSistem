@@ -39,8 +39,6 @@ function FilterComponent({
 		selectedDateId,
 		setSelectedDateId,
 		setIsEnterFilterValue,
-        firstOnFirstPresSearch,
-        setFirstOnFirstPresSearch,
 	} = useTableCustom();
 	const [form] = Form.useForm();
 
@@ -112,13 +110,6 @@ function FilterComponent({
 			return () => clearTimeout(timer);
 		}
 	}, [doSearchFast]);
-	useEffect(() => {
-		if (firstOnFirstPresSearch === 1) {
-            // dubleClear()
-            console.log(form.getFieldValue())
-            console.log(initialFilterForm)
-		}
-	}, [firstOnFirstPresSearch]);
 
 	const allClear = () => {
 		// setChanged(true);
@@ -776,6 +767,7 @@ function FilterComponent({
 				delete totalvalues[`${key}`];
 			}
 		});
+        setIsFilter(true);
 		setAdvancedPage(0);
 		setAdvance(totalvalues);
 		if (productName) {
@@ -787,8 +779,6 @@ function FilterComponent({
 		if (cus) {
             initialFilterForm.cus = cus;
 		}
-        setIsFilter(true);
-        setFirstOnFirstPresSearch(firstOnFirstPresSearch + 1)
 	};
 	useEffect(() => {
 		if (from === "stockbalance") {

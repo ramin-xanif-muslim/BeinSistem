@@ -325,7 +325,7 @@ export default function Enter() {
 					? Object.values(initialfilter).find(
 							(i) => i.dataIndex === "modifedDate"
 					  ).show
-					: true,
+					: false,
 			},
 			{
 				key: "7",

@@ -375,7 +375,7 @@ export default function DemandReturn() {
 					? Object.values(initialfilter).find(
 							(i) => i.dataIndex === "modifedDate"
 					  ).show
-					: true,
+					: false,
 			},
 			{
 				key: "7",

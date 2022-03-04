@@ -542,7 +542,7 @@ function FilterComponent({
 							<div>
 								<RangePicker
 									className="detail-input"
-									showTime={{ format: "HH:mm:ss" }}
+									// showTime={{ format: "HH:mm:ss" }}
 									locale={locale}
 									onChange={(date, dateString) =>
 										setSelectDate(date)
@@ -550,7 +550,7 @@ function FilterComponent({
 									{...rangeConfig}
 									value={selectDate}
 									onOpenChange={onOpenChange}
-									format="DD-MM-YYYY HH:mm:ss"
+									format="DD-MM-YYYY"
 									ranges={{
 										"Bu gün": [
 											moment().startOf("day"),
@@ -593,10 +593,10 @@ function FilterComponent({
 							<div>
 								<RangePicker
 									className="detail-input"
-									showTime={{ format: "HH:mm:ss" }}
+									// showTime={{ format: "HH:mm:ss" }}
 									locale={locale}
 									{...rangeConfig}
-									format="DD-MM-YYYY HH:mm:ss"
+									format="DD-MM-YYYY"
 									ranges={{
 										"Bu gün": [
 											moment().startOf("day"),
@@ -743,19 +743,19 @@ function FilterComponent({
 			// ...values,
 			moment: moment ? moment.format("DD-MM-YYYY HH:mm:ss") : "",
 			momb: selectDate[0]
-				? selectDate[0].format("YYYY-MM-DD HH:mm:ss")
+				? selectDate[0].format("YYYY-MM-DD") + ' 00:00:00' 
 				: "",
 			mome: selectDate[0]
-				? selectDate[1].format("YYYY-MM-DD HH:mm:ss")
+				? selectDate[1].format("YYYY-MM-DD") + ' 23:59:59'
 				: "",
 			modb: rangeModifyValue
-				? rangeModifyValue[0].format("YYYY-MM-DD HH:mm:ss")
+				? rangeModifyValue[0].format("YYYY-MM-DD") + ' 00:00:00'
 				: "",
 			mode: rangeModifyValue
-				? rangeModifyValue[1].format("YYYY-MM-DD HH:mm:ss")
+				? rangeModifyValue[1].format("YYYY-MM-DD") + ' 23:59:59'
 				: "",
 		};
-
+        
 		Object.assign(totalvalues, initialFilterForm);
 		Object.entries(totalvalues).forEach(([key, value]) => {
 			if (key.includes("_id")) {
