@@ -139,7 +139,7 @@ function FilterComponent({
 		if (option) {
 			Object.assign(initialFilterForm, {
 				[option.nm]: option.children ? option.children : null,
-				[`${option.nm}_id`]: option.key,
+				[`${option.nm}_id`]: option.value,
 			});
 			setInitialFilterForm(initialFilterForm);
 		}
@@ -763,9 +763,7 @@ function FilterComponent({
 				delete totalvalues[`${key}`];
 				totalvalues[`${index}`] = value;
 			}
-			if (value === "") {
-				delete totalvalues[`${key}`];
-			}
+			if (value === "") delete totalvalues[`${key}`];
 		});
         setIsFilter(true);
 		setAdvancedPage(0);
