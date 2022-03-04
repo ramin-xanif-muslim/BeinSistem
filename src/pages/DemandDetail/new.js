@@ -581,12 +581,10 @@ function NewDemand({
 
 	useEffect(() => {
 		setInitial(columns);
-		// if (!localStorage.getItem("demandnewcolumns")) {
-		// 	localStorage.setItem("demandnewcolumns", JSON.stringify(columns));
-		// }
-	}, []);
+		if (columnChange) setColumnChange(false);
+	}, [columns]);
 	const onChangeMenu = (e) => {
-		var initialCols = JSON.parse(localStorage.getItem("demandnewcolumns"));
+		var initialCols = initial
 		var findelement;
 		var findelementindex;
 		var replacedElement;
@@ -600,7 +598,7 @@ function NewDemand({
 			...findelement,
 			...replacedElement,
 		});
-		localStorage.setItem("demandnewcolumns", JSON.stringify(initialCols));
+		// localStorage.setItem("demandnewcolumns", JSON.stringify(initialCols));
 		setColumnChange(true);
 	};
 

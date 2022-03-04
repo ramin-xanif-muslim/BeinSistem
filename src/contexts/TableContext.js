@@ -88,6 +88,7 @@ const TableProvider = ({ children }) => {
   const setCustomerGroupsLocalStorage = (obj) => {
     localStorage.setItem("cusgroups", JSON.stringify(obj));
   };
+
   const values = {
     isDelete,
     setIsDelete,

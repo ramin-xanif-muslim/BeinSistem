@@ -32,6 +32,7 @@ export function useSelectModal() {
 	};
 	const fetchData = async () => {
 		setIsLoading(true);
+        setActiveId()
 		let res = await sendRequest(controller + "/get.php", {});
 		setTodos(res.List);
 		focusRef();
@@ -55,6 +56,10 @@ export function useSelectModal() {
 		setNameInput(cols.name);
 		setController(cols.controller);
 		setTitle(cols.label);
+	};
+	const onClearSelectModalInput = () => {
+        setActiveId()
+        setSelectedItem();
 	};
 	useEffect(() => {
 		if (searchItem) {
@@ -131,5 +136,5 @@ export function useSelectModal() {
 		</Modal>
 	);
 
-	return { selectModal, selectedItem, nameInput, onClickSelectModal };
+	return { selectModal, selectedItem, nameInput, onClickSelectModal, onClearSelectModalInput };
 }
