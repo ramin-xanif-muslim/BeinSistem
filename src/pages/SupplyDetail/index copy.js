@@ -355,17 +355,15 @@ function SupplyDetail({
           let defaultCostArray = [];
           let consumtionPriceArray = [];
           outerDataSource.forEach((p) => {
-            defaultCostArray.push(Number(p.Price));
+            defaultCostArray.push(Number(p.CostPrice));
           });
           if (hasConsumption) {
             consumtionPriceArray = [];
             outerDataSource.forEach((p) => {
-                console.log('Maya p',p)
               consumtionPriceArray.push(
-                FindAdditionals(consumption, docSum, Number(p.Price))
+                FindAdditionals(consumption, docSum, Number(p.CostPrice))
               );
             });
-            console.log('Maya', consumtionPriceArray,index)
 
             return ConvertFixedTable(consumtionPriceArray[index]);
           } else {
@@ -393,12 +391,10 @@ function SupplyDetail({
           if (hasConsumption) {
             consumtionPriceArray = [];
             outerDataSource.forEach((p) => {
-                console.log('Cəm Maya p',p.TotalPrice)
               consumtionPriceArray.push(
                 FindAdditionals(consumption, docSum, Number(p.TotalPrice))
               );
             });
-            console.log('Cəm Maya', consumtionPriceArray,index)
 
             return ConvertFixedTable(consumtionPriceArray[index]);
           } else {

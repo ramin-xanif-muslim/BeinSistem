@@ -288,13 +288,13 @@ function NewSupply({
           let defaultCostArray = [];
           let consumtionPriceArray = [];
           outerDataSource.forEach((p) => {
-            defaultCostArray.push(Number(p.CostPrice));
+            defaultCostArray.push(Number(p.Price));
           });
           if (hasConsumption) {
             consumtionPriceArray = [];
             outerDataSource.forEach((p) => {
               consumtionPriceArray.push(
-                FindAdditionals(consumption, docSum, Number(p.CostPrice))
+                FindAdditionals(consumption, docSum, Number(p.Price))
               );
             });
 
@@ -847,8 +847,7 @@ function NewSupply({
                     <Form.Item
                       label="Cavabdeh"
                       name="ownerid"
-                      style={{ margin: "0" }}
-                      style={{ width: "100%" }}
+                      style={{ margin: "0", width: "100%" }}
                     >
                       <Select
                         showSearch
@@ -883,8 +882,7 @@ function NewSupply({
                     <Form.Item
                       label="Şöbə"
                       name="departmentid"
-                      style={{ margin: "0" }}
-                      style={{ width: "100%" }}
+                      style={{ margin: "0", width: "100%" }}
                     >
                       <Select
                         showSearch

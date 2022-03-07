@@ -629,7 +629,7 @@ function FilterComponent({
 							<Select
 								className="deteail-select"
 								showSearch
-								// defaultValue={3}
+								defaultValue={cols[i].default}
 								placeholder={cols[i].label}
 								allowClear
 								id={cols[i].controller}
