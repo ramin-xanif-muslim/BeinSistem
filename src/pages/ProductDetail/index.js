@@ -582,7 +582,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 								min={0}
 							/>
 						</Form.Item>
-						<Form.Item label="Mayası" name="costprice">
+						{/* <Form.Item label="Mayası" name="costprice">
 							<Input
 								disabled
 								className="detail-input-addon"
@@ -592,7 +592,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 								addonAfter="₼"
 								min={0}
 							/>
-						</Form.Item>
+						</Form.Item> */}
 						<h3>Satış qiymətləri</h3>
 						<Form.Item label="Minimal qiyməti" name="minprice">
 							<Input
@@ -996,8 +996,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 										<Select
 											showSearch
 											className="doc_status_formitem_wrapper_col"
-											className="detail-select"
-											filterOption={false}
+											// className="detail-select"
 											notFoundContent={
 												<Spin size="small" />
 											}
@@ -1132,7 +1131,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 										<Select
 											className="detail-select"
 											showSearch
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}
@@ -1154,7 +1152,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 										<Select
 											className="detail-select"
 											showSearch
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}

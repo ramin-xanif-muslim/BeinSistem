@@ -167,6 +167,10 @@ function FilterComponent({
 	const onChangeDatePicker = (date, dateString) => {
 		setInitialFilterForm({ ...initialFilterForm, moment: dateString });
 	};
+	const onChanngeRangePicker = (date, dateString) => {
+        if(date) setSelectDate(date)
+        else setSelectDate([]);
+	};
 	const onOpenChange = (open) => {
 		//   setIsOpen(open);
 	};
@@ -545,10 +549,11 @@ function FilterComponent({
 									// showTime={{ format: "HH:mm:ss" }}
 									locale={locale}
 									onChange={(date, dateString) =>
-										setSelectDate(date)
+										// setSelectDate(date)
+										onChanngeRangePicker(date)
 									}
 									{...rangeConfig}
-									value={selectDate}
+									// value={selectDate}
 									onOpenChange={onOpenChange}
 									format="DD-MM-YYYY"
 									ranges={{
@@ -824,15 +829,15 @@ function FilterComponent({
 		setChanged(false);
 	}, [changed]);
 
-	useEffect(() => {
-		if (advanced) {
-			if (advanced.momb && advanced.mome) {
-				form.setFieldsValue({
-					createdDate: [moment(advanced.momb), moment(advanced.mome)],
-				});
-			}
-		}
-	}, [advanced]);
+	// useEffect(() => {
+	// 	if (advanced) {
+	// 		if (advanced.momb && advanced.mome) {
+	// 			form.setFieldsValue({
+	// 				createdDate: [moment(advanced.momb), moment(advanced.mome)],
+	// 			});
+	// 		}
+	// 	}
+	// }, [advanced]);
 
 	return (
 		<div className="filter_wrapper" style={{ display: display }}>

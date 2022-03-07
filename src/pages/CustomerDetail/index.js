@@ -50,13 +50,8 @@ function CustomerDetail() {
 
 	const { setCustomerGroupDrawer } = useCustomForm();
 
-	const {
-		departments,
-		owners,
-		customerGroups,
-		setDisable,
-		disable,
-	} = useTableCustom();
+	const { departments, owners, customerGroups, setDisable, disable } =
+		useTableCustom();
 	const [barcode, setBarcode] = useState(null);
 	const [priceTypeOption, setPriceTypeOption] = useState();
 	const { isLoading, error, data, isFetching } = useQuery(
@@ -72,18 +67,18 @@ function CustomerDetail() {
 		setPriceTypeOption(res.List);
 	};
 	useEffect(() => {
-		getPriceType()
+		getPriceType();
 	}, []);
 	useEffect(() => {
-        if(!isFetching && priceTypeOption) {
-            console.log('sss')
-            priceTypeOption.forEach(i => {
-                if( data.Body.List[0].PriceTypeId == i.Id ) {
-                    console.log(data.Body.List[0].PriceTypeId)
-                    form.setFieldsValue({pricetypeid: i.Name})
-                }
-            })
-        }
+		if (!isFetching && priceTypeOption) {
+			console.log("sss");
+			priceTypeOption.forEach((i) => {
+				if (data.Body.List[0].PriceTypeId == i.Id) {
+					console.log(data.Body.List[0].PriceTypeId);
+					form.setFieldsValue({ pricetypeid: i.Name });
+				}
+			});
+		}
 	}, [isFetching, priceTypeOption]);
 
 	const getBarcode = async () => {
@@ -334,6 +329,7 @@ function CustomerDetail() {
 											showSearch
 											className="doc_status_formitem_wrapper_col detail-select"
 											filterOption={false}
+											allowClear={true}
 											notFoundContent={
 												<Spin size="small" />
 											}
@@ -433,7 +429,6 @@ function CustomerDetail() {
 										<Select
 											className="detail-select"
 											showSearch
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}
@@ -455,7 +450,6 @@ function CustomerDetail() {
 										<Select
 											showSearch
 											className="detail-select"
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}

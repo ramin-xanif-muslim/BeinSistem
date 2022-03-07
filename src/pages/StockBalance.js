@@ -334,10 +334,10 @@ export default function StockBalance() {
 				type: "selectModal",
 				controller: "products",
 				name: "nm",
-				dataIndex: "productName",
+				dataIndex: "nm",
 				show: initialfilter
 					? Object.values(initialfilter).find(
-							(i) => i.dataIndex === "productName"
+							(i) => i.dataIndex === "nm"
 					  ).show
 					: true,
 			},
