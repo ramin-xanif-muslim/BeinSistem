@@ -139,7 +139,7 @@ function FilterComponent({
 		if (option) {
 			Object.assign(initialFilterForm, {
 				[option.nm]: option.children ? option.children : null,
-				[`${option.nm}_id`]: option.key,
+				[`${option.nm}_id`]: option.value,
 			});
 			setInitialFilterForm(initialFilterForm);
 		}
@@ -166,6 +166,10 @@ function FilterComponent({
 	};
 	const onChangeDatePicker = (date, dateString) => {
 		setInitialFilterForm({ ...initialFilterForm, moment: dateString });
+	};
+	const onChanngeRangePicker = (date, dateString) => {
+        if(date) setSelectDate(date)
+        else setSelectDate([]);
 	};
 	const onOpenChange = (open) => {
 		//   setIsOpen(open);
@@ -285,7 +289,7 @@ function FilterComponent({
 							>
 								{Object.values(dropdown).map((r, index) => (
 									<Option
-										key={index}
+										key={r.Id}
 										nm={cols[i].name}
 										// value={cols[i].name === "productName" ? r.name : r.id}
 										value={r.Id}
@@ -318,7 +322,7 @@ function FilterComponent({
 							>
 								{Object.values(dropdown).map((r, index) => (
 									<Option
-										key={index}
+										key={r.Id}
 										nm={cols[i].name}
 										value={r.Id}
 									>
@@ -462,7 +466,7 @@ function FilterComponent({
 									return (
 										<Option
 											nm={cols[i].name}
-											key={index}
+											key={d.name}
 											value={d.name}
 										>
 											{d.ad}
@@ -542,15 +546,16 @@ function FilterComponent({
 							<div>
 								<RangePicker
 									className="detail-input"
-									showTime={{ format: "HH:mm:ss" }}
+									// showTime={{ format: "HH:mm:ss" }}
 									locale={locale}
 									onChange={(date, dateString) =>
-										setSelectDate(date)
+										// setSelectDate(date)
+										onChanngeRangePicker(date)
 									}
 									{...rangeConfig}
-									value={selectDate}
+									// value={selectDate}
 									onOpenChange={onOpenChange}
-									format="DD-MM-YYYY HH:mm:ss"
+									format="DD-MM-YYYY"
 									ranges={{
 										"Bu gün": [
 											moment().startOf("day"),
@@ -593,10 +598,10 @@ function FilterComponent({
 							<div>
 								<RangePicker
 									className="detail-input"
-									showTime={{ format: "HH:mm:ss" }}
+									// showTime={{ format: "HH:mm:ss" }}
 									locale={locale}
 									{...rangeConfig}
-									format="DD-MM-YYYY HH:mm:ss"
+									format="DD-MM-YYYY"
 									ranges={{
 										"Bu gün": [
 											moment().startOf("day"),
@@ -629,7 +634,7 @@ function FilterComponent({
 							<Select
 								className="deteail-select"
 								showSearch
-								// defaultValue={3}
+								defaultValue={cols[i].default}
 								placeholder={cols[i].label}
 								allowClear
 								id={cols[i].controller}
@@ -743,19 +748,19 @@ function FilterComponent({
 			// ...values,
 			moment: moment ? moment.format("DD-MM-YYYY HH:mm:ss") : "",
 			momb: selectDate[0]
-				? selectDate[0].format("YYYY-MM-DD HH:mm:ss")
+				? selectDate[0].format("YYYY-MM-DD") + ' 00:00:00' 
 				: "",
 			mome: selectDate[0]
-				? selectDate[1].format("YYYY-MM-DD HH:mm:ss")
+				? selectDate[1].format("YYYY-MM-DD") + ' 23:59:59'
 				: "",
 			modb: rangeModifyValue
-				? rangeModifyValue[0].format("YYYY-MM-DD HH:mm:ss")
+				? rangeModifyValue[0].format("YYYY-MM-DD") + ' 00:00:00'
 				: "",
 			mode: rangeModifyValue
-				? rangeModifyValue[1].format("YYYY-MM-DD HH:mm:ss")
+				? rangeModifyValue[1].format("YYYY-MM-DD") + ' 23:59:59'
 				: "",
 		};
-
+        
 		Object.assign(totalvalues, initialFilterForm);
 		Object.entries(totalvalues).forEach(([key, value]) => {
 			if (key.includes("_id")) {
@@ -763,9 +768,7 @@ function FilterComponent({
 				delete totalvalues[`${key}`];
 				totalvalues[`${index}`] = value;
 			}
-			if (value === "") {
-				delete totalvalues[`${key}`];
-			}
+			if (value === "") delete totalvalues[`${key}`];
 		});
         setIsFilter(true);
 		setAdvancedPage(0);
@@ -826,15 +829,15 @@ function FilterComponent({
 		setChanged(false);
 	}, [changed]);
 
-	useEffect(() => {
-		if (advanced) {
-			if (advanced.momb && advanced.mome) {
-				form.setFieldsValue({
-					createdDate: [moment(advanced.momb), moment(advanced.mome)],
-				});
-			}
-		}
-	}, [advanced]);
+	// useEffect(() => {
+	// 	if (advanced) {
+	// 		if (advanced.momb && advanced.mome) {
+	// 			form.setFieldsValue({
+	// 				createdDate: [moment(advanced.momb), moment(advanced.mome)],
+	// 			});
+	// 		}
+	// 	}
+	// }, [advanced]);
 
 	return (
 		<div className="filter_wrapper" style={{ display: display }}>

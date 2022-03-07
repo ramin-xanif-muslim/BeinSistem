@@ -34,8 +34,14 @@ export function FindCofficient(consumption, amount) {
     : 0.0;
 }
 
+// export function FindAdditionals(consumption, amount, posAmount) {
+//   var cofficient = FindCofficient(consumption, amount);
+//   console.log('FindAdditionals',posAmount , cofficient , posAmount)
+//   return ConvertFixedTable(amount + cofficient * amount);
+// }
 export function FindAdditionals(consumption, amount, posAmount) {
   var cofficient = FindCofficient(consumption, amount);
+  console.log('FindAdditionals',posAmount , cofficient , posAmount)
   return ConvertFixedTable(posAmount + cofficient * posAmount);
 }
 

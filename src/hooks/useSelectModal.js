@@ -1,6 +1,6 @@
 import { Input, Spin, List } from "antd";
 import Modal from "antd/lib/modal/Modal";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { sendRequest } from "../api";
 
 export function useSelectModal() {
@@ -15,10 +15,10 @@ export function useSelectModal() {
 	const [controller, setController] = useState();
 	const [title, setTitle] = useState();
 	const [isInputEnterValue, setIsInputEnterValue] = useState(false);
-
-	const inputRef = useRef(null);
+	const [inputValue, setInputValue] = useState();
 
 	const handleSearch = (e) => {
+        setInputValue(e.target.value)
 		setSearchItem(e.target.value);
 		setIsInputEnterValue(true);
 	};
@@ -26,16 +26,12 @@ export function useSelectModal() {
 	const showSelectModal = () => {
 		setModalVisible(!modalVisible);
 	};
-
-	const focusRef = () => {
-		inputRef.current.focus();
-	};
 	const fetchData = async () => {
 		setIsLoading(true);
+        setInputValue()
         setActiveId()
 		let res = await sendRequest(controller + "/get.php", {});
 		setTodos(res.List);
-		focusRef();
 		setIsLoading(false);
 	};
 	const fetchSearchDataFast = async () => {
@@ -92,8 +88,9 @@ export function useSelectModal() {
 			footer={false}
 		>
 			<Input
-				ref={inputRef}
+            autoFocus 
 				placeholder="Axtar"
+                value={inputValue}
 				onChange={handleSearch}
 				allowClear
 				onClear={() => console.log("aaa")}
@@ -104,6 +101,7 @@ export function useSelectModal() {
 					{todos.map((item) => {
 						const { Id, Name, BarCode } = item;
 						const onClick = () => {
+                            setInputValue(item.Name)
 							setSelectedItem(item);
 							showSelectModal();
 							setActiveId(item.Id);

@@ -160,11 +160,9 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 		}
 	}, [outerDataSource]);
 	useEffect(() => {
-		console.log(form.getFieldValue());
-	}, [isFetching]);
-	useEffect(() => {
 		if (!isFetching) {
-			console.log(data);
+			setIsArch(data.Body.List[0].IsArch);
+
 			customPositions = [];
 			if (data.Body.List[0].Positions) {
 				data.Body.List[0].Positions.map((d) => customPositions.push(d));
@@ -383,13 +381,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 	}, []);
 
 	useEffect(() => {
-		if (data) {
-			setIsArch(data.Body.List[0].IsArch);
-			console.log(data.Body.List[0].IsArch);
-		}
-	}, []);
-
-	useEffect(() => {
 		if (priceIsAdd) {
 			setPriceTypes(prices);
 			setPriceIsAdd(false);
@@ -591,7 +582,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 								min={0}
 							/>
 						</Form.Item>
-						<Form.Item label="Mayası" name="costprice">
+						{/* <Form.Item label="Mayası" name="costprice">
 							<Input
 								disabled
 								className="detail-input-addon"
@@ -601,7 +592,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 								addonAfter="₼"
 								min={0}
 							/>
-						</Form.Item>
+						</Form.Item> */}
 						<h3>Satış qiymətləri</h3>
 						<Form.Item label="Minimal qiyməti" name="minprice">
 							<Input
@@ -878,7 +869,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 	const onChangeArch = () => {
 		isArch === 0 ? setIsArch(1) : setIsArch(0);
 		setDisable(false);
-		console.log(isArch);
 	};
 	return (
 		<div className="doc_wrapper product_wrapper">
@@ -1006,8 +996,7 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 										<Select
 											showSearch
 											className="doc_status_formitem_wrapper_col"
-											className="detail-select"
-											filterOption={false}
+											// className="detail-select"
 											notFoundContent={
 												<Spin size="small" />
 											}
@@ -1142,7 +1131,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 										<Select
 											className="detail-select"
 											showSearch
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}
@@ -1164,7 +1152,6 @@ function ProductDetail({ groupId, setGroupId, bntOpenTreeViewModal }) {
 										<Select
 											className="detail-select"
 											showSearch
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}

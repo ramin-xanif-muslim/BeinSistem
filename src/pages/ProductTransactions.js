@@ -421,53 +421,57 @@ export default function ProductTransactions() {
 		setInitialFilter(filters);
 	}, []);
 
-	useEffect(() => {
+    const setDataToTable = async () => {
+        setDemandreturns([]);
+        setDemands([]);
+        setEnters([]);
+        setLosses([]);
+        setMoves([]);
+        setReturns([]);
+        setSales([]);
+        setSupplies([]);
+        await setSupplyreturns([]);
+
+        if (!!data.Body.demandreturns) {
+            setDemandreturns([
+                data.Body.demandreturns,
+                data.Body.demandreturnsSum,
+            ]);
+        }
+        if (!!data.Body.demands) {
+            setDemands([data.Body.demands, data.Body.demandsSum]);
+        }
+        if (!!data.Body.enters) {
+            setEnters([data.Body.enters, data.Body.entersSum]);
+        }
+        if (!!data.Body.losses) {
+            setLosses([data.Body.losses, data.Body.lossesSum]);
+        }
+        if (!!data.Body.moves) {
+            setMoves([data.Body.moves, data.Body.movesSum]);
+        }
+        if (!!data.Body.returns) {
+            setReturns([data.Body.returns, data.Body.returnsSum]);
+        }
+        if (!!data.Body.sales) {
+            setSales([data.Body.sales, data.Body.salesSum]);
+        }
+        if (!!data.Body.supplies) {
+            setSupplies([data.Body.supplies, data.Body.suppliesSum]);
+        }
+        if (!!data.Body.supplyreturns) {
+            setSupplyreturns([
+                data.Body.supplyreturns,
+                data.Body.supplyreturnsSum,
+            ]);
+        }
+        // setIsFilter(false);
+    }
+
+	useEffect( () => {
 		if (!isFetching) {
 			if (isObject(data.Body)) {
-				setDemandreturns([]);
-				setDemands([]);
-				setEnters([]);
-				setLosses([]);
-				setMoves([]);
-				setReturns([]);
-				setSales([]);
-				setSupplies([]);
-				setSupplyreturns([]);
-
-				if (!!data.Body.demandreturns) {
-					setDemandreturns([
-						data.Body.demandreturns,
-						data.Body.demandreturnsSum,
-					]);
-				}
-				if (!!data.Body.demands) {
-					setDemands([data.Body.demands, data.Body.demandsSum]);
-				}
-				if (!!data.Body.enters) {
-					setEnters([data.Body.enters, data.Body.entersSum]);
-				}
-				if (!!data.Body.losses) {
-					setLosses([data.Body.losses, data.Body.lossesSum]);
-				}
-				if (!!data.Body.moves) {
-					setMoves([data.Body.moves, data.Body.movesSum]);
-				}
-				if (!!data.Body.returns) {
-					setReturns([data.Body.returns, data.Body.returnsSum]);
-				}
-				if (!!data.Body.sales) {
-					setSales([data.Body.sales, data.Body.salesSum]);
-				}
-				if (!!data.Body.supplies) {
-					setSupplies([data.Body.supplies, data.Body.suppliesSum]);
-				}
-				if (!!data.Body.supplyreturns) {
-					setSupplyreturns([
-						data.Body.supplyreturns,
-						data.Body.supplyreturnsSum,
-					]);
-				}
-				// setIsFilter(false);
+                setDataToTable()
 			}
 		}
 	}, [isFetching]);
@@ -613,6 +617,7 @@ export default function ProductTransactions() {
 		tablesComponents = tabls.map((table) => {
 			const { title, documentList, allSum } = table;
 			if (documentList && documentList[0]) {
+                console.log(documentList)
 				return (
 					<div>
 						<h4 className="producttransactions-header">{title}</h4>
@@ -722,7 +727,7 @@ export default function ProductTransactions() {
 							<SearchByDate
 								from="producttransactions"
 								getSearchObjByDate={getSearchObjByDate}
-								defaultCheckedDate={3}
+								defaultCheckedDate={1}
 							/>
 						</div>
 

@@ -433,6 +433,7 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
         );
       });
     }
+    console.log('sumtotalprices',sumtotalprices)
 
     setDocSum(sumtotalprices);
     setDocCount(sumcount);
@@ -443,7 +444,6 @@ function DocTable({ headers, datas, from, selectList, catalogVisible }) {
   const handlePagination = (pg) => {
     setdocPage(pg - 1);
   };
-  console.log(docPage);
 
   const components = {
     body: {

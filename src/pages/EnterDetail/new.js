@@ -738,7 +738,6 @@ function NewEnter({ bntOpenTreeViewModal, stockId, setStockId }) {
                 <Select
                   showSearch
                   showArrow={false}
-                  filterOption={false}
                   onChange={onChange}
                   className="customSelect detail-select"
                   allowClear={true}
@@ -777,8 +776,7 @@ function NewEnter({ bntOpenTreeViewModal, stockId, setStockId }) {
                     <Form.Item
                       label="Cavabdeh"
                       name="ownerid"
-                      style={{ margin: "0" }}
-                      style={{ width: "100%" }}
+                      style={{ margin: "0", width: "100%" }}
                     >
                       <Select
                         className="detail-select"
@@ -814,8 +812,7 @@ function NewEnter({ bntOpenTreeViewModal, stockId, setStockId }) {
                     <Form.Item
                       label="Şöbə"
                       name="departmentid"
-                      style={{ margin: "0" }}
-                      style={{ width: "100%" }}
+                      style={{ margin: "0", width: "100%" }}
                     >
                       <Select
                         size="small"
