@@ -325,7 +325,6 @@ function NewDemandReturn({
         var findelementindex;
         var replacedElement;
         findelement = initialCols.find((c) => c.dataIndex === e.target.id);
-        console.log(findelement);
         findelementindex = initialCols.findIndex(
             (c) => c.dataIndex === e.target.id
         );
@@ -759,8 +758,7 @@ function NewDemandReturn({
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 showSearch
@@ -801,8 +799,7 @@ function NewDemandReturn({
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 showSearch

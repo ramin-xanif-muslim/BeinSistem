@@ -120,7 +120,6 @@ function ReturnDetail() {
         () => fetchDocId(doc_id, "returns")
     );
     const handleDelete = (key) => {
-        handleChanged()
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
         setPositions(dataSource.filter((item) => item.BarCode !== key));
@@ -601,8 +600,7 @@ function ReturnDetail() {
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 className="detail-input"
@@ -642,8 +640,7 @@ function ReturnDetail() {
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 showSearch

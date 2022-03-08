@@ -716,8 +716,7 @@ function MoveDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                     <Form.Item
                       label="Cavabdeh"
                       name="ownerid"
-                      style={{ margin: "0" }}
-                      style={{ width: "100%" }}
+                      style={{ margin: "0", width: "100%" }}
                     >
                       <Select
                         showSearch
@@ -752,8 +751,7 @@ function MoveDetail({ handleOpenCatalog, selectList, catalogVisible }) {
                     <Form.Item
                       label="Şöbə"
                       name="departmentid"
-                      style={{ margin: "0" }}
-                      style={{ width: "100%" }}
+                      style={{ margin: "0", width: "100%" }}
                     >
                       <Select
                         showSearch

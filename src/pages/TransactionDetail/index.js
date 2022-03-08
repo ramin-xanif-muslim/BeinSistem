@@ -306,7 +306,6 @@ function PaymentInDetail() {
                     additional={"none"}
                     editid={doc_id}
                     closed={"p=transactions"}
-                    editid={doc_id}
                 />
                 <div className="formWrapper">
                     <Form
@@ -526,8 +525,7 @@ function PaymentInDetail() {
                                             <Form.Item
                                                 label="Cavabdeh"
                                                 name="ownerid"
-                                                style={{ margin: "0" }}
-                                                style={{ width: "100%" }}
+                                                style={{ margin: "0", width: "100%" }}
                                             >
                                                 <Select
                                                     showSearch
@@ -576,8 +574,7 @@ function PaymentInDetail() {
                                             <Form.Item
                                                 label="Şöbə"
                                                 name="departmentid"
-                                                style={{ margin: "0" }}
-                                                style={{ width: "100%" }}
+                                                style={{ margin: "0", width: "100%" }}
                                             >
                                                 <Select
                                                     showSearch

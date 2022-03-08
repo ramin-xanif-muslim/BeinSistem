@@ -247,7 +247,6 @@ function NewSalePoint() {
                                     showSearch
                                     className="doc_status_formitem_wrapper_col "
                                     placeholder=""
-                                    filterOption={false}
                                     notFoundContent={<Spin size="small" />}
                                     filterOption={(input, option) =>
                                         option.children
@@ -278,7 +277,6 @@ function NewSalePoint() {
                                         <Select
                                             showSearch
                                             placeholder=""
-                                            filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
                                             }
@@ -300,7 +298,6 @@ function NewSalePoint() {
                                         <Select
                                             showSearch
                                             placeholder=""
-                                            filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
                                             }

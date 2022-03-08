@@ -493,7 +493,6 @@ function DemandReturnLinked(props) {
                                     disabled
                                     showSearch
                                     showArrow={false}
-                                    filterOption={false}
                                     className="customSelect detail-select"
                                     allowClear={true}
                                     onChange={(e) => setCustomerId(e)}
@@ -556,7 +555,6 @@ function DemandReturnLinked(props) {
                                     disabled
                                     showSearch
                                     showArrow={false}
-                                    filterOption={false}
                                     onChange={onChange}
                                     className="customSelect detail-select"
                                     allowClear={true}
@@ -599,8 +597,7 @@ function DemandReturnLinked(props) {
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 disabled
@@ -642,8 +639,7 @@ function DemandReturnLinked(props) {
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 disabled

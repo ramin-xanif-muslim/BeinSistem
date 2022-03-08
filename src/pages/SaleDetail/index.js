@@ -131,7 +131,6 @@ function SaleDetail() {
         () => fetchDocId(doc_id, "sales")
     );
     const handleDelete = (key) => {
-        handleChanged()
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
         setPositions(dataSource.filter((item) => item.BarCode !== key));
@@ -566,7 +565,6 @@ function SaleDetail() {
                                 <Select
                                     showSearch
                                     showArrow={false}
-                                    filterOption={false}
                                     className="customSelect detail-select"
                                     allowClear={true}
                                     filterOption={(input, option) =>
@@ -595,8 +593,7 @@ function SaleDetail() {
                                         <Form.Item
                                             label="Cavabdeh"
                                             name="ownerid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 showSearch
@@ -636,8 +633,7 @@ function SaleDetail() {
                                         <Form.Item
                                             label="Şöbə"
                                             name="departmentid"
-                                            style={{ margin: "0" }}
-                                            style={{ width: "100%" }}
+                                            style={{ margin: "0", width: "100%" }}
                                         >
                                             <Select
                                                 showSearch
