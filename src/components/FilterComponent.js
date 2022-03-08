@@ -9,166 +9,166 @@ import { useTableCustom } from "../contexts/TableContext";
 import { useSelectModal } from "../hooks";
 import { convertCamelCaseTextToText } from "../config/function/convert";
 import "../Page.css";
-import { CloseOutlined } from '@ant-design/icons'
+import { CloseCircleOutlined } from "@ant-design/icons";
 
 const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
 
 moment.locale("az");
 function FilterComponent({
-	from,
-	settings,
-	cols,
-	display,
-	advanced,
-	setAdvance,
-	initialFilterForm,
-	setInitialFilterForm,
+    from,
+    settings,
+    cols,
+    display,
+    advanced,
+    setAdvance,
+    initialFilterForm,
+    setInitialFilterForm,
 }) {
-	const [selectDate, setSelectDate] = useState();
-	const [loading, setLoading] = useState(false);
-	const [rangeFilter, setRangeFilter] = useState({});
-	const [dropdown, setDropdown] = useState([]);
-	const [changed, setChanged] = useState(false);
-	const [initial, setinitial] = useState({});
-	const [doSearchId, setdoSearchId] = useState();
-	const [doSearchFast, setdoSearchFast] = useState("");
-	const {
-		setIsFilter,
-		setAdvancedPage,
-		selectedDateId,
-		setSelectedDateId,
-		setIsEnterFilterValue,
-	} = useTableCustom();
-	const [form] = Form.useForm();
+    const [selectDate, setSelectDate] = useState();
+    const [loading, setLoading] = useState(false);
+    const [rangeFilter, setRangeFilter] = useState({});
+    const [dropdown, setDropdown] = useState([]);
+    const [changed, setChanged] = useState(false);
+    const [initial, setinitial] = useState({});
+    const [doSearchId, setdoSearchId] = useState();
+    const [doSearchFast, setdoSearchFast] = useState("");
+    const {
+        setIsFilter,
+        setAdvancedPage,
+        selectedDateId,
+        setSelectedDateId,
+        setIsEnterFilterValue,
+    } = useTableCustom();
+    const [form] = Form.useForm();
 
-	const getData = (id, ref) => async (e, key) => {
-		setDropdown([]);
+    const getData = (id, ref) => async (e, key) => {
+        setDropdown([]);
 
-		setLoading(true);
-		if (id === "selectMod") {
-			const res = await fetchRefList(ref);
-			setDropdown(res);
-			setLoading(false);
-		} else {
-			const res = await getDataFilter(id);
-			setDropdown(res.Body.List);
-			setLoading(false);
-		}
-	};
+        setLoading(true);
+        if (id === "selectMod") {
+            const res = await fetchRefList(ref);
+            setDropdown(res);
+            setLoading(false);
+        } else {
+            const res = await getDataFilter(id);
+            setDropdown(res.Body.List);
+            setLoading(false);
+        }
+    };
 
-	const rangeConfig = {
-		rules: [
-			{
-				type: "array",
-				message: "Please select time!",
-			},
-		],
-	};
-	const getDataFilter = async (id, fast) => {
-		var dataFilter = {
-			token: localStorage.getItem("access-token"),
-		};
-		if (fast) {
-			dataFilter.fast = fast;
-		}
-		const { data } = await axios.post(
-			`${API_BASE}/controllers/${id}/get.php`,
-			dataFilter
-		);
+    const rangeConfig = {
+        rules: [
+            {
+                type: "array",
+                message: "Please select time!",
+            },
+        ],
+    };
+    const getDataFilter = async (id, fast) => {
+        var dataFilter = {
+            token: localStorage.getItem("access-token"),
+        };
+        if (fast) {
+            dataFilter.fast = fast;
+        }
+        const { data } = await axios.post(
+            `${API_BASE}/controllers/${id}/get.php`,
+            dataFilter
+        );
 
-		return data;
-	};
-	const getDataFastFilter = async (id, fast) => {
-		setLoading(true);
-		setDropdown([]);
-		var dataFilter = {
-			lm: 100,
-			token: localStorage.getItem("access-token"),
-			fast: fast,
-		};
-		const { data } = await axios.post(
-			`${API_BASE}/controllers/${id}/getfast.php`,
-			dataFilter
-		);
-		setDropdown(data.Body.List);
-		setLoading(false);
+        return data;
+    };
+    const getDataFastFilter = async (id, fast) => {
+        setLoading(true);
+        setDropdown([]);
+        var dataFilter = {
+            lm: 100,
+            token: localStorage.getItem("access-token"),
+            fast: fast,
+        };
+        const { data } = await axios.post(
+            `${API_BASE}/controllers/${id}/getfast.php`,
+            dataFilter
+        );
+        setDropdown(data.Body.List);
+        setLoading(false);
 
-		return data;
-	};
-	const doSearch = async (val, key) => {
-		if (key === "products" || key === "customers") {
-			setdoSearchId(key);
-			setdoSearchFast(val);
-		}
-	};
-	useEffect(() => {
-		if (doSearchFast) {
-			const timer = setTimeout(() => {
-				getDataFastFilter(doSearchId, doSearchFast);
-			}, 500);
-			return () => clearTimeout(timer);
-		}
-	}, [doSearchFast]);
+        return data;
+    };
+    const doSearch = async (val, key) => {
+        if (key === "products" || key === "customers") {
+            setdoSearchId(key);
+            setdoSearchFast(val);
+        }
+    };
+    useEffect(() => {
+        if (doSearchFast) {
+            const timer = setTimeout(() => {
+                getDataFastFilter(doSearchId, doSearchFast);
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+    }, [doSearchFast]);
 
-	const allClear = () => {
-		// setChanged(true);
-		setSelectedDateId({ ...selectedDateId, [from]: null });
-		form.resetFields();
-		setSelectDate([]);
-		setIsFilter(true);
-		setAdvancedPage(0);
-		setAdvance({});
-		setInitialFilterForm({});
-		setIsEnterFilterValue(false);
-		form.setFieldsValue({});
-        onClearSelectModalInput()
-	};
-	const dubleClear = async () => {
-        await allClear()
-        allClear()
-	};
-	function handleClear(id) {
-		delete initialFilterForm[`${id}`];
-		delete initialFilterForm[`${id}_id`];
+    const allClear = () => {
+        // setChanged(true);
+        setSelectedDateId({ ...selectedDateId, [from]: null });
+        form.resetFields();
+        setSelectDate([]);
+        setIsFilter(true);
+        setAdvancedPage(0);
+        setAdvance({});
+        setInitialFilterForm({});
+        setIsEnterFilterValue(false);
+        form.setFieldsValue({});
+        onClearSelectModalInput();
+    };
+    const dubleClear = async () => {
+        await allClear();
+        allClear();
+    };
+    function handleClear(id) {
+        delete initialFilterForm[`${id}`];
+        delete initialFilterForm[`${id}_id`];
 
-		setInitialFilterForm(initialFilterForm);
-		setChanged(true);
-	}
-	function handleChange(value, option) {
-		if (option) {
-			Object.assign(initialFilterForm, {
-				[option.nm]: option.children ? option.children : null,
-				[`${option.nm}_id`]: option.value,
-			});
-			setInitialFilterForm(initialFilterForm);
-		}
-	}
-	const documentNames = [
-		{ ad: "Daxilolma", name: "enters" },
-		{ ad: "Silinmə", name: "losses" },
-		{ ad: "Yerdəyişmə", name: "moves" },
-		{ ad: "Alış", name: "supplies" },
-		{ ad: "Alıcıların qaytarmaları", name: "supplyreturns" },
-		{ ad: "Topdan satışlar", name: "demands" },
-		{ ad: "Satışların geriqaytarmaları", name: "demandreturns" },
-		{ ad: "Pərakəndə satışlar", name: "sales" },
-		{ ad: "Qaytarmalar", name: "returns" },
-	];
+        setInitialFilterForm(initialFilterForm);
+        setChanged(true);
+    }
+    function handleChange(value, option) {
+        if (option) {
+            Object.assign(initialFilterForm, {
+                [option.nm]: option.children ? option.children : null,
+                [`${option.nm}_id`]: option.value,
+            });
+            setInitialFilterForm(initialFilterForm);
+        }
+    }
+    const documentNames = [
+        { ad: "Daxilolma", name: "enters" },
+        { ad: "Silinmə", name: "losses" },
+        { ad: "Yerdəyişmə", name: "moves" },
+        { ad: "Alış", name: "supplies" },
+        { ad: "Alıcıların qaytarmaları", name: "supplyreturns" },
+        { ad: "Topdan satışlar", name: "demands" },
+        { ad: "Satışların geriqaytarmaları", name: "demandreturns" },
+        { ad: "Pərakəndə satışlar", name: "sales" },
+        { ad: "Qaytarmalar", name: "returns" },
+    ];
 
-	const onChange = (e) => {
-		var n = e.target.name;
-		var v = e.target.value;
-		Object.assign(rangeFilter, { [n]: v });
-		setRangeFilter(rangeFilter);
-		Object.assign(initialFilterForm, { [n]: v });
-		setInitialFilterForm(initialFilterForm);
-	};
-	const onChangeDatePicker = (date, dateString) => {
-		setInitialFilterForm({ ...initialFilterForm, moment: dateString });
-	};
-	const onChanngeRangePicker = (date, dateString) => {
-        if(date) setSelectDate(date)
+    const onChange = (e) => {
+        var n = e.target.name;
+        var v = e.target.value;
+        Object.assign(rangeFilter, { [n]: v });
+        setRangeFilter(rangeFilter);
+        Object.assign(initialFilterForm, { [n]: v });
+        setInitialFilterForm(initialFilterForm);
+    };
+    const onChangeDatePicker = (date, dateString) => {
+        setInitialFilterForm({ ...initialFilterForm, moment: dateString });
+    };
+    const onChanngeRangePicker = (date, dateString) => {
+        if (date) setSelectDate(date);
         else setSelectDate([]);
 	};
 	const onOpenChange = (open) => {
@@ -199,35 +199,42 @@ function FilterComponent({
 		}
 	}, [selectedDateId]);
 
-	const { selectModal, selectedItem, nameInput, onClickSelectModal, onClearSelectModalInput } =
-		useSelectModal();
+    const {
+        selectModal,
+        selectedItem,
+        nameInput,
+        onClickSelectModal,
+        onClearSelectModalInput,
+    } = useSelectModal();
 
-	useEffect(() => {
-		if (selectedItem) {
-			let convertedNameInput = convertCamelCaseTextToText(nameInput);
-			Object.assign(initialFilterForm, {
-				[nameInput]: selectedItem.Name,
-				[convertedNameInput.split(" ")[0].toLowerCase() + "Id"]:
-					selectedItem.Id,
-			});
-			setInitialFilterForm(initialFilterForm);
-			form.setFieldsValue(initialFilterForm);
-		}
-	}, [selectedItem]);
+    useEffect(() => {
+        if (selectedItem) {
+            let convertedNameInput = convertCamelCaseTextToText(nameInput);
+            Object.assign(initialFilterForm, {
+                [nameInput]: selectedItem.Name,
+                [convertedNameInput.split(" ")[0].toLowerCase() + "Id"]:
+                    selectedItem.Id,
+            });
+            setInitialFilterForm(initialFilterForm);
+            form.setFieldsValue(initialFilterForm);
+        }
+    }, [selectedItem]);
     const onClearSelectModal = (e) => {
         let convertedNameInput = convertCamelCaseTextToText(e);
-        delete initialFilterForm[e]
-        delete initialFilterForm[convertedNameInput.split(" ")[0].toLowerCase() + "Id"]
-		setInitialFilterForm(initialFilterForm)
-        form.resetFields([e])
-        form.setFieldsValue(initialFilterForm)
-        onClearSelectModalInput(e)
-    }
+        delete initialFilterForm[e];
+        delete initialFilterForm[
+            convertedNameInput.split(" ")[0].toLowerCase() + "Id"
+        ];
+        setInitialFilterForm(initialFilterForm);
+        form.resetFields([e]);
+        form.setFieldsValue(initialFilterForm);
+        onClearSelectModalInput(e);
+    };
 
-	const getFields = () => {
-		const children = [];
+    const getFields = () => {
+        const children = [];
 
-		cols = cols.filter((c) => c.show == true);
+        cols = cols.filter((c) => c.show == true);
 
 		for (let i = 0; i < cols.length; i++) {
 			children.push(
@@ -743,92 +750,93 @@ function FilterComponent({
 		}
 		// const rangeCreateValue = values["createdDate"];
 
-		const rangeModifyValue = values["modifedDate"];
-		const moment = values["moment"];
-		const totalvalues = {
-			// ...values,
-			moment: moment ? moment.format("DD-MM-YYYY HH:mm:ss") : "",
-			momb: selectDate[0]
-				? selectDate[0].format("YYYY-MM-DD") + ' 00:00:00' 
-				: "",
-			mome: selectDate[0]
-				? selectDate[1].format("YYYY-MM-DD") + ' 23:59:59'
-				: "",
-			modb: rangeModifyValue
-				? rangeModifyValue[0].format("YYYY-MM-DD") + ' 00:00:00'
-				: "",
-			mode: rangeModifyValue
-				? rangeModifyValue[1].format("YYYY-MM-DD") + ' 23:59:59'
-				: "",
-		};
-        
-		Object.assign(totalvalues, initialFilterForm);
-		Object.entries(totalvalues).forEach(([key, value]) => {
-			if (key.includes("_id")) {
-				var index = key.slice(0, key.indexOf("_id"));
-				delete totalvalues[`${key}`];
-				totalvalues[`${index}`] = value;
-			}
-			if (value === "") delete totalvalues[`${key}`];
-		});
+        const rangeModifyValue = values["modifedDate"];
+        const moment = values["moment"];
+        const totalvalues = {
+            // ...values,
+            moment: moment ? moment.format("DD-MM-YYYY HH:mm:ss") : "",
+            momb: selectDate[0]
+                ? selectDate[0].format("YYYY-MM-DD") + " 00:00:00"
+                : "",
+            mome: selectDate[0]
+                ? selectDate[1].format("YYYY-MM-DD") + " 23:59:59"
+                : "",
+            modb: rangeModifyValue
+                ? rangeModifyValue[0].format("YYYY-MM-DD") + " 00:00:00"
+                : "",
+            mode: rangeModifyValue
+                ? rangeModifyValue[1].format("YYYY-MM-DD") + " 23:59:59"
+                : "",
+        };
+
+        Object.assign(totalvalues, initialFilterForm);
+        Object.entries(totalvalues).forEach(([key, value]) => {
+            if (key.includes("_id")) {
+                var index = key.slice(0, key.indexOf("_id"));
+                delete totalvalues[`${key}`];
+                totalvalues[`${index}`] = value;
+            }
+            if (value === "") delete totalvalues[`${key}`];
+        });
         setIsFilter(true);
-		setAdvancedPage(0);
-		setAdvance(totalvalues);
-		if (productName) {
+        setAdvancedPage(0);
+        setAdvance(totalvalues);
+        if (productName) {
             initialFilterForm.productName = productName;
-		}
-		if (customerName) {
+        }
+        if (customerName) {
             initialFilterForm.customerName = customerName;
-		}
-		if (cus) {
+        }
+        if (cus) {
             initialFilterForm.cus = cus;
-		}
-	};
-	useEffect(() => {
-		if (from === "stockbalance") {
-			Object.assign(initialFilterForm, {
-				ar: 0,
-				zeros: 3,
-				// wg: "",
-			});
-			setInitialFilterForm(initialFilterForm);
-			setinitial(initialFilterForm);
-		} else if (from === "products" && initialFilterForm) {
-			if (Object.keys(initialFilterForm).length === 0) {
-				// setInitialFilterForm(initialFilterForm);
-			}
+        }
+    };
+    useEffect(() => {
+        if (from === "stockbalance") {
+            Object.assign(initialFilterForm, {
+                ar: 0,
+                zeros: 3,
+                // wg: "",
+            });
+            setInitialFilterForm(initialFilterForm);
+            setinitial(initialFilterForm);
+        } else if (from === "products" && initialFilterForm) {
+            if (Object.keys(initialFilterForm).length === 0) {
+                // setInitialFilterForm(initialFilterForm);
+            }
 
-			setinitial({
-				// wg: "",
-				ar: 0,
-			});
+            setinitial({
+                // wg: "",
+                ar: 0,
+            });
 
-			form.setFieldsValue(initialFilterForm);
-			// if (selectFilter.wg === "" || selectFilter.wg === undefined) {
-			// 	form.setFieldsValue({
-			// 		wg: "",
-			// 	});
-			// }
-			if (
-				initialFilterForm.ar === "" ||
-				initialFilterForm.ar === undefined
-			) {
-				form.setFieldsValue({
-					ar: 0,
-				});
-			}
-		} else {
-			if (
-				initialFilterForm &&
-				Object.keys(initialFilterForm).length === 0
-			) {
-				// setInitialFilterForm(initialFilterForm);
-				setinitial(initial);
-			}
-			form.setFieldsValue();
-		}
-		setChanged(false);
-	}, [changed]);
+            form.setFieldsValue(initialFilterForm);
+            // if (selectFilter.wg === "" || selectFilter.wg === undefined) {
+            // 	form.setFieldsValue({
+            // 		wg: "",
+            // 	});
+            // }
+            if (
+                initialFilterForm.ar === "" ||
+                initialFilterForm.ar === undefined
+            ) {
+                form.setFieldsValue({
+                    ar: 0,
+                });
+            }
+        } else {
+            if (
+                initialFilterForm &&
+                Object.keys(initialFilterForm).length === 0
+            ) {
+                // setInitialFilterForm(initialFilterForm);
+                setinitial(initial);
+            }
+            form.setFieldsValue();
+        }
+        setChanged(false);
+    }, [changed]);
+
 
 	useEffect(() => {
 		if (advanced) {
@@ -840,50 +848,77 @@ function FilterComponent({
 		}
 	}, [advanced]);
 
-	return (
-		<div className="filter_wrapper" style={{ display: display }}>
-			<Form
-				form={form}
-				name="advanced_search"
-				className="ant-advanced-search-form"
-				onFinish={onFinish}
-				initialValues={initialFilterForm}
-			>
-				<Row gutter={24} style={{ padding: "0.5rem 1rem 0" }}>
-					{getFields()}
-				</Row>
-				<Row>
-					<Col
-						span={24}
-						style={{
-							textAlign: "left",
-							display: "flex",
-							margin: "22px 0",
-							alignItems: "center",
-						}}
-					>
-						<button
-							className="new-button new-primary-button"
-							htmlType="submit"
-						>
-							Axtar
-						</button>
-						<button
-							className="new-button"
-							style={{
-								margin: "0 2rem",
-							}}
-							onClick={() => dubleClear()}
-						>
-							Təmizlə
-						</button>
-						{settings}
-					</Col>
-				</Row>
-			</Form>
-			{selectModal}
-		</div>
-	);
+    return (
+        <div className="filter_wrapper" style={{ display: display }}>
+            <Form
+                form={form}
+                name="advanced_search"
+                className="ant-advanced-search-form"
+                onFinish={onFinish}
+                initialValues={initialFilterForm}
+            >
+                <Row gutter={24} style={{ padding: "0.5rem 1rem 0" }}>
+                    <Col xs={8} sm={8} md={8} xl={6}>
+                        <Form.Item
+                            style={{
+                                textAlign: "left",
+                                display: "flex",
+                                margin: "22px 0",
+                                alignItems: "center",
+                            }}
+                        >
+                            <button
+                                className="new-button new-primary-button"
+                                htmlType="submit"
+                            >
+                                Axtar
+                            </button>
+                            <button
+                                className="new-button"
+                                style={{
+                                    margin: "0 2rem",
+                                }}
+                                onClick={() => dubleClear()}
+                            >
+                                Təmizlə
+                            </button>
+                            {settings}
+                        </Form.Item>
+                    </Col>
+                    {getFields()}
+                </Row>
+                {/* <Row>
+                    <Col
+                        span={24}
+                        style={{
+                            textAlign: "left",
+                            display: "flex",
+                            margin: "22px 0",
+                            alignItems: "center",
+                        }}
+                    >
+                        <button
+                            className="new-button new-primary-button"
+                            htmlType="submit"
+                        >
+                            Axtar
+                        </button>
+                        <button
+                            className="new-button"
+                            style={{
+                                margin: "0 2rem",
+                            }}
+                            onClick={() => dubleClear()}
+                        >
+                            Təmizlə
+                        </button>
+                        {settings}
+                    </Col>
+                </Row> */}
+            </Form>
+            {selectModal}
+        </div>
+    );
 }
 
 export default FilterComponent;
