@@ -561,6 +561,8 @@ function EnterDetail() {
 		values.modify = moment(values.moment._d).format("YYYY-MM-DD HH:mm:ss");
 		values.description =
 			myRefDescription.current.resizableTextArea.props.value;
+		values.consumption =
+			myRefConsumption.current.clearableInput.props.value;
 		if (stockId[0]?.id) {
 			values.stockid = stockId[0]?.id;
 		}
@@ -1015,7 +1017,15 @@ function EnterDetail() {
 										style={{ backgroundColor: "grey" }}
 									/>
 									<div style={{ marginTop: "20px" }}>
-										<Form onFieldsChange={handleChanged}>
+										<Form
+											initialValues={{
+												consumption: ConvertFixedTable(
+													data.Body.List[0]
+														.Consumption
+												),
+											}}
+											onFieldsChange={handleChanged}
+										>
 											<Form.Item
 												className="comsumption_input_wrapper"
 												label="Əlavə xərc"
