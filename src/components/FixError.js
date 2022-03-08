@@ -87,7 +87,7 @@ function FixError() {
         return (
             <Table
                 columns={columns}
-                className="nestedTableError"
+                className="nestedTableError "
                 rowClassName={(record) =>
                     record.SumQ < 0 ? "minus_errors" : "pilus_errors"
                 }

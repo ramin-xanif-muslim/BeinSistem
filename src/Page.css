@@ -564,17 +564,17 @@ tbody > tr:hover td {
     color: #1164b1 !important;
 }
 tr.ant-table-expanded-row:hover td {
-    background-color: unset !important;
+    /* background-color: unset !important; */
     cursor: default;
 }
 .ant-table-tbody > tr > td > .ant-table-wrapper:only-child .ant-table {
     margin: 0;
 }
-.minus_errors {
-    background-color: #ffff0075;
+.minus_errors .ant-table-cell {
+    background-color: #ffff0075 !important;
 }
-.pilus_errors {
-    background-color: unset;
+.pilus_errors .ant-table-cell {
+    background-color: unset !important;
 }
 #taxes-table th {
     background: #1164b1;
@@ -744,7 +744,6 @@ tbody .ant-table-cell {
     width: 50px;
 }
 
-
 .select-modal .ant-modal-body {
     height: 80vh !important;
     overflow: auto;
@@ -754,8 +753,6 @@ tbody .ant-table-cell {
     background-color: #d9eefc;
     cursor: pointer;
 }
-
-
 
 /* .tableCellBarcode,
 .tableCellQuantity,
@@ -820,6 +817,16 @@ tbody .ant-table-cell {
     color: #fff;
     padding: 0.8rem;
     margin: 0;
+}
+
+.input-clear-button {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+.ant-form-item-control-input-content {
+    flex: auto;
+    max-width: 100%;
+    display: flex;
 }
 
 .new-button {
