@@ -170,33 +170,34 @@ function FilterComponent({
     const onChanngeRangePicker = (date, dateString) => {
         if (date) setSelectDate(date);
         else setSelectDate([]);
-    };
-    const onOpenChange = (open) => {
-        //   setIsOpen(open);
-    };
-    useEffect(() => {
-        if (selectedDateId[from] === 1) {
-            setSelectDate([moment().startOf("day"), moment().endOf("day")]);
-        }
-        if (selectedDateId[from] === 2) {
-            setSelectDate([
-                moment().subtract(1, "day").startOf("day"),
-                moment().subtract(1, "day").endOf("day"),
-            ]);
-        }
-        if (selectedDateId[from] === 3) {
-            setSelectDate([moment().startOf("month"), moment().endOf("month")]);
-        }
-        if (selectedDateId[from] === 4) {
-            setSelectDate([
-                moment().subtract(1, "month").startOf("month"),
-                moment().subtract(1, "month").endOf("month"),
-            ]);
-        }
-        if (!selectedDateId[from]) {
-            setSelectDate([]);
-        }
-    }, [selectedDateId]);
+	};
+	const onOpenChange = (open) => {
+		//   setIsOpen(open);
+	};
+	useEffect(() => {
+        console.log('aaa',selectedDateId)
+		if (selectedDateId[from] === 1) {
+			setSelectDate([moment().startOf("day"), moment().endOf("day")]);
+		}
+		if (selectedDateId[from] === 2) {
+			setSelectDate([
+				moment().subtract(1, "day").startOf("day"),
+				moment().subtract(1, "day").endOf("day"),
+			]);
+		}
+		if (selectedDateId[from] === 3) {
+			setSelectDate([moment().startOf("month"), moment().endOf("month")]);
+		}
+		if (selectedDateId[from] === 4) {
+			setSelectDate([
+				moment().subtract(1, "month").startOf("month"),
+				moment().subtract(1, "month").endOf("month"),
+			]);
+		}
+		if (!selectedDateId[from]) {
+			setSelectDate([]);
+		}
+	}, [selectedDateId]);
 
     const {
         selectModal,
@@ -235,559 +236,519 @@ function FilterComponent({
 
         cols = cols.filter((c) => c.show == true);
 
-        for (let i = 0; i < cols.length; i++) {
-            children.push(
-                <Col
-                    xs={8}
-                    sm={8}
-                    md={8}
-                    xl={6}
-                    key={i}
-                    className={
-                        initialFilterForm[cols[i].name]
-                            ? "active-search-item"
-                            : null
-                    }
-                >
-                    <Form.Item
-                        className="filter-input"
-                        name={cols[i].name}
-                        labelCol={{ span: 24 }}
-                        wrapperCol={{ span: 24 }}
-                        label={cols[i].label}
-                    >
-                        {cols[i].type === "text" ? (
-                            <Input
-                                className="detail-input"
-                                onChange={onChange}
-                                name={cols[i].name}
-                                placeholder={cols[i].label}
-                                allowClear
-                            />
-                        ) : cols[i].type === "selectModal" ? (
-                            <Input
-                                autoComplete="off"
-                                className="detail-input"
-                                onClick={() => onClickSelectModal(cols[i])}
-                                name={cols[i].name}
-                                placeholder={
-                                    cols[i].label ===
-                                    "Məhsul (Ad, artkod, barkod, şərh)"
-                                        ? "Məhsul"
-                                        : cols[i].label
-                                }
-                                readOnly
-                                suffix={
-                                    // <span className="ant-select-clear">X</span>
-                                    // <span
-                                    //     class="ant-select-clear"
-                                    //     onClick={() =>
-                                    //         onClearSelectModal(
-                                    //             cols[i].dataIndex
-                                    //         )
-                                    //     }
-                                    // >
-                                    //     <span
-                                    //         role="img"
-                                    //         aria-label="close-circle"
-                                    //         class="anticon anticon-close-circle"
-                                    //     >
-                                    //         <svg
-                                    //             viewBox="64 64 896 896"
-                                    //             focusable="false"
-                                    //             data-icon="close-circle"
-                                    //             width="1em"
-                                    //             height="1em"
-                                    //             fill="currentColor"
-                                    //             aria-hidden="true"
-                                    //         >
-                                    //             <path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"></path>
-                                    //         </svg>
-                                    //     </span>
-                                    // </span>
-                                    <CloseCircleOutlined
-                                        className="input-clear-button"
-                                        onClick={() =>
-                                            onClearSelectModal(
-                                                cols[i].dataIndex
-                                            )
-                                        }
-                                    />
-                                }
-                            />
-                        ) : cols[i].type === "select" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                id={cols[i].controller}
-                                onSearch={(e) =>
-                                    doSearch(e, cols[i].controller)
-                                }
-                                onFocus={getData(cols[i].controller)}
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                notFoundContent={<Spin size="small" />}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                            >
-                                {Object.values(dropdown).map((r, index) => (
-                                    <Option
-                                        key={r.Id}
-                                        nm={cols[i].name}
-                                        // value={cols[i].name === "productName" ? r.name : r.id}
-                                        value={r.Id}
-                                    >
-                                        {r.Name}
-                                    </Option>
-                                ))}
-                            </Select>
-                        ) : cols[i].type === "selectMod" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                id={cols[i].controller}
-                                onFocus={getData(
-                                    cols[i].controller,
-                                    cols[i].key
-                                )}
-                                onChange={handleChange}
-                                onClear={() =>
-                                    handleClear("colt--" + cols[i].dataIndex)
-                                }
-                                notFoundContent={<Spin size="small" />}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                            >
-                                {Object.values(dropdown).map((r, index) => (
-                                    <Option
-                                        key={r.Id}
-                                        nm={cols[i].name}
-                                        value={r.Id}
-                                    >
-                                        {r.Name}
-                                    </Option>
-                                ))}
-                            </Select>
-                        ) : cols[i].type === "selectPayType" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                id={cols[i].controller}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                <Option nm={cols[i].name} key={"p"} value={"p"}>
-                                    Nəğd
-                                </Option>
-                                <Option nm={cols[i].name} key={"i"} value={"i"}>
-                                    Köçürmə
-                                </Option>
-                                <Option nm={cols[i].name} key={""} value={""}>
-                                    Hamısı
-                                </Option>
-                            </Select>
-                        ) : cols[i].type === "selectPayDir" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                id={cols[i].controller}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                <Option nm={cols[i].name} key={"i"} value={"i"}>
-                                    Mədaxil
-                                </Option>
-                                <Option nm={cols[i].name} key={"o"} value={"o"}>
-                                    Məxaric
-                                </Option>
-                                <Option nm={cols[i].name} key={""} value={""}>
-                                    Hamısı
-                                </Option>
-                            </Select>
-                        ) : cols[i].type === "selectSales" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                id={cols[i].controller}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                <Option
-                                    nm={cols[i].name}
-                                    key={"retail"}
-                                    value={"retail"}
-                                >
-                                    Pərakəndə
-                                </Option>
-                                <Option
-                                    nm={cols[i].name}
-                                    key={"wholesale"}
-                                    value={"wholesale"}
-                                >
-                                    Topdan satış
-                                </Option>
-                                <Option
-                                    nm={cols[i].name}
-                                    key={"all"}
-                                    value={"all"}
-                                >
-                                    Hamısı
-                                </Option>
-                            </Select>
-                        ) : cols[i].type === "selectDefaultYesNo" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                id={cols[i].controller}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                <Option nm={cols[i].name} key={1} value={1}>
-                                    Bəli
-                                </Option>
-                                <Option nm={cols[i].name} key={0} value={0}>
-                                    Xeyr
-                                </Option>
-                                <Option nm={cols[i].name} key={""} value={""}>
-                                    Hamısı
-                                </Option>
-                            </Select>
-                        ) : cols[i].type === "selectDocumentType" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                id={cols[i].controller}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                {documentNames.map((d, index) => {
-                                    return (
-                                        <Option
-                                            nm={cols[i].name}
-                                            key={d.name}
-                                            value={d.name}
-                                        >
-                                            {d.ad}
-                                        </Option>
-                                    );
-                                })}
-                            </Select>
-                        ) : cols[i].type === "number" ? (
-                            <Input
-                                className="detail-input"
-                                type="number"
-                                allowClear
-                                placeholder={cols[i].label}
-                            />
-                        ) : cols[i].type === "range" ? (
-                            <Input.Group
-                                className="custom_range_filter_inputs"
-                                compact
-                            >
-                                <Input
-                                    className="detail-input"
-                                    child={cols[i].start}
-                                    onChange={onChange}
-                                    defaultValue={
-                                        Object.keys(initialFilterForm).length >
-                                        0
-                                            ? initialFilterForm[
-                                                  `${Object.keys(
-                                                      initialFilterForm
-                                                  ).find(
-                                                      (c) => c === cols[i].start
-                                                  )}`
-                                              ]
-                                            : null
-                                    }
-                                    name={cols[i].start}
-                                    style={{ width: 100, textAlign: "center" }}
-                                    placeholder="Min"
-                                />
-                                <Input
-                                    className="site-input-split detail-input"
-                                    style={{
-                                        width: 30,
-                                        borderLeft: 0,
-                                        borderRight: 0,
-                                        pointerEvents: "none",
-                                    }}
-                                    placeholder="~"
-                                    disabled
-                                />
-                                <Input
-                                    className="site-input-right detail-input"
-                                    child={cols[i].start}
-                                    name={cols[i].end}
-                                    onChange={onChange}
-                                    defaultValue={
-                                        Object.keys(initialFilterForm).length >
-                                        0
-                                            ? initialFilterForm[
-                                                  `${Object.keys(
-                                                      initialFilterForm
-                                                  ).find(
-                                                      (c) => c === cols[i].end
-                                                  )}`
-                                              ]
-                                            : null
-                                    }
-                                    style={{
-                                        width: 100,
-                                        textAlign: "center",
-                                    }}
-                                    placeholder="Max"
-                                />
-                            </Input.Group>
-                        ) : cols[i].type === "date" ? (
-                            <div>
-                                <RangePicker
-                                    className="detail-input"
-                                    // showTime={{ format: "HH:mm:ss" }}
-                                    locale={locale}
-                                    onChange={(date, dateString) =>
-                                        // setSelectDate(date)
-                                        onChanngeRangePicker(date)
-                                    }
-                                    {...rangeConfig}
-                                    // value={selectDate}
-                                    onOpenChange={onOpenChange}
-                                    format="DD-MM-YYYY"
-                                    ranges={{
-                                        "Bu gün": [
-                                            moment().startOf("day"),
-                                            moment().endOf("day"),
-                                        ],
-                                        Dünən: [
-                                            moment()
-                                                .subtract(1, "day")
-                                                .startOf("day"),
-                                            moment()
-                                                .subtract(1, "day")
-                                                .endOf("day"),
-                                        ],
-                                        "Bu ay": [
-                                            moment().startOf("month"),
-                                            moment().endOf("month"),
-                                        ],
-                                        "Keçən ay": [
-                                            moment()
-                                                .subtract(1, "month")
-                                                .startOf("month"),
-                                            moment()
-                                                .subtract(1, "month")
-                                                .endOf("month"),
-                                        ],
-                                    }}
-                                />
-                            </div>
-                        ) : cols[i].type === "datePicker" ? (
-                            <div>
-                                <DatePicker
-                                    className="detail-input"
-                                    format="DD-MM-YYYY HH:mm:ss"
-                                    locale={locale}
-                                    {...rangeConfig}
-                                    onChange={onChangeDatePicker}
-                                />
-                            </div>
-                        ) : cols[i].type === "dateOfChange" ? (
-                            <div>
-                                <RangePicker
-                                    className="detail-input"
-                                    // showTime={{ format: "HH:mm:ss" }}
-                                    locale={locale}
-                                    {...rangeConfig}
-                                    format="DD-MM-YYYY"
-                                    ranges={{
-                                        "Bu gün": [
-                                            moment().startOf("day"),
-                                            moment().endOf("day"),
-                                        ],
-                                        Dünən: [
-                                            moment()
-                                                .subtract(1, "day")
-                                                .startOf("day"),
-                                            moment()
-                                                .subtract(1, "day")
-                                                .endOf("day"),
-                                        ],
-                                        "Bu ay": [
-                                            moment().startOf("month"),
-                                            moment().endOf("month"),
-                                        ],
-                                        "Keçən ay": [
-                                            moment()
-                                                .subtract(1, "month")
-                                                .startOf("month"),
-                                            moment()
-                                                .subtract(1, "month")
-                                                .endOf("month"),
-                                        ],
-                                    }}
-                                />
-                            </div>
-                        ) : cols[i].type === "selectDefaultZeros" ? (
-                            <Select
-                                className="deteail-select"
-                                showSearch
-                                defaultValue={cols[i].default}
-                                placeholder={cols[i].label}
-                                allowClear
-                                id={cols[i].controller}
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                filterOption={(input, option) =>
-                                    option.label
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                <Option nm={cols[i].name} key={4} value={4}>
-                                    0 olanlar
-                                </Option>
-                                <Option nm={cols[i].name} key={3} value={3}>
-                                    0 olmayanlar
-                                </Option>
-                                <Option nm={cols[i].name} key={2} value={2}>
-                                    Mənfilər
-                                </Option>
-                                <Option nm={cols[i].name} key={1} value={1}>
-                                    Müsbətlər
-                                </Option>
-                                <Option nm={cols[i].name} key={""} value={""}>
-                                    Hamısı
-                                </Option>
-                            </Select>
-                        ) : cols[i].type === "selectDefaultList" ? (
-                            <Select
-                                className="deteail-select"
-                                showSearch
-                                // defaultValue={3}
-                                placeholder={cols[i].label}
-                                allowClear
-                                id={cols[i].controller}
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                filterOption={(input, option) =>
-                                    option.label
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                <Option nm={cols[i].name} key={2} value={2}>
-                                    Borc (verəcək)
-                                </Option>
-                                <Option nm={cols[i].name} key={1} value={1}>
-                                    Borc (alacaq)
-                                </Option>
-                                <Option nm={cols[i].name} key={""} value={""}>
-                                    Bütün borclar
-                                </Option>
-                            </Select>
-                        ) : cols[i].type === "yesno" ? (
-                            <Select
-                                className="detail-select"
-                                showSearch
-                                placeholder={cols[i].label}
-                                allowClear
-                                onChange={handleChange}
-                                onClear={() => handleClear(cols[i].dataIndex)}
-                                id={cols[i].controller}
-                                filterOption={(input, option) =>
-                                    option.children
-                                        .toLowerCase()
-                                        .indexOf(input.toLowerCase()) >= 0
-                                }
-                                notFoundContent={<Spin size="small" />}
-                            >
-                                <Option nm={cols[i].name} key={1} value={1}>
-                                    Bəli
-                                </Option>
-                                <Option nm={cols[i].name} key={0} value={0}>
-                                    Xeyr
-                                </Option>
-                                <Option nm={cols[i].name} key={""} value={""}>
-                                    Hamısı
-                                </Option>
-                            </Select>
-                        ) : null}
-                    </Form.Item>
-                </Col>
-            );
-        }
-        return children;
-    };
-    const onFinish = (values) => {
-        setIsEnterFilterValue(true);
-        let productName = "";
-        let customerName = "";
-        let cus = "";
-        if (initialFilterForm.productName) {
-            productName = initialFilterForm.productName;
-            initialFilterForm.productName = initialFilterForm.productId;
-        }
-        if (initialFilterForm.customerName) {
-            customerName = initialFilterForm.customerName;
-            initialFilterForm.customerName = initialFilterForm.customerId;
-        }
-        if (initialFilterForm.cus) {
-            cus = initialFilterForm.cus;
-            initialFilterForm.cus = initialFilterForm.cusId;
-        }
-        // const rangeCreateValue = values["createdDate"];
+		for (let i = 0; i < cols.length; i++) {
+			children.push(
+				<Col
+					xs={8}
+					sm={8}
+					md={8}
+					xl={6}
+					key={i}
+					className={
+						initialFilterForm[cols[i].name]
+							? "active-search-item"
+							: null
+					}
+				>
+					<Form.Item
+						className="filter-input"
+						name={cols[i].name}
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
+						label={cols[i].label}
+					>
+						{cols[i].type === "text" ? (
+							<Input
+								className="detail-input"
+								onChange={onChange}
+								name={cols[i].name}
+								placeholder={cols[i].label}
+								allowClear
+							/>
+						) : cols[i].type === "selectModal" ? (
+								<Input
+									autoComplete="off"
+									className="detail-input"
+									onClick={() => onClickSelectModal(cols[i])}
+									name={cols[i].name}
+									placeholder={cols[i].label === 'Məhsul (Ad, artkod, barkod, şərh)' ? 'Məhsul' : cols[i].label}
+                                    readOnly
+                                    suffix={<CloseOutlined onClick={() => onClearSelectModal(cols[i].dataIndex)} />}
+								/>
+						) : cols[i].type === "select" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								id={cols[i].controller}
+								onSearch={(e) =>
+									doSearch(e, cols[i].controller)
+								}
+								onFocus={getData(cols[i].controller)}
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								notFoundContent={<Spin size="small" />}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+							>
+								{Object.values(dropdown).map((r, index) => (
+									<Option
+										key={r.Id}
+										nm={cols[i].name}
+										// value={cols[i].name === "productName" ? r.name : r.id}
+										value={r.Id}
+									>
+										{r.Name}
+									</Option>
+								))}
+							</Select>
+						) : cols[i].type === "selectMod" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								id={cols[i].controller}
+								onFocus={getData(
+									cols[i].controller,
+									cols[i].key
+								)}
+								onChange={handleChange}
+								onClear={() =>
+									handleClear("colt--" + cols[i].dataIndex)
+								}
+								notFoundContent={<Spin size="small" />}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+							>
+								{Object.values(dropdown).map((r, index) => (
+									<Option
+										key={r.Id}
+										nm={cols[i].name}
+										value={r.Id}
+									>
+										{r.Name}
+									</Option>
+								))}
+							</Select>
+						) : cols[i].type === "selectPayType" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								id={cols[i].controller}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option nm={cols[i].name} key={"p"} value={"p"}>
+									Nəğd
+								</Option>
+								<Option nm={cols[i].name} key={"i"} value={"i"}>
+									Köçürmə
+								</Option>
+								<Option nm={cols[i].name} key={""} value={""}>
+									Hamısı
+								</Option>
+							</Select>
+						) : cols[i].type === "selectPayDir" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								id={cols[i].controller}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option nm={cols[i].name} key={"i"} value={"i"}>
+									Mədaxil
+								</Option>
+								<Option nm={cols[i].name} key={"o"} value={"o"}>
+									Məxaric
+								</Option>
+								<Option nm={cols[i].name} key={""} value={""}>
+									Hamısı
+								</Option>
+							</Select>
+						) : cols[i].type === "selectSales" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								id={cols[i].controller}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option
+									nm={cols[i].name}
+									key={"retail"}
+									value={"retail"}
+								>
+									Pərakəndə
+								</Option>
+								<Option
+									nm={cols[i].name}
+									key={"wholesale"}
+									value={"wholesale"}
+								>
+									Topdan satış
+								</Option>
+								<Option
+									nm={cols[i].name}
+									key={"all"}
+									value={"all"}
+								>
+									Hamısı
+								</Option>
+							</Select>
+						) : cols[i].type === "selectDefaultYesNo" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								id={cols[i].controller}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option nm={cols[i].name} key={1} value={1}>
+									Bəli
+								</Option>
+								<Option nm={cols[i].name} key={0} value={0}>
+									Xeyr
+								</Option>
+								<Option nm={cols[i].name} key={""} value={""}>
+									Hamısı
+								</Option>
+							</Select>
+						) : cols[i].type === "selectDocumentType" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								id={cols[i].controller}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								{documentNames.map((d, index) => {
+									return (
+										<Option
+											nm={cols[i].name}
+											key={d.name}
+											value={d.name}
+										>
+											{d.ad}
+										</Option>
+									);
+								})}
+							</Select>
+						) : cols[i].type === "number" ? (
+							<Input
+								className="detail-input"
+								type="number"
+								allowClear
+								placeholder={cols[i].label}
+							/>
+						) : cols[i].type === "range" ? (
+							<Input.Group
+								className="custom_range_filter_inputs"
+								compact
+							>
+								<Input
+									className="detail-input"
+									child={cols[i].start}
+									onChange={onChange}
+									defaultValue={
+										Object.keys(initialFilterForm).length >
+										0
+											? initialFilterForm[
+													`${Object.keys(
+														initialFilterForm
+													).find(
+														(c) =>
+															c === cols[i].start
+													)}`
+											  ]
+											: null
+									}
+									name={cols[i].start}
+									style={{ width: 100, textAlign: "center" }}
+									placeholder="Min"
+								/>
+								<Input
+									className="site-input-split detail-input"
+									style={{
+										width: 30,
+										borderLeft: 0,
+										borderRight: 0,
+										pointerEvents: "none",
+									}}
+									placeholder="~"
+									disabled
+								/>
+								<Input
+									className="site-input-right detail-input"
+									child={cols[i].start}
+									name={cols[i].end}
+									onChange={onChange}
+									defaultValue={
+										Object.keys(initialFilterForm).length >
+										0
+											? initialFilterForm[
+													`${Object.keys(
+														initialFilterForm
+													).find(
+														(c) => c === cols[i].end
+													)}`
+											  ]
+											: null
+									}
+									style={{
+										width: 100,
+										textAlign: "center",
+									}}
+									placeholder="Max"
+								/>
+							</Input.Group>
+						) : cols[i].type === "date" ? (
+							<div>
+								<RangePicker
+									className="detail-input"
+									// showTime={{ format: "HH:mm:ss" }}
+									locale={locale}
+									onChange={(date, dateString) =>
+										// setSelectDate(date)
+										onChanngeRangePicker(date)
+									}
+									{...rangeConfig}
+									value={selectDate}
+									onOpenChange={onOpenChange}
+									format="DD-MM-YYYY"
+									ranges={{
+										"Bu gün": [
+											moment().startOf("day"),
+											moment().endOf("day"),
+										],
+										Dünən: [
+											moment()
+												.subtract(1, "day")
+												.startOf("day"),
+											moment()
+												.subtract(1, "day")
+												.endOf("day"),
+										],
+										"Bu ay": [
+											moment().startOf("month"),
+											moment().endOf("month"),
+										],
+										"Keçən ay": [
+											moment()
+												.subtract(1, "month")
+												.startOf("month"),
+											moment()
+												.subtract(1, "month")
+												.endOf("month"),
+										],
+									}}
+								/>
+							</div>
+						) : cols[i].type === "datePicker" ? (
+							<div>
+								<DatePicker
+									className="detail-input"
+									format="DD-MM-YYYY HH:mm:ss"
+									locale={locale}
+									{...rangeConfig}
+									onChange={onChangeDatePicker}
+								/>
+							</div>
+						) : cols[i].type === "dateOfChange" ? (
+							<div>
+								<RangePicker
+									className="detail-input"
+									// showTime={{ format: "HH:mm:ss" }}
+									locale={locale}
+									{...rangeConfig}
+									format="DD-MM-YYYY"
+									ranges={{
+										"Bu gün": [
+											moment().startOf("day"),
+											moment().endOf("day"),
+										],
+										Dünən: [
+											moment()
+												.subtract(1, "day")
+												.startOf("day"),
+											moment()
+												.subtract(1, "day")
+												.endOf("day"),
+										],
+										"Bu ay": [
+											moment().startOf("month"),
+											moment().endOf("month"),
+										],
+										"Keçən ay": [
+											moment()
+												.subtract(1, "month")
+												.startOf("month"),
+											moment()
+												.subtract(1, "month")
+												.endOf("month"),
+										],
+									}}
+								/>
+							</div>
+						) : cols[i].type === "selectDefaultZeros" ? (
+							<Select
+								className="deteail-select"
+								showSearch
+								defaultValue={cols[i].default}
+								placeholder={cols[i].label}
+								allowClear
+								id={cols[i].controller}
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								filterOption={(input, option) =>
+									option.label
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option nm={cols[i].name} key={4} value={4}>
+									0 olanlar
+								</Option>
+								<Option nm={cols[i].name} key={3} value={3}>
+									0 olmayanlar
+								</Option>
+								<Option nm={cols[i].name} key={2} value={2}>
+									Mənfilər
+								</Option>
+								<Option nm={cols[i].name} key={1} value={1}>
+									Müsbətlər
+								</Option>
+								<Option nm={cols[i].name} key={""} value={""}>
+									Hamısı
+								</Option>
+							</Select>
+						) : cols[i].type === "selectDefaultList" ? (
+							<Select
+								className="deteail-select"
+								showSearch
+								// defaultValue={3}
+								placeholder={cols[i].label}
+								allowClear
+								id={cols[i].controller}
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								filterOption={(input, option) =>
+									option.label
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option nm={cols[i].name} key={2} value={2}>
+									Borc (verəcək)
+								</Option>
+								<Option nm={cols[i].name} key={1} value={1}>
+									Borc (alacaq)
+								</Option>
+								<Option nm={cols[i].name} key={""} value={""}>
+									Bütün borclar
+								</Option>
+							</Select>
+						) : cols[i].type === "yesno" ? (
+							<Select
+								className="detail-select"
+								showSearch
+								placeholder={cols[i].label}
+								allowClear
+								onChange={handleChange}
+								onClear={() => handleClear(cols[i].dataIndex)}
+								id={cols[i].controller}
+								filterOption={(input, option) =>
+									option.children
+										.toLowerCase()
+										.indexOf(input.toLowerCase()) >= 0
+								}
+								notFoundContent={<Spin size="small" />}
+							>
+								<Option nm={cols[i].name} key={1} value={1}>
+									Bəli
+								</Option>
+								<Option nm={cols[i].name} key={0} value={0}>
+									Xeyr
+								</Option>
+								<Option nm={cols[i].name} key={""} value={""}>
+									Hamısı
+								</Option>
+							</Select>
+						) : null}
+					</Form.Item>
+				</Col>
+			);
+		}
+		return children;
+	};
+	const onFinish = (values) => {
+		setIsEnterFilterValue(true);
+		let productName = "";
+		let customerName = "";
+		let cus = "";
+		if (initialFilterForm.productName) {
+			productName = initialFilterForm.productName;
+			initialFilterForm.productName = initialFilterForm.productId;
+		}
+		if (initialFilterForm.customerName) {
+			customerName = initialFilterForm.customerName;
+			initialFilterForm.customerName = initialFilterForm.customerId;
+		}
+		if (initialFilterForm.cus) {
+			cus = initialFilterForm.cus;
+			initialFilterForm.cus = initialFilterForm.cusId;
+		}
+		// const rangeCreateValue = values["createdDate"];
 
         const rangeModifyValue = values["modifedDate"];
         const moment = values["moment"];
@@ -876,15 +837,16 @@ function FilterComponent({
         setChanged(false);
     }, [changed]);
 
-    // useEffect(() => {
-    // 	if (advanced) {
-    // 		if (advanced.momb && advanced.mome) {
-    // 			form.setFieldsValue({
-    // 				createdDate: [moment(advanced.momb), moment(advanced.mome)],
-    // 			});
-    // 		}
-    // 	}
-    // }, [advanced]);
+
+	useEffect(() => {
+		if (advanced) {
+			if (advanced.momb && advanced.mome) {
+				form.setFieldsValue({
+					createdDate: [moment(advanced.momb), moment(advanced.mome)],
+				});
+			}
+		}
+	}, [advanced]);
 
     return (
         <div className="filter_wrapper" style={{ display: display }}>

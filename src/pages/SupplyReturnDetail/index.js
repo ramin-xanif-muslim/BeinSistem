@@ -137,6 +137,7 @@ function SupplyReturnDetail({
 		() => fetchDocId(doc_id, "supplyreturns")
 	);
 	const handleDelete = (key) => {
+        handleChanged()
 		const dataSource = [...outerDataSource];
 		setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
 		setPositions(dataSource.filter((item) => item.BarCode !== key));

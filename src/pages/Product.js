@@ -792,7 +792,6 @@ export default function Product() {
 					</div>
 				</Col>
 			</Row>
-			{isLoadingSearch && <Spin />}
 			<Row>
 				<Col xs={24} md={24} xl={24}>
 					<FilterComponent
@@ -814,7 +813,7 @@ export default function Product() {
 				<Col xs={24} md={24} xl={19}>
 					<Table
 						className="main-table"
-						loading={isLoading}
+                        loading={isLoading || isLoadingSearch}
 						rowKey="Id"
 						columns={columnsnew.filter((c) => c.show === true)}
 						dataSource={productList}

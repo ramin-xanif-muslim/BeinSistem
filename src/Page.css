@@ -634,10 +634,10 @@ tr.ant-table-expanded-row:hover td {
 }
 
 .detail-input-addon {
+    
     padding: 0;
     width: 100%;
 }
-
 .detail-select div {
     height: 26px !important;
     width: 100%;

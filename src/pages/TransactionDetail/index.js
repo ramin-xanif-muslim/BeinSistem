@@ -86,6 +86,7 @@ function PaymentInDetail() {
         () => fetchDocId(doc_id, "paymentins")
     );
     const handleDelete = (key) => {
+        handleChanged()
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
         setPositions(dataSource.filter((item) => item.BarCode !== key));

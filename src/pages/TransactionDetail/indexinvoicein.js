@@ -82,6 +82,7 @@ function IvoiceInDetail() {
         () => fetchDocId(doc_id, "invoiceins")
     );
     const handleDelete = (key) => {
+        handleChanged()
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
         setPositions(dataSource.filter((item) => item.BarCode !== key));
@@ -517,8 +518,7 @@ function IvoiceInDetail() {
                                             <Form.Item
                                                 label="Cavabdeh"
                                                 name="ownerid"
-                                                style={{ margin: "0" }}
-                                                style={{ width: "100%" }}
+                                                style={{ margin: "0", width: "100%" }}
                                             >
                                                 <Select
                                                     showSearch
@@ -564,8 +564,7 @@ function IvoiceInDetail() {
                                             <Form.Item
                                                 label="Şöbə"
                                                 name="departmentid"
-                                                style={{ margin: "0" }}
-                                                style={{ width: "100%" }}
+                                                style={{ margin: "0", width: "100%" }}
                                             >
                                                 <Select
                                                     showSearch

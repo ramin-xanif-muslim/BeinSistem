@@ -42,6 +42,7 @@ const TableProvider = ({ children }) => {
   const [isDelete, setIsDelete] = useState(false);
   const [pricechanged, setPriceChanged] = useState(false);
   const [productSearchTerm, setProductSearchTerm] = useState("");
+  const [customerSearchTerm, setCustomerSearchTerm] = useState("");
   const [stockbalanceSearchTerm, setStockbalanceSearchTerm] = useState("");
   const [salereportsSearchTerm, setSalereportsSearchTerm] = useState("");
   const [selectedRowKey, setSelectedRowKeys] = useState([]);
@@ -100,6 +101,8 @@ const TableProvider = ({ children }) => {
     setStockbalanceSearchTerm,
     productSearchTerm,
     setProductSearchTerm,
+    customerSearchTerm,
+    setCustomerSearchTerm,
     searchGr,
     setSearchGr,
     productcols,

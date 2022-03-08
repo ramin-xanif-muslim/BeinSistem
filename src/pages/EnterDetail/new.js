@@ -121,6 +121,7 @@ function NewEnter({ bntOpenTreeViewModal, stockId, setStockId }) {
   const [catalogVisible, setCatalogVisible] = useState(false);
   const { allsum, allQuantity } = useGetDocItems();
   const handleDelete = (key) => {
+    handleChanged()
     const dataSource = [...outerDataSource];
     setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
     setPositions(dataSource.filter((item) => item.BarCode !== key));
