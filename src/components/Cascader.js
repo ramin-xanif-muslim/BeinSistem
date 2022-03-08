@@ -51,6 +51,16 @@ const options = [
 			},
 		],
 	},
+	{
+		value: "7x3",
+		label: "7x3",
+		children: [
+			{
+				value: "7x3_1.css",
+				label: "7x3_1",
+			},
+		],
+	},
 ];
 
 export const CascaderBcTemplates = (props) => {

@@ -579,8 +579,6 @@ function ProductModal() {
 										<Select
                                             showSearch
                                             className="doc_status_formitem_wrapper_col"
-                                            className="detail-select"
-                                            filterOption={false}
                                             notFoundContent={
                                                 <Spin size="small" />
                                             }
@@ -703,7 +701,6 @@ function ProductModal() {
 										<Select
 											className="detail-select"
 											showSearch
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}
@@ -725,7 +722,6 @@ function ProductModal() {
 										<Select
 											className="detail-select"
 											showSearch
-											filterOption={false}
 											notFoundContent={
 												<Spin size="small" />
 											}
