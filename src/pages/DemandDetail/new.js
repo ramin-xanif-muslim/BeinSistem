@@ -147,6 +147,7 @@ function NewDemand({
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 
 	const handleDelete = (key) => {
+        handleChanged()
 		const dataSource = [...outerDataSource];
 		setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
 		setPositions(dataSource.filter((item) => item.BarCode !== key));

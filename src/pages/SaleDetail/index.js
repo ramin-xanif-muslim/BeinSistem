@@ -131,6 +131,7 @@ function SaleDetail() {
         () => fetchDocId(doc_id, "sales")
     );
     const handleDelete = (key) => {
+        handleChanged()
         const dataSource = [...outerDataSource];
         setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
         setPositions(dataSource.filter((item) => item.BarCode !== key));

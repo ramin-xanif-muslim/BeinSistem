@@ -127,6 +127,7 @@ function HandoverFromDetail({ handleOpenCatalog, selectList, catalogVisible }) {
 		() => fetchDocId(doc_id, "handoversfrom")
 	);
 	const handleDelete = (key) => {
+        handleChanged()
 		const dataSource = [...outerDataSource];
 		setOuterDataSource(dataSource.filter((item) => item.BarCode !== key));
 		setPositions(dataSource.filter((item) => item.BarCode !== key));

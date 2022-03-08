@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { useQuery } from "react-query";
-import { fetchPage, fecthFastPage, fetchFilterPage, fecthFastPageCustomers, sendRequest } from "../api";
+import { fetchPage, fecthFastPage, fetchFilterPage, fecthFastPageCustomers } from "../api";
 import TableCustom from "../components/TableCustom";
 import { Table } from "antd";
 import { Redirect } from "react-router-dom";
@@ -13,10 +13,9 @@ import { SettingOutlined } from "@ant-design/icons";
 import FilterComponent from "../components/FilterComponent";
 import FastSearch from "../components/FastSearch";
 import { Button } from "semantic-ui-react";
-import { ConvertFixedTable, isObject } from "../config/function/findadditionals";
+import { ConvertFixedTable } from "../config/function/findadditionals";
 import FilterButton from "../components/FilterButton";
 import { useFilterContext } from "../contexts/FilterContext";
-import MyFastSearch from "../components/MyFastSearch";
 
 export default function Customer() {
 	const {
@@ -42,8 +41,6 @@ export default function Customer() {
 	const [columnChange, setColumnChange] = useState(false);
 	const [initial, setInitial] = useState(null);
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
-	const [pageCount, setPageCount] = useState(null);
-	const [isLoadingSearch, setIsLoadingSearch] = useState(false);
 
 	const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
 		useState(false);
@@ -55,26 +52,7 @@ export default function Customer() {
 		advancedPage,
 		setAdvancedPage,
 		searchGr,
-        customerSearchTerm,
-        setCustomerSearchTerm,
 	} = useTableCustom();
-
-	const searchFunc = async (value) => {
-		setIsLoadingSearch(true);
-		setCustomerSearchTerm(value);
-		let obj = {
-			ar: 0,
-			dr: 1,
-			fast: value,
-			gp: "",
-			pg: 0,
-			lm: 100,
-		};
-		let res = await sendRequest("products/getfast.php", obj);
-		setPageCount(res.Count);
-		setProdutcList(res.List);
-		setIsLoadingSearch(false);
-	};
 
 	const filters = useMemo(() => {
 		return [
@@ -410,10 +388,8 @@ export default function Customer() {
 	useEffect(() => {
 		if (!isFetching) {
 			setProdutcList(data.Body.List);
-            setPageCount(data.Body.Count);
 		} else {
 			setProdutcList([]);
-			setPageCount(null);
 		}
 	}, [isFetching]);
 
@@ -506,12 +482,11 @@ export default function Customer() {
 			</button>
 		</Dropdown>
 	);
-	if (!isLoading && !isObject(data.Body))
+	if (isLoading)
 		return (
-			<>
-				Xəta:
-				<span style={{ color: "red" }}>{data}</span>
-			</>
+			<Spin className="fetchSpinner" tip="Yüklənir...">
+				<Alert />
+			</Spin>
 		);
 
 	if (error) return "An error has occurred: " + error.message;
@@ -542,13 +517,7 @@ export default function Customer() {
 								display={isOpenCustomerFilter}
 								setdisplay={setIsOpenCustomerFilter}
 							/>
-							{/* <FastSearch className="search_header" /> */}
-							<MyFastSearch
-								searchFunc={searchFunc}
-								setSearchTerm={setCustomerSearchTerm}
-								searchTerm={customerSearchTerm}
-								className="search_header"
-							/>
+							<FastSearch className="search_header" />
 						</div>
 						{tableSettings}
 					</div>
@@ -576,7 +545,6 @@ export default function Customer() {
 					<Table
 						className="main-table"
 						rowKey="Id"
-                        loading={isLoading || isLoadingSearch}
 						columns={columns.filter((c) => c.show == true)}
 						dataSource={productList}
 						rowClassName={(record, index) =>
@@ -585,9 +553,9 @@ export default function Customer() {
 						onChange={onChange}
 						pagination={{
 							current: advancedPage + 1,
-							total: pageCount,
+							total: data.Body.Count,
 							onChange: handlePagination,
-							defaultPageSize: 100,
+							defaultPageSize: data.Body.Limit,
 							showSizeChanger: false,
 						}}
 						locale={{
