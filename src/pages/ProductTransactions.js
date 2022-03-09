@@ -618,7 +618,6 @@ export default function ProductTransactions() {
 		tablesComponents = tabls.map((table) => {
 			const { title, documentList, allSum } = table;
 			if (documentList && documentList[0]) {
-                console.log(documentList)
 				return (
 					<div>
 						<h4 className="producttransactions-header">{title}</h4>

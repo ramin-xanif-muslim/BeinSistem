@@ -284,7 +284,7 @@ export default function Return() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
-                    from: "return",
+                    from: "returns",
 			},
 		];
 	});

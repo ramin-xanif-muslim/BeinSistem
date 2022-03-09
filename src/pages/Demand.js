@@ -403,7 +403,7 @@ export default function Demand() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
-                    from: "demands",
+                    from: "demand",
 			},
 
 			{

@@ -176,7 +176,7 @@ function FilterComponent({
 		//   setIsOpen(open);
 	};
 	useEffect(() => {
-		console.log("aaa", selectedDateId);
+		console.log("aaa", selectedDateId, from);
 		if (selectedDateId[from] === 1) {
 			setSelectDate([moment().startOf("day"), moment().endOf("day")]);
 		}

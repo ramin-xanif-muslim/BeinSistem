@@ -441,7 +441,7 @@ export default function StockBalance() {
 			},
 			{
 				key: "10",
-				label: "Tarixi",
+				label: "Tarix",
 				name: "createdDate",
 				type: "datePicker",
 				dataIndex: "createdDate",

@@ -393,7 +393,7 @@ export default function SupplyReturn() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
-                    from: "supplyreturn",
+                    from: "supplyreturns",
 			},
 
 			{

@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useTableCustom } from "../contexts/TableContext";
 import style from "./SearchByDate.module.css";
 
-function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate, from }) {
+function SearchByDate({ getSearchObjByDate, defaultSort, from }) {
 	const { selectedDateId, setSelectedDateId } = useTableCustom();
+    const [defaultCheckedDate, setdefaultCheckedDate] = useState()
 
 	const dates = [
 		{
@@ -76,10 +77,21 @@ function SearchByDate({ getSearchObjByDate, defaultSort, defaultCheckedDate, fro
 		setSelectedDateId({...selectedDateId, [from]: i});
 	};
 	useEffect(() => {
+        if(from === 'producttransactions') {
+            setdefaultCheckedDate(1)
+        }
+        if(from === 'salereports') {
+            setdefaultCheckedDate(1)
+        }
+        if(from === 'profit') {
+            setdefaultCheckedDate(3)
+        }
+	}, [from]);
+	useEffect(() => {
 		if (!selectedDateId[from] && defaultCheckedDate) {
             setSelectedDateId({...selectedDateId, [from]: defaultCheckedDate});
 		}
-	}, []);
+	}, [defaultCheckedDate]);
 
 	return (
 		<div className={style.div}>

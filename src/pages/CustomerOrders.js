@@ -463,7 +463,7 @@ export default function CustomerOrders() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
-                    from: "customersorders",
+                    from: "customerorders",
 			},
 		];
 	}, [filterChanged]);

@@ -381,7 +381,7 @@ export default function Transaction() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
-                    from: "transaction",
+                    from: "transactions",
 			},
 			{
 				key: "7",

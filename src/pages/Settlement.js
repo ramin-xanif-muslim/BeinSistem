@@ -225,7 +225,7 @@ export default function Settlement() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
-                    from: "setlement",
+                    from: "settlements",
 			},
 			{
 				key: "4",
