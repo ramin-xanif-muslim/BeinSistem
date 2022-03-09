@@ -653,10 +653,10 @@ export default function Sale() {
 								setdisplay={setIsOpenSaleFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="sales"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

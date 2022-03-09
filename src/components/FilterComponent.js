@@ -9,7 +9,8 @@ import { useTableCustom } from "../contexts/TableContext";
 import { useSelectModal } from "../hooks";
 import { convertCamelCaseTextToText } from "../config/function/convert";
 import "../Page.css";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
+import SearchByDate from "./SearchByDate";
 
 const { Option, OptGroup } = Select;
 const { RangePicker } = DatePicker;
@@ -255,7 +256,7 @@ function FilterComponent({
 						name={cols[i].name}
 						labelCol={{ span: 24 }}
 						wrapperCol={{ span: 24 }}
-						label={cols[i].label}
+						label={cols[i].label !== "Tarixi" ? cols[i].label : <SearchByDate from={cols[i].from}/>}
 					>
 						{cols[i].type === "text" ? (
 							<Input

@@ -48,8 +48,8 @@ export default function Transaction() {
 	const [redirect, setRedirect] = useState(false);
 	const [redirectPaymentIn, setRedirectPaymentIn] = useState(false);
 	const [redirectPaymentOut, setRedirectPaymentOut] = useState(false);
-	const [redirectInvoiceIn, setRedirectInvoiceIn] = useState(false);
-	const [redirectInvoiceOut, setRedirectInvoiceOut] = useState(false);
+	const [redirectIn, setRedirectIn] = useState(false);
+	const [redirectOut, setRedirectOut] = useState(false);
 	const [direction, setDirection] = useState(1);
 	const [defaultdr, setDefaultDr] = useState("descend");
 	const [initialSort, setInitialSort] = useState("Moment");
@@ -190,12 +190,12 @@ export default function Transaction() {
 			},
 
 			{
-				dataIndex: "CashInvoice",
+				dataIndex: "Cash",
 				title: "Nağd/Köçürmə",
 
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "CashInvoice"
+							(i) => i.dataIndex === "Cash"
 					  ).show
 					: true,
 				render: (value, row, index) => {
@@ -443,10 +443,10 @@ export default function Transaction() {
 			setRedirectPaymentOut(true);
 		}
 		if (row.Type === "i" && row.Direct === "i") {
-			setRedirectInvoiceIn(true);
+			setRedirectIn(true);
 		}
 		if (row.Type === "i" && row.Direct === "o") {
-			setRedirectInvoiceOut(true);
+			setRedirectOut(true);
 		}
 		// setRedirect(true);
 		setEditId(id);
@@ -605,10 +605,10 @@ export default function Transaction() {
 		return <Redirect push to={`/editPaymentIn/${editId}`} />;
 	if (redirectPaymentOut)
 		return <Redirect push to={`/editPaymentOut/${editId}`} />;
-	if (redirectInvoiceIn)
-		return <Redirect push to={`/editInvoiceIn/${editId}`} />;
-	if (redirectInvoiceOut)
-		return <Redirect push to={`/editInvoiceOut/${editId}`} />;
+	if (redirectIn)
+		return <Redirect push to={`/editIn/${editId}`} />;
+	if (redirectOut)
+		return <Redirect push to={`/editOut/${editId}`} />;
 
 	if (!isLoading && !isObject(data.Body))
 		return (
@@ -634,10 +634,10 @@ export default function Transaction() {
 								setdisplay={setIsOpenTransactionFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="transactions"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>

@@ -724,11 +724,11 @@ export default function ProductTransactions() {
 								display={isOpenProductTransactionFilter}
 								setdisplay={setIsOpenProductTransactionFilter}
 							/>
-							<SearchByDate
+							{/* <SearchByDate
 								from="producttransactions"
 								getSearchObjByDate={getSearchObjByDate}
 								defaultCheckedDate={1}
-							/>
+							/> */}
 						</div>
 
 						<div style={{ display: "flex" }}>

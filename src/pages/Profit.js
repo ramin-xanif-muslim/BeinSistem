@@ -292,11 +292,11 @@ export default function Profit() {
 								setdisplay={setIsOpenProfitFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="profit"
 								getSearchObjByDate={getSearchObjByDate}
 								defaultCheckedDate={3}
-							/>
+							/> */}
 							<div>{downloadButton}</div>
 						</div>
 					</div>

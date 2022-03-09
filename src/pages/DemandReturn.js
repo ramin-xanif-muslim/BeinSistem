@@ -624,10 +624,10 @@ export default function DemandReturn() {
 								setdisplay={setIsOpenDemandReturnFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="demandreturns"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

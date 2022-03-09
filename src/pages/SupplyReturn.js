@@ -618,10 +618,10 @@ export default function SupplyReturn() {
 								setdisplay={setIsOpenSupplyReturnFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="supplyreturns"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

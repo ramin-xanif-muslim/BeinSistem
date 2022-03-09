@@ -25,6 +25,7 @@ export default function Invoice(props) {
     useEffect(() => {
         setNav("none");
         getCheckDatas();
+        console.log(props)
         return () => {
             setNav("block");
         };

@@ -509,10 +509,10 @@ export default function Move() {
 								setdisplay={setIsOpenMoveFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="move"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

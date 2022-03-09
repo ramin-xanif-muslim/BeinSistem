@@ -686,12 +686,12 @@ export default function SaleReport() {
 								searchTerm={salereportsSearchTerm}
 								className="search_header"
 							/>
-							<SearchByDate
+							{/* <SearchByDate
 								from="salereports"
 								getSearchObjByDate={getSearchObjByDate}
 								defaultSort={"ProductName"}
 								defaultCheckedDate={1}
-							/>
+							/> */}
 							<div>{downloadButton}</div>
 						</div>
 					</div>

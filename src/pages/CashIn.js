@@ -425,10 +425,10 @@ export default function CashIn() {
 								setdisplay={setIsOpenCashInFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="cashins"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

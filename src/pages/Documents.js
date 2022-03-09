@@ -634,10 +634,10 @@ const {
 								setdisplay={setIsOpenDocumentFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="documents"
 								getSearchObjByDate={getSearcObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

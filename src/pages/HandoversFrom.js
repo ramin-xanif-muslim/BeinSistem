@@ -549,10 +549,10 @@ export default function HandoversFrom() {
 							/>
 							<FastSearch className="search_header" />
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="handoverfrom"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

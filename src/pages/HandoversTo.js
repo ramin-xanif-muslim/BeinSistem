@@ -540,10 +540,10 @@ export default function HandoversTo() {
 								setdisplay={setIsOpenHandoverToFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="handoverto"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

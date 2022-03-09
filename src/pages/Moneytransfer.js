@@ -583,10 +583,10 @@ export default function Moneytransfer() {
 								setdisplay={setIsOpenMoneytransferFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="moneytransfer"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{tableSettings}</div>
 					</div>

@@ -471,10 +471,10 @@ export default function CreditTransaction() {
 								setdisplay={setIsOpenCreditTransactionFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="credittransaction"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						{tableSettings}
 					</div>

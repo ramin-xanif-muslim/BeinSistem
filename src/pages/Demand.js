@@ -628,10 +628,10 @@ export default function Demand() {
 								setdisplay={setIsOpenDemandFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="demand"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>

@@ -415,10 +415,10 @@ export default function Return() {
 								setdisplay={setIsOpenReturnFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="returns"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						{tableSettings}
 					</div>

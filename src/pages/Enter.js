@@ -48,14 +48,8 @@ export default function Enter() {
 	const [visibleMenuSettings, setVisibleMenuSettings] = useState(false);
 	const [visibleMenuSettingsFilter, setVisibleMenuSettingsFilter] =
 		useState(false);
-	const {
-		marks,
-		isFilter,
-		advancedPage,
-		setAdvancedPage,
-		doSearch,
-		search,
-	} = useTableCustom();
+	const { marks, isFilter, advancedPage, setAdvancedPage, doSearch, search } =
+		useTableCustom();
 	const { setSaveFromModal, setRedirectSaveClose } = useCustomForm();
 
 	const [documentList, setDocumentList] = useState([]);
@@ -249,6 +243,14 @@ export default function Enter() {
 		];
 	}, [defaultdr, initialSort, filtered, marks, advancedPage]);
 
+	const getSearchObjByDate = async (ob) => {
+		setFetchSearchByDate(true);
+		let res = await sendRequest("enters/get.php", ob);
+		setDocumentList(res.List);
+		setallsum(res.AllSum);
+		setFetchSearchByDate(false);
+	};
+
 	const filters = useMemo(() => {
 		return [
 			{
@@ -352,6 +354,7 @@ export default function Enter() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+				from: "enter",
 			},
 		];
 	}, [filterChanged]);
@@ -520,13 +523,6 @@ export default function Enter() {
 			</button>
 		</Dropdown>
 	);
-	const getSearchObjByDate = async (ob) => {
-		setFetchSearchByDate(true);
-		let res = await sendRequest("enters/get.php", ob);
-		setDocumentList(res.List);
-		setallsum(res.AllSum);
-		setFetchSearchByDate(false);
-	};
 	if (error) return "An error has occurred: " + error.message;
 
 	if (redirect) return <Redirect push to={`/editEnter/${editId}`} />;
@@ -559,10 +555,10 @@ export default function Enter() {
 								setdisplay={setIsOpenEnterFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="enter"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 
 						<div>{tableSettings}</div>

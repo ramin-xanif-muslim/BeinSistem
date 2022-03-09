@@ -683,10 +683,10 @@ export default function CustomerOrders() {
 								setdisplay={setIsOpenCustomerOrderFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="customerorders"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>

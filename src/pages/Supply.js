@@ -643,10 +643,10 @@ export default function Supply() {
 								setdisplay={setIsOpenSupplyFilter}
 							/>
 							<FastSearch className="search_header" />
-							<SearchByDate
+							{/* <SearchByDate
 								from="supply"
 								getSearchObjByDate={getSearchObjByDate}
-							/>
+							/> */}
 						</div>
 						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>
