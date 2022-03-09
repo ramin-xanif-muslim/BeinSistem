@@ -381,6 +381,7 @@ export default function Transaction() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "transaction",
 			},
 			{
 				key: "7",
@@ -641,7 +642,7 @@ export default function Transaction() {
 						</div>
 						<div>{downloadButton}</div>
 						<div>{tableSettings}</div>
-					</div>
+					</div> 
 				</Col>
 			</Row>
 			<Row>

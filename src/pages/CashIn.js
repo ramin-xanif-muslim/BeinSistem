@@ -226,6 +226,7 @@ export default function CashIn() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "cashin",
 			},
 		];
 	}, [filterChanged]);

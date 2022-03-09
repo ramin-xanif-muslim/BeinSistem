@@ -352,6 +352,7 @@ export default function HandoversFrom() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "handoversfrom",
 			},
 		];
 	}, [filterChanged]);

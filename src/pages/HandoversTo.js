@@ -344,6 +344,7 @@ export default function HandoversTo() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "handoversto",
 			},
 		];
 	}, [filterChanged]);

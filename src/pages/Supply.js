@@ -419,6 +419,7 @@ export default function Supply() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "supply",
 			},
 
 			{

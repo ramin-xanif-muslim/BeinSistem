@@ -348,6 +348,7 @@ export default function Moneytransfer() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "moneytransfer",
 			},
 			{
 				key: "7",

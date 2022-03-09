@@ -492,6 +492,7 @@ export default function SaleReport() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "salereport",
 			},
 			{
 				key: "12",

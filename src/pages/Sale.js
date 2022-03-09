@@ -453,6 +453,7 @@ export default function Sale() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "sale",
 			},
 		];
 	}, [filterChanged]);

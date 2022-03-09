@@ -226,6 +226,7 @@ export default function CashOut() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "cashout",
 			},
 		];
 	}, [filterChanged]);

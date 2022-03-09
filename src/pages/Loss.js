@@ -325,6 +325,7 @@ export default function Loss() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "loss",
 			},
 		];
 	}, [filterChanged]);

@@ -311,6 +311,7 @@ export default function Move() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "move",
 			},
 		];
 	}, [filterChanged]);

@@ -304,6 +304,7 @@ export default function CreditTransaction() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "credittransaction",
 			},
 			{
 				key: "7",

@@ -219,6 +219,7 @@ export default function Profit() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "profit",
 			},
 		];
 	}, [filterChanged]);

@@ -1,31 +1,32 @@
 .div {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .div ul {
-    display: flex;
-    margin: 0;
+	display: flex;
+	margin: 0;
+	padding: 0;
 }
 
 .div li:first-child {
-    list-style-type: none;
+	list-style-type: none;
 }
 
 .div li {
-    margin: 0 1rem;
-    font-size: 0.9em;
+	margin: 0 11px;
+	font-size: 0.9em;
 }
 
 .div a {
-    color: var(--blue);
+	color: var(--blue);
 }
 
 .div a:hover {
-    font-weight: 600;
+	font-weight: 600;
 }
 
 .active {
-    font-weight: 600;
-    border-bottom: 2px solid var(--blue);
+	font-weight: 600;
+	border-bottom: 2px solid var(--blue);
 }

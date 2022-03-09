@@ -328,6 +328,7 @@ export default function ProductTransactions() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "producttransactions",
 			},
 			{
 				key: "7",

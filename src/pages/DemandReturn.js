@@ -402,6 +402,7 @@ export default function DemandReturn() {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "demandreturn",
 			},
 
 			{

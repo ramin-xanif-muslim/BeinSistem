@@ -427,6 +427,7 @@ const {
 							(i) => i.dataIndex === "createdDate"
 					  ).show
 					: true,
+                    from: "document",
 			},
 		];
 	}, [filterChanged]);
