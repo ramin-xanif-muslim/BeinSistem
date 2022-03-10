@@ -34,7 +34,7 @@ const { Text } = Typography;
 const SettlementsDrawer = React.lazy(() =>
 	import("../components/SettlementsDrawer")
 );
-export default function Expeditors() {
+export default function ExpeditorStockBalance() {
 	const [redirect, setRedirect] = useState(false);
 	const [direction, setDirection] = useState(0);
 	const [defaultdr, setDefaultDr] = useState("ascend");
@@ -68,23 +68,31 @@ export default function Expeditors() {
 		setRedirectSaveClose,
 	} = useCustomForm();
 	const [documentList, setDocumentList] = useState([]);
-    const [pageCount, setPageCount] = useState(null);
-    const [limitCount, setLimitCount] = useState(null);
+	const [pageCount, setPageCount] = useState(null);
+	const [limitCount, setLimitCount] = useState(null);
 	const { isLoading, error, data, isFetching } = useQuery(
-		["expeditors", page, direction, fieldSort, doSearch, search, advanced],
+		[
+			"expeditorstockbalance",
+			page,
+			direction,
+			fieldSort,
+			doSearch,
+			search,
+			advanced,
+		],
 		() => {
 			return isFilter === true
 				? fetchFilterPage(
-						"expeditors",
+						"expeditorstockbalance",
 						advancedPage,
 						advanced,
 						direction,
 						fieldSort
 				  )
 				: doSearch
-				? fecthFastPage("expeditors", page, search)
+				? fecthFastPage("expeditorstockbalance", page, search)
 				: !isFilter && !doSearch
-				? fetchPage("expeditors", page, direction, fieldSort)
+				? fetchPage("expeditorstockbalance", page, direction, fieldSort)
 				: null;
 		}
 	);
@@ -97,7 +105,7 @@ export default function Expeditors() {
 	useEffect(() => {
 		setColumnChange(false);
 	}, [columnChange]);
-    
+
 	const columns = useMemo(() => {
 		return [
 			{
@@ -107,51 +115,68 @@ export default function Expeditors() {
 				render: (text, record, index) => index + 1 + 100 * advancedPage,
 			},
 			{
-				dataIndex: "Name",
-				title: "Komisyonçu",
-				defaultSortOrder:
-					initialSort === "Name" ? defaultdr : null,
+				dataIndex: "ProductName",
+				title: "Məhsulun adı",
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "Name"
+							(i) => i.dataIndex === "ProductName"
+					  ).show
+					: true,
+				defaultSortOrder:
+					initialSort === "ProductName" ? defaultdr : null,
+				sorter: (a, b) => null,
+			},
+			{
+				dataIndex: "BarCode",
+				title: "Barkodu",
+				defaultSortOrder: initialSort === "BarCode" ? defaultdr : null,
+				show: initial
+					? Object.values(initial).find(
+							(i) => i.dataIndex === "BarCode"
 					  ).show
 					: true,
 				sorter: (a, b) => null,
 			},
 			{
-				dataIndex: "StockBalance",
-				title: "Anbar qalığı",
+				dataIndex: "Quantity",
+				title: "Miqdar",
+				defaultSortOrder: initialSort === "Quantity" ? defaultdr : null,
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "StockBalance"
+							(i) => i.dataIndex === "Quantity"
 					  ).show
 					: true,
+				sorter: (a, b) => null,
 				render: (value, row, index) => {
-						return ConvertFixedTable(row.StockBalance);
+					return ConvertFixedTable(value);
 				},
 			},
 			{
-				dataIndex: "Balance",
-				title: "Balans",
+				dataIndex: "Price",
+				title: "Qiyməti",
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "Balance"
+							(i) => i.dataIndex === "Price"
 					  ).show
 					: true,
+				defaultSortOrder: initialSort === "Price" ? defaultdr : null,
+				sorter: (a, b) => null,
 				render: (value, row, index) => {
-						return ConvertFixedTable(row.Balance);
+					return ConvertFixedTable(value);
 				},
 			},
 			{
-				dataIndex: "Settlements",
-				title: "Borclar",
+				dataIndex: "Amount",
+				title: "Cəm Maya",
 				show: initial
 					? Object.values(initial).find(
-							(i) => i.dataIndex === "Settlements"
+							(i) => i.dataIndex === "Amount"
 					  ).show
-					: true,
+					: false,
+				defaultSortOrder: initialSort === "Amount" ? defaultdr : null,
+				sorter: (a, b) => null,
 				render: (value, row, index) => {
-					return ConvertFixedTable(row.Settlements);
+					return ConvertFixedTable(value);
 				},
 			},
 		];
@@ -170,27 +195,21 @@ export default function Expeditors() {
 				setallcurrentsum(
 					parseFloat(data.Body.AllInSum + data.Body.AllOutSum)
 				);
-                setPageCount(data.Body.Count);
-                setLimitCount(data.Body.Limit);
+				setPageCount(data.Body.Count);
+				setLimitCount(data.Body.Limit);
 			}
 		} else {
 			setDocumentList([]);
-            setPageCount(null);
-            setLimitCount(null);
+			setPageCount(null);
+			setLimitCount(null);
 		}
 	}, [isFetching]);
-
-	const editPage = (r) => {
-		console.log(r.Id);
-		setcusid(r.Id);
-		setVisibleDrawer(true);
-	};
 
 	const handlePagination = (pg) => {
 		setPage(pg - 1);
 		setAdvancedPage(pg - 1);
 	};
-	function onChange( sorter, extra) {
+	function onChange(sorter, extra) {
 		setInitialSort(sorter.field);
 		if (sorter.order === "ascend") {
 			setDirection(0);
@@ -284,13 +303,13 @@ export default function Expeditors() {
 		</Menu>
 	);
 
-    if (!isLoading && !isObject(data.Body))
-      return (
-        <>
-          Xəta:
-          <span style={{ color: "red" }}>{data}</span>
-        </>
-      );
+	if (!isLoading && !isObject(data.Body))
+		return (
+			<>
+				Xəta:
+				<span style={{ color: "red" }}>{data}</span>
+			</>
+		);
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -370,17 +389,13 @@ export default function Expeditors() {
 				)}
 				locale={{ emptyText: isFetching ? <Spin /> : "Cədvəl boşdur" }}
 				pagination={{
-          current: advancedPage + 1,
-          total: pageCount,
-          onChange: handlePagination,
-          defaultPageSize: 100,
-          showSizeChanger: false,
+					current: advancedPage + 1,
+					total: pageCount,
+					onChange: handlePagination,
+					defaultPageSize: 100,
+					showSizeChanger: false,
 				}}
 				size="small"
-				onRow={(r) => ({
-					onClick: (e) => editPage(r),
-					// onClick: (e) => editPage(r.CustomerId),
-				})}
 			/>
 			{visibleDrawer ? <SettlementsDrawer /> : null}
 		</div>
