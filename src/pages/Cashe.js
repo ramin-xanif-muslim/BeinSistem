@@ -118,7 +118,6 @@ export default function Cashe() {
             <Table
                 id="cashes-table"
                 className="short-table"
-                locale={{ emptyText: <Spin /> }}
                 columns={columns}
                 summary={() => (
                     <Table.Summary.Row>

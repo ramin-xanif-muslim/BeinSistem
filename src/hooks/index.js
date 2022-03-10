@@ -6,6 +6,7 @@ import { useInput } from "./useInput";
 import { useDebounce } from "./useDebounce";
 import { useDownload } from "./useDownload";
 import { useSelectModal } from "./useSelectModal";
+import { useBalanceExpeditor } from "./useBalanceExpeditor";
 
 export {
 	useFetchDebt,
@@ -16,4 +17,5 @@ export {
 	useDebounce,
 	useDownload,
 	useSelectModal,
+    useBalanceExpeditor,
 };

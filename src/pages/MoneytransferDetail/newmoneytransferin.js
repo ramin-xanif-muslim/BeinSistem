@@ -94,7 +94,7 @@ function NewMoneytransfersIn() {
 		values.status = status;
 		message.loading({ content: "Yüklənir...", key: "doc_update" });
 
-		Object.assign(values, { type: 1 });
+		Object.assign(values, { type: 2 });
 		const res = await saveDoc(values, "moneytransfers");
 		if (res.Headers.ResponseStatus === "0") {
 			message.success({

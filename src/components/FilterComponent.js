@@ -169,14 +169,16 @@ function FilterComponent({
 		setInitialFilterForm({ ...initialFilterForm, moment: dateString });
 	};
 	const onChanngeRangePicker = (date, dateString) => {
-		if (date) setSelectDate(date);
+		if (date) {
+            setSelectDate(date)
+            setSelectedDateId({...selectedDateId, [from]: null});
+        }
 		else setSelectDate([]);
 	};
 	const onOpenChange = (open) => {
 		//   setIsOpen(open);
 	};
 	useEffect(() => {
-		console.log("aaa", selectedDateId, from);
 		if (selectedDateId[from] === 1) {
 			setSelectDate([moment().startOf("day"), moment().endOf("day")]);
 		}
@@ -194,9 +196,6 @@ function FilterComponent({
 				moment().subtract(1, "month").startOf("month"),
 				moment().subtract(1, "month").endOf("month"),
 			]);
-		}
-		if (!selectedDateId[from]) {
-			setSelectDate([]);
 		}
 	}, [selectedDateId]);
 
@@ -577,7 +576,6 @@ function FilterComponent({
 									// showTime={{ format: "HH:mm:ss" }}
 									locale={locale}
 									onChange={(date, dateString) =>
-										// setSelectDate(date)
 										onChanngeRangePicker(date)
 									}
 									{...rangeConfig}

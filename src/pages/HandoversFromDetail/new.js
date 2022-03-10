@@ -59,7 +59,7 @@ import { useRef } from "react";
 import { useGetDocItems } from "../../hooks";
 import ok from "../../audio/ok.mp3";
 import withCatalog from "../../HOC/withCatalog";
-import { useBalance } from "../../hooks/useBalance";
+import { useBalance, useBalanceExpeditor } from "../../hooks/useBalanceExpeditor";
 
 const audio = new Audio(ok);
 
@@ -121,11 +121,11 @@ function NewHandoverFrom({ handleOpenCatalog, selectList, catalogVisible }) {
 
 	const { allsum, allQuantity } = useGetDocItems();
 
-	const [balanceComponent, fetchBalance, setBalance] = useBalance();
+	const [balanceComponent, fetchBalance, setBalance] = useBalanceExpeditor();
 
 	const onSelectExpeditor = (e) => {
 		setExpeditor(JSON.parse(e));
-		fetchBalance(JSON.parse(e).Id);
+		fetchBalance(JSON.parse(e));
 	};
 
 	const handleDelete = (key) => {
@@ -646,13 +646,13 @@ function NewHandoverFrom({ handleOpenCatalog, selectList, catalogVisible }) {
 						<Col xs={6} sm={6} md={6} xl={6}>
 							<Form.Item
 								style={{ margin: "0" }}
-								label="Qarşı-tərəf"
+								label="Cavabdeh"
 								name="expeditorid"
 								rules={[
 									{
 										required: true,
 										message:
-											"Zəhmət olmasa, Qarşı-tərəfi seçin",
+											"Zəhmət olmasa, Cavabdeh seçin",
 									},
 								]}
 							>

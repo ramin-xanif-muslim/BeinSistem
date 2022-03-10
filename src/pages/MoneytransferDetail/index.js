@@ -176,7 +176,8 @@ function MoneytransferDetail() {
 	return (
 		<div className="doc_wrapper">
 			<div className="doc_name_wrapper">
-				<h2>Pul transferi</h2>
+				<h2>{type === 2 ? 'Pul mədaxil' : 'Pul məxaric'}</h2>
+				{/* <h2>Pul transferi</h2> */}
 			</div>
 			<DocButtons
 				additional={"none"}
