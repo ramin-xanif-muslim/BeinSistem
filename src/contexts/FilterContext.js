@@ -28,6 +28,7 @@ const FilterProvider = ({ children }) => {
     const [isOpenProductTransactionFilter, setIsOpenProductTransactionFilter] = useState("none")
     const [isOpenProductFilter, setIsOpenProductFilter] = useState("none")
     const [isOpenDocumentFilter, setIsOpenDocumentFilter] = useState("none")
+    const [isOpenExpeditorStockBalanceFilter, setIsOpenExpeditorStockBalanceFilter] = useState("none")
 
     const [advacedEnter, setAdvaceEnter] = useState({})
     const [formEnter, setFormEnter] = useState({})
@@ -78,9 +79,15 @@ const FilterProvider = ({ children }) => {
     const [advacedProfit, setAdvaceProfit] = useState({})
     const [formProfit, setFormProfit] = useState({})
     const [advacedProductTransactions, setAdvaceProductTransactions] = useState({})
+    const [advacedExpeditorStockBalance, setAdvaceExpeditorStockBalance] = useState({})
+    const [formExpeditorStockBalance, setFormExpeditorStockBalance] = useState({})
     const [formProductTransactions, setFormProductTransactions] = useState({})
 
     const values = {
+        formExpeditorStockBalance,
+        setFormExpeditorStockBalance,
+        advacedExpeditorStockBalance,
+        setAdvaceExpeditorStockBalance,
         advacedProductTransactions,
         setAdvaceProductTransactions,
         formProductTransactions,
@@ -232,6 +239,8 @@ const FilterProvider = ({ children }) => {
         setIsOpenLossFilter,
         isOpenEnterFilter,
         setIsOpenEnterFilter,
+        isOpenExpeditorStockBalanceFilter,
+        setIsOpenExpeditorStockBalanceFilter,
     }
 
     return <FilterContext.Provider value={values}>{children}</FilterContext.Provider>

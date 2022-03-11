@@ -26,7 +26,7 @@ function FilterComponent({
 	initialFilterForm,
 	setInitialFilterForm,
 }) {
-	const [selectDate, setSelectDate] = useState();
+	const [selectDate, setSelectDate] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [rangeFilter, setRangeFilter] = useState({});
 	const [dropdown, setDropdown] = useState([]);
@@ -786,6 +786,7 @@ function FilterComponent({
 				? rangeModifyValue[1].format("YYYY-MM-DD") + " 23:59:59"
 				: "",
 		};
+        console.log(initialFilterForm)
 
 		Object.assign(totalvalues, initialFilterForm);
 		Object.entries(totalvalues).forEach(([key, value]) => {
